@@ -2,7 +2,8 @@
 Leave some tracks of topic.
 
 # Table of Content
-[]() 
+[Active Selenium and Headless Chrome and Python3 on Docker](https://github.com/philip-shen/note_python/tree/master/crawl#active-selenium-and-headless-chrome-and-python3-on-docker) 
+
 
 # Active Selenium and Headless Chrome and Python3 on Docker
 * [Docker上でSeleniumとHeadless ChromeとPython3を動かす 2018-07-04](https://qiita.com/sikkim/items/447b72e6ec45849058cd)
@@ -26,6 +27,22 @@ docker-compose up -d
 ![alt tag](https://i.imgur.com/5DC7L1Y.jpg)
 
 # Reference
+* [在Windows上安裝Python & Selenium + 簡易教學 May 21, 2018](https://medium.com/@NorthBei/%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpython-selenium-%E7%B0%A1%E6%98%93%E6%95%99%E5%AD%B8-eade1cd2d12d)
+Step2.安裝Selenium
+```
+pip install selenium
+```
+
+Step3.下載webdriver
+```
+1.Global — 把webdriver放在Python的安裝目錄
+
+2.Local — 把webdriver放在跟python file同一個資料夾內
+```
+
+* [[Python] selenium 的等待 2019-01-17](http://stackoverflow.max-everyday.com/2019/01/python-selenium-wait/)
+* [[Python] How to handle alerts in selenium? 2019-03-18](http://stackoverflow.max-everyday.com/2019/03/python-how-to-handle-alerts-in-selenium/)
+
 * [在爬蟲網頁時，一開始就遇到「我不是機器人」的recaptcha認證要求，之後每讀約30頁資料又要再認證一次，以至於無法讓程式排程自動化。]()
 ```
 李旺財 相信我 萬般解驗証不如弄多點ip
