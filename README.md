@@ -12,7 +12,7 @@ Take some note of python
 [Step7 Workon](#step7-workon)  
 [Step8 Install modules](#step8-install-modules)  
 [Step9 Check installed mdules](#step9-check-installed-mdules)  
-[Step10 Install modules manually](#step10-install-modules-manually)
+[Step10 Install modules manually](#step10-install-modules-manually)  
 [Step11 Double Check installed mdules](#step11-double-check-installed-mdules)    
 [Step12 Dump installed modules inot requirement.txt](#step12-dump-installed-modules-inot-requirementtxt)    
 
