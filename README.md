@@ -3,32 +3,45 @@ Take some note of python
 
 # Table of Content
 [Installation](#installation)  
+[Step1 Install Python3.6-32bit]()  
+[Step2 Upgrade pip]()  
+[Step3 Install VirtualEnv & Install VirtualEnvWrapper-win]()  
+[Step4 Make virtualenv]()  
+[Step5 Set Project Directory]()  
+[Step6 Deactivate]()  
+[Step7 Workon]()  
+[Step8 Install modules]()  
+[Step9 Check installed mdules]()  
+[Step10 Install modules manually]()
+[Step11 Double Check installed mdules]()    
+[Step12 Dump installed modules inot requirement.txt]()    
+
 [Troubleshooting](#troubleshooting)  
 [Reference](#reference)  
 
 # Installation
-## Install Python3.6-32bit  
-* [在Windows底下最適當安裝Python環境的方法 2018-11-30](https://ithelp.ithome.com.tw/articles/10210071?sc=rss.qu)  
+## Step1 Install Python3.6-32bit  
+* [如何在 Windows 打造 Python 開發環境設定基礎入門教學](https://happycoder.org/2017/11/17/how-to-setup-python-development-environment-in-windows/)  
 * [在Windows底下最適當安裝Python環境的方法 2018-11-30](https://ithelp.ithome.com.tw/articles/10210071?sc=rss.qu)  
 
-## Upgrade pip  
-## Install VirtualEnv & Install VirtualEnvWrapper-win  
+## Step2 Upgrade pip  
+## Step3 Install VirtualEnv & Install VirtualEnvWrapper-win  
 ![alt tag](https://i.imgur.com/4nT6A8n.jpg)    
 
-## Make virtualenv  
-## Set Project Directory
+## Step4 Make virtualenv  
+## Step5 Set Project Directory
 ![alt tag](https://i.imgur.com/kNFsmhf.jpg)  
 
-## Deactivate  
-## Workon  
+## Step6 Deactivate  
+## Step7 Workon  
 ![alt tag](https://i.imgur.com/4taDATR.jpg)  
 
-## Install modules  
+## Step8 Install modules  
 >  pip install -r requiremenets.txt  
 ![alt tag](https://i.imgur.com/HisxZfI.jpg)  
 ![alt tag](https://i.imgur.com/ivjWNGS.jpg)  
 
-## Check installed mdules  
+## Step9 Check installed mdules  
 ```
 d:\project\Python\moneyhunter (master -> origin)
 (moneyhunter) λ  pip list
@@ -85,11 +98,11 @@ xlutils                  2.0.0
 xlwt                     1.3.0
 ```
 
-## Install modules manually  
+## Step10 Install modules manually  
 >  pip install TA_Lib-0.4.17-cp36-cp36m-win32.whl  
 ![alt tag](https://i.imgur.com/vLf11tF.jpg)  
 
-## Double Check installed mdules  
+## Step11 Double Check installed mdules  
 ```
 (moneyhunter) λ  pip list
 Package                  Version
@@ -146,7 +159,7 @@ xlutils                  2.0.0
 xlwt                     1.3.0
 ```
 
-## Dump installed modules inot requirement.txt
+## Step12 Dump installed modules inot requirement.txt
 ```
 d:\project\Python\moneyhunter\test (master -> origin)  
 pip freeze > ..\requiremenets.txt  
