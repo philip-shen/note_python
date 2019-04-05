@@ -16,8 +16,13 @@ Take some note of python
 [Step11 Double Check installed mdules](#step11-double-check-installed-mdules)    
 [Step12 Dump installed modules inot requirement.txt](#step12-dump-installed-modules-inot-requirementtxt)    
 
+[Environment](#environment)
 [Troubleshooting](#troubleshooting)  
 [Reference](#reference)  
+
+# Environment  
+windows 10 64bit  
+python 3.6.2  
 
 # Installation
 ## Step1 Install Python3.6-32bit  
