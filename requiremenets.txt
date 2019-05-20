@@ -14,8 +14,6 @@ kiwisolver
 lxml
 matplotlib
 mpl-finance
-mpl_toolkits
 numpy
 pandas
 scipy
-pylab
