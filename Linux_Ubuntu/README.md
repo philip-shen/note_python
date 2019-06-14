@@ -2,7 +2,9 @@
 Take some note of Ubuntu
 
 # Table of Content
-[]()  
+[ubuntu安裝python3.7，並更新python默認指向爲python3.7](#ubuntu%E5%AE%89%E8%A3%9Dpython37%E4%B8%A6%E6%9B%B4%E6%96%B0python%E9%BB%98%E8%AA%8D%E6%8C%87%E5%90%91%E7%88%B2python37)  
+[Creating a Virtual Environment for Python on Ubuntu 16.04](#creating-a-virtual-environment-for-python-on-ubuntu-1604)  
+[Reference](#reference)  
 
 # ubuntu安裝python3.7，並更新python默認指向爲python3.7
 [ubuntu安裝python3.7，並更新python默認指向爲python3.7 2018-12-25](https://www.twblogs.net/a/5c2245eabd9eee16b3dafa25)  
@@ -48,12 +50,27 @@ Python 3.6.8
 
 ## Step 1: Install Virtualenv  
 ```
+$ pip install virtualenv --user
 ```
 ## Step 2: Create a Virtual Environment & Install Python 3  
 ```
+~$ virtualenv -p /usr/bin/python3 virtualenv/iperf3
+Already using interpreter /usr/bin/python3
+Using base prefix '/usr'
+New python executable in /home/philshen/virtualenv/iperf3/bin/python3
+Also creating executable in /home/philshen/virtualenv/iperf3/bin/python
+Installing setuptools, pip, wheel...
+done.
 ```
 ## Step 3: Activate Your Virtual Environment  
 ```
+~$ source virtualenv/iperf3/bin/activate
+(iperf3) philshen@DESKTOP-7EDV2HB:~$ pip3 list
+Package    Version
+---------- -------
+pip        19.1.1
+setuptools 41.0.1
+wheel      0.33.4
 ```
 
 # Troubleshooting  
@@ -121,6 +138,24 @@ then you can do "make" to generate the Python 2.4 binaries.
 # Reference  
 * [Installing the Latest Python 3.7 on Ubuntu 16.04 / 18.04 Jan 13, 2019](https://websiteforstudents.com/installing-the-latest-python-3-7-on-ubuntu-16-04-18-04/)  
 ## Method 1: Manually Installing Python  
+```
+$ sudo apt update
+$ sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+
+$ cd /tmp
+$ wget https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tar.xz
+
+$ tar -xf Python-3.7.2.tar.xz
+$ cd Python-3.7.2
+$ ./configure --enable-optimizations
+
+My machine has 1 CPU core, so I use the make command with -j 1 option…
+$ make -j 1
+$ sudo make altinstall
+
+$ python3.7 --version
+```
+
 ## Method 2: Installing Python via PPA  
 ```
 sudo apt update
