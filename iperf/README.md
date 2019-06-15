@@ -2,10 +2,12 @@
 Take some note of iperf on Ubuntu
 
 # Table of Content
-[Install from source (preferred)]()  
-[Install directly from the github repository]()  
+[Install iperf3 from source (preferred)](#install-iperf3-from-source-preferred)  
+[Install directly from the github repository](#install-directly-from-the-github-repository-activate-virtualenv-first)  
 
-# Install from source (preferred)
+[Troubleshooting](#troubleshooting)  
+
+# Install iperf3 from source (preferred)
 [Install from source (preferred)](https://github.com/thiezn/iperf3-python#installation)
 ```
 wget http://downloads.es.net/pub/iperf/iperf-3-current.tar.gz
@@ -38,6 +40,7 @@ setuptools 41.0.1
 wheel      0.33.4
 ```
 
+#Troubleshooting  
 ## iperf3: error while loading shared libraries: libiperf.so.0: cannot open shared object file: No such file or directory  
 [iperf 3.0.3 fails launch on non-existent shared library libiperf.so #168](https://github.com/esnet/iperf/issues/168)
 [ldconfig needed in make install? #153](https://github.com/esnet/iperf/issues/153)  
@@ -49,6 +52,26 @@ iperf3: parameter error - must either be a client (-c) or server (-s)
 
 Usage: iperf3 [-s|-c host] [options]
        iperf3 [-h|--help] [-v|--version]
+```
+
+## unable to set TCP_CONGESTION: Supplied congestion control algorithm not supported on this host Control connection MSS 0  
+[Figure out the list of TCP congestion control algorithms supported by linux Feb 22, 2016](http://shouxi.name/blog/2016/02/list-the-currently-supported-tcp-congestion-control-algs-in-ubuntu.html)
+```
+iperf3 allows the client to specify its preferred TCP congestion control algorithm with option -C. However, the user might be unaware of which algorithms are supported by the running host. It is easy to get the supported list with command
+```
+```
+cat /boot/config-(uname -r) | grep CONFIG_TCP_CONG
+```
+```
+Note that, values y, n, and m stand for activated, deactivated, and activated as module, respectively.
+
+In addition, one can figure out the default algorithm employed by the system with command
+```
+```
+cat /proc/sys/net/ipv4/tcp_congestion_control
+```
+```
+Tips: besides iperf3, the sender can track the real-time state of a TCP connection (e.g., congestion window size) with tcp_probe.
 ```
 
 # Reference
