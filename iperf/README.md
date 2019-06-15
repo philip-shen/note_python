@@ -1,11 +1,55 @@
 # note of_iperf
-Take some note of iperf
+Take some note of iperf on Ubuntu
 
 # Table of Content
+[Install from source (preferred)]()  
+[Install directly from the github repository]()  
 
-# 
+# Install from source (preferred)
+[Install from source (preferred)](https://github.com/thiezn/iperf3-python#installation)
+```
+wget http://downloads.es.net/pub/iperf/iperf-3-current.tar.gz
+tar xvf iperf-3-current.tar.gz
+cd iperf-3.3/                # Or whatever the latest version is
+./configure && make && sudo make install  
+```
+# Install directly from the github repository (Activate Virtualenv first)   
+```
+(iperf3) philshen@DESKTOP-7EDV2HB:~$git clone https://github.com/thiezn/iperf3-python.git
+(iperf3) philshen@DESKTOP-7EDV2HB:~$cd iperf3-python
+```
+```
+(iperf3) philshen@DESKTOP-7EDV2HB:~/iperf3-python$ python3 setup.py install
+running install
+running bdist_egg
+running egg_info
+creating iperf3.egg-info
+.
+.
+Finished processing dependencies for iperf3==0.1.11
+```
+```
+(iperf3) philshen@DESKTOP-7EDV2HB:~/iperf3-python$ pip3 list
+Package    Version
+---------- -------
+iperf3     0.1.11
+pip        19.1.1
+setuptools 41.0.1
+wheel      0.33.4
+```
 
+## iperf3: error while loading shared libraries: libiperf.so.0: cannot open shared object file: No such file or directory  
+[iperf 3.0.3 fails launch on non-existent shared library libiperf.so #168](https://github.com/esnet/iperf/issues/168)
+[ldconfig needed in make install? #153](https://github.com/esnet/iperf/issues/153)  
+Explicitly run ldconfig after "make install"
+```
+4$ sudo ldconfig
+philshen@DESKTOP-7EDV2HB:~/iperf-3.4$ /usr/local/bin/iperf3
+iperf3: parameter error - must either be a client (-c) or server (-s)
 
+Usage: iperf3 [-s|-c host] [options]
+       iperf3 [-h|--help] [-v|--version]
+```
 
 # Reference
 * [[Python]製作一個類似iperf的測速程式-使用Socket | TK呱呱 201710](http://gienmin.blogspot.com/2017/10/pythoniperf-socket.html)  

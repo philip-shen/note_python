@@ -1,5 +1,5 @@
-# note of_iperf
-Take some note of Ubuntu
+# note of Python on Ubuntu
+Take some note of Python on Ubuntu
 
 # Table of Content
 [ubuntu安裝python3.7，並更新python默認指向爲python3.7](#ubuntu%E5%AE%89%E8%A3%9Dpython37%E4%B8%A6%E6%9B%B4%E6%96%B0python%E9%BB%98%E8%AA%8D%E6%8C%87%E5%90%91%E7%88%B2python37)  
@@ -71,6 +71,8 @@ Package    Version
 pip        19.1.1
 setuptools 41.0.1
 wheel      0.33.4
+(iperf3) philshen@DESKTOP-7EDV2HB:~$ deactivate
+philshen@DESKTOP-7EDV2HB:~$
 ```
 
 # Troubleshooting  
