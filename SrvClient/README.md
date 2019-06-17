@@ -101,6 +101,8 @@ clientSocket.sendto(message.encode(),(serverName, serverPort))
 Similarly you would use .decode() to receive the data on the UDP server side, if you want to print it exactly as it was sent.
 ```
 
+* [Python: Socket programming server-client application using threads 2017/08/23](https://kuntalchandra.wordpress.com/2017/08/23/python-socket-programming-server-client-application-using-threads/)  
+
 * []()  
 ![alt tag]()
 

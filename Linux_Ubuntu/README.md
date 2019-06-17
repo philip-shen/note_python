@@ -9,6 +9,8 @@ Take some note of Python on Ubuntu
 # ubuntu安裝python3.7，並更新python默認指向爲python3.7
 [ubuntu安裝python3.7，並更新python默認指向爲python3.7 2018-12-25](https://www.twblogs.net/a/5c2245eabd9eee16b3dafa25)  
 ## 改爲手動安裝  
+Step0: sudo apt update; sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+
 步驟1：在python官網找到python-3.7.1.tgz的地址：https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz  
 步驟2：wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz  下載安裝包  
 步驟3：tar -zxvf Python-3.7.1.tgz  解壓安裝包  
@@ -43,6 +45,20 @@ sudo ln -s /usr/local/bin/pip3 /usr/bin/pip3
 ```
 $ python3 --version
 Python 3.6.8
+```
+
+setp5: Test pip3
+```
+sudo mv /usr/bin/lsb_release /usr/bin/lsb_release-old
+
+$ pip3 list
+Package    Version
+---------- -------
+pip        18.1
+setuptools 40.6.2
+You are using pip version 18.1, however version 19.1.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+
 ```
 
 # Creating a Virtual Environment for Python on Ubuntu 16.04  

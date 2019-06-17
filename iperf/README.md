@@ -46,7 +46,7 @@ wheel      0.33.4
 [ldconfig needed in make install? #153](https://github.com/esnet/iperf/issues/153)  
 Explicitly run ldconfig after "make install"
 ```
-4$ sudo ldconfig
+$ sudo ldconfig
 philshen@DESKTOP-7EDV2HB:~/iperf-3.4$ /usr/local/bin/iperf3
 iperf3: parameter error - must either be a client (-c) or server (-s)
 
