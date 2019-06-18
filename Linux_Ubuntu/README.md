@@ -5,7 +5,7 @@ Take some note of Python on Ubuntu
 [ubuntu安裝python3.7，並更新python默認指向爲python3.7](#ubuntu%E5%AE%89%E8%A3%9Dpython37%E4%B8%A6%E6%9B%B4%E6%96%B0python%E9%BB%98%E8%AA%8D%E6%8C%87%E5%90%91%E7%88%B2python37)  
 [Creating a Virtual Environment for Python on Ubuntu 16.04](#creating-a-virtual-environment-for-python-on-ubuntu-1604)  
 
-[Installing the Latest Python 3.7 on Ubuntu 16.04 / 18.04 Jan 13, 2019](https://websiteforstudents.com/installing-the-latest-python-3-7-on-ubuntu-16-04-18-04/)
+[Installing the Latest Python 3.7 on Ubuntu 16.04 / 18.04 Jan 13, 2019](https://websiteforstudents.com/installing-the-latest-python-3-7-on-ubuntu-16-04-18-04/)  
 [Method 1: Manually Installing Python](#method-1-manually-installing-python)  
 [Method 2: Installing Python via PPA](#method-2-installing-python-via-ppa)  
 
