@@ -71,8 +71,41 @@ You should consider upgrading via the 'pip install --upgrade pip' command.
 
 ## Step 1: Install Virtualenv  
 ```
+$ sudo pip install virtualenv
+```
+```
+~$  pip3 show virtualenv
+Name: virtualenv
+Version: 16.6.1
+Summary: Virtual Python Environment builder
+Home-page: https://virtualenv.pypa.io/
+Author: Ian Bicking
+Author-email: ianb@colorstudy.com
+License: MIT
+Location: /usr/local/lib/python3.6/site-packages
+Requires:
+Required-by:
+
+```
+
+###below is wrong
+```
 $ pip install virtualenv --user
 ```
+```
+$ pip3 show virtualenv
+Name: virtualenv
+Version: 16.6.1
+Summary: Virtual Python Environment builder
+Home-page: https://virtualenv.pypa.io/
+Author: Ian Bicking
+Author-email: ianb@colorstudy.com
+License: MIT
+Location: /home/test/.local/lib/python3.6/site-packages
+Requires:
+Required-by:
+```
+
 ## Step 2: Create a Virtual Environment & Install Python 3  
 ```
 ~$ virtualenv -p /usr/bin/python3 virtualenv/iperf3
