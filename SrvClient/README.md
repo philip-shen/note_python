@@ -2,7 +2,10 @@
 Take some note of TCP UDP Srv Clinet
 
 # Table of Content
-
+[Write a Multithreaded Server in Python ](https://www.techbeamers.com/python-tutorial-write-multithreaded-python-server/)  
+[]()  
+[]()  
+[]()  
 # 
 
 
@@ -62,7 +65,6 @@ for s in sockets:
    s.close()
 ```
 
-* [Write a Multithreaded Server in Python ](https://www.techbeamers.com/python-tutorial-write-multithreaded-python-server/)  
 ```
 
 ```
