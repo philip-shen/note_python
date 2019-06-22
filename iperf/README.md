@@ -4,6 +4,9 @@ Take some note of iperf on Ubuntu
 # Table of Content
 [Install iperf3 from source (preferred)](#install-iperf3-from-source-preferred)  
 [Install directly from the github repository](#install-directly-from-the-github-repository-activate-virtualenv-first)  
+[iperf3 TCP Multiport Server/Client Test]()  
+[UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)]()  
+[IPv6 UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)]()  
 
 [Troubleshooting](#troubleshooting)  
 
@@ -39,6 +42,61 @@ pip        19.1.1
 setuptools 41.0.1
 wheel      0.33.4
 ```
+# iperf3 TCP Multiport Server/Client Test   
+```
+$ python3 test_multipt_srv.py
+
+$ netstat -tlunp | grep tcp
+```
+## Check If Open Spefici Port Number  
+![alt tag](https://i.imgur.com/kGDNzrd.jpg)  
+
+```
+$ python3 test_multipt_srv.py
+```
+![alt tag](https://i.imgur.com/0Y3PPWL.jpg)  
+
+```
+$ python3 test_multipt_client.py config.ini
+```
+![alt tag](https://i.imgur.com/gJBeVEu.jpg)  
+
+# UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)  
+```
+$ python3 test_multipt_srv.py config_udp.ini
+
+$ netstat -tlunp | grep tcp
+```
+## Check If Open Spefici Port Number  
+![alt tag](https://i.imgur.com/527VcBr.jpg)  
+
+```
+$ python3 test_multipt_srv.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/jAdLFyC.jpg)  
+
+```
+$ python3 test_multipt_client.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/Tb8S6Z0.jpg)  
+
+# IPv6 UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)  
+```
+$ python3 test_multipt_srv.py config_udp.ini
+
+$ netstat -tlunp | grep tcp
+```
+![alt tag](https://i.imgur.com/gmIIxgS.jpg)  
+
+```
+$ python3 test_multipt_srv.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/bvjxPre.jpg)  
+
+```
+$ python3 test_multipt_client.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/qXH73z8.jpg)  
 
 # Troubleshooting  
 ## iperf3: error while loading shared libraries: libiperf.so.0: cannot open shared object file: No such file or directory  
@@ -94,7 +152,7 @@ Tips: besides iperf3, the sender can track the real-time state of a TCP connecti
 * [justas-/py3iperf3: A native Python iPerf3 client - GitHub](https://github.com/justas-/py3iperf3)  
 
 * []()  
-![alt tag]()
+![alt tag]()  
 
 # h1 size
 

@@ -77,7 +77,10 @@ for s in sockets:
 
 * [Multiple UDP listener on the same port ](https://gist.github.com/Lothiraldan/3951784)  
 
-* [Asynchronous HTTP libraries benchmark for upcoming PyPy release 5 Mar 2017](https://github.com/squeaky-pl/zenchmarks)  
+* [Asynchronous HTTP libraries benchmark for upcoming PyPy release 5 Mar 2017](https://github.com/squeaky-pl/zenchmarks)
+
+* [Python server ipv6 UDP program Mar 10, 2016](https://stackoverflow.com/questions/34272372/python-server-ipv6-udp-program)  
+
 
 # Troubleshooting  
 * [Python: cannot set socket option SO_REUSEPORT #1419 ](https://github.com/Microsoft/WSL/issues/1419)  
