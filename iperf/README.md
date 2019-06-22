@@ -48,7 +48,7 @@ $ python3 test_multipt_srv.py
 
 $ netstat -tlunp | grep tcp
 ```
-## Check If Open Spefici Port Number  
+## Check If Open Specific Port Number  
 ![alt tag](https://i.imgur.com/kGDNzrd.jpg)  
 
 ```
@@ -67,7 +67,7 @@ $ python3 test_multipt_srv.py config_udp.ini
 
 $ netstat -tlunp | grep tcp
 ```
-## Check If Open Spefici Port Number  
+## Check If Open Specific Port Number  
 ![alt tag](https://i.imgur.com/527VcBr.jpg)  
 
 ```
@@ -86,6 +86,7 @@ $ python3 test_multipt_srv.py config_udp.ini
 
 $ netstat -tlunp | grep tcp
 ```
+## Check If Open Specific Port Number  
 ![alt tag](https://i.imgur.com/gmIIxgS.jpg)  
 
 ```
