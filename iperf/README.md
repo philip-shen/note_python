@@ -97,7 +97,7 @@ $ python3 test_multipt_srv.py config_udp.ini
 ```
 $ python3 test_multipt_client.py config_udp.ini
 ```
-![alt tag](https://i.imgur.com/qXH73z8.jpg)  
+![alt tag](https://i.imgur.com/mcV3mvw.jpg)  
 
 # Troubleshooting  
 ## iperf3: error while loading shared libraries: libiperf.so.0: cannot open shared object file: No such file or directory  
