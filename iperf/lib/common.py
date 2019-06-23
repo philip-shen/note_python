@@ -243,7 +243,7 @@ def server_siteone_socket_udp_ipv6(parms):
     # Bind the socket to the port(type int) 
     server_address = (server_host, int(server_port)) 
     
-    logger.info("Starting up echo server on %s port %s" % server_address) 
+    logger.info("Starting up UDP echo server on %s port %s" % server_address) 
 
     sock.bind(server_address) 
 

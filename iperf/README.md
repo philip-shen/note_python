@@ -4,7 +4,12 @@ Take some note of iperf on Ubuntu
 # Table of Content
 [Install iperf3 from source (preferred)](#install-iperf3-from-source-preferred)  
 [Install directly from the github repository](#install-directly-from-the-github-repository-activate-virtualenv-first)  
+
 [iperf3 TCP Multiport Server/Client Test](#iperf3-tcp-multiport-serverclient-test)  
+[Install ptyhon3 library under virtual environment](#install-ptyhon3-library-under-virtual-environment)  
+[Edit config.ini to meet test environment](#edit-configini-to-meet-test-environment)  
+[Edit config_udp.ini to meet test environment](#edit-config_udpini-to-meet-test-environment)  
+
 [IPv6 iperf3 TCP Multiport Server/Client Test](#ipv6-iperf3-tcp-multiport-serverclient-test)  
 [UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
 [IPv6 UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#ipv6-udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
