@@ -1,5 +1,6 @@
 # note of_iperf
 Take some note of iperf on Ubuntu
+**Aviable on Linux not for Windows**
 
 # Table of Content
 [Install iperf3 from source (preferred)](#install-iperf3-from-source-preferred)  

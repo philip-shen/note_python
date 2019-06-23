@@ -1,4 +1,4 @@
-# note of Python on Ubuntu
+# Note of Python on Ubuntu
 Take some note of Python on Ubuntu
 
 # Table of Content
