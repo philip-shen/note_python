@@ -5,7 +5,7 @@ Take some note of iperf on Ubuntu
 [Install iperf3 from source (preferred)](#install-iperf3-from-source-preferred)  
 [Install directly from the github repository](#install-directly-from-the-github-repository-activate-virtualenv-first)  
 [iperf3 TCP Multiport Server/Client Test](#iperf3-tcp-multiport-serverclient-test)  
-[IPv6 iperf3 TCP Multiport Server/Client Test]()  
+[IPv6 iperf3 TCP Multiport Server/Client Test](#ipv6-iperf3-tcp-multiport-serverclient-test)  
 [UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
 [IPv6 UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#ipv6-udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
 
@@ -43,7 +43,31 @@ pip        19.1.1
 setuptools 41.0.1
 wheel      0.33.4
 ```
-# iperf3 TCP Multiport Server/Client Test   
+# iperf3 TCP Multiport Server/Client Test  
+## Install ptyhon3 library under virtual environment 
+```
+$ pip3 install -r requirement_linux.txt
+```
+## Edit config.ini to meet test environment
+```
+[Server_Param]
+;
+;Server_IP = 0.0.0.0
+; = 0.0.0.0 u IPv4
+Server_IP = :: 
+
+Server_Port = 5000,5002
+Server_Protocol = tcp
+
+[Client_Param]
+;Remote_Server_IP = 220.18.1.119
+;"::1"  # localhost
+Remote_Server_IP = 2001:b011:20e0:3714:20c:29ff:fe78:2573   
+
+Client_Port = 5002,5000
+Client_Protocol = tcp
+```
+
 ```
 $ python3 test_multipt_srv.py
 
