@@ -242,6 +242,11 @@ Pip Install
 Flask! 
 ```
 
+* [pingを打つと「にゃーん」を返すサービスについての便乗ネタです 2017-09-11](https://qiita.com/ttsubo/items/0161da24771f5176d8a5)  
+[■ 試してみた、Ubuntu環境](https://qiita.com/ttsubo/items/0161da24771f5176d8a5#-%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9Fubuntu%E7%92%B0%E5%A2%83)  
+[■ rootユーザのpython仮想環境を作る](https://qiita.com/ttsubo/items/0161da24771f5176d8a5#-root%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AEpython%E4%BB%AE%E6%83%B3%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%9C%E3%82%8B)  
+[■ 各種pythonライブラリを事前にインストールする](https://qiita.com/ttsubo/items/0161da24771f5176d8a5#-%E5%90%84%E7%A8%AEpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BA%8B%E5%89%8D%E3%81%AB%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B)   
+
 * [PYTHON安裝TALIB @ 張郎生活的筆記:: 痞客邦:: 2018年10月5日](http://tn00343140a.pixnet.net/blog/post/175064616-python%E5%AE%89%E8%A3%9Dtalib)  
 ```
 再次參考網路的文章, 試試看用輪子吧!
