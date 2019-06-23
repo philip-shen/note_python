@@ -22,8 +22,13 @@ formatter = logging.Formatter(
 )
 
 # 日志文件FileHandler
-basedir = os.path.abspath(os.path.dirname(__file__))
-log_dest = os.path.join(basedir, 'logs')  # 日志文件所在目录
+
+strabspath=os.path.abspath(__file__)
+strdirname=os.path.dirname(strabspath)
+str_split=os.path.split(strdirname)
+prevdirname=str_split[0]
+log_dest=os.path.join(prevdirname,"logs") # 日志文件所在目录
+
 if not os.path.isdir(log_dest):
     os.mkdir(log_dest)
 filename = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())) + '.log'  # 日志文件名，以当前时间命名

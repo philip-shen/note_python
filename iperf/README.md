@@ -8,6 +8,8 @@ Take some note of iperf on Ubuntu
 [IPv6 iperf3 TCP Multiport Server/Client Test](#ipv6-iperf3-tcp-multiport-serverclient-test)  
 [UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
 [IPv6 UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#ipv6-udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
+[UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-multicast-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)      
+[IPv6 UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#ipv6-udp-multiport-multicast-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)      
 
 [Troubleshooting](#troubleshooting)  
 
@@ -67,6 +69,30 @@ Remote_Server_IP = 2001:b011:20e0:3714:20c:29ff:fe78:2573
 Client_Port = 5002,5000
 Client_Protocol = tcp
 ```
+## Edit config_udp.ini to meet test environment
+```
+[Server_Param]
+;
+;Server_IP = 0.0.0.0
+; ::= 0.0.0.0 u IPv4
+; 237.252.249.227 IPv4 multicast 
+;ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 IPv6 multicast 
+Server_IP = ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 
+
+Server_Port = 5000,5002,8123
+Server_Protocol = udp
+
+[Client_Param]
+;Remote_Server_IP = 220.18.1.119
+;Remote_Server_IP = localhost
+;"::1"  # localhost
+; 237.252.249.227 IPv4 multicast 
+;ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 IPv6 multicast 
+Remote_Server_IP = ff15:7079:7468:6f6e:6465:6d6f:6d63:6173
+
+Client_Port = 5002,5000,8123
+Client_Protocol = udp
+```
 
 ```
 $ python3 test_multipt_srv.py
@@ -102,7 +128,7 @@ $ python3 test_multipt_client.py config.ini
 ```
 $ python3 test_multipt_srv.py config_udp.ini
 
-$ netstat -tlunp | grep tcp
+$ netstat -tlunp | grep udp
 ```
 ## Check If Open Specific Port Number  
 ![alt tag](https://i.imgur.com/527VcBr.jpg)  
@@ -121,7 +147,7 @@ $ python3 test_multipt_client.py config_udp.ini
 ```
 $ python3 test_multipt_srv.py config_udp.ini
 
-$ netstat -tlunp | grep tcp
+$ netstat -tlunp | grep udp
 ```
 ## Check If Open Specific Port Number  
 ![alt tag](https://i.imgur.com/gmIIxgS.jpg)  
@@ -135,6 +161,45 @@ $ python3 test_multipt_srv.py config_udp.ini
 $ python3 test_multipt_client.py config_udp.ini
 ```
 ![alt tag](https://i.imgur.com/mcV3mvw.jpg)  
+
+# UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)  
+```
+$ python3 test_multipt_srv.py config_udp.ini
+
+$ netstat -tlunp | grep udp
+```
+## Check If Open Specific Port Number  
+![alt tag](https://i.imgur.com/5K7j0mf.jpg)  
+
+```
+$ python3 test_multipt_srv.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/Af45HlZ.jpg)  
+
+```
+$ python3 test_multipt_client.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/JzZY5CH.jpg)  
+
+# IPv6 UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)  
+```
+$ python3 test_multipt_srv.py config_udp.ini
+
+$ netstat -tlunp | grep udp
+```
+## Check If Open Specific Port Number  
+![alt tag](https://i.imgur.com/jcp8SZE.jpg)  
+
+```
+$ python3 test_multipt_srv.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/rOr1MHZ.jpg)  
+
+```
+$ python3 test_multipt_client.py config_udp.ini
+```
+![alt tag](https://i.imgur.com/nBdzcB1.jpg)  
+
 
 # Troubleshooting  
 ## iperf3: error while loading shared libraries: libiperf.so.0: cannot open shared object file: No such file or directory  
@@ -178,12 +243,13 @@ Tips: besides iperf3, the sender can track the real-time state of a TCP connecti
 * [Running Iperf Server and Client using Multithreading in Python causes Segmentation fault Jun 13, 2017](https://stackoverflow.com/questions/44519799/running-iperf-server-and-client-using-multithreading-in-python-causes-segmentati)  
 * [thiezn/iperf3-python: Python wrapper around iperf3 - GitHub](https://github.com/thiezn/iperf3-python)  
 * [justas-/py3iperf3: A native Python iPerf3 client - GitHub](https://github.com/justas-/py3iperf3)  
+* [ipaddress — IPv4/IPv6 manipulation library](https://docs.python.org/3/library/ipaddress.html)  
+* [Dealing with Multiple connections — Multicast Feb 2, 2019](https://medium.com/python-pandemonium/python-socket-communication-e10b39225a4c)  
+* [IPv6 Multicast (Python recipe) Oct 28, 2005](http://code.activestate.com/recipes/442490-ipv6-multicast/)  
+* [Python 3 IPv6 Multicast Jun 14, 2018](https://stackoverflow.com/questions/50848674/python-3-ipv6-multicast)  
+
 
 * []()  
-![alt tag]()  
-![alt tag]()  
-![alt tag]()  
-![alt tag]()  
 ![alt tag]()  
 
 # h1 size

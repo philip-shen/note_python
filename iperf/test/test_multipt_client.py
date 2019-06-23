@@ -16,6 +16,7 @@ sys.path.append(dirnamelib)
 from logger import logger
 from common import *
 from readConfig import *
+import ipaddress 
 
 def download_many(localReadConfig):
     
@@ -57,6 +58,86 @@ def download_many_udp(localReadConfig):
                             
     return len(list(res))
 
+def download_many_socket_udp(localReadConfig):
+    
+    remote_server_ip = localReadConfig.get_Client_Param('Remote_Server_IP')
+    client_port = localReadConfig.get_Client_Param('Client_Port')
+    client_protocol = localReadConfig.get_Client_Param('Client_Protocol')
+
+    client_params = []
+    for port in client_port.split(','):
+        client_param = {
+            'port': port,
+            'protocol': client_protocol,
+            'remote_server_ip': remote_server_ip
+        }
+        client_params.append(client_param)
+
+    with futures.ProcessPoolExecutor(max_workers=16) as executor:  
+        res = executor.map(client_siteone_socket_udp, client_params)  
+                            
+    return len(list(res))
+
+def download_many_socket_udp_ipv6(localReadConfig):
+    
+    remote_server_ip = localReadConfig.get_Client_Param('Remote_Server_IP')
+    client_port = localReadConfig.get_Client_Param('Client_Port')
+    client_protocol = localReadConfig.get_Client_Param('Client_Protocol')
+
+    client_params = []
+    for port in client_port.split(','):
+        client_param = {
+            'port': port,
+            'protocol': client_protocol,
+            'remote_server_ip': remote_server_ip
+        }
+        client_params.append(client_param)
+
+    with futures.ProcessPoolExecutor(max_workers=16) as executor:  
+        res = executor.map(client_siteone_socket_udp_ipv6, client_params)  
+                            
+    return len(list(res))
+
+def download_many_socket_udp_multicast(localReadConfig):
+    
+    remote_server_ip = localReadConfig.get_Client_Param('Remote_Server_IP')
+    client_port = localReadConfig.get_Client_Param('Client_Port')
+    client_protocol = localReadConfig.get_Client_Param('Client_Protocol')
+
+    client_params = []
+    for port in client_port.split(','):
+        client_param = {
+            'port': port,
+            'protocol': client_protocol,
+            'remote_server_ip': remote_server_ip
+        }
+        client_params.append(client_param)
+
+    with futures.ProcessPoolExecutor(max_workers=16) as executor:  
+        res = executor.map(client_siteone_socket_udp_mutlicast, client_params)  
+                            
+    return len(list(res))
+
+def download_many_socket_udp_multicast_ipv6(localReadConfig):
+    
+    remote_server_ip = localReadConfig.get_Client_Param('Remote_Server_IP')
+    client_port = localReadConfig.get_Client_Param('Client_Port')
+    client_protocol = localReadConfig.get_Client_Param('Client_Protocol')
+
+    client_params = []
+    for port in client_port.split(','):
+        client_param = {
+            'port': port,
+            'protocol': client_protocol,
+            'remote_server_ip': remote_server_ip
+        }
+        client_params.append(client_param)
+
+    with futures.ProcessPoolExecutor(max_workers=16) as executor:  
+        res = executor.map(client_siteone_socket_udp_mutlicast_ipv6, client_params)  
+                            
+    return len(list(res))    
+
 if __name__ == '__main__':
     t0 = time.time()
     
@@ -67,12 +148,27 @@ if __name__ == '__main__':
         str_inifile = sys.argv[1]
 
     localReadConfig = ReadConfig(str_inifile)
+    remote_server_ip = localReadConfig.get_Client_Param('Remote_Server_IP')   
     client_protocol = localReadConfig.get_Client_Param('Client_Protocol')
 
     if client_protocol == 'tcp':
         count = download_many(localReadConfig)
-    elif client_protocol == 'udp':
-        count = download_many_udp(localReadConfig)
+    
+    elif (client_protocol == 'udp' and ipaddress.ip_address(remote_server_ip).version == 4 \
+                                    and not ipaddress.ip_address(remote_server_ip).is_multicast): 
+        count = download_many_socket_udp(localReadConfig)
+    
+    elif (client_protocol == 'udp' and ipaddress.ip_address(remote_server_ip).version == 6\
+                                    and not ipaddress.ip_address(remote_server_ip).is_multicast): 
+        count = download_many_socket_udp_ipv6(localReadConfig)
+    
+    elif (client_protocol == 'udp' and ipaddress.ip_address(remote_server_ip).version == 4 \
+                                    and ipaddress.ip_address(remote_server_ip).is_multicast):
+        count = download_many_socket_udp_multicast(localReadConfig)        
+
+    elif (client_protocol == 'udp' and ipaddress.ip_address(remote_server_ip).version == 6 \
+                                    and ipaddress.ip_address(remote_server_ip).is_multicast):
+        count = download_many_socket_udp_multicast_ipv6(localReadConfig)            
     else:  
         exit
 
