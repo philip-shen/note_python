@@ -253,6 +253,7 @@ Tips: besides iperf3, the sender can track the real-time state of a TCP connecti
 * [Dealing with Multiple connections — Multicast Feb 2, 2019](https://medium.com/python-pandemonium/python-socket-communication-e10b39225a4c)  
 * [IPv6 Multicast (Python recipe) Oct 28, 2005](http://code.activestate.com/recipes/442490-ipv6-multicast/)  
 * [Python 3 IPv6 Multicast Jun 14, 2018](https://stackoverflow.com/questions/50848674/python-3-ipv6-multicast)  
+* [[python]程式計時器 17th November 2018\r](http://dunkkm.blogspot.com/2018/11/python_62.html)  
 
 
 * []()  
