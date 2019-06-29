@@ -9,13 +9,16 @@ Take some note of iperf on Ubuntu
 [iperf3 TCP Multiport Server/Client Test](#iperf3-tcp-multiport-serverclient-test)  
 [Install ptyhon3 library under virtual environment](#install-ptyhon3-library-under-virtual-environment)  
 [Edit config.ini to meet test environment](#edit-configini-to-meet-test-environment)  
+[IPv6 iperf3 TCP Multiport Server/Client Test](#ipv6-iperf3-tcp-multiport-serverclient-test)  
+
+[UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
 [Edit config_udp.ini to meet test environment](#edit-config_udpini-to-meet-test-environment)  
 
-[IPv6 iperf3 TCP Multiport Server/Client Test](#ipv6-iperf3-tcp-multiport-serverclient-test)  
-[UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
 [IPv6 UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#ipv6-udp-multiport-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)  
 [UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-multicast-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)      
 [IPv6 UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#ipv6-udp-multiport-multicast-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)      
+
+[Befor iperf3 TCP Multiport(1~1024) Server/Client Test, Change to root]()  
 
 [Troubleshooting](#troubleshooting)  
 
@@ -75,30 +78,6 @@ Remote_Server_IP = 2001:b011:20e0:3714:20c:29ff:fe78:2573
 Client_Port = 5002,5000
 Client_Protocol = tcp
 ```
-## Edit config_udp.ini to meet test environment
-```
-[Server_Param]
-;
-;Server_IP = 0.0.0.0
-; ::= 0.0.0.0 u IPv4
-; 237.252.249.227 IPv4 multicast 
-;ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 IPv6 multicast 
-Server_IP = ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 
-
-Server_Port = 5000,5002,8123
-Server_Protocol = udp
-
-[Client_Param]
-;Remote_Server_IP = 220.18.1.119
-;Remote_Server_IP = localhost
-;"::1"  # localhost
-; 237.252.249.227 IPv4 multicast 
-;ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 IPv6 multicast 
-Remote_Server_IP = ff15:7079:7468:6f6e:6465:6d6f:6d63:6173
-
-Client_Port = 5002,5000,8123
-Client_Protocol = udp
-```
 
 ```
 $ python3 test_multipt_srv.py
@@ -131,6 +110,32 @@ $ python3 test_multipt_client.py config.ini
 ![alt tag](https://i.imgur.com/paXiTzi.jpg)  
 
 # UDP Multiport Server/Client Test via Socket(Cause iperf3 server didn't support udp)  
+
+## Edit config_udp.ini to meet test environment
+```
+[Server_Param]
+;
+;Server_IP = 0.0.0.0
+; ::= 0.0.0.0 u IPv4
+; 237.252.249.227 IPv4 multicast 
+;ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 IPv6 multicast 
+Server_IP = ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 
+
+Server_Port = 5000,5002,8123
+Server_Protocol = udp
+
+[Client_Param]
+;Remote_Server_IP = 220.18.1.119
+;Remote_Server_IP = localhost
+;"::1"  # localhost
+; 237.252.249.227 IPv4 multicast 
+;ff15:7079:7468:6f6e:6465:6d6f:6d63:6173 IPv6 multicast 
+Remote_Server_IP = ff15:7079:7468:6f6e:6465:6d6f:6d63:6173
+
+Client_Port = 5002,5000,8123
+Client_Protocol = udp
+```
+
 ```
 $ python3 test_multipt_srv.py config_udp.ini
 
@@ -206,6 +211,28 @@ $ python3 test_multipt_client.py config_udp.ini
 ```
 ![alt tag](https://i.imgur.com/nBdzcB1.jpg)  
 
+# Befor iperf3 TCP Multiport(1~1024) Server/Client Test, Change to root  
+```
+# python3 test_multipt_srv.py
+```
+![alt tag](https://i.imgur.com/pP9hgY2.jpg)  
+
+```
+
+$ netstat -tlunp | grep tcp
+```
+## Check If Open Specific Port Number  
+![alt tag](https://i.imgur.com/qMtn4KI.jpg)  
+
+```
+$ python3 test_multipt_client.py config.ini
+```
+![alt tag](https://i.imgur.com/9eu5STk.jpg)  
+
+```
+# python3 test_multipt_srv.py
+```
+![alt tag](https://i.imgur.com/2UeGQVp.jpg)  
 
 # Troubleshooting  
 ## iperf3: error while loading shared libraries: libiperf.so.0: cannot open shared object file: No such file or directory  
