@@ -21,6 +21,7 @@ Take some note of iperf on Ubuntu
 [Befor iperf3 TCP Multiport(1~1024) Server/Client Test, Change to root](#befor-iperf3-tcp-multiport11024-serverclient-test-change-to-root)  
 
 [Troubleshooting](#troubleshooting)  
+[Reference](#reference)  
 
 # Install iperf3 from source (preferred)
 [Install from source (preferred)](https://github.com/thiezn/iperf3-python#installation)
@@ -269,8 +270,9 @@ cat /proc/sys/net/ipv4/tcp_congestion_control
 ```
 Tips: besides iperf3, the sender can track the real-time state of a TCP connection (e.g., congestion window size) with tcp_probe.
 ```
+* [Iperf3 not working: unable to send cookie Mar 18, 2019](https://github.com/home-assistant/home-assistant/issues/22163)      
 
-# Reference
+# Reference  
 * [[Python]製作一個類似iperf的測速程式-使用Socket | TK呱呱 201710](http://gienmin.blogspot.com/2017/10/pythoniperf-socket.html)  
 
 * [Overview — Flent: The FLExible Network Tester](https://flent.org/)  
@@ -282,10 +284,16 @@ Tips: besides iperf3, the sender can track the real-time state of a TCP connecti
 * [Dealing with Multiple connections — Multicast Feb 2, 2019](https://medium.com/python-pandemonium/python-socket-communication-e10b39225a4c)  
 * [IPv6 Multicast (Python recipe) Oct 28, 2005](http://code.activestate.com/recipes/442490-ipv6-multicast/)  
 * [Python 3 IPv6 Multicast Jun 14, 2018](https://stackoverflow.com/questions/50848674/python-3-ipv6-multicast)  
-* [[python]程式計時器 17th November 2018\r](http://dunkkm.blogspot.com/2018/11/python_62.html)  
+
+* [[python]程式計時器 17th November 2018](http://dunkkm.blogspot.com/2018/11/python_62.html)  
+* [How to install requests module in Python 3.4, instead of 2.7 Aug 17, 2016](https://stackoverflow.com/questions/30362600/how-to-install-requests-module-in-python-3-4-instead-of-2-7)      
+```
+pip3 install requests
+```
+* [[Python] Day13 - Python Time 模組 Jul 2, 2018](http://dangerlover9403.pixnet.net/blog/post/207711846-%5Bpython%5D-day13---python-time-%E6%A8%A1%E7%B5%84)  
 
 
-* []()  
+* []()      
 ![alt tag]()  
 
 # h1 size

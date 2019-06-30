@@ -5,6 +5,7 @@ import sys
 import iperf3
 import socket 
 import struct
+import threading 
 
 from logger import logger
 
@@ -49,6 +50,7 @@ def client_siteone(parms):
     client.server_hostname = parms['remote_server_ip']
     client.port = parms['port']
     client.protocol = parms['protocol']
+    client.duration = int(parms['test_duration'])
 
     logger.info('Connecting to {0}:{1}:{2}'.format(client.server_hostname, client.port, client.protocol))
     result = client.run()
@@ -363,3 +365,218 @@ def client_siteone_socket_udp_mutlicast_ipv6(parms):
                  
     #https://stackoverflow.com/questions/33003498/typeerror-a-bytes-like-object-is-required-not-str
     sock.sendto(message.encode(), (client_server_hostname, int(client_port)) )
+
+def func():
+    pass
+
+def continuous_clock_timer(duration_sec):
+    #print('Timer start，press"Enter" button to calcuate interval，Press "Ctrl+C" to escape timer.')
+    #in_value = input()
+    #if in_value == 'exit':
+    #    return
+    print('Start Time Duratin:{} sec(s)!!!'.format(duration_sec))
+    start_time = time.time()
+    last_time = start_time
+    total_time = round(time.time() - start_time, 2)
+    lap_num = 1
+    try:
+        while True:
+            if total_time > duration_sec:
+                print('Duratin:{}sec(s) End Timer!!!'.format(duration_sec))
+                break
+
+            lap_time = round(time.time() - last_time, 2)
+            total_time = round(time.time() - start_time, 2)
+            print("{}: {} {}".format(lap_num, total_time, lap_time))
+            
+            timer = threading.Timer(0,func)
+            timer.start()
+            time.sleep(2) ## 等待2s
+            timer.cancel()##停止定時器
+            #print("5s到了定時器退出")
+
+            lap_num += 1
+            last_time = time.time()
+        
+    except KeyboardInterrupt:
+        print('\nEnd Timer!!!')
+        exit()    
+
+def client_siteone_continuous(parms):
+    client = iperf3.Client()
+    client.duration = 1
+    client.server_hostname = parms['remote_server_ip']
+    client.port = parms['port']
+    client.protocol = parms['protocol']
+    test_duration = parms['test_duration']
+
+    #print('Start Time Duratin:{} sec(s)!!!'.format(test_duration))
+    logger.info('Start Time Duratin:{} sec(s)!!!'.format(test_duration))
+    start_time = time.time()
+    last_time = start_time
+    total_time = round(time.time() - start_time, 2)
+    lap_num = 1
+    try:
+        while True:
+            if total_time > int(test_duration):
+                #print('Duratin:{}sec(s) End Timer!!!'.format(test_duration))
+                logger.info('Duratin:{}sec(s) End Timer!!!'.format(test_duration))
+                break
+
+            lap_time = round(time.time() - last_time, 2)
+            total_time = round(time.time() - start_time, 2)
+            
+            # Start iperf client traffic
+            logger.info('Connecting to {0}:{1}:{2}'.format(client.server_hostname, client.port, client.protocol))
+            result = client.run()
+
+            if result.error:
+                logger.info(result.error)
+            else:
+                print('')
+                logger.info('Test completed:')
+                logger.info('  started at         {0}'.format(result.time))
+                logger.info('  bytes transmitted  {0}'.format(result.sent_bytes))
+                logger.info('  retransmits        {0}'.format(result.retransmits))
+                logger.info('  avg cpu load       {0}%\n'.format(result.local_cpu_total))
+
+                logger.info('Average transmitted data in all sorts of networky formats:')
+                logger.info('  bits per second      (bps)   {0}'.format(result.sent_bps))
+                logger.info('  Kilobits per second  (kbps)  {0}'.format(result.sent_kbps))
+                logger.info('  Megabits per second  (Mbps)  {0}'.format(result.sent_Mbps))
+                logger.info('  KiloBytes per second (kB/s)  {0}'.format(result.sent_kB_s))
+                logger.info('  MegaBytes per second (MB/s)  {0}'.format(result.sent_MB_s))
+
+            # End iperf client traffic
+
+            timer = threading.Timer(0,func)
+            timer.start()
+            time.sleep(3) ## 等待2s
+            timer.cancel()##停止定時器
+
+            lap_num += 1
+            last_time = time.time()
+        
+    except KeyboardInterrupt:
+        #print('\nEnd Timer!!!')
+        logger.info('\nEnd Timer!!!')
+        exit()
+
+def client_siteone_socket_udp_continuous(parms):
+    client_server_hostname = parms['remote_server_ip']
+    client_port = parms['port']
+    client_protocol = parms['protocol']
+    data_payload = 2048
+    test_duration = parms['test_duration']
+
+    #print('Start Time Duratin:{} sec(s)!!!'.format(test_duration))
+    logger.info('Start Time Duratin:{} sec(s)!!!'.format(test_duration))
+    start_time = time.time()
+    last_time = start_time
+    total_time = round(time.time() - start_time, 2)
+    lap_num = 1
+    try:
+        while True:
+            if total_time > int(test_duration):
+                #print('Duratin:{}sec(s) End Timer!!!'.format(test_duration))
+                logger.info('Duratin:{}sec(s) End Timer!!!'.format(test_duration))
+                break
+
+            lap_time = round(time.time() - last_time, 2)
+            total_time = round(time.time() - start_time, 2)
+            #print("{}: {} {}".format(lap_num, total_time, lap_time))
+
+            # Start client traffic
+            """ A simple echo client """ 
+             # Create a UDP socket 
+            sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM) 
+ 
+            server_address = (client_server_hostname, int(client_port)) 
+            logger.info("Connecting to %s port %s" % server_address) 
+    
+            try: 
+                # Send data 
+                message = "Test message. This will be echoed" 
+                logger.info("Sending %s" % message) 
+                sent = sock.sendto(message.encode('utf-8'), server_address) 
+ 
+                # Receive response 
+                data, server = sock.recvfrom(data_payload) 
+                logger.info("received %s" % data)
+    
+            finally: 
+                logger.info("Closing connection to the server") 
+                sock.close()   
+            # End client traffic
+
+            timer = threading.Timer(0,func)
+            timer.start()
+            time.sleep(3) ## 等待2s
+            timer.cancel()##停止定時器
+
+            lap_num += 1
+            last_time = time.time()
+        
+    except KeyboardInterrupt:
+        #print('\nEnd Timer!!!')
+        logger.info('\nEnd Timer!!!')
+        exit()
+
+def client_siteone_socket_udp_ipv6_continuous(parms):
+    client_server_hostname = parms['remote_server_ip']
+    client_port = parms['port']
+    client_protocol = parms['protocol']
+    data_payload = 2048
+    test_duration = parms['test_duration']
+
+    logger.info('Start Time Duratin:{} sec(s)!!!'.format(test_duration))
+    start_time = time.time()
+    last_time = start_time
+    total_time = round(time.time() - start_time, 2)
+    lap_num = 1
+    try:
+        while True:
+            if total_time > int(test_duration):
+                #print('Duratin:{}sec(s) End Timer!!!'.format(test_duration))
+                logger.info('Duratin:{}sec(s) End Timer!!!'.format(test_duration))
+                break
+
+            lap_time = round(time.time() - last_time, 2)
+            total_time = round(time.time() - start_time, 2)
+            #print("{}: {} {}".format(lap_num, total_time, lap_time))
+
+            # Start client traffic
+            """ A simple echo client """ 
+            # Create a UDP socket 
+            sock = socket.socket(socket.AF_INET6,socket.SOCK_DGRAM) 
+ 
+            server_address = (client_server_hostname, int(client_port)) 
+            logger.info("Connecting to %s port %s" % server_address) 
+    
+            try: 
+                # Send data 
+                message = "Test message. This will be echoed" 
+                logger.info("Sending %s" % message) 
+                sent = sock.sendto(message.encode('utf-8'), server_address) 
+ 
+                # Receive response 
+                data, server = sock.recvfrom(data_payload) 
+                logger.info("received %s" % data)
+    
+            finally: 
+                logger.info("Closing connection to the server") 
+                sock.close()
+            # End client traffic
+
+            timer = threading.Timer(0,func)
+            timer.start()
+            time.sleep(3) ## 等待2s
+            timer.cancel()##停止定時器
+
+            lap_num += 1
+            last_time = time.time()
+        
+    except KeyboardInterrupt:
+        #print('\nEnd Timer!!!')
+        logger.info('\nEnd Timer!!!')
+        exit()
