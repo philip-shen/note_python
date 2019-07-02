@@ -212,7 +212,7 @@ $ python3 test_multipt_client.py config_udp.ini
 ```
 ![alt tag](https://i.imgur.com/nBdzcB1.jpg)  
 
-# Befor iperf3 TCP Multiport(1~1024) Server/Client Test, Change to root  
+# Before iperf3 TCP Multiport(1~1024) Server/Client Test, Change to root  
 ```
 $ sudo -i
 
