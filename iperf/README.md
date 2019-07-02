@@ -18,7 +18,7 @@ Take some note of iperf on Ubuntu
 [UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#udp-multiport-multicast-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)      
 [IPv6 UDP Multiport Multicast Server/Client Test via Socket(Cause iperf3 server didn't support udp)](#ipv6-udp-multiport-multicast-serverclient-test-via-socketcause-iperf3-server-didnt-support-udp)      
 
-[Befor iperf3 TCP Multiport(1~1024) Server/Client Test, Change to root](#befor-iperf3-tcp-multiport11024-serverclient-test-change-to-root)  
+[Before iperf3 TCP Multiport(1~1024) Server/Client Test, Change to root](#before-iperf3-tcp-multiport11024-serverclient-test-change-to-root)  
 
 [Troubleshooting](#troubleshooting)  
 [Reference](#reference)  
