@@ -1,0 +1,13 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+#auto lo ens33
+#iface ens33 inet dhcp
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet static
+  address 192.168.0.103
+  gateway 192.168.0.1
+  netmask 255.255.255.0
+  netwrok 192.168.0.0
+  broadcast 192.168.0.255
+  dns-nameserver 192.168.0.1
