@@ -1,5 +1,5 @@
-# note_Telegram_Bot
-Take some note of Telegram Bot python
+# note_DHCPv6
+Take some note of DHCP python
 
 # Table of Content
 
@@ -9,18 +9,19 @@ Take some note of Telegram Bot python
 # Troubleshooting
 
 # Reference
-* [從零開始的Telegram Bot May 18, 2017](https://blog.sean.taipei/2017/05/telegram-bot)  
+* [HenriWahl/dhcpy6d ](https://github.com/HenriWahl/dhcpy6d)  
 ```
-如果有 Android 手機，強烈建議用這個 app 測試 Methods，比較不會遇到 URL encode 等奇怪的坑
-```
-[Telegram 機器人](https://play.google.com/store/apps/details?id=taipei.sean.telegram.botplayground)  
-* [Python Telegram Bot 教學 (by 陳達仁) ](https://hackmd.io/@BpUgvpG2TZy_PvDRF1bwvw/HkgaMUc24?type=view)  
+Dhcpy6d is an open source server for DHCPv6, the DHCP protocol for IPv6.
+Its development is driven by the need to be able to use the existing IPv4 infrastructure in coexistence with IPv6. In a dualstack scenario, the existing DHCPv4 most probably uses MAC addresses of clients to identify them. This is not intended by RFC 3315 for DHCPv6, but also not forbidden. Dhcpy6d is able to do so in local network segments and therefore offers a pragmatical method for parallel use of DHCPv4 and DHCPv6, because existing client management solutions could be used further.
 
-* [（一）一步步打造 Telegram Bot Jun 29, 2018](https://medium.com/@zaoldyeck9970/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E6%80%8E%E9%BA%BC%E6%89%93%E9%80%A0-telegram-bot-a7b539c3402a)  
-* [（二）為 Chatbot 增加 NLP 功能 Jun 29, 2018](https://medium.com/@zaoldyeck9970/%E5%88%A9%E7%94%A8-olami-open-api-%E7%82%BA-chatbot-%E5%A2%9E%E5%8A%A0-nlp-%E5%8A%9F%E8%83%BD-e6b37940913d)  
-* [（三）為 Chatbot 添加新技能 Jun 29, 2018](https://medium.com/@zaoldyeck9970/add-custom-skill-into-chatbot-cef9bfeeef52)  
-* [實戰篇－打造人性化 Telegram Bot Jun 21, 2018](https://medium.com/@zaoldyeck9970/%E5%AF%A6%E6%88%B0%E7%AF%87-%E6%89%93%E9%80%A0%E4%BA%BA%E6%80%A7%E5%8C%96-telegram-bot-ed9bb5b8a6d9)  
-![alt tag](https://miro.medium.com/max/1250/1*HC_Mr36vPnsCetH3ESXqWg.png)
+At the moment it runs on [Open|Net|Free]BSD, MacOS X and Linux, tested with Debian 8 + 9 and CentOS 7.
+```
+* [niccokunzmann/python_dhcp_server](https://github.com/niccokunzmann/python_dhcp_server)  
+```
+This is a purely Python DHCP server that does not require any additional libraries or installs other that Python 3.
+
+It was testet under Ubuntu 14 with Python and Windows 7. It does not use any operating system specific Python functions, so it should work when Python 3 works.
+```
 
 * []()  
 ![alt tag]()
