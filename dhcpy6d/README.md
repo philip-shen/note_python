@@ -4,7 +4,21 @@ Take some note of DHCP python
 # Table of Content
 
 
+# Installation  
+[Installation](https://dhcpy6d.ifw-dresden.de/documentation/installation/)  
+```
+    Python from http://www.python.org
+        Python 2.7 comes as default on Debian 7/8 and Redhat/CentOS 6/7
+        python-2.7.6p0 on OpenBSD 5.5
+        python27 on FreeBSD and NetBSD
 
+    dnspython from http://www.dnspython.org
+        python-dnspython in Debian
+        python-dns in Redhat/CentOS EPEL repository
+        py-dnspython in OpenBSD
+        py27-dnspython in FreeBSD
+        py27-dns in NetBSD
+```
 
 # Troubleshooting
 

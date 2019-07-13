@@ -129,6 +129,36 @@ wheel      0.33.4
 philshen@DESKTOP-7EDV2HB:~$
 ```
 
+# Install Python 2.7  
+[How to Install Python 2.7.16 on Ubuntu & LinuxMint May 13, 2019](https://tecadmin.net/install-python-2-7-on-ubuntu-and-linuxmint/)  
+```
+Step 1 – Prerequsiteis
+$ sudo apt-get update
+$ sudo apt-get install build-essential checkinstall
+$ sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
+
+Step 2 – Download Python 2.7
+Step 3 – Compile Python Source
+Step 4 – Check Python Version
+```
+[Install Python 2.7.6 in ubuntu 16.04 Jun 27, 2018](https://askubuntu.com/questions/1050084/install-python-2-7-6-in-ubuntu-16-04/1050098)  
+```
+Use the following command instead
+
+sudo apt-get install python-minimal
+
+This will give you the most recommended python version 2.7.12. But if you must install 2.7.6 then do the following:
+
+wget  https://www.python.org/ftp/python/2.7.6/Python-2.7.6.tgz  
+./configure
+make
+make install
+
+You can switch between different versions using
+
+sudo update-alternatives --config python
+```
+
 # Troubleshooting  
 * [zipimport.ZipImportError: can't decompress data; zlib not available in spark(ubuntu 16.04 LTS) [closed] Feb 26, 2018](https://askubuntu.com/questions/1009998/zipimport-zipimporterror-cant-decompress-data-zlib-not-available-in-sparkubu?rq=1)  
 ```
