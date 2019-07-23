@@ -56,7 +56,7 @@ setuptools 41.0.1
 wheel      0.33.4
 ```
 # iperf3 TCP Multiport Server/Client Test  
-## Install ptyhon3 library under virtual environment 
+## Install ptyhon3 library under virtual environment  
 ```
 $ pip3 install -r requirement_linux.txt
 ```
