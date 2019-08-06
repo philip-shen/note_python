@@ -2,7 +2,19 @@
 Take some note of Chiron
 
 # Table of Content
-[Installation](#installation)  
+* [Installation](#installation)  
+
+[Step 1 Budilup Virtualenv for Chiron](#step-1-budilup-virtualenv-for-chiron)  
+[Step 2 Activate Virtualenv of Chiron](#step-2-activate-virtualenv-of-chiron)  
+[Step 3 Make sure Virtualenv of Chiron](#step-3-make-sure-virtualenv-of-chiron)  
+[Step 4 Make sure Python Verion if 2.7](#step-4-make-sure-python-verion-if-27)  
+[Step 5 pip Install Scapy](#step-5-pip-install-scapy)  
+[Step 6 pip Install other modules](#step-6-pip-install-other-modules)  
+[Step 7 Check all Modules Installation](#step-7-check-all-modules-installation)  
+[Step 8 Git clone Chiron]()  
+[Step 9 Change root]()  
+[Step 10  Activate Virtualenv]()  
+[Step 11  Excute Chiron Scripts]()  
 
 # Installation  
 ## Step 1 Budilup Virtualenv for Chiron  
@@ -67,7 +79,9 @@ Successfully installed backports.shutil-get-terminal-size-1.0.0 decorator-4.4.0 
 ## Step 7 Check all Modules Installation  
 ```
 ~$ pip list -l
-DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
+DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. 
+Please upgrade your Python as Python 2.7 won't be maintained after that date. 
+A future version of pip will drop support for Python 2.7.
 Package                            Version
 ---------------------------------- --------
 backports.shutil-get-terminal-size 1.0.0
@@ -102,23 +116,26 @@ urllib3                            1.25.3
 wcwidth                            0.1.7
 wheel                              0.33.4
 ```
+## Step 8 Git clone Chiron  
+```
+git clone https://github.com/aatlasis/Chiron.git
+```
+## Step 9 Change root  
+```
+~$ sudo -i
+root@ubuntu:~#
+```
+## Step 10  Activate Virtualenv  
+```
+root@ubuntu:~# source /home/test/virtualenv/chiron/bin/activate
+(chiron) root@ubuntu:~#
+```
+## Step 11  Excute Chiron Scripts  
+![alt tag](https://i.imgur.com/IWDtfIj.jpg)
 
 # Reference
 * []()  
-```
-  
-```
-
 * []()  
-```
-
-```
-
-* []()  
-```
-
-```
-
 * []()  
 ![alt tag]()
 
