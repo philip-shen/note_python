@@ -12,9 +12,13 @@ Take note of Nmap Stuffs
 [ cldrn/rainmap-lite](https://github.com/cldrn/rainmap-lite)  
 *Rainmap Lite - Responsive web based interface that allows users to launch Nmap scans from their mobiles/tablets/web browsers!* 
 ```
-Rainmap Lite - Responsive web application that allows users to launch Nmap scans from their mobiles/tablets/web browsers!
+Rainmap Lite - Responsive web application that allows users to launch Nmap scans from 
+their mobiles/tablets/web browsers!
 
-Unlike it's predecessor [1], Rainmap-lite does not require special services (RabbitMQ, PostgreSQL, Celery, supervisor, etc) to make it easy to install on any server. You simply need to install the Django application and add the cron polling task to set up a new scanning server. Nmap scans on the road for everyone!
+Unlike it's predecessor [1], Rainmap-lite does not require special services 
+(RabbitMQ, PostgreSQL, Celery, supervisor, etc) to make it easy to install on any server. 
+You simply need to install the Django application and add the cron polling task to 
+set up a new scanning server. Nmap scans on the road for everyone!
 
 [1] Rainmap - https://nmap.org/rainmap/
 ```
@@ -87,18 +91,33 @@ done
 [rackerlabs/scantron](https://github.com/rackerlabs/scantron)  
 ## Overview  
 ```
-Scantron is a distributed nmap scanner comprised of two components. The first is a Master node that consists of a web front end used for scheduling scans and storing nmap scan targets and results. The second component is an agent that pulls scan jobs from Master and conducts the actual nmap scanning. A majority of the application's logic is purposely placed on Master to make the agent(s) as "dumb" as possible. All nmap target files and nmap results reside on Master and are shared through a network file share (NFS) leveraging SSH tunnels. The agents call back to Master periodically using a REST API to check for scan tasks and provide scan status updates.
+Scantron is a distributed nmap scanner comprised of two components. 
+The first is a Master node that consists of a web front end used for scheduling scans and 
+storing nmap scan targets and results. The second component is an agent that pulls scan jobs 
+from Master and conducts the actual nmap scanning. 
+A majority of the application's logic is purposely placed on Master to make the agent(s) 
+as "dumb" as possible. All nmap target files and nmap results reside on Master and are shared 
+through a network file share (NFS) leveraging SSH tunnels. The agents call back to Master 
+periodically using a REST API to check for scan tasks and provide scan status updates.
 ```
 ![alt tag](https://raw.githubusercontent.com/rackerlabs/scantron/master/img/scheduled_scans.png)
 ```
-Scantron is coded for Python3.6+ exclusively and leverages Django for the web front-end, Django REST Framework as the API endpoint, PostgreSQL as the database, and comes complete with Ubuntu-focused Ansible playbooks for smooth deployments. Scantron has been tested on Ubuntu 18.04 and may be compatible with other operating systems. Scantron's inspiration comes from:
+Scantron is coded for Python3.6+ exclusively and leverages Django for the web front-end, 
+Django REST Framework as the API endpoint, PostgreSQL as the database, and comes complete with 
+Ubuntu-focused Ansible playbooks for smooth deployments. 
+Scantron has been tested on Ubuntu 18.04 and may be compatible with other operating systems. 
+Scantron's inspiration comes from:
     dnmap
     Minions
     rainmap svn / rainmap github
     rainmap-lite
 ```
 ```
-Scantron relies heavily on utilizing SSH port forwards (-R / -L) as an umbilical cord to the agents. Either an SSH connection from Master --> agent or agent --> Master is acceptable and may be required depending on different firewall rules, but tweaking the port forwards and autossh commands will be necessary. If you are unfamiliar with these concepts, there are some great overviews and tutorials out there:
+Scantron relies heavily on utilizing SSH port forwards (-R / -L) as an umbilical cord to the agents. 
+Either an SSH connection from Master --> agent or agent --> Master is acceptable and 
+may be required depending on different firewall rules,
+but tweaking the port forwards and autossh commands will be necessary. 
+If you are unfamiliar with these concepts, there are some great overviews and tutorials out there:
 ```
 ## Architecture Diagram  
 ![alt tag](https://github.com/rackerlabs/scantron/blob/master/img/scantron_architecture_overview.png)  
