@@ -8,6 +8,53 @@ Take note of Scapy
 
 
 # Reference
+* [Scapy入門 2019-06-14](https://qiita.com/shoooooo/items/4080752d0d8c7a9ef2aa)  
+```
+注意
+
+scapyはroot権限がないと実行できないです
+```
+```
+パケットの作り方
+
+    Ethernetパケット
+        Ether()
+    IPパケット
+        IP()
+    TCPパケット
+        TCP()
+    ARPパケット
+        ARP()
+    DNSパケット
+        DNS()
+```
+```
+複数のレイヤのパケットの作り方
+
+    "/"で区切るだけ
+        Ether()/IP()/TCP()
+```
+* [Python不慣れな人が書いた Scapy メモ 2019-07-15](https://qiita.com/ken_hamada/items/736e1c22f6c40702d1a7)  
+```
+
+```
+* [python3+scapy 2018-03-16](https://qiita.com/komo/items/4da7acb07fdddfb3eb4d)  
+```
+scapy-python3というライブラリを使う必要がありました。さらにこのscapy-python3、
+微妙に更新が遅いのかIPv6周りのバグが残ったままの様子……。
+
+またこちらUbuntu 16.04での話となりますのでご注意ください
+```
+```
+ send_udp.py
+
+import scapy.all as scapy
+
+packet = scapy.IPv6(dst='2001:1:1:11::2', src='2001:1:1:11::555')
+packet.show()
+scapy.send(packet/scapy.UDP())
+```
+
 * [scapy IPv6 2016-09-01](https://qiita.com/kwi/items/bcc158cbcd0aa943f92b)  
 ```
 備忘録的な。
