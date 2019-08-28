@@ -291,6 +291,19 @@ date,ip,localport,remoteport,duration,protocol,num_streams,cookie,sent,sent_mbps
     sum usage per IP
     output a log line
 ```
+[iperf3コマンド使い方、オプション一覧 2018-10-23](https://qiita.com/yokoc1322/items/bfd8b6e69d6bdb3bb1c6)  
+[-u](https://qiita.com/yokoc1322/items/bfd8b6e69d6bdb3bb1c6#-u)  
+```
+-uオプションは測定にUDPを使用するオプションです。
+TCP仕様時とは異なり、ロス・遅延(ジッタ)が表示されます。
+
+注意点として、クライアント側で出力されるbandwidthは測定値ではなく、クライアントの送信帯域となります。
+TCPと異なりサーバからACKが帰ってこないため、測定ができないのだと思われます。
+
+また、iperfの制御用通信は常にTCPの指定ポート(デフォルト5201)で行われます。
+
+以下使用例です。
+```
 
 * [Running Iperf Server and Client using Multithreading in Python causes Segmentation fault Jun 13, 2017](https://stackoverflow.com/questions/44519799/running-iperf-server-and-client-using-multithreading-in-python-causes-segmentati)  
 * [thiezn/iperf3-python: Python wrapper around iperf3 - GitHub](https://github.com/thiezn/iperf3-python)  
