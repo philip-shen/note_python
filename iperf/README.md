@@ -275,8 +275,23 @@ Tips: besides iperf3, the sender can track the real-time state of a TCP connecti
 # Reference  
 * [[Python]製作一個類似iperf的測速程式-使用Socket | TK呱呱 201710](http://gienmin.blogspot.com/2017/10/pythoniperf-socket.html)  
 
-* [Overview — Flent: The FLExible Network Tester](https://flent.org/)  
 * [pythonでiperfを動かす - Qiita 2017-05-09](https://qiita.com/RIshioka/items/ff6cdb64d4a3b942f68e)  
+* [iperfの出力をCSV化する方法 2016-10-06](https://qiita.com/yas-nyan/items/1405883e8aab24df11b2)      
+```
+ubuntu16.04
+
+$ iperf3 -s -J | python -u iperf3tocsv.py
+date,ip,localport,remoteport,duration,protocol,num_streams,cookie,sent,sent_mbps,rcvd,rcvd_mbps,totalsent,totalreceived
+"Wed, 05 Oct 2016 23:45:35 GMT",クライアントのIPアドレスだよ,5201,58957,5,TCP,1,MacBook-Air.local.くっきーだよ,0,0,43813584,69.9104,0,43813584
+```
+[kgersen/iperf3protect](https://github.com/kgersen/iperf3protect)  
+```
+    set iperf3 server to ouput in json (-J)
+    parse the json for each test
+    sum usage per IP
+    output a log line
+```
+
 * [Running Iperf Server and Client using Multithreading in Python causes Segmentation fault Jun 13, 2017](https://stackoverflow.com/questions/44519799/running-iperf-server-and-client-using-multithreading-in-python-causes-segmentati)  
 * [thiezn/iperf3-python: Python wrapper around iperf3 - GitHub](https://github.com/thiezn/iperf3-python)  
 * [justas-/py3iperf3: A native Python iPerf3 client - GitHub](https://github.com/justas-/py3iperf3)  
@@ -292,6 +307,7 @@ pip3 install requests
 ```
 * [[Python] Day13 - Python Time 模組 Jul 2, 2018](http://dangerlover9403.pixnet.net/blog/post/207711846-%5Bpython%5D-day13---python-time-%E6%A8%A1%E7%B5%84)  
 
+* [Overview — Flent: The FLExible Network Tester](https://flent.org/)  
 
 * []()      
 ![alt tag]()  
