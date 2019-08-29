@@ -2,13 +2,13 @@
 Take note of Pholus  
 
 # Table of Contents  
-* [Installation](#installation)  
+[Installation](#installation)  
+[Reference](#reference)  
 
 # Installation  
 [Chiron Installation guide](https://github.com/philip-shen/note_python/tree/master/Chiron#installation)  
 
 # Troubleshooting
-
 
 # Reference
 * [An Attack-in-Depth Analysis of  multicast DNS and DNS Service Discovery 14th April 2017](https://www.secfu.net/papers-presentations/)  
@@ -140,7 +140,7 @@ In contrast to DNS servers, LLMNR hosts are authoritative for specific names tha
 LLMNR Message Structure  
 ![alt tag](https://docs.microsoft.com/en-us/previous-versions//images/bb878128.cg110601%28en-us%2ctechnet.10%29.gif)  
 
-* [Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing Feb 13, 2018 ](https://github.com/Rushyo/VindicateTool)  
+* [Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing Feb 13, 2018](https://github.com/Rushyo/VindicateTool)  
 ```
 What is Vindicate?
 
