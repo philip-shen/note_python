@@ -6,6 +6,7 @@ Take note of Scapy
 [Step 1 Install python2.7 on Windows](#step-1-install-python2.7-on-windows)  
 [Step 2 Install scapy](#step-2-install-scapy)  
 [Step 3 Check Installation and Excute scapy](#step-3-check-installation-and-excute-scapy)  
+[Step 4 Capture Packets by WiFi Client](#step-4-capture-packets-by-wifi-client)  
 
 [Reference](#reference)  
 
@@ -18,6 +19,7 @@ You need the following software in order to install Scapy on Windows:
     * Npcap: the latest version. Default values are recommended. Scapy will also work with Winpcap.
     * Scapy: latest development version from the Git repository. Unzip the archive, open a command prompt in that directory and run python setup.py install.
 ```
+
 ## Step 1 Install python2.7 on Windows  
 [Installing python2.7 hosts on python3.6 Laptop](https://github.com/philip-shen/note_python#installing-python27-hosts-on-python36-laptop)  
 
@@ -32,6 +34,15 @@ d:\project\
 
 d:\project\scapy\
 (pholus) λ python setup.py install
+
+d:\project\scapy\
+(pholus) λ pip install cryptography
+
+d:\project\scapy\
+(pholus) λ pip install ipython
+
+d:\project\scapy\
+(pholus) λ pip install matplotlib
 ```
 
 ## Step 3 Check Installation and Excute scapy  
@@ -41,41 +52,59 @@ d:\project\scapy (master -> origin)
 DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
 Package    Version
 ---------- -----------
-pip        19.2.3
-scapy      2.4.3.dev24
-setuptools 41.2.0
-wheel      0.33.6
+asn1crypto                         0.24.0
+backports.functools-lru-cache      1.5
+backports.shutil-get-terminal-size 1.0.0
+cffi                               1.12.3
+colorama                           0.4.1
+cryptography                       2.7
+cycler                             0.10.0
+decorator                          4.4.0
+enum34                             1.1.6
+ipaddress                          1.0.22
+ipython                            5.8.0
+ipython-genutils                   0.2.0
+kiwisolver                         1.1.0
+matplotlib                         2.2.4
+numpy                              1.16.5
+pathlib2                           2.3.4
+pickleshare                        0.7.5
+pip                                19.2.3
+prompt-toolkit                     1.0.16
+pycparser                          2.19
+Pygments                           2.4.2
+pyparsing                          2.4.2
+python-dateutil                    2.8.0
+pytz                               2019.2
+scandir                            1.10.0
+setuptools                         41.2.0
+simplegeneric                      0.8.1
+six                                1.12.0
+traitlets                          4.3.2
+wcwidth                            0.1.7
+wheel                              0.33.6
+win-unicode-console                0.5
 ```
+
 ```
 d:\project\scapy (master -> origin)
 (pholus) λ run_scapy_py2.bat
 ```
-![alt tag](https://i.imgur.com/JRgD9jA.jpg)
-
 ```
 >>> s=IP(dst="google.com")/ICMP()
 >>> s.show()
-###[ IP ]###
-  version   = 4
-  ihl       = None
-  tos       = 0x0
-  len       = None
-  id        = 1
-  flags     =
-  frag      = 0
-  ttl       = 64
-  proto     = icmp
-  chksum    = None
-  src       = 192.168.1.216
-  dst       = Net('google.com')
-  \options   \
-###[ ICMP ]###
-     type      = echo-request
-     code      = 0
-     chksum    = None
-     id        = 0x0
-     seq       = 0x0
 ```
+![alt tag](https://i.imgur.com/JtERE1Y.jpg)
+
+## Step 4 Capture Packets by WiFi Client
+```
+d:\project\scapy (master -> origin)
+(pholus) λ netsh wlan sh int
+
+d:\project\scapy (master -> origin)
+(pholus) λ run_scapy_py2.bat
+```
+![alt tag](https://i.imgur.com/uHF31NQ.jpg)
 
 # Troubleshooting
 

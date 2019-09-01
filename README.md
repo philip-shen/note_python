@@ -22,10 +22,6 @@ Take some note of python
 [Troubleshooting](#troubleshooting)  
 [Reference](#reference)  
 
-# Environment  
-windows 10 64bit  
-python 3.6.2  
-
 # Installation
 ## Step1 Install Python3.6-32bit  
 * [如何在 Windows 打造 Python 開發環境設定基礎入門教學](https://happycoder.org/2017/11/17/how-to-setup-python-development-environment-in-windows/)  
@@ -188,6 +184,10 @@ c:\Python27\Scripts
 (pholus) λ pip2 list
 ```
 ![alt tag](https://i.imgur.com/oJ6DR5e.jpg)  
+
+# Environment  
+windows 10 64bit  
+python 3.6.2  
 
 # Troubleshooting
 * [Permission denied error by installing matplotlib 2018年4月29日](https://stackoverflow.com/questions/50087098/permission-denied-error-by-installing-matplotlib)  
