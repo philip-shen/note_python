@@ -3,6 +3,9 @@ Take note of Scapy
 
 # Table of Contents  
 [Installation On Windows](#installation-on-windows)  
+[Step 1 Install python2.7 on Windows](#step-1-install-python2.7-on-windows)  
+[Step 2 Install scapy](#step-2-install-scapy)  
+[Step 3 Check Installation and Excute scapy](#step-3-check-installation-and-excute-scapy)  
 
 [Reference](#reference)  
 
@@ -15,7 +18,23 @@ You need the following software in order to install Scapy on Windows:
     * Npcap: the latest version. Default values are recommended. Scapy will also work with Winpcap.
     * Scapy: latest development version from the Git repository. Unzip the archive, open a command prompt in that directory and run python setup.py install.
 ```
+## Step 1 Install python2.7 on Windows  
+[Installing python2.7 hosts on python3.6 Laptop](https://github.com/philip-shen/note_python#installing-python27-hosts-on-python36-laptop)  
 
+## Step 2 Install scapy  
+```
+d:\project\
+(pholus) λ git clone https://github.com/secdev/scapy.git
+```
+```
+d:\project\
+(pholus) λ cd scapy
+
+d:\project\scapy\
+(pholus) λ python setup.py install
+```
+
+## Step 3 Check Installation and Excute scapy  
 ```
 d:\project\scapy (master -> origin)
 (pholus) λ pip list -l
