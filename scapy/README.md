@@ -2,8 +2,61 @@
 Take note of Scapy  
 
 # Table of Contents  
+[Installation On Windows](#installation-on-windows)  
 
 [Reference](#reference)  
+
+# Installation On Windows  
+[Installation On Windows](https://scapy.readthedocs.io/en/latest/installation.html#windows)  
+```
+You need the following software in order to install Scapy on Windows:
+
+    * Python: Python 2.7.X or 3.4+. After installation, add the Python installation directory and its Scripts subdirectory to your PATH. Depending on your Python version, the defaults would be C:\Python27 and C:\Python27\Scripts respectively.
+    * Npcap: the latest version. Default values are recommended. Scapy will also work with Winpcap.
+    * Scapy: latest development version from the Git repository. Unzip the archive, open a command prompt in that directory and run python setup.py install.
+```
+
+```
+d:\project\scapy (master -> origin)
+(pholus) λ pip list -l
+DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Package    Version
+---------- -----------
+pip        19.2.3
+scapy      2.4.3.dev24
+setuptools 41.2.0
+wheel      0.33.6
+```
+```
+d:\project\scapy (master -> origin)
+(pholus) λ run_scapy_py2.bat
+```
+![alt tag](https://i.imgur.com/JRgD9jA.jpg)
+
+```
+>>> s=IP(dst="google.com")/ICMP()
+>>> s.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = icmp
+  chksum    = None
+  src       = 192.168.1.216
+  dst       = Net('google.com')
+  \options   \
+###[ ICMP ]###
+     type      = echo-request
+     code      = 0
+     chksum    = None
+     id        = 0x0
+     seq       = 0x0
+```
 
 # Troubleshooting
 
@@ -175,14 +228,6 @@ send(ip/tcp)
 * [python3+scapy 2018-03-16](https://qiita.com/komo/items/4da7acb07fdddfb3eb4d)  
 ```
 
-```
-* [Installation On Windows](https://scapy.readthedocs.io/en/latest/installation.html#windows)  
-```
-You need the following software in order to install Scapy on Windows:
-
-    * Python: Python 2.7.X or 3.4+. After installation, add the Python installation directory and its Scripts subdirectory to your PATH. Depending on your Python version, the defaults would be C:\Python27 and C:\Python27\Scripts respectively.
-    * Npcap: the latest version. Default values are recommended. Scapy will also work with Winpcap.
-    * Scapy: latest development version from the Git repository. Unzip the archive, open a command prompt in that directory and run python setup.py install.
 ```
 
 
