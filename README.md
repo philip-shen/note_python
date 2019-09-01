@@ -16,7 +16,7 @@ Take some note of python
 [Step11 Double Check installed mdules](#step11-double-check-installed-mdules)    
 [Step12 Dump installed modules inot requirement.txt](#step12-dump-installed-modules-inot-requirementtxt)    
 
-[Installing python2.7 hosts on python3.6 Laptop](#)  
+[Installing python2.7 hosts on python3.6 Laptop](#installing-python27-hosts-on-python36-laptop)  
 
 [Environment](#environment)  
 [Troubleshooting](#troubleshooting)  
