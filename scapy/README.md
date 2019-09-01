@@ -3,11 +3,12 @@ Take note of Scapy
 
 # Table of Contents  
 
+[Reference](#reference)  
 
 # Troubleshooting
 
 
-# Reference
+# Reference  
 * [Scapy入門 2019-06-14](https://qiita.com/shoooooo/items/4080752d0d8c7a9ef2aa)  
 ```
 注意
@@ -161,6 +162,7 @@ tcp.flags = 'A'
 send(ip/tcp)
 
 ```
+
 * [Scapyでパケット解析の練習、その１ 2019-05-10](https://qiita.com/kiwamizamurai/items/9bb8f547ce6051792f2a)  
 ```
 パケット解析を勉強したい。そんな時に見つけたけどレイヤとかまだ全然わからんからどんどん勉強していく。
@@ -174,10 +176,15 @@ send(ip/tcp)
 ```
 
 ```
+* [Installation On Windows](https://scapy.readthedocs.io/en/latest/installation.html#windows)  
+```
+You need the following software in order to install Scapy on Windows:
 
+    * Python: Python 2.7.X or 3.4+. After installation, add the Python installation directory and its Scripts subdirectory to your PATH. Depending on your Python version, the defaults would be C:\Python27 and C:\Python27\Scripts respectively.
+    * Npcap: the latest version. Default values are recommended. Scapy will also work with Winpcap.
+    * Scapy: latest development version from the Git repository. Unzip the archive, open a command prompt in that directory and run python setup.py install.
+```
 
-
- 
 
 
 * []()  

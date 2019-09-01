@@ -16,6 +16,8 @@ Take some note of python
 [Step11 Double Check installed mdules](#step11-double-check-installed-mdules)    
 [Step12 Dump installed modules inot requirement.txt](#step12-dump-installed-modules-inot-requirementtxt)    
 
+[Installing python2.7 hosts on python3.6 Laptop](#)  
+
 [Environment](#environment)  
 [Troubleshooting](#troubleshooting)  
 [Reference](#reference)  
@@ -170,6 +172,23 @@ d:\project\Python\moneyhunter\test (master -> origin)
 pip freeze > ..\requiremenets.txt  
 ```
 
+# Installing python2.7 hosts on python3.6 Laptop  
+```
+c:\Python27\Scripts
+λ virtualenv -p c:\Python27\python.exe c:\Users\amyfa\Envs\pholus
+```
+```
+c:\Python27\Scripts
+λ Workon pholus
+c:\Python27\Scripts
+(pholus) λ python -V
+Python 2.7.16
+
+c:\Python27\Scripts
+(pholus) λ pip2 list
+```
+![alt tag](https://i.imgur.com/oJ6DR5e.jpg)  
+
 # Troubleshooting
 * [Permission denied error by installing matplotlib 2018年4月29日](https://stackoverflow.com/questions/50087098/permission-denied-error-by-installing-matplotlib)  
 ```
@@ -250,7 +269,7 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 ```
 
 * []()  
-![alt tag]()
+![alt tag]()  
 
 # h1 size
 
