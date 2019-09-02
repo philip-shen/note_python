@@ -3,7 +3,7 @@ Take note of Pholus
 
 # Table of Contents  
 [Installation](#installation)  
-[Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing](#rushyo/vindicateTool:-llmnr/nbns/mdbs-spoofing)
+[Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing](#rushyovindicatetool-llmnrnbnsmdns-spoofing)
 
 [Reference](#reference)  
 
@@ -15,7 +15,12 @@ Take note of Pholus
 ```
 What is Vindicate?
 
-Vindicate is a tool which detects name service spoofing, often used by IT network attackers to steal credentials (e.g. Windows Active Directory passwords) from users. It's designed to detect the use of hacking tools such as Responder, Inveigh, NBNSpoof, and Metasploit's LLMNR, NBNS, and mDNS spoofers, whilst avoiding false positives. This can allow a Blue Team to quickly detect and isolate attackers on their network. It takes advantage of the Windows event log to quickly integrate with an Active Directory network, or its output can be piped to a log for other systems.
+Vindicate is a tool which detects name service spoofing, often used by IT network attackers to steal credentials 
+(e.g. Windows Active Directory passwords) from users. It's designed to detect the use of hacking tools 
+such as Responder, Inveigh, NBNSpoof, and Metasploit's LLMNR, NBNS, and mDNS spoofers, whilst avoiding false positives. 
+This can allow a Blue Team to quickly detect and isolate attackers on their network. It takes advantage of 
+the Windows event log to quickly integrate with an Active Directory network, 
+or its output can be piped to a log for other systems.
 
 There's a diagram explaining spoofing attacks and how Vindicate works on the wiki.
 
@@ -28,8 +33,14 @@ What is LLMNR/NBNS/mDNS spoofing and why do I need to detect it?
     Aptive Consulting: LLMNR / NBT-NS Spoofing Attack Network Penetration Testing
     GracefulSecurity: Stealing Accounts: LLMNR and NBT-NS Spoofing
 
-TL;DR - Attackers might be stealing all sorts of credentials on your network (everything from Active Directory credentials to personal email accounts to database passwords) from right under your nose and you may be completely unaware it's happening.
+TL;DR - Attackers might be stealing all sorts of credentials on your network 
+(everything from Active Directory credentials to personal email accounts to database passwords) 
+from right under your nose and you may be completely unaware it's happening.
 ```
+
+* pentest.blog: [What is LLMNR & WPAD and How to Abuse Them During Pentest ?](https://pentest.blog/what-is-llmnr-wpad-and-how-to-abuse-them-during-pentest/)  
+* Aptive Consulting: [LLMNR / NBT-NS Spoofing Attack Network Penetration Testing](https://www.aptive.co.uk/blog/llmnr-nbt-ns-spoofing/)  
+* GracefulSecurity: [Stealing Accounts: LLMNR and NBT-NS Spoofing](https://www.gracefulsecurity.com/stealing-accounts-llmnr-and-nbt-ns-poisoning/)  
 
 # Troubleshooting
 
