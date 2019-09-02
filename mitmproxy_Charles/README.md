@@ -27,13 +27,25 @@ mitmproxy | アプリ実装不要・CUI・無料でSSLも確認できる | な�
 * [daniel4x/mitm-python](https://github.com/daniel4x/mitm-python)
 
 # Reference  
+* [Charles 破解版免费下载和注册安装教程 4.2.28激活](https://www.axihe.com/charles/charles/free-use.html)  
+```
+Charles 破解原理一：文件覆盖
+```
+```
+## Charles 破解原理二：注册码进行注册
+```
+* [Charles 破解工具web版](https://github.com/8enet/Charles-Crack)  
+
+* [Charles 4.2.8 Mac破解版(实测可用) ](https://litets.com/article/2019/3/14/43.html)  
+```
+方式一
+
+共享版本下载：下载地址 密码:lg6n 实测可用。
+```
 
 * [通信系のデバッグには Charles が便利 2017-11-27](https://qiita.com/usagimaru/items/d340e87da98e62f99b60)  
 
 * [AndroidのSSL通信をCharlesで確認する方法 2017-03-23](https://qiita.com/Capotasto/items/a51a76a8670e67798861)  
-```
-
-```
 
 * []()  
 ![alt tag]()

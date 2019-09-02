@@ -3,10 +3,33 @@ Take note of Pholus
 
 # Table of Contents  
 [Installation](#installation)  
+[Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing](#rushyo/vindicateTool:-llmnr/nbns/mdbs-spoofing)
+
 [Reference](#reference)  
 
 # Installation  
 [Chiron Installation guide](https://github.com/philip-shen/note_python/tree/master/Chiron#installation)  
+
+# Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing   
+[Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing Feb 13, 2018](https://github.com/Rushyo/VindicateTool)  
+```
+What is Vindicate?
+
+Vindicate is a tool which detects name service spoofing, often used by IT network attackers to steal credentials (e.g. Windows Active Directory passwords) from users. It's designed to detect the use of hacking tools such as Responder, Inveigh, NBNSpoof, and Metasploit's LLMNR, NBNS, and mDNS spoofers, whilst avoiding false positives. This can allow a Blue Team to quickly detect and isolate attackers on their network. It takes advantage of the Windows event log to quickly integrate with an Active Directory network, or its output can be piped to a log for other systems.
+
+There's a diagram explaining spoofing attacks and how Vindicate works on the wiki.
+
+Requires .NET Framework 4.5.2
+```
+```
+What is LLMNR/NBNS/mDNS spoofing and why do I need to detect it?
+
+    pentest.blog: What is LLMNR & WPAD and How to Abuse Them During Pentest ?
+    Aptive Consulting: LLMNR / NBT-NS Spoofing Attack Network Penetration Testing
+    GracefulSecurity: Stealing Accounts: LLMNR and NBT-NS Spoofing
+
+TL;DR - Attackers might be stealing all sorts of credentials on your network (everything from Active Directory credentials to personal email accounts to database passwords) from right under your nose and you may be completely unaware it's happening.
+```
 
 # Troubleshooting
 
@@ -140,25 +163,7 @@ In contrast to DNS servers, LLMNR hosts are authoritative for specific names tha
 LLMNR Message Structure  
 ![alt tag](https://docs.microsoft.com/en-us/previous-versions//images/bb878128.cg110601%28en-us%2ctechnet.10%29.gif)  
 
-* [Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing Feb 13, 2018](https://github.com/Rushyo/VindicateTool)  
-```
-What is Vindicate?
 
-Vindicate is a tool which detects name service spoofing, often used by IT network attackers to steal credentials (e.g. Windows Active Directory passwords) from users. It's designed to detect the use of hacking tools such as Responder, Inveigh, NBNSpoof, and Metasploit's LLMNR, NBNS, and mDNS spoofers, whilst avoiding false positives. This can allow a Blue Team to quickly detect and isolate attackers on their network. It takes advantage of the Windows event log to quickly integrate with an Active Directory network, or its output can be piped to a log for other systems.
-
-There's a diagram explaining spoofing attacks and how Vindicate works on the wiki.
-
-Requires .NET Framework 4.5.2
-```
-```
-What is LLMNR/NBNS/mDNS spoofing and why do I need to detect it?
-
-    pentest.blog: What is LLMNR & WPAD and How to Abuse Them During Pentest ?
-    Aptive Consulting: LLMNR / NBT-NS Spoofing Attack Network Penetration Testing
-    GracefulSecurity: Stealing Accounts: LLMNR and NBT-NS Spoofing
-
-TL;DR - Attackers might be stealing all sorts of credentials on your network (everything from Active Directory credentials to personal email accounts to database passwords) from right under your nose and you may be completely unaware it's happening.
-```
 [How it works 10 Dec 2017](https://github.com/Rushyo/VindicateTool/wiki/How-it-works)  
 ![alt tag](https://camo.githubusercontent.com/3be1fa5f8119e512da4ecb004e9c07b9a9dc9045/68747470733a2f2f692e696d6775722e636f6d2f3066445a6670352e706e67)  
 
