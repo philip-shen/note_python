@@ -13,6 +13,8 @@ Take note of Pholus
 [Chiron Installation guide](https://github.com/philip-shen/note_python/tree/master/Chiron#installation)  
 
 # Test Result  
+
+## mode=wlanadapter    
 ```
 (pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq -query _http._tcp
 ```
@@ -26,6 +28,105 @@ Take note of Pholus
 (pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq --dns_response Name==192.168.0.181.local/Type==A
 ```
 ![alt tag](https://i.imgur.com/JSlovCx.jpg)
+
+
+## mode=repeater  
+```
+(pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq -query _http._tcp
+```
+```
+source MAC address: 00:0c:29:0f:d0:f3 source IPv4 Address: 192.168.0.157 source IPv6 address: 2001:b011:20e0:305f:eead:e0ff:0:3
+Sniffer filter is: not ether src 00:0c:29:0f:d0:f3 and udp and port 5353
+I will sniff for 5 seconds, unless interrupted by Ctrl-C
+------------------------------------------------------------------------
+Sending mdns requests
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _http._tcp.local. PTR Class:IN "D-Link DIR-1750 Congiuration Utility._http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: D-Link DIR-1750 Congiuration Utility._http._tcp.local. TXT Class:32769 "['']"
+
+*********************************************RESULTS*********************************************
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _http._tcp.local. PTR Class:IN "D-Link DIR-1750 Congiuration Utility._http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: D-Link DIR-1750 Congiuration Utility._http._tcp.local. TXT Class:32769 "['']"
+```
+
+```
+(pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq --dns_response Name==192.168.0.181.local -stimeout 10
+```
+
+```
+source MAC address: 00:0c:29:0f:d0:f3 source IPv4 Address: 192.168.0.157 source IPv6 address: 2001:b011:20e0:305f:eead:e0ff:0:3
+Sniffer filter is: not ether src 00:0c:29:0f:d0:f3 and udp and port 5353
+I will sniff for 10 seconds, unless interrupted by Ctrl-C
+------------------------------------------------------------------------
+Sending mdns requests
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_dhnap._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_dhnap._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Question: WRC-1900GST2._http._tcp.local. * (ANY) QM Class:IN
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Question: WRC-1900GST2._http._tcp.local. * (ANY) QM Class:IN
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Question: WRC-1900GST2._http._tcp.local. * (ANY) QM Class:IN
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+
+*********************************************RESULTS*********************************************
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_dhnap._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _services._dns-sd._udp.local. PTR Class:IN "_dhnap._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Question: WRC-1900GST2._http._tcp.local. * (ANY) QM Class:IN
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Question: WRC-1900GST2._http._tcp.local. * (ANY) QM Class:IN
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Question: WRC-1900GST2._http._tcp.local. * (ANY) QM Class:IN
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=repeater', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'rssi=100', 'vendor=elecom', 'type=ap']"
+ba:4c:4c:df:e3:2b 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+```
+
+## mode=ap  
+```
+(pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq -query _http._tcp
+```
+```
+source MAC address: 00:0c:29:0f:d0:f3 source IPv4 Address: 192.168.0.157 source IPv6 address: 2001:b011:20e0:305f:eead:e0ff:0:3
+Sniffer filter is: not ether src 00:0c:29:0f:d0:f3 and udp and port 5353
+I will sniff for 5 seconds, unless interrupted by Ctrl-C
+------------------------------------------------------------------------
+Sending mdns requests
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _http._tcp.local. PTR Class:IN "D-Link DIR-1750 Congiuration Utility._http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: D-Link DIR-1750 Congiuration Utility._http._tcp.local. TXT Class:32769 "['']"
+bc:5c:4c:df:e3:29 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+bc:5c:4c:df:e3:29 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=ap', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'vendor=elecom', 'type=ap']"
+
+*********************************************RESULTS*********************************************
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: _http._tcp.local. PTR Class:IN "D-Link DIR-1750 Congiuration Utility._http._tcp.local."
+ec:ad:e0:17:12:5a 192.168.0.1 QUERY Answer: D-Link DIR-1750 Congiuration Utility._http._tcp.local. TXT Class:32769 "['']"
+bc:5c:4c:df:e3:29 192.168.0.181 QUERY Answer: _http._tcp.local. PTR Class:IN "WRC-1900GST2._http._tcp.local."
+bc:5c:4c:df:e3:29 192.168.0.181 QUERY Answer: WRC-1900GST2._http._tcp.local. TXT Class:32769 "['model=WRC-1900GST2', 'mode=ap', 'mac=bc:5c:4c:df:e3:29', 'ver=v1.14', 'vendor=elecom', 'type=ap']"
+
+```
+
+```
+
+```
+```
+
+```
 
 # Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing   
 [Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing Feb 13, 2018](https://github.com/Rushyo/VindicateTool)  
