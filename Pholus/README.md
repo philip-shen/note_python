@@ -3,12 +3,29 @@ Take note of Pholus
 
 # Table of Contents  
 [Installation](#installation)  
+[Test Result](#test-result)  
+
 [Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing](#rushyovindicatetool-llmnrnbnsmdns-spoofing)
 
 [Reference](#reference)  
 
 # Installation  
 [Chiron Installation guide](https://github.com/philip-shen/note_python/tree/master/Chiron#installation)  
+
+# Test Result  
+```
+(pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq -query _http._tcp
+```
+![alt tag](https://i.imgur.com/WpAyyzF.jpg)  
+
+```
+(pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq --dns_response Name==192.168.0.181.local
+```
+![alt tag](https://i.imgur.com/zgFmYna.jpg)  
+```
+(pholus) root@ubuntu:/home/test/Pholus# python pholus.py eth0 -rq --dns_response Name==192.168.0.181.local/Type==A
+```
+![alt tag](https://i.imgur.com/JSlovCx.jpg)
 
 # Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing   
 [Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing Feb 13, 2018](https://github.com/Rushyo/VindicateTool)  
