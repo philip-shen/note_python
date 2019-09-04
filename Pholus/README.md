@@ -4,6 +4,9 @@ Take note of Pholus
 # Table of Contents  
 [Installation](#installation)  
 [Test Result](#test-result)  
+[mode=wlanadapter](#modewlanadapter)  
+[mode=repeater](#moderepeater)  
+[mode=ap](#modeap)  
 
 [Rushyo/VindicateTool: LLMNR/NBNS/mDNS Spoofing](#rushyovindicatetool-llmnrnbnsmdns-spoofing)
 
@@ -11,6 +14,7 @@ Take note of Pholus
 
 # Installation  
 [Chiron Installation guide](https://github.com/philip-shen/note_python/tree/master/Chiron#installation)  
+## Replace pholus.py on GitHub with your Linux server.  
 
 # Test Result  
 
