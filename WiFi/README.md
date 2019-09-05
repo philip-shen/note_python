@@ -22,6 +22,14 @@ Prerequisites:
 packetEssentials-1.2.0 pbkdf2-1.3 pycryptodomex-3.4.5 rc4-0.1 scapy 2.4.0
 ```
 
+# wps  
+[wps](https://github.com/devttys0/wps)  
+```
+wps
+
+Utilities related to WiFi Protected Setup security.
+```
+
 # Heatmap of WiFi
 [WiFiヒートマップをPYTHONで動かしてみた Apr 25, 2019](https://qiita.com/JUN91824893/items/7c8cb91b580abc284a18)  
 ```
