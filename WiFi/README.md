@@ -3,6 +3,25 @@ Take some note of WiFi
 
 # Table of Content
 
+# pyDot11  
+[pyDot11](https://github.com/ICSec/pyDot11)  
+```
+pyDot11 currently supports the following:
+
+
+    Decryption of WEP
+    Encryption of WEP
+    Decryption of WPA
+        TKIP
+        CCMP
+    Encryption of WPA
+        CCMP
+
+Prerequisites:
+
+packetEssentials-1.2.0 pbkdf2-1.3 pycryptodomex-3.4.5 rc4-0.1 scapy 2.4.0
+```
+
 # Heatmap of WiFi
 [WiFiヒートマップをPYTHONで動かしてみた Apr 25, 2019](https://qiita.com/JUN91824893/items/7c8cb91b580abc284a18)  
 ```
