@@ -4,6 +4,9 @@ Leave some tracks of topic.
 # Table of Content
 [Active Selenium and Headless Chrome and Python3 on Docker](https://github.com/philip-shen/note_python/tree/master/crawl#active-selenium-and-headless-chrome-and-python3-on-docker) 
 
+[Watir](#watir)  
+
+[Reference](#reference)  
 
 # Active Selenium and Headless Chrome and Python3 on Docker
 * [Docker上でSeleniumとHeadless ChromeとPython3を動かす 2018-07-04](https://qiita.com/sikkim/items/447b72e6ec45849058cd)
@@ -26,6 +29,43 @@ docker-compose up -d
 
 ![alt tag](https://i.imgur.com/5DC7L1Y.jpg)
 
+# Watir  
+[Browser automation with Watir - guide (not only) for testers Apr 25, 2017](https://binarapps.com/blog/browser-automation-with-watir-guide/)  
+
+*Finding elements* 
+```
+The browser class includes the `Container` module, allowing us to access child elements through their HTML tags (all supported HTML5 tags are included), input type (e.g. “text_field” or “radio”) or through generic “element” keyword.
+
+Most elements we interact with also include this module, so we can access their child elements using the very same methods.
+
+These methods take selectors as parameters - a selector is a key-value pair consisting of a property to be checked and the value we're looking for. Most importantly, you can locate elements based on their text or HTML attributes.
+
+The list of handled attributes is finite, but extensive. If you're not sure, just give it a try (remember to replace dashes with underscores, e.g. in “data-something” attributes). If an attribute isn't supported, you can always use `xpath: ''` and `css: ''` locators to make up for it.
+
+If multiple elements fit the description, the first one is selected.
+```
+
+[Finding Page Elements](https://github.com/watir/watir_meta/wiki/Finding-Page-Elements)  
+[Using IRB 29 Jun 2013](https://github.com/watir/watir_meta/wiki/Using-IRB)  
+[Use IRB to Find Page Objects](https://github.com/watir/watir_meta/wiki/Using-IRB#use-irb-to-find-page-objects)  
+```
+Use IRB to Find Page Objects
+
+To find out what objects are on a page you are writing a test script for, use IRB to get instant feedback.
+
+The show_all_objects method is a useful way to identify the attributes of objects you will need to use in a test script.
+```
+```
+irb(main):003:0> ie.show_all_objects
+-----------Objects in page -------------
+text name=test_text id= 11 value= alt= src=
+submit name=test_button id= 12 value=Click Me alt= click src=
+```
+[Do we have to initialize class methods in Watir:Browser before using them? Jun 20, 2016](https://stackoverflow.com/questions/36411811/do-we-have-to-initialize-class-methods-in-watirbrowser-before-using-them)  
+```
+The show_all_objects method does not exist. The method existed in the original Watir implementation, which is now called Watir-Classic. However, the method was removed in Aug 2012. The method was never implemented in Watir-Webdriver.
+```
+
 # Reference
 * [在Windows上安裝Python & Selenium + 簡易教學 May 21, 2018](https://medium.com/@NorthBei/%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpython-selenium-%E7%B0%A1%E6%98%93%E6%95%99%E5%AD%B8-eade1cd2d12d)
 Step2.安裝Selenium
@@ -38,6 +78,14 @@ Step3.下載webdriver
 1.Global — 把webdriver放在Python的安裝目錄
 
 2.Local — 把webdriver放在跟python file同一個資料夾內
+```
+
+* [How do I install ChromeDriver on Windows 10 and run Selenium tests with Chrome? asked Oct 15 '15](https://stackoverflow.com/questions/33150351/how-do-i-install-chromedriver-on-windows-10-and-run-selenium-tests-with-chrome)  
+```
+1. Download the chromedriver.exe and save it to a desired location
+2. Specify the executable_path to its saved path
+
+As Uri stated in Update #2 of the question, if we put the chromedriver.exe under C:/Windows, then there is no need to specify executable_path since Python will search under C:/Windows.
 ```
 
 * [[Python] selenium 的等待 2019-01-17](http://stackoverflow.max-everyday.com/2019/01/python-selenium-wait/)
@@ -62,7 +110,7 @@ An important thing to mention is that Socks5 is popular among users who don’t 
 Docker 安裝完成後，開啟在左側找到倉庫伺服器，然後搜尋「gists-shadowsocks」這名稱可能有時搜了找不到內容，可以自己增減文字搜看看，反正最後要安裝的是「gists/shadowsocks-libev」這個套件。
 ```
 
-* []()
+* []()  
 ![alt tag]()
 
 # h1 size
