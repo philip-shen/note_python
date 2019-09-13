@@ -2,6 +2,55 @@
 Take some note of WiFi
 
 # Table of Content
+[How to Perform Automated WiFi (WPA/WPA2) Cracking](#how-to-perform-automated-wifi-(WPA/WPA2)-cracking)  
+[pyDot11](#pydot11)  
+[wps](#wps)  
+[Heatmap of WiFi](#heatmap-of-wifi)  
+
+# How to Perform Automated WiFi (WPA/WPA2) Cracking  
+[How to Perform Automated WiFi (WPA/WPA2) Cracking 18 November 2018](https://www.shellvoide.com/wifi/how-to-perform-automated-wifi-wpa-wpa2-cracking/2222222214)  
+```
+
+WiFite :-
+
+WiFite is an automated WiFi Cracking tool written in Python. It is basically a combination of various famous pentest tools like airmon, aircrack and reaver etc. It is widely used for cracking WEP and WPA (WPS) wireless networks. WiFite version 2 has been released and is likely to be already installed if you are running Kali or Parrot linux distros.
+
+However, since i want this tutorial to be followed by the users of Raspberry Pi and Ubuntu as well, we will make a head-start installing installing WiFite.
+```
+
+## STEP 5 WPA/WPA2 cracking using PMKID  
+```
+Lately, a new method was discovered by Jen Steube for cracking WPA/WPA2. The difference in between handshake and PMKID is that handshake requires the whole 4-way handshake to compute the key to be bruteforced. However, with this new trick an attacker make the Access Point transfer the first EAPOL message which contains the key to be bruteforced. PMKID attack requires two more tools. Install hcxtools:
+```
+```
+$ git clone https://github.com/ZerBea/hcxtools.git
+$ cd hcxtools
+$ sudo make && sudo make install
+```
+
+```
+Then install hcxdumptool:
+```
+```
+$ git clone https://github.com/ZerBea/hcxdumptool.git
+$ cd hcxdumptool/
+$ sudo make && sudo make install
+```
+
+```
+To crack WiFi Networks using pmkid attack:
+
+$ wifite -i wlan1mon --verbose --nodeauths \
+    --pmkid --pmkid-timeout 40 --dict /path/to/wordlist
+```
+```
+Arguments:
+
+    --pmkid: Only use PMKID to crack wireless networks.
+    --pmkid-timeout: Timeout for first Message to receive.
+    --dict: Wordlist with passwords to brute force.
+```
+![alt tag](https://www.shellvoide.com/media/images/common/3471153439.jpeg)
 
 # pyDot11  
 [pyDot11](https://github.com/ICSec/pyDot11)  
@@ -30,7 +79,7 @@ wps
 Utilities related to WiFi Protected Setup security.
 ```
 
-# Heatmap of WiFi
+# Heatmap of WiFi  
 [WiFiヒートマップをPYTHONで動かしてみた Apr 25, 2019](https://qiita.com/JUN91824893/items/7c8cb91b580abc284a18)  
 ```
 屋内のWiFi電波状況を可視化する。電波の悪いところが見える化されるので中継器をどこに置くかが容易にわかる。アイオーデータ社のWi-Fiミレル等が有名。
