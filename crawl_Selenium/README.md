@@ -9,6 +9,7 @@ Take note of Selenium
 
 [Selenium and python](#selenium-and-python)  
 
+[Reference](#reference) 
 
 # Selenium IDE Hand On  
 [10分でわかるブラウザ処理自動化！初心者向けSelenium IDE入門ガイド (2019/08版 : Selenium IDE v3.12.0)  2019-09-01](https://qiita.com/oh_rusty_nail/items/5b584c95e01759c00869)  
