@@ -97,9 +97,15 @@ ModuleNotFoundError: No module named 'tabular'
 
 
 # Reference
-* []()  
+* [Wireless Sniffing: How to Build a simple WiFi Sniffer in Python 21 July 2018](https://www.shellvoide.com/python/how-to-code-a-simple-wireless-sniffer-in-python/)  
 ```
-  
+In this tutorial, we are going to build a wireless sniffer using Python by manipulating fields from captured packets. You might have seen airodump working before and had observed that how it excellently sniff and manipulate packets over the air while hopping through random channels. We will try to extract network ESSIDs and will take utmost care of various possibilities of how the packet is sequenced.
+
+But before, let's dig into the beacon frames. The beacon frame is one of the management frames in 802.11 specifications by IEEE and is sent from Access Point to let other stations know of its presence. This helps stations recognizing various characteristics like Cipher, Channel and encryption the AP is using. Tough we will not study any other packet but such an identical frame is Probe response frame which is also sent from APs.
+
+Prerequisities
+
+A bit knowledge of networking and previous experience with scapy and Python. Scapy is what we are going to use throughout the rest of this tutorial.   
 ```
 
 * []()  
