@@ -31,7 +31,7 @@ docker-compose up -d
 ![alt tag](https://i.imgur.com/5DC7L1Y.jpg)
 
 # Python and Selenium on Windows   
-[在Windows上安裝Python & Selenium + 簡易教學 May 21, 2018](https://medium.com/@NorthBei/%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpython-selenium-%E7%B0%A1%E6%98%93%E6%95%99%E5%AD%B8-eade1cd2d12d)
+[在Windows上安裝Python & Selenium + 簡易教學 May 21, 2018](https://medium.com/@NorthBei/%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpython-selenium-%E7%B0%A1%E6%98%93%E6%95%99%E5%AD%B8-eade1cd2d12d)  
 Step2.安裝Selenium
 ```
 pip install selenium
