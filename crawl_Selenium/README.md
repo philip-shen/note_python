@@ -50,6 +50,11 @@ Selenium IDEについては、2019/08時点での最新の記事を書きまし�
 * [Selenium IDE コマンドリファレンス (2019/09版 : Selenium IDE v3.12.0 [全96コマンドを徹底解説])  2019-09-08](https://qiita.com/oh_rusty_nail/items/77782973b4152992017b)  
 * [Selenium IDEで作ったテストをselenium-side-runnerを使ってheadlessで動かしてTravisCIでビルドする 2019-09-09](https://qiita.com/oh_rusty_nail/items/3844f10e2dd83e9e2f27)  
 
+* [Clear text from textarea with selenium Jan 6, 2015](https://stackoverflow.com/questions/7732125/clear-text-from-textarea-with-selenium)  
+```
+driver.find_element_by_id('foo').clear()
+```
+
 * [【python】飲み会の開催場所をwebスクレイピングで決めてみた 2019-03-11](https://qiita.com/Fuminori_Souma/items/52deb61146407acdce59)  
 ```
 環境
