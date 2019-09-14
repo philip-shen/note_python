@@ -77,6 +77,12 @@ pythonを選んだのは、今後、仕事で使う予定があるため。
     Python 3 (言語、IDE)
     Seleniumライブラリ
 ```
+* [Selenium IDE commands ](https://ui.vision/docs/selenium-ide)  
+```
+Flow Control and !statusOK
+
+!statusOK is an internal variable that contains the status of the last executed command. Thus its value is true if the command was successful or false if the command encountered an error. It is typically used with !ErrorIgnore set to true so the macro execution continues after an error. 
+```
 
 
 ```
