@@ -2,7 +2,7 @@
 Leave some tracks of topic.
 
 # Table of Content
-[Active Selenium and Headless Chrome and Python3 on Docker](https://github.com/philip-shen/note_python/tree/master/crawl#active-selenium-and-headless-chrome-and-python3-on-docker) 
+[Active Selenium and Headless Chrome and Python3 on Docker](https://github.com/philip-shen/note_python/tree/master/crawl#active-selenium-and-headless-chrome-and-python3-on-docker)[Python and Selenium on Windows](#python-and-selenium-on-windows)   
 
 [Watir](#watir)  
 
@@ -28,6 +28,28 @@ docker-compose up -d
 ![alt tag](https://i.imgur.com/nXnHGTq.jpg)
 
 ![alt tag](https://i.imgur.com/5DC7L1Y.jpg)
+
+# Python and Selenium on Windows   
+[在Windows上安裝Python & Selenium + 簡易教學 May 21, 2018](https://medium.com/@NorthBei/%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpython-selenium-%E7%B0%A1%E6%98%93%E6%95%99%E5%AD%B8-eade1cd2d12d)
+Step2.安裝Selenium
+```
+pip install selenium
+```
+
+Step3.下載webdriver
+```
+1.Global — 把webdriver放在Python的安裝目錄
+
+2.Local — 把webdriver放在跟python file同一個資料夾內
+```
+
+* [How do I install ChromeDriver on Windows 10 and run Selenium tests with Chrome? asked Oct 15 '15](https://stackoverflow.com/questions/33150351/how-do-i-install-chromedriver-on-windows-10-and-run-selenium-tests-with-chrome)  
+```
+1. Download the chromedriver.exe and save it to a desired location
+2. Specify the executable_path to its saved path
+
+As Uri stated in Update #2 of the question, if we put the chromedriver.exe under C:/Windows, then there is no need to specify executable_path since Python will search under C:/Windows.
+```
 
 # Watir  
 [Browser automation with Watir - guide (not only) for testers Apr 25, 2017](https://binarapps.com/blog/browser-automation-with-watir-guide/)  
@@ -67,26 +89,6 @@ The show_all_objects method does not exist. The method existed in the original W
 ```
 
 # Reference
-* [在Windows上安裝Python & Selenium + 簡易教學 May 21, 2018](https://medium.com/@NorthBei/%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpython-selenium-%E7%B0%A1%E6%98%93%E6%95%99%E5%AD%B8-eade1cd2d12d)
-Step2.安裝Selenium
-```
-pip install selenium
-```
-
-Step3.下載webdriver
-```
-1.Global — 把webdriver放在Python的安裝目錄
-
-2.Local — 把webdriver放在跟python file同一個資料夾內
-```
-
-* [How do I install ChromeDriver on Windows 10 and run Selenium tests with Chrome? asked Oct 15 '15](https://stackoverflow.com/questions/33150351/how-do-i-install-chromedriver-on-windows-10-and-run-selenium-tests-with-chrome)  
-```
-1. Download the chromedriver.exe and save it to a desired location
-2. Specify the executable_path to its saved path
-
-As Uri stated in Update #2 of the question, if we put the chromedriver.exe under C:/Windows, then there is no need to specify executable_path since Python will search under C:/Windows.
-```
 
 * [[Python] selenium 的等待 2019-01-17](http://stackoverflow.max-everyday.com/2019/01/python-selenium-wait/)
 * [[Python] How to handle alerts in selenium? 2019-03-18](http://stackoverflow.max-everyday.com/2019/03/python-how-to-handle-alerts-in-selenium/)
