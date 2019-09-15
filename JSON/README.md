@@ -6,6 +6,7 @@ Take some note of JSON
 [Writing a JSON file](#writing-a-json-file)  
 [Reading JSON](#reading-json)  
 
+[Python JSON: Encode(dump), Decode(load) json Data & File (Example)]()  
 
 # How to use JSON with Python  
 [How to use JSON with Python 06 Apr 2019](https://developer.rhino3d.com/guides/rhinopython/python-xml-json/)  
@@ -47,6 +48,22 @@ if filename:
 print datastore["office"]["parking"]["style"]
 ```
 [How to read and write a simple file 05 Dec 2018](https://developer.rhino3d.com/guides/rhinopython/python-reading-writing/)  
+
+# Python JSON: Encode(dump), Decode(load) json Data & File (Example)   
+[Python JSON: Encode(dump), Decode(load) json Data & File (Example) ](https://www.guru99.com/python-json.html)  
+
+Python to JSON (Encoding)
+
+Python | JSON
+------------------------------------ | ---------------------------------------------
+dict | Object
+list | Array
+unicode | String
+number - int, long | number – int
+float | number – real
+True | True
+False | False
+None | Null 
 
 # Reference
 * [Why can't Python parse this JSON data? Mar 19, 2019](https://stackoverflow.com/questions/2835559/why-cant-python-parse-this-json-data)  

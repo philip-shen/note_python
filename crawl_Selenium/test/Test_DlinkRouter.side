@@ -2276,6 +2276,154 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "72603f93-d554-4a41-b238-1868326bd2e0",
+    "name": "test_dir1750_SysReboot",
+    "commands": [{
+      "id": "1546e686-1a15-4a18-ae20-2e8bf4240503",
+      "comment": "",
+      "command": "open",
+      "target": "/info/Login.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2f89ccfd-4b7b-4be5-a826-97f7801df98e",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1454x813",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "23fd0738-78db-495e-8f3d-565f80ef1d3c",
+      "comment": "",
+      "command": "click",
+      "target": "id=logIn_btn",
+      "targets": [
+        ["id=logIn_btn", "id"],
+        ["css=#logIn_btn", "css:finder"],
+        ["xpath=//button[@id='logIn_btn']", "xpath:attributes"],
+        ["xpath=//div[@id='logIn']/center/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Log In')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e9cec7b1-fe82-4793-bd23-07e7d3e5802d",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=menu_Management",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a6440d86-00c9-4b13-9907-dc3441401511",
+      "comment": "",
+      "command": "click",
+      "target": "id=menuBtn_Admin",
+      "targets": [
+        ["id=menuBtn_Admin", "id"],
+        ["linkText=System Admin", "linkText"],
+        ["css=#menuBtn_Admin", "css:finder"],
+        ["xpath=//a[contains(text(),'System Admin')]", "xpath:link"],
+        ["xpath=//a[@id='menuBtn_Admin']", "xpath:attributes"],
+        ["xpath=//li[@id='m_Management']/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'javascript:CheckHTMLStatus(\"Admin\");')]", "xpath:href"],
+        ["xpath=//li[4]/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'System Admin')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aa0c7fab-e659-4379-a14a-7ca71bc368d5",
+      "comment": "",
+      "command": "click",
+      "target": "id=page_btn",
+      "targets": [
+        ["id=page_btn", "id"],
+        ["css=#page_btn", "css:finder"],
+        ["xpath=//div[@id='page_btn']", "xpath:attributes"],
+        ["xpath=//ul[@id='rightFunc']/li[3]/a/div", "xpath:idRelative"],
+        ["xpath=//a/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "556a8a2d-f151-4930-a595-4cb136d576cf",
+      "comment": "",
+      "command": "click",
+      "target": "id=btn_reboot",
+      "targets": [
+        ["id=btn_reboot", "id"],
+        ["css=#btn_reboot", "css:finder"],
+        ["xpath=//button[@id='btn_reboot']", "xpath:attributes"],
+        ["xpath=//table[@id='rebootSetting']/tbody/tr[2]/td/div/button", "xpath:idRelative"],
+        ["xpath=//tr[2]/td/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5a5ce62a-252f-4d18-b6d1-7927186ffd54",
+      "comment": "",
+      "command": "click",
+      "target": "id=dialogBtn_rebootOk",
+      "targets": [
+        ["id=dialogBtn_rebootOk", "id"],
+        ["css=#dialogBtn_rebootOk", "css:finder"],
+        ["xpath=//div[@id='dialogBtn_rebootOk']", "xpath:attributes"],
+        ["xpath=//div[@id='REBOOTCheck']/table[2]/tbody/tr/td/div", "xpath:idRelative"],
+        ["xpath=//div[5]/table[2]/tbody/tr/td/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "40610f34-b292-4e69-9bd2-369c9a8882d7",
+      "comment": "",
+      "command": "waitForElementNotPresent",
+      "target": "xpath=//div[@id='REBOOTCheck']/table/tbody/tr/td",
+      "targets": [],
+      "value": "130000"
+    }, {
+      "id": "29657a34-cd1c-4cea-b128-43dadb8c7b76",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='SuccessREBOOT']",
+      "targets": [
+        ["id=SuccessREBOOT", "id"],
+        ["css=#SuccessREBOOT", "css:finder"],
+        ["xpath=//div[@id='SuccessREBOOT']", "xpath:attributes"],
+        ["xpath=//div[@id='AlertPopBody']/div[7]", "xpath:idRelative"],
+        ["xpath=//div[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e6e70d91-e2de-4fc7-a7cb-c697084fcea5",
+      "comment": "",
+      "command": "click",
+      "target": "id=SuccessREBOOT",
+      "targets": [
+        ["id=SuccessREBOOT", "id"],
+        ["css=#SuccessREBOOT", "css:finder"],
+        ["xpath=//div[@id='SuccessREBOOT']", "xpath:attributes"],
+        ["xpath=//div[@id='AlertPopBody']/div[7]", "xpath:idRelative"],
+        ["xpath=//div[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9fc1e541-6755-4f92-bd03-c7530610cabd",
+      "comment": "",
+      "command": "click",
+      "target": "id=dialogBtn_rebootSuccess",
+      "targets": [
+        ["id=dialogBtn_rebootSuccess", "id"],
+        ["css=#dialogBtn_rebootSuccess", "css:finder"],
+        ["xpath=//div[@id='dialogBtn_rebootSuccess']", "xpath:attributes"],
+        ["xpath=//div[@id='SuccessREBOOT']/table[2]/tbody/tr/td/center/div", "xpath:idRelative"],
+        ["xpath=//div[7]/table[2]/tbody/tr/td/center/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c2a14127-1b68-4a18-af6d-efa2e407268b",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "5a5159ee-9d55-4de0-9eec-764d1cc101cc",
