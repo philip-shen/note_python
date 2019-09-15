@@ -1,10 +1,52 @@
 # note of_JSON
 Take some note of JSON
 
-# Table of Content
+# Table of Content  
+[How to use JSON with Python](#how-to-use-json-with-python)  
+[Writing a JSON file](#writing-a-json-file)  
+[Reading JSON](#reading-json)  
 
-# 
 
+# How to use JSON with Python  
+[How to use JSON with Python 06 Apr 2019](https://developer.rhino3d.com/guides/rhinopython/python-xml-json/)  
+## Writing a JSON file  
+```
+Not only can the json.dumps() function convert a Python datastructure to a JSON string, 
+but it can also dump a JSON string directly into a file. Here is an example of writing a structure above to a JSON file:
+```
+```
+#Get the file name for the new file to write
+filter = "JSON File (*.json)|*.json|All Files (*.*)|*.*||"
+filename = rs.SaveFileName("Save JSON file as", filter)
+
+# If the file name exists, write a JSON string into the file.
+if filename:
+    # Writing JSON data
+    with open(filename, 'w') as f:
+        json.dump(datastore, f)
+```
+
+## Reading JSON  
+```
+Reading in a JSON file uses the json.load() function.
+```
+```
+import rhinoscriptsyntax as rs
+import json
+
+#prompt the user for a file to import
+filter = "JSON file (*.json)|*.json|All Files (*.*)|*.*||"
+filename = rs.OpenFileName("Open JSON File", filter)
+
+#Read JSON data into the datastore variable
+if filename:
+    with open(filename, 'r') as f:
+        datastore = json.load(f)
+
+#Use the new datastore datastructure
+print datastore["office"]["parking"]["style"]
+```
+[How to read and write a simple file 05 Dec 2018](https://developer.rhino3d.com/guides/rhinopython/python-reading-writing/)  
 
 # Reference
 * [Why can't Python parse this JSON data? Mar 19, 2019](https://stackoverflow.com/questions/2835559/why-cant-python-parse-this-json-data)  
