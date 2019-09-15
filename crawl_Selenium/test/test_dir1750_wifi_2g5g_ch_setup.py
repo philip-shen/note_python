@@ -16,17 +16,74 @@ class Test_dir1750_wifi_2G5G_Setup():
   def setup_method(self):
     self.vars = {}
   
-  def teardown_method(self):
+  def method_teardown(self):
     self.driver.quit()
 
-  def close_method(self):
+  def method_close(self):
     self.driver.close()  
   
   def wifi_Login(self):
     self.driver.get("http://192.168.0.1/")
-    self.driver.set_window_size(1080, 605)
+    self.driver.set_window_size(1080, 705)
     self.driver.find_element(By.ID, "logIn_btn").click()
   
+  def sys_Reset(self):
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Management")))
+    element = self.driver.find_element(By.ID, "menu_Management")
+    actions = ActionChains(self.driver)
+    actions.move_to_element(element).perform()
+
+    self.driver.find_element(By.ID, "menuBtn_Admin").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "page_btn")))
+    self.driver.find_element(By.ID, "page_btn").click()
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_restorToFactoryDefault")))
+    self.driver.find_element(By.ID, "btn_restorToFactoryDefault").click()
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_restorToFactoryDefaultOk")))
+    self.driver.find_element(By.ID, "dialogBtn_restorToFactoryDefaultOk").click()
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "AlertPopBody")))
+    self.driver.find_element(By.ID, "AlertPopBody").click()
+    
+    #Count down
+    WebDriverWait(self.driver, 130000).until(expected_conditions.invisibility_of_element_located((By.ID, "FACTORYDEFAULT")))
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_restorToFactoryDefaultSuccess")))
+    self.driver.find_element(By.ID, "dialogBtn_restorToFactoryDefaultSuccess").click()
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_agree")))
+    self.driver.find_element(By.ID, "btn_agree").click()
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "closeCreatePopBtn")))
+    self.driver.find_element(By.ID, "closeCreatePopBtn").click()
+
+  def sys_Reboot(self):
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Management")))
+    element = self.driver.find_element(By.ID, "menu_Management")
+    actions = ActionChains(self.driver)
+    actions.move_to_element(element).perform()
+
+    self.driver.find_element(By.ID, "menuBtn_Admin").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "page_btn")))
+    self.driver.find_element(By.ID, "page_btn").click()
+
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_reboot")))
+    self.driver.find_element(By.ID, "btn_reboot").click()
+    
+    #Wait dialogue
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "//div[@id=\'REBOOTCheck\']/table/tbody/tr/td")))
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_rebootOk")))
+    self.driver.find_element(By.ID, "dialogBtn_rebootOk").click()
+    
+    #Count down
+    WebDriverWait(self.driver, 130000).until(expected_conditions.invisibility_of_element_located((By.ID, "REBOOT")))
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_rebootSuccess")))
+    self.driver.find_element(By.ID, "dialogBtn_rebootSuccess").click()
+
   def wifi_SmartConnDisable(self):
     WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Settings")))
     element = self.driver.find_element(By.ID, "menu_Settings")
@@ -57,31 +114,99 @@ class Test_dir1750_wifi_2G5G_Setup():
     
     self.driver.find_element(By.ID, "wifiName_24").clear()
     self.driver.find_element(By.ID, "password_24").clear()
-
     self.driver.find_element(By.ID, "wifiName_24").send_keys("testdlink-2G")
     self.driver.find_element(By.ID, "password_24").send_keys("00000000")
+
     self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[8]").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "1")))
     self.driver.find_element(By.LINK_TEXT, "1").click()
+    
     self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[12]").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "Auto 20/40 MHz")))
     self.driver.find_element(By.LINK_TEXT, "Auto 20/40 MHz").click()
+    
+    #self.driver.find_element(By.CSS_SELECTOR, ".radio24_advBtn > span").click()    
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "#coexistence_24_tr .chkbox_enabled")))
+    #self.driver.find_element(By.CSS_SELECTOR, "#coexistence_24_tr .chkbox_enabled").click()
+
     self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[14]").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "Visible")))
     self.driver.find_element(By.LINK_TEXT, "Visible").click()
 
     WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "#RADIO_5 > .advButton > span")))
     self.driver.find_element(By.CSS_SELECTOR, "#RADIO_5 > .advButton > span").click()
+
+    self.driver.find_element(By.ID, "wifiName_5").clear()
+    self.driver.find_element(By.ID, "password_5").clear()
+    self.driver.find_element(By.ID, "wifiName_5").send_keys("testdlink-5G")
+    self.driver.find_element(By.ID, "password_5").send_keys("00000000")
+    
     self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[30]").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "Invisible")))
     self.driver.find_element(By.LINK_TEXT, "Invisible").click()
+    
+    
     self.driver.find_element(By.ID, "Save_btn").click()
     WebDriverWait(self.driver, 50000).until(expected_conditions.visibility_of_element_located((By.ID, "popalert_ok")))
     self.driver.find_element(By.XPATH, "//button[@id=\'popalert_ok\']").click()
+
+  def wifi_5g_ch_setup(self):
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Settings")))   
+    element = self.driver.find_element(By.ID, "menu_Settings")
+    actions = ActionChains(self.driver)
+    actions.move_to_element(element).perform()
+    self.driver.find_element(By.ID, "menuBtn_WiFi").click()
     
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".radio24_advBtn > span")))
+    self.driver.find_element(By.CSS_SELECTOR, ".radio24_advBtn > span").click()
+    
+    self.driver.find_element(By.ID, "wifiName_24").clear()
+    self.driver.find_element(By.ID, "password_24").clear()
+    self.driver.find_element(By.ID, "wifiName_24").send_keys("testdlink-2G")
+    self.driver.find_element(By.ID, "password_24").send_keys("00000000")
+
+    #self.driver.find_element(By.XPATH, "//a[@id=\'sbToggle_52664832\']").click()
+    self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[14]").click()
+    self.driver.find_element(By.LINK_TEXT, "Invisible").click()
+    
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "#RADIO_5 > .advButton > span")))
+    self.driver.find_element(By.CSS_SELECTOR, "#RADIO_5 > .advButton > span").click()
+    self.driver.find_element(By.XPATH, "//div[@id=\'RADIO_5\']/table/tbody/tr[3]").click()
+
+
+    self.driver.find_element(By.ID, "wifiName_5").clear()
+    self.driver.find_element(By.ID, "password_5").clear()
+    self.driver.find_element(By.ID, "wifiName_5").send_keys("testdlink-5G")
+    self.driver.find_element(By.ID, "password_5").send_keys("00000000")
+    
+    self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[20]").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "WPA/WPA2-Personal")))    
+    self.driver.find_element(By.LINK_TEXT, "WPA/WPA2-Personal").click()
+
+    self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[24]").click()
+    self.driver.find_element(By.LINK_TEXT, "149").click()
+    
+    self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[28]").click()
+    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "(//a[contains(text(),\'Auto 20/40/80 MHz\')])[2]")))    
+    self.driver.find_element(By.XPATH, "(//a[contains(text(),\'Auto 20/40/80 MHz\')])[2]").click()
+
+    self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[30]").click()
+    self.driver.find_element(By.LINK_TEXT, "Visible").click()
+    self.driver.find_element(By.ID, "Save_btn").click()
+    WebDriverWait(self.driver, 50000).until(expected_conditions.visibility_of_element_located((By.ID, "popalert_ok")))
+    self.driver.find_element(By.ID, "popalert_ok").click()
+
 if __name__ == '__main__':
   local_dir1750_wifi_Setup=Test_dir1750_wifi_2G5G_Setup()
 
   local_dir1750_wifi_Setup.wifi_Login()
+  local_dir1750_wifi_Setup.sys_Reset()
+  #local_dir1750_wifi_Setup.sys_Reboot()
+
   #local_dir1750_wifi_Setup.wifi_SmartConnDisable()
   
-  local_dir1750_wifi_Setup.wifi_2g_ch_setup()
+  #local_dir1750_wifi_Setup.wifi_2g_ch_setup()
+  #local_dir1750_wifi_Setup.wifi_5g_ch_setup()
 
-  local_dir1750_wifi_Setup.close_method()
-  local_dir1750_wifi_Setup.teardown_method()
+  local_dir1750_wifi_Setup.method_close()
+  local_dir1750_wifi_Setup.method_teardown()
