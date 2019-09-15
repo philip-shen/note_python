@@ -1,0 +1,38 @@
+{
+    "WLANtoLAN":[
+        {"test_case": {
+            "id": "dlink_wifi_000",
+            "description": "wifi_2.4G_channel01_enable"
+            },
+        "dut":{
+            "mode_name":"DIR1750",
+            "fw_version":"1.00b17",
+            "hw_version":"A1",
+            "ip_address":"192.168.0.1"
+            },
+        "wifi_2g":{
+            "ssid":"testdlink-2g",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",
+            "channel":"1",
+            "channel_width":"Auto 20/40 MHz",
+            "Visibility Status":"Visible"
+            },
+        "wifi_5g":{
+            "ssid":"testdlink-5g",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",        
+            "Visibility Status":"Invisible"
+            }
+
+        }
+
+    ],
+    "LANtoWLAN":[
+
+    ],
+    "WLANtoLANtoWLAN":[
+
+    ]
+    
+}
