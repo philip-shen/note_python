@@ -9,6 +9,8 @@ Take note of Selenium
 
 [Selenium and python](#selenium-and-python)  
 
+[Selenium 4](#selenium-4)  
+
 [Reference](#reference) 
 
 # Selenium IDE Hand On  
@@ -38,6 +40,12 @@ pip install selenium
 これだけ
 ```
 
+# Selenium 4  
+[Selenium 4 is releasing soon: What every QA must know? Dec 4, 2018 ](https://medium.com/@muntasir./selenium-4-is-releasing-soon-what-every-qa-must-know-c82d4914be0a)  
+
+## W3C WebDriver Standardization  
+[WebDriver W3C specs](https://github.com/w3c/webdriver)  
+## Selenium 4 IDE  
 
 # Reference
 * [全国のSeleniumer必読 2019-09-09](https://qiita.com/oh_rusty_nail/items/b8ba525d31ea7c522856#jenkins)  
