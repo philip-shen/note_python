@@ -9,6 +9,7 @@ Take note of Scapy
 [Step 4 Capture Packets by WiFi Client](#step-4-capture-packets-by-wifi-client)  
 
 [Scapy can't see/use some Ethernet interfaces on Windows](#scapy-cant-seeuse-some-ethernet-interfaces-on-windows)  
+[Why Scapy ICMP can't get answer but “ping” works fine](#why-scapy-icmp-cant-get-answer-but-ping-works-fine)  
 
 [Reference](#reference)  
 
@@ -124,6 +125,13 @@ That’s not scapy’s fault, have a look at the compatibility between your adap
 You can try switching to Npcap if you are using Winpcap, or the opposite (which is less likely to work and less recommanded)
 ```
 
+# Why Scapy ICMP can't get answer but “ping” works fine  
+[Why Scapy ICMP can't get answer but “ping” works fine ](https://stackoverflow.com/questions/51873098/why-scapy-icmp-cant-get-answer-but-ping-works-fine)
+```
+Try using something like this:
+
+sr1(IP(dst="10.18.90.254") / ICMP())
+```
 
 # Reference  
 * [Scapy入門 2019-06-14](https://qiita.com/shoooooo/items/4080752d0d8c7a9ef2aa)  
