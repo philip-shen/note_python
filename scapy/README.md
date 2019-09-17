@@ -8,6 +8,8 @@ Take note of Scapy
 [Step 3 Check Installation and Excute scapy](#step-3-check-installation-and-excute-scapy)  
 [Step 4 Capture Packets by WiFi Client](#step-4-capture-packets-by-wifi-client)  
 
+[Scapy can't see/use some Ethernet interfaces on Windows]()
+
 [Reference](#reference)  
 
 # Installation On Windows  
@@ -106,7 +108,21 @@ d:\project\scapy (master -> origin)
 ```
 ![alt tag](https://i.imgur.com/uHF31NQ.jpg)
 
-# Troubleshooting
+# Scapy can't see/use some Ethernet interfaces on Windows    
+[Scapy can't see/use some Ethernet interfaces on Windows #1542](https://github.com/secdev/scapy/issues/1542)
+```
+Hi !
+
+get_windows_if_list() returns all interfaces by using Windows mechanics. It gives us all the data we need to set up the routes.
+
+get_if_list() returns the interfaces available through Winpcap/Npcap. Those are the interfaces we are able to use, but we need the other infos to make it work.
+
+Please try get_if_list() you will certainly see that the interface you are looking for isn’t available from Winpcap/Npcap, even if it is listed in Windows interfaces. It means that scapy cannot use it.
+
+That’s not scapy’s fault, have a look at the compatibility between your adapter and Npcap/Winpcap.
+
+You can try switching to Npcap if you are using Winpcap, or the opposite (which is less likely to work and less recommanded)
+```
 
 
 # Reference  

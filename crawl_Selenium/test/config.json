@@ -1,5 +1,5 @@
 {
-    "WLANtoLAN":[
+    "WLANtoLANtoWLAN":[
         {"test_case": {
             "id": "dlink_wifi_000",
             "description": "wifi_2.4G_channel01_enable"
@@ -8,7 +8,8 @@
             "mode_name":"DIR1750",
             "fw_version":"1.00b17",
             "hw_version":"A1",
-            "ip_address":"192.168.0.1"
+            "lan_ip_address":"192.168.0.1",
+            "wan_ip_address":"10.1.0.1"
             },
         "wifi_2g":{
             "ssid":"testdlink-2g",
@@ -31,8 +32,17 @@
     "LANtoWLAN":[
 
     ],
-    "WLANtoLANtoWLAN":[
-
+    "WLANClient":[
+        {"AC_88":{
+            "description": "asus_ac_88",
+            "wlan_ip_address":"192.168.0.188"
+            }
+        },
+        {"AC_66":{
+            "description": "asus_ac_66",
+            "wlan_ip_address":"192.168.0.166"
+            }
+        }
     ]
     
 }
