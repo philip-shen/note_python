@@ -8,7 +8,7 @@ Take note of Scapy
 [Step 3 Check Installation and Excute scapy](#step-3-check-installation-and-excute-scapy)  
 [Step 4 Capture Packets by WiFi Client](#step-4-capture-packets-by-wifi-client)  
 
-[Scapy can't see/use some Ethernet interfaces on Windows]()
+[Scapy can't see/use some Ethernet interfaces on Windows](#scapy-cant-seeuse-some-ethernet-interfaces-on-windows)  
 
 [Reference](#reference)  
 
