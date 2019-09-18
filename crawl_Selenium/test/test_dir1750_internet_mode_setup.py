@@ -12,6 +12,7 @@ sys.path.append(dirnamelib)
 from logger import logger
 from readConfig import *
 from api_selenium import *
+from api_selenium_dir17x19x import *
 
 class Test_dir1750_internet_mode_setup():
   def __init__(self):
@@ -90,50 +91,70 @@ class Test_dir1750_internet_mode_setup():
     self.driver.find_element(By.ID, "dialogBtn_rebootSuccess").click()
 
   def dut_internet_mode_pptp_manual(self):
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Settings")))   
-    element = self.driver.find_element(By.ID, "menu_Settings")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).perform()
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menuBtn_Internet")))   
-    rtu_value=self.driver.find_element(By.ID, "menuBtn_Internet").click()
-    #print("Hello")
-    #print(rtu_value);print(type(rtu_value))
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "(//a[contains(@href, \'#\')])[4]")))   
-    self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[4]").click()    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "L2TP")))   
-    self.driver.find_element(By.LINK_TEXT, "L2TP").click()
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "serverIPAddress_L2TP")))   
-    self.driver.find_element(By.ID, "serverIPAddress_L2TP").clear()
-    self.driver.find_element(By.ID, "userName_L2TP").clear()
-    self.driver.find_element(By.ID, "password_L2TP").clear()
-    
-    self.driver.find_element(By.ID, "serverIPAddress_L2TP").send_keys("10.0.1.3")
-    self.driver.find_element(By.ID, "userName_L2TP").send_keys("ubuntutest")
-    self.driver.find_element(By.ID, "password_L2TP").send_keys("test1234")
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Settings")))   
+    #element = self.driver.find_element(By.ID, "menu_Settings")
+    #actions = ActionChains(self.driver)
+    #actions.move_to_element(element).perform()
+    self.driver.method_by_ID_mouseOver("menu_Settings")
 
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "(//a[contains(@href, \'#\')])[10]")))   
-    self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[10]").click()    
-    self.driver.find_element(By.LINK_TEXT, "Manual").click()
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menuBtn_Internet")))   
+    #rtu_value=self.driver.find_element(By.ID, "menuBtn_Internet").click()
+    self.driver.method_by_ID_click("menuBtn_Internet")
     
-    self.driver.find_element(By.ID, "Save_btn").click()
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "(//a[contains(@href, \'#\')])[4]")))   
+    #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[4]").click()    
+    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
+    
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "L2TP")))   
+    #self.driver.find_element(By.LINK_TEXT, "L2TP").click()
+    self.driver.method_by_LinkText_click("L2TP")
 
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "popalert_desc")))   
-    self.driver.find_element(By.ID, "popalert_desc").click()
-    assert self.driver.find_element(By.ID, "popalert_desc").text == "Please wait ..."
-    WebDriverWait(self.driver, 30000).until(expected_conditions.visibility_of_element_located((By.ID, "popalert_ok")))
-    assert self.driver.find_element(By.ID, "popalert_desc").text == "The new settings have been saved."
-    self.driver.find_element(By.ID, "popalert_ok").click()
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "serverIPAddress_L2TP")))   
+    #self.driver.find_element(By.ID, "serverIPAddress_L2TP").clear()
+    #self.driver.find_element(By.ID, "userName_L2TP").clear()
+    #self.driver.find_element(By.ID, "password_L2TP").clear()    
+    #self.driver.find_element(By.ID, "serverIPAddress_L2TP").send_keys("10.0.1.3")
+    #self.driver.find_element(By.ID, "userName_L2TP").send_keys("ubuntutest")
+    #self.driver.find_element(By.ID, "password_L2TP").send_keys("test1234")
+
+    self.driver.method_by_ID_type("serverIPAddress_L2TP","10.0.1.3")
+    self.driver.method_by_ID_type("userName_L2TP","ubuntutest")
+    self.driver.method_by_ID_type("password_L2TP","test1234")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "(//a[contains(@href, \'#\')])[10]")))   
+    #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[10]").click()    
+    #self.driver.find_element(By.LINK_TEXT, "Manual").click()
     
-    self.driver.find_element(By.ID, "menu_Home").click()
-    WebDriverWait(self.driver, 15000).until(expected_conditions.element_to_be_clickable((By.ID, "RenewRelease_btn")))
-    self.driver.find_element(By.ID, "RenewRelease_btn").click()
-    WebDriverWait(self.driver, 30000).until(expected_conditions.element_to_be_clickable((By.ID, "RenewRelease_btn")))
-    
-    WebDriverWait(self.driver, 30000).until(expected_conditions.element_to_be_clickable((By.ID, "index_ShowNetworkStatus")))
-    assert self.driver.find_element(By.ID, "index_ShowNetworkStatus").text == "Connected"
+    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[10]")
+    self.driver.method_by_LinkText_click("Manual")
+
+    #self.driver.find_element(By.ID, "Save_btn").click()
+    self.driver.method_by_ID_click("Save_btn")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "popalert_desc")))   
+    #self.driver.find_element(By.ID, "popalert_desc").click()
+    #assert self.driver.find_element(By.ID, "popalert_desc").text == "Please wait ..."
+    self.driver.method_by_ID_verifytext("popalert_desc","Please wait ...")
+
+    #WebDriverWait(self.driver, 30000).until(expected_conditions.visibility_of_element_located((By.ID, "popalert_ok")))
+    #assert self.driver.find_element(By.ID, "popalert_desc").text == "The new settings have been saved."
+    self.driver.method_by_ID_verifytext("popalert_desc","The new settings have been saved.")
+
+    #self.driver.find_element(By.ID, "popalert_ok").click()
+    self.driver.method_by_ID_click("popalert_ok")
+
+    #self.driver.find_element(By.ID, "menu_Home").click()
+    self.driver.method_by_ID_click("menu_Home")
+
+    #WebDriverWait(self.driver, 15000).until(expected_conditions.element_to_be_clickable((By.ID, "RenewRelease_btn")))
+    #self.driver.find_element(By.ID, "RenewRelease_btn").click()
+    #WebDriverWait(self.driver, 30000).until(expected_conditions.element_to_be_clickable((By.ID, "RenewRelease_btn")))
+    self.driver.method_by_ID_click_chkclickable("RenewRelease_btn")
+
+    #WebDriverWait(self.driver, 30000).until(expected_conditions.element_to_be_clickable((By.ID, "index_ShowNetworkStatus")))
+    #assert self.driver.find_element(By.ID, "index_ShowNetworkStatus").text == "Connected"
+    self.driver.method_by_ID_verifytext_chkclickable("index_ShowNetworkStatus","Connected")
+
 
 if __name__ == '__main__':
   local_dir1750_wanmode_setup=Test_dir1750_internet_mode_setup()
@@ -142,7 +163,7 @@ if __name__ == '__main__':
   #local_dir1750_wanmode_setup.sys_Reset()
   #local_dir1750_wifi_setup.sys_Reboot()
 
-  #local_dir1750_wanmode_setup.dut_internet_mode_pptp_manual()
+  local_dir1750_wanmode_setup.dut_internet_mode_pptp_manual()
 
   local_dir1750_wanmode_setup.method_close()
   local_dir1750_wanmode_setup.method_teardown()

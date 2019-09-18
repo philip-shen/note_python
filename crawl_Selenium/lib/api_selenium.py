@@ -37,7 +37,47 @@ class method_selenium():
         logger.info('Set Browser Size:{0}*{1}'.format(x_val, y_val))
         self.driver.set_window_size(x_val, y_val)
 
-    def method_by_ID_click(self,obj_name,wait_time=5000):
-        logger.info('Click by_ID:{0}'.format(obj_name))
-        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, obj_name)))
-        self.driver.find_element(By.ID, obj_name).click()    
+    def method_by_ID_click(self,what,wait_time=130000):
+        logger.info('Click by_ID:{0}'.format(what))
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, what)))
+        self.driver.find_element(By.ID, what).click()    
+
+    def method_by_ID_mouseOver(self,what,wait_time=130000):
+        logger.info('Mouse Over by_ID:{0}'.format(what))
+        WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, what)))   
+        element = self.driver.find_element(By.ID, what)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
+
+    def method_by_XPath_click(self,what,wait_time=130000):
+        logger.info('Click by_XPath:{0}'.format(what))
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, what)))
+        self.driver.find_element(By.XPATH, what).click()        
+
+    def method_by_LinkText_click(self,what,wait_time=130000):
+        logger.info('Click by_Link_Text:{0}'.format(what))    
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, what)))   
+        self.driver.find_element(By.LINK_TEXT, what).click()
+
+    def method_by_ID_type(self,what,how,wait_time=130000):
+        logger.info('Type by_ID:{0} value"{1}'.format(what,how))
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, what)))
+        self.driver.find_element(By.ID, what).clear()
+        self.driver.find_element(By.ID, what).send_keys(how)
+
+    def method_by_ID_verifytext(self,what,how,wait_time=130000):
+        logger.info('Verify by_ID:{0} value"{1}'.format(what,how))    
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, what)))   
+        #self.driver.find_element(By.ID, "popalert_desc").click()
+        assert self.driver.find_element(By.ID, what).text == how
+
+    def method_by_ID_click_chkclickable(self,what,wait_time=130000):
+        logger.info('Click by_ID:{0} by check clickable'.format(what))    
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.element_to_be_clickable((By.ID, what)))
+        self.driver.find_element(By.ID, what).click()
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.element_to_be_clickable((By.ID, what)))
+
+    def method_by_ID_verifytext_chkclickable(self,what,how,wait_time=130000):
+        logger.info('Verify by_ID:{0} value"{1} by check clickable'.format(what,how))
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.element_to_be_clickable((By.ID, what)))
+        assert self.driver.find_element(By.ID, what).text == how        
