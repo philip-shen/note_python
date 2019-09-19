@@ -9,6 +9,7 @@ Take note of Selenium
 
 [Selenium and python](#selenium-and-python)  
 [Element Click Intercepted Exception](#element-click-intercepted-exception)
+[Converting Python dict to kwargs?](#converting-python-dict-to-kwargs?)  
 
 [Selenium 4](#selenium-4)  
 
@@ -59,12 +60,23 @@ except ElementClickInterceptedException:
   driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 ```
 
+# Converting Python dict to kwargs?  
+[Converting Python dict to kwargs? Sep 9, 2018](https://stackoverflow.com/questions/5710391/converting-python-dict-to-kwargs)
+```
+Use the double-star (aka double-splat?) operator:
+func(**{'type':'Event'})
+
+is equivalent to
+func(type='Event')
+```
+
 # Selenium 4  
 [Selenium 4 is releasing soon: What every QA must know? Dec 4, 2018 ](https://medium.com/@muntasir./selenium-4-is-releasing-soon-what-every-qa-must-know-c82d4914be0a)  
 
 ## W3C WebDriver Standardization  
 [WebDriver W3C specs](https://github.com/w3c/webdriver)  
 ## Selenium 4 IDE  
+
 
 # Reference
 * [全国のSeleniumer必読 2019-09-09](https://qiita.com/oh_rusty_nail/items/b8ba525d31ea7c522856#jenkins)  
