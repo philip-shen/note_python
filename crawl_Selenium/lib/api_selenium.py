@@ -37,6 +37,10 @@ class method_selenium():
         logger.info('Set Browser Size:{0}*{1}'.format(x_val, y_val))
         self.driver.set_window_size(x_val, y_val)
 
+    def method_execute_script(self,what,wait_time=130000):
+        logger.info('Execute Script:{0}'.format(what))
+        self.driver.execute_script(what)
+
     def method_by_ID_click(self,what,wait_time=130000):
         logger.info('Click by_ID:{0}'.format(what))
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, what)))
@@ -68,7 +72,8 @@ class method_selenium():
     def method_by_ID_waitforelement_visibile(self,what,wait_time=130000):
         logger.info('Verify by_ID:{0} Visibile'.format(what))
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, what)))   
-
+    
+    
     def method_by_ID_waitforelement_Invisibile(self,what,wait_time=130000):
         logger.info('Verify by_ID:{0} Invisibile'.format(what))
         WebDriverWait(self.driver, wait_time).until(expected_conditions.invisibility_of_element_located((By.ID, what)))
@@ -93,3 +98,8 @@ class method_selenium():
         logger.info('Verify by_ID:{0} value:{1} by check clickable'.format(what,how))
         WebDriverWait(self.driver, wait_time).until(expected_conditions.element_to_be_clickable((By.ID, what)))
         assert self.driver.find_element(By.ID, what).text == how        
+
+    def method_by_CSS_SELECTOR_click(self,what,wait_time=130000):
+        logger.info('Click by_CSS_SELECTOR:{0} '.format(what))
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, what)))
+        self.driver.find_element(By.CSS_SELECTOR, what).click()

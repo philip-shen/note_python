@@ -8,6 +8,7 @@ Take note of Selenium
 [Selenium IDE REC function](#selenium-ide-rec-function)  
 
 [Selenium and python](#selenium-and-python)  
+[Element Click Intercepted Exception](#element-click-intercepted-exception)
 
 [Selenium 4](#selenium-4)  
 
@@ -38,6 +39,24 @@ windowsでのpython導入法は他の方がめちゃくちゃ詳しく書いて�
 seleniumは
 pip install selenium
 これだけ
+```
+
+
+## Element Click Intercepted Exception  
+[Error Handling in Selenium on Python 14 Oct 2018](https://www.pingshiuanchua.com/blog/post/error-handling-in-selenium-on-python)  
+```
+If it's not a pop-up, the problem could be solved by scrolling away, 
+hoping that the blocking element moves with you and away from the button/link to be clicked
+```
+
+```
+from selenium.common.exceptions import ElementClickInterceptedException
+try:
+  # Tries to click an element
+  driver.find_element_by_css_selector("button selector").click()
+except ElementClickInterceptedException:
+  # Use Javascript to scroll down to bottom of page
+  driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 ```
 
 # Selenium 4  
