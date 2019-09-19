@@ -262,9 +262,11 @@ Flask!
 ```
 
 * [Python args and kwargs: Demystified Sep 04, 2019](https://realpython.com/python-kwargs-and-args/)  
+
 [Using the Python kwargs Variable in Function Definitions](https://realpython.com/python-kwargs-and-args/#using-the-python-kwargs-variable-in-function-definitions)  
 ```
-Okay, now you’ve understood what *args is for, but what about **kwargs? **kwargs works just like *args, but instead of accepting positional arguments it accepts keyword (or named) arguments. Take the following example:
+Okay, now you’ve understood what *args is for, but what about **kwargs? **kwargs works just like *args, 
+but instead of accepting positional arguments it accepts keyword (or named) arguments. Take the following example:
 ```
 
 * [PYTHON安裝TALIB @ 張郎生活的筆記:: 痞客邦:: 2018年10月5日](http://tn00343140a.pixnet.net/blog/post/175064616-python%E5%AE%89%E8%A3%9Dtalib)  
