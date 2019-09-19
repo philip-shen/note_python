@@ -7,6 +7,7 @@ with open('config.json') as f:
 #pprint(data)
 #pprint(data["WLANtoLAN"][0]["test_case"]["id"])
 #pprint(data["WLANtoLAN"][0]["test_case"]["description"])
+pprint(data["WLANtoLANtoWLAN"][0]["wifi_2g"])
 pprint(data["WLANtoLANtoWLAN"][0]["dut"]["lan_ip_address"])
 pprint(len(data["WLANtoLANtoWLAN"][0]["dut"]["lan_ip_address"]))
 #pprint(type(data["WLANtoLANtoWLAN"][0]["test_case"]))

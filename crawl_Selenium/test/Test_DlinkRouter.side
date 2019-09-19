@@ -732,37 +732,71 @@
     }]
   }, {
     "id": "07e7fcad-91d3-432a-be78-b6d00967dfc9",
-    "name": "test_dir1750_wifi_2g_ch_setup",
+    "name": "test_dir1750_wifi_2g_ch_sec_setup",
     "commands": [{
-      "id": "6a80f76d-6fb2-4400-a19f-dce693291d84",
+      "id": "1ab09e6d-cbfe-4d49-bc59-284343826df8",
       "comment": "",
       "command": "open",
       "target": "/info/Login.html",
       "targets": [],
       "value": ""
     }, {
-      "id": "70d6d049-5cb8-46e7-bbfa-fa0f90f30963",
+      "id": "225037d3-4d81-47cb-8761-ae2c53103579",
       "comment": "",
       "command": "setWindowSize",
-      "target": "1080x605",
+      "target": "1051x806",
       "targets": [],
       "value": ""
     }, {
-      "id": "f81ece4e-c16b-48c6-9c37-236dded5c5eb",
+      "id": "250d8a7b-f039-45c0-b58c-467162abb37d",
       "comment": "",
       "command": "click",
       "target": "id=logIn_btn",
-      "targets": [],
+      "targets": [
+        ["id=logIn_btn", "id"],
+        ["css=#logIn_btn", "css:finder"],
+        ["xpath=//button[@id='logIn_btn']", "xpath:attributes"],
+        ["xpath=//div[@id='logIn']/center/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Log In')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
-      "id": "84c59593-0d92-4aa3-bf96-14806d566ec6",
+      "id": "8a1bfe08-c241-4cbc-b0bc-833487bdf940",
       "comment": "",
-      "command": "mouseOver",
+      "command": "click",
       "target": "id=menu_Settings",
-      "targets": [],
+      "targets": [
+        ["id=menu_Settings", "id"],
+        ["linkText=Settings", "linkText"],
+        ["css=#menu_Settings", "css:finder"],
+        ["xpath=//a[contains(text(),'Settings')]", "xpath:link"],
+        ["xpath=//a[@id='menu_Settings']", "xpath:attributes"],
+        ["xpath=//li[@id='m_Settings']/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Settings')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
-      "id": "227bf4bf-1bca-4690-bfa0-180a1994793a",
+      "id": "5ade126c-0f57-4e74-b879-bd94c701fbfd",
+      "comment": "",
+      "command": "click",
+      "target": "id=menu_Settings",
+      "targets": [
+        ["id=menu_Settings", "id"],
+        ["linkText=Settings", "linkText"],
+        ["css=#menu_Settings", "css:finder"],
+        ["xpath=//a[contains(text(),'Settings')]", "xpath:link"],
+        ["xpath=//a[@id='menu_Settings']", "xpath:attributes"],
+        ["xpath=//li[@id='m_Settings']/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Settings')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "98058aa8-ab1b-4119-aa40-8422776c9aa4",
       "comment": "",
       "command": "click",
       "target": "id=menuBtn_WiFi",
@@ -779,7 +813,7 @@
       ],
       "value": ""
     }, {
-      "id": "ce008a45-a0ea-4908-8404-5b19d16baf29",
+      "id": "0785be55-9809-4253-98f9-72374e506ac7",
       "comment": "",
       "command": "click",
       "target": "css=.radio24_advBtn > span",
@@ -792,168 +826,36 @@
       ],
       "value": ""
     }, {
-      "id": "f042df40-da79-4978-aecf-e08b1589ed15",
+      "id": "6d94eaef-2850-4f20-9e67-39ec39954602",
       "comment": "",
       "command": "click",
-      "target": "xpath=(//a[contains(@href, '#')])[8]",
+      "target": "xpath=(//a[contains(@href, '#')])[4]",
       "targets": [
-        ["id=sbToggle_87122310", "id"],
-        ["css=#sbToggle_87122310", "css:finder"],
-        ["xpath=//a[@id='sbToggle_87122310']", "xpath:attributes"],
-        ["xpath=//div[@id='sbHolder_87122310']/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[8]", "xpath:href"],
-        ["xpath=//tr[3]/td/div/div/a", "xpath:position"]
+        ["id=sbToggle_24007552", "id"],
+        ["css=#sbToggle_24007552", "css:finder"],
+        ["xpath=//a[@id='sbToggle_24007552']", "xpath:attributes"],
+        ["xpath=//div[@id='sbHolder_24007552']/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[4]", "xpath:href"],
+        ["xpath=//td/div/div/a", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "70baceb9-6887-4dcf-a110-988bebb6de9a",
+      "id": "cc833c02-8e95-441e-a99b-76bdb7217301",
       "comment": "",
       "command": "click",
-      "target": "linkText=6",
+      "target": "linkText=WPA3-Personal",
       "targets": [
-        ["linkText=6", "linkText"],
-        ["css=li:nth-child(7) > .sbFocus", "css:finder"],
-        ["xpath=//a[contains(text(),'6')]", "xpath:link"],
-        ["xpath=//ul[@id='sbOptions_87122310']/li[7]/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '6')]", "xpath:href"],
-        ["xpath=//div/ul/li[7]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'6')]", "xpath:innerText"]
+        ["linkText=WPA3-Personal", "linkText"],
+        ["css=#sbOptions_24007552 .sbFocus", "css:finder"],
+        ["xpath=//a[contains(text(),'WPA3-Personal')]", "xpath:link"],
+        ["xpath=//ul[@id='sbOptions_24007552']/li[5]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'WPA3-PSK')]", "xpath:href"],
+        ["xpath=//div/ul/li[5]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'WPA3-Personal')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
-      "id": "56ce0786-dafb-4749-bc26-e696dd7200c4",
-      "comment": "",
-      "command": "click",
-      "target": "xpath=(//a[contains(@href, '#')])[12]",
-      "targets": [
-        ["id=sbToggle_37357740", "id"],
-        ["css=#sbToggle_37357740", "css:finder"],
-        ["xpath=//a[@id='sbToggle_37357740']", "xpath:attributes"],
-        ["xpath=//div[@id='sbHolder_37357740']/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[12]", "xpath:href"],
-        ["xpath=//tr[7]/td/div/div/a", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "145b8823-5764-4075-8fe6-156547089fdb",
-      "comment": "",
-      "command": "click",
-      "target": "linkText=Auto 20/40 MHz",
-      "targets": [
-        ["linkText=Auto 20/40 MHz", "linkText"],
-        ["css=#sbOptions_37357740 .sbFocus", "css:finder"],
-        ["xpath=//a[contains(text(),'Auto 20/40 MHz')]", "xpath:link"],
-        ["xpath=//ul[@id='sbOptions_37357740']/li[2]/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '0')])[5]", "xpath:href"],
-        ["xpath=//tr[7]/td/div/div/ul/li[2]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Auto 20/40 MHz')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "efb4ad37-d3b0-411b-ab19-3a48c3ac800c",
-      "comment": "",
-      "command": "click",
-      "target": "xpath=(//a[contains(@href, '#')])[14]",
-      "targets": [
-        ["id=sbToggle_23150847", "id"],
-        ["css=#sbToggle_23150847", "css:finder"],
-        ["xpath=//a[@id='sbToggle_23150847']", "xpath:attributes"],
-        ["xpath=//div[@id='sbHolder_23150847']/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[14]", "xpath:href"],
-        ["xpath=//tr[9]/td/div/div/a", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "d28eedba-51f4-43ba-ac5b-6a9153b2d0c6",
-      "comment": "",
-      "command": "click",
-      "target": "linkText=Visible",
-      "targets": [
-        ["linkText=Visible", "linkText"],
-        ["css=#sbOptions_23150847 .sbFocus", "css:finder"],
-        ["xpath=//a[contains(text(),'Visible')]", "xpath:link"],
-        ["xpath=//ul[@id='sbOptions_23150847']/li/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, 'true')]", "xpath:href"],
-        ["xpath=//tr[9]/td/div/div/ul/li/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Visible')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "e2807ef3-1ef8-4c6e-b458-1c3b145b4379",
-      "comment": "",
-      "command": "click",
-      "target": "css=#RADIO_5 > .advButton > span",
-      "targets": [
-        ["css=#RADIO_5 > .advButton > span", "css:finder"],
-        ["xpath=//span[@onclick='showAdv(\"5\")']", "xpath:attributes"],
-        ["xpath=//div[@id='RADIO_5']/div/span", "xpath:idRelative"],
-        ["xpath=//div[5]/div/span", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "a9c2bc50-3b4d-40f6-ae6a-71b1dc79cad2",
-      "comment": "",
-      "command": "click",
-      "target": "id=sbToggle_35078617",
-      "targets": [
-        ["id=sbToggle_27255484", "id"],
-        ["css=#sbToggle_27255484", "css:finder"],
-        ["xpath=//a[@id='sbToggle_27255484']", "xpath:attributes"],
-        ["xpath=//div[@id='sbHolder_27255484']/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[24]", "xpath:href"],
-        ["xpath=//div[5]/div[2]/table/tbody/tr[3]/td/div/div/a", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "449e4595-0e08-4589-8c62-bfbf66c9d5ae",
-      "comment": "",
-      "command": "click",
-      "target": "linkText=Invisible",
-      "targets": [
-        ["linkText=149", "linkText"],
-        ["css=li:nth-child(6) > .sbFocus", "css:finder"],
-        ["xpath=//a[contains(text(),'149')]", "xpath:link"],
-        ["xpath=//ul[@id='sbOptions_27255484']/li[6]/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '149')]", "xpath:href"],
-        ["xpath=//div[5]/div[2]/table/tbody/tr[3]/td/div/div/ul/li[6]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'149')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "79977010-b5e5-4286-9792-bd7b73f1b70e",
-      "comment": "",
-      "command": "click",
-      "target": "id=Save_btn",
-      "targets": [
-        ["id=Save_btn", "id"],
-        ["css=#Save_btn", "css:finder"],
-        ["xpath=//div[@id='Save_btn']", "xpath:attributes"],
-        ["xpath=//ul[@id='rightFunc']/li/div", "xpath:idRelative"],
-        ["xpath=//li/div", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "e02a450b-977d-412e-a187-991b66078373",
-      "comment": "",
-      "command": "waitForElementVisible",
-      "target": "id=popalert_ok",
-      "targets": [],
-      "value": "50000"
-    }, {
-      "id": "2da6d72b-31a5-4d9d-8b15-a3de86a3a082",
-      "comment": "",
-      "command": "click",
-      "target": "xpath=//button[@id='popalert_ok']",
-      "targets": [
-        ["id=popalert_ok", "id"],
-        ["css=#popalert_ok", "css:finder"],
-        ["xpath=//button[@id='popalert_ok']", "xpath:attributes"],
-        ["xpath=//div[@id='popalert_buttons']/button", "xpath:idRelative"],
-        ["xpath=//div[6]/button", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "2309a5a5-83ff-4ba0-a265-6e4047ef12d4",
+      "id": "b07b4b1b-b17c-4a21-8824-1dadab69c1ec",
       "comment": "",
       "command": "close",
       "target": "",

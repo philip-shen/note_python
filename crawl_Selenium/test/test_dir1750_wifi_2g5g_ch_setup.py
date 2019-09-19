@@ -221,7 +221,7 @@ class Test_dir1750_wifi_2G5G_Setup():
     #self.driver.find_element(By.XPATH, "//button[@id=\'popalert_ok\']").click()
     self.driver.method_by_ID_click("popalert_ok")
 
-  def wifi_5g_ch_setup(self):
+  def wifi_5g_ch_securiyt_setup(self):
     #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Settings")))   
     #element = self.driver.find_element(By.ID, "menu_Settings")
     #actions = ActionChains(self.driver)
@@ -267,8 +267,15 @@ class Test_dir1750_wifi_2G5G_Setup():
     #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[20]").click()
     #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "WPA/WPA2-Personal")))    
     #self.driver.find_element(By.LINK_TEXT, "WPA/WPA2-Personal").click()
-    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
-    #self.driver.method_by_LinkText_click("WPA/WPA2-Personal")
+    try:
+      # Tries to click an element
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
+    except ElementClickInterceptedException:
+      # Use Javascript to scroll down to bottom of page
+      #driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+      #self.driver.method_execute_script("window.scrollTo(0, document.body.scrollHeight);")
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
+
     self.driver.method_by_LinkText_click("WPA3-Personal")
 
     #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'#\')])[24]").click()
@@ -312,7 +319,7 @@ if __name__ == '__main__':
 
   #local_dir1750_wifi_Setup.wifi_SmartConnDisable()
   #local_dir1750_wifi_Setup.wifi_2g_ch_setup()
-  local_dir1750_wifi_Setup.wifi_5g_ch_setup()
+  local_dir1750_wifi_Setup.wifi_5g_ch_securiyt_setup()
 
   #local_dir1750_wifi_Setup.wifi_2g_ch_setup()
   #local_dir1750_wifi_Setup.wifi_5g_ch_setup()

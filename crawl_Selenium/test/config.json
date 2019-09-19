@@ -17,13 +17,13 @@
             "security_mode":"WPA/WPA2-Personal",
             "channel":"1",
             "channel_width":"Auto 20/40 MHz",
-            "Visibility Status":"Visible"
+            "visibility_status":"Visible"
             },
         "wifi_5g":{
             "ssid":"testdlink-5g",
             "password":"00000000",
             "security_mode":"WPA/WPA2-Personal",        
-            "Visibility Status":"Invisible"
+            "visibility_status":"Invisible"
             }
 
         }
