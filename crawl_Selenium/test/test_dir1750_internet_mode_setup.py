@@ -34,61 +34,81 @@ class Test_dir1750_internet_mode_setup():
     self.driver.method_by_ID_click("logIn_btn")
 
   def sys_Reset(self):
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Management")))
-    element = self.driver.find_element(By.ID, "menu_Management")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).perform()
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Management")))
+    #element = self.driver.find_element(By.ID, "menu_Management")
+    #actions = ActionChains(self.driver)
+    #actions.move_to_element(element).perform()
+    self.driver.method_by_ID_mouseOver("menu_Management")
 
-    self.driver.find_element(By.ID, "menuBtn_Admin").click()
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "page_btn")))
-    self.driver.find_element(By.ID, "page_btn").click()
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_restorToFactoryDefault")))
-    self.driver.find_element(By.ID, "btn_restorToFactoryDefault").click()
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_restorToFactoryDefaultOk")))
-    self.driver.find_element(By.ID, "dialogBtn_restorToFactoryDefaultOk").click()
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "AlertPopBody")))
-    self.driver.find_element(By.ID, "AlertPopBody").click()
-    
+    #self.driver.find_element(By.ID, "menuBtn_Admin").click()
+    self.driver.method_by_ID_click("menuBtn_Admin")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "page_btn")))
+    #self.driver.find_element(By.ID, "page_btn").click()
+    self.driver.method_by_ID_click("page_btn")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_restorToFactoryDefault")))
+    #self.driver.find_element(By.ID, "btn_restorToFactoryDefault").click()
+    self.driver.method_by_ID_click("btn_restorToFactoryDefault")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_restorToFactoryDefaultOk")))
+    #self.driver.find_element(By.ID, "dialogBtn_restorToFactoryDefaultOk").click()
+    self.driver.method_by_ID_click("dialogBtn_restorToFactoryDefaultOk")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "AlertPopBody")))
+    #self.driver.find_element(By.ID, "AlertPopBody").click()
+    self.driver.method_by_ID_click("AlertPopBody")
+
     #Count down
-    WebDriverWait(self.driver, 130000).until(expected_conditions.invisibility_of_element_located((By.ID, "FACTORYDEFAULT")))
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_restorToFactoryDefaultSuccess")))
-    self.driver.find_element(By.ID, "dialogBtn_restorToFactoryDefaultSuccess").click()
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_agree")))
-    self.driver.find_element(By.ID, "btn_agree").click()
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "closeCreatePopBtn")))
-    self.driver.find_element(By.ID, "closeCreatePopBtn").click()
+    #WebDriverWait(self.driver, 130000).until(expected_conditions.invisibility_of_element_located((By.ID, "FACTORYDEFAULT")))
+    self.driver.method_by_ID_waitforelement_Invisibile("FACTORYDEFAULT")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_restorToFactoryDefaultSuccess")))
+    #self.driver.find_element(By.ID, "dialogBtn_restorToFactoryDefaultSuccess").click()
+    self.driver.method_by_ID_click("dialogBtn_restorToFactoryDefaultSuccess")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_agree")))
+    #self.driver.find_element(By.ID, "btn_agree").click()
+    self.driver.method_by_ID_click("btn_agree")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "closeCreatePopBtn")))
+    #self.driver.find_element(By.ID, "closeCreatePopBtn").click()
+    self.driver.method_by_ID_click("closeCreatePopBtn")
 
   def sys_Reboot(self):
     
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Management")))
-    element = self.driver.find_element(By.ID, "menu_Management")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).perform()
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Management")))
+    #element = self.driver.find_element(By.ID, "menu_Management")
+    #actions = ActionChains(self.driver)
+    #actions.move_to_element(element).perform()
+    self.driver.method_by_ID_mouseOver("menu_Management")
 
-    self.driver.find_element(By.ID, "menuBtn_Admin").click()
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "page_btn")))
-    self.driver.find_element(By.ID, "page_btn").click()
-
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_reboot")))
-    self.driver.find_element(By.ID, "btn_reboot").click()
+    #self.driver.find_element(By.ID, "menuBtn_Admin").click()
+    self.driver.method_by_ID_click("menuBtn_Admin")
     
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "page_btn")))
+    #self.driver.find_element(By.ID, "page_btn").click()
+    self.driver.method_by_ID_click("page_btn")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "btn_reboot")))
+    #self.driver.find_element(By.ID, "btn_reboot").click()
+    self.driver.method_by_ID_click("btn_reboot")
+
     #Wait dialogue
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "//div[@id=\'REBOOTCheck\']/table/tbody/tr/td")))
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_rebootOk")))
-    self.driver.find_element(By.ID, "dialogBtn_rebootOk").click()
-    
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "//div[@id=\'REBOOTCheck\']/table/tbody/tr/td")))
+    self.driver.method_by_XPath_waitforelement_visibile("//div[@id=\'REBOOTCheck\']/table/tbody/tr/td")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_rebootOk")))
+    #self.driver.find_element(By.ID, "dialogBtn_rebootOk").click()
+    self.driver.method_by_ID_click("dialogBtn_rebootOk")
+
     #Count down
-    WebDriverWait(self.driver, 130000).until(expected_conditions.invisibility_of_element_located((By.ID, "REBOOT")))
-    
-    WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_rebootSuccess")))
-    self.driver.find_element(By.ID, "dialogBtn_rebootSuccess").click()
+    #WebDriverWait(self.driver, 130000).until(expected_conditions.invisibility_of_element_located((By.ID, "REBOOT")))
+    self.driver.method_by_ID_waitforelement_Invisibile("REBOOT")
+
+    #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "dialogBtn_rebootSuccess")))
+    #self.driver.find_element(By.ID, "dialogBtn_rebootSuccess").click()
+    self.driver.method_by_ID_click("dialogBtn_rebootSuccess")
 
   def dut_internet_mode_pptp_manual(self):
     #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Settings")))   
@@ -137,6 +157,8 @@ class Test_dir1750_internet_mode_setup():
     self.driver.method_by_ID_verifytext("popalert_desc","Please wait ...")
 
     #WebDriverWait(self.driver, 30000).until(expected_conditions.visibility_of_element_located((By.ID, "popalert_ok")))
+    self.driver.method_by_ID_waitforelement_visibile("popalert_ok")
+
     #assert self.driver.find_element(By.ID, "popalert_desc").text == "The new settings have been saved."
     self.driver.method_by_ID_verifytext("popalert_desc","The new settings have been saved.")
 
@@ -160,10 +182,10 @@ if __name__ == '__main__':
   local_dir1750_wanmode_setup=Test_dir1750_internet_mode_setup()
 
   local_dir1750_wanmode_setup.dut_Login()
-  #local_dir1750_wanmode_setup.sys_Reset()
-  #local_dir1750_wifi_setup.sys_Reboot()
+  local_dir1750_wanmode_setup.sys_Reset()
+  #local_dir1750_wanmode_setup.sys_Reboot()
 
-  local_dir1750_wanmode_setup.dut_internet_mode_pptp_manual()
+  #local_dir1750_wanmode_setup.dut_internet_mode_pptp_manual()
 
   local_dir1750_wanmode_setup.method_close()
   local_dir1750_wanmode_setup.method_teardown()

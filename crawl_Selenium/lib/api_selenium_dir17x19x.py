@@ -18,6 +18,52 @@ class dir17x19x_internet_mode_setup():
     self.driver.method_set_window_size(1080, 705)
     self.driver.method_by_ID_click("logIn_btn")
 
+  def dut_Sys_Reboot(self):
+    
+    self.driver.method_by_ID_mouseOver("menu_Management")
+
+    self.driver.method_by_ID_click("menuBtn_Admin")
+    
+    self.driver.method_by_ID_click("page_btn")
+
+    self.driver.method_by_ID_click("btn_reboot")
+
+    #Wait dialogue
+    self.driver.method_by_XPath_waitforelement_visibile("//div[@id=\'REBOOTCheck\']/table/tbody/tr/td")
+
+    #Click
+    self.driver.method_by_ID_click("dialogBtn_rebootOk")
+
+    #Count down
+    self.driver.method_by_ID_waitforelement_Invisibile("REBOOT")
+
+    self.driver.method_by_ID_click("dialogBtn_rebootSuccess")
+
+  def dut_Sys_Reset(self):
+    #Mouse over "menu_Management"
+    self.driver.method_by_ID_mouseOver("menu_Management")
+
+    #click
+    self.driver.method_by_ID_click("menuBtn_Admin")
+
+    self.driver.method_by_ID_click("page_btn")
+
+    self.driver.method_by_ID_click("btn_restorToFactoryDefault")
+
+    self.driver.method_by_ID_click("dialogBtn_restorToFactoryDefaultOk")
+
+    self.driver.method_by_ID_click("AlertPopBody")
+
+    #Count down
+    self.driver.method_by_ID_waitforelement_Invisibile("FACTORYDEFAULT")
+
+    self.driver.method_by_ID_click("dialogBtn_restorToFactoryDefaultSuccess")
+
+    self.driver.method_by_ID_click("btn_agree")
+
+    #click()
+    self.driver.method_by_ID_click("closeCreatePopBtn")
+
   def dut_internet_mode_pptp_manual(self):
     # Mouse over "menu_Settings"
     self.driver.method_by_ID_mouseOver("menu_Settings")
@@ -41,9 +87,10 @@ class dir17x19x_internet_mode_setup():
 
     # Waiting set up
     self.driver.method_by_ID_verifytext("popalert_desc","Please wait ...")
-
+    self.driver.method_by_ID_waitforelement_visibile("popalert_ok")
     self.driver.method_by_ID_verifytext("popalert_desc","The new settings have been saved.")
-
+    
+    # Press Ok button
     self.driver.method_by_ID_click("popalert_ok")
 
     self.driver.method_by_ID_click("menu_Home")
