@@ -25,9 +25,9 @@
         "wifi_5g":{
             "ssid":"testdlink-5G",
             "password":"00000000",
-            "_security_mode_03":"WPA3-Personal",
+            "security_mode":"WPA3-Personal",
             "_security_mode":"WPA/WPA2-Personal",
-            "security_mode":"None",
+            "security_mode_01":"None",
             "channel":"36",
             "channel_width":"Auto 20/40/80 MHz",
             "visibility_status":"Visible",        

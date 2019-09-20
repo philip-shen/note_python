@@ -136,6 +136,46 @@ class dir17x19x_wifi_2G5G_Setup():
 
     #Wait
     self.driver.method_by_ID_click("popalert_ok")  
+
+  
+
+  #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'WPAORWPA2-PSK\')])[2]").click()
+  #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'None\')])[2]").click()
+  #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'WPA3-PSK\')])[2]").click()
+  #######################################################################
+  def xpath_wifi_5g_sec_mode(self,what):
+    opt_what=''
+    if what == "WPA3-Personal":
+      opt_what= 'WPA3-PSK'
+    elif what == "WPA/WPA2-Personal":
+      opt_what= 'WPAORWPA2-PSK'
+    else:
+      opt_what= 'None'
+
+    opt_what= "(//a[contains(@href, \'"+opt_what+"\')])[2]"
+    return opt_what  
+  
+  #self.driver.find_element(By.XPATH, "//a[contains(@href, \'None\')]").click()
+  #self.driver.find_element(By.XPATH, "//a[contains(@href, \'WPA3-PSK\')]").click()
+  #self.driver.find_element(By.XPATH, "//a[contains(@href, \'WPAORWPA2-PSK\')]").click()
+  #
+  #self.driver.find_element(By.XPATH, "//a[contains(@href, \'None\')]").click()
+  #self.driver.find_element(By.XPATH, "//a[contains(.,\'WPA3-Personal\')]").click()
+  #self.driver.find_element(By.XPATH, "//a[contains(.,\'WPA/WPA2-Personal\')]").click()
+  #######################################################################
+  def xpath_wifi_2g_sec_mode(self,what):
+    opt_what=''
+    if what == "WPA3-Personal":
+      opt_what= 'WPA3-PSK'
+    elif what == "WPA/WPA2-Personal":
+      opt_what= 'WPAORWPA2-PSK'
+    else:
+      opt_what= 'None'
+
+    opt_what= "//a[contains(@href, \'"+opt_what+"\')]"
+    #"//a[contains(@href, \'"+opt_what+"\')]"
+    return opt_what  
+
   #
   # WiFi 2G Setting
   ####################################################################
@@ -149,7 +189,7 @@ class dir17x19x_wifi_2G5G_Setup():
     # Expand 2.4G Advanced Settings
     self.driver.method_by_CSS_SELECTOR_click(".radio24_advBtn > span")
 
-    # change Securiyt Mode
+    # change 2G Securiyt Mode
     try:
       # Tries to click an element
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
@@ -158,8 +198,17 @@ class dir17x19x_wifi_2G5G_Setup():
       # Re try again
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
 
-    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
-    self.driver.method_by_LinkText_click(kwargs['wifi_2g']['security_mode'])
+    # Check 2G security option
+    #what= self.xpath_wifi_2g_sec_mode(kwargs['wifi_2g']['security_mode'])
+    what= kwargs['wifi_2g']['security_mode']
+
+    try:
+      # Tries to drop down list to select
+      #self.driver.method_by_XPath_click(what)
+      self.driver.method_by_LinkText_click(what)
+    except ElementClickInterceptedException:
+      #self.driver.method_by_XPath_click(what)
+      self.driver.method_by_LinkText_click(what)
 
     # Change SSID Password
     self.driver.method_by_ID_type("wifiName_24",kwargs['wifi_2g']['ssid'])
@@ -208,16 +257,22 @@ class dir17x19x_wifi_2G5G_Setup():
     self.driver.method_by_ID_type("wifiName_5",kwargs['wifi_5g']['ssid'])
     self.driver.method_by_ID_type("password_5",kwargs['wifi_5g']['password'])
 
-    # Select 5G Security mode    
+    # Select 5G Security mode by Select (Drop down list)  
     try:
-      # Tries to click an element
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
     except ElementClickInterceptedException:
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
 
-    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
-    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['security_mode'])
+    # Check 5G security option
+    what= self.xpath_wifi_5g_sec_mode(kwargs['wifi_5g']['security_mode'])
+    
+    try:
+      # Tries to drop down list to select
+      self.driver.method_by_XPath_click(what)
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click(what)
 
+    
     # Make 5G invisible
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
 

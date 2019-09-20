@@ -58,13 +58,27 @@ class method_selenium():
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, what)))
         self.driver.find_element(By.XPATH, what).click()        
 
+    def method_by_XPath_select(self,what,how,wait_time=130000):
+        logger.info('Select(Drop down list) by_XPath:{0} value:{1}'.format(what,how))
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, what)))
+        print('testing!')
+        el = self.driver.find_element(By.XPATH, what)
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, what)))
+        print(el.find_elements_by_tag_name('option'))
+
+        for option in el.find_elements_by_tag_name('option'):
+            print(option)        
+            if option.text in how:
+                print(option.text)
+                option.click()
+
     def method_by_LinkText_click(self,what,wait_time=130000):
         logger.info('Click by_Link_Text:{0}'.format(what))    
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, what)))   
         self.driver.find_element(By.LINK_TEXT, what).click()
 
     def method_by_ID_type(self,what,how,wait_time=130000):
-        logger.info('Type by_ID:{0} value:"{1}'.format(what,how))
+        logger.info('Type by_ID:{0} value:{1}'.format(what,how))
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, what)))
         self.driver.find_element(By.ID, what).clear()
         self.driver.find_element(By.ID, what).send_keys(how)
