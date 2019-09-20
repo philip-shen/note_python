@@ -8,8 +8,8 @@ Take note of Selenium
 [Selenium IDE REC function](#selenium-ide-rec-function)  
 
 [Selenium and python](#selenium-and-python)  
-[Element Click Intercepted Exception](#element-click-intercepted-exception)
-[How to select a drop-down menu option value with Selenium (Python)](#how-to-select-a-drop-down-menu-option-value-with-Selenium-(python))
+[Element Click Intercepted Exception](#element-click-intercepted-exception)  
+[How to select a drop-down menu option value with Selenium (Python)](#how-to-select-a-drop-down-menu-option-value-with-Selenium-python)  
 [Converting Python dict to kwargs?](#converting-python-dict-to-kwargs?)  
 
 [Selenium 4](#selenium-4)  
