@@ -9,6 +9,7 @@ Take note of Selenium
 
 [Selenium and python](#selenium-and-python)  
 [Element Click Intercepted Exception](#element-click-intercepted-exception)
+[How to select a drop-down menu option value with Selenium (Python)](#how-to-select-a-drop-down-menu-option-value-with-Selenium-(python))
 [Converting Python dict to kwargs?](#converting-python-dict-to-kwargs?)  
 
 [Selenium 4](#selenium-4)  
@@ -58,6 +59,45 @@ try:
 except ElementClickInterceptedException:
   # Use Javascript to scroll down to bottom of page
   driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+```
+# How to select a drop-down menu option value with Selenium (Python)  
+[How to select a drop-down menu option value with Selenium (Python) Feb 20, 2015](https://stackoverflow.com/questions/7867537/how-to-select-a-drop-down-menu-option-value-with-selenium-python)
+```
+For example:
+
+<select id="fruits01" class="select" name="fruits">
+  <option value="0">Choose your fruits:</option>
+  <option value="1">Banana</option>
+  <option value="2">Mango</option>
+</select>
+```
+```
+Here is an example:
+
+from selenium import webdriver
+b = webdriver.Firefox()
+b.find_element_by_xpath("//select[@name='element_name']/option[text()='option_text']").click()
+```
+[What is the correct way to select an <option> using Selenium's Python WebDriver Jul 7 '11](https://sqa.stackexchange.com/questions/1355/what-is-the-correct-way-to-select-an-option-using-seleniums-python-webdriver)  
+```
+The easiest way that I have found was to do something along the lines of:
+
+el = driver.find_element_by_id('id_of_select')
+for option in el.find_elements_by_tag_name('option'):
+    if option.text == 'The Options I Am Looking For':
+        option.click() # select() in earlier versions of webdriver
+        break
+```
+
+```
+This may have some runtime issues if there are a large number of options, but for us it suffices.
+Also this code will work with multi-select
+
+def multiselect_set_selections(driver, element_id, labels):
+    el = driver.find_element_by_id(element_id)
+    for option in el.find_elements_by_tag_name('option'):
+        if option.text in labels:
+            option.click()
 ```
 
 # Converting Python dict to kwargs?  

@@ -136,7 +136,9 @@ class dir17x19x_wifi_2G5G_Setup():
 
     #Wait
     self.driver.method_by_ID_click("popalert_ok")  
-
+  #
+  # WiFi 2G Setting
+  ####################################################################
   def wifi_2g_setup(self,**kwargs):
     # Mouse over
     self.driver.method_by_ID_mouseOver("menu_Settings")
@@ -156,16 +158,17 @@ class dir17x19x_wifi_2G5G_Setup():
       # Re try again
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
 
-    self.driver.method_by_LinkText_click(kwargs['security_mode'])
+    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
+    self.driver.method_by_LinkText_click(kwargs['wifi_2g']['security_mode'])
 
     # Change SSID Password
-    self.driver.method_by_ID_type("wifiName_24",kwargs['ssid'])
-    self.driver.method_by_ID_type("password_24",kwargs['password'])
+    self.driver.method_by_ID_type("wifiName_24",kwargs['wifi_2g']['ssid'])
+    self.driver.method_by_ID_type("password_24",kwargs['wifi_2g']['password'])
 
     # Change channel#
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[8]")
 
-    self.driver.method_by_LinkText_click(kwargs['channel'])
+    self.driver.method_by_LinkText_click(kwargs['wifi_2g']['channel'])
 
     # Change Power
     try:
@@ -187,7 +190,7 @@ class dir17x19x_wifi_2G5G_Setup():
       # Re try again
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[12]")
 
-    self.driver.method_by_LinkText_click("Auto 20/40 MHz")
+    self.driver.method_by_LinkText_click(kwargs['wifi_2g']['channel_width'])
 
     
     #self.driver.find_element(By.CSS_SELECTOR, ".radio24_advBtn > span").click()    
@@ -197,24 +200,36 @@ class dir17x19x_wifi_2G5G_Setup():
     # Change Visibility Status:	
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[14]")
     # Make 2G invisible
-    self.driver.method_by_LinkText_click(kwargs['visibility_status'])
+    self.driver.method_by_LinkText_click(kwargs['wifi_2g']['visibility_status'])
 
     # Change 5G setting
     self.driver.method_by_CSS_SELECTOR_click("#RADIO_5 > .advButton > span")
 
-    self.driver.method_by_ID_type("wifiName_5","testdlink-5G")
-    self.driver.method_by_ID_type("password_5","00000000")
+    self.driver.method_by_ID_type("wifiName_5",kwargs['wifi_5g']['ssid'])
+    self.driver.method_by_ID_type("password_5",kwargs['wifi_5g']['password'])
+
+    # Select 5G Security mode    
+    try:
+      # Tries to click an element
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
+
+    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
+    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['security_mode'])
 
     # Make 5G invisible
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
 
-    self.driver.method_by_LinkText_click("Invisible")
+    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['visibility_status'])
     
     # Press Save buttion
     self.driver.method_by_ID_click("Save_btn")
 
     self.driver.method_by_ID_click("popalert_ok")  
-
+  #
+  # WiFi 5G Setting
+  ####################################################################
   def wifi_5g_setup(self,**kwargs):
     # Mouse over
     self.driver.method_by_ID_mouseOver("menu_Settings")
@@ -226,16 +241,21 @@ class dir17x19x_wifi_2G5G_Setup():
     self.driver.method_by_CSS_SELECTOR_click(".radio24_advBtn > span")
 
     # Change SSID Password
-    self.driver.method_by_ID_type("wifiName_24","testdlink-2G")
-    self.driver.method_by_ID_type("password_24","00000000")
+    self.driver.method_by_ID_type("wifiName_24",kwargs['wifi_2g']['ssid'])
+    self.driver.method_by_ID_type("password_24",kwargs['wifi_2g']['password'])
 
     # Make 2G Invisible
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[14]")
-    self.driver.method_by_LinkText_click("Invisible")
+    self.driver.method_by_LinkText_click(kwargs['wifi_2g']['visibility_status'])
 
+    
+    # Change 5G SSID Password
+    self.driver.method_by_ID_type("wifiName_5",kwargs['wifi_5g']['ssid'])
+    self.driver.method_by_ID_type("password_5",kwargs['wifi_5g']['password'])
+    
     # Expand 5G Advanced Settings
     self.driver.method_by_CSS_SELECTOR_click("#RADIO_5 > .advButton > span")
-
+    
     # Select 5G Security mode    
     try:
       # Tries to click an element
@@ -243,15 +263,12 @@ class dir17x19x_wifi_2G5G_Setup():
     except ElementClickInterceptedException:
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[20]")
 
-    self.driver.method_by_LinkText_click(kwargs['security_mode'])
+    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['security_mode'])
 
-    # Change 5G SSID Password
-    self.driver.method_by_ID_type("wifiName_5",kwargs['ssid'])
-    self.driver.method_by_ID_type("password_5",kwargs['password'])
-
+    
     # Change Channel
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[24]")
-    self.driver.method_by_LinkText_click(kwargs['channel'])
+    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['channel'])
 
     # Change Channel width
     try:
@@ -259,7 +276,7 @@ class dir17x19x_wifi_2G5G_Setup():
     except ElementClickInterceptedException:
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[28]")
 
-    self.driver.method_by_LinkText_click("Auto 20/40/80 MHz")
+    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['channel_width'])
 
     # Make 5G Invisible
     try:
@@ -267,7 +284,7 @@ class dir17x19x_wifi_2G5G_Setup():
     except ElementClickInterceptedException:
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
 
-    self.driver.method_by_LinkText_click(kwargs['visibility_status'])
+    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['visibility_status'])
 
     # press save buttion
     self.driver.method_by_ID_click("Save_btn")

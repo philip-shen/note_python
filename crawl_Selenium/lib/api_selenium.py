@@ -64,7 +64,7 @@ class method_selenium():
         self.driver.find_element(By.LINK_TEXT, what).click()
 
     def method_by_ID_type(self,what,how,wait_time=130000):
-        logger.info('Type by_ID:{0} value"{1}'.format(what,how))
+        logger.info('Type by_ID:{0} value:"{1}'.format(what,how))
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.ID, what)))
         self.driver.find_element(By.ID, what).clear()
         self.driver.find_element(By.ID, what).send_keys(how)
