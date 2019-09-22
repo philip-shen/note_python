@@ -1,4 +1,5 @@
-import json
+import json,yaml
+import io
 from pprint import pprint
 
 with open('config.json') as f:
@@ -18,6 +19,25 @@ def trail_jsaon(**kwargs):
     pprint(kwargs['wifi_2g']['ssid'])
     pprint(kwargs['wifi_5g']['ssid'])
 
+class trail_yaml():
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def read_yaml(self,*args):
+        read_file_name = args[0]
+        # Read YAML file
+        with open(read_file_name, 'r') as stream:
+            data_loaded = yaml.safe_load(stream)    
+        
+        return data_loaded        
+
+    def write_yaml(self,*args):
+        # Write YAML file
+        out_file_name = args[0];#'data.yaml'
+        data_input = args[1];#data
+        with io.open(out_file_name, 'w', encoding='utf8') as outfile:
+            yaml.dump(data_input, outfile, default_flow_style=False, allow_unicode=True)    
+
 #pprint(data)
 #pprint(data["WLANtoLAN"][0]["test_case"]["id"])
 #pprint(data["WLANtoLAN"][0]["test_case"]["description"])
@@ -33,3 +53,7 @@ pprint(len(data["DUT_Config_WLAN"][0]["dut"]["lan_ip_address"]))
 for key, value in data["DUT_Config_WLAN"][0]["test_case"].items():
     print(key,value)
 #pprint(json.dumps(data, indent=4)) 
+
+local_trail_yaml=trail_yaml()
+
+pprint(data == data_loaded)    

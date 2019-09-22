@@ -18,6 +18,8 @@ Take some note of python
 
 [Installing python2.7 hosts on python3.6 Laptop](#installing-python27-hosts-on-python36-laptop)  
 
+[How To Use *args and **kwargs in Python 3](#how-to-use-args-and-kwargs-in-python-3)
+
 [Environment](#environment)  
 [Troubleshooting](#troubleshooting)  
 [Reference](#reference)  
@@ -184,6 +186,46 @@ c:\Python27\Scripts
 (pholus) λ pip2 list
 ```
 ![alt tag](https://i.imgur.com/oJ6DR5e.jpg)  
+
+# how-to-use-args-and-kwargs-in-python-3  
+[how-to-use-args-and-kwargs-in-python-3 November 20, 2017](https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3)
+```
+def multiply(*args):
+    z = 1
+    for num in args:
+        z *= num
+    print(z)
+
+multiply(4, 5)
+multiply(10, 9)
+multiply(2, 3, 4)
+multiply(3, 5, 10, 6)
+```
+
+```
+def print_values(**kwargs):
+    for key, value in kwargs.items():
+        print("The value of {} is {}".format(key, value))
+
+print_values(
+            name_1="Alex",
+            name_2="Gray",
+            name_3="Harper",
+            name_4="Phoenix",
+            name_5="Remy",
+            name_6="Val"
+        )
+```
+```
+Output
+The value of name_2 is Gray
+The value of name_6 is Val
+The value of name_4 is Phoenix
+The value of name_5 is Remy
+The value of name_3 is Harper
+The value of name_1 is Alex
+```
+
 
 # Environment  
 windows 10 64bit  
