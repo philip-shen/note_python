@@ -1,12 +1,71 @@
-# note of_JSON
-Take some note of JSON
+# note of YAML and JSON
+Take some note of YAML and JSON
 
 # Table of Content  
+[What is the difference between YAML and JSON?](#what-is-the-difference-between-yaml-and-json?)
+
 [How to use JSON with Python](#how-to-use-json-with-python)  
 [Writing a JSON file](#writing-a-json-file)  
 [Reading JSON](#reading-json)  
 
 [Python JSON: Encode(dump), Decode(load) json Data & File (Example)]()  
+
+# What is the difference between YAML and JSON?  
+[What is the difference between YAML and JSON? Jun 7, 2013](https://stackoverflow.com/questions/1726802/what-is-the-difference-between-yaml-and-json)  
+```
+Technically YAML is a superset of JSON. This means that, in theory at least, a YAML parser can understand JSON, but not necessarily the other way around.
+
+See the official specs, in the section entitled "YAML: Relation to JSON".
+
+In general, there are certain things I like about YAML that are not available in JSON. 
+```
+[YAML: Relation to JSON](http://yaml.org/spec/1.2/spec.html#id2759572)  
+## How can I parse a YAML file in Python  
+[How can I parse a YAML file in Python ](https://stackoverflow.com/questions/1773805/how-can-i-parse-a-yaml-file-in-python)  
+```
+#!/usr/bin/env python
+
+import yaml
+
+with open("example.yaml", 'r') as stream:
+    try:
+        print(yaml.safe_load(stream))
+    except yaml.YAMLError as exc:
+        print(exc)
+```
+
+```
+# -*- coding: utf-8 -*-
+import yaml
+import io
+
+# Define data
+data = {'a list': [1, 42, 3.141, 1337, 'help', u'€'],
+        'a string': 'bla',
+        'another dict': {'foo': 'bar',
+                         'key': 'value',
+                         'the answer': 42}}
+
+# Write YAML file
+with io.open('data.yaml', 'w', encoding='utf8') as outfile:
+    yaml.dump(data, outfile, default_flow_style=False, allow_unicode=True)
+
+# Read YAML file
+with open("data.yaml", 'r') as stream:
+    data_loaded = yaml.safe_load(stream)
+
+print(data == data_loaded)
+```
+
+## When to use YAML instead of JSON  
+[When to use YAML instead of JSON May 23, 2017](https://stackoverflow.com/questions/18395623/when-to-use-yaml-instead-of-json)
+```
+JSON is more formal format than YAML. IMHO:
+
+    YAML is better for fast creation and understanding of simple configuration files of software modules;
+
+    JSON is better for fast implementation and implementation of simple data transfering between software modules.
+```
 
 # How to use JSON with Python  
 [How to use JSON with Python 06 Apr 2019](https://developer.rhino3d.com/guides/rhinopython/python-xml-json/)  
