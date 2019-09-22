@@ -26,7 +26,7 @@ class trail_yaml():
     def read_yaml(self,*args):
         read_file_name = args[0]
         # Read YAML file
-        with open(read_file_name, 'r') as stream:
+        with io.open(read_file_name, 'r', encoding='utf8') as stream:
             data_loaded = yaml.safe_load(stream)    
         
         return data_loaded        
@@ -36,7 +36,9 @@ class trail_yaml():
         out_file_name = args[0];#'data.yaml'
         data_input = args[1];#data
         with io.open(out_file_name, 'w', encoding='utf8') as outfile:
-            yaml.dump(data_input, outfile, default_flow_style=False, allow_unicode=True)    
+            yaml.dump(data_input, outfile, default_flow_style=False, allow_unicode=True)   
+        
+        #pprint('Write data to:',out_file_name)     
 
 #pprint(data)
 #pprint(data["WLANtoLAN"][0]["test_case"]["id"])
@@ -54,6 +56,14 @@ for key, value in data["DUT_Config_WLAN"][0]["test_case"].items():
     print(key,value)
 #pprint(json.dumps(data, indent=4)) 
 
-local_trail_yaml=trail_yaml()
+# Define data
+data = {'a list': [1, 42, 3.141, 1337, 'help', u'€'],
+        'a string': 'bla',
+        'another dict': {'foo': 'bar',
+                         'key': 'value',
+                         'the answer': 42}}
 
-pprint(data == data_loaded)    
+local_trail_yaml=trail_yaml()
+#local_trail_yaml.write_yaml('data.yaml',data)
+data_loaded = local_trail_yaml.read_yaml('data.yaml')
+pprint(data_loaded)    
