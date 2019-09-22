@@ -66,7 +66,7 @@ class dir17x19x_internet_mode_setup():
     #click()
     self.driver.method_by_ID_click("closeCreatePopBtn")
 
-  def dut_internet_mode_pptp_manual(self):
+  def dut_internet_mode_l2tp_manual(self,*args, **kwargs):
     # Mouse over "menu_Settings"
     self.driver.method_by_ID_mouseOver("menu_Settings")
 

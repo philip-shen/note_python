@@ -316,6 +316,101 @@
         }
 
     ],
+    "DUT_Config_WANMode":[
+        {"test_case": {
+            "id": "dlink_WAN_Mode_000",
+            "description": "WAN_Mode_PPPoE"
+            },
+        "always":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Always"
+            },
+        "keep_alive":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":""
+            },
+        "manual":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Manual"
+            }
+        },
+        {"test_case": {
+            "id": "dlink_WAN_Mode_010",
+            "description": "WAN_Mode_PPPoE"
+            },
+        "always":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Always"
+            },
+        "keep_alive":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":""
+            },
+        "manual":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Manual"
+            }
+        },
+        {"test_case": {
+            "id": "dlink_WAN_Mode_011",
+            "description": "WAN_Mode_PPPTP"
+            },
+        "always":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Always"
+            },
+        "keep_alive":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":""
+            },
+        "manual":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Manual"
+            }
+        },
+        {"test_case": {
+            "id": "dlink_WAN_Mode_011",
+            "description": "WAN_Mode_L2TP"
+            },
+        "always":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Always"
+            },
+        "keep_alive":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":""
+            },
+        "manual":{
+            "server_ip_address":"10.0.0.3",
+            "username_pppoe":"ubuntutest",
+            "password_pppoe":"test1234",
+            "connection_mode":"Manual"
+            }
+        }
+
+    ],
     "LANtoWLAN":[
 
     ],

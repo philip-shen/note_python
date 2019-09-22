@@ -110,7 +110,7 @@ class Test_dir1750_internet_mode_setup():
     #self.driver.find_element(By.ID, "dialogBtn_rebootSuccess").click()
     self.driver.method_by_ID_click("dialogBtn_rebootSuccess")
 
-  def dut_internet_mode_pptp_manual(self):
+  def dut_internet_mode_l2tp_manual(self):
     #WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.ID, "menu_Settings")))   
     #element = self.driver.find_element(By.ID, "menu_Settings")
     #actions = ActionChains(self.driver)
@@ -185,7 +185,7 @@ if __name__ == '__main__':
   local_dir1750_wanmode_setup.sys_Reset()
   #local_dir1750_wanmode_setup.sys_Reboot()
 
-  #local_dir1750_wanmode_setup.dut_internet_mode_pptp_manual()
+  #local_dir1750_wanmode_setup.dut_internet_mode_l2tp_manual()
 
   local_dir1750_wanmode_setup.method_close()
   local_dir1750_wanmode_setup.method_teardown()
