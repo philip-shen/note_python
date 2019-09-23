@@ -5,6 +5,8 @@ from api_selenium import *
 # Refer https://www.pingshiuanchua.com/blog/post/error-handling-in-selenium-on-python
 from selenium.common.exceptions import ElementClickInterceptedException
 
+from logger import logger
+
 class dir17x19x_internet_mode_setup():
   def __init__(self):
     self.driver = method_selenium()
@@ -159,7 +161,7 @@ class dir17x19x_wifi_2G5G_Setup():
   #self.driver.find_element(By.XPATH, "//a[contains(@href, \'WPA3-PSK\')]").click()
   #self.driver.find_element(By.XPATH, "//a[contains(@href, \'WPAORWPA2-PSK\')]").click()
   #
-  #self.driver.find_element(By.XPATH, "//a[contains(@href, \'None\')]").click()
+  #self.driver.find_element(By.XPATH, "//a[contains(., \'None\')]").click()
   #self.driver.find_element(By.XPATH, "//a[contains(.,\'WPA3-Personal\')]").click()
   #self.driver.find_element(By.XPATH, "//a[contains(.,\'WPA/WPA2-Personal\')]").click()
   #######################################################################
@@ -173,7 +175,8 @@ class dir17x19x_wifi_2G5G_Setup():
       opt_what= 'None'
 
     opt_what= "//a[contains(@href, \'"+opt_what+"\')]"
-    #"//a[contains(@href, \'"+opt_what+"\')]"
+    logger.info('opt_what :{0} '.format(opt_what));#debug purpose
+
     return opt_what  
 
   #self.driver.find_element(By.XPATH, "//a[contains(@href, \'true\')]").click()
@@ -181,7 +184,9 @@ class dir17x19x_wifi_2G5G_Setup():
   #######################################################################  
   def xpath_wifi_2g_visibility_mode(self,*args, **kwargs):
     opt_what=''
-    if args[0].lower == "visible":
+    #logger.info('args[0] lower :{0} '.format(args[0].lower()));#debug purpose
+    
+    if args[0].lower() == "visible":
       opt_what= 'true'
     else:
       opt_what= 'false'
@@ -194,14 +199,14 @@ class dir17x19x_wifi_2G5G_Setup():
   #######################################################################  
   def xpath_wifi_5g_visibility_mode(self,*args, **kwargs):
     opt_what=''
-    #print('args[0]: {}'.format(args[0]))
-    logger.info('args[0]:{0} '.format(args[0]))
-    if args[0].lower == "visible":
+    #logger.info('args[0] lower :{0} '.format(args[0].lower()));#debug purpose
+    
+    if args[0].lower() == "visible":
       opt_what= 'true'
     else:
       opt_what= 'false'
 
-    opt_what= "//a[contains(@href, \'"+opt_what+"\')])[2]"
+    opt_what= "(//a[contains(@href, \'"+opt_what+"\')])[2]"
     return opt_what  
 
   #
@@ -218,32 +223,40 @@ class dir17x19x_wifi_2G5G_Setup():
     self.driver.method_by_CSS_SELECTOR_click(".radio24_advBtn > span")
 
     # change 2G Securiyt Mode
-    try:
+    #try:
       # Tries to click an element
-      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
       
-    except ElementClickInterceptedException:
+    #except ElementClickInterceptedException:
       # Re try again
-      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
+    
+    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[4]")
 
     # Check 2G security option
-    #what= self.xpath_wifi_2g_sec_mode(kwargs['wifi_2g']['security_mode'])
-    what= kwargs['wifi_2g']['security_mode']
+    rtu_visibility= self.xpath_wifi_2g_sec_mode(kwargs['wifi_2g']['security_mode'])
+    #what= kwargs['wifi_2g']['security_mode']
 
     try:
       # Tries to drop down list to select
-      #self.driver.method_by_XPath_click(what)
-      self.driver.method_by_LinkText_click(what)
+      self.driver.method_by_XPath_click(rtu_visibility)
+      #self.driver.method_by_LinkText_click(what)
     except ElementClickInterceptedException:
-      #self.driver.method_by_XPath_click(what)
-      self.driver.method_by_LinkText_click(what)
+      self.driver.method_by_XPath_click(rtu_visibility)
+      #self.driver.method_by_LinkText_click(what)
+
+    #self.driver.method_by_LinkText_click(kwargs['wifi_2g']['security_mode'])
+
 
     # Change SSID Password
     self.driver.method_by_ID_type("wifiName_24",kwargs['wifi_2g']['ssid'])
     self.driver.method_by_ID_type("password_24",kwargs['wifi_2g']['password'])
 
     # Change channel#
-    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[8]")
+    try:
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[8]")
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[8]")
 
     self.driver.method_by_LinkText_click(kwargs['wifi_2g']['channel'])
 
@@ -277,6 +290,16 @@ class dir17x19x_wifi_2G5G_Setup():
     # Change Visibility Status:	
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[14]")
     # Make 2G invisible
+
+    #2019/09/23 string gened from xpath_wifi_2g_visibility_mode() couldn't available
+    rtu_visibility=self.xpath_wifi_2g_visibility_mode(kwargs['wifi_2g']['visibility_status'])
+    #logger.info('rtu_visibility:{0} '.format(rtu_visibility))
+    
+    try:
+      self.driver.method_by_XPath_click(rtu_visibility)
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click(rtu_visibility)
+
     self.driver.method_by_LinkText_click(kwargs['wifi_2g']['visibility_status'])
 
     # Change 5G setting
@@ -304,8 +327,24 @@ class dir17x19x_wifi_2G5G_Setup():
     # Make 5G invisible
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
 
+    rtu_visibility=self.xpath_wifi_5g_visibility_mode(kwargs['wifi_5g']['visibility_status'])
+    #logger.info('5G rtu_visibility:{0} '.format(rtu_visibility))
+
+    try:
+      self.driver.method_by_XPath_click(rtu_visibility)
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click(rtu_visibility)
+
     self.driver.method_by_LinkText_click(kwargs['wifi_5g']['visibility_status'])
     
+    # 2019/09/23
+    # selenium.common.exceptions.ElementClickInterceptedException: Message: element click intercepted: Element 
+    # <a href="false" rel="false" class="">...</a> is not clickable at point (571, 529). 
+    # Other element would receive the click: <a href="#" class="sbSelector" style="width:190px">...</a>
+    # (Session info: chrome=77.0.3865.90)
+    # remark below line
+    #self.driver.method_by_XPath_click(rtu_visibility)
+
     # Press Save buttion
     self.driver.method_by_ID_click("Save_btn")
 
@@ -327,8 +366,19 @@ class dir17x19x_wifi_2G5G_Setup():
     self.driver.method_by_ID_type("wifiName_24",kwargs['wifi_2g']['ssid'])
     self.driver.method_by_ID_type("password_24",kwargs['wifi_2g']['password'])
 
-    # Make 2G Invisible
+    # Change Visibility Status:	
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[14]")
+    
+    # Make 2G Invisible
+    #2019/09/23 string gened from xpath_wifi_2g_visibility_mode() couldn't available
+    rtu_visibility=self.xpath_wifi_2g_visibility_mode(kwargs['wifi_2g']['visibility_status'])
+    #logger.info('rtu_visibility:{0} '.format(rtu_visibility))
+    
+    try:
+      self.driver.method_by_XPath_click(rtu_visibility)
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click(rtu_visibility)
+
     self.driver.method_by_LinkText_click(kwargs['wifi_2g']['visibility_status'])
 
     
@@ -362,14 +412,26 @@ class dir17x19x_wifi_2G5G_Setup():
     self.driver.method_by_LinkText_click(kwargs['wifi_5g']['channel_width'])
 
     # Make 5G Invisible
-    try:
-      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
-    except ElementClickInterceptedException:
-      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
+    #try:
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
+    #except ElementClickInterceptedException:
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
 
-    rtu_visibility=xpath_wifi_5g_visibility_mode(kwargs['wifi_5g']['visibility_status'])
-    logger.info('rtu_visibility:{0} '.format(rtu_visibility))
-    self.driver.method_by_LinkText_click(rtu_visibility)
+    #rtu_visibility=xpath_wifi_5g_visibility_mode(kwargs['wifi_5g']['visibility_status'])
+    #logger.info('rtu_visibility:{0} '.format(rtu_visibility))
+    #self.driver.method_by_LinkText_click(rtu_visibility)
+
+    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
+
+    rtu_visibility=self.xpath_wifi_5g_visibility_mode(kwargs['wifi_5g']['visibility_status'])
+    #logger.info('5G rtu_visibility:{0} '.format(rtu_visibility))
+
+    try:
+      self.driver.method_by_XPath_click(rtu_visibility)
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click(rtu_visibility)
+
+    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['visibility_status'])
 
     # press save buttion
     self.driver.method_by_ID_click("Save_btn")

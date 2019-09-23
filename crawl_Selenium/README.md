@@ -117,7 +117,40 @@ Low |
 Visibility Status | Description
 ------------------------------------ | ---------------------------------------------
 Visible | Select box, Modification could be changed.   
-Invisible | 
+Invisible | Select box, Modification could be changed.    
+```
+DevTools listening on ws://127.0.0.1:53709/devtools/browser/7ac777df-3003-4350-9184-30da3572b3fa
+2019-09-23 17:04:17,959 - api_selenium.py[line:19] - <MainThread 5372>- <Process 1116> - INFO: Initial Chrome Webbrowser!
+2019-09-23 17:04:17,974 - api_selenium.py[line:33] - <MainThread 5372>- <Process 1116> - INFO: Open url:http://220.18.1.1
+2019-09-23 17:04:18,459 - api_selenium.py[line:37] - <MainThread 5372>- <Process 1116> - INFO: Set Browser Size:1080*705
+2019-09-23 17:04:22,667 - api_selenium.py[line:45] - <MainThread 5372>- <Process 1116> - INFO: Click by_ID:logIn_btn
+2019-09-23 17:04:22,760 - api_selenium.py[line:50] - <MainThread 5372>- <Process 1116> - INFO: Mouse Over by_ID:menu_Settings
+2019-09-23 17:04:23,766 - api_selenium.py[line:45] - <MainThread 5372>- <Process 1116> - INFO: Click by_ID:menuBtn_WiFi
+2019-09-23 17:04:23,925 - api_selenium.py[line:117] - <MainThread 5372>- <Process 1116> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span
+2019-09-23 17:04:25,749 - api_selenium.py[line:81] - <MainThread 5372>- <Process 1116> - INFO: Type by_ID:wifiName_24 value:testdlink-2G
+2019-09-23 17:04:25,984 - api_selenium.py[line:81] - <MainThread 5372>- <Process 1116> - INFO: Type by_ID:password_24 value:00000000
+2019-09-23 17:04:26,157 - api_selenium.py[line:57] - <MainThread 5372>- <Process 1116> - INFO: Click by_XPath:(//a[contains(@href, '#')])[14]
+2019-09-23 17:04:26,253 - api_selenium_dir17x19x.py[line:186] - <MainThread 5372>- <Process 1116> - INFO: args[0] lower :visible
+2019-09-23 17:04:26,254 - api_selenium.py[line:57] - <MainThread 5372>- <Process 1116> - INFO: Click by_XPath://a[contains(@href, 'true')]
+2019-09-23 17:04:26,344 - api_selenium.py[line:76] - <MainThread 5372>- <Process 1116> - INFO: Click by_Link_Text:Visible
+2019-09-23 17:04:26,467 - api_selenium.py[line:81] - <MainThread 5372>- <Process 1116> - INFO: Type by_ID:wifiName_5 value:testdlink-5G
+2019-09-23 17:04:26,693 - api_selenium.py[line:81] - <MainThread 5372>- <Process 1116> - INFO: Type by_ID:password_5 value:00000000
+2019-09-23 17:04:26,861 - api_selenium.py[line:117] - <MainThread 5372>- <Process 1116> - INFO: Click by_CSS_SELECTOR:#RADIO_5 > .advButton > span
+2019-09-23 17:04:26,962 - api_selenium.py[line:57] - <MainThread 5372>- <Process 1116> - INFO: Click by_XPath:(//a[contains(@href, '#')])[20]
+2019-09-23 17:04:27,057 - api_selenium.py[line:76] - <MainThread 5372>- <Process 1116> - INFO: Click by_Link_Text:WPA3-Personal
+2019-09-23 17:04:27,162 - api_selenium.py[line:57] - <MainThread 5372>- <Process 1116> - INFO: Click by_XPath:(//a[contains(@href, '#')])[24]
+2019-09-23 17:04:27,254 - api_selenium.py[line:76] - <MainThread 5372>- <Process 1116> - INFO: Click by_Link_Text:Auto
+2019-09-23 17:04:27,371 - api_selenium.py[line:57] - <MainThread 5372>- <Process 1116> - INFO: Click by_XPath:(//a[contains(@href, '#')])[28]
+2019-09-23 17:04:27,461 - api_selenium.py[line:76] - <MainThread 5372>- <Process 1116> - INFO: Click by_Link_Text:Auto 20/40/80 MHz
+2019-09-23 17:04:27,603 - api_selenium.py[line:57] - <MainThread 5372>- <Process 1116> - INFO: Click by_XPath:(//a[contains(@href, '#')])[30]
+2019-09-23 17:04:27,697 - api_selenium_dir17x19x.py[line:201] - <MainThread 5372>- <Process 1116> - INFO: args[0] lower :visible
+2019-09-23 17:04:27,697 - api_selenium.py[line:57] - <MainThread 5372>- <Process 1116> - INFO: Click by_XPath:(//a[contains(@href, 'true')])[2]
+2019-09-23 17:04:27,780 - api_selenium.py[line:76] - <MainThread 5372>- <Process 1116> - INFO: Click by_Link_Text:Visible
+2019-09-23 17:04:27,871 - api_selenium.py[line:45] - <MainThread 5372>- <Process 1116> - INFO: Click by_ID:Save_btn
+2019-09-23 17:04:27,967 - api_selenium.py[line:45] - <MainThread 5372>- <Process 1116> - INFO: Click by_ID:popalert_ok
+2019-09-23 17:05:17,788 - api_selenium.py[line:29] - <MainThread 5372>- <Process 1116> - INFO: Close Chrome Webbrowser!
+2019-09-23 17:05:22,222 - api_selenium.py[line:25] - <MainThread 5372>- <Process 1116> - INFO: Teardown Chrome Webbrowser!
+```
 
 Channel Width | Description
 ------------------------------------ | ---------------------------------------------
