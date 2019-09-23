@@ -1,7 +1,13 @@
 # Purpose  
 Take note of Selenium
 
-# Table of Contents
+# Table of Contents  
+[Status Check Table](#status-check-table)  
+[System](#system)  
+[WiFi Smart Connect](#wifi-smart-connect)  
+[WiFi 2.4GHz](#wifi-2.4GHz)  
+[WiFi 5GHz](#wifi-5GHz)  
+
 [Selenium IDE Hand On](#selenium-ide-hand-on)  
 [Selenium IDE for Firefox](#selenium-ide-for-firefox)  
 [Selenium IDE for Chrome](#selenium-ide-for-chrome)  
@@ -15,6 +21,144 @@ Take note of Selenium
 [Selenium 4](#selenium-4)  
 
 [Reference](#reference) 
+
+# Status Check Table  
+
+## System  
+Item | Description
+------------------------------------ | ---------------------------------------------
+Reset Function | Button, Disable, Modification could be changed. 
+Reboot Function | Button, Disable, Modification could be changed.
+
+## WiFi Smart Connect  
+Item | Description
+------------------------------------ | ---------------------------------------------
+Smart Connect | Button, Disable, Modification could be changed.
+```
+DevTools listening on ws://127.0.0.1:59644/devtools/browser/20c185e0-8773-4e48-a707-2b26d9062ea7
+2019-09-23 09:40:58,404 - api_selenium.py[line:19] - <MainThread 1872>- <Process 8084> - INFO: Initial Chrome Webbrowser!
+2019-09-23 09:40:58,419 - api_selenium.py[line:33] - <MainThread 1872>- <Process 8084> - INFO: Open url:http://220.18.1.1
+2019-09-23 09:40:58,966 - api_selenium.py[line:37] - <MainThread 1872>- <Process 8084> - INFO: Set Browser Size:1080*705
+2019-09-23 09:41:03,169 - api_selenium.py[line:45] - <MainThread 1872>- <Process 8084> - INFO: Click by_ID:logIn_btn
+2019-09-23 09:41:03,246 - api_selenium.py[line:50] - <MainThread 1872>- <Process 8084> - INFO: Mouse Over by_ID:menu_Settings
+2019-09-23 09:41:04,833 - api_selenium.py[line:45] - <MainThread 1872>- <Process 8084> - INFO: Click by_ID:menuBtn_WiFi
+2019-09-23 09:41:04,939 - api_selenium.py[line:117] - <MainThread 1872>- <Process 8084> - INFO: Click by_CSS_SELECTOR:#RADIO_smart .chkbox_enabled
+2019-09-23 09:41:06,706 - api_selenium.py[line:117] - <MainThread 1872>- <Process 8084> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span
+2019-09-23 09:41:06,803 - api_selenium.py[line:117] - <MainThread 1872>- <Process 8084> - INFO: Click by_CSS_SELECTOR:#coexistence_24_tr .chkbox_enabled
+2019-09-23 09:41:06,890 - api_selenium.py[line:45] - <MainThread 1872>- <Process 8084> - INFO: Click by_ID:Save_btn
+2019-09-23 09:41:06,970 - api_selenium.py[line:45] - <MainThread 1872>- <Process 8084> - INFO: Click by_ID:popalert_ok
+2019-09-23 09:41:57,302 - api_selenium.py[line:29] - <MainThread 1872>- <Process 8084> - INFO: Close Chrome Webbrowser!
+2019-09-23 09:42:01,676 - api_selenium.py[line:25] - <MainThread 1872>- <Process 8084> - INFO: Teardown Chrome Webbrowser!
+```
+
+## WiFi 2.4GHz  
+Item | Description
+------------------------------------ | ---------------------------------------------
+SSID | Text, Modification could be changed.
+Password | Text, Modification could be changed.
+
+Security Mode | Description
+------------------------------------ | ---------------------------------------------
+None | 
+WPA/WPA2-Personal | Select box, Modification could be changed.
+WPA3-Personal | Select box, Modification could be changed.
+
+Wi-Fi Channel | Description
+------------------------------------ | ---------------------------------------------
+Auto | Select box, Modification could be changed. 
+1 | Select box, Modification could be changed.
+6 | Select box, Modification could be changed. 
+11 | Select box, Modification could be changed.
+
+Transmission Power | Description
+------------------------------------ | ---------------------------------------------
+High | 
+Medium | 
+Low | 
+
+Visibility Status | Description
+------------------------------------ | ---------------------------------------------
+Visible | Select box, Modification could be changed.
+Invisible | Select box, Modification could be changed.
+
+Channel Width | Description
+------------------------------------ | ---------------------------------------------
+Auto 20/40 MHz | Select box, Modification could be changed.  
+20 MHz  | Select box, Modification could be changed. 
+
+HT20/40 Coexistence | Description
+------------------------------------ | ---------------------------------------------
+Disable | always for performance testing
+
+## WiFi 5GHz  
+Item | Description
+------------------------------------ | ---------------------------------------------
+SSID | Text, Modification could be changed.
+Password | Text, Modification could be changed.
+
+Security Mode | Description
+------------------------------------ | ---------------------------------------------
+None | Select box, Modification could be changed. 
+WPA/WPA2-Personal | Select box, Modification could be changed.   
+WPA3-Personal | Select box, Modification could be changed.
+
+Wi-Fi Channel | Description
+------------------------------------ | ---------------------------------------------
+Auto | Select box, Modification could be changed.   
+36 | Select box, Modification could be changed.  
+149 | Select box, Modification could be changed.   
+
+Transmission Power | Description
+------------------------------------ | ---------------------------------------------
+High | 
+Medium | 
+Low | 
+
+Visibility Status | Description
+------------------------------------ | ---------------------------------------------
+Visible | Select box, Modification could be changed.   
+Invisible | 
+
+Channel Width | Description
+------------------------------------ | ---------------------------------------------
+Auto 20/40/80 MHz | 
+Auto 20/40 MHz  | 
+
+```
+DevTools listening on ws://127.0.0.1:59892/devtools/browser/2e87f7b3-1cd7-451c-9c3f-7be50465ef9e
+2019-09-23 09:50:25,538 - api_selenium.py[line:19] - <MainThread 13552>- <Process 16588> - INFO: Initial Chrome Webbrowser!
+2019-09-23 09:50:25,538 - api_selenium.py[line:33] - <MainThread 13552>- <Process 16588> - INFO: Open url:http://220.18.1.1
+2019-09-23 09:50:25,943 - api_selenium.py[line:37] - <MainThread 13552>- <Process 16588> - INFO: Set Browser Size:1080*705
+2019-09-23 09:50:30,122 - api_selenium.py[line:45] - <MainThread 13552>- <Process 16588> - INFO: Click by_ID:logIn_btn
+2019-09-23 09:50:30,222 - api_selenium.py[line:50] - <MainThread 13552>- <Process 16588> - INFO: Mouse Over by_ID:menu_Settings
+2019-09-23 09:50:31,297 - api_selenium.py[line:45] - <MainThread 13552>- <Process 16588> - INFO: Click by_ID:menuBtn_WiFi
+2019-09-23 09:50:31,413 - api_selenium.py[line:117] - <MainThread 13552>- <Process 16588> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span
+2019-09-23 09:50:33,134 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[4]
+2019-09-23 09:50:33,213 - api_selenium.py[line:76] - <MainThread 13552>- <Process 16588> - INFO: Click by_Link_Text:None
+2019-09-23 09:50:33,322 - api_selenium.py[line:81] - <MainThread 13552>- <Process 16588> - INFO: Type by_ID:wifiName_24 value:testdlink-2G
+2019-09-23 09:50:33,546 - api_selenium.py[line:81] - <MainThread 13552>- <Process 16588> - INFO: Type by_ID:password_24 value:00000000
+2019-09-23 09:50:33,704 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[8]
+2019-09-23 09:50:33,788 - api_selenium.py[line:76] - <MainThread 13552>- <Process 16588> - INFO: Click by_Link_Text:11
+2019-09-23 09:50:34,452 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[10]
+2019-09-23 09:50:34,520 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[10]
+2019-09-23 09:50:34,588 - api_selenium.py[line:76] - <MainThread 13552>- <Process 16588> - INFO: Click by_Link_Text:High
+2019-09-23 09:50:34,693 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[12]
+2019-09-23 09:50:34,760 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[12]
+2019-09-23 09:50:34,816 - api_selenium.py[line:76] - <MainThread 13552>- <Process 16588> - INFO: Click by_Link_Text:Auto 20/40 MHz
+2019-09-23 09:50:34,919 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[14]
+2019-09-23 09:50:35,008 - api_selenium.py[line:76] - <MainThread 13552>- <Process 16588> - INFO: Click by_Link_Text:Invisible
+2019-09-23 09:50:35,666 - api_selenium.py[line:117] - <MainThread 13552>- <Process 16588> - INFO: Click by_CSS_SELECTOR:#RADIO_5 > .advButton > span
+2019-09-23 09:50:35,759 - api_selenium.py[line:81] - <MainThread 13552>- <Process 16588> - INFO: Type by_ID:wifiName_5 value:testdlink-5G
+2019-09-23 09:50:35,957 - api_selenium.py[line:81] - <MainThread 13552>- <Process 16588> - INFO: Type by_ID:password_5 value:00000000
+2019-09-23 09:50:36,136 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[20]
+2019-09-23 09:50:36,225 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, 'WPA3-PSK')])[2]
+2019-09-23 09:50:36,846 - api_selenium.py[line:57] - <MainThread 13552>- <Process 16588> - INFO: Click by_XPath:(//a[contains(@href, '#')])[30]
+2019-09-23 09:50:36,928 - api_selenium.py[line:76] - <MainThread 13552>- <Process 16588> - INFO: Click by_Link_Text:Invisible
+2019-09-23 09:50:37,032 - api_selenium.py[line:45] - <MainThread 13552>- <Process 16588> - INFO: Click by_ID:Save_btn
+2019-09-23 09:50:37,127 - api_selenium.py[line:45] - <MainThread 13552>- <Process 16588> - INFO: Click by_ID:popalert_ok
+2019-09-23 09:51:26,734 - api_selenium.py[line:29] - <MainThread 13552>- <Process 16588> - INFO: Close Chrome Webbrowser!
+2019-09-23 09:51:31,063 - api_selenium.py[line:25] - <MainThread 13552>- <Process 16588> - INFO: Teardown Chrome Webbrowser!
+```
 
 # Selenium IDE Hand On  
 [10分でわかるブラウザ処理自動化！初心者向けSelenium IDE入門ガイド (2019/08版 : Selenium IDE v3.12.0)  2019-09-01](https://qiita.com/oh_rusty_nail/items/5b584c95e01759c00869)  

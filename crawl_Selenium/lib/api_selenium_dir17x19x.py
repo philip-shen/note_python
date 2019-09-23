@@ -176,6 +176,34 @@ class dir17x19x_wifi_2G5G_Setup():
     #"//a[contains(@href, \'"+opt_what+"\')]"
     return opt_what  
 
+  #self.driver.find_element(By.XPATH, "//a[contains(@href, \'true\')]").click()
+  #self.driver.find_element(By.XPATH, "//a[contains(@href, \'false\')]").click()
+  #######################################################################  
+  def xpath_wifi_2g_visibility_mode(self,*args, **kwargs):
+    opt_what=''
+    if args[0].lower == "visible":
+      opt_what= 'true'
+    else:
+      opt_what= 'false'
+
+    opt_what= "//a[contains(@href, \'"+opt_what+"\')]"
+    return opt_what  
+  
+  #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'true\')])[2]").click()
+  #self.driver.find_element(By.XPATH, "(//a[contains(@href, \'false\')])[2]").click()
+  #######################################################################  
+  def xpath_wifi_5g_visibility_mode(self,*args, **kwargs):
+    opt_what=''
+    #print('args[0]: {}'.format(args[0]))
+    logger.info('args[0]:{0} '.format(args[0]))
+    if args[0].lower == "visible":
+      opt_what= 'true'
+    else:
+      opt_what= 'false'
+
+    opt_what= "//a[contains(@href, \'"+opt_what+"\')])[2]"
+    return opt_what  
+
   #
   # WiFi 2G Setting
   ####################################################################
@@ -339,7 +367,9 @@ class dir17x19x_wifi_2G5G_Setup():
     except ElementClickInterceptedException:
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
 
-    self.driver.method_by_LinkText_click(kwargs['wifi_5g']['visibility_status'])
+    rtu_visibility=xpath_wifi_5g_visibility_mode(kwargs['wifi_5g']['visibility_status'])
+    logger.info('rtu_visibility:{0} '.format(rtu_visibility))
+    self.driver.method_by_LinkText_click(rtu_visibility)
 
     # press save buttion
     self.driver.method_by_ID_click("Save_btn")
