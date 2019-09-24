@@ -18,12 +18,12 @@ Take note of Selenium
 [How to select a drop-down menu option value with Selenium (Python)](#how-to-select-a-drop-down-menu-option-value-with-Selenium-python)  
 [Converting Python dict to kwargs?](#converting-python-dict-to-kwargs?)  
 
-[Can I run multiple instances at once(simultaneously) with selenium-webdriver?](#can-i-run_multiple-instances-at-oncesimultaneously-with-selenium-webdriver?)
 [Selenium 4](#selenium-4)  
 
-[Reference](#reference) 
-[Error message: “'chromedriver' executable needs to be available in the path”]()
-[How to change the language of the browser in Selenium](#how-to-change-the-language-of-the-browser-in-Selenium)
+[Reference](#reference)  
+[Can I run multiple instances at once(simultaneously) with selenium-webdriver?](#can-i-run_multiple-instances-at-oncesimultaneously-with-selenium-webdriver?)  
+[Error message: “'chromedriver' executable needs to be available in the path”](#error-message-chromedriver-executable-needs-to-be-available-in-the-path)  
+[How to change the language of the browser in Selenium](#how-to-change-the-language-of-the-browser-in-Selenium)  
 
 # Status Check Table  
 
