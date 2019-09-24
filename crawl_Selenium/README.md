@@ -18,6 +18,7 @@ Take note of Selenium
 [How to select a drop-down menu option value with Selenium (Python)](#how-to-select-a-drop-down-menu-option-value-with-Selenium-python)  
 [Converting Python dict to kwargs?](#converting-python-dict-to-kwargs?)  
 
+[Can I run multiple instances at once(simultaneously) with selenium-webdriver?](#can-i-run_multiple-instances-at-oncesimultaneously-with-selenium-webdriver?)
 [Selenium 4](#selenium-4)  
 
 [Reference](#reference) 
@@ -358,6 +359,18 @@ func(**{'type':'Event'})
 
 is equivalent to
 func(type='Event')
+```
+
+# Can I run multiple instances at once(simultaneously) with selenium-webdriver?  
+[Can I run multiple instances at once(simultaneously) with selenium-webdriver? Nov 16 '15](https://stackoverflow.com/questions/33741921/can-i-run-multiple-instances-at-oncesimultaneously-with-selenium-webdriver)  
+```
+Well you need to create multiple threads instead of looping, then you can start each upload in parallel threads. You are on the right track. You dont need selenium grid to achieve this.
+
+lookup about multithreading. You can start with this answer
+
+It's not right you need grid for executing multiple browser sessions. You can invoke multiple browser sessions by just creating multiple driver objects, and managing them. Each session will be separate if you want them to be.
+
+Grid is for scaling as there is a limitation on the no of browser instances you can run keeping your machine performance intact and tests stable. Like more than 5 chrome instances in a single machine. If you want to do more than that then you have to use selenium Grid.
 ```
 
 # Selenium 4  
