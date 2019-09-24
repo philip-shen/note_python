@@ -22,6 +22,8 @@ Take note of Selenium
 [Selenium 4](#selenium-4)  
 
 [Reference](#reference) 
+[Error message: “'chromedriver' executable needs to be available in the path”]()
+[How to change the language of the browser in Selenium](#how-to-change-the-language-of-the-browser-in-Selenium)
 
 # Status Check Table  
 
@@ -361,7 +363,18 @@ is equivalent to
 func(type='Event')
 ```
 
-# Can I run multiple instances at once(simultaneously) with selenium-webdriver?  
+
+
+# Selenium 4  
+[Selenium 4 is releasing soon: What every QA must know? Dec 4, 2018 ](https://medium.com/@muntasir./selenium-4-is-releasing-soon-what-every-qa-must-know-c82d4914be0a)  
+
+## W3C WebDriver Standardization  
+[WebDriver W3C specs](https://github.com/w3c/webdriver)  
+## Selenium 4 IDE  
+
+
+# Reference  
+## Can I run multiple instances at once(simultaneously) with selenium-webdriver?  
 [Can I run multiple instances at once(simultaneously) with selenium-webdriver? Nov 16 '15](https://stackoverflow.com/questions/33741921/can-i-run-multiple-instances-at-oncesimultaneously-with-selenium-webdriver)  
 ```
 Well you need to create multiple threads instead of looping, then you can start each upload in parallel threads. You are on the right track. You dont need selenium grid to achieve this.
@@ -372,16 +385,75 @@ It's not right you need grid for executing multiple browser sessions. You can in
 
 Grid is for scaling as there is a limitation on the no of browser instances you can run keeping your machine performance intact and tests stable. Like more than 5 chrome instances in a single machine. If you want to do more than that then you have to use selenium Grid.
 ```
+## Error message: “'chromedriver' executable needs to be available in the path”
+[Error message: “'chromedriver' executable needs to be available in the path” Oct 18, 2018](https://stackoverflow.com/questions/29858752/error-message-chromedriver-executable-needs-to-be-available-in-the-path)  
+```
+Alternatively you can use a direct path to the chromedriver like this:
 
-# Selenium 4  
-[Selenium 4 is releasing soon: What every QA must know? Dec 4, 2018 ](https://medium.com/@muntasir./selenium-4-is-releasing-soon-what-every-qa-must-know-c82d4914be0a)  
+ driver = webdriver.Chrome('/path/to/chromedriver') 
+So in your specific case:
 
-## W3C WebDriver Standardization  
-[WebDriver W3C specs](https://github.com/w3c/webdriver)  
-## Selenium 4 IDE  
+ driver = webdriver.Chrome("C:/Users/michael/Downloads/chromedriver_win32/chromedriver.exe")
+```
+## How to change the language of the browser in Selenium  
+[selenium change language browser chrome / firefox Oct 8, 2015](https://stackoverflow.com/questions/33016300/selenium-change-language-browser-chrome-firefox)  
 
+The answer is already available in one of the very recent post:
+[Change language on Firefox with Selenium Python Sep 22 '15](https://stackoverflow.com/questions/32728302/change-language-on-firefox-with-selenium-python)
+```
+def get_webdriver(attempts=3, timeout=60, locale='en-us'):
+  firefox_profile = webdriver.FirefoxProfile()
+  firefox_profile.set_preference("intl.accept_languages", locale)
+  firefox_profile.update_preferences()
 
-# Reference
+  desired_capabilities = getattr(
+      DesiredCapabilities, "FIREFOX").copy()
+
+  hub_url = urljoin('http://hub:4444', '/wd/hub')
+  driver = webdriver.Remote(
+    command_executor=hub_url, desired_capabilities=desired_capabilities,
+    browser_profile=firefox_profile)
+
+  return driver
+```
+
+[How to change the language of the browser in Selenium Aug 23, 2017](https://softwaretestingboard.com/q2a/2347/how-to-change-the-language-of-the-browser-selenium-webdriver#axzz60QospnL3)
+```
+Below is the syntax you can use for Firefox Browser :
+
+FirefoxProfile profile = new FirefoxProfile();
+//setting the locale french : 'fr'
+profile.setPreference("intl.accept_languages","fr");
+driver = new FirefoxDriver(profile);
+driver.get("http://www.google.com);
+
+Below is the syntax you can use for Chrome Browser :
+
+System.setProperty("webdriver.chrome.driver","D:/.../chromedriver.exe");
+ChromeOptions options = new ChromeOptions();
+options.addArguments("-lang= sl");
+ChromeDriver driver = new ChromeDriver(options);
+driver.get("http://www.google.com);
+
+Here are few samples for different languages:
+
+//options.AddArgument("--lang=es"); //espanol
+//options.AddArgument("--lang=es-mx"); //espanol (Latinoamerica), espanol
+//options.AddArgument("--lang=en-ca"); //english (UK), english (us), english
+//options.AddArgument("--lang=en-au"); //english (UK), english (us), english
+//options.AddArgument("--lang=en-nz"); //english (UK), english (us), english
+//options.AddArgument("--lang=zh"); //english (us), english
+//options.AddArgument("--lang=zh-tw"); //Chinese (Traditional Chinese), Chinese, english (us), english
+//options.AddArgument("--lang=zh-hk"); //Chinese (Traditional Chinese), Chinese, english (us), english
+//options.AddArgument("--lang=zh-cn"); //Chinese (Simplified Chinese), Chinese, english (us), english
+options.AddArgument("--lang=fr"); //Francais (France), Francais, english (us), english
+//options.AddArgument("--lang=fr-ca"); //Francais (France), Francais, english (us), english
+//options.AddArgument("--lang=aus"); //Francais (France), Francais, english (us), english
+ 
+
+For IE browser, we need to update the locale manually in the browser.
+```
+
 * [全国のSeleniumer必読 2019-09-09](https://qiita.com/oh_rusty_nail/items/b8ba525d31ea7c522856#jenkins)  
 
 [Selenium IDE](https://qiita.com/oh_rusty_nail/items/b8ba525d31ea7c522856#selenium-ide)
