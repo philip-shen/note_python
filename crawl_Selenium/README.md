@@ -396,9 +396,26 @@ So in your specific case:
  driver = webdriver.Chrome("C:/Users/michael/Downloads/chromedriver_win32/chromedriver.exe")
 ```
 ## How to change the language of the browser in Selenium  
+[Trouble modifying the language option in selenium python bindings ](https://stackoverflow.com/questions/55150118/trouble-modifying-the-language-option-in-selenium-python-bindings)  
+```
+Working Solution:
+
+options = webdriver.ChromeOptions()
+options.add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})
+driver = webdriver.Chrome(chrome_options=options)
+
+Try using below code:
+
+prefs = {
+  "translate_whitelists": {"your native language":"en"},
+  "translate":{"enabled":"True"}
+}
+options.add_experimental_option("prefs", prefs)
+```
+
 [selenium change language browser chrome / firefox Oct 8, 2015](https://stackoverflow.com/questions/33016300/selenium-change-language-browser-chrome-firefox)  
 
-The answer is already available in one of the very recent post:
+The answer is already available in one of the very recent post:  
 [Change language on Firefox with Selenium Python Sep 22 '15](https://stackoverflow.com/questions/32728302/change-language-on-firefox-with-selenium-python)
 ```
 def get_webdriver(attempts=3, timeout=60, locale='en-us'):

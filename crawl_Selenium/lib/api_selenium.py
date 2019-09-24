@@ -10,12 +10,17 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 
 from logger import logger
 
 class method_selenium():
-    def __init__(self):
-        self.driver = webdriver.Chrome()
+    def __init__(self,locale='en,en_US'):
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option('prefs', {'intl.accept_languages': locale})
+        self.driver = webdriver.Chrome(chrome_options=options)
+        #self.driver = webdriver.Chrome()
+        
         logger.info('{0}'.format("Initial Chrome Webbrowser!"))
         
     def setup_method(self):
