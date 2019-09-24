@@ -21,7 +21,7 @@ Take note of Selenium
 [Selenium 4](#selenium-4)  
 
 [Reference](#reference)  
-[Can I run multiple instances at once(simultaneously) with selenium-webdriver?](#can-i-run_multiple-instances-at-oncesimultaneously-with-selenium-webdriver?)  
+[Can I run multiple instances at once(simultaneously) with selenium-webdriver?](#can-i-run-multiple-instances-at-oncesimultaneously-with-selenium-webdriver)  
 [Error message: “'chromedriver' executable needs to be available in the path”](#error-message-chromedriver-executable-needs-to-be-available-in-the-path)  
 [How to change the language of the browser in Selenium](#how-to-change-the-language-of-the-browser-in-Selenium)  
 
