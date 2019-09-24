@@ -14,9 +14,9 @@
         "wifi_2g":{
             "ssid":"testdlink-2G",
             "password":"00000000",
-            "security_mode":"WPA/WPA2-Personal",
-            "_security_mode":"WPA3-Personal",
-            "security_mode01":"None",
+            "_security_mode":"WPA/WPA2-Personal",
+            "security_mode03":"WPA3-Personal",
+            "security_mode":"None",
             "channel":"1",
             "channel_width":"Auto 20/40 MHz",
             "_channel_width":"20 MHz",

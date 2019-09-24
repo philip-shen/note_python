@@ -117,7 +117,7 @@ class dir17x19x_wifi_2G5G_Setup():
   
   def dut_Login(self,how):
     self.driver.method_get(how)
-    self.driver.method_set_window_size(1080, 705)
+    self.driver.method_set_window_size(1080, 905)
     self.driver.method_by_ID_click("logIn_btn")
 
   def wifi_SmartConnDisable(self):
