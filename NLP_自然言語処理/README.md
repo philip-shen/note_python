@@ -7,6 +7,7 @@
 
 ![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F107194%2F74a2eef3-e796-35df-55ba-9d12c2e76d66.gif?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&w=1400&fit=max&s=1f4e4ca93cc02e4835c692b1cfd18b01)  
 
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F107194%2F7d09ee29-af88-b8e0-4038-bc19f9a955a9.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&w=1400&fit=max&s=d24258148cbfd3b0dbfb1b6e97c3aa9c)  
 
 * 1 歌詞データのクローリング
 * 2 Mecabによる分かち書き
