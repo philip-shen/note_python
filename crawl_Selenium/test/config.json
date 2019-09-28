@@ -8,8 +8,8 @@
             "mode_name":"DIR1750",
             "fw_version":"1.00b17",
             "hw_version":"A1",
-            "_lan_ip_address":"220.18.1.1",
-            "lan_ip_address":"192.168.0.1",
+            "lan_ip_address":"220.18.1.1",
+            "_lan_ip_address":"192.168.0.1",
             "wan_ip_address":"10.1.0.1"
             },
         "wifi_2g":{

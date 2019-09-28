@@ -16,6 +16,14 @@ from api_selenium_dir17x19x import *
 
 
 if __name__ == '__main__':
+  # Get present time
+  local_time = time.localtime(time.time())
+  start_time = local_time
+  #print('Start Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec)
+  #logging.error('Begin Time:')
+  'Start Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec
+  logger.info('{0}'.format("Initial Chrome Webbrowser!"))
+
   # Read json file
   with open('config.json') as f:
     config_para = json.load(f)
@@ -49,3 +57,7 @@ if __name__ == '__main__':
   local_dir1750_wifi2g5g_ch_setup.method_close()
   local_dir1750_wifi2g5g_ch_setup.method_teardown()
   
+# Get the last time
+local_time = time.localtime(time.time())
+print('Final Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec)
+logging.error('Finish Time:')
