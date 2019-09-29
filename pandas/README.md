@@ -1,6 +1,14 @@
 # Take notes of pandas releated stuffs
 
 # Table of Contents
+[Setting up a Bollinger Band with Python](#setting-up-a-bollinger-band-with-python)  
+
+[How to compute and plot Bollinger Bands® in Python](#how-to-compute-and-plot-bollinger-bands-in-python)  
+
+[Trading: Calculate Technical Analysis Indicators with Pandas](#trading-calculate-technical-analysis-indicators-with-pandas)  
+[Prerequisite environment setup](#prerequisite-environment-setup)
+[Data:](#data)
+[Code:](#code)
 
 # Setting up a Bollinger Band with Python  
 [Setting up a Bollinger Band with Python Jan 13, 2018](https://medium.com/python-data/setting-up-a-bollinger-band-with-python-28941e2fa300)
