@@ -185,6 +185,9 @@ plt.show()
 ![alt tag](https://miro.medium.com/max/1280/1*JsLK7dWaeY04fBA5aJn87w.png)  
 
 # Reference
+* [Bollinger Bands Backtest using Python and REST API | Part 1 November 22, 2018](https://www.quantnews.com/bollinger-bands-backtest-using-python-rest-api-part-1/)  
+[fxcm/RestAPI](https://github.com/fxcm/RestAPI) 
+
 ```
 ```
 * []()  
