@@ -10,6 +10,14 @@
 [Data:](#data)  
 [Code:](#code)  
 
+[%B Indicator](#b-indicator)  
+[Introduction](#introduction)  
+[Calculation](#calculation)  
+[Signals: Overbought/Oversold](#signals:-overbought/oversold)
+[Signals: Trend Identification](#signals:-trend-identification)  
+
+[Reference](#reference)
+
 # Setting up a Bollinger Band with Python  
 [Setting up a Bollinger Band with Python Jan 13, 2018](https://medium.com/python-data/setting-up-a-bollinger-band-with-python-28941e2fa300)
 ## Main Components of a Bollinger Bands  
@@ -206,7 +214,55 @@ The bands are set 2 standard deviations above and below the 20-day simple
 [moving average](https://school.stockcharts.com/doku.php?id=glossary_m#moving_average_ma), 
 which is also the middle band. Security price is the close or the last trade. 
 
+## Signals: Overbought/Oversold  
+```
+%B can be used to identify overbought and oversold situations. 
+However, it is important to know when to look for overbought vs. oversold readings. 
+As with most momentum oscillators, it is best to look for short-term oversold situations 
+when the medium-term trend is up and short-term overbought situations when the medium-term trend is down. 
+In other words, look for opportunities in the direction of the bigger trend, 
+such as a pullback within a bigger uptrend. You must define the bigger trend before looking for overbought or oversold readings.
+```
+```
+Chart 1 shows Apple (AAPL) within a strong uptrend. %B moved above 1 several times, 
+but these “overbought” readings still failed to produce good sell signals. 
+Pullbacks were shallow as Apple reversed well above the lower band and resumed its uptrend. 
+John Bollinger refers to “walking the band” during strong trends. 
+This refers to the notion that, in a strong uptrend, prices can walk up the upper band and rarely touch the lower band. 
+Conversely, in a strong downtrend, prices can walk down the lower band and rarely touch the upper band. 
+```
+![alt tag](https://school.stockcharts.com/lib/exe/fetch.php?media=technical_indicators:bollinger_band_perce:bbpb-1-aaplwalk.png)  
+
+```
+After identifying a bigger uptrend, %B can be considered oversold when it moves to zero or below. 
+Remember, %B moves to zero when price hits the lower band and below zero when price moves below the lower band. 
+This represents a move that is 2 standard deviations below the 20-day moving average. 
+Chart 2 shows the Nasdaq 100 ETF (QQQQ) within an uptrend that began in March 2009. 
+%B moved below zero three times during this uptrend. 
+The oversold readings in early July and early November provided good entry points to partake in the bigger uptrend (green arrows). 
+```
+![alt tag](https://school.stockcharts.com/lib/exe/fetch.php?media=technical_indicators:bollinger_band_perce:bbpb-2-qqqqup.png)  
+
+## Signals: Trend Identification  
+```
+John Bollinger described a trend-following system using %B with the Money Flow Index (MFI). 
+An uptrend begins when %B is above .80 and MFI(10) is above 80. MFI is bound between zero and one hundred. 
+A move above 80 places MFI(10) in the upper 20% of its range, which is a strong reading. 
+Downtrends are identified when %B is below .20 and MFI(10) is below 20. 
+```
+![alt tag](https://school.stockcharts.com/lib/exe/fetch.php?media=technical_indicators:bollinger_band_perce:bbpb-3-fdxmfi.png)  
+
 [[教學] - 布林通道與波動率@ 交易者的E甸園 Jul 16, 2013](https://ebigmoney.pixnet.net/blog/post/152356080-%5B%E6%95%99%E5%AD%B8%5D---%E5%B8%83%E6%9E%97%E9%80%9A%E9%81%93%E8%88%87%E6%B3%A2%E5%8B%95%E7%8E%87)
+```
+因此根據%B是價格處於帶狀的位置所形成的指標
+我們就可以知道
+如果是正式突破帶寬的多頭%B就會大於0.8
+而正式跌破帶寬的空頭%B就會小於0.2
+這時候只要將關鍵的0.8和0.2的位置標注出來
+當布林通道經過盤整壓縮整理並進行突破
+```
+![alt tag](http://3.bp.blogspot.com/-vzt8JJNQSc8/UeVzqEGJ81I/AAAAAAAAGt8/B3AoV6wuPYo/s320/5349-%2525B.gif)  
+
 
 [布林通道](http://note-barsine.blogspot.com/2017/06/blog-post.html)  
 ```
