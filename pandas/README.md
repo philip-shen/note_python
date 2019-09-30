@@ -13,8 +13,8 @@
 [%B Indicator](#b-indicator)  
 [Introduction](#introduction)  
 [Calculation](#calculation)  
-[Signals: Overbought/Oversold](#signals:-overbought/oversold)  
-[Signals: Trend Identification](#signals:-trend-identification)  
+[Signals: Overbought/Oversold](#signals-overboughtoversold)  
+[Signals: Trend Identification](#signals-trend-identification)  
 
 [Reference](#reference)
 
