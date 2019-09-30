@@ -658,10 +658,11 @@ class PandasSqliteAnalysis:
         conn.close()
         
         #print(self.df)
+        #print(self.opt_verbose.lower())
         # get row count
-        if self.opt_verbose.lower == 'on':
+        if self.opt_verbose.lower() == 'on':
             #print(self.df)
-            print(self.df['date'])
+            print(self.df['date'],self.df['close'],self.df['stkidx'],self.df['CmpName'])
             print("original row counts: {}".format(len(self.df.index)))    
     
     # 2018/11/5 class GoogleSS def update_GSpreadworksheet_datafolderCSV() need

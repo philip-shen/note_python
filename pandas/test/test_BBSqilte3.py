@@ -26,6 +26,7 @@ import urllib.request
 from lxml import html
 import httplib2
 from apiclient import discovery
+import matplotlib.pyplot as plt
 
 class Flag:
     auth_host_name = 'localhost'
@@ -67,6 +68,10 @@ if __name__ == '__main__':
     stkidx_put_file03 = localReadConfig.get_SeymourExcel('stkidx_put_file03')
     stkidx_call_file04 = localReadConfig.get_SeymourExcel('stkidx_call_file04')
     stkidx_put_file04 = localReadConfig.get_SeymourExcel('stkidx_put_file04')
+
+    str_color_ma = localReadConfig.get_SeymourExcel('color_ma05_ma20_ma30')
+    list_color_ma = str_color_ma.split(',')
+    str_candlestick_weekly_subfolder = localReadConfig.get_SeymourExcel("candlestick_weekly_subfolder")
 
     url_moneyhunter =localReadConfig.get_SeymourExcel('url_moneyhunterblog')#'http://twmoneyhunter.blogspot.com/'
     #2019/1/10(Thu) excute this code dosen't meet from Mon. to Fri unremak below.
@@ -130,7 +135,7 @@ if __name__ == '__main__':
     ['4126.0', '太醫']
     356
     '''
-    list_all_stockidxname=localexcelrw.get_all_stockidxname_SeymourExcel(dirnamelog,list_excel_file)
+    # list_all_stockidxname=localexcelrw.get_all_stockidxname_SeymourExcel(dirnamelog,list_excel_file)
     #for stockidxname in list_all_stockidxname:
     #    print(stockidxname)
     #print(len(list_all_stockidxname))
@@ -154,7 +159,51 @@ if __name__ == '__main__':
     list_stkidx_call_file01 = stkidx_call_file01.split(',')
     list_stkidx_put_file01 = stkidx_put_file01.split(',')    
 
+    debug_verbose ='OFF'
+
+    # get all stock's idx and name from file1 #"循環投機追蹤股"
+    list_all_stockidxname=localexcelrw.get_all_stockidxname_SeymourExcel(dirnamelog,list_excel_Seymour)
+    '''
+    9921 巨大
+    9927 泰銘
+    9939 宏全
+    9945 潤泰新
+    '''    
+    #for list_stockidxname in list_all_stockidxname:
+        # 20190721 cause StkIdx:1210.0, 價值比:38.16
+        #          str-->float-->int-->str; '1210.0'-->1210.0-->1210-->'1210'
+        #          str(int(float(list_row_value[0])))
+    #    stock_idx= str(int(float(list_stockidxname[0])))
+    #    stock_name= list_stockidxname[1]
+        #print(stock_idx,stock_name)
+        
+        # get daily trade inof rom sqilte DB
+    #    local_pdSqlA = data_analysis.PandasSqliteAnalysis(stock_idx,dirnamelog,path_db,str_first_year_month_day,debug_verbose)
+    stock_idx= '1788'
+    local_pdSqlA = data_analysis.PandasSqliteAnalysis(stock_idx,dirnamelog,path_db,str_first_year_month_day,debug_verbose)
+    #print(local_pdSqlA.df)
     
+    f1, ax = plt.subplots(figsize = (12,6))
+
+    # select only close column
+    #close = local_pdSqlA.df[['close']].astype(float)
+    # rename the column with symbole name
+    #close = close.rename(columns={'close': stock_idx})
+    #ax = close.plot(title=stock_idx)
+    # Plotting Close 
+    ax.plot(local_pdSqlA.df['date'], local_pdSqlA.df['close'], color = list_color_ma[0], label = 'Close')
+    ax.set_xlabel('date')
+    ax.set_ylabel('close price')
+    
+    #plt.grid(True)
+    plt.title(stock_idx)
+    ax.yaxis.grid(True)
+    plt.legend(loc='best')
+
+    ax.xaxis_date()
+    ax.autoscale_view()
+    ax.grid()
+    plt.show()
     
 
 
