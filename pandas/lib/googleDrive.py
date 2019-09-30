@@ -8,6 +8,7 @@ import glob, os, re
 import sys, time
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+from logger import logger
 
 #2018/11/16 https://github.com/ITCoders/SyncIt/blob/master/src/drive_sync.py
 ######################################################################
@@ -30,16 +31,18 @@ class GoogleCloudDrive:
         for f in os.listdir(self.str_localdir):
             try:
                 if re.search(re_pattern, f):
-                    print("Search file: {} in {}".format(f,self.str_localdir))
+                    #print("Search file: {} in {}".format(f,self.str_localdir))
+                    logger.info("Search file: {0} in {1}".format(f,self.str_localdir))        
                     list_filename.append(f)
             except FileNotFoundError as e:
                 print(e)
 
         if len(list_filename) > 0:
-            print('Total {} file(s) under {}.'.format(len(list_filename),self.str_localdir))
+            #print('Total {} file(s) under {}.'.format(len(list_filename),self.str_localdir))
+            logger.info('Total {0} file(s) under {1}.'.format(len(list_filename),self.str_localdir))
         elif len(list_filename) == 0:
-            print('No {} like file(s) under {}.'.format(re_pattern,self.str_localdir))
-        
+            #print('No {} like file(s) under {}.'.format(re_pattern,self.str_localdir))
+            logger.info('No {0} like file(s) under {1}.'.format(re_pattern,self.str_localdir))
         return list_filename  
 
     def purgelocalfiles(self, re_pattern):
@@ -53,9 +56,11 @@ class GoogleCloudDrive:
             for f in os.listdir(self.str_localdir):
                 if re.search(re_pattern, f):
                     os.remove(os.path.join(self.str_localdir, f))
-                    print('Delete {}'.format(os.path.join(self.str_localdir, f)))
+                    #print('Delete {}'.format(os.path.join(self.str_localdir, f)))
+                    logger.info('Delete {0}'.format(os.path.join(self.str_localdir, f)))
         else:
-            print('No {} like files to be deleted.'.format(re_pattern))
+            #print('No {} like files to be deleted.'.format(re_pattern))
+            logger.info('No {0} like files to be deleted.'.format(re_pattern))
 
         
 
@@ -462,7 +467,8 @@ class GoogleDrivebyFileID:
 
     def getfilename_byfileid(self,service,file_id):
         name = service.files().get(fileId=file_id).execute()['name']
-        print('Check file:{} by file_id:{} on Google Drive.'.format(name,file_id))
+        #print('Check file:{} by file_id:{} on Google Drive.'.format(name,file_id))
+        logger.info('Check file:{0} by file_id:{1} on Google Drive.'.format(name,file_id))
         return name
     
     #Get filename by fileid from google drive

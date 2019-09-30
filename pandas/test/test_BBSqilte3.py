@@ -18,7 +18,7 @@
 # 2018/09/15 Add def file3_call and file3_put
 # 2018/10/28 Adapte from test_SeymourTarget.py
 # 2019/09/30 Adapte from both test_crawl2sqlite3.py and test_SMTargetSqilte.py
-#            BB--Bollinger Band   
+#            BB--->Bollinger Band   
 #########################################################################
 from datetime import datetime, timedelta
 import time, os, sys, re
@@ -35,9 +35,6 @@ class Flag:
 
 flags = Flag()
 
-# Set logging directory
-if not os.path.isdir('logs'):
-    os.makedirs('logs')
 
 strabspath=os.path.abspath(__file__)
 strdirname=os.path.dirname(strabspath)
@@ -46,18 +43,31 @@ prevdirname=str_split[0]
 dirnamelib=os.path.join(prevdirname,"lib")
 dirnamelog=os.path.join(prevdirname,"logs")
 
+# Set logging directory
+if not os.path.isdir('logs'):
+    os.makedirs('logs')
+
 sys.path.append(dirnamelib)
 
 import excelRW as excelrw
 import readConfig as readConfig
 import googleDrive as google_drive
-from logger import logger
+import dataAnalysis as data_analysis
 
 if __name__ == '__main__':
     
     configPath=os.path.join(strdirname,"config.ini")
     localReadConfig = readConfig.ReadConfig(configPath)
     
+    stkidx_call_file01 = localReadConfig.get_SeymourExcel('stkidx_call_file01')
+    stkidx_put_file01 = localReadConfig.get_SeymourExcel('stkidx_put_file01')
+    stkidx_call_file02 = localReadConfig.get_SeymourExcel('stkidx_call_file02')
+    stkidx_put_file02 = localReadConfig.get_SeymourExcel('stkidx_put_file02')
+    stkidx_call_file03 = localReadConfig.get_SeymourExcel('stkidx_call_file03')
+    stkidx_put_file03 = localReadConfig.get_SeymourExcel('stkidx_put_file03')
+    stkidx_call_file04 = localReadConfig.get_SeymourExcel('stkidx_call_file04')
+    stkidx_put_file04 = localReadConfig.get_SeymourExcel('stkidx_put_file04')
+
     url_moneyhunter =localReadConfig.get_SeymourExcel('url_moneyhunterblog')#'http://twmoneyhunter.blogspot.com/'
     #2019/1/10(Thu) excute this code dosen't meet from Mon. to Fri unremak below.
     str_last_year_month_day = localReadConfig.get_SeymourExcel("last_year_month_day")
@@ -109,7 +119,43 @@ if __name__ == '__main__':
     localexcelrw = excelrw.ExcelRW()
 
     # get all stock's idx and name from list_excel_file
-    list_all_stockidxname=localexcelrw.get_all_stockidxname_SeymourExcel(dirnamelog,list_excel_file)  
+    '''
+    .
+    .
+    ['9937.0', '全國']
+    ['9940.0', '信義']
+    ['9941.0', '裕融']
+    ['9942.0', '茂順']
+    ['9943.0', '好樂迪']
+    ['4126.0', '太醫']
+    356
+    '''
+    list_all_stockidxname=localexcelrw.get_all_stockidxname_SeymourExcel(dirnamelog,list_excel_file)
+    #for stockidxname in list_all_stockidxname:
+    #    print(stockidxname)
+    #print(len(list_all_stockidxname))
+
+    #2018/10/31 remark casuse purge jpg files in def plotCandlestickandMA() 
+    #Delete prvious candle stick jpg files.
+    ###############################
+    str_candlestick_filepath=os.path.join(dirnamelog,str_candlestick_weekly_subfolder)
+    localgoogle_drive = google_drive.GoogleCloudDrive(str_candlestick_filepath)
+    re_exp = r'\.jpg$'
+    
+    localgoogle_drive.purgelocalfiles(re_exp)
+
+    # Initial to sqlite database code
+    path_db = os.path.join(dirnamelog,'TWTSEOTCDaily.db')
+
+    ###############################
+    # excute file1 #"循環投機追蹤股"
+    ###############################
+    list_excel_Seymour = [excel_file01]
+    list_stkidx_call_file01 = stkidx_call_file01.split(',')
+    list_stkidx_put_file01 = stkidx_put_file01.split(',')    
+
+    
+    
 
 
 

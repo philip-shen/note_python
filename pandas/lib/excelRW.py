@@ -11,6 +11,7 @@ import xlwt
 import xlutils.copy
 import csv
 import os
+from logger import logger
 
 class ExcelRW:
 
@@ -68,7 +69,8 @@ class ExcelRW:
 
     def get_stockidxname_SeymourExcel(self,dirnamelog,excelfname):
 
-        print('將讀取Excel file:', excelfname, '的資料')
+        #print('將讀取Excel file:', excelfname, '的資料')
+        logger.info('Read Excel file::{0}'.format(excelfname))
         # Excel file including path
         dirlog_ExcelFile=os.path.join(dirnamelog,excelfname)
         list_row_value_price=self.readExcel(dirlog_ExcelFile)
