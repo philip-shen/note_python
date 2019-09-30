@@ -279,6 +279,75 @@ Downtrends are identified when %B is below .20 and MFI(10) is below 20.
 
 
 [布林通道參數設定與%b Dec 16, 2016](https://bfhopeangel.pixnet.net/blog/post/189274248-%E5%B8%83%E6%9E%97%E9%80%9A%E9%81%93%E5%8F%83%E6%95%B8%E8%A8%AD%E5%AE%9A%E8%88%87%25b)  
+# Back-calculating Bollinger Bands with python and pandas (How t0 calculate next value to hit Upper Band or Lower Band)  
+[Back-calculating Bollinger Bands with python and pandas ](https://stackoverflow.com/questions/55044522/back-calculating-bollinger-bands-with-python-and-pandas)  
+
+here one solution to calculate next value with fast algorithm: newton opt and newton classic are faster than dichotomy and this solution dont use dataframe to recalculate the different value, i use directly the statistic function from the library of same name
+[scipy.optimize.newton](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html)  
+```
+from scipy import misc
+import pandas as pd
+import statistics
+from scipy.optimize import newton
+#scipy.optimize if you want to test the newton optimized function
+
+def get_last_bbh_bbl(idf):
+    xdf = idf.copy()
+    rolling_mean = xdf['A'].rolling(window).mean()
+    rolling_std = xdf['A'].rolling(window).std()
+    xdf['M'] = rolling_mean
+    xdf['BBL'] = rolling_mean - (rolling_std * no_of_std)
+    xdf['BBH'] = rolling_mean + (rolling_std * no_of_std)
+    bbh = xdf.loc[len(xdf) - 1, 'BBH']
+    bbl = xdf.loc[len(xdf) - 1, 'BBL']
+    lastvalue = xdf.loc[len(xdf) - 1, 'A']
+    return lastvalue, bbh, bbl
+
+#classic newton
+def NewtonsMethod(f, x, tolerance=0.00000001):
+    while True:
+        x1 = x - f(x) / misc.derivative(f, x)
+        t = abs(x1 - x)
+        if t < tolerance:
+            break
+        x = x1
+    return x
+
+#to calculate the result of function bbl(x) - x (we want 0!)
+def low(x):
+    l = lastlistofvalue[:-1]
+    l.append(x)
+    avg = statistics.mean(l)
+    std = statistics.stdev(l, avg)
+    return avg - std * no_of_std - x
+
+#to calculate the result of function bbh(x) - x (we want 0!)
+def high(x):
+    l = lastlistofvalue[:-1]
+    l.append(x)
+    avg = statistics.mean(l)
+    std = statistics.stdev(l, avg)
+    return avg + std * no_of_std - x
+
+odf = pd.DataFrame({'A': [34, 34, 34, 33, 32, 34, 35.0, 21, 22, 25, 23, 21, 39, 26, 31, 34, 38, 26, 21, 39, 31]})
+no_of_std = 3
+window = 20
+lastlistofvalue = odf['A'].shift(0).to_list()[::-1][:window]
+
+"""" Newton classic method """
+x = odf.loc[len(odf) - 1, 'A']
+x0 = NewtonsMethod(high, x)
+print(f'value to hit bbh: {x0}')
+odf = pd.DataFrame({'A': [34, 34, 34, 33, 32, 34, 35.0, 21, 22, 25, 23, 21, 39, 26, 31, 34, 38, 26, 21, 39, 31, x0]})
+lastvalue, new_bbh, new_bbl = get_last_bbh_bbl(odf)
+print(f'value to hit bbh: {lastvalue} -> check new bbh: {new_bbh}')
+
+x0 = NewtonsMethod(low, x)
+print(f'value to hit bbl: {x0}')
+odf = pd.DataFrame({'A': [34, 34, 34, 33, 32, 34, 35.0, 21, 22, 25, 23, 21, 39, 26, 31, 34, 38, 26, 21, 39, 31, x0]})
+lastvalue, new_bbh, new_bbl = get_last_bbh_bbl(odf)
+print(f'value to hit bbl: {lastvalue} -> check new bbl: {new_bbl}')
+```
 
 # Reference
 * [Bollinger Bands Backtest using Python and REST API | Part 1 November 22, 2018](https://www.quantnews.com/bollinger-bands-backtest-using-python-rest-api-part-1/)  
