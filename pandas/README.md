@@ -221,25 +221,29 @@ However, it is important to know when to look for overbought vs. oversold readin
 As with most momentum oscillators, it is best to look for short-term oversold situations 
 when the medium-term trend is up and short-term overbought situations when the medium-term trend is down. 
 In other words, look for opportunities in the direction of the bigger trend, 
-such as a pullback within a bigger uptrend. You must define the bigger trend before looking for overbought or oversold readings.
+such as a pullback within a bigger uptrend. 
+You must define the bigger trend before looking for overbought or oversold readings.
 ```
 ```
 Chart 1 shows Apple (AAPL) within a strong uptrend. %B moved above 1 several times, 
 but these “overbought” readings still failed to produce good sell signals. 
 Pullbacks were shallow as Apple reversed well above the lower band and resumed its uptrend. 
 John Bollinger refers to “walking the band” during strong trends. 
-This refers to the notion that, in a strong uptrend, prices can walk up the upper band and rarely touch the lower band. 
+This refers to the notion that, in a strong uptrend, 
+prices can walk up the upper band and rarely touch the lower band. 
 Conversely, in a strong downtrend, prices can walk down the lower band and rarely touch the upper band. 
 ```
 ![alt tag](https://school.stockcharts.com/lib/exe/fetch.php?media=technical_indicators:bollinger_band_perce:bbpb-1-aaplwalk.png)  
 
 ```
 After identifying a bigger uptrend, %B can be considered oversold when it moves to zero or below. 
-Remember, %B moves to zero when price hits the lower band and below zero when price moves below the lower band. 
+Remember, %B moves to zero when price hits the lower band and below zero 
+when price moves below the lower band. 
 This represents a move that is 2 standard deviations below the 20-day moving average. 
 Chart 2 shows the Nasdaq 100 ETF (QQQQ) within an uptrend that began in March 2009. 
 %B moved below zero three times during this uptrend. 
-The oversold readings in early July and early November provided good entry points to partake in the bigger uptrend (green arrows). 
+The oversold readings in early July and early November provided good entry points to partake 
+in the bigger uptrend (green arrows). 
 ```
 ![alt tag](https://school.stockcharts.com/lib/exe/fetch.php?media=technical_indicators:bollinger_band_perce:bbpb-2-qqqqup.png)  
 
