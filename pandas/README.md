@@ -184,6 +184,42 @@ plt.show()
 ```
 ![alt tag](https://miro.medium.com/max/1280/1*JsLK7dWaeY04fBA5aJn87w.png)  
 
+# %B Indicator  
+## Introduction  
+[%B Indicator](https://school.stockcharts.com/doku.php?id=technical_indicators:bollinger_band_perce)  
+
+Item | Description
+------------------------------------ | ---------------------------------------------
+%B < 0 | when price is below the lower band
+%B = 0 | when price is at the lower band
+%B > 0 and < .50 | when price is between the lower and middle band (20-day SMA)
+%B < .50 and < 1 | when price is between the upper and middle band (20-day SMA)
+%B = 1 | when price is at the upper band
+%B > 1 | when price is above the upper band
+
+## Calculation  
+```
+%B = (Price - Lower Band)/(Upper Band - Lower Band)
+```
+The default setting for %B is based on the default setting for Bollinger Bands (20,2). 
+The bands are set 2 standard deviations above and below the 20-day simple 
+[moving average](https://school.stockcharts.com/doku.php?id=glossary_m#moving_average_ma), 
+which is also the middle band. Security price is the close or the last trade. 
+
+[[教學] - 布林通道與波動率@ 交易者的E甸園 Jul 16, 2013](https://ebigmoney.pixnet.net/blog/post/152356080-%5B%E6%95%99%E5%AD%B8%5D---%E5%B8%83%E6%9E%97%E9%80%9A%E9%81%93%E8%88%87%E6%B3%A2%E5%8B%95%E7%8E%87)
+
+[布林通道](http://note-barsine.blogspot.com/2017/06/blog-post.html)  
+```
+正負一個標準差所涵蓋的機率約68%，
+正負兩個標準差則高達95.4%，
+也就是股價的變化要超出正負兩個標準差外，機率而言並不容易，
+所以一旦超出就可以提供投資人寶貴的參考訊號。
+```
+![alt tag](https://1.bp.blogspot.com/-7umMgug2FsE/WSe26tn9c6I/AAAAAAAAOq4/IX_utlD8C0E5VG0WmtWXUNvWafTUcucHgCPcB/s640/x80c.jpg)  
+
+
+[布林通道參數設定與%b Dec 16, 2016](https://bfhopeangel.pixnet.net/blog/post/189274248-%E5%B8%83%E6%9E%97%E9%80%9A%E9%81%93%E5%8F%83%E6%95%B8%E8%A8%AD%E5%AE%9A%E8%88%87%25b)  
+
 # Reference
 * [Bollinger Bands Backtest using Python and REST API | Part 1 November 22, 2018](https://www.quantnews.com/bollinger-bands-backtest-using-python-rest-api-part-1/)  
 [fxcm/RestAPI](https://github.com/fxcm/RestAPI) 
