@@ -350,6 +350,20 @@ print(f'value to hit bbl: {lastvalue} -> check new bbl: {new_bbl}')
 ```
 
 # Reference
+* [How to get the last N rows of a pandas DataFrame? Feb 3, 2013](https://stackoverflow.com/questions/14663004/how-to-get-the-last-n-rows-of-a-pandas-dataframe)  
+```
+Don't forget DataFrame.tail! e.g. df1.tail(10)
+```
+```
+df[-3:]
+
+This is the same as calling df.iloc[-3:], for instance (iloc internally delegates to __getitem__).
+```
+
+* [Using iloc, loc, & ix to select rows and columns in Pandas DataFrames ](https://www.shanelynn.ie/select-pandas-dataframe-rows-and-columns-using-iloc-loc-and-ix/)  
+
+![alt tag](https://shanelynnwebsite-mid9n9g1q9y8tt.netdna-ssl.com/wp-content/uploads/2016/10/Pandas-selections-and-indexing-768x549.png)  
+
 * [Bollinger Bands Backtest using Python and REST API | Part 1 November 22, 2018](https://www.quantnews.com/bollinger-bands-backtest-using-python-rest-api-part-1/)  
 [fxcm/RestAPI](https://github.com/fxcm/RestAPI) 
 

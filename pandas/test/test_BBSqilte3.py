@@ -181,7 +181,10 @@ if __name__ == '__main__':
     #    local_pdSqlA = data_analysis.PandasSqliteAnalysis(stock_idx,dirnamelog,path_db,str_first_year_month_day,debug_verbose)
     stock_idx= '1788'
     local_pdSqlA = data_analysis.PandasSqliteAnalysis(stock_idx,dirnamelog,path_db,str_first_year_month_day,debug_verbose)
-    #print(local_pdSqlA.df)
+    
+    # How to get the last N rows of a pandas DataFrame?
+    # https://stackoverflow.com/questions/14663004/how-to-get-the-last-n-rows-of-a-pandas-dataframe   
+    #print(local_pdSqlA.df.iloc[-240:])
     
     f1, ax = plt.subplots(figsize = (12,6))
 
@@ -191,7 +194,7 @@ if __name__ == '__main__':
     #close = close.rename(columns={'close': stock_idx})
     #ax = close.plot(title=stock_idx)
     # Plotting Close 
-    ax.plot(local_pdSqlA.df['date'], local_pdSqlA.df['close'], color = list_color_ma[0], label = 'Close')
+    ax.plot(local_pdSqlA.df.iloc[-240:]['date'], local_pdSqlA.df.iloc[-240:]['close'], color = list_color_ma[0], label = 'Close')
     ax.set_xlabel('date')
     ax.set_ylabel('close price')
     

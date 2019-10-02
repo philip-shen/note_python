@@ -470,6 +470,7 @@ options.AddArgument("--lang=fr"); //Francais (France), Francais, english (us), e
 
 For IE browser, we need to update the locale manually in the browser.
 ```
+* [Max的搶票機器人，python + selenium 小程式分享](https://github.com/max32002/tixcraft_bot)  
 
 * [全国のSeleniumer必読 2019-09-09](https://qiita.com/oh_rusty_nail/items/b8ba525d31ea7c522856#jenkins)  
 
