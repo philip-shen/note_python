@@ -122,7 +122,9 @@ def Wireless_Schedule_on():
     time.sleep(3)
     driver.find_element_by_xpath('//*[@id="RADIO_24"]/div[1]/span').click()
     driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]').click()
-    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[8]')
+    #a = driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[8]')
+    # schedule time interval changes from 60 minutes to 30. 
+    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[16]')
 
     if a.get_attribute('data-name') == 'Add': 
         #print ('Found Add button')
@@ -134,7 +136,9 @@ def Wireless_Schedule_on():
 
     driver.find_element_by_xpath('//*[@id="RADIO_5"]/div[1]/span').click()
     driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]').click()
-    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[8]')
+    #a = driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[8]')
+    # schedule time interval changes from 60 minutes to 30. 
+    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[16]')
 
     if a.get_attribute('data-name') == 'Add': 
        #print ('Found Add button')
@@ -193,12 +197,15 @@ if __name__ == '__main__':
             apply()
             Wireless_Schedule_Clear()
             apply()
+            
+            driver.close()
+            driver.quit()
         else:
             print ('Fail - Unable to login the DUT , Please check again ')
             driver.close()
+            driver.quit()
             break
 
-    driver.close()
     
 
     
