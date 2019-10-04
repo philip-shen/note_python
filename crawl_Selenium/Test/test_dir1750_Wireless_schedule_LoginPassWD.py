@@ -103,7 +103,10 @@ def Wireless_Schedule_on_week():
     day_start = day_start.replace('Monday',day_of_week)
     day_start1 = driver.find_element_by_xpath(day_start)
     
-    day_end = '//*[@id="Monday"]/ul/li[24]'
+    #day_end = '//*[@id="Monday"]/ul/li[24]'
+    # schedule time interval changes from 60 minutes to 30. 
+    day_end = '//*[@id="Monday"]/ul/li[48]'
+
     day_end = day_end.replace('Monday',day_of_week)
     day_end1 = driver.find_element_by_xpath(day_end)
     
@@ -122,10 +125,8 @@ def Wireless_Schedule_on():
     time.sleep(3)
     driver.find_element_by_xpath('//*[@id="RADIO_24"]/div[1]/span').click()
     driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]').click()
-    #a = driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[8]')
-    # schedule time interval changes from 60 minutes to 30. 
-    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[16]')
-
+    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[8]')
+    
     if a.get_attribute('data-name') == 'Add': 
         #print ('Found Add button')
         driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[8]').click()
@@ -136,10 +137,8 @@ def Wireless_Schedule_on():
 
     driver.find_element_by_xpath('//*[@id="RADIO_5"]/div[1]/span').click()
     driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]').click()
-    #a = driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[8]')
-    # schedule time interval changes from 60 minutes to 30. 
-    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[16]')
-
+    a = driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[8]')
+    
     if a.get_attribute('data-name') == 'Add': 
        #print ('Found Add button')
        driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[8]').click()
