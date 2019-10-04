@@ -182,7 +182,7 @@ def Wireless_Schedule_Clear():
         
 if __name__ == '__main__':
 
-    for i in range(1,2):
+    for i in range(1,3):
         print ('<< Running %s times >>' %i)
         r = requests.get(url,timeout=15)
         print ('http %i' %r.status_code)
@@ -197,14 +197,14 @@ if __name__ == '__main__':
             Wireless_Schedule_Clear()
             apply()
             
-            driver.close()
-            driver.quit()
+            
         else:
             print ('Fail - Unable to login the DUT , Please check again ')
             driver.close()
-            driver.quit()
             break
 
-    
+    driver.close()        
+    driver.quit()
+            
 
     
