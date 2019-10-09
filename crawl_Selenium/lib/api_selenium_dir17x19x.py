@@ -17,9 +17,10 @@ class dir17x19x_internet_mode_setup():
   def method_close(self):
     self.driver.method_close()
 
-  def dut_Login(self,how):
+  def dut_Login(self,*args, **kwargs):
     self.driver.method_get(how)
     self.driver.method_set_window_size(1080, 705)
+    self.driver.method_by_XPath_send_keys("//input[@id=\'admin_Password\']",kwargs['dut']['login_passwd'])
     self.driver.method_by_ID_click("logIn_btn")
 
   def dut_Sys_Reboot(self):
@@ -115,9 +116,13 @@ class dir17x19x_wifi_2G5G_Setup():
   def method_close(self):
     self.driver.method_close()
   
-  def dut_Login(self,how):
-    self.driver.method_get(how)
+  def dut_Login(self,*args, **kwargs):
+    #self.driver.method_get(how)
+    #print(args[0])
+    self.driver.method_get(args[0])
     self.driver.method_set_window_size(1080, 905)
+    
+    self.driver.method_by_XPath_send_keys("//input[@id=\'admin_Password\']",kwargs['dut']['login_passwd'])
     self.driver.method_by_ID_click("logIn_btn")
 
   def wifi_SmartConnDisable(self):

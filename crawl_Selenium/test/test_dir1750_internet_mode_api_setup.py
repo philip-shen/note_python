@@ -21,9 +21,10 @@ if __name__ == '__main__':
   start_time = local_time
   #print('Start Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec)
   #logging.error('Begin Time:')
-  'Start Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec
-  logger.info('{0}'.format("Initial Chrome Webbrowser!"))
-
+  start_time=str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)+' '+\
+              str(local_time.tm_hour)+":"+str(local_time.tm_min)+":"+str(local_time.tm_sec)
+  logger.info('Start Time is: {0}'.format(start_time))
+  
   # Read json file
   with open('config.json') as f:
     config_para = json.load(f)
@@ -46,7 +47,7 @@ if __name__ == '__main__':
 
   local_dir1750_wifi2g5g_ch_setup=dir17x19x_wifi_2G5G_Setup()
 
-  local_dir1750_wifi2g5g_ch_setup.dut_Login(go_url)
+  local_dir1750_wifi2g5g_ch_setup.dut_Login(go_url,**config_para["DUT_Config_WLAN"][0])
   #local_dir1750_wifi2g5g_ch_setup.wifi_SmartConnDisable();# "WPA/WPA2-Personal"
   
   # Converting Python dict to kwargs?
@@ -59,5 +60,9 @@ if __name__ == '__main__':
   
 # Get the last time
 local_time = time.localtime(time.time())
-print('Final Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec)
-logging.error('Finish Time:')
+#print('Final Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec)
+#logging.error('Finish Time:')
+end_time=str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)+' '+\
+          str(local_time.tm_hour)+":"+str(local_time.tm_min)+":"+str(local_time.tm_sec)
+logger.info('End Time is: {0}'.format(end_time))
+                

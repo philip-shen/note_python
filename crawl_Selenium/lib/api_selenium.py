@@ -63,6 +63,11 @@ class method_selenium():
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, what)))
         self.driver.find_element(By.XPATH, what).click()        
 
+    def method_by_XPath_send_keys(self,what,keys,wait_time=130000):
+        logger.info('Send Keys by_XPath:{0} login_password:{1}'.format(what,keys))
+        WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, what)))
+        self.driver.find_element(By.XPATH, what).send_keys(keys)
+
     def method_by_XPath_select(self,what,how,wait_time=130000):
         logger.info('Select(Drop down list) by_XPath:{0} value:{1}'.format(what,how))
         WebDriverWait(self.driver, wait_time).until(expected_conditions.visibility_of_element_located((By.XPATH, what)))

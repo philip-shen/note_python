@@ -42,7 +42,8 @@ def sender(group):
 
     while True:
         data = repr(time.time())
-        s.sendto(data + '\0', (addrinfo[4][0], MYPORT))
+        message = data + '\0'
+        s.sendto(message.encode(), (addrinfo[4][0], MYPORT))
         time.sleep(1)
 
 
