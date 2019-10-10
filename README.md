@@ -24,8 +24,8 @@ Take some note of python
 [Troubleshooting](#troubleshooting)  
 
 [Reference](#reference)  
-[如何在 Windows 打造 Python 開發環境設定基礎入門教學]() 
-[How can I download Anaconda for python 3.6](#how-can-i-download-anaconda-for-python-3.6)  
+[如何在 Windows 打造 Python 開發環境設定基礎入門教學](#%E5%A6%82%E4%BD%95%E5%9C%A8-windows-%E6%89%93%E9%80%A0-python-%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A%E5%9F%BA%E7%A4%8E%E5%85%A5%E9%96%80%E6%95%99%E5%AD%B8)  
+[How can I download Anaconda for python 3.6](#how-can-i-download-anaconda-for-python-36)  
 
 # Installation
 ## Step1 Install Python3.6-32bit  
