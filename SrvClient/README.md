@@ -9,7 +9,7 @@ Take some note of TCP UDP Srv Clinet
 [Reference](#reference)  
 
 [Troubleshooting](#troubleshooting)  
-[OSError: [WinError 10065] A socket operation was attempted to an unreachable host](t#oserror-winerror-10065-a-socket-operation-was-attempted-to-an-unreachable-host)  
+[OSError: [WinError 10065] A socket operation was attempted to an unreachable host](#oserror-winerror-10065-a-socket-operation-was-attempted-to-an-unreachable-host)  
 
 # mcjoin - tiny multicast testing tool  
 [mcjoin](https://github.com/troglobit/mcjoin)  
@@ -114,7 +114,7 @@ for s in sockets:
 
 # Troubleshooting  
 ## OSError: [WinError 10065] A socket operation was attempted to an unreachable host  
-* [Python - bind error on multicast bind on windows](https://stackoverflow.com/questions/15322242/python-bind-error-on-multicast-bind-on-windows)  
+* [Python - bind error on multicast bind on windows Mar 10, 2013](https://stackoverflow.com/questions/15322242/python-bind-error-on-multicast-bind-on-windows)  
 
 As noted by Carl Cerecke in the comments of the [PYMOTW Multicast article](https://pymotw.com/2/socket/multicast.html#comment-763199034), 
 the use of socket.INADDR_ANY in Windows will bind to the default multicast address and 
