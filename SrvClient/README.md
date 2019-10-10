@@ -109,6 +109,63 @@ for s in sockets:
 
 
 # Troubleshooting  
+## OSError: [WinError 10065] A socket operation was attempted to an unreachable host  
+* [C++ Builder XE4 > Indy > UDP通信 > Send() > 「モジュールXXXのアドレスXXXでアドレスXXXに対する読取り違反が起きました」 > 「#Socketエラー #10065ホストへのルートが存在しません」](https://qiita.com/7of9/items/8c406dae8d26773736ad)  
+[エラー概要](https://qiita.com/7of9/items/8c406dae8d26773736ad#%E3%82%A8%E3%83%A9%E3%83%BC%E6%A6%82%E8%A6%81)  
+
+[エラー詳細](https://qiita.com/7of9/items/8c406dae8d26773736ad#%E3%82%A8%E3%83%A9%E3%83%BC%E8%A9%B3%E7%B4%B0)  
+```
+```
+
+[対処](https://qiita.com/7of9/items/8c406dae8d26773736ad#%E5%AF%BE%E5%87%A6)  
+Send()をする部分をtry, catchで対処する  
+```
+while(!Terminated) {
+    try {
+        Form1->IdUDPClient->Send(acmd, m_enqSJIS);
+    } catch (Exception &exc) {
+        // 以下の条件で発生するエラーの対処
+        // A. 起動してから一度もEthernetケーブルを挿していない
+        // B. 特定のPC(Window 7のうち特定のPC)において発生する
+        if (exc.ClassName() == L"EIdSocketError") {
+            continue;
+        }
+    }
+
+    // 正常な場合の処理 (省略)
+}
+```
+
+
+* [vcrpyでAPIと連携するプログラムのテストを楽にする Mar 27, 2017](https://qiita.com/Asayu123/items/fbb605ed514bc4b413c8)  
+```
+======================================================================
+ERROR: test_get_todo_by_title (tests.test_sample_api_client.TestSampleApiClient)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+ ~ 省略 ~
+OSError: [WinError 10065] 到達できないホストに対してソケット操作を実行しようとしました。
+
+----------------------------------------------------------------------
+Ran 1 test in 21.026s
+
+FAILED (errors=1)
+```
+[問題点](https://qiita.com/Asayu123/items/fbb605ed514bc4b413c8#%E5%95%8F%E9%A1%8C%E7%82%B9)  
+```
+単体テストは、プログラムの単体での正当性を確認するものですが、このようなテスト実装では結合先(APIサーバ)や通信経路の影響を受けてしまいます。
+他にも、別のユーザが、同じタイトルのtodoを投稿すると、ヒット件数が２件になり、実装自体が正常にも関わらずテストが失敗するようになってしまいます。
+
+この問題を回避する方法としてよくあるものは、モックを作成し、下位モジュールをモックで置換し、戻り値を常に固定にしてしまうことです。(本記事では詳細は割愛します)
+しかし、モックを作成するとなると、下位モジュールの戻り値を、連携するAPIやリソース毎に定義し管理する必要があり、連携する数が増えると大変な作業になります。 
+```
+
+[解決法](https://qiita.com/Asayu123/items/fbb605ed514bc4b413c8#%E8%A7%A3%E6%B1%BA%E6%B3%95)  
+```
+前置きが長くなりましたが、この問題を解決する手段として、"vcrpy"というライブラリを紹介します。
+このライブラリを用いると、APIサーバに対して行われたHTTPリクエスト/レスポンスをファイルに記録し再生できるようになり、モックの作成の手間が省けるようになります。
+```
+
 * [Python: cannot set socket option SO_REUSEPORT #1419 ](https://github.com/Microsoft/WSL/issues/1419)  
 
 * ['SO_REUSEPORT' is not defined on Windows 7 2012](https://stackoverflow.com/questions/13637121/so-reuseport-is-not-defined-on-windows-7)  

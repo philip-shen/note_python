@@ -10,7 +10,7 @@
 #   mcast  -6  (receivers, IPv6)
 
 MYPORT = 8123
-MYGROUP_4 = '225.0.0.250'
+MYGROUP_4 = '224.0.0.1';#'225.0.0.250'
 MYGROUP_6 = 'ff15:7079:7468:6f6e:6465:6d6f:6d63:6173'
 MYTTL = 1 # Increase to reach other networks
 
