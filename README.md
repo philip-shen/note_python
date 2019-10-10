@@ -22,7 +22,10 @@ Take some note of python
 
 [Environment](#environment)  
 [Troubleshooting](#troubleshooting)  
+
 [Reference](#reference)  
+[如何在 Windows 打造 Python 開發環境設定基礎入門教學]() 
+[How can I download Anaconda for python 3.6](#how-can-i-download-anaconda-for-python-3.6)  
 
 # Installation
 ## Step1 Install Python3.6-32bit  
@@ -247,7 +250,8 @@ You can install the package as Administrator, by following these steps:
     Run the command pip install <package>
 ```
 
-# Reference
+# Reference  
+## 如何在 Windows 打造 Python 開發環境設定基礎入門教學  
 * [如何在 Windows 打造 Python 開發環境設定基礎入門教學](https://happycoder.org/2017/11/17/how-to-setup-python-development-environment-in-windows/)  
 ```
   1.  安裝 Microsoft VSCode
@@ -257,6 +261,22 @@ You can install the package as Administrator, by following these steps:
   5.  在桌面創建一個 python_example 資料夾，打開 Microsoft VSCode 後開啟該專案資料夾，創建一個 hello.py 的檔案並在裡面打上 print('hello python!!')
   6.  打開 cmder 終端機 cd 移動到 hello.py 所在資料夾
   7.  執行 python hello.py，恭喜你完成第一個 Python 程式！
+```
+
+## How can I download Anaconda for python 3.6  
+[How can I download Anaconda for python 3.6](https://stackoverflow.com/questions/54801513/how-can-i-download-anaconda-for-python-3-6)  
+```
+As suggested here, with an installation of the last anaconda you can create an environment 
+just like Cleb explained or downgrade python :
+conda install python=3.6.0
+
+With this second solution, you may encouter some incompatibility issues with other packages. 
+I tested it myself and did not encouter any issue but I guess it depends on the packages you installed.
+
+If you don't want to handle environments or face incompatibilities issues, 
+you can download any Anaconda version here: https://repo.continuum.io/archive/. 
+For example, Anaconda3-5.1.0-XXX or Anaconda3-5.2.0-XXX provides python 3.6 
+(the sufffix XXX depends on your OS).
 ```
 
 * [在Windows底下最適當安裝Python環境的方法 2018-11-30](https://ithelp.ithome.com.tw/articles/10210071?sc=rss.qu)  
