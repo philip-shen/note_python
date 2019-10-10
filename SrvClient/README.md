@@ -2,10 +2,14 @@
 Take some note of TCP UDP Srv Clinet
 
 # Table of Content
+[mcjoin - tiny multicast testing tool](#mcjoin---tiny-multicast-testing-tool)  
 [Write a Multithreaded Server in Python ](https://www.techbeamers.com/python-tutorial-write-multithreaded-python-server/)  
 []()  
-[]()  
-[]()  
+
+[Reference](#reference)  
+
+[Troubleshooting](#troubleshooting)  
+[OSError: [WinError 10065] A socket operation was attempted to an unreachable host](t#oserror-winerror-10065-a-socket-operation-was-attempted-to-an-unreachable-host)  
 
 # mcjoin - tiny multicast testing tool  
 [mcjoin](https://github.com/troglobit/mcjoin)  
@@ -110,6 +114,32 @@ for s in sockets:
 
 # Troubleshooting  
 ## OSError: [WinError 10065] A socket operation was attempted to an unreachable host  
+* [Python - bind error on multicast bind on windows](https://stackoverflow.com/questions/15322242/python-bind-error-on-multicast-bind-on-windows)  
+
+As noted by Carl Cerecke in the comments of the [PYMOTW Multicast article](https://pymotw.com/2/socket/multicast.html#comment-763199034), 
+the use of socket.INADDR_ANY in Windows will bind to the default multicast address and 
+if you have more than one interface Windows has the potential to pick the wrong one.
+
+In order to get around this, you can explicitly specify the interface you want to receive multicast messages from:
+```
+group = socket.inet_aton(multicast_group)
+iface = socket.inet_aton('192.168.1.10') # listen for multicast packets on this interface.
+sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, group+iface)
+```
+You can get a list of interfaces using the following:
+```
+socket.gethostbyname_ex(socket.gethostname()) 
+# ("PCName", [], ["169.254.80.80", "192.168.1.10"])
+```
+In the above example, we would likely want to skip over the first 169.254 link-local address and 
+select the desired 192.168.1.10 address.
+```
+socket.gethostbyname_ex(socket.gethostname())[2][1]
+# "192.168.1.10"
+```
+
+
+
 * [C++ Builder XE4 > Indy > UDP通信 > Send() > 「モジュールXXXのアドレスXXXでアドレスXXXに対する読取り違反が起きました」 > 「#Socketエラー #10065ホストへのルートが存在しません」](https://qiita.com/7of9/items/8c406dae8d26773736ad)  
 [エラー概要](https://qiita.com/7of9/items/8c406dae8d26773736ad#%E3%82%A8%E3%83%A9%E3%83%BC%E6%A6%82%E8%A6%81)  
 
