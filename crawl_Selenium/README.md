@@ -43,7 +43,7 @@ Item | Date Time
 Start Time | 2019/10/11 16:55:22
 End Time | 2019/10/11 17:0:59
 
-[Log file](https://github.com/philip-shen/note_python/raw/master/crawl_Selenium/logs/2019-10-11-16-55-21.log)
+[Log file](https://github.com/philip-shen/note_python/raw/master/crawl_Selenium/logs/dut_setup_wifi_thruput.log)
 
 ## System  
 Item | Description
