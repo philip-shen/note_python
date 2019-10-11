@@ -4,7 +4,7 @@ Take note of Selenium
 # Table of Contents  
 [Status Check Table](#status-check-table)  
 
-[DUT Setting of WiFi 2.4G/5G Throughput Test](#dut-setting-of-wifi-24g5g-throughput-test)
+[DUT Setting of WiFi 2.4G/5G Throughput Test](#dut-setting-of-wifi-24g5g-throughput-test)  
 [System](#system)  
 [WiFi Smart Connect](#wifi-smart-connect)  
 [WiFi 2.4GHz](#wifi-2.4GHz)  
