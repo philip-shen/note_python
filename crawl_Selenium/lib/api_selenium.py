@@ -15,11 +15,28 @@ from selenium.webdriver.chrome.options import Options
 from logger import logger
 
 class method_selenium():
-    def __init__(self,locale='en,en_US'):
-        options = webdriver.ChromeOptions()
-        options.add_experimental_option('prefs', {'intl.accept_languages': locale})
-        self.driver = webdriver.Chrome(chrome_options=options)
-        #self.driver = webdriver.Chrome()
+    def __init__(self):
+        chrome_options = Options()
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('lang=en_US')
+        #chrome_options.add_argument('--headless') # running in background
+        chrome_options.add_argument('--proxy-server="direct://"')
+        chrome_options.add_argument('--proxy-bypass-list=*')
+        chrome_options.add_argument('--disable-extensions')
+        #chrome_options.add_argument("--disable-notifications")
+        chrome_options.add_experimental_option("prefs", {
+            "download.default_directory": r"D:\download",
+        "download.prompt_for_download": False,
+        "download.directory_upgrade": True,
+        "safebrowsing_for_trusted_sources_enabled": False,
+        "safebrowsing.enabled": False,
+        })
+
+        #chrome_options.add_argument('user-agent="Chrome/73.0.3683.103"')
+
+        #options.add_experimental_option('prefs', {'intl.accept_languages': locale})
+        self.driver = webdriver.Chrome(chrome_options = chrome_options)
         
         logger.info('{0}'.format("Initial Chrome Webbrowser!"))
         
