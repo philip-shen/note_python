@@ -3,6 +3,8 @@ Take note of Selenium
 
 # Table of Contents  
 [Status Check Table](#status-check-table)  
+
+[DUT Setting of WiFi 2.4G/5G Throughput Test](#dut-setting-of-wifi-24g5g-throughput-test)
 [System](#system)  
 [WiFi Smart Connect](#wifi-smart-connect)  
 [WiFi 2.4GHz](#wifi-2.4GHz)  
@@ -40,6 +42,8 @@ Item | Date Time
 ------------------------------------ | ---------------------------------------------
 Start Time | 2019/10/11 16:55:22
 End Time | 2019/10/11 17:0:59
+
+[Log file](https://github.com/philip-shen/note_python/raw/master/crawl_Selenium/logs/2019-10-11-16-55-21.log)
 
 ## System  
 Item | Description
