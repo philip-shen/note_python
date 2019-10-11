@@ -1,0 +1,170 @@
+2019-10-11 16:55:22,474 - test_dir1750_wifi_2g5g_thruput_test.py[line:60] - <MainThread 14344>- <Process 12880> - INFO: Start Time is: 2019/10/11 16:55:22
+2019-10-11 16:55:22,476 - test_dir1750_wifi_2g5g_thruput_test.py[line:23] - <MainThread 14344>- <Process 12880> - INFO: TestCase_ID:dlink_wifi_001 TestCase_Desc:wifi_2.4G_channel01_WPA/WPA2-Personal
+2019-10-11 16:55:24,964 - api_selenium.py[line:41] - <MainThread 14344>- <Process 12880> - INFO: Initial Chrome Webbrowser!
+2019-10-11 16:55:24,966 - api_selenium.py[line:55] - <MainThread 14344>- <Process 12880> - INFO: Open url:http://192.168.0.1
+2019-10-11 16:55:25,610 - api_selenium.py[line:59] - <MainThread 14344>- <Process 12880> - INFO: Set Browser Size:1080*905
+2019-10-11 16:55:26,779 - api_selenium.py[line:84] - <MainThread 14344>- <Process 12880> - INFO: Send Keys by_XPath://input[@id='admin_Password'] login_password:123qwe
+2019-10-11 16:55:27,069 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:logIn_btn
+2019-10-11 16:55:27,187 - api_selenium.py[line:72] - <MainThread 14344>- <Process 12880> - INFO: Mouse Over by_ID:menu_Settings
+2019-10-11 16:55:28,331 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:menuBtn_WiFi
+2019-10-11 16:55:28,552 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span 
+2019-10-11 16:55:30,453 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[4]
+2019-10-11 16:55:30,588 - api_selenium_dir17x19x.py[line:183] - <MainThread 14344>- <Process 12880> - INFO: opt_what ://a[contains(@href, 'WPAORWPA2-PSK')] 
+2019-10-11 16:55:30,589 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'WPAORWPA2-PSK')]
+2019-10-11 16:55:30,696 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_24 value:testdlink-2G
+2019-10-11 16:55:30,913 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_24 value:00000000
+2019-10-11 16:55:31,088 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[8]
+2019-10-11 16:55:31,169 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:1
+2019-10-11 16:55:31,876 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[10]
+2019-10-11 16:55:32,138 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:High
+2019-10-11 16:55:32,441 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[12]
+2019-10-11 16:55:32,671 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Auto 20/40 MHz
+2019-10-11 16:55:32,931 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[14]
+2019-10-11 16:55:33,174 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'true')]
+2019-10-11 16:55:33,361 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Visible
+2019-10-11 16:55:33,688 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:#RADIO_5 > .advButton > span 
+2019-10-11 16:55:34,001 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_5 value:testdlink-5G
+2019-10-11 16:55:34,358 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_5 value:00000000
+2019-10-11 16:55:34,662 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[20]
+2019-10-11 16:55:34,904 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'WPAORWPA2-PSK')])[2]
+2019-10-11 16:55:35,168 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[30]
+2019-10-11 16:55:35,332 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'false')])[2]
+2019-10-11 16:55:36,128 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Invisible
+2019-10-11 16:55:36,335 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:Save_btn
+2019-10-11 16:55:36,630 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:popalert_ok
+2019-10-11 16:56:27,050 - api_selenium.py[line:51] - <MainThread 14344>- <Process 12880> - INFO: Close Chrome Webbrowser!
+2019-10-11 16:56:27,172 - api_selenium.py[line:47] - <MainThread 14344>- <Process 12880> - INFO: Teardown Chrome Webbrowser!
+2019-10-11 16:56:29,279 - test_dir1750_wifi_2g5g_thruput_test.py[line:23] - <MainThread 14344>- <Process 12880> - INFO: TestCase_ID:dlink_wifi_002 TestCase_Desc:wifi_2.4G_channel06_WPA/WPA2-Personal
+2019-10-11 16:56:32,108 - api_selenium.py[line:41] - <MainThread 14344>- <Process 12880> - INFO: Initial Chrome Webbrowser!
+2019-10-11 16:56:32,110 - api_selenium.py[line:55] - <MainThread 14344>- <Process 12880> - INFO: Open url:http://192.168.0.1
+2019-10-11 16:56:32,618 - api_selenium.py[line:59] - <MainThread 14344>- <Process 12880> - INFO: Set Browser Size:1080*905
+2019-10-11 16:56:33,797 - api_selenium.py[line:84] - <MainThread 14344>- <Process 12880> - INFO: Send Keys by_XPath://input[@id='admin_Password'] login_password:123qwe
+2019-10-11 16:56:34,031 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:logIn_btn
+2019-10-11 16:56:34,211 - api_selenium.py[line:72] - <MainThread 14344>- <Process 12880> - INFO: Mouse Over by_ID:menu_Settings
+2019-10-11 16:56:35,336 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:menuBtn_WiFi
+2019-10-11 16:56:35,416 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span 
+2019-10-11 16:56:37,309 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[4]
+2019-10-11 16:56:37,391 - api_selenium_dir17x19x.py[line:183] - <MainThread 14344>- <Process 12880> - INFO: opt_what ://a[contains(@href, 'WPAORWPA2-PSK')] 
+2019-10-11 16:56:37,392 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'WPAORWPA2-PSK')]
+2019-10-11 16:56:37,499 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_24 value:testdlink-2G
+2019-10-11 16:56:37,721 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_24 value:00000000
+2019-10-11 16:56:37,887 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[8]
+2019-10-11 16:56:37,968 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:6
+2019-10-11 16:56:38,740 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[10]
+2019-10-11 16:56:38,814 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[10]
+2019-10-11 16:56:38,885 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:High
+2019-10-11 16:56:39,022 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[12]
+2019-10-11 16:56:39,223 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Auto 20/40 MHz
+2019-10-11 16:56:39,494 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[14]
+2019-10-11 16:56:39,761 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'true')]
+2019-10-11 16:56:40,042 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Visible
+2019-10-11 16:56:40,365 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:#RADIO_5 > .advButton > span 
+2019-10-11 16:56:40,714 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_5 value:testdlink-5G
+2019-10-11 16:56:41,406 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_5 value:00000000
+2019-10-11 16:56:41,870 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[20]
+2019-10-11 16:56:41,973 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'WPAORWPA2-PSK')])[2]
+2019-10-11 16:56:42,273 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[30]
+2019-10-11 16:56:42,564 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'false')])[2]
+2019-10-11 16:56:42,815 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Invisible
+2019-10-11 16:56:43,003 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:Save_btn
+2019-10-11 16:56:43,177 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:popalert_ok
+2019-10-11 16:57:33,659 - api_selenium.py[line:51] - <MainThread 14344>- <Process 12880> - INFO: Close Chrome Webbrowser!
+2019-10-11 16:57:35,773 - api_selenium.py[line:47] - <MainThread 14344>- <Process 12880> - INFO: Teardown Chrome Webbrowser!
+2019-10-11 16:57:37,875 - test_dir1750_wifi_2g5g_thruput_test.py[line:23] - <MainThread 14344>- <Process 12880> - INFO: TestCase_ID:dlink_wifi_003 TestCase_Desc:wifi_2.4G_channel11_WPA/WPA2-Personal
+2019-10-11 16:57:40,696 - api_selenium.py[line:41] - <MainThread 14344>- <Process 12880> - INFO: Initial Chrome Webbrowser!
+2019-10-11 16:57:40,697 - api_selenium.py[line:55] - <MainThread 14344>- <Process 12880> - INFO: Open url:http://192.168.0.1
+2019-10-11 16:57:41,360 - api_selenium.py[line:59] - <MainThread 14344>- <Process 12880> - INFO: Set Browser Size:1080*905
+2019-10-11 16:57:42,528 - api_selenium.py[line:84] - <MainThread 14344>- <Process 12880> - INFO: Send Keys by_XPath://input[@id='admin_Password'] login_password:123qwe
+2019-10-11 16:57:42,633 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:logIn_btn
+2019-10-11 16:57:42,723 - api_selenium.py[line:72] - <MainThread 14344>- <Process 12880> - INFO: Mouse Over by_ID:menu_Settings
+2019-10-11 16:57:43,801 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:menuBtn_WiFi
+2019-10-11 16:57:43,901 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span 
+2019-10-11 16:57:45,819 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[4]
+2019-10-11 16:57:45,967 - api_selenium_dir17x19x.py[line:183] - <MainThread 14344>- <Process 12880> - INFO: opt_what ://a[contains(@href, 'WPAORWPA2-PSK')] 
+2019-10-11 16:57:45,968 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'WPAORWPA2-PSK')]
+2019-10-11 16:57:46,077 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_24 value:testdlink-2G
+2019-10-11 16:57:46,307 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_24 value:00000000
+2019-10-11 16:57:46,475 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[8]
+2019-10-11 16:57:46,559 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:11
+2019-10-11 16:57:47,241 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[10]
+2019-10-11 16:57:47,317 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[10]
+2019-10-11 16:57:47,391 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:High
+2019-10-11 16:57:47,505 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[12]
+2019-10-11 16:57:47,574 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[12]
+2019-10-11 16:57:47,640 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Auto 20/40 MHz
+2019-10-11 16:57:47,776 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[14]
+2019-10-11 16:57:47,876 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'true')]
+2019-10-11 16:57:47,972 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Visible
+2019-10-11 16:57:48,096 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:#RADIO_5 > .advButton > span 
+2019-10-11 16:57:48,359 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_5 value:testdlink-5G
+2019-10-11 16:57:49,058 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_5 value:00000000
+2019-10-11 16:57:49,588 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[20]
+2019-10-11 16:57:49,849 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'WPAORWPA2-PSK')])[2]
+2019-10-11 16:57:50,177 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[30]
+2019-10-11 16:57:50,354 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'false')])[2]
+2019-10-11 16:57:51,169 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Invisible
+2019-10-11 16:57:51,388 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:Save_btn
+2019-10-11 16:57:51,560 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:popalert_ok
+2019-10-11 16:58:42,103 - api_selenium.py[line:51] - <MainThread 14344>- <Process 12880> - INFO: Close Chrome Webbrowser!
+2019-10-11 16:58:44,471 - api_selenium.py[line:47] - <MainThread 14344>- <Process 12880> - INFO: Teardown Chrome Webbrowser!
+2019-10-11 16:58:46,568 - test_dir1750_wifi_2g5g_thruput_test.py[line:39] - <MainThread 14344>- <Process 12880> - INFO: TestCase_ID:dlink_wifi_004 TestCase_Desc:wifi_5G_channel036_WPA/WPA2-Personal
+2019-10-11 16:58:49,185 - api_selenium.py[line:41] - <MainThread 14344>- <Process 12880> - INFO: Initial Chrome Webbrowser!
+2019-10-11 16:58:49,188 - api_selenium.py[line:55] - <MainThread 14344>- <Process 12880> - INFO: Open url:http://192.168.0.1
+2019-10-11 16:58:49,741 - api_selenium.py[line:59] - <MainThread 14344>- <Process 12880> - INFO: Set Browser Size:1080*905
+2019-10-11 16:58:50,913 - api_selenium.py[line:84] - <MainThread 14344>- <Process 12880> - INFO: Send Keys by_XPath://input[@id='admin_Password'] login_password:123qwe
+2019-10-11 16:58:51,192 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:logIn_btn
+2019-10-11 16:58:51,431 - api_selenium.py[line:72] - <MainThread 14344>- <Process 12880> - INFO: Mouse Over by_ID:menu_Settings
+2019-10-11 16:58:53,384 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:menuBtn_WiFi
+2019-10-11 16:58:53,672 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span 
+2019-10-11 16:58:55,669 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_24 value:testdlink-2G
+2019-10-11 16:58:55,884 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_24 value:00000000
+2019-10-11 16:58:56,053 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[14]
+2019-10-11 16:58:56,145 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'false')]
+2019-10-11 16:58:56,775 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Invisible
+2019-10-11 16:58:56,912 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_5 value:testdlink-5G
+2019-10-11 16:58:57,337 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_5 value:00000000
+2019-10-11 16:58:57,574 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:#RADIO_5 > .advButton > span 
+2019-10-11 16:58:57,687 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[20]
+2019-10-11 16:58:57,779 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:WPA/WPA2-Personal
+2019-10-11 16:58:57,879 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[24]
+2019-10-11 16:58:57,974 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:36
+2019-10-11 16:58:58,628 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[28]
+2019-10-11 16:58:58,725 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Auto 20/40/80 MHz
+2019-10-11 16:58:58,859 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[30]
+2019-10-11 16:58:58,944 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'true')])[2]
+2019-10-11 16:58:59,040 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Visible
+2019-10-11 16:58:59,163 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:Save_btn
+2019-10-11 16:58:59,270 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:popalert_ok
+2019-10-11 16:59:49,570 - api_selenium.py[line:51] - <MainThread 14344>- <Process 12880> - INFO: Close Chrome Webbrowser!
+2019-10-11 16:59:49,698 - api_selenium.py[line:47] - <MainThread 14344>- <Process 12880> - INFO: Teardown Chrome Webbrowser!
+2019-10-11 16:59:51,769 - test_dir1750_wifi_2g5g_thruput_test.py[line:39] - <MainThread 14344>- <Process 12880> - INFO: TestCase_ID:dlink_wifi_005 TestCase_Desc:wifi_5G_channel149_WPA/WPA2-Personal
+2019-10-11 16:59:54,432 - api_selenium.py[line:41] - <MainThread 14344>- <Process 12880> - INFO: Initial Chrome Webbrowser!
+2019-10-11 16:59:54,434 - api_selenium.py[line:55] - <MainThread 14344>- <Process 12880> - INFO: Open url:http://192.168.0.1
+2019-10-11 16:59:55,049 - api_selenium.py[line:59] - <MainThread 14344>- <Process 12880> - INFO: Set Browser Size:1080*905
+2019-10-11 16:59:56,236 - api_selenium.py[line:84] - <MainThread 14344>- <Process 12880> - INFO: Send Keys by_XPath://input[@id='admin_Password'] login_password:123qwe
+2019-10-11 16:59:56,493 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:logIn_btn
+2019-10-11 16:59:56,766 - api_selenium.py[line:72] - <MainThread 14344>- <Process 12880> - INFO: Mouse Over by_ID:menu_Settings
+2019-10-11 16:59:58,862 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:menuBtn_WiFi
+2019-10-11 16:59:59,071 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:.radio24_advBtn > span 
+2019-10-11 17:00:00,673 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_24 value:testdlink-2G
+2019-10-11 17:00:00,891 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_24 value:00000000
+2019-10-11 17:00:01,068 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[14]
+2019-10-11 17:00:01,145 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath://a[contains(@href, 'false')]
+2019-10-11 17:00:01,805 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Invisible
+2019-10-11 17:00:01,935 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:wifiName_5 value:testdlink-5G
+2019-10-11 17:00:02,171 - api_selenium.py[line:108] - <MainThread 14344>- <Process 12880> - INFO: Type by_ID:password_5 value:00000000
+2019-10-11 17:00:02,422 - api_selenium.py[line:144] - <MainThread 14344>- <Process 12880> - INFO: Click by_CSS_SELECTOR:#RADIO_5 > .advButton > span 
+2019-10-11 17:00:02,512 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[20]
+2019-10-11 17:00:02,594 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:WPA/WPA2-Personal
+2019-10-11 17:00:02,690 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[24]
+2019-10-11 17:00:02,852 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:149
+2019-10-11 17:00:03,511 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[28]
+2019-10-11 17:00:03,613 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Auto 20/40/80 MHz
+2019-10-11 17:00:03,810 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, '#')])[30]
+2019-10-11 17:00:04,047 - api_selenium.py[line:79] - <MainThread 14344>- <Process 12880> - INFO: Click by_XPath:(//a[contains(@href, 'true')])[2]
+2019-10-11 17:00:04,284 - api_selenium.py[line:103] - <MainThread 14344>- <Process 12880> - INFO: Click by_Link_Text:Visible
+2019-10-11 17:00:04,584 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:Save_btn
+2019-10-11 17:00:04,866 - api_selenium.py[line:67] - <MainThread 14344>- <Process 12880> - INFO: Click by_ID:popalert_ok
+2019-10-11 17:00:55,120 - api_selenium.py[line:51] - <MainThread 14344>- <Process 12880> - INFO: Close Chrome Webbrowser!
+2019-10-11 17:00:57,500 - api_selenium.py[line:47] - <MainThread 14344>- <Process 12880> - INFO: Teardown Chrome Webbrowser!
+2019-10-11 17:00:59,594 - test_dir1750_wifi_2g5g_thruput_test.py[line:85] - <MainThread 14344>- <Process 12880> - INFO: End Time is: 2019/10/11 17:0:59

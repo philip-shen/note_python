@@ -27,6 +27,20 @@ Take note of Selenium
 
 # Status Check Table  
 
+## DUT Setting of WiFi 2.4G/5G Throughput Test  
+Test Case ID | Test Case Description
+------------------------------------ | ---------------------------------------------
+dlink_wifi_001 | wifi_2.4G_channel01_WPA/WPA2-Personal
+dlink_wifi_002 | wifi_2.4G_channel06_WPA/WPA2-Personal
+dlink_wifi_003 | wifi_2.4G_channel11_WPA/WPA2-Personal
+dlink_wifi_004 | wifi_5G_channel036_WPA/WPA2-Personal
+dlink_wifi_005 | wifi_5G_channel149_WPA/WPA2-Personal
+
+Item | Date Time
+------------------------------------ | ---------------------------------------------
+Start Time | 2019/10/11 16:55:22
+End Time | 2019/10/11 17:0:59
+
 ## System  
 Item | Description
 ------------------------------------ | ---------------------------------------------
