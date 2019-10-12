@@ -80,4 +80,6 @@ array set pref [list \
 
 ################################################################################
 # Run Here
+# as below
+#  £f tclsh85 Test_Chariot_CML.tcl -config_ini ac8260_ch01_wpa2aes_setup.ini -direction lan2wan -moduration 11ac
 ################################################################################
