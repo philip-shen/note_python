@@ -45,7 +45,7 @@ Start Time | 2019/10/11 16:55:22
 End Time | 2019/10/11 17:0:59
 Total Test Duration | 5(tests/sec_mode)*3(directories)*2(mins/test)+6(mins_dut_settings)~36(mins)
 
-[Log file](https://github.com/philip-shen/note_python/raw/master/crawl_Selenium/logs/dut_setup_wifi_thruput.log)
+Refer [Log file](https://github.com/philip-shen/note_python/raw/master/crawl_Selenium/logs/dut_setup_wifi_thruput.log) to check detail process.
 
 ## System  
 Item | Description
