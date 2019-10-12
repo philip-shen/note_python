@@ -39,7 +39,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_001",
+            "id": "001",
             "description": "wifi_2.4G_channel01_WPA/WPA2-Personal"
             },
         "dut":{
@@ -68,7 +68,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_002",
+            "id": "002",
             "description": "wifi_2.4G_channel06_WPA/WPA2-Personal"
             },
         "dut":{
@@ -97,7 +97,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_003",
+            "id": "003",
             "description": "wifi_2.4G_channel11_WPA/WPA2-Personal"
             },
         "dut":{
@@ -126,7 +126,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_004",
+            "id": "004",
             "description": "wifi_5G_channel036_WPA/WPA2-Personal"
             },
         "dut":{
@@ -155,7 +155,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_005",
+            "id": "005",
             "description": "wifi_5G_channel149_WPA/WPA2-Personal"
             },
         "dut":{
@@ -184,7 +184,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_006",
+            "id": "006",
             "description": "wifi_2.4G_channel01_WPA3-Personal"
             },
         "dut":{
@@ -213,7 +213,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_007",
+            "id": "007",
             "description": "wifi_2.4G_channel06_WPA3-Personal"
             },
         "dut":{
@@ -242,7 +242,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_008",
+            "id": "008",
             "description": "wifi_2.4G_channel11_WPA3-Personal"
             },
         "dut":{
@@ -271,7 +271,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_009",
+            "id": "009",
             "description": "wifi_5G_channel036_WPA3-Personal"
             },
         "dut":{
@@ -300,7 +300,7 @@
             }
         },
         {"test_case": {
-            "id": "dlink_wifi_009",
+            "id": "010",
             "description": "wifi_5G_channel149_WPA3-Personal"
             },
         "dut":{

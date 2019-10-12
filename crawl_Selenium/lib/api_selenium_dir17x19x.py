@@ -6,6 +6,7 @@ from api_selenium import *
 from selenium.common.exceptions import ElementClickInterceptedException
 
 from logger import logger
+import requests
 
 class dir17x19x_internet_mode_setup():
   def __init__(self):
@@ -443,3 +444,45 @@ class dir17x19x_wifi_2G5G_Setup():
 
     # Waiting
     self.driver.method_by_ID_click("popalert_ok")  
+  
+  # 
+  # By Test Case ID to setup WiFi 2.4G or 5G Setting
+  ####################################################################
+  def wifi_2g5g_setup_thruputtest(self, *args, **kwargs):
+    go_url="http://" + kwargs["dut"]["lan_ip_address"]
+
+    r = requests.get(go_url,timeout=15)
+    logger.info('DUT:{0} Statu_Code:{1}'.format(go_url, str(r.status_code) ))
+    page_status_code = r.status_code
+    if page_status_code != 200:
+      return
+
+    logger.info('TestCase_ID:{0} TestCase_Desc:{1}'.format(kwargs["test_case"]["id"],kwargs["test_case"]["description"]))
+
+    self.dut_Login(go_url,**kwargs)
+
+    int_test_case_id= int(kwargs["test_case"]["id"])
+    mod_int_test_case_id= (int_test_case_id % 5)
+
+    # Fastest way to check if a value exists in a list
+    # https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exists-in-a-list
+    #
+    # config_para["DUT_Config_WLAN"][1]~config_para["DUT_Config_WLAN"][3] is WiFi 2G
+    # config_para["DUT_Config_WLAN"][4]~config_para["DUT_Config_WLAN"][5] is WiFi 5G
+    s = set([1,2,3])
+    for i,x in enumerate([mod_int_test_case_id]):
+      if x in s:
+        #print("WiFi 2.4G")  
+        # Converting Python dict to kwargs?
+        # https://stackoverflow.com/questions/5710391/converting-python-dict-to-kwargs
+        self.wifi_2g_setup(**kwargs) 
+
+      else: 
+        #print("WiFi 5G")  
+        # Converting Python dict to kwargs?
+        # https://stackoverflow.com/questions/5710391/converting-python-dict-to-kwargs
+        self.wifi_5g_setup(**kwargs) 
+
+    #self.method_close()
+    #self.method_teardown()
+  

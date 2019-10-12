@@ -24,6 +24,7 @@ Take note of Selenium
 [Selenium 4](#selenium-4)  
 
 [Reference](#reference)  
+[Fastest way to check if a value exists in a list](#fastest-way-to-check-if-a-value-exists-in-a-list)  
 [Can I run multiple instances at once(simultaneously) with selenium-webdriver?](#can-i-run-multiple-instances-at-oncesimultaneously-with-selenium-webdriver)  
 [Error message: “'chromedriver' executable needs to be available in the path”](#error-message-chromedriver-executable-needs-to-be-available-in-the-path)  
 [How to change the language of the browser in Selenium](#how-to-change-the-language-of-the-browser-in-Selenium)  
@@ -394,6 +395,73 @@ func(type='Event')
 
 
 # Reference  
+## Fastest way to check if a value exists in a list  
+[Fastest way to check if a value exists in a list Oct 1, 2019](https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exists-in-a-list)  
+
+```
+As stated by others, in can be very slow for large lists. Here are some comparisons of the performances for in, set and bisect. Note the time (in second) is in log scale.
+```
+![alt tag](https://i.stack.imgur.com/HSRgg.png)  
+Code for testing:  
+```
+import random
+import bisect
+import matplotlib.pyplot as plt
+import math
+import time
+
+def method_in(a,b,c):
+    start_time = time.time()
+    for i,x in enumerate(a):
+        if x in b:
+            c[i] = 1
+    return(time.time()-start_time)   
+
+def method_set_in(a,b,c):
+    start_time = time.time()
+    s = set(b)
+    for i,x in enumerate(a):
+        if x in s:
+            c[i] = 1
+    return(time.time()-start_time)
+
+def method_bisect(a,b,c):
+    start_time = time.time()
+    b.sort()
+    for i,x in enumerate(a):
+        index = bisect.bisect_left(b,x)
+        if index < len(a):
+            if x == b[index]:
+                c[i] = 1
+    return(time.time()-start_time)
+
+def profile():
+    time_method_in = []
+    time_method_set_in = []
+    time_method_bisect = []
+
+    Nls = [x for x in range(1000,20000,1000)]
+    for N in Nls:
+        a = [x for x in range(0,N)]
+        random.shuffle(a)
+        b = [x for x in range(0,N)]
+        random.shuffle(b)
+        c = [0 for x in range(0,N)]
+
+        time_method_in.append(math.log(method_in(a,b,c)))
+        time_method_set_in.append(math.log(method_set_in(a,b,c)))
+        time_method_bisect.append(math.log(method_bisect(a,b,c)))
+
+    plt.plot(Nls,time_method_in,marker='o',color='r',linestyle='-',label='in')
+    plt.plot(Nls,time_method_set_in,marker='o',color='b',linestyle='-',label='set')
+    plt.plot(Nls,time_method_bisect,marker='o',color='g',linestyle='-',label='bisect')
+    plt.xlabel('list size', fontsize=18)
+    plt.ylabel('log(time)', fontsize=18)
+    plt.legend(loc = 'upper left')
+    plt.show()
+```
+
+
 ## Can I run multiple instances at once(simultaneously) with selenium-webdriver?  
 [Can I run multiple instances at once(simultaneously) with selenium-webdriver? Nov 16 '15](https://stackoverflow.com/questions/33741921/can-i-run-multiple-instances-at-oncesimultaneously-with-selenium-webdriver)  
 ```

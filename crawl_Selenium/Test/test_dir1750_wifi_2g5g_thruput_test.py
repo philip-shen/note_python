@@ -2,6 +2,7 @@
 # 2019/10/11 Initial release 
 
 import os,sys
+import requests
 
 strabspath=os.path.abspath(__file__)
 strdirname=os.path.dirname(strabspath)
@@ -49,6 +50,45 @@ def dir17501950_wifi_5g_thtuput(*args, **kwargs):
   local_dir1750_wifi2g5g_ch_setup.method_close()
   local_dir1750_wifi2g5g_ch_setup.method_teardown()
 
+def dir17501950_wifi_setup_thruputtest(*args, **kwargs):
+  go_url="http://" + kwargs["dut"]["lan_ip_address"]
+  
+  r = requests.get(go_url,timeout=15)
+  #print ('http %i' %r.status_code)
+  logger.info('DUT:{0} Statu_Code:{1}'.format(go_url, str(r.status_code) ))
+  page_status_code = r.status_code
+  if page_status_code != 200:
+    return
+
+  logger.info('TestCase_ID:{0} TestCase_Desc:{1}'.format(kwargs["test_case"]["id"],kwargs["test_case"]["description"]))
+
+  local_dir1750_wifi2g5g_ch_setup=dir17x19x_wifi_2G5G_Setup()
+  local_dir1750_wifi2g5g_ch_setup.dut_Login(go_url,**kwargs)
+
+  int_test_case_id= int(kwargs["test_case"]["id"])
+  mod_int_test_case_id= (int_test_case_id % 5)
+
+  # Fastest way to check if a value exists in a list
+  # https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exists-in-a-list
+  #
+  # config_para["DUT_Config_WLAN"][1]~config_para["DUT_Config_WLAN"][3] is WiFi 2G
+  # config_para["DUT_Config_WLAN"][4]~config_para["DUT_Config_WLAN"][5] is WiFi 5G
+  s = set([1,2,3])
+  for i,x in enumerate([mod_int_test_case_id]):
+    if x in s:
+      #print("WiFi 2.4G")  
+      # Converting Python dict to kwargs?
+      # https://stackoverflow.com/questions/5710391/converting-python-dict-to-kwargs
+      local_dir1750_wifi2g5g_ch_setup.wifi_2g_setup(**kwargs) 
+    else: 
+      #print("WiFi 5G")  
+      # Converting Python dict to kwargs?
+      # https://stackoverflow.com/questions/5710391/converting-python-dict-to-kwargs
+      local_dir1750_wifi2g5g_ch_setup.wifi_5g_setup(**kwargs) 
+
+  local_dir1750_wifi2g5g_ch_setup.method_close()
+  local_dir1750_wifi2g5g_ch_setup.method_teardown()
+
 if __name__ == '__main__':
   # Get present time
   local_time = time.localtime(time.time())
@@ -68,13 +108,35 @@ if __name__ == '__main__':
   #dir17501950_wifi_2g_thtuput(**config_para["DUT_Config_WLAN"][0]);#testing purpose
   
   # WiFi 2G Thruput Test
-  dir17501950_wifi_2g_thtuput(**config_para["DUT_Config_WLAN"][1]);pass
-  dir17501950_wifi_2g_thtuput(**config_para["DUT_Config_WLAN"][2]);pass
-  dir17501950_wifi_2g_thtuput(**config_para["DUT_Config_WLAN"][3]);pass
+  #dir17501950_wifi_2g_thtuput(**config_para["DUT_Config_WLAN"][1]);pass
+  #dir17501950_wifi_2g_thtuput(**config_para["DUT_Config_WLAN"][2]);pass
+  #dir17501950_wifi_2g_thtuput(**config_para["DUT_Config_WLAN"][3]);pass
 
   # WiFi 5G Thruput Test  
-  dir17501950_wifi_5g_thtuput(**config_para["DUT_Config_WLAN"][4]);pass
-  dir17501950_wifi_5g_thtuput(**config_para["DUT_Config_WLAN"][5]);pass
+  #dir17501950_wifi_5g_thtuput(**config_para["DUT_Config_WLAN"][4]);pass
+  #dir17501950_wifi_5g_thtuput(**config_para["DUT_Config_WLAN"][5]);pass
+
+  # WiFi 2G/5G Thruput Test
+  # Close and teardown in each DUT setting. 
+  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][1]);#pass
+  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][2]);#pass
+  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][3]);#pass
+
+  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][4]);#pass
+  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][5]);#pass
+
+  # WiFi 2G/5G Thruput Test
+  # Finally, close and teardown, that is risky.
+  #local_dir1750_wifi2g5g_ch_setup=dir17x19x_wifi_2G5G_Setup()
+  #local_dir1750_wifi2g5g_ch_setup.wifi_2g5g_setup_thruputtest(**config_para["DUT_Config_WLAN"][1]);#pass
+  #local_dir1750_wifi2g5g_ch_setup.wifi_2g5g_setup_thruputtest(**config_para["DUT_Config_WLAN"][2]);#pass
+  #local_dir1750_wifi2g5g_ch_setup.wifi_2g5g_setup_thruputtest(**config_para["DUT_Config_WLAN"][3]);#pass
+
+  #local_dir1750_wifi2g5g_ch_setup.wifi_2g5g_setup_thruputtest(**config_para["DUT_Config_WLAN"][4]);#pass
+  #local_dir1750_wifi2g5g_ch_setup.wifi_2g5g_setup_thruputtest(**config_para["DUT_Config_WLAN"][5]);#pass
+
+  #local_dir1750_wifi2g5g_ch_setup.method_close()
+  #local_dir1750_wifi2g5g_ch_setup.method_teardown()
 
 # Get the last time
 local_time = time.localtime(time.time())
