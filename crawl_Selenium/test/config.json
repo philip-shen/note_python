@@ -430,38 +430,45 @@
     ],
     "WLANClient":[
         {"AC_88":{
+            "model": "ac88",           
             "description": "ASUS_AC_88(4*4)",
             "wlan_ip_address":"192.168.0.188"
             }
         },
         {"AC_66":{
+            "model": "ac66",           
             "description": "ASUS_AC_66(3*3)",
             "wlan_ip_address":"192.168.0.166"
             }
         },
         {"6300_ABGN":{
+            "model": "6300abgn",           
             "description": "Intel-6300 ABGN(3*3)",
             "wlan_ip_address":"192.168.0.163"
             }
         },
-        {"8260_ac":{
+        {"AC_8260":{
+            "model": "ac8260",           
             "description": "Intel-8260_ac(2*2)",
             "wlan_ip_address":"192.168.0.160"
             }
         },
         {"DWA_182":{
+            "model": "dwa182",           
             "description": "DWA_182 C1(2*2)",
             "wlan_ip_address":"192.168.0.182"
             }
         },
         {"DWA_192":{
-            "description": "DWA_1a2 A1(3*3)",
+            "model": "dwa192",           
+            "description": "DWA_192 A1(3*3)",
             "wlan_ip_address":"192.168.0.192"
             }
         },
-        {"MacBook_Pro":{
+        {"MACBOOK":{
+            "model": "macbook",           
             "description": "MacBook_Pro",
-            "wlan_ip_address":"192.168.0.166"
+            "wlan_ip_address":"192.168.0.150"
             }
         }
     ]
