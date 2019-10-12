@@ -5,6 +5,7 @@ Take note of Selenium
 [Status Check Table](#status-check-table)  
 
 [DUT Setting of WiFi 2.4G/5G Throughput Test](#dut-setting-of-wifi-24g5g-throughput-test)  
+
 [System](#system)  
 [WiFi Smart Connect](#wifi-smart-connect)  
 [WiFi 2.4GHz](#wifi-2.4GHz)  
@@ -42,6 +43,7 @@ Item | Date Time
 ------------------------------------ | ---------------------------------------------
 Start Time | 2019/10/11 16:55:22
 End Time | 2019/10/11 17:0:59
+Total Test Duration | 5(tests/sec_mode)*3(directories)*2(mins/test)+6(mins_dut_settings)~36(mins)
 
 [Log file](https://github.com/philip-shen/note_python/raw/master/crawl_Selenium/logs/dut_setup_wifi_thruput.log)
 
