@@ -54,7 +54,6 @@ def dir17501950_wifi_setup_thruputtest(*args, **kwargs):
   go_url="http://" + kwargs["dut"]["lan_ip_address"]
   
   r = requests.get(go_url,timeout=15)
-  #print ('http %i' %r.status_code)
   logger.info('DUT:{0} Statu_Code:{1}'.format(go_url, str(r.status_code) ))
   page_status_code = r.status_code
   if page_status_code != 200:
