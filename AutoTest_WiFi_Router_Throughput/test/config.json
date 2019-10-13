@@ -545,6 +545,11 @@
 
     ],
     "WLANClient":[
+        {
+            "model": "thinkpade480",           
+            "description": "RTL_GbE_NIC",
+            "wlan_ip_address":"192.168.1.216"        
+        },
         {"AC_88":{
             "model": "ac88",           
             "description": "ASUS_AC_88(4*4)",

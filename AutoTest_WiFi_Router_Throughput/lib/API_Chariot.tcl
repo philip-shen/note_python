@@ -2,6 +2,7 @@
 # By Philip Shen 
 # ---------------------------------------------------------------------
 # Apr28219 Initialize
+# Otc132019 bug issue to add variable inifile;#Otc132019 bug
 ################################################################################
 namespace eval Func_Chariot {
     # Load the Chariot API.
@@ -12,7 +13,7 @@ namespace eval Func_Chariot {
     # load Chariot
     # package require Chariot
     #load ChariotExt
-    package require ChariotExt
+    package require ChariotExt;#10/13/2019
     ################################################################################
     # refer chariotext.tcl
     ################################################################################
@@ -54,6 +55,7 @@ namespace eval Func_Chariot {
     variable list_pair_max    {}
     variable list_pair_95percent    {}
     variable path_thruput_csvfile    {}
+    variable inifile;#Otc132019 bug
 }
 
 proc Func_Chariot::Initialize {} {
@@ -1218,7 +1220,9 @@ proc Func_Chariot::RunRoutine_MultiWaysSinglePair {} {
 ################################################################################
 proc Func_Chariot::ReadChariot_Param_Values {} {
     # Read variables from INI file
-    set inifile [file join $Func_INI::currPath setup.ini]
+    # set inifile [file join $Func_INI::currPath setup.ini];#Otc132019 bug
+    variable inifile
+    
     Func_INI::_GetChariot_Param $inifile
     Func_INI::_GetDUT $inifile
     Func_INI::_GetTopologyIP $inifile
@@ -1227,7 +1231,9 @@ proc Func_Chariot::ReadChariot_Param_Values {} {
 }
 proc Func_Chariot::ReadChariot_Param_Values_QoS {} {
     # Read variables from INI file
-    set inifile [file join $Func_INI::currPath setup.ini]
+    # set inifile [file join $Func_INI::currPath setup.ini];#Otc132019 bug
+    variable inifile
+    
     Func_INI::_GetChariot_Param $inifile
     Func_INI::_GetDUT $inifile
     Func_INI::_GetTopologyIP_QoS $inifile

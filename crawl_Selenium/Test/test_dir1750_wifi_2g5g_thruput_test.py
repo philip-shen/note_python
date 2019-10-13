@@ -141,11 +141,11 @@ if __name__ == '__main__':
   #local_dir1750_wifi2g5g_ch_setup.method_close()
   #local_dir1750_wifi2g5g_ch_setup.method_teardown()
 
-# Get the last time
-local_time = time.localtime(time.time())
-#print('Final Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec)
-#logging.error('Finish Time:')
-end_time=str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)+' '+\
-          str(local_time.tm_hour)+":"+str(local_time.tm_min)+":"+str(local_time.tm_sec)
-logger.info('End Time is: {0}'.format(end_time))
+  # Get the last time
+  local_time = time.localtime(time.time())
+  #print('Final Time is ', local_time.tm_year,'/',local_time.tm_mon,'/',local_time.tm_mday,' ',local_time.tm_hour,":",local_time.tm_min,":",local_time.tm_sec)
+  #logging.error('Finish Time:')
+  end_time=str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)+' '+\
+            str(local_time.tm_hour)+":"+str(local_time.tm_min)+":"+str(local_time.tm_sec)
+  logger.info('End Time is: {0}'.format(end_time))
                 

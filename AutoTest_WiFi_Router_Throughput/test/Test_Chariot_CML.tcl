@@ -4,7 +4,10 @@
 # May182019 Adapt from Test_GUI_02.tcl
 # Oct122019 Adapt from Test_Chariot_GUI_02.tcl
 ################################################################################
-package require Tcl 8.5
+package require Tcl 8.4
+#package require Tk 8.5
+#package require tile
+#package require Tktable
 
 set currpath [file dirname [file normalize [info script]]];#[file dirname [info script]]
 set lib_path [regsub -all "test" $currpath "lib"];#[file join  ".." "lib"]
@@ -19,8 +22,8 @@ package require cmdline
 ################################################################################
 set parameters {
     {config_ini.arg ""   "Assing configuration INI file."}
-    {direction.arg ""   "LAN<-->WAN or LAN-->WAN or LAN<--WAN."}
-    {moduration.arg ""   "11n or 11ac."}
+    {direction.arg ""   "LAN<-->WAN or LAN-->WAN or LAN<--WAN and all."}
+    {moduration.arg ""   "11n or 11ac and 11ax an ."}
     {debug           "Turn on debugging, default=off"}
 }
 
@@ -40,10 +43,16 @@ set Func_INI::verbose on;#on off
 set Func_INI::logfile [file join $log_path inifile.log]
 
 Func_INI::_GetChariot_Param $inifile
+#Func_INI::_GetDUT $inifile
+#Func_INI::_GetTopologyIP $inifile
+#Func_INI::_GetWLAN_ClientModelName $inifile
+#Func_INI::_GetCriteria $inifile
 
 
 # source Chariot related API
 set path_chariot [dict get $Func_INI::dict_Chariot_Param "chariot_path"];#get chariot directory
+puts $path_chariot
+
 lappend auto_path $path_chariot
 source "$lib_path/API_Chariot.tcl"
 
@@ -83,3 +92,61 @@ array set pref [list \
 # as below
 #  £f tclsh85 Test_Chariot_CML.tcl -config_ini ac8260_ch01_wpa2aes_setup.ini -direction lan2wan -moduration 11ac
 ################################################################################
+################################################################################
+# add_button "LAN--->WLAN"   [list Func_Chariot::RunRoutine_11ac_lan2wlan]
+# add_button "LAN<---WLAN"   [list Func_Chariot::RunRoutine_11ac_wlan2lan]
+# add_button "LAN<--->WLAN"  [list Func_Chariot::RunRoutine_11ac_lan2wlan2lan]
+# add_button  "11ac All Test" {Func_Chariot::RunRoutine_11ac_lan2wlan; \
+#            Func_Chariot::RunRoutine_11ac_wlan2lan; \
+#            Func_Chariot::RunRoutine_11ac_lan2wlan2lan}
+# 
+# add_button "LAN--->WLAN"   [list Func_Chariot::RunRoutine_11n_lan2wlan]
+# add_button "LAN<---WLAN"   [list Func_Chariot::RunRoutine_11n_wlan2lan]
+# add_button "LAN<--->WLAN"  [list Func_Chariot::RunRoutine_11n_lan2wlan2lan]
+# add_button "11n All Test" {Func_Chariot::RunRoutine_11n_lan2wlan; \
+#            Func_Chariot::RunRoutine_11n_wlan2lan; \
+#            Func_Chariot::RunRoutine_11n_lan2wlan2lan}
+################################################################################
+if {[string tolower $options(config_ini)] == "11n" } {
+    switch -regexp [string tolower $options(direction)] {
+        {^lantowlan$} {
+            [list Func_Chariot::RunRoutine_11n_lan2wlan]
+        }
+        {^wlantolan$} {
+            [list Func_Chariot::RunRoutine_11n_wlan2lan]
+        }
+        {^lantowlantolan$} {
+            [list Func_Chariot::RunRoutine_11n_lan2wlan2lan]
+        }
+        {^all$} {
+            {Func_Chariot::RunRoutine_11n_lan2wlan; \
+             Func_Chariot::RunRoutine_11n_wlan2lan; \
+             Func_Chariot::RunRoutine_11n_lan2wlan2lan}
+        }
+    };#switch
+    
+} elseif {[string tolower $options(config_ini)] == "11ac" } {
+    switch -regexp [string tolower $options(direction)] {
+        {^lantowlan$} {
+            #[list Func_Chariot::RunRoutine_11ac_lan2wlan]
+            Func_Chariot::RunRoutine_11ac_lan2wlan
+        }
+        {^wlantolan$} {
+            #[list Func_Chariot::RunRoutine_11ac_wlan2lan]
+            Func_Chariot::RunRoutine_11ac_wlan2lan
+        }
+        {^lantowlantolan$} {
+            #[list Func_Chariot::RunRoutine_11ac_lan2wlan2lan]
+            Func_Chariot::RunRoutine_11ac_lan2wlan2lan
+        }
+        {^all$} {
+            {Func_Chariot::RunRoutine_11ad_lan2wlan; \
+             Func_Chariot::RunRoutine_11ac_wlan2lan; \
+             Func_Chariot::RunRoutine_11ac_lan2wlan2lan}
+        }
+    };#switch
+    
+} else {
+    
+}
+

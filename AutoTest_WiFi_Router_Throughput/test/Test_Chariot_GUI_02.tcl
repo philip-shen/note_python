@@ -18,7 +18,8 @@ source "$lib_path/API_GUI.tcl"
 set Func_INI::currPath $currpath
 set Func_INI::log_Path $log_path
 set Func_INI::lib_Path $lib_path
-set inifile [file join $Func_INI::currPath setup.ini]
+#set inifile [file join $Func_INI::currPath setup.ini]
+set inifile [file join $Func_INI::lib_Path "chariot_config_ini" "setup.ini"]
 ################################################################################
 # Get INI file paramter
 ################################################################################
@@ -26,19 +27,21 @@ set Func_INI::verbose on;#on off
 set Func_INI::logfile [file join $log_path inifile.log]
 
 Func_INI::_GetChariot_Param $inifile
-#Func_INI::_GetDUT $inifile
-#Func_INI::_GetTopologyIP $inifile
-#Func_INI::_GetWLAN_ClientModelName $inifile
+Func_INI::_GetDUT $inifile
+Func_INI::_GetTopologyIP $inifile
+Func_INI::_GetWLAN_ClientModelName $inifile
 #Func_INI::_GetCriteria $inifile
 
 # source Chariot related API
 set path_chariot [dict get $Func_INI::dict_Chariot_Param "chariot_path"];#get chariot directory
 lappend auto_path $path_chariot
+#package require ChariotExt;#10/13/2019
 source "$lib_path/API_Chariot.tcl"
 
 set Func_Chariot::verbose on;#on off
 set Func_Chariot::logfile [file join $log_path chariot.log]
 #set Func_Chariot::reTest [dict get $Func_INI::dict_Chariot_Param "retest"]
+set Func_Chariot::inifile $inifile;#Otc132019 bug
 
 # Set chariot related parameters for testing
 #set TestGUI::maxretry $Func_Chariot::reTest
