@@ -1,7 +1,7 @@
 {
     "DUT_Config_WLAN":[
         {"test_case": {
-            "id": "dlink_wifi_000",
+            "id": "000",
             "description": "wifi_testing_purpose_lan-ip_220.18.1.1"
             },
         "dut":{
@@ -185,6 +185,64 @@
         },
         {"test_case": {
             "id": "006",
+            "description": "wifi_2.4G_channelAuto_WPA/WPA2-Personal"
+            },
+        "dut":{
+            "mode_name":"DIR1750",
+            "fw_version":"1.00b17",
+            "hw_version":"A1",
+            "login_passwd":"123qwe",
+            "lan_ip_address":"192.168.0.1",
+            "wan_ip_address":"10.1.0.1"
+            },
+        "wifi_2g":{
+            "ssid":"testdlink-2G",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",
+            "channel":"Auto",
+            "channel_width":"Auto 20/40 MHz",
+            "visibility_status":"Visible"
+            },
+        "wifi_5g":{
+            "ssid":"testdlink-5G",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",     
+            "channel":"36",
+            "channel_width":"Auto 20/40/80 MHz",           
+            "visibility_status":"Invisible"
+            }
+        },
+        {"test_case": {
+            "id": "007",
+            "description": "wifi_5G_channelAuto_WPA/WPA2-Personal"
+            },
+        "dut":{
+            "mode_name":"DIR1750",
+            "fw_version":"1.00b17",
+            "hw_version":"A1",
+            "login_passwd":"123qwe",
+            "lan_ip_address":"192.168.0.1",
+            "wan_ip_address":"10.1.0.1"
+            },
+        "wifi_2g":{
+            "ssid":"testdlink-2G",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",
+            "channel":"5",
+            "channel_width":"Auto 20/40 MHz",
+            "visibility_status":"Invisible"
+            },
+        "wifi_5g":{
+            "ssid":"testdlink-5G",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",
+            "channel":"Auto",
+            "channel_width":"Auto 20/40/80 MHz",        
+            "visibility_status":"Visible"
+            }
+        },
+        {"test_case": {
+            "id": "011",
             "description": "wifi_2.4G_channel01_WPA3-Personal"
             },
         "dut":{
@@ -213,7 +271,7 @@
             }
         },
         {"test_case": {
-            "id": "007",
+            "id": "012",
             "description": "wifi_2.4G_channel06_WPA3-Personal"
             },
         "dut":{
@@ -242,7 +300,7 @@
             }
         },
         {"test_case": {
-            "id": "008",
+            "id": "013",
             "description": "wifi_2.4G_channel11_WPA3-Personal"
             },
         "dut":{
@@ -271,7 +329,7 @@
             }
         },
         {"test_case": {
-            "id": "009",
+            "id": "014",
             "description": "wifi_5G_channel036_WPA3-Personal"
             },
         "dut":{
@@ -300,7 +358,7 @@
             }
         },
         {"test_case": {
-            "id": "010",
+            "id": "015",
             "description": "wifi_5G_channel149_WPA3-Personal"
             },
         "dut":{
@@ -324,6 +382,64 @@
             "password":"00000000",
             "security_mode":"WPA3-Personal",
             "channel":"149",
+            "channel_width":"Auto 20/40/80 MHz",        
+            "visibility_status":"Visible"
+            }
+        },
+        {"test_case": {
+            "id": "016",
+            "description": "wifi_2.4G_channelAuto_WPA3-Personal"
+            },
+        "dut":{
+            "mode_name":"DIR1750",
+            "fw_version":"1.00b17",
+            "hw_version":"A1",
+            "login_passwd":"123qwe",
+            "lan_ip_address":"192.168.0.1",
+            "wan_ip_address":"10.1.0.1"
+            },
+        "wifi_2g":{
+            "ssid":"testdlink-2G",
+            "password":"00000000",
+            "security_mode":"WPA3-Personal",
+            "channel":"Auto",
+            "channel_width":"Auto 20/40 MHz",
+            "visibility_status":"Visible"
+            },
+        "wifi_5g":{
+            "ssid":"testdlink-5G",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",
+            "channel":"36",            
+            "channel_width":"Auto 20/40/80 MHz",                
+            "visibility_status":"Invisible"
+            }
+        },
+        {"test_case": {
+            "id": "017",
+            "description": "wifi_5G_channelAuto_WPA3-Personal"
+            },
+        "dut":{
+            "mode_name":"DIR1750",
+            "fw_version":"1.00b17",
+            "hw_version":"A1",
+            "login_passwd":"123qwe",
+            "lan_ip_address":"192.168.0.1",
+            "wan_ip_address":"10.1.0.1"
+            },
+        "wifi_2g":{
+            "ssid":"testdlink-2G",
+            "password":"00000000",
+            "security_mode":"WPA/WPA2-Personal",
+            "channel":"5",
+            "channel_width":"Auto 20/40 MHz",
+            "visibility_status":"Invisible"
+            },
+        "wifi_5g":{
+            "ssid":"testdlink-5G",
+            "password":"00000000",
+            "security_mode":"WPA3-Personal",
+            "channel":"Auto",
             "channel_width":"Auto 20/40/80 MHz",        
             "visibility_status":"Visible"
             }

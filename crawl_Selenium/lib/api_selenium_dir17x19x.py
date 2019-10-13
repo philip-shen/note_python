@@ -214,9 +214,66 @@ class dir17x19x_wifi_2G5G_Setup():
 
     opt_what= "(//a[contains(@href, \'"+opt_what+"\')])[2]"
     return opt_what  
+  
+  # 2.4G TxPwrLevel
+  # self.driver.find_element(By.XPATH, "//a[contains(@href, \'100\')]").click()--->High
+  # self.driver.find_element(By.XPATH, "//a[contains(@href, \'75\')]").click()--->Medium
+  # self.driver.find_element(By.XPATH, "//a[contains(@href, \'50\')]").click()--->Low
+  # 5G TxPwrLevel
+  # self.driver.find_element(By.XPATH, "(//a[contains(@href, \'100\')])[2]").click()--->High
+  # self.driver.find_element(By.XPATH, "(//a[contains(@href, \'75\')])[2]").click()--->Medium
+  # self.driver.find_element(By.XPATH, "(//a[contains(@href, \'50\')])[2]").click()--->Low
+  ####################################################################
+  def xpath_wifi_txpwr_level(self,*args, **kwargs):
+    opt_what=''
+
+    if args[0].lower() == "high":
+      opt_what= '100'
+    elif args[0].lower() == "medium":  
+      opt_what= '75'
+    else:
+      opt_what= '50'
+
+    return opt_what  
+
+  def xpath_wifi_2g5g_txpwr_mode(self,*args, **kwargs):
+    opt_what=''
+    wif_2g_txpwr_levle=''
+    wif_5g_txpwr_levle=''
+
+    # 2.4G Visible and 5G Invisible
+    if (kwargs['wifi_2g']['visibility_status'].lower() == "visible") and \
+        (kwargs['wifi_5g']['visibility_status'].lower() == "invisible"):
+
+      opt_what= self.xpath_wifi_txpwr_level("High")
+      wif_2g_txpwr_levle="//a[contains(@href, \'"+opt_what+"\')]"
+      
+      # 10/13/2019 modify low-->medium to prepare 2G Invisible 
+      opt_what= self.xpath_wifi_txpwr_level("Low")
+      #opt_what= self.xpath_wifi_txpwr_level("High")
+      wif_5g_txpwr_levle="(//a[contains(@href, \'"+opt_what+"\')])[2]"  
+
+    # 2.4G Invisible and 5G Visible
+    if (kwargs['wifi_2g']['visibility_status'].lower() == "invisible") and \
+        (kwargs['wifi_5g']['visibility_status'].lower() == "visible"):
+
+      # 10/13/2019 modify low-->medium to prepare 5G Invisible 
+      opt_what= self.xpath_wifi_txpwr_level("Low")
+      #opt_what= self.xpath_wifi_txpwr_level("High")
+      wif_2g_txpwr_levle="//a[contains(@href, \'"+opt_what+"\')]"
+      
+      opt_what= self.xpath_wifi_txpwr_level("High")
+      wif_5g_txpwr_levle="(//a[contains(@href, \'"+opt_what+"\')])[2]"    
+
+    logger.info('Generate wif_2g_txpwr_levle :{0} '.format(wif_2g_txpwr_levle));#debug purpose
+    logger.info('Generate wif_5g_txpwr_levle :{0} '.format(wif_5g_txpwr_levle));#debug purpose
+
+    return wif_2g_txpwr_levle, wif_5g_txpwr_levle   
 
   #
   # WiFi 2G Setting
+  # 10/13/2019 Double Ten, Cause TxPwr options between 2.4G and 5G are depended
+  #            DUT reset to default then don't chang TxPwr options of 2.4G and 5G
   ####################################################################
   def wifi_2g_setup(self,**kwargs):
     # Mouse over
@@ -266,16 +323,19 @@ class dir17x19x_wifi_2G5G_Setup():
 
     self.driver.method_by_LinkText_click(kwargs['wifi_2g']['channel'])
 
-    # Change Power
-    try:
+    # Change 2G TxPower High
+    #try:
       # Tries to click an element
-      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[10]")
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[10]")
       
-    except ElementClickInterceptedException:
+    #except ElementClickInterceptedException:
       # Re try again
-      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[10]")
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[10]")
 
-    self.driver.method_by_LinkText_click("High")
+    # 10/13/2019 remakr below
+    # self.driver.method_by_LinkText_click("High")
+    #wif_2g_txpwr_levle, wif_5g_txpwr_levle= self.xpath_wifi_2g5g_txpwr_mode(**kwargs)
+    #self.driver.method_by_XPath_click(wif_2g_txpwr_levle)
 
     # Refer https://www.pingshiuanchua.com/blog/post/error-handling-in-selenium-on-python
     # Change Channel Width
@@ -329,6 +389,19 @@ class dir17x19x_wifi_2G5G_Setup():
     except ElementClickInterceptedException:
       self.driver.method_by_XPath_click(what)
 
+    # Change 5G TxPower Low
+    #try:
+      # Tries to click an element
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[26]")
+      
+    #except ElementClickInterceptedException:
+      # Re try again
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[26]")
+
+    # 10/13/2019 add below
+    #wif_2g_txpwr_levle, wif_5g_txpwr_levle= self.xpath_wifi_2g5g_txpwr_mode(**kwargs)
+    #self.driver.method_by_XPath_click(wif_5g_txpwr_levle)
+
     
     # Make 5G invisible
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[30]")
@@ -357,6 +430,8 @@ class dir17x19x_wifi_2G5G_Setup():
     self.driver.method_by_ID_click("popalert_ok")  
   #
   # WiFi 5G Setting
+  # 10/13/2019 Double Ten, Cause TxPwr options between 2.4G and 5G are depended
+  #            DUT reset to default then don't chang TxPwr options of 2.4G and 5G
   ####################################################################
   def wifi_5g_setup(self,**kwargs):
     # Mouse over
@@ -371,10 +446,32 @@ class dir17x19x_wifi_2G5G_Setup():
     # Change SSID Password
     self.driver.method_by_ID_type("wifiName_24",kwargs['wifi_2g']['ssid'])
     self.driver.method_by_ID_type("password_24",kwargs['wifi_2g']['password'])
+    
+    # 10/13/2019 To change 5G channel to Auto then change 2G channel# first
+    try:
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[8]")
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[8]")
+
+    self.driver.method_by_LinkText_click(kwargs['wifi_2g']['channel'])
 
     # Change Visibility Status:	
     self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[14]")
     
+    # Change 2G TxPower Low
+    #try:
+      # Tries to click an element
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[10]")
+      
+    #except ElementClickInterceptedException:
+      # Re try again
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[10]")
+
+    # 10/13/2019 remakr below
+    # self.driver.method_by_LinkText_click("High")
+    #wif_2g_txpwr_levle, wif_5g_txpwr_levle= self.xpath_wifi_2g5g_txpwr_mode(**kwargs)
+    #self.driver.method_by_XPath_click(wif_2g_txpwr_levle)
+
     # Make 2G Invisible
     #2019/09/23 string gened from xpath_wifi_2g_visibility_mode() couldn't available
     rtu_visibility=self.xpath_wifi_2g_visibility_mode(kwargs['wifi_2g']['visibility_status'])
@@ -406,7 +503,17 @@ class dir17x19x_wifi_2G5G_Setup():
 
     
     # Change Channel
-    self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[24]")
+    # 10/13/2019 originally, 5G Channel setting
+    #self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[24]")
+    #self.driver.method_by_LinkText_click(kwargs['wifi_5g']['channel'])
+
+    # 10/13/2019 rfer 2G Channel setting
+    # Change 5G channel#
+    try:
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[24]")
+    except ElementClickInterceptedException:
+      self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[24]")
+
     self.driver.method_by_LinkText_click(kwargs['wifi_5g']['channel'])
 
     # Change Channel width
@@ -416,6 +523,19 @@ class dir17x19x_wifi_2G5G_Setup():
       self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[28]")
 
     self.driver.method_by_LinkText_click(kwargs['wifi_5g']['channel_width'])
+
+    # Change 5G TxPower High
+    #try:
+      # Tries to click an element
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[26]")
+      
+    #except ElementClickInterceptedException:
+      # Re try again
+    #  self.driver.method_by_XPath_click("(//a[contains(@href, \'#\')])[26]")
+
+    # 10/13/2019 add below
+    #wif_2g_txpwr_levle, wif_5g_txpwr_levle= self.xpath_wifi_2g5g_txpwr_mode(**kwargs)
+    #self.driver.method_by_XPath_click(wif_5g_txpwr_levle)
 
     # Make 5G Invisible
     #try:
@@ -462,14 +582,16 @@ class dir17x19x_wifi_2G5G_Setup():
     self.dut_Login(go_url,**kwargs)
 
     int_test_case_id= int(kwargs["test_case"]["id"])
-    mod_int_test_case_id= (int_test_case_id % 5)
+    mod_int_test_case_id= (int_test_case_id % 10)
 
     # Fastest way to check if a value exists in a list
     # https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exists-in-a-list
     #
-    # config_para["DUT_Config_WLAN"][1]~config_para["DUT_Config_WLAN"][3] is WiFi 2G
-    # config_para["DUT_Config_WLAN"][4]~config_para["DUT_Config_WLAN"][5] is WiFi 5G
-    s = set([1,2,3])
+    # config_para["DUT_Config_WLAN"][1]~config_para["DUT_Config_WLAN"][3] 
+    # config_para["DUT_Config_WLAN"][6] are WiFi 2G
+    # config_para["DUT_Config_WLAN"][4]~config_para["DUT_Config_WLAN"][5] 
+    # config_para["DUT_Config_WLAN"][7] are WiFi 5G
+    s = set([1,2,3,6])
     for i,x in enumerate([mod_int_test_case_id]):
       if x in s:
         #print("WiFi 2.4G")  
