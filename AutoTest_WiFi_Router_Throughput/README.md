@@ -2,9 +2,17 @@
 Auto Test of WiFi Router Throughput Test by Selenium(via python) and Chariot(via Tcl)
 
 # Table of Contents  
+[Selenium implementation](#selenium-implementation)  
+[Chariot Implementation](#chariot-implementation)  
 
 [Reference](#reference)  
 [cmdline argument parsing using tcl?](#cmdline-argument-parsing-using-tcl)  
+
+# Selenium Implementation
+[note_python/crawl_Selenium](https://github.com/philip-shen/note_python/tree/master/crawl_Selenium#system)  
+
+# Chariot Implementation  
+[note_Networking/Chariot_Thruput](https://github.com/philip-shen/note_Networking/tree/master/Chariot_Thruput)  
 
 # Troubleshooting
 

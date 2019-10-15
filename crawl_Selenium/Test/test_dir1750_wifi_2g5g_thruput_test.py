@@ -121,11 +121,11 @@ if __name__ == '__main__':
   # Close and teardown in each DUT setting. 
   #dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][1]);#pass
   #dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][2]);#pass
-  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][3]);#pass
-  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][6]);#pass
+  #dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][3]);#pass
+  #dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][6]);#pass
 
   dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][7]);#pass
-  dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][4]);#pass
+  #dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][4]);#pass
   #dir17501950_wifi_setup_thruputtest(**config_para["DUT_Config_WLAN"][5]);#pass
   
   # WiFi 2G/5G Thruput Test
