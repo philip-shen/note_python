@@ -2,6 +2,8 @@
 Take some note of Rubber Duck Debugging
 
 # Table of Content
+[]()  
+[Top 40 QA Interview Questions & Answers](#top-40-qa-interview-questions-&-answers)  
 
 #[小黃鴨除錯法Rubber Duck Debugging – Possability.Me – Medium Sep 5, 2018](https://medium.com/%E6%8C%87%E7%B4%8B%E7%9A%84%E7%A7%98%E5%AF%86/%E5%B0%8F%E9%BB%83%E9%B4%A8%E9%99%A4%E9%8C%AF%E6%B3%95-rubber-duck-debugging-e5e37e8645e8)  
 ```
@@ -14,6 +16,50 @@ Take some note of Rubber Duck Debugging
 「小黃鴨除錯法」的原理，就是用說話拖慢自己的思維，慢慢看（程式碼），慢慢想，慢慢講，令程式員慢慢幫自己 go through 程式邏輯及輸入校對。啊，忘了說，右手五手指 R5 代表文字符號區。
 
 現實生活中，常常把概念或問題困在腦中，當沒有出路時，倒不如用此方法，和公仔，和寵物，和朋友傾下計，用心把自己的思維細心解釋給他聽，靈感和生機很快會出現！ 
+```
+
+# Top 40 QA Interview Questions & Answers   
+[Top 40 QA Interview Questions & Answers Oct 15, 2019](https://www.guru99.com/qa-interview-questions-answers.html)  
+## 1) What is the difference between the QA and software testing?  
+```
+The role of QA (Quality Assurance) is to monitor the quality of the "process" used to produce the software.   
+```
+```
+While the software testing, is the process of ensuring the functionality of final product meets the user's requirement.   
+```
+
+## 2) What is Testware?  
+```
+Testware is test artifacts like test cases, test data, test plans needed to design and execute a test.   
+```
+
+## 3) What is the difference between build and release?  
+```
+Build: It is a number given to Installable software that is given to the testing team by the development team.  
+```
+```
+Release: It is a number given to Installable software that is handed over to the customer by the tester or developer.   
+```
+
+## 
+```
+  
+```
+## 
+```
+  
+```
+## 
+```
+  
+```
+## 
+```
+  
+```
+## 
+```
+  
 ```
 
 # Reference
