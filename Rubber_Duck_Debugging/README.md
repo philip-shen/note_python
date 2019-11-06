@@ -239,7 +239,8 @@ the required amounts of data, user requests, etc. is known as Volume Testing.
 Setting up the requirements criteria, 
 the requirements of a software should be complete, clear and agreed by all
 
-The next thing is the realistic schedule like time for planning , designing, testing, fixing bugs and re-testing
+The next thing is the realistic schedule like time for planning , designing, testing, 
+fixing bugs and re-testing
 
 Adequate testing, 
 start the testing immediately after one or more modules development.
@@ -249,9 +250,179 @@ Use rapid prototype during design phase so that it can be easy for customers to 
 Use of group communication tools  
 ```
 
-##   
+## 19) What is a 'USE' case and what does it include?    
 ```
-  
+The document that describes, the user action and system response, 
+for a particular functionality is known as USE case. 
+
+It includes 
+revision history, 
+table of contents, 
+flow of events, 
+cover page, 
+special requirements, 
+pre-conditions and 
+post-conditions.   
+```
+
+## 20) What is CRUD testing and how to test CRUD?    
+```
+CRUD stands for Create, Read, Update and Delete. CRUD testing can be done using SQL statements.   
+```
+
+## 21) What is thread testing?    
+```
+A thread testing is a top-down testing, 
+where the progressive integration of components follows 
+the implementation of subsets of the requirements, 
+
+as opposed to the integration of components by successively lower levels.   
+```
+
+## 22) What is configuration management?    
+```
+It is a process to control and document any changes made during the life of a project. 
+
+Release control, 
+Change control and 
+Revision control 
+are the important aspects of configuration management.  
+```
+
+## 23) What is Ad Hoc testing?    
+```
+It is a testing phase where the tester tries to break the system 
+by randomly trying the system's functionality. 
+
+It can include negative testing as well.   
+```
+
+## 24) List out the roles of Software Quality Assurance engineer?    
+```
+    Writing source code
+    Software design
+    Control of source code
+    Reviewing code
+    Change management
+    Configuration management
+    Integration of software
+    Program testing
+    Release management process  
+```
+
+## 25) Explain what are test driver and test stub and why it is required?   
+```
+The stub is called from the software component to be tested. 
+It is used in top down approach
+
+The driver calls a component to be tested. It is used in bottom up approach
+   
+It is required when we need to test the interface between modules X and Y and 
+we have developed only module X. 
+
+So we cannot just test module X but if there is any dummy module we can use that dummy module to test module X
+```
+
+## 26) Explain what is Bug triage? 
+```
+A bug triage is a process to
+
+    Ensure bug report completeness
+
+    Assign and analyze the bug
+    
+    Assigning bug to proper bug owner
+    
+    Adjust bug severity properly
+    
+    Set appropriate bug priority
+```
+
+## 27) List out various tools required to support testing during development of the application?  
+```
+To support testing during development of application following tools can be used
+
+Test Management Tools: JIRA, Quality Center etc.
+
+Defect Management Tools: Test Director, Bugzilla
+    
+Project Management Tools: Sharepoint
+    
+Automation Tools: RFT, QTP, and WinRunner
+```
+
+## 28) Explain what is a cause effect graph?   
+```
+A cause effect graph is a graphical representation of inputs and 
+the associated outputs effects that can be used to design test cases. 
+```
+
+## 29) Explain what is Test Metric is software testing and what information does it contains?   
+```
+In software testing, Test Metric is referred to the standard of test measurement. 
+They are the statistics narrating the structure or content of a testing. 
+
+It contains information like
+
+    Total test
+    Test run
+    Test passed
+    Test failed
+    Tests deferred
+    Test passed the first time
+```
+
+## 30) Explain what is traceability matrix?  
+```
+A test matrix is used to map test scripts to requirements. 
+```
+
+## 31) Explain what is the difference between Regression testing and Retesting?  
+```
+Retesting is carried out to check the defects fixes, 
+
+while regression testing is performed to check whether the defect fix 
+have any impact on other functionality. 
+```
+
+## 32) List out the software quality practices through the software development cycle?   
+```
+Software quality practices includes
+
+    Review the requirements before starting the development phase
+
+    Code Review
+    
+    Write comprehensive test cases
+    
+    Session based testing
+    Risk based testing
+    
+    Prioritize bug based on usage
+    Form a dedicated security and performance testing team
+    Run a regression cycle
+    Perform sanity tests on production
+    
+    Simulate customer accounts on production
+    
+    Include software QA Test Reports
+```
+
+## 
+```
+
+```
+## 
+```
+
+```
+## 
+```
+
+```
+## 
+```
+
 ```
 
 # Reference
