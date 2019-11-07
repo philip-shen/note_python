@@ -26,7 +26,8 @@ Take some note of Rubber Duck Debugging
 []()  
 []()  
 []()  
-[]()  
+
+[Top 15 Automation Testing Interview Questions & Answers](#automation-testing-interview-questions)  
 
 
 
@@ -408,9 +409,145 @@ Software quality practices includes
     Include software QA Test Reports
 ```
 
-## 
+## 33) Explain what is the rule of a "Test Driven Development"?  
+```
+The rule of a Test Driven Development is to prepare test cases before writing the actual code. 
+Which means you are actually be writing code for the tests before you write code for the application. 
 ```
 
+## 34) Mention what are the types of documents in SQA?  
+```
+The types of documents in SQA are
+
+    Requirement Document
+
+    Test Metrics
+    Test cases and Test plan
+    Task distribution flow chart
+    
+    Transaction Mix
+    User profiles
+    
+    Test log
+    Test incident report
+    Test summary report
+```
+
+## 35) Explain what should your QA documents include?  
+```
+    List the number of defects detected as per severity level
+    
+    Explain each requirement or business function in detail
+    
+    Inspection reports
+
+    Configurations
+    
+    Test plans and test cases
+    
+    Bug reports
+    
+    User manuals
+    
+    Prepare separate reports for managers and users
+```
+
+## 36) Explain what is MR and what information does MR consists of?  
+```
+MR stands for Modification Request also referred as Defect report. 
+It is written for reporting errors/problems/suggestions in the software. 
+```
+
+## 37) What does the software QA document should include?  
+```
+    Specifications
+    
+    Designs
+    Business rules
+    Configurations
+
+    Code changes
+    
+    Test plans
+    Test cases
+    
+    Bug reports
+    
+    User manuals, etc
+```
+
+## 38) Mention how validation activities should be conducted?  
+```
+Validation activities should be conducted by following techniques
+
+    Hire third party independent verification and validation
+
+    Assign internal staff members that are not involved in validation and verification activities
+    
+    Independent evaluation
+```
+
+## Difference between Verification and Validation?  
+[Verification和Validation的意義及區別 20130604](https://blog.xuite.net/metafun/life/75244104-Verification%E5%92%8CValidation%E7%9A%84%E6%84%8F%E7%BE%A9%E5%8F%8A%E5%8D%80%E5%88%A5)  
+
+簡單【結論】：
+Verification：確認達成規格 (requirements)；
+Validation：確認達成目的 (intended use)。
+
+```
+CMMI-SVC, V1.2
+
+Verification: 
+Confirmation that work products properly reflect the requirements specified for them. 
+
+In other words, verification ensures that “you built it right.” 
+
+Validation: 
+Confirmation that the product or service, as provided (or as it will be provided), 
+will fulfill its intended use.
+
+In other words, validation ensures that “you built the right thing.” 
+```
+
+```
+ ISO 9000:2000
+
+Verification: Confirmation, through the provision of objective evidence (3.8.1), that specified requirements (3.1.2) have been fulfilled. (達成規格)
+
+Validation: Confirmation, through the provision of objective evidence (3.8.1), that the requirements (3.1.2) for a specific intended use or application have been fulfilled. (達成目的)
+```
+
+# Top 15 Automation Testing Interview Questions & Answers   
+[Top 15 Automation Testing Interview Questions & Answers](https://www.guru99.com/automation-testing-interview-questions.html)  
+
+## 1) What is Automation testing?  
+```
+Automation Testing is a technique using an automation tool to write and execute tester's test scripts and cases.
+
+The main goal of Automation Testing is 
+to reduce the number of test cases to be run manually and 
+not eliminate Manual Testing altogether. 
+```
+
+## 2) When will you automate a test?  
+```
+Automation in preferred in following cases
+
+    Repetitive Tasks
+    Smoke and Sanity Tests
+    Test with multiple data set
+    Regression test cases
+
+Usually, the decision is based on the ROI (Return on Investment) 
+```
+
+## 3) When will you not automate testing?  
+```
+One should not automate in following cases
+
+    When the Application Under Test changes frequently
+    One time test cases
+    Adhoc – Random testing
 ```
 ## 
 ```
