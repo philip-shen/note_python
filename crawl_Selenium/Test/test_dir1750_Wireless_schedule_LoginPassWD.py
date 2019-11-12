@@ -32,27 +32,37 @@ chrome_options.add_experimental_option("prefs", {
     "safebrowsing_for_trusted_sources_enabled": False,
     "safebrowsing.enabled": False,
 })
-
+'''
 #chrome_options.add_argument('user-agent="Chrome/73.0.3683.103"')
 driver = webdriver.Chrome(chrome_options = chrome_options)
 
 driver.set_window_position(550, 0)
 actions = ActionChains(driver)
-url = 'http://192.168.0.1/'
 driver.get(url)
 driver.implicitly_wait(15)
+'''
+url = 'http://192.168.0.1/'
 
+def webdriver_initial(url):
+    driver = webdriver.Chrome(chrome_options = chrome_options)
 
-def weblogin():
+    driver.set_window_position(550, 0)
+    actions = ActionChains(driver)
+    driver.get(url)
+    #driver.implicitly_wait(15)
+
+    return driver
+
+def weblogin(driver):
     # Need to keyin Password to meet WebGUI Spec.
     # driver.find_element_by_xpath('//*[@id="admin_Password"]').send_keys(Keys.ENTER)
     
     driver.find_element_by_xpath('//*[@id="admin_Password"]').send_keys("123qwe")
     driver.find_element_by_xpath('//*[@id="logIn_btn"]').click()
 
-    time.sleep(3)
+    #time.sleep(3)
 
-def apply():
+def apply(driver):
     driver.find_element_by_xpath('//*[@id="Save_btn"]').click() # Apply_Setting
     time.sleep(50)
     print('Apply config ok')
@@ -61,15 +71,18 @@ def apply():
 
 ##################################################################################################
 
-def ttime():
+def ttime(driver):
     #Get time and output date of week
     global week
+    #wait 3 secs to go to Time2.html by v1.01b04 
+    time.sleep(3)
+    
     driver.get('http://192.168.0.1/Time2.html')
     WebDriverWait(driver,20,1).until(EC.presence_of_element_located((By.XPATH,'//*[@id="nowDateTimeSpan"]')))
     time.sleep(3)
     dut_time = driver.find_element_by_xpath('//*[@id="nowDateTimeSpan"]')
     dut_time_value = dut_time.text
-    #print (dut_time_value)
+    print (dut_time_value)
 
     import datetime
     year = dut_time_value[0:4]
@@ -78,10 +91,10 @@ def ttime():
 
     date1 = datetime.date(year=int(year),month=int(month),day=int(day))
     week = str(date1.weekday())
-    #print (week)
+    print (week)
     
 
-def Wireless_Schedule_on_week():
+def Wireless_Schedule_on_week(driver):
     #Wireless on Schedule Setting
     
     if week == '0':
@@ -116,7 +129,7 @@ def Wireless_Schedule_on_week():
     driver.find_element_by_xpath('//*[@id="save_td"]/center/button').click()
     #print ('Add %s Rule of Schedule' %day_of_week)
 
-def Wireless_Schedule_on():
+def Wireless_Schedule_on(driver):
     #Wireless on Schedule Setting
     #Smart connect on
     
@@ -130,7 +143,7 @@ def Wireless_Schedule_on():
     if a.get_attribute('data-name') == 'Add': 
         #print ('Found Add button')
         driver.find_element_by_xpath('//*[@id="scheduleDrop_24"]/div/ul/li[8]').click()
-        Wireless_Schedule_on_week()
+        Wireless_Schedule_on_week(driver)
         print('Configure 2G on Schedule')
     else:
         print('Not found Add button ,Try again')
@@ -142,12 +155,12 @@ def Wireless_Schedule_on():
     if a.get_attribute('data-name') == 'Add': 
        #print ('Found Add button')
        driver.find_element_by_xpath('//*[@id="scheduleDrop_5"]/div/ul/li[8]').click()
-       Wireless_Schedule_on_week()
+       Wireless_Schedule_on_week(driver)
        print('Configure 5G on Schedule')
     else:
        print('Not found Add button ,Try again')
 
-def Wireless_Schedule_Clear():
+def Wireless_Schedule_Clear(driver):
     driver.get('http://192.168.0.1/WiFi.html')
     WebDriverWait(driver,20,1).until(EC.presence_of_element_located((By.XPATH,'//*[@id="RADIO_smart"]/table/tbody/tr[1]/td/div')))
     time.sleep(3)
@@ -179,10 +192,69 @@ def Wireless_Schedule_Clear():
     else:
         print ('Not Found Message')
 
-        
-if __name__ == '__main__':
+def Wireless_Schedule_KernelPanic(url,end_times):
 
-    for i in range(1,3):
+    for i in range(1,end_times):
+        print ('<< Running %s times >>' %i)
+        r = requests.get(url,timeout=15)
+        print ('http %i' %r.status_code)
+        page_status_code = r.status_code
+        
+        driver=webdriver_initial(url)
+        driver.implicitly_wait(15)
+                
+        driver.get(url)
+
+        if page_status_code == 200:
+            weblogin(driver)
+            time.sleep(3)
+
+            ttime(driver)
+            Wireless_Schedule_on(driver)
+            apply(driver)
+            Wireless_Schedule_Clear(driver)
+            apply(driver)
+            
+        else:
+            print ('Fail - Unable to login the DUT , Please check again ')
+            driver.close(driver)
+            break
+
+        driver.close()
+        driver.quit()    
+    
+
+def dut_login_out_check(url,end_times):
+    for i in range(1,end_times):
+        print ('<< Running %s times >>' %i)
+        r = requests.get(url,timeout=15)
+        print ('http %i' %r.status_code)
+        page_status_code = r.status_code
+
+        driver=webdriver_initial(url)
+        driver.get(url)
+
+        if page_status_code == 200:
+            weblogin(driver)
+            ttime(driver)
+            #Wireless_Schedule_on(driver)
+            #apply(driver)
+            #Wireless_Schedule_Clear(driver)
+            #apply(driver)    
+        else:
+            print ('Fail - Unable to login the DUT , Please check again ')
+            driver.close()
+            break
+
+        driver.close()            
+        driver.quit()
+    
+    
+    
+
+if __name__ == '__main__':
+    '''
+    for i in range(1,5):
         print ('<< Running %s times >>' %i)
         r = requests.get(url,timeout=15)
         print ('http %i' %r.status_code)
@@ -203,8 +275,9 @@ if __name__ == '__main__':
             driver.close()
             break
 
-    driver.close()        
-    driver.quit()
-            
-
+    driver.close()
+    driver.quit()    
+    '''
+    #Wireless_Schedule_KernelPanic(url,10)
+    dut_login_out_check(url,20)
     
