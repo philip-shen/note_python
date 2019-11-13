@@ -27,7 +27,7 @@ Take some note of Rubber Duck Debugging
 []()  
 []()  
 
-[Top 15 Automation Testing Interview Questions & Answers](#automation-testing-interview-questions)  
+[Top 15 Automation Testing Interview Questions & Answers](#top-15-automation-testing-interview-questions--answers)  
 
 
 
@@ -549,16 +549,194 @@ One should not automate in following cases
     One time test cases
     Adhoc – Random testing
 ```
-## 
+
+## 4) What are the steps involved in the Automation Process?  
+```
+    Selecting the Test tool
+
+    Define scope of automation
+    
+    Planning, design, and development
+    
+    Test execution
+    
+    Maintenance
 ```
 
+## 5) What are the points that are covered while planning phase of automation?  
 ```
-## 
+uring planning phase of automation things which must be taken in concern are
+
+    Selection the "right" Automation tool
+
+    Selection Automation Framework if any
+    
+    List of In scope and out of scope items for automation
+    
+    Test Environment Setup
+    
+    Preparing Grant Chart of Project timelines for test script development & execution.
+    
+    Identify Test Deliverables
 ```
 
+## 6) In what condition we cannot use automation testing for the Agile method?  
 ```
-## 
+Automation testing is not useful for agile methods in following conditions
+
+    When Agile testing always ask for changes in requirements
+
+    When Exhaustive level of documentation is required in Agile
+
+    Only suitable for those regression tests during agile testing like continuous integration
 ```
+
+## 7) What are the primary features of good automation tool?     
+```
+    Test Environment support and easy to use
+
+    Good debugging facility
+    
+    Robust object identification
+    
+    Object and Image testing abilities
+    
+    Object identification
+    
+    Testing of database
+    
+    Support multiple frameworks 
+```
+
+##  8) What are the types of the framework used in software automation testing?   
+```
+In software automation testing four types of framework used are
+
+    Data-driven automation framework
+
+    Keyword driven automation framework
+    
+    Modular automation framework
+    
+    Hybrid automation framework
+```
+
+##  9) What is the scripting standard while performing automation testing?   
+```
+While writing the scripts for automation, you must consider following things,
+
+    Uniform naming convention.
+
+    3 Lines of comments for every 10 lines of code
+    
+    Adequate indentation.
+    
+    Robust error handling and recovery scenario
+    
+    Use of Frameworks wherever possible
+```
+
+##  10) What are the most popular tools for automation testing?   
+```
+The most popular test tool for automation testing are
+
+    QTP (HP UFT)
+    Rational Robot
+    Selenium
+```
+
+##  11) On what basis you can map the success of automation testing?   
+```
+    Defect Detection Ratio
+    
+    Automation execution time and time savings to release the product
+    
+    Reduction in Labour & other costs
+```
+
+##  12) Can list out some disadvantages of manual testing?   
+```
+    Manual Software Testing requires more time and more resources.
+
+    Inaccuracy
+    
+    Executing same test case repeatedly is error prone and boring.
+    
+    It is impractical to do manual testing on very large projects 
+    and time bounded projects.
+```
+
+## 13) Tell me what you know about Selenium  
+```
+Selenium is a free (open source) Test automation library. It is used to automate Web and Mobile environments. It consists of
+
+    Selenium IDE (Browser Addon – Record and Playback Tool)
+
+    Selenium WebDriver
+    
+    Selenium Grid (Distributed Testing)
+
+Selenium supports scripting in languages like Java, C#, Python, Ruby, PHP, Perl, Javascript. 
+```
+
+## 14) Tell me about QTP   
+```
+QTP (Quick Test Professional) is now known as HP UFT. 
+It is a commercial automation tool and supports a very wide range of test environments Web, 
+Desktop, SAP, Delphi, Net, ActiveX, Flex, Java, Oracle, Mobile, PeopleSoft, PowerBuilder, Siebel, 
+Stingray, Visual Basic amongst others.
+
+The scripting language is VBScript. 
+The tool gels well with HP ALM (Test Management Tool) and 
+HP LoadRunner (Performance Testing Tool).
+
+Salient features of QTP include Business Process Testing, 
+keyword driven framework, XML support, robust checkpoints, test results. 
+```
+
+## 15) Explain what Sikuli is?  
+```
+Sikuli is a tool that uses "Visual Image Match" method to automate graphical user interface. All the web elements in Sikuli should be taken as an image and stored inside the project.
+
+Sikuli is comprised of
+
+    Sikuli Script
+    Visual Scripting API for Jython
+    Sikuli IDE
+
+Practical uses of Sikuli is that
+
+    It can be used to automate flash websites or objects
+    It can automate window based application and anything you see on screen without using internal API support
+    It provides simple API
+    It can be easily linked with tools like Selenium
+    Desktop application can be automated
+    Sikuli offers extensive support to automate flash objects
+    To automate desktop, it uses powerful "Visual Match" and Flash objects
+    It can work on any technology-.NET, Java,
+```
+
+## 16) Mention what is the difference between Selenium and Sikuli?  
+```
+
+Sikuli
+    It provides extensive support to automate flash objects
+    
+    It has simple API
+    
+    It uses a visual match to find elements on the screen. So, we can automate anything we see on the screen
+    
+    It can automate the web as well as windows application
+
+
+Selenium 
+    It cannot automate flash objects like video player, audio player,
+    
+    It has got complicated API
+    
+    It does not have visual match
+    
+    It can automate only web applications
 
 ```
 
