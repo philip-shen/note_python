@@ -4,7 +4,7 @@ Take some note of Rubber Duck Debugging
 # Table of Content
 [小黃鴨除錯法Rubber Duck Debugging]()  
 
-[Top 40 QA Interview Questions & Answers](#top-40-qa-interview-questions-&-answers)  
+[Top 40 QA Interview Questions & Answers](#top-40-qa-interview-questions--answers)  
 [1) What is the difference between the QA and software testing?](#1-what-is-the-difference-between-the-qa-and-software-testing)
 [2) What is Testware?](#2-what-is-testware)  
 [3) What is the difference between build and release?](#3-what-is-the-difference-between-build-and-release)  
