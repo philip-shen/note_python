@@ -49,10 +49,12 @@ Take some note of Rubber Duck Debugging
 [Top 40 QA Interview Questions & Answers Oct 15, 2019](https://www.guru99.com/qa-interview-questions-answers.html)  
 ## 1) What is the difference between the QA and software testing?  
 ```
-The role of QA (Quality Assurance) is to monitor the quality of the "process" used to produce the software.   
+The role of QA (Quality Assurance) is to monitor the quality of the "process" 
+used to produce the software.   
 ```
 ```
-While the software testing, is the process of ensuring the functionality of final product meets the user's requirement.   
+While the software testing, is the process of ensuring the functionality of 
+final product meets the user's requirement.   
 ```
 
 ## 2) What is Testware?  
@@ -62,10 +64,12 @@ Testware is test artifacts like test cases, test data, test plans needed to desi
 
 ## 3) What is the difference between build and release?  
 ```
-Build: It is a number given to Installable software that is given to the testing team by the development team.  
+Build: It is a number given to Installable software 
+that is given to the testing team by the development team.  
 ```
 ```
-Release: It is a number given to Installable software that is handed over to the customer by the tester or developer.   
+Release: It is a number given to Installable software 
+that is handed over to the customer by the tester or developer.   
 ```
 
 ##  4) What are the automation challenges that SQA(Software Quality Assurance) team faces while testing?  
@@ -78,8 +82,11 @@ Release: It is a number given to Installable software that is handed over to the
 
 ## 5) What is bug leakage and bug release?  
 ```
-Bug release is when software or an application is handed over to the testing team knowing that the defect is present in a release. 
-During this the priority and severity of bug is low, as bug can be removed before the final handover.   
+Bug release is when software or an application is handed over to 
+the testing team knowing that the defect is present in a release. 
+
+During this the priority and severity of bug is low, 
+as bug can be removed before the final handover.   
 ```
 ```
 Bug leakage is something, when the bug is discovered by the end users or customer, 
@@ -88,13 +95,18 @@ and not detected by the testing team while testing the software.
 
 ## 6) What is data driven testing?  
 ```
-Data driven testing is an automation testing framework, which tests the different input values on the AUT. 
-These values are read directly from the data files. The data files may include csv files, excel files, data pools and many more.   
+Data driven testing is an automation testing framework, 
+which tests the different input values on the AUT. 
+
+These values are read directly from the data files. 
+The data files may include csv files, excel files, data pools and many more.   
 ```
 
 ## 7) Explain the steps for Bug Cycle?  
 ```
-In open status,    Once the bug is identified by the tester, it is assigned to the development manager 
+In open status,    
+    
+    Once the bug is identified by the tester, it is assigned to the development manager 
 
     If the bug is a valid defect the development team will fix it.
     
@@ -103,11 +115,15 @@ In open status,    Once the bug is identified by the tester, it is assigned to t
     The next step will be to check whether it is in scope. 
     If the bug is not the part of the current release then the defects are postponed
     
-DUPLICATE status, If the defect or bug is raised earlier then the tester will assign a DUPLICATE status
+DUPLICATE status, 
+    If the defect or bug is raised earlier then the tester will assign a DUPLICATE status
     
-IN-PROGRESS status, When bug is assigned to developer to fix, it will be given a IN-PROGRESS status
+IN-PROGRESS status, 
+    When bug is assigned to developer to fix, it will be given a IN-PROGRESS status
     
-FIXED, CLOSED status, Once the defect is repaired, the status will change to FIXED at the end the tester will give CLOSED status if it passes the final test.  
+FIXED, CLOSED status, 
+    Once the defect is repaired, the status will change to FIXED at the end 
+    the tester will give CLOSED status if it passes the final test.  
 ```
 
 ## 8) What does the test strategy include?  
@@ -512,9 +528,11 @@ In other words, validation ensures that “you built the right thing.”
 ```
  ISO 9000:2000
 
-Verification: Confirmation, through the provision of objective evidence (3.8.1), that specified requirements (3.1.2) have been fulfilled. (達成規格)
+Verification: Confirmation, through the provision of objective evidence (3.8.1), 
+that specified requirements (3.1.2) have been fulfilled. (達成規格)
 
-Validation: Confirmation, through the provision of objective evidence (3.8.1), that the requirements (3.1.2) for a specific intended use or application have been fulfilled. (達成目的)
+Validation: Confirmation, through the provision of objective evidence (3.8.1), 
+that the requirements (3.1.2) for a specific intended use or application have been fulfilled. (達成目的)
 ```
 
 # Top 15 Automation Testing Interview Questions & Answers   
