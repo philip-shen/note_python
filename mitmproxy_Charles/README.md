@@ -96,6 +96,16 @@ $ mitmproxy -T --host
 # モバイルアプリ開発者のための mitmproxy 入門
 [モバイルアプリ開発者のための mitmproxy 入門 Sep 02, 2014](https://qiita.com/hkurokawa/items/9034274cc1b9e1405c68)  
 
+# ubuntu14.04 をアクセスポイントにして透過型プロキシ通す  
+[ubuntu14.04 をアクセスポイントにして透過型プロキシ通す Jun 16, 2015](https://qiita.com/arc279/items/944cd8bb0f438cb6dde1)  
+
+[mitmproxy×透過型×ARPスプーフィング 2013-01-24](https://asannou.hatenablog.com/entries/2013/01/24)
+
+# Installing mitmproxy on Windows Subsystem for Linux (WSL)  
+[Installing mitmproxy on Windows Subsystem for Linux (WSL) Feb 9, 2019]()  
+```
+sudo apt install python3-pip && sudo pip3 install -U pip && sudo pip3 install mitmproxy
+```
 
 # 
 [iOSアプリのAPIリクエストのトレースはどうするのが効率的か？ 2016-02-11](https://qiita.com/WorldDownTown/items/42d9ab6c746fe7a6bc9c)  
