@@ -609,6 +609,21 @@ Flow Control and !statusOK
 !statusOK is an internal variable that contains the status of the last executed command. Thus its value is true if the command was successful or false if the command encountered an error. It is typically used with !ErrorIgnore set to true so the macro execution continues after an error. 
 ```
 
+## How does recaptcha 3 know I’m using selenium+chromedriver?  
+[How does recaptcha 3 know I’m using selenium+chromedriver? 2019-09-24](https://stackoverflow.max-everyday.com/2019/09/recaptcha-selenium-chromedriver/)  
+
+```
+真的滿厲害的，可以檢查的出來用戶端使用了 chromedriver。
+
+測試用網址：
+```
+https://recaptcha-demo.appspot.com/
+
+```
+有沒有使用(success) chromedriver 還有得分(score) 都可以在上面的網址看到結果。
+```
+
+
 
 ```
 ```
