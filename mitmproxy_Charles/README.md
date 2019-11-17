@@ -1,7 +1,9 @@
 # note of_HTTPS Proxy_
 Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 
-# Table of Content
+# Table of Content  
+[Modes of Operation in mitmproxy](#modes-of-operation-in-mitmproxy)  
+
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法](#ios%E5%AE%9F%E6%A9%9F%E3%81%AEssl%E9%80%9A%E4%BF%A1%E3%82%92%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E5%82%8D%E5%8F%97%E3%81%97%E3%81%9F%E3%82%8A%E6%94%B9%E3%81%96%E3%82%93%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)  
 [MacでWifi共有で透過的にmitmproxy](#mac%E3%81%A7wifi%E5%85%B1%E6%9C%89%E3%81%A7%E9%80%8F%E9%81%8E%E7%9A%84%E3%81%ABmitmproxy)  
 [mitmproxyを使ってSSL通信の中身を確認する](#mitmproxy%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6ssl%E9%80%9A%E4%BF%A1%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%99%E3%82%8B)  
@@ -12,6 +14,57 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [APP有用HTTPS傳輸，但資料還是被偷了](#app%E6%9C%89%E7%94%A8https%E5%82%B3%E8%BC%B8%E4%BD%86%E8%B3%87%E6%96%99%E9%82%84%E6%98%AF%E8%A2%AB%E5%81%B7%E4%BA%86)
 
 [Reference](#reference)  
+
+# Modes of Operation in mitmproxy  
+[Modes of Operation](https://docs.mitmproxy.org/stable/concepts-modes/#modes-of-operation)  
+
+* Regular (the default)  
+* Transparent  
+* Reverse Proxy  
+* Upstream Proxy  
+* SOCKS Proxy  
+
+![alt tag](https://docs.mitmproxy.org/stable/schematics/proxy-modes-flowchart.png)  
+
+## Regular Proxy  
+```
+Mitmproxy’s regular mode is the simplest and the easiest to set up.
+
+1. Start mitmproxy.
+2. Configure your client to use mitmproxy by explicitly setting an HTTP proxy.
+3. Quick Check: You should already be able to visit an unencrypted HTTP site through the proxy.
+4. Open the magic domain mitm.it and install the certificate for your device.
+```
+```
+Unfortunately, some applications bypass the system HTTP proxy settings 
+- Android applications are a common example. 
+In these cases, you need to use mitmproxy's transparent mode. 
+```
+```
+If you are proxying an external device, your network will probably look like this:
+```
+![alt tag](https://docs.mitmproxy.org/stable/schematics/proxy-modes-regular.png)  
+
+## Transparent Proxy
+```
+In transparent mode, traffic is directed into a proxy at the network layer, 
+without any client configuration required. 
+This makes transparent proxying ideal for situations where you can’t change client behaviour. 
+In the graphic below, a machine running mitmproxy has been inserted between the router and the internet:
+```
+![alt tag](https://docs.mitmproxy.org/stable/schematics/proxy-modes-transparent-1.png)  
+
+```
+The square brackets signify the source and destination IP addresses. 
+Round brackets mark the next hop on the Ethernet/data link layer. 
+This distinction is important: when the packet arrives at the mitmproxy machine, 
+it must still be addressed to the target server. 
+
+This means that Network Address Translation should not be applied before the traffic reaches mitmproxy, 
+since this would remove the target information, leaving mitmproxy unable to determine the real destination.
+```
+![alt tag](https://docs.mitmproxy.org/stable/schematics/proxy-modes-transparent-wrong.png)  
+
 
 # iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法  
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法 Dec 16, 2013](https://qiita.com/yimajo/items/c67cb711851f747c35e5)
