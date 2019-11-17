@@ -6,13 +6,14 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Regular Proxy](#regular-proxy)  
 [Transparent Proxy](#transparent-proxy)  
 
-[Install mitmporxy in Ubuntu 18.04 WSL](#install-mitmporxy-in-ubuntu-18.04-wsl)  
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
+[Install mitmporxy in Ubuntu 18.04 WSL](#install-mitmporxy-in-ubuntu-1804-wsl)  
+[Step 1 remove original mitmproxy package](#step-1-remove-original-mitmproxy-package)  
+[Step 2 virtualenv for mitmproxy](#step-2-virtualenv-for-mitmproxy)  
+[Step 3 pip3 install mitmproxy](#step-3--pip3-install-mitmproxy)  
+[Step 4 Check .mitmdump/](#step-4-check-mitmdump)  
+[Step 5 Check mitmproxy](#step-5-check-mitmproxy)  
+[Step 6 Start mitmproxy](#step-6-start-mitmproxy)  
+[Trouble](#trouble)  
 
 
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法](#ios%E5%AE%9F%E6%A9%9F%E3%81%AEssl%E9%80%9A%E4%BF%A1%E3%82%92%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E5%82%8D%E5%8F%97%E3%81%97%E3%81%9F%E3%82%8A%E6%94%B9%E3%81%96%E3%82%93%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)  
@@ -135,7 +136,7 @@ $ mitmproxy -p 8080 -v
 ```
 ![alt tag](https://i.imgur.com/LDYd0ji.jpg) 
 
-## trouble 
+## Trouble 
 ![alt tag](https://i.imgur.com/PC607Ku.jpg) 
 
 
