@@ -9,6 +9,7 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [ubuntu14.04 をアクセスポイントにして透過型プロキシ通す](#ubuntu1404-%E3%82%92%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%81%AB%E3%81%97%E3%81%A6%E9%80%8F%E9%81%8E%E5%9E%8B%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E9%80%9A%E3%81%99)  
 [Installing mitmproxy on Windows Subsystem for Linux (WSL)](#installing-mitmproxy-on-windows-subsystem-for-linux-wsl)  
 
+[APP有用HTTPS傳輸，但資料還是被偷了]()
 
 [Reference](#reference)  
 
@@ -111,8 +112,48 @@ $ mitmproxy -T --host
 sudo apt install python3-pip && sudo pip3 install -U pip && sudo pip3 install mitmproxy
 ```
 
-# APP有用HTTPS傳輸，但資料還是被偷了
+# APP有用HTTPS傳輸，但資料還是被偷了  
 [APP有用HTTPS傳輸，但資料還是被偷了。Sep 20, 2019](https://medium.com/zrealm-ios-dev/app%E6%9C%89%E7%94%A8https%E5%82%B3%E8%BC%B8-%E4%BD%86%E8%B3%87%E6%96%99%E9%82%84%E6%98%AF%E8%A2%AB%E5%81%B7%E4%BA%86-46410aaada00)  
+
+```
+實際操作
+環境: MacOS + iOS
+```
+
+## 讓手機跟Mac在同個區域網路內&取得Mac的IP位址  
+```
+方法(1) Mac 連接 WiFi、手機也使用同個 WiFi
+Mac的IP位址 = 「系統偏好設定」->「網路」->「Wi-Fi」->「IP Address」
+
+方法(2) Mac 使用有線網路，開啟網路分享；手機連上該熱點網路:
+```
+![alt tag](https://miro.medium.com/max/598/1*R9fthpHlrWzTh4R3fEwO5Q.gif)
+
+Mac的IP位址 = 192.168.2.1 （️️注意⚠️ 不是乙太網路網路的IP，是Mac用做網路分享基地台的IP) 
+
+## 手機網路設置WiFi — Proxy伺服器資訊  
+![alt tag](https://miro.medium.com/max/1369/1*ziIFrGQaMr2kYrQHwLYNJg.jpeg)  
+
+> 這時網頁打不開、出現憑證錯誤是正常的；我們繼續往下做… 
+
+## 安裝 mitmproxy 自訂 https 憑證  
+```
+如同上述所說，中間人攻擊的實現方式就是在通訊之中使用自己的憑證做抽換加解密資料；所以我們也要在手機上安裝這個自訂的憑證。
+
+1.用手機safari打開 http://mitm.it
+```
+![alt tag](https://miro.medium.com/max/2730/1*qKDHxi9HxUP41oDJahBfBA.jpeg)  
+
+> ⚠️到這裡還沒結束，我們還要去關於裡啟用描述檔  
+
+![alt tag](https://miro.medium.com/max/1369/1*mOijblpQepazFPIwob4r8Q.jpeg)  
+```
+完成！這時我們再回去瀏覽器就能正常瀏覽網頁了。
+```
+## 回到Mac 上操作 mitmproxy  
+![alt tag](https://miro.medium.com/max/611/1*kiEPaTm5bhnFLBfQngQPgA.png)  
+
+![alt tag](https://miro.medium.com/max/661/1*5I6l9cO3LeXfcwGLpWGKPQ.gif)  
 
 
 # 
