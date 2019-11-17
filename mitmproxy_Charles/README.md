@@ -94,6 +94,8 @@ since this would remove the target information, leaving mitmproxy unable to dete
 ```
 $ virtualenv -p /usr/bin/python3 virtualenv/mitmproxy
 
+$ source ~/virtualenv/mitmproxy/bin/activate
+
 $ pip list -l
 ```
 ![alt tag](https://i.imgur.com/8myCRHG.jpg) 
