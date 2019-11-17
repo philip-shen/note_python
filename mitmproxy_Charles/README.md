@@ -6,6 +6,15 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Regular Proxy](#regular-proxy)  
 [Transparent Proxy](#transparent-proxy)  
 
+[Install mitmporxy in Ubuntu 18.04 WSL](#install-mitmporxy-in-ubuntu-18.04-wsl)  
+[]()  
+[]()  
+[]()  
+[]()  
+[]()  
+[]()  
+
+
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法](#ios%E5%AE%9F%E6%A9%9F%E3%81%AEssl%E9%80%9A%E4%BF%A1%E3%82%92%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E5%82%8D%E5%8F%97%E3%81%97%E3%81%9F%E3%82%8A%E6%94%B9%E3%81%96%E3%82%93%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)  
 [MacでWifi共有で透過的にmitmproxy](#mac%E3%81%A7wifi%E5%85%B1%E6%9C%89%E3%81%A7%E9%80%8F%E9%81%8E%E7%9A%84%E3%81%ABmitmproxy)  
 [mitmproxyを使ってSSL通信の中身を確認する](#mitmproxy%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6ssl%E9%80%9A%E4%BF%A1%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%99%E3%82%8B)  
@@ -73,6 +82,73 @@ since this would remove the target information, leaving mitmproxy unable to dete
 ```
 ![alt tag](https://docs.mitmproxy.org/stable/schematics/proxy-modes-transparent-wrong.png)  
 
+# Install mitmporxy in Ubuntu 18.04 WSL  
+## Step 1 remove original mitmproxy package   
+```
+~$ sudo apt remove mitmproxy
+```
+![alt tag](https://i.imgur.com/n89qp3v.jpg) 
+
+## Step 2 virtualenv for mitmproxy   
+```
+$ virtualenv -p /usr/bin/python3 virtualenv/mitmproxy
+
+$ pip list -l
+```
+![alt tag](https://i.imgur.com/8myCRHG.jpg) 
+
+## Step 3  pip3 install mitmproxy  
+```
+$ pip3 install mitmproxy
+```
+![alt tag](https://i.imgur.com/T7q0dyB.jpg) 
+![alt tag](https://i.imgur.com/YwKuZ9k.jpg) 
+
+## Step 4 Check .mitmdump/  
+```
+$ls -l .mitmproxy/
+```
+![alt tag](https://i.imgur.com/aVUqXMP.jpg) 
+
+### CA and cert files  
+Test ID | Test Cases
+------------------------------------ | ---------------------------------------------
+mitmproxy-ca.pem | The certificate and the private key in PEM format.
+mitmproxy-ca-cert.pem | The certificate in PEM format. Use this to distribute on most non-Windows platforms.
+mitmproxy-ca-cert.p12 | The certificate in PKCS12 format. For use on Windows.
+mitmproxy-ca-cert.cer | Same file as .pem, but with an extension expected by some Android devices.
+
+## Step 5 Check mitmproxy   
+```
+$ mitmproxy --version
+
+Mitmproxy: 4.0.4
+Python:    3.6.7
+OpenSSL:   OpenSSL 1.1.0i  14 Aug 2018
+Platform:  Linux-4.15.0-47-generic-x86_64-with-Ubuntu-18.04-bionic
+
+```
+
+## Step 6 Start mitmproxy   
+```
+$ mitmproxy -p 8080 -v
+```
+![alt tag](https://i.imgur.com/LDYd0ji.jpg) 
+
+## trouble 
+![alt tag](https://i.imgur.com/PC607Ku.jpg) 
+
+
+## Step   
+```
+
+```
+![alt tag]() 
+## Step   
+```
+
+```
+![alt tag]() 
 
 # iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法  
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法 Dec 16, 2013](https://qiita.com/yimajo/items/c67cb711851f747c35e5)
@@ -224,6 +300,36 @@ Mac的IP位址 = 192.168.2.1 （️️注意⚠️ 不是乙太網路網路的IP
 ## 1. Windows10启用Linux系统支持   
 ## 2. 使用python安装mitmproxy。  
 ## 3. Ubuntu安装证书：   
+[how-do-i-install-a-root-certificate edited Oct 10 2013](https://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate/94861#94861)  
+```
+1. 转换mitmproxy-ca-cert.pem格式文件为对应的mitmproxy-ca-cert.crt格式文件，输入命令：
+openssl x509 -in mitmproxy-ca-cert.pem -inform PEM -out mitmproxy-ca-cert.crt
+
+2. 在**/usr/share/ca-certificates**创建一个额外的目录：sudo mkdir /usr/share/ca-certificates/extra
+
+3. 复制转换好的mitmproxy-ca-cert.crt文件到刚才创建的目录中：sudo cp mitmproxy-ca-cert.crt /usr/share/ca-certificates/extra/mitmproxy-ca-cert.crt
+
+4. 让Ubuntu将.crt文件相对于/usr/share/ca-certificates的路径添加到/etc/ca-certificates.conf文件里面：sudo dpkg-reconfigure ca-certificates回车后需要输入用户密码。
+
+5. 会弹出一个框：
+```
+![alt tag](https://user-gold-cdn.xitu.io/2018/6/9/163e51ef46753404?imageslim)
+
+```
+回车确定后再弹出一个框： 
+```
+![alt tag](https://user-gold-cdn.xitu.io/2018/6/9/163e51f45e2b0e63?imageslim)
+
+```
+使用空格将刚才添加的mitmproxy-ca-cert.crt证书勾选上，如上图所示，然后回车确定，等待系统更新证书信息 
+```
+![alt tag](https://user-gold-cdn.xitu.io/2018/6/9/163e5226807dc8c0?imageslim)
+
+```
+6. 然后启动mitmproxy，在Ubuntu终端里面输入mitmproxy, 运行截图如下： 
+```
+![alt tag](https://user-gold-cdn.xitu.io/2018/6/9/163e53f51d280a79?imageslim)
+
 ## 4. 手机安装证书：  
 ## 取消代理  
 ```
@@ -283,6 +389,9 @@ Finally, type mitmproxy in the terminal and press Enter to start it.
 
 ## How To: Use mitmproxy to read and modify HTTPS traffic  
 * [How To: Use mitmproxy to read and modify HTTPS traffic Jul 1, 2013](https://blog.heckel.io/2013/07/01/how-to-use-mitmproxy-to-read-and-modify-https-traffic-of-your-phone/)  
+
+![alt tag](https://d3u5jkmuxaiujc.cloudfront.net/wp-content/uploads/2013/07/mitmproxy-example.png)  
+
 ```
 2.3. Enable IP forwarding and port redirection ¶
 
