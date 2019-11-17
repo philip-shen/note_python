@@ -1,4 +1,4 @@
-# note of_HTTPS Proxy_
+# note of HTTPS Proxy
 Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 
 # Table of Content  
