@@ -17,6 +17,8 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Windows10使用WSL安装mitmproxy进行抓包](#windows10%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85mitmproxy%E8%BF%9B%E8%A1%8C%E6%8A%93%E5%8C%85)  
 
 [Reference](#reference)  
+[apt - How do I install mitmproxy on ubuntu 18.0.4]()  
+[How To: Use mitmproxy to read and modify HTTPS traffic](#how-to-use-mitmproxy-to-read-and-modify-https-traffic)  
 
 # Modes of Operation in mitmproxy  
 [Modes of Operation](https://docs.mitmproxy.org/stable/concepts-modes/#modes-of-operation)  
@@ -251,6 +253,54 @@ mitmproxy | アプリ実装不要・CUI・無料でSSLも確認できる | な�
 * [daniel4x/mitm-python](https://github.com/daniel4x/mitm-python)
 
 # Reference  
+## apt - How do I install mitmproxy on ubuntu 18.0.4  
+* [apt - How do I install mitmproxy on ubuntu 18.0.4 Sep 23, 2019](https://askubuntu.com/questions/1176109/how-do-i-install-mitmproxy-on-ubuntu-18-0-4)  
+```
+Firstly, run the following command in the terminal to remove apt installed mitmproxy package:
+
+sudo apt remove mitmproxy
+```
+
+```
+Secondly, install PIP3 if it is not installed by running the following command in the terminal:
+
+sudo apt install python3-pip
+
+Or update it if it is already installed by running the following command in the terminal:
+
+sudo pip3 install -U pip
+```
+
+```
+Thirdly, install mitmproxy via PIP3 by running the following command in the terminal:
+
+sudo pip3 install mitmproxy
+```
+
+```
+Finally, type mitmproxy in the terminal and press Enter to start it.
+```
+
+## How To: Use mitmproxy to read and modify HTTPS traffic  
+* [How To: Use mitmproxy to read and modify HTTPS traffic Jul 1, 2013](https://blog.heckel.io/2013/07/01/how-to-use-mitmproxy-to-read-and-modify-https-traffic-of-your-phone/)  
+```
+2.3. Enable IP forwarding and port redirection ¶
+
+The mitmproxy application internally runs on TCP port 8080, but externally has to listen 
+on ports 80/HTTP and 443/HTTPS. 
+Therefore, a IP forwarding in general (the system must act as a router) and 
+a redirection from 8080 to 80 and 443 is necessary for all arriving IP packets. 
+The “nat” table of iptables can be used to do that pretty easily. 
+
+This is also described in the Linux section of the mitmproxy manual.
+
+1 sysctl -w net.ipv4.ip_forward=1
+2 iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+3 iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8080
+
+It’s not clear to me why the application does not simply bind to the ports 80 and 443 ports, but that’s how it is right now.
+```
+
 * [Charles 破解版免费下载和注册安装教程 4.2.28激活](https://www.axihe.com/charles/charles/free-use.html)  
 ```
 Charles 破解原理一：文件覆盖
