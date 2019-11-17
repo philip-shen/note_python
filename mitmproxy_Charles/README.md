@@ -216,8 +216,17 @@ Mac的IP位址 = 192.168.2.1 （️️注意⚠️ 不是乙太網路網路的IP
 ![alt tag](https://miro.medium.com/max/661/1*5I6l9cO3LeXfcwGLpWGKPQ.gif)  
 
 
-# 
-[]()  
+# Windows10使用WSL安装mitmproxy进行抓包  
+[Windows10使用WSL安装mitmproxy进行抓包 Jun 9, 2018](https://juejin.im/post/5b05336d5188252ab653e84b)  
+## 1. Windows10启用Linux系统支持   
+## 2. 使用python安装mitmproxy。  
+## 3. Ubuntu安装证书：   
+## 4. 手机安装证书：  
+## 取消代理  
+```
+对了！当你停止了mitmporxy程序后记得取消你设置的代理！！！！！
+不然到时打不开网页不要怪我没提醒你噢！
+```
 
 # 
 [iOSアプリのAPIリクエストのトレースはどうするのが効率的か？ 2016-02-11](https://qiita.com/WorldDownTown/items/42d9ab6c746fe7a6bc9c)  
