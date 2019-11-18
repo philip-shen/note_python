@@ -418,6 +418,19 @@ This is also described in the Linux section of the mitmproxy manual.
 It’s not clear to me why the application does not simply bind to the ports 80 and 443 ports, but that’s how it is right now.
 ```
 
+* [mitmproxy的安装及环境搭建 2018-09-09](https://blog.csdn.net/u014229742/article/details/82562571)  
+```
+所以可以确定，我们代理IP端口号为8080，于是，在手机Wifi设置手动代理，输入本机IP和端口号8080。此时，
+打开mitmproxy界面并操作手机，可以看到手机请求信息：
+```
+![alt tag](https://img-blog.csdn.net/20180909211617650?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTQyMjk3NDI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)  
+
+* [window上MitmProxy的安装 2018-10-17](https://blog.csdn.net/supramolecular/article/details/83104211)  
+```
+下载之后直接双击安装包即可安装。
+注意在 Windows 上不支持 MitmProxy 的控制台接口，但是可以使用 MitmDump 和 MitmWeb。
+```
+
 * [Charles 破解版免费下载和注册安装教程 4.2.28激活](https://www.axihe.com/charles/charles/free-use.html)  
 ```
 Charles 破解原理一：文件覆盖
