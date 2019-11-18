@@ -23,7 +23,7 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [ubuntu14.04 をアクセスポイントにして透過型プロキシ通す](#ubuntu1404-%E3%82%92%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%81%AB%E3%81%97%E3%81%A6%E9%80%8F%E9%81%8E%E5%9E%8B%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E9%80%9A%E3%81%99)  
 [Installing mitmproxy on Windows Subsystem for Linux (WSL)](#installing-mitmproxy-on-windows-subsystem-for-linux-wsl)  
 
-[APP有用HTTPS傳輸，但資料還是被偷了](#app%E6%9C%89%E7%94%A8https%E5%82%B3%E8%BC%B8%E4%BD%86%E8%B3%87%E6%96%99%E9%82%84%E6%98%AF%E8%A2%AB%E5%81%B7%E4%BA%86)
+[APP有用HTTPS傳輸，但資料還是被偷了](#app%E6%9C%89%E7%94%A8https%E5%82%B3%E8%BC%B8%E4%BD%86%E8%B3%87%E6%96%99%E9%82%84%E6%98%AF%E8%A2%AB%E5%81%B7%E4%BA%86)  
 [Windows10使用WSL安装mitmproxy进行抓包](#windows10%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85mitmproxy%E8%BF%9B%E8%A1%8C%E6%8A%93%E5%8C%85)  
 
 [Reference](#reference)  
@@ -107,7 +107,7 @@ $ pip3 install mitmproxy
 ![alt tag](https://i.imgur.com/T7q0dyB.jpg) 
 ![alt tag](https://i.imgur.com/YwKuZ9k.jpg) 
 
-## Step 4 Check .mitmdump/  
+## Step 4 Check .mitmproxy/  
 ```
 $ls -l .mitmproxy/
 ```
@@ -143,11 +143,15 @@ $ mitmproxy -p 8080 -v
 
 ![alt tag](https://i.imgur.com/CPc7CVU.jpg) 
 
-## Step   
-```
 
+## Step 6 Start mitmweb  
 ```
-![alt tag]() 
+$ mitmweb --web-iface 192.168.1.242
+```
+![alt tag](https://i.imgur.com/P2ZUcer.jpg) 
+
+![alt tag](https://i.imgur.com/x5HIVzB.jpg) 
+
 ## Step   
 ```
 
