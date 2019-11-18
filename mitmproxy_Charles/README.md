@@ -418,7 +418,8 @@ This is also described in the Linux section of the mitmproxy manual.
 It’s not clear to me why the application does not simply bind to the ports 80 and 443 ports, but that’s how it is right now.
 ```
 
-* [mitmproxy的安装及环境搭建 2018-09-09](https://blog.csdn.net/u014229742/article/details/82562571)  
+## mitmproxy的安装及环境搭建  
+[mitmproxy的安装及环境搭建 2018-09-09](https://blog.csdn.net/u014229742/article/details/82562571)  
 ```
 所以可以确定，我们代理IP端口号为8080，于是，在手机Wifi设置手动代理，输入本机IP和端口号8080。此时，
 打开mitmproxy界面并操作手机，可以看到手机请求信息：
