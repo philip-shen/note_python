@@ -30,6 +30,7 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [apt - How do I install mitmproxy on ubuntu 18.0.4](#apt---how-do-i-install-mitmproxy-on-ubuntu-1804)  
 [How To: Use mitmproxy to read and modify HTTPS traffic](#how-to-use-mitmproxy-to-read-and-modify-https-traffic)  
 [mitmproxy的安装及环境搭建](#mitmproxy%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)  
+[How to configure mitmproxy to intercept https?](#how-to-configure-mitmproxy-to-intercept=https?)  
 
 # Modes of Operation in mitmproxy  
 [Modes of Operation](https://docs.mitmproxy.org/stable/concepts-modes/#modes-of-operation)  
@@ -432,6 +433,28 @@ It’s not clear to me why the application does not simply bind to the ports 80 
 下载之后直接双击安装包即可安装。
 注意在 Windows 上不支持 MitmProxy 的控制台接口，但是可以使用 MitmDump 和 MitmWeb。
 ```
+
+## How to configure mitmproxy to intercept https?  
+[How to configure mitmproxy to intercept https? Feb 26, 2018](https://serverfault.com/questions/898919/how-to-configure-mitmproxy-to-intercept-https)  
+```
+The web gui is very comfortable. You can use mitmproxy instead.
+
+1. Run the proxy server $ mitmweb --listen-port 44700
+    Make sure that 44700 port is open in firewall. 
+    You can specify the IP of proxy with --listen-host flag. 
+    I.E. --listen-host 192.168.0.10 or try --listen-host 0.0.0.0 if can not access remotely.
+
+2. Configure in the remote device the IP and port proxy.
+
+3. Open browser in the remote device and go to http://mitm.it, is a local page, 
+    in a local DNS, that you can download and install the certs.
+    If android, you must specify a pin lock screen.
+
+4. Open web gui, by default in port 8081 in your browser: http://127.0.0.1:8081/#/flows
+
+    Enjoy networks intercepts.
+```
+
 
 * [Charles 破解版免费下载和注册安装教程 4.2.28激活](https://www.axihe.com/charles/charles/free-use.html)  
 ```
