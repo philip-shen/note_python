@@ -14,6 +14,11 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Step 5 Check mitmproxy](#step-5-check-mitmproxy)  
 [Step 6 Start mitmproxy](#step-6-start-mitmproxy)  
 [Trouble](#trouble)  
+[Step 7 Setup Browser Proxy](#step-7-setup-browser-proxy)  
+[Step 8 Open Browser](#step-8-open-browser)  
+[Step 9 Click to Install Certificate](#step-9-click-to-install-certificate)  
+[Step 10 Check Console by SSH](#step-10-check-console-by-ssh)  
+[]()  
 
 
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法](#ios%E5%AE%9F%E6%A9%9F%E3%81%AEssl%E9%80%9A%E4%BF%A1%E3%82%92%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E5%82%8D%E5%8F%97%E3%81%97%E3%81%9F%E3%82%8A%E6%94%B9%E3%81%96%E3%82%93%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)  
@@ -163,7 +168,7 @@ keyin http://--web-iface:8081
 ```
 ![alt tag](https://i.imgur.com/k8MVErg.jpg) 
 
-## Step 9 Click Install Certificate    
+## Step 9 Click to Install Certificate    
 ![alt tag](https://i.imgur.com/fMzZ70G.jpg) 
 
 ## Step 10 Check Console by SSH  
