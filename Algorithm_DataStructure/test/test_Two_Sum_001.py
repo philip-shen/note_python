@@ -44,6 +44,10 @@ class Test_Case(unittest.TestCase):
         target = 6
         self.assertEqual(Solution().twoSum(nums, target), [1, 2])
 
+    def test_answer_05(self):
+        nums = [2, 3, 3, 11]
+        target = 6
+        self.assertEqual(Solution_better().twoSum(nums, target), [1, 2])
 
 if __name__ == '__main__':
     unittest.main()
