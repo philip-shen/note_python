@@ -154,11 +154,22 @@ $ mitmweb --web-iface 192.168.1.242
 
 ![alt tag](https://i.imgur.com/x5HIVzB.jpg) 
 
-## Step   
-```
+## Step 7 Setup Browser Proxy  
+![alt tag](https://i.imgur.com/YvWeDO1.jpg) 
 
+## Step 8 Open Browser 
 ```
-![alt tag]() 
+keyin http://--web-iface:8081  
+```
+![alt tag](https://i.imgur.com/k8MVErg.jpg) 
+
+## Step 9 Click Install Certificate    
+![alt tag](https://i.imgur.com/fMzZ70G.jpg) 
+
+## Step 10 Check Console by SSH  
+
+![alt tag](https://i.imgur.com/9ORfTPV.jpg) 
+
 
 # iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法  
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法 Dec 16, 2013](https://qiita.com/yimajo/items/c67cb711851f747c35e5)
@@ -455,6 +466,13 @@ The web gui is very comfortable. You can use mitmproxy instead.
     Enjoy networks intercepts.
 ```
 
+## Ubuntu（mint）下fiddler进行http抓包Chrome遇到的问题  
+[Ubuntu（mint）下fiddler进行http抓包Chrome遇到的问题 Mar 14, 2018](https://blog.csdn.net/saonianpai/article/details/79553439)  
+```
+2、获取mitmproxy证书
+
+    打开mitmproxy，Chrome设置好代理，进入”mitm.it“，如果出现”If you can see this, traffic is not passing through mitmproxy.“说明没有设置好代理。设置好代理后，正常进入网站后选择你的操作系统，证书开始下载。
+```
 
 * [Charles 破解版免费下载和注册安装教程 4.2.28激活](https://www.axihe.com/charles/charles/free-use.html)  
 ```
