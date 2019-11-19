@@ -30,7 +30,7 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [apt - How do I install mitmproxy on ubuntu 18.0.4](#apt---how-do-i-install-mitmproxy-on-ubuntu-1804)  
 [How To: Use mitmproxy to read and modify HTTPS traffic](#how-to-use-mitmproxy-to-read-and-modify-https-traffic)  
 [mitmproxy的安装及环境搭建](#mitmproxy%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)  
-[How to configure mitmproxy to intercept https?](#how-to-configure-mitmproxy-to-intercept=https?)  
+[How to configure mitmproxy to intercept https?](#how-to-configure-mitmproxy-to-intercept-https)  
 
 # Modes of Operation in mitmproxy  
 [Modes of Operation](https://docs.mitmproxy.org/stable/concepts-modes/#modes-of-operation)  
