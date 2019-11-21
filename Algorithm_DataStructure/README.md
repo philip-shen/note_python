@@ -11,7 +11,8 @@ Take some note of python
 No. | Test Name | Difficulty | Lib | UniTest 
 ------------------------------------ | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- 
 001 | Two Sum | Easy | [_001_Two_Sum.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/lib/_001_Two_Sum.py) |  [test_Two_Sum_001.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/test/test_Two_Sum_001.py)
-014 | Longest Common Prefix | Easy |  | 
+009 |  	Palindrome_Number | []() | []() 
+014 | Longest Common Prefix | Easy | [_014_Longest_Common_Prefix.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/lib/_014_Longest_Common_Prefix.py) | [test_Longest_Common_Prefix_014.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/test/test_Longest_Common_Prefix_014.py) 
 
 No. | Test Name 
 ------------------------------------ | --------------------------------------------- | 
@@ -24,6 +25,35 @@ You may assume that each input would have exactly one solution, and you may not 
 Example:
 Given nums = [2, 7, 11, 15], target = 9,Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
+```
+
+No. | Test Name 
+------------------------------------ | --------------------------------------------- | 
+009 |  	Palindrome_Number
+```
+Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+Example 1:
+Input: 121
+Output: true
+Example 2:
+Input: -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+Example 3:
+Input: 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+```
+[Reverse a string in Python Nov 20, 2011](https://stackoverflow.com/questions/931092/reverse-a-string-in-python)  
+```
+>>> 'hello world'[::-1]
+'dlrow olleh'
+```
+```
+This is extended slice syntax. It works by doing [begin:end:step] - by leaving begin and end off and specifying a step of -1, it reverses a string.
+```
+```
+Paolo's s[::-1] is fastest; a slower approach (maybe more readable, but that's debatable) is ''.join(reversed(s)).
 ```
 
 No. | Test Name 
