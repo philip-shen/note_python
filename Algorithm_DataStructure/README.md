@@ -11,8 +11,41 @@ Take some note of python
 No. | Test Name | Difficulty | Lib | UniTest 
 ------------------------------------ | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- 
 001 | Two Sum | Easy | [_001_Two_Sum.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/lib/_001_Two_Sum.py) |  [test_Two_Sum_001.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/test/test_Two_Sum_001.py)
-009 |  	Palindrome_Number | []() | []() 
+009 |  	Palindrome_Number | Easy | []() | []() 
+013 |  	Roman to Integer  | Easy | []() | []() 
 014 | Longest Common Prefix | Easy | [_014_Longest_Common_Prefix.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/lib/_014_Longest_Common_Prefix.py) | [test_Longest_Common_Prefix_014.py](https://github.com/philip-shen/note_python/blob/master/Algorithm_DataStructure/test/test_Longest_Common_Prefix_014.py) 
+020 |  	Valid Parentheses   | Easy | []() | []() 
+021 |  	Merge Two Sorted Lists   | Easy | []() | []() 
+026 |  	Remove Duplicates from Sorted Array   | Easy | []() | []() 
+027 |  	Remove Element    | Easy | []() | []() 
+028 |  	Implement strStr()    | Easy | []() | []() 
+035 |  	Search Insert Position   | Easy | []() | []() 
+038 |  	Count and Say    | Easy | []() | []() 
+053 |  	Maximum Subarray | Easy | []() | []() 
+058 |  	Length of Last Word | Easy | []() | []() 
+066 |  	Plus One    | Easy | []() | []() 
+067 |  	Add Binary     | Easy | []() | []() 
+069 |  	Sqrt(x)     | Easy | []() | []() 
+070 |  	Climbing Stairs | Easy | []() | []() 
+038 |  	Count and Say    | Easy | []() | []() 
+125 |  	Valid Palindrome | Easy | []() | []() 
+136 |  	Single Number    | Easy | []() | []() 
+168 |  	Excel Sheet Column Title | Easy | []() | []() 
+169 |  	Majority Element | Easy | []() | []() 
+171 |  	Excel Sheet Column Number | Easy | []() | []() 
+172 |  	Factorial Trailing Zeroes | Easy | []() | []() 
+190 |  	Reverse Bits     | Easy | []() | []() 
+191 |  	Number of 1 Bits | Easy | []() | []() 
+202 |  	Happy Number     | Easy | []() | []() 
+205 |  	Isomorphic Strings | Easy | []() | []() 
+206 |  	Reverse Linked List| Easy | []() | []() 
+038 |  	Count and Say    | Easy | []() | []() 
+046 |  	Permutations     | Medium | []() | []() 
+137 |  	Single Number II | Medium | []() | []() 
+151 |  	Reverse Words in a String | Medium | []() | []() 
+137 |  	Single Number II | Medium | []() | []() 
+137 |  	Single Number II | Medium | []() | []() 
+137 |  	Single Number II | Medium | []() | []() 
 
 No. | Test Name 
 ------------------------------------ | --------------------------------------------- | 
@@ -55,6 +88,14 @@ This is extended slice syntax. It works by doing [begin:end:step] - by leaving b
 ```
 Paolo's s[::-1] is fastest; a slower approach (maybe more readable, but that's debatable) is ''.join(reversed(s)).
 ```
+[Understanding string reversal via slicing Nov 16, 2018](https://stackoverflow.com/questions/766141/understanding-string-reversal-via-slicing)  
+```
+Sure, the [::] is the extended slice operator. It allows you to take substrings. Basically, it works by specifying which elements you want as [begin:end:step], and it works for all sequences. Two neat things about it:
+
+    You can omit one or more of the elements and it does "the right thing"
+    Negative numbers for begin, end, and step have meaning
+```
+[extended slice](https://docs.python.org/3/whatsnew/2.3.html#extended-slices)
 
 No. | Test Name 
 ------------------------------------ | --------------------------------------------- | 
