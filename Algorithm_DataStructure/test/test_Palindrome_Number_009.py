@@ -49,5 +49,8 @@ class Test_Case(unittest.TestCase):
         self.assertEqual(Solution().isPalindrome(x), result)
 
 if __name__ == "__main__":
-    unittest.main()
+    #unittest.main()
+    x = 12321
+    Solution().isPalindrome(x)
+    #Solution_2().isPalindrome(x)
     pass            

@@ -53,14 +53,20 @@ class Solution_2:
         if x < 0:
             return False
 
-        reslut = 0
+        result = 0
         original = x
-        
+        logger.info('x:{} \n'.format(x));#debug purpose
+
         while x:
             result = result * 10 + x % 10
             x = int (x/10)
 
             logger.info('result:{} '.format(result));#debug purpose
-            logger.info('X:{} '.format(X));#debug purpose
+            logger.info('x:{} '.format(x));#debug purpose
 
         return result == original    
+
+class Solution_type:
+    def isPalindrome(self,x):
+
+        return False if x < 0 else x == int(str(x)[::-1])
