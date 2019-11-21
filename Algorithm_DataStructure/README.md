@@ -5,9 +5,9 @@ Take some note of python
 [Top Interview Questions - Problems](top-interview-questions-problems)
 
 [001 Two Sum](#001-two-sum) 
-[009 Palindrome Number](#009-palindrome-number) 
-[014 Longest Common Prefix](#014-longest-common-prefix) 
-[]() 
+[009 Palindrome Number](#009-palindrome-number)  
+[014 Longest Common Prefix](#014-longest-common-prefix)  
+[]()  
 
 
 
