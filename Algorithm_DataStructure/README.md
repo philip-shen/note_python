@@ -4,6 +4,13 @@ Take some note of python
 # Table of Content
 [Top Interview Questions - Problems](top-interview-questions-problems)
 
+[001 Two Sum](#001-two-sum) 
+[009 Palindrome Number](#009-palindrome-number) 
+[014 Longest Common Prefix](#014-longest-common-prefix) 
+[]() 
+
+
+
 # Top Interview Questions - Problems   
 [Top Interview Questions - Problems](https://leetcode.com/problemset/top-interview-questions/)
 
@@ -47,9 +54,7 @@ No. | Test Name | Difficulty | Lib | UniTest
 137 |  	Single Number II | Medium | []() | []() 
 137 |  	Single Number II | Medium | []() | []() 
 
-No. | Test Name 
------------------------------------- | --------------------------------------------- | 
-001 | Two Sum
+# 001 Two Sum  
 ```
 Question:
 Given an array of integers, return indices of the two numbers such that they add up to a specific target.
@@ -60,9 +65,7 @@ Given nums = [2, 7, 11, 15], target = 9,Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
 ```
 
-No. | Test Name 
------------------------------------- | --------------------------------------------- | 
-009 |  	Palindrome_Number
+# 009 Palindrome Number  
 ```
 Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
 Example 1:
@@ -102,9 +105,7 @@ Negative numbers for begin, end, and step have meaning
 ```
 [extended slice](https://docs.python.org/3/whatsnew/2.3.html#extended-slices)
 
-No. | Test Name 
------------------------------------- | --------------------------------------------- | 
-014 | Longest Common Prefix
+# 014 Longest Common Prefix  
 ```
 Question:
 Write a function to find the longest common prefix string amongst an array of strings.
