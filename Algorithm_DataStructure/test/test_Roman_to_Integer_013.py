@@ -69,9 +69,11 @@ class Test_Case(unittest.TestCase):
 
 if __name__ == "__main__":
     #unittest.main()
-    roman = 'LVIII'
-    
+    #roman = 'LVIII'
+    roman = 'MDCXCV'
+
     #Solution().romanToInt(roman)
-    Solution_better().romanToInt(roman)
+    #Solution_better().romanToInt(roman)
+    Solution_type().romanToInt(roman)
 
     pass                        

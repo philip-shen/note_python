@@ -112,3 +112,37 @@ class Solution_better:
         total += mapping[s[-1]] 
 
         return total
+
+class Solution_type:
+    def romanToInt(self,s):
+        mapping = {
+            'I':1,
+            'V':5,
+            'X': 10,
+            'L': 50,
+            'C': 100,
+            'D': 500,
+            'M': 1000
+        }
+
+        total=0
+        logger.info( 's:{}'.format(s) );#debug purpose
+
+        for idx in range(len(s)-1):
+            logger.info('range(len(s)-1):{} len(s)-1:{}'.format(range(len(s)-1), len(s)-1) );#debug purpose
+            logger.info( 'idx:{}'.format(idx) );#debug purpose
+
+            if mapping[s[idx]] >= mapping[s[idx+1]]:
+                logger.info('s[idx]:{} s[idx+1]:{}'.format(s[idx], s[idx+1]) );#debug purpose
+
+                total += mapping[s[idx]]
+                logger.info('total:{} mapping[s[idx]]:{}'.format(total, mapping[s[idx]]) );#debug purpose
+            else:
+                logger.info('s[idx]:{} s[idx+1]:{}'.format(s[idx], s[idx+1]) );#debug purpose
+                total -=mapping[s[idx]]    
+                logger.info('total:{} mapping[s[idx]]:{}'.format(total, mapping[s[idx]]) );#debug purpose
+
+        total += mapping[s[-1]]        
+        logger.info('total:{} mapping[s[-1]]:{}'.format(total, mapping[s[-1]]) );#debug purpose
+
+        return total
