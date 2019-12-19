@@ -2,7 +2,9 @@
 Take note about Python library of Nessus  
 
 # Table of Contents  
-[]()  
+[nessrest](#nessrest)  
+[Tips on Using the Tenable Python SDK](#tips-on-using-the-tenable-python-sdk)  
+
 
 # nessrest  
 [tenable/nessrest](https://github.com/tenable/nessrest)  
@@ -17,6 +19,8 @@ Dependencies:
     The dependencies can be satisfied via pip install -r requirements.txt
 ```
 
+# Tips on Using the Tenable Python SDK   
+[Tips on Using the Tenable Python SDK: How to Run Internal Scans, Scan Imports and Exports and More February 20th, 2018](https://zh-tw.tenable.com/blog/tips-on-using-the-tenable-python-sdk-how-to-run-internal-scans-scan-imports-and-exports-and?tns_redirect=true)  
 
 # Troubleshooting
 
