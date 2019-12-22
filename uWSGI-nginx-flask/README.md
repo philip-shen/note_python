@@ -9,6 +9,7 @@ Take note of uWSGI+nginx+flask for Web App
 
 # PythonのフレームワークFlaskを使用してWebアプリ作成  
 
+## PythonのFlaskを使用してWebアプリ作成してみよう（１）こんにちは世界  
 [PythonのFlaskを使用してWebアプリ作成してみよう（１）こんにちは世界 Jul 13, 2019 ]()  
 ```
 目的
@@ -21,6 +22,7 @@ Take note of uWSGI+nginx+flask for Web App
     『Hello World』をFlaskで出力してみよう！
 ```
 
+## PythonのFlaskを使用してWebアプリ作成してみよう（２）HTMLの表示とメソッドとパラメータの受け取りかた  
 [PythonのFlaskを使用してWebアプリ作成してみよう（２）HTMLの表示とメソッドとパラメータの受け取りかた Jul 13, 2019]()  
 ```
 このシリーズの目的
@@ -37,6 +39,7 @@ Take note of uWSGI+nginx+flask for Web App
         postの場合
 ```
 
+## PythonのフレームワークFlaskを使用してWebアプリ作成の物語（３）Docker登場　DBの準備  
 [PythonのフレームワークFlaskを使用してWebアプリ作成の物語（３）Docker登場　DBの準備 Jul 14, 2019]()  
 ```
 このシリーズの目的
@@ -50,6 +53,7 @@ Take note of uWSGI+nginx+flask for Web App
     DB を pgadmin4 で見れるようにする
 ```
 
+## PythonのフレームワークFlaskを使用してWebアプリ作成の物語（４）DBに接続して操作してみよう  
 [PythonのフレームワークFlaskを使用してWebアプリ作成の物語（４）DBに接続して操作してみよう Jul 28, 2019]()  
 ```
 このシリーズの目的
@@ -64,6 +68,7 @@ Take note of uWSGI+nginx+flask for Web App
     DB からレコードを取得できること
 ```
 
+## PythonのフレームワークFlaskを使用してWebアプリ作成の物語（5）nginxの登場  
 [PythonのフレームワークFlaskを使用してWebアプリ作成の物語（5）nginxの登場  Aug 25, 2019]()  
 ```
 目的
@@ -76,6 +81,7 @@ Take note of uWSGI+nginx+flask for Web App
 ![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F190554%2Fa4902fbd-a85d-2614-0ad8-f9cb1806fe77.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&w=1400&fit=max&s=86d41e8a8e5d1b1951c572d4093aa9fd)  
 
 
+## PythonのフレームワークFlaskを使用してWebアプリ作成の物語（6）非同期通信でFlaskにアクセスしてみよう  
 [PythonのフレームワークFlaskを使用してWebアプリ作成の物語（6）非同期通信でFlaskにアクセスしてみよう  Sep 29, 2019](https://qiita.com/penpenta/items/15223262b1e146cf8474)  
 ```
 目的
@@ -85,6 +91,7 @@ Take note of uWSGI+nginx+flask for Web App
 
 イメージ図  
 ![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F190554%2F246efd72-91b2-9b00-03fa-ff501e3f38ce.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&w=1400&fit=max&s=762f66b29165375fa3ebf45e5e217972)  
+
 
 
 # DockerでPython+uWSGI+Nginxの環境を作成  
