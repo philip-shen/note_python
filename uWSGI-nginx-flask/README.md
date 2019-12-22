@@ -2,8 +2,8 @@
 Take note of uWSGI+nginx+flask for Web App  
 
 # Table of Contents  
-[PythonのフレームワークFlaskを使用してWebアプリ作成]()  
-[]()  
+[PythonのフレームワークFlaskを使用してWebアプリ作成](#python%E3%81%AE%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AFflask%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6web%E3%82%A2%E3%83%97%E3%83%AA%E4%BD%9C%E6%88%90)  
+[DockerでPython+uWSGI+Nginxの環境を作成](#docker%E3%81%A7pythonuwsginginx%E3%81%AE%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%9C%E6%88%90)  
 []()  
 []()  
 
@@ -96,6 +96,66 @@ Take note of uWSGI+nginx+flask for Web App
 
 # DockerでPython+uWSGI+Nginxの環境を作成  
 [DockerでPython+uWSGI+Nginxの環境を作成 Aug 02, 2018](https://qiita.com/hiroykam/items/748c3fab31c616994db9)  
+
+## ディレクトリ構成  
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F135559%2Fe3442a78-949b-b3a1-fdc2-a1d4b7cfeffb.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&s=ed7fafd6c839df983144d09ca30ecf06)  
+
+## コンテナの操作  
+ビルドと起動両方を実施する場合（-dオプションを指定するとバックグラウンドで起動）：  
+```
+$ docker-compose up --build
+```
+
+ビルドのみの場合：
+```
+$ docker-compose build
+```
+起動のみの場合（-dオプションを指定するとバックグラウンドで起動）：
+```
+$ docker-compose up
+```
+![alt tag](https://i.imgur.com/2SJMeI9.jpg)  
+
+
+## コンテナIDの確認  
+```
+$ docker ps -a
+```
+![alt tag](https://i.imgur.com/KGNmg5Z.jpg)  
+
+
+## コンテナの停止・開始  
+上記の”コンテナIDの確認”を例にするとCONTAINER_ID
+
+停止する場合：
+```
+$ docker stop CONTAINER_ID
+```
+開始する場合：
+```
+$ docker start CONTAINER_ID
+```
+再起動する場合：
+```
+$ docker restart CONTAINER_ID
+```
+
+## 起動しているコンテナにログイン  
+コンテナに入ることができ、サーバの状態等が確認できる。
+```
+$ docker exec -it CONTAINER_ID bash
+```
+
+## コンテナの削除  
+コンテナが停止している状態であれば、削除可能。
+```
+$docker rm CONTAINER_ID
+```
+
+## デモ  
+コンテナを起動して、http://localhost:8080にブラウザでアクセスすると、
+"Hello World"が表示される。
+![alt tag](https://i.imgur.com/UT17Mqe.jpg)  
 
 
 # Troubleshooting
