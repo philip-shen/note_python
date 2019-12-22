@@ -20,6 +20,9 @@ Take some note of python
 
 [How To Use *args and **kwargs in Python 3](#how-to-use-args-and-kwargs-in-python-3)
 
+[面倒な環境構築が一瞬で終わる。そう、DockerとVSCodeならね]()  
+
+
 [Environment](#environment)  
 [Troubleshooting](#troubleshooting)  
 
@@ -228,6 +231,20 @@ The value of name_5 is Remy
 The value of name_3 is Harper
 The value of name_1 is Alex
 ```
+
+# 面倒な環境構築が一瞬で終わる。そう、DockerとVSCodeならね  
+[面倒な環境構築が一瞬で終わる。そう、DockerとVSCodeならね Sep 02, 2019](https://qiita.com/penpenta/items/f9d1a6d1968775b161d6)
+```
+目標
+DockerとVSCodeで超簡単にPythonの開発環境を作成してみる。
+
+どんな人向け？？
+    Dockerが好きな人
+    VSCodeが好きで好きでたまらない人
+    Pythonの環境構築を楽にやってみたい人
+```
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F190554%2Fda120a94-a3bd-df73-cd50-6d678e3d16a7.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&s=82155ad95db2312b3489a2a5c067e2e1)  
 
 
 # Environment  
