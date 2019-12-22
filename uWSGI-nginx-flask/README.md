@@ -98,7 +98,7 @@ Take note of uWSGI+nginx+flask for Web App
 [DockerでPython+uWSGI+Nginxの環境を作成 Aug 02, 2018](https://qiita.com/hiroykam/items/748c3fab31c616994db9)  
 
 ## ディレクトリ構成  
-![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F135559%2Fe3442a78-949b-b3a1-fdc2-a1d4b7cfeffb.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&s=ed7fafd6c839df983144d09ca30ecf06)  
+![alt tag](https://i.imgur.com/eGDQr31.jpg)  
 
 ## コンテナの操作  
 ビルドと起動両方を実施する場合（-dオプションを指定するとバックグラウンドで起動）：  
