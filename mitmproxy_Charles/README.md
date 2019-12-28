@@ -18,13 +18,14 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Step 8 Open Browser](#step-8-open-browser)  
 [Step 9 Click to Install Certificate](#step-9-click-to-install-certificate)  
 [Step 10 Check Console by SSH](#step-10-check-console-by-ssh)  
-[]()  
 
 
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法](#ios%E5%AE%9F%E6%A9%9F%E3%81%AEssl%E9%80%9A%E4%BF%A1%E3%82%92%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E5%82%8D%E5%8F%97%E3%81%97%E3%81%9F%E3%82%8A%E6%94%B9%E3%81%96%E3%82%93%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)  
 [MacでWifi共有で透過的にmitmproxy](#mac%E3%81%A7wifi%E5%85%B1%E6%9C%89%E3%81%A7%E9%80%8F%E9%81%8E%E7%9A%84%E3%81%ABmitmproxy)  
 [mitmproxyを使ってSSL通信の中身を確認する](#mitmproxy%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6ssl%E9%80%9A%E4%BF%A1%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%99%E3%82%8B)  
 [モバイルアプリ開発者のための mitmproxy 入門](#%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E8%80%85%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE-mitmproxy-%E5%85%A5%E9%96%80)  
+[mitmproxyでiOSの通信を確認するまで]()  
+
 [ubuntu14.04 をアクセスポイントにして透過型プロキシ通す](#ubuntu1404-%E3%82%92%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%81%AB%E3%81%97%E3%81%A6%E9%80%8F%E9%81%8E%E5%9E%8B%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E9%80%9A%E3%81%99)  
 [Installing mitmproxy on Windows Subsystem for Linux (WSL)](#installing-mitmproxy-on-windows-subsystem-for-linux-wsl)  
 
@@ -260,6 +261,43 @@ $ mitmproxy -T --host
 
 # mitmproxyを使ってSSL通信の中身を確認する   
 [mitmproxyを使ってSSL通信の中身を確認する 2012/01/29](https://ku.ido.nu/post/90510462254/how-to-use-mitmproxy) 
+
+## iOS  
+```
+iOS の場合は、
+「設定」
+→「Wi-fi」に行って、いま接続しているネットワークをタップ 
+→ 「HTTPプロキシ」でプロキシの設定ができます。
+設定項目には以下を入力します。なお、ポート番号はデフォルトで 8080 ですが、
+後述のようにプロキシサーバー起動時に別の番号を指定可能です。
+
+    サーバー：自分のマシンの IP アドレス
+    ポート番号：8080
+    認証：オフ
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F224%2F36306%2F23b998e2-9a81-5511-2ab5-8aa43e6daf47.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&w=1400&fit=max&s=54e30fc840cca36ec653d62cad55befd)  
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F224%2F36306%2F4423ea25-a70f-fa2f-5f32-713c696c6f2b.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&s=0745cea60fc15b8bc36046bf8689a691)  
+
+## Andorid  
+```
+Android の場合は、
+「設定」
+→「Wi-Fi」に行って、いま接続しているネットワークを長押し 
+→「ネットワークを変更」をタップして、
+開いたダイアログの「詳細オプションを表示」のチェックボックスにチェックを入れるとプロキシ設定の入力欄が表示されます。
+設定項目については、iOS と同じなので省略します。
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F224%2F36306%2F9440dca1-77a2-2020-0b96-39cdb1402253.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&s=d4a796a112d7be5cf189df8f8f8a3fed)  
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F224%2F36306%2F5e55593d-d769-2666-b081-11de9ef26dfe.png?ixlib=rb-1.2.2&auto=compress%2Cformat&gif-q=60&s=9fa3185ead0247626dd7072b76e7ac22)  
+
+
+# mitmproxyでiOSの通信を確認するまで  
+[mitmproxyでiOSの通信を確認するまで Aug 25, 2017](https://qiita.com/wtotw/items/69290b178371c4d7cf76)  
+## 証明書を有効にする  
+```
+設定>一般>情報>証明書信頼設定>mitmproxyのところをオンにする。
+いろんなサイト見たけど何故か書いてなかった。
+```
 
 # モバイルアプリ開発者のための mitmproxy 入門
 [モバイルアプリ開発者のための mitmproxy 入門 Sep 02, 2014](https://qiita.com/hkurokawa/items/9034274cc1b9e1405c68)  
