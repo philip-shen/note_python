@@ -20,6 +20,18 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Step 10 Check Console by SSH](#step-10-check-console-by-ssh)  
 
 
+[3 mitmproxy Tips You Might Not Know About](#3-mitmproxy-tips-you-might-not-know-about)  
+[Tips 1: Custom configuration and key binding](#tips-1-custom-configuration-and-key-binding)  
+[Tips 2: Knowing client connection status when a filter is applied](#tips-2-knowing-client-connection-status-when-a-filter-is-applied)  
+[Tips 3: Using mitmproxy as a mock server](#tips-3-using-mitmproxy-as-a-mock-server)  
+
+
+[使用 mitmproxy + python 做拦截代理]()  
+[Script](#script)  
+[Event](#event)  
+[Example](#[example)  
+
+
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法](#ios%E5%AE%9F%E6%A9%9F%E3%81%AEssl%E9%80%9A%E4%BF%A1%E3%82%92%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E5%82%8D%E5%8F%97%E3%81%97%E3%81%9F%E3%82%8A%E6%94%B9%E3%81%96%E3%82%93%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)  
 [MacでWifi共有で透過的にmitmproxy](#mac%E3%81%A7wifi%E5%85%B1%E6%9C%89%E3%81%A7%E9%80%8F%E9%81%8E%E7%9A%84%E3%81%ABmitmproxy)  
 [mitmproxyを使ってSSL通信の中身を確認する](#mitmproxy%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6ssl%E9%80%9A%E4%BF%A1%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%99%E3%82%8B)  
@@ -175,6 +187,269 @@ keyin http://--web-iface:8081
 ## Step 10 Check Console by SSH  
 
 ![alt tag](https://i.imgur.com/9ORfTPV.jpg) 
+
+
+# 3 mitmproxy Tips You Might Not Know About  
+[3 mitmproxy Tips You Might Not Know About ](https://dev.to/kevcui/3-mitmproxy-tips-you-might-not-know-about-5dbg)  
+
+## Tips 1: Custom configuration and key binding  
+~/.mitmproxy/config.yaml:
+```
+console_palette: "dark"
+console_palette_transparent: True
+console_mouse: False
+console_focus_follow: True
+ignore_hosts: []
+```
+
+~/.mitmproxy/keys.yaml:
+```
+-
+  key: j
+  ctx: ["global"]
+  cmd: console.nav.up
+-
+  key: k
+  ctx: ["global"]
+  cmd: console.nav.down
+-
+  key: l
+  ctx: ["flowlist"]
+  cmd: console.nav.select
+```
+To know more about which command to use in cmd field, type K (shift + k) in mitmproxy.  
+
+## Tips 2: Knowing client connection status when a filter is applied  
+```
+An easy way is to add | .* in the filter, which will reveal all incoming requests. 
+Yep, regex magic:
+```
+[mitmproxy filter on](https://kevcui.github.io/videos/mitmproxy-filter-on.svg)  
+
+
+```
+Another easy way is to simply type E (shift+e), which will open events logs. 
+It shows the client connection status. Use q to quit events view:
+```
+[mitmproxy events view](https://kevcui.github.io/videos/mitmproxy-events-view.svg)  
+
+
+## Tips 3: Using mitmproxy as a mock server  
+```
+Map http://example.com/pass to test_pass.json (terminal on the bottom left)
+Create mock response data in test_pass.json (terminal on the bottom right)
+Visit http://example.com/pass on the client side
+The initial response is now replaced by the one in test_pass.json (terminal on top)
+```
+![alt tag](https://res.cloudinary.com/practicaldev/image/fetch/s--Rh3qMV5K--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/KevCui/mitm-scripts/master/screenshot/mitm-rewrite-example.jpg)  
+
+[mitm-scripts collection](https://github.com/KevCui/mitm-scripts)  
+[some examples](https://github.com/mitmproxy/mitmproxy/tree/master/examples/simple)  
+
+
+# 使用 mitmproxy + python 做拦截代理  
+[使用 mitmproxy + python 做拦截代理 Jun 8, 2018](https://blog.wolfogre.com/posts/usage-of-mitmproxy/)  
+
+## Script  
+```
+import mitmproxy.http
+from mitmproxy import ctx
+
+
+class Counter:
+    def __init__(self):
+        self.num = 0
+
+    def request(self, flow: mitmproxy.http.HTTPFlow):
+        self.num = self.num + 1
+        ctx.log.info("We've seen %d flows" % self.num)
+
+
+addons = [
+    Counter()
+]
+```
+
+```
+mitmweb -s addons.py
+```
+
+```
+Web server listening at http://127.0.0.1:8081/
+Loading script addons.py
+Proxy server listening at http://*:8080
+We've seen 1 flows
+……
+……
+We've seen 2 flows
+……
+We've seen 3 flows
+……
+We've seen 4 flows
+……
+……
+We've seen 5 flows
+……
+```
+## Event  
+### 1. 针对 HTTP 生命周期  
+```
+def http_connect(self, flow: mitmproxy.http.HTTPFlow):
+```
+```
+def requestheaders(self, flow: mitmproxy.http.HTTPFlow):
+```
+```
+def request(self, flow: mitmproxy.http.HTTPFlow):
+```
+```
+def responseheaders(self, flow: mitmproxy.http.HTTPFlow):
+```
+```
+def response(self, flow: mitmproxy.http.HTTPFlow):
+```
+```
+def error(self, flow: mitmproxy.http.HTTPFlow):
+```
+
+### 2. 针对 TCP 生命周期  
+
+### 3. 针对 Websocket 生命周期  
+```
+def websocket_handshake(self, flow: mitmproxy.http.HTTPFlow):
+```
+```
+def websocket_start(self, flow: mitmproxy.websocket.WebSocketFlow):
+```
+```
+def websocket_message(self, flow: mitmproxy.websocket.WebSocketFlow):
+```
+```
+def websocket_error(self, flow: mitmproxy.websocket.WebSocketFlow):
+```
+```
+def websocket_end(self, flow: mitmproxy.websocket.WebSocketFlow):
+```
+
+### 4. 针对网络连接生命周期  
+
+### 5. 通用生命周期  
+
+## Example  
+```
+需求是这样的：
+
+1. 因为百度搜索是不靠谱的，所有当客户端发起百度搜索时，
+    记录下用户的搜索词，再修改请求，将搜索词改为“360 搜索”；
+
+2. 因为 360 搜索还是不靠谱的，所有当客户端访问 360 搜索时，
+    将页面中所有“搜索”字样改为“请使用谷歌”。
+
+3. 因为谷歌是个不存在的网站，所有就不要浪费时间去尝试连接服务端了，
+    所有当发现客户端试图访问谷歌时，直接断开连接。
+
+4. 将上述功能组装成名为 Joker 的 addon，并保留之前展示名为 Counter 的 addon，都加载进 mitmproxy。
+```
+
+```
+def request(self, flow: mitmproxy.http.HTTPFlow):
+    # 忽略非百度搜索地址
+    if flow.request.host != "www.baidu.com" or not flow.request.path.startswith("/s"):
+        return
+
+    # 确认请求参数中有搜索词
+    if "wd" not in flow.request.query.keys():
+        ctx.log.warn("can not get search word from %s" % flow.request.pretty_url)
+        return
+
+    # 输出原始的搜索词
+    ctx.log.info("catch search word: %s" % flow.request.query.get("wd"))
+    # 替换搜索词为“360搜索”
+    flow.request.query.set_all("wd", ["360搜索"])
+```
+
+```
+def response(self, flow: mitmproxy.http.HTTPFlow):
+    # 忽略非 360 搜索地址
+    if flow.request.host != "www.so.com":
+        return
+
+    # 将响应中所有“搜索”替换为“请使用谷歌”
+    text = flow.response.get_text()
+    text = text.replace("搜索", "请使用谷歌")
+    flow.response.set_text(text)
+```
+
+```
+def http_connect(self, flow: mitmproxy.http.HTTPFlow):
+    # 确认客户端是想访问 www.google.com
+    if flow.request.host == "www.google.com":
+        # 返回一个非 2xx 响应断开连接
+        flow.response = http.HTTPResponse.make(404)
+```
+
+joker.py
+```
+import mitmproxy.http
+from mitmproxy import ctx, http
+
+
+class Joker:
+    def request(self, flow: mitmproxy.http.HTTPFlow):
+        if flow.request.host != "www.baidu.com" or not flow.request.path.startswith("/s"):
+            return
+
+        if "wd" not in flow.request.query.keys():
+            ctx.log.warn("can not get search word from %s" % flow.request.pretty_url)
+            return
+
+        ctx.log.info("catch search word: %s" % flow.request.query.get("wd"))
+        flow.request.query.set_all("wd", ["360搜索"])
+
+    def response(self, flow: mitmproxy.http.HTTPFlow):
+        if flow.request.host != "www.so.com":
+            return
+
+        text = flow.response.get_text()
+        text = text.replace("搜索", "请使用谷歌")
+        flow.response.set_text(text)
+
+    def http_connect(self, flow: mitmproxy.http.HTTPFlow):
+        if flow.request.host == "www.google.com":
+            flow.response = http.HTTPResponse.make(404)
+```
+
+counter.py
+```
+import mitmproxy.http
+from mitmproxy import ctx
+
+
+class Counter:
+    def __init__(self):
+        self.num = 0
+
+    def request(self, flow: mitmproxy.http.HTTPFlow):
+        self.num = self.num + 1
+        ctx.log.info("We've seen %d flows" % self.num)
+
+```
+
+addons.py 
+```
+import counter
+import joker
+
+addons = [
+    counter.Counter(),
+    joker.Joker(),
+]
+
+```
+
+```
+mitmweb -s addons.py
+```
 
 
 # iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法  
