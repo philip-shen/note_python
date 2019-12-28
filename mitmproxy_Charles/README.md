@@ -184,6 +184,10 @@ keyin http://--web-iface:8081
 ## Step 9 Click to Install Certificate    
 ![alt tag](https://i.imgur.com/fMzZ70G.jpg) 
 
+![alt tag](https://i.imgur.com/dlr0gu2.jpg)  
+
+![alt tag](https://i.imgur.com/W2Df3Ps.jpg)  
+
 ## Step 10 Check Console by SSH  
 
 ![alt tag](https://i.imgur.com/9ORfTPV.jpg) 
