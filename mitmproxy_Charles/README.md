@@ -8,16 +8,18 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 
 [Install mitmporxy in Ubuntu 18.04 WSL](#install-mitmporxy-in-ubuntu-1804-wsl)  
 [Step 1 remove original mitmproxy package](#step-1-remove-original-mitmproxy-package)  
-[Step 2 virtualenv for mitmproxy](#step-2-virtualenv-for-mitmproxy)  
-[Step 3 pip3 install mitmproxy](#step-3--pip3-install-mitmproxy)  
-[Step 4 Check .mitmdump/](#step-4-check-mitmdump)  
-[Step 5 Check mitmproxy](#step-5-check-mitmproxy)  
-[Step 6 Start mitmproxy](#step-6-start-mitmproxy)  
+[Step 2 require Python 3.6 above](#Step-2-require-python-36-above)  
+[Step 3 virtualenv for mitmproxy](#step-3-virtualenv-for-mitmproxy)  
+[Step 4 pip3 install mitmproxy](#step-4--pip3-install-mitmproxy)  
+[Step 5 Check .mitmdump/](#step-5-check-mitmdump)  
+[Step 6 Check mitmproxy](#step-6-check-mitmproxy)  
+[Step 7 Start mitmproxy](#step-7-start-mitmproxy)  
 [Trouble](#trouble)  
-[Step 7 Setup Browser Proxy](#step-7-setup-browser-proxy)  
-[Step 8 Open Browser](#step-8-open-browser)  
-[Step 9 Click to Install Certificate](#step-9-click-to-install-certificate)  
-[Step 10 Check Console by SSH](#step-10-check-console-by-ssh)  
+[Step 8 Start mitmweb](#step-8-start-mitmweb)  
+[Step 9 Setup Browser Proxy](#step-9-setup-browser-proxy)  
+[Step 10 Open Browser](#step-10-open-browser)  
+[Step 11 Click to Install Certificate](#step-11-click-to-install-certificate)  
+[Step 12 Check Console by SSH](#step-12-check-console-by-ssh)  
 
 
 [3 mitmproxy Tips You Might Not Know About](#3-mitmproxy-tips-you-might-not-know-about)  
@@ -110,7 +112,10 @@ since this would remove the target information, leaving mitmproxy unable to dete
 ```
 ![alt tag](https://i.imgur.com/n89qp3v.jpg) 
 
-## Step 2 virtualenv for mitmproxy   
+## Step 2 require Python 3.6 above     
+![alt tag](https://i.imgur.com/LPbFiOt.jpg) 
+
+## Step 3 virtualenv for mitmproxy   
 ```
 $ virtualenv -p /usr/bin/python3 virtualenv/mitmproxy
 
@@ -120,14 +125,14 @@ $ pip list -l
 ```
 ![alt tag](https://i.imgur.com/8myCRHG.jpg) 
 
-## Step 3  pip3 install mitmproxy  
+## Step 4  pip3 install mitmproxy  
 ```
 $ pip3 install mitmproxy
 ```
 ![alt tag](https://i.imgur.com/T7q0dyB.jpg) 
 ![alt tag](https://i.imgur.com/YwKuZ9k.jpg) 
 
-## Step 4 Check .mitmproxy/  
+## Step 5 Check .mitmproxy/  
 ```
 $ls -l .mitmproxy/
 ```
@@ -141,7 +146,7 @@ mitmproxy-ca-cert.pem | The certificate in PEM format. Use this to distribute on
 mitmproxy-ca-cert.p12 | The certificate in PKCS12 format. For use on Windows.
 mitmproxy-ca-cert.cer | Same file as .pem, but with an extension expected by some Android devices.
 
-## Step 5 Check mitmproxy   
+## Step 6 Check mitmproxy   
 ```
 $ mitmproxy --version
 
@@ -152,7 +157,7 @@ Platform:  Linux-4.15.0-47-generic-x86_64-with-Ubuntu-18.04-bionic
 
 ```
 
-## Step 6 Start mitmproxy   
+## Step 7 Start mitmproxy   
 ```
 $ mitmproxy -p 8080 -v
 ```
@@ -164,7 +169,7 @@ $ mitmproxy -p 8080 -v
 ![alt tag](https://i.imgur.com/CPc7CVU.jpg) 
 
 
-## Step 6 Start mitmweb  
+## Step 8 Start mitmweb  
 ```
 $ mitmweb --web-iface 192.168.1.242
 ```
@@ -172,23 +177,23 @@ $ mitmweb --web-iface 192.168.1.242
 
 ![alt tag](https://i.imgur.com/x5HIVzB.jpg) 
 
-## Step 7 Setup Browser Proxy  
+## Step 9 Setup Browser Proxy  
 ![alt tag](https://i.imgur.com/YvWeDO1.jpg) 
 
-## Step 8 Open Browser 
+## Step 10 Open Browser 
 ```
 keyin http://--web-iface:8081  
 ```
 ![alt tag](https://i.imgur.com/k8MVErg.jpg) 
 
-## Step 9 Click to Install Certificate    
+## Step 11 Click to Install Certificate    
 ![alt tag](https://i.imgur.com/fMzZ70G.jpg) 
 
 ![alt tag](https://i.imgur.com/dlr0gu2.jpg)  
 
 ![alt tag](https://i.imgur.com/W2Df3Ps.jpg)  
 
-## Step 10 Check Console by SSH  
+## Step 12 Check Console by SSH  
 
 ![alt tag](https://i.imgur.com/9ORfTPV.jpg) 
 
