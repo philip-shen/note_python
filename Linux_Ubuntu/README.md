@@ -3,7 +3,7 @@ Take some note of Python on Ubuntu
 
 # Table of Content
 [01. ubuntu安裝python3.7，並更新python默認指向爲python3.7](#01-ubuntu%E5%AE%89%E8%A3%9Dpython37%E4%B8%A6%E6%9B%B4%E6%96%B0python%E9%BB%98%E8%AA%8D%E6%8C%87%E5%90%91%E7%88%B2python37)  
-[02. Creating a Virtual Environment for Python on Ubuntu 16.04](#02-creating-a-virtual-environment-for-python-on-ubuntu-1604)
+[02. Creating a Virtual Environment for Python on Ubuntu 16.04](#02-creating-a-virtual-environment-for-python-on-ubuntu-1604)  
 [03. Install Python 2.7](#03-install-python-27)  
 [04. Update Python 3.5 to 3.6 via terminal after installed Python3.6](#04-update-python-35-to-36-via-terminal-after-installed-python36)  
 
