@@ -11,7 +11,7 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Step 2 require Python 3.6 above](#Step-2-require-python-36-above)  
 [Step 3 virtualenv for mitmproxy](#step-3-virtualenv-for-mitmproxy)  
 [Step 4 pip3 install mitmproxy](#step-4--pip3-install-mitmproxy)  
-[Step 5 Check .mitmdump/](#step-5-check-mitmdump)  
+[Step 5 Check .mitmproxy/](#step-5-check-mitmproxy)  
 [Step 6 Check mitmproxy](#step-6-check-mitmproxy)  
 [Step 7 Start mitmproxy](#step-7-start-mitmproxy)  
 [Trouble](#trouble)  
