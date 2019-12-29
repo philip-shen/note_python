@@ -2,11 +2,11 @@
 Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 
 # Table of Content  
-[Modes of Operation in mitmproxy](#modes-of-operation-in-mitmproxy)  
+[01. Modes of Operation in mitmproxy](#01-modes-of-operation-in-mitmproxy)  
 [Regular Proxy](#regular-proxy)  
 [Transparent Proxy](#transparent-proxy)  
 
-[Install mitmporxy in Ubuntu 18.04 WSL](#install-mitmporxy-in-ubuntu-1804-wsl)  
+[02. Install mitmporxy in Ubuntu 18.04 WSL](#02-install-mitmporxy-in-ubuntu-1804-wsl)  
 [Step 1 remove original mitmproxy package](#step-1-remove-original-mitmproxy-package)  
 [Step 2 require Python 3.6 above](#Step-2-require-python-36-above)  
 [Step 3 virtualenv for mitmproxy](#step-3-virtualenv-for-mitmproxy)  
@@ -22,13 +22,13 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [Step 12 Check Console by SSH](#step-12-check-console-by-ssh)  
 
 
-[3 mitmproxy Tips You Might Not Know About](#3-mitmproxy-tips-you-might-not-know-about)  
+[03. 3 mitmproxy Tips You Might Not Know About](#03-3-mitmproxy-tips-you-might-not-know-about)  
 [Tips 1: Custom configuration and key binding](#tips-1-custom-configuration-and-key-binding)  
 [Tips 2: Knowing client connection status when a filter is applied](#tips-2-knowing-client-connection-status-when-a-filter-is-applied)  
 [Tips 3: Using mitmproxy as a mock server](#tips-3-using-mitmproxy-as-a-mock-server)  
 
 
-[使用 mitmproxy + python 做拦截代理](#%E4%BD%BF%E7%94%A8-mitmproxy--python-%E5%81%9A%E6%8B%A6%E6%88%AA%E4%BB%A3%E7%90%86)  
+[04. 使用 mitmproxy + python 做拦截代理](#04-%E4%BD%BF%E7%94%A8-mitmproxy--python-%E5%81%9A%E6%8B%A6%E6%88%AA%E4%BB%A3%E7%90%86)  
 [Script](#script)  
 [Event](#event)  
 [Example](#[example)  
@@ -52,7 +52,7 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [mitmproxy的安装及环境搭建](#mitmproxy%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)  
 [How to configure mitmproxy to intercept https?](#how-to-configure-mitmproxy-to-intercept-https)  
 
-# Modes of Operation in mitmproxy  
+# 01. Modes of Operation in mitmproxy  
 [Modes of Operation](https://docs.mitmproxy.org/stable/concepts-modes/#modes-of-operation)  
 
 * Regular (the default)  
@@ -105,7 +105,7 @@ since this would remove the target information, leaving mitmproxy unable to dete
 ```
 ![alt tag](https://docs.mitmproxy.org/stable/schematics/proxy-modes-transparent-wrong.png)  
 
-# Install mitmporxy in Ubuntu 18.04 WSL  
+# 02. Install mitmporxy in Ubuntu 18.04 WSL  
 ## Step 1 remove original mitmproxy package   
 ```
 ~$ sudo apt remove mitmproxy
@@ -198,7 +198,7 @@ keyin http://--web-iface:8081
 ![alt tag](https://i.imgur.com/9ORfTPV.jpg) 
 
 
-# 3 mitmproxy Tips You Might Not Know About  
+# 03. 3 mitmproxy Tips You Might Not Know About  
 [3 mitmproxy Tips You Might Not Know About ](https://dev.to/kevcui/3-mitmproxy-tips-you-might-not-know-about-5dbg)  
 
 ## Tips 1: Custom configuration and key binding  
@@ -256,7 +256,7 @@ The initial response is now replaced by the one in test_pass.json (terminal on t
 [some examples](https://github.com/mitmproxy/mitmproxy/tree/master/examples/simple)  
 
 
-# 使用 mitmproxy + python 做拦截代理  
+# 04. 使用 mitmproxy + python 做拦截代理  
 [使用 mitmproxy + python 做拦截代理 Jun 8, 2018](https://blog.wolfogre.com/posts/usage-of-mitmproxy/)  
 
 ## Script  
