@@ -460,6 +460,50 @@ mitmweb -s addons.py
 ```
 
 
+# 05. Install mitmporxy following mitmporxy on github  
+[Development Setup](https://github.com/mitmproxy/mitmproxy#development-setup)  
+```
+python3 --version
+python3 -m pip --help
+python3 -m venv --help
+```
+
+```
+git clone https://github.com/mitmproxy/mitmproxy.git
+cd mitmproxy
+./dev.sh  # "powershell .\dev.ps1" on Windows
+```
+![alt tag](https://i.imgur.com/VuOI541.jpg)  
+![alt tag](https://i.imgur.com/OKqrIc1.jpg)  
+
+```
+(venv) test@ubuntu:~/mitmproxy$ pip3 list -l
+```
+![alt tag](https://i.imgur.com/5Ukvyuk.jpg)  
+
+```
+. venv/bin/activate  # "venv\Scripts\activate" on Windows
+
+(venv) test@ubuntu:~/mitmproxy$ mitmdump --version
+Mitmproxy: 6.0.0.dev (+15, commit f245d24)
+Python:    3.6.10
+OpenSSL:   OpenSSL 1.1.0j  20 Nov 2018
+Platform:  Linux-4.15.0-70-generic-x86_64-with-Ubuntu-16.04-xenial
+```
+
+## Testing  
+```
+tox -e py    # runs Python tests
+tox -e lint  # checks code style
+```
+![alt tag](https://i.imgur.com/fbevUCj.jpg)  
+
+```
+cd test/mitmproxy/addons
+pytest --cov mitmproxy.addons.anticache --cov-report term-missing --looponfail test_anticache.py
+```
+
+
 # iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法  
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法 Dec 16, 2013](https://qiita.com/yimajo/items/c67cb711851f747c35e5)
 ## mitmproxyとその導入について  
