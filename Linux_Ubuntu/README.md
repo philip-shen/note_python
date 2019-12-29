@@ -2,16 +2,21 @@
 Take some note of Python on Ubuntu
 
 # Table of Content
-[ubuntu安裝python3.7，並更新python默認指向爲python3.7](#ubuntu%E5%AE%89%E8%A3%9Dpython37%E4%B8%A6%E6%9B%B4%E6%96%B0python%E9%BB%98%E8%AA%8D%E6%8C%87%E5%90%91%E7%88%B2python37)  
-[Creating a Virtual Environment for Python on Ubuntu 16.04](#creating-a-virtual-environment-for-python-on-ubuntu-1604)  
+[01. ubuntu安裝python3.7，並更新python默認指向爲python3.7](#01-ubuntu%E5%AE%89%E8%A3%9Dpython37%E4%B8%A6%E6%9B%B4%E6%96%B0python%E9%BB%98%E8%AA%8D%E6%8C%87%E5%90%91%E7%88%B2python37)  
+[02. Creating a Virtual Environment for Python on Ubuntu 16.04](#02-creating-a-virtual-environment-for-python-on-ubuntu-1604)
+[03. Install Python 2.7](#03-install-python-27)  
+[04. Update Python 3.5 to 3.6 via terminal after installed Python3.6](#04-update-python-35-to-36-via-terminal-after-installed-python36)  
+
+[Troubleshooting](#troubleshooting)  
+
+[Reference](#reference)  
 
 [Installing the Latest Python 3.7 on Ubuntu 16.04 / 18.04 Jan 13, 2019](https://websiteforstudents.com/installing-the-latest-python-3-7-on-ubuntu-16-04-18-04/)  
 [Method 1: Manually Installing Python](#method-1-manually-installing-python)  
 [Method 2: Installing Python via PPA](#method-2-installing-python-via-ppa)  
 
-[Reference](#reference)  
 
-# ubuntu安裝python3.7，並更新python默認指向爲python3.7
+# 01. ubuntu安裝python3.7，並更新python默認指向爲python3.7
 [ubuntu安裝python3.7，並更新python默認指向爲python3.7 2018-12-25](https://www.twblogs.net/a/5c2245eabd9eee16b3dafa25)  
 ## 改爲手動安裝  
 Step0: sudo apt update; sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
@@ -66,7 +71,7 @@ You should consider upgrading via the 'pip install --upgrade pip' command.
 
 ```
 
-# Creating a Virtual Environment for Python on Ubuntu 16.04  
+# 02. Creating a Virtual Environment for Python on Ubuntu 16.04  
 [Creating a Virtual Environment for Python on Ubuntu 16.04 Updated: January 11, 2019](https://www.liquidweb.com/kb/creating-virtual-environment-ubuntu-16-04/)  
 
 ## Step 1: Install Virtualenv  
@@ -129,7 +134,7 @@ wheel      0.33.4
 philshen@DESKTOP-7EDV2HB:~$
 ```
 
-# Install Python 2.7  
+# 03. Install Python 2.7  
 [How to Install Python 2.7.16 on Ubuntu & LinuxMint May 13, 2019](https://tecadmin.net/install-python-2-7-on-ubuntu-and-linuxmint/)  
 ```
 Step 1 – Prerequsiteis
@@ -158,6 +163,28 @@ You can switch between different versions using
 
 sudo update-alternatives --config python
 ```
+
+# 04. Update Python 3.5 to 3.6 via terminal after installed Python3.6  
+[Update Python 3.5 to 3.6 via terminal ](https://askubuntu.com/questions/922853/update-python-3-5-to-3-6-via-terminal)  
+```
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 1
+
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
+```
+  
+```
+sudo update-alternatives --config python3
+```
+
+```
+Then select the /usr/bin/python3.6 -- automode in choices menu, for me that was 0 row.
+```
+
+```
+$ python3 --version
+```
+![alt tag](https://i.imgur.com/M3xxACA.jpg)
+
 
 # Troubleshooting  
 * [zipimport.ZipImportError: can't decompress data; zlib not available in spark(ubuntu 16.04 LTS) [closed] Feb 26, 2018](https://askubuntu.com/questions/1009998/zipimport-zipimporterror-cant-decompress-data-zlib-not-available-in-sparkubu?rq=1)  
