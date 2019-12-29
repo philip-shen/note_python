@@ -52,6 +52,7 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 [How To: Use mitmproxy to read and modify HTTPS traffic](#how-to-use-mitmproxy-to-read-and-modify-https-traffic)  
 [mitmproxy的安装及环境搭建](#mitmproxy%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)  
 [How to configure mitmproxy to intercept https?](#how-to-configure-mitmproxy-to-intercept-https)  
+[How to Configure a Proxy Server on Windows](#how-to-configure-a-proxy-server-on-windows)  
 
 # 01. Modes of Operation in mitmproxy  
 [Modes of Operation](https://docs.mitmproxy.org/stable/concepts-modes/#modes-of-operation)  
@@ -864,6 +865,25 @@ Charles 破解原理一：文件覆盖
 * [通信系のデバッグには Charles が便利 2017-11-27](https://qiita.com/usagimaru/items/d340e87da98e62f99b60)  
 
 * [AndroidのSSL通信をCharlesで確認する方法 2017-03-23](https://qiita.com/Capotasto/items/a51a76a8670e67798861)  
+
+## How to Configure a Proxy Server on Windows  
+[How to Configure a Proxy Server on Windows July 6, 2017](https://www.howtogeek.com/tips/how-to-set-your-proxy-settings-in-windows-8.1/)  
+
+### Windows 8 and 10  
+```
+On Windows 10, you’ll find these options under Settings > Network & Internet > Proxy. 
+
+On Windows 8, the same screen is available at PC Settings > Network Proxy.
+```
+![alt tag](https://www.howtogeek.com/wp-content/uploads/2017/02/img_589cb7099e286.png)  
+
+![alt tag](https://www.howtogeek.com/wp-content/uploads/2017/02/ximg_589cc33f9c6fa.png.pagespeed.gp+jp+jw+pj+ws+js+rj+rp+rw+ri+cp+md.ic.xs81h2gqQT.png)  
+
+![alt tag](https://www.howtogeek.com/wp-content/uploads/2017/02/ximg_589cc143a0d61.png.pagespeed.gp+jp+jw+pj+ws+js+rj+rp+rw+ri+cp+md.ic.w77VW0G3fN.png)  
+
+![alt tag](https://www.howtogeek.com/wp-content/uploads/2017/02/ximg_589cc15dd143e.png.pagespeed.gp+jp+jw+pj+ws+js+rj+rp+rw+ri+cp+md.ic.FYVC4eeWVG.png)  
+
+[HTTP proxy configuration on Windows 8 | Perfect Privacy ](https://www.perfect-privacy.com/en/manuals/windows_8_httpproxy)  
 
 * []()  
 ![alt tag]()  
