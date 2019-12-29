@@ -150,11 +150,10 @@ mitmproxy-ca-cert.cer | Same file as .pem, but with an extension expected by som
 ```
 $ mitmproxy --version
 
-Mitmproxy: 4.0.4
-Python:    3.6.7
-OpenSSL:   OpenSSL 1.1.0i  14 Aug 2018
-Platform:  Linux-4.15.0-47-generic-x86_64-with-Ubuntu-18.04-bionic
-
+Mitmproxy: 5.0.1
+Python:    3.6.10
+OpenSSL:   OpenSSL 1.1.0j  20 Nov 2018
+Platform:  Linux-4.15.0-70-generic-x86_64-with-Ubuntu-16.04-xenial
 ```
 
 ## Step 7 Start mitmproxy   
