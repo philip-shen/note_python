@@ -35,6 +35,8 @@ Take some note of HTTPS Proxy, ex: mitmproxy, Charles
 
 [05. Install mitmporxy following mitmporxy on github](#05-install-mitmporxy-following-mitmporxy-on-github)  
 
+[06. mitmproxyでアプリの通信内容を確認したい]()  
+
 [iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法](#ios%E5%AE%9F%E6%A9%9F%E3%81%AEssl%E9%80%9A%E4%BF%A1%E3%82%92%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E5%82%8D%E5%8F%97%E3%81%97%E3%81%9F%E3%82%8A%E6%94%B9%E3%81%96%E3%82%93%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)  
 [MacでWifi共有で透過的にmitmproxy](#mac%E3%81%A7wifi%E5%85%B1%E6%9C%89%E3%81%A7%E9%80%8F%E9%81%8E%E7%9A%84%E3%81%ABmitmproxy)  
 [mitmproxyを使ってSSL通信の中身を確認する](#mitmproxy%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6ssl%E9%80%9A%E4%BF%A1%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%99%E3%82%8B)  
@@ -504,6 +506,26 @@ tox -e lint  # checks code style
 cd test/mitmproxy/addons
 pytest --cov mitmproxy.addons.anticache --cov-report term-missing --looponfail test_anticache.py
 ```
+
+
+# 06. mitmproxyでアプリの通信内容を確認したい  
+[【2019年12月版】mitmproxyでアプリの通信内容を確認したい Dec 22, 2019](https://qiita.com/pro_matuzaki/items/cceaead10a0a567e5bf9)  
+
+## mitmproxyのインストール  
+```
+sudo apt install python3-pip && sudo pip3 install -U pip && sudo pip3 install mitmproxy
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F221091%2Fe653cb8f-d81d-f70c-4a7d-21ef4af03a38.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=5a9b966366d8dfae9903c8c957ca08d7)  
+
+iOSの場合、これだけでは証明書が有効にならないようです。
+設定を開くとプロファイルのインストールがアラートとして出てくるので、それを選択します。
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F221091%2F03215e44-26f4-5f87-fa39-e71500390690.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=22fc2a5f213ae831463a762740a22dc3)  
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F221091%2F93e06190-adb8-1a62-7af8-7590f78f34f0.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=45721aee886e2ea1112adcf9ce8da3b8)  
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F221091%2Ffc73021f-afb1-3480-1138-6834a017a1b0.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=16807f3bfc6d0aa7f56d61523780d7f6)  
+
 
 
 # iOS実機のSSL通信をプロキシによって傍受したり改ざんする方法  
