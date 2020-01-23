@@ -2,8 +2,8 @@
 Take note of DHCP Client Test 
 
 # Table of Contents  
-[01. DHCPTest-python](#01.-dhcptest-python)  
-[02. DHCP client testing tool ](#02.-dhcp-client-testing-tool)  
+[01. DHCPTest-python](#01-dhcptest-python )  
+[02. DHCP client testing tool ](#02-dhcp-client-testing-tool)  
 
 
 # 01. DHCPTest-python  
@@ -38,7 +38,7 @@ $ python setup.py install
 [DHCP client testing tool April 23, 2013](http://www.networkers-online.com/blog/2013/04/dhcp-client-testing-tool/)  
 [ saravana815 /dhtest](https://github.com/saravana815/dhtest)  
 
-*On VMWare available*
+*On VMWare available*  
 *On WSL inavailable*
 
 ```
