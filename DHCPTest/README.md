@@ -48,6 +48,11 @@ dhtest - linux dhcp client simulation tool. It can simulate hundreds of dhcp
 ```
 
 ```
+$ git clone https://github.com/saravana815/dhtest.git
+$ cd dhtest/
+```
+
+```
 $ make
         gcc    -c -o dhtest.o dhtest.c
         gcc    -c -o functions.o functions.c
@@ -56,6 +61,10 @@ $ make
 
 ![alt tag](https://i.imgur.com/BY3munR.jpg)  
 
+```
+$sudo ./dhtest -m 00:00:11:22:33:46  -i eth0
+$sudo ./dhtest -m 00:00:11:22:33:47  -i eth0
+```
 ![alt tag](https://i.imgur.com/Zzx6czn.jpg)  
 
 # Troubleshooting
