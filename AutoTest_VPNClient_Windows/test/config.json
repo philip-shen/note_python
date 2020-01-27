@@ -1,0 +1,24 @@
+{
+    "VPN_Client_Windows":[
+        {"test_case": {
+            "id": "000",
+            "description": "wifi_testing_purpose_lan-ip_220.18.1.1"
+            },
+            "vpn_parameters":{
+                "Name":"test00",
+                "ServerAddress":"10.1.1.1",
+                "TunnelType ":"L2tp",
+                "EncryptionLevel": "Required",
+                "AuthenticationMethod": "Eap",
+                "SplitTunneling":"",
+                "AllUserConnection":"",
+                "L2tpPsk":"password",
+                "Force":"",
+                "RememberCredential":"",        
+                "PassThru":""
+            }    
+
+        }
+
+    ]
+}
