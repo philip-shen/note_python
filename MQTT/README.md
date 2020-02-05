@@ -16,7 +16,7 @@ Take note of MQTT  in Python
 
 ## Prequirement  
 1. 一台已連上網路的電腦  
-2. 已安裝 [Mosquitto MQTT Broker](#https://oranwind.org/-mqtt-zai-aws-ec2-an-zhuang-mosquitto/)  
+2. 已安裝 [Mosquitto MQTT Broker](https://oranwind.org/-mqtt-zai-aws-ec2-an-zhuang-mosquitto/)  
 3. 已安裝 [Node-RED](https://oranwind.org/-aws-zai-aws-ec2-an-zhuang-node-red/)  
 4. 已設定完成 [Node-RED 串接 Mosquitto MQTT Broker](https://oranwind.org/-mqtt-node-red-she-ding-chuan-jie-mosquitto/)  
 
