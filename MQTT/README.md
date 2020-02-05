@@ -20,6 +20,9 @@ Take note of MQTT  in Python
 3. 已安裝 [Node-RED](https://oranwind.org/-aws-zai-aws-ec2-an-zhuang-node-red/)  
 4. 已設定完成 [Node-RED 串接 Mosquitto MQTT Broker](https://oranwind.org/-mqtt-node-red-she-ding-chuan-jie-mosquitto/)  
 
+# 03. Connect to Ubidots MQTT broker with TLS Security   
+[Connect to Ubidots MQTT broker with TLS Security](https://help.ubidots.com/en/articles/1083734-connect-to-ubidots-mqtt-broker-with-tls-security)  
+
 
 # Troubleshooting
 
