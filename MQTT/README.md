@@ -57,7 +57,59 @@ $  mosquitto_pub -d -t test -m "Hello world!"
 ```
 ![alt tag](https://i.imgur.com/5oNRSP9.jpg)  
 
+## Username and Password Usage
 [Mosquitto で Username と Password を使う Feb 09, 2018](https://qiita.com/ekzemplaro/items/77bfa6274cbddd4b5624)  
+```
+$ nano password.txt
+```
+
+```
+$ cat password.txt
+steve:password
+jim:topsecret
+```
+
+2)   
+```
+$ mosquitto_passwd -U password.txt
+
+$ cat password.txt
+steve:$6$yOPU3/t8UeDjEqO1$bXo7EX9vVewHlsFuz+dsxA/DjVKA4eMmGd7K03pKwPCF5YR2+tq/NMVMALTnfPgAYrzOpuYdM5G70PEwgoXfxw==
+jim:$6$Lt6wUb8xOEfOVa7d$LjHY2t4cdx1qieAmrU/TGISuTvSiN4p2fqQRBuE432c/zJ/vPXdZiacJJHLZhm1gS2QohHLVtoQqKV7Ku2fMhA==
+```
+
+3) 
+```
+$ sudo cp ./password.txt /etc/mosquitto/
+```
+
+4) /etc/mosquitto/mosquitto.conf を編集します。  
+```
+#allow_anonymous true
+allow_anonymous false
+password_file /etc/mosquitto/password.txt
+```
+![alt tag](https://i.imgur.com/0ekbNiV.jpg)  
+
+5) mosquitto を再起動します。  
+```
+sudo systemctl restart mosquitto
+```
+![alt tag](https://i.imgur.com/RD5TM61.jpg)  
+
+```
+mosquitto_sub -d -t orz \
+        -u jim -P topsecret \
+        --topic sensors/topic_1
+```
+![alt tag](https://i.imgur.com/gXCypYG.jpg)  
+
+```
+mosquitto_pub -d -t orz -m "こんにちは Feb/09/2018 PM 13:47" \
+        -u jim -P topsecret \
+        --topic sensors/topic_1
+```
+![alt tag](https://i.imgur.com/69kWawT.png)  
 
 
 # 03. mosquitto Monitor  
