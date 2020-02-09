@@ -2,23 +2,65 @@
     "VPN_Client_Windows":[
         {"test_case": {
             "id": "000",
-            "description": "wifi_testing_purpose_lan-ip_220.18.1.1"
+            "description": "Add_L2TP_VPNClient"
             },
-            "vpn_parameters":{
-                "Name":"test00",
-                "ServerAddress":"10.1.1.1",
-                "TunnelType ":"L2tp",
-                "EncryptionLevel": "Required",
-                "AuthenticationMethod": "Eap",
-                "SplitTunneling":"",
-                "AllUserConnection":"",
-                "L2tpPsk":"password",
-                "Force":"",
-                "RememberCredential":"",        
-                "PassThru":""
+        "vpn_parameters":{
+            "Name":"test_L2TP_VPNClient",
+            "Add-VpnConnection":"",
+            "ServerAddress":"10.1.1.1",
+            "TunnelType ":"L2tp",
+            "EncryptionLevel": "Required",
+            "AuthenticationMethod": "Eap",
+            "SplitTunneling":"",
+            "AllUserConnection":"",
+            "L2tpPsk":"password",
+            "Force":"",
+            "RememberCredential":"",        
+            "PassThru":""
+            }    
+
+        },
+        {"test_case": {
+            "id": "001",
+            "description": "Add_L2TP_VPNClient"
+            },
+        "vpn_parameters":{
+            "Name":"test_L2TP_VPNClient",
+            "Add-VpnConnection":"",
+            "ServerAddress":"10.1.1.1",
+            "TunnelType ":"L2tp",
+            "EncryptionLevel": "Optional",
+            "AuthenticationMethod": "Eap",
+            "SplitTunneling":"",
+            "AllUserConnection":"",
+            "L2tpPsk":"password",
+            "Force":"",
+            "RememberCredential":"",        
+            "PassThru":""
+            }    
+
+        },
+
+        {"test_case": {
+            "id": "002",
+            "description": "Set_L2TP_VPNClient"
+            },
+        "vpn_parameters":{
+            "Name":"test_L2TP_VPNClient",
+            "Set-VpnConnection":"",
+            "ServerAddress":"10.1.1.1",
+            "TunnelType ":"L2tp",
+            "EncryptionLevel": "Optional",
+            "AuthenticationMethod": "Eap",
+            "SplitTunneling": 0,
+            "AllUserConnection": 1,
+            "L2tpPsk":"password",
+            "Force":"",
+            "RememberCredential": 1,        
+            "PassThru":""
             }    
 
         }
-
+                
     ]
 }
