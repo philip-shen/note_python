@@ -212,7 +212,7 @@ sudo apt-get install -y nodejs
 # use `sudo` on Ubuntu or run this as root on debian
 sudo apt-get install -y build-essential
 ```
-![alt tag]()  
+![alt tag](https://i.imgur.com/WGpciSU.jpg)  
 
 ## 04.02 Manaul Installation  
 1) Remove the old PPA if it exists  
