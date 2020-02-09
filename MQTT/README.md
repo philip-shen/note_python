@@ -5,6 +5,7 @@ Take note of MQTT  in Python
 [00. What's mosquitto?](#00-whats-mosquitto)  
 [01. mosquitto Installation on ubuntu](#01-mosquitto-installation-on-ubuntu)  
 [02. mosquitto Testing](#02-mosquitto-testing)  
+    [Username and Password Usage](#username-and-password-usage)
 [03. mosquitto Monitor](#03-mosquitto-monitor)  
 
 [01. Link with your Android device using MQTT](#01-link-with-your-android-device-using-mqtt)  
