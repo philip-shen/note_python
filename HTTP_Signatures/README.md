@@ -2,7 +2,7 @@
 Take note of HTTP Signatures  
 
 # Table of Contents  
-[]()  
+[HTTP Signatures](#http-signatures)  
 []()  
 []()  
 
@@ -35,7 +35,6 @@ headers - list of header fields to sign
 
 signature string - is a signed text (signed by TPP private key) of the above headers fields.
 ```
-
 
 
 # Python TW  
