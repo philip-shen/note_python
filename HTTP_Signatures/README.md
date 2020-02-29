@@ -12,10 +12,15 @@ Take note of HTTP Signatures
 
 ## A HTTP Signature consists of the following elements  
 ```
-keyId - This is the serial number of the certificate as defined in 'TPP-Signing-Certificate' header combined with the distinguished name of the issuer.
-    Note: The Berlin Group specification (v.1.3.x) does not specify the format of the distinguished name of the issuer very clearly. We therefore at this moment only validate the serial number part of the keyId.
+keyId - This is the serial number of the certificate as defined in 
+'TPP-Signing-Certificate' header combined with the distinguished name of the issuer.
+
+    Note: The Berlin Group specification (v.1.3.x) does not specify the format of 
+    the distinguished name of the issuer very clearly. We therefore at this moment 
+    only validate the serial number part of the keyId.
     
-    Example: SN=08d6d2a9d5922000,CA=CN=Moneyou Taiichi Team XCA CA, OU=Secure Digital Certificate Signing, O=Moneyou Taiichi Team, L=Schiphol-Rijk, C=NL
+    Example: SN=08d6d2a9d5922000,CA=CN=Moneyou Taiichi Team XCA CA, OU=Secure Digital Certificate Signing, 
+    O=Moneyou Taiichi Team, L=Schiphol-Rijk, C=NL
 
 algorithm - Either rsa-sha256 of rsa-sha512 (dependent on the used certificate).
 
