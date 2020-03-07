@@ -124,7 +124,7 @@ class CSVDataAnalysis:
                 msg = "zipfolder_txtcsvfiles:{}"
                 logger.info(msg.format(zipfolder_txtcsvfiles))
 
-            if re.search(re_exp_csvfile, zipfolder_txtcsvfiles):#check if csv or txt file
+            if re.search(re_exp_csvfile, zipfolder_txtcsvfiles):#check if csv file
                 self.csv_dirfolderdata = '{}\{}'.format(self.dirnamelog,zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt
 
                 if self.opt_verbose.lower() == "on":
@@ -164,8 +164,7 @@ class CSVDataAnalysis:
                             
                             #print(len(list_row), list_row)
                             #print(len(list_row), list_row[0], list_row[1])
-                            #print(zipfolder_txtcsvfiles.split("/")[1].split('.')[0])
-
+                            
                             if 'All Pairs' in list_row[1]:
                                 if self.opt_verbose.lower() == "on":
                                     #msg = "list_row[0]:{}"
@@ -175,3 +174,16 @@ class CSVDataAnalysis:
                                     
                                     msg = "Throughput Avg.(Mbps):{}, Throughput Min.(Mbps):{} ,Throughput Max.(Mbps):{}"
                                     logger.info(msg.format(list_row[9], list_row[10], list_row[11]))
+
+    def read_TXTFile(self):
+
+        re_exp_zipfolder = r'\/$'    
+        re_exp_txtfile = r'\.txt$'
+
+        for zipfolder_txtcsvfiles in self.list_zipfolder_txtcsvfiles:
+            if self.opt_verbose.lower() == "on":
+                msg = "zipfolder_txtcsvfiles:{}"
+                logger.info(msg.format(zipfolder_txtcsvfiles))
+
+            if re.search(re_exp_txtfile, zipfolder_txtcsvfiles):#check if txt file
+                self.csv_dirfolderdata = '{}\{}'.format(self.dirnamelog,zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
