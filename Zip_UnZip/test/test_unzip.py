@@ -22,8 +22,8 @@ if __name__ == "__main__":
     try:
         if(os.path.isdir(args[1])):
             ret_listOfFileNames = walk_in_dir(args[1])
-            print(ret_listOfFileNames)
-            #showFileNames_InZipFile_zip(ret_listOfFileNames)
+            #print(ret_listOfFileNames)
+            showFileNames_InZipFile_zip(ret_listOfFileNames)
 
         else:
             unzip(os.path.join(args[1]))

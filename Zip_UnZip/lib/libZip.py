@@ -13,6 +13,8 @@ def unzip(filename):
         
         list_Of_FileNames = zf.namelist()
 
+        #showFileNames_InZipFile_zip(list_Of_FileNames)
+
     #delete_zip(filename)
     return list_Of_FileNames
 
@@ -37,18 +39,21 @@ def walk_in_dir(dir_path):
     ret_listOfFileNames = []
 
     for filename in glob.glob(os.path.join(dir_path, "*.zip")):
-        #print("filename: {}".format(filename))
         listOfFileNames = []
 
         msg = "fileName:{} in directory:{}"
         logger.info(msg.format(filename, dir_path))
 
         listOfFileNames = unzip(filename=os.path.join(dir_path,filename))
-        #listOfFileNames = listOfFileNames_zip(ret_Objzip)
+        
+        #msg = "listOfFileNames:{} in walk_in_dir"
+        #logger.info(msg.format(listOfFileNames))        
 
-        showFileNames_InZipFile_zip(listOfFileNames)
-        ret_listOfFileNames = ret_listOfFileNames.append(listOfFileNames)
+        #ret_listOfFileNames = ret_listOfFileNames.extend(listOfFileNames); not available 3/7/2020
+        ret_listOfFileNames = ret_listOfFileNames + listOfFileNames
 
+        #showFileNames_InZipFile_zip(ret_listOfFileNames)
+        
     for dirname in (d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))):
         walk_in_dir(os.path.join(dir_path, dirname))
     
