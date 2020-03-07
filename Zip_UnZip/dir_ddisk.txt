@@ -1,0 +1,21 @@
+ 磁碟區 D 中的磁碟是 DATA
+ 磁碟區序號:  6858-F1C2
+
+ D:\ 的目錄
+
+2020/02/15  下午 02:10    <DIR>          BACKUP
+2020/03/03  下午 12:34    <DIR>          ChamberWirelessPerformanceTest
+2020/03/07  上午 12:25    <DIR>          DHCPNATThroughputTest
+2020/03/07  上午 10:40                 0 dir_ddisk.txt
+2019/12/06  上午 09:10    <DIR>          Driver
+2019/09/18  下午 01:30    <DIR>          image
+2020/02/28  下午 11:51    <DIR>          L2TPNATThroughputTest
+2020/02/06  下午 09:06                50 NAT_record.txt
+2020/02/29  上午 12:06    <DIR>          PPPOENATThroughputTest
+2020/02/29  上午 12:33    <DIR>          PPTPNATThroughputTest
+2020/02/13  下午 07:59    <DIR>          RP
+2020/03/07  上午 12:27    <DIR>          STATICIPNATThroughputTest
+2020/02/28  下午 11:49    <DIR>          temp
+2020/03/03  上午 11:46    <DIR>          Tools
+               2 個檔案              50 位元組
+              12 個目錄  382,519,775,232 位元組可用

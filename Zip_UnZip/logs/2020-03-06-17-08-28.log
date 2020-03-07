@@ -1,0 +1,18 @@
+2020-03-06 17:08:28,341 - libZip.py[line:44] - <MainThread 4704>- <Process 5504> - INFO: fileName:..\log\PPPoE_DIR1950_v1.01b08_AC88.zip in directory:..\log
+2020-03-06 17:08:28,552 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/
+2020-03-06 17:08:28,553 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/chariotlog.txt
+2020-03-06 17:08:28,555 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/Client1-W3_Bidirectional_result_1st.csv
+2020-03-06 17:08:28,556 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/Client1-W3_Bidirectional_result_1st.tst
+2020-03-06 17:08:28,558 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/Client1-W3_Rx_result_1st.csv
+2020-03-06 17:08:28,558 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/Client1-W3_Rx_result_1st.tst
+2020-03-06 17:08:28,559 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/Client1-W3_Tx_result_1st.csv
+2020-03-06 17:08:28,560 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061318/Client1-W3_Tx_result_1st.tst
+2020-03-06 17:08:28,561 - libZip.py[line:44] - <MainThread 4704>- <Process 5504> - INFO: fileName:..\log\PPPoE_DIR1950_v1.01b08_AC8260.zip in directory:..\log
+2020-03-06 17:08:28,743 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/
+2020-03-06 17:08:28,744 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/chariotlog.txt
+2020-03-06 17:08:28,744 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/Client3-W3_Bidirectional_result_1st.csv
+2020-03-06 17:08:28,745 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/Client3-W3_Bidirectional_result_1st.tst
+2020-03-06 17:08:28,745 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/Client3-W3_Rx_result_1st.csv
+2020-03-06 17:08:28,746 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/Client3-W3_Rx_result_1st.tst
+2020-03-06 17:08:28,746 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/Client3-W3_Tx_result_1st.csv
+2020-03-06 17:08:28,746 - libZip.py[line:30] - <MainThread 4704>- <Process 5504> - INFO: fileName of listOfFileNames: 202003061334/Client3-W3_Tx_result_1st.tst
