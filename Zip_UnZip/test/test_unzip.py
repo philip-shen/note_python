@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import os,sys
-import time
+import os,sys,time
 
 strabspath=os.path.abspath(__file__)
 strdirname=os.path.dirname(strabspath)
@@ -13,6 +12,7 @@ sys.path.append(dirnamelib)
 from logger import logger
 from libZip import *
 from readConfig import *
+import csvdataAnalysis as csvdata_analysis
 
 
 if __name__ == "__main__":
@@ -21,10 +21,23 @@ if __name__ == "__main__":
     args = sys.argv
     try:
         if(os.path.isdir(args[1])):
-            ret_listOfFileNames = walk_in_dir(args[1])
-            #print(ret_listOfFileNames)
-            showFileNames_InZipFile_zip(ret_listOfFileNames)
+            ret_list_ZipFolder_TxtCsvFiles, ret_list_ZipFolderFileNames = walk_in_dir(args[1])
+            
+            #showFileNames_InZipFile_zip(ret_list_ZipFolderFileNames)
+            #showFileNames_InZipFile_zip(ret_list_ZipFolder_TxtCsvFiles)
+            
+            opt_verbose='ON'
+            #local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
+            #                                            ret_list_ZipFolder_TxtCsvFiles,\
+            #                                            opt_verbose)
+            
 
+            local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
+                                                        ret_list_ZipFolder_TxtCsvFiles,\
+                                                        opt_verbose)
+            
+            local_csvdata_analysis.read_CSVFile()     
+            
         else:
             unzip(os.path.join(args[1]))
             name, _ = os.path.splitext(args[1])

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
-import sys
+import os,sys
+import re
 import zipfile
 import glob
 from logger import logger
@@ -37,6 +37,7 @@ def delete_zip(zip_file):
 
 def walk_in_dir(dir_path):
     ret_listOfFileNames = []
+    ret_list_ZipFolder_TxtCsvFiles =[]
 
     for filename in glob.glob(os.path.join(dir_path, "*.zip")):
         listOfFileNames = []
@@ -49,12 +50,64 @@ def walk_in_dir(dir_path):
         #msg = "listOfFileNames:{} in walk_in_dir"
         #logger.info(msg.format(listOfFileNames))        
 
-        #ret_listOfFileNames = ret_listOfFileNames.extend(listOfFileNames); not available 3/7/2020
-        ret_listOfFileNames = ret_listOfFileNames + listOfFileNames
+        ret_listOfFileNames.append(listOfFileNames)
+
+        list_ZipFolder_TxtCsvFiles = get_ZipFolder_TxtCsvFiles(listOfFileNames)
+        #ret_list_ZipFolder_TxtCsvFiles.append(list_ZipFolder_TxtCsvFiles)
+        ret_list_ZipFolder_TxtCsvFiles += list_ZipFolder_TxtCsvFiles
 
         #showFileNames_InZipFile_zip(ret_listOfFileNames)
         
     for dirname in (d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))):
         walk_in_dir(os.path.join(dir_path, dirname))
     
-    return ret_listOfFileNames
+    return ret_list_ZipFolder_TxtCsvFiles,ret_listOfFileNames
+
+# Contend of ret_list_ZipFolderFileNames
+'''
+202003051550/
+202003051550/chariotlog.txt
+202003051550/P0-Client1_Bidirectional_result_1st.csv
+202003051550/P0-Client1_Bidirectional_result_1st.tst
+202003051550/P0-Client1_Rx_result_1st.csv
+202003051550/P0-Client1_Rx_result_1st.tst
+202003051550/P0-Client1_Tx_result_1st.csv
+202003051550/P0-Client1_Tx_result_1st.tst    
+'''
+def parse_ZipFolder_TxtCsvFiles(re_pattern,list_ZipFolderFileNames):
+    ret_list = []
+    
+    #msg = "list_ZipFolderFileNames:{} in parse_ZipFolder_TxtCsvFiles"
+    #logger.info(msg.format(list_ZipFolderFileNames))
+
+    for zipfolderfilename in list_ZipFolderFileNames:
+        if re.search(re_pattern, zipfolderfilename):
+            ret_list.append(zipfolderfilename)
+            
+    #msg = "ret_list:{} in parse_ZipFolder_TxtCsvFiles"
+    #logger.info(msg.format(ret_list))
+
+    return ret_list
+
+# Get below contens
+'''
+202003051550/
+202003051550/chariotlog.txt
+202003051550/P0-Client1_Bidirectional_result_1st.csv
+202003051550/P0-Client1_Rx_result_1st.csv
+202003051550/P0-Client1_Tx_result_1st.csv
+'''
+def get_ZipFolder_TxtCsvFiles(list_ZipFolderFileNames):
+    # filter by regular expression 
+    re_exp_zipfolder = r'\/$'
+    re_exp_txtfile = r'\.txt$'
+    re_exp_csvfile = r'\.csv$'
+
+    list_zipfolder = parse_ZipFolder_TxtCsvFiles(re_exp_zipfolder, list_ZipFolderFileNames)
+    list_txtfiles = parse_ZipFolder_TxtCsvFiles(re_exp_txtfile, list_ZipFolderFileNames)
+    list_csvfiles = parse_ZipFolder_TxtCsvFiles(re_exp_csvfile, list_ZipFolderFileNames)
+    
+    #re_list_zipfolder_txtfiles_csvfiles = list_txtfiles + list_csvfiles
+    re_list_zipfolder_txtfiles_csvfiles = list_zipfolder + list_txtfiles + list_csvfiles
+
+    return re_list_zipfolder_txtfiles_csvfiles
