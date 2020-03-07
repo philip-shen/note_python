@@ -131,12 +131,20 @@ class CSVDataAnalysis:
                     msg = "csv_dirfolderdata:{}"
                     logger.info(msg.format(self.csv_dirfolderdata))
 
-                with open(self.csv_dirfolderdata,'r') as csvfile:
-                    rows = csv.reader(csvfile)
+                with open(self.csv_dirfolderdata) as csvfile:
+                    #rows = csv.reader(csvfile)
+                    # Read CSV file line-by-line python
+                    # https://stackoverflow.com/questions/52937859/read-csv-file-line-by-line-python
+                    rows = csvfile.readlines()
+                    #print(len(rows)) 
+
                     for row in rows:
-                        # Does Python have a string 'contains' substring method?
-                        # https://stackoverflow.com/questions/3437059/does-python-have-a-string-contains-substring-method
-                        '''
+                        if ',' in row:# check rows if inculde ','
+                            list_row = row.split(',')
+                            #for row in rows:
+                            # Does Python have a string 'contains' substring method?
+                            # https://stackoverflow.com/questions/3437059/does-python-have-a-string-contains-substring-method
+                            '''
                             ['D:\\ChamberWirelessPerformanceTest\\TestResultTemp\\202003061038\\P0-Client5_Rx_result_1st.tst', 
                             'All Pairs',
                             '500.000000     ',
@@ -152,19 +160,18 @@ class CSVDataAnalysis:
                             '     0.849', '     3.481', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                             '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
                             '', '', '', '', '', '', '', '', '', '']
-                        '''
-                        #for content_row in row:
-                        print(row[0], row[1])    
-                        if (zipfolder_txtcsvfiles.split("/")[1].split('.')[0] in row[0]) and \
-                           ('All Pairs' in row[1]):
+                            '''
+                            
+                            #print(len(list_row), list_row)
+                            #print(len(list_row), list_row[0], list_row[1])
+                            #print(zipfolder_txtcsvfiles.split("/")[1].split('.')[0])
 
-                            if self.opt_verbose.lower() == "on":
-                                msg = "content of row:{}"
-                                logger.info(msg.format(row))
-                                #msg = "Type content of row:{}"
-                                #logger.info(msg.format(row))
-
-                                    #list_content_row = content_row.split(',')
-
-                                    #msg = "Throughput Avg.(Mbps):{}, Throughput Min.(Mbps):{} ,Throughput Max.(Mbps):{}"
-                                    #logger.info(msg.format(list_content_row[9], list_content_row[10], list_content_row[11]))
+                            if 'All Pairs' in list_row[1]:
+                                if self.opt_verbose.lower() == "on":
+                                    #msg = "list_row[0]:{}"
+                                    #logger.info(msg.format(list_row[0]))
+                                    #msg = "list_row[1]:{}"
+                                    #logger.info(msg.format(list_row[1]))
+                                    
+                                    msg = "Throughput Avg.(Mbps):{}, Throughput Min.(Mbps):{} ,Throughput Max.(Mbps):{}"
+                                    logger.info(msg.format(list_row[9], list_row[10], list_row[11]))
