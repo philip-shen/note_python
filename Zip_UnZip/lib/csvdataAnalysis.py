@@ -107,73 +107,177 @@ class PandasDataAnalysis:
 
 class CSVDataAnalysis:
     def __init__(self,dirnamelog,list_ZipFolder_TxtCsvFiles,opt_verbose='OFF'):
-        #FOLDER = csv_dirfolder
-        #self.csv_dirfolderdata = '{}/{}.csv'.format(dirnamelog,csv_dirfolder)
+        
         self.dirnamelog = dirnamelog
         self.list_zipfolder_txtcsvfiles = list_ZipFolder_TxtCsvFiles
         self.opt_verbose = opt_verbose
+    
+    def parse_CSVFile(self):
+        self.csv_dirfolderdata = '{}\{}'.format(self.dirnamelog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt
+        list_csv_foldername_filename_thruput = []
+
+        if self.opt_verbose.lower() == "on":
+            msg = "csv_dirfolderdata:{}"
+            logger.info(msg.format(self.csv_dirfolderdata))
+
+        with open(self.csv_dirfolderdata) as csvfile:
+            #rows = csv.reader(csvfile)
+            # Read CSV file line-by-line python
+            # https://stackoverflow.com/questions/52937859/read-csv-file-line-by-line-python
+            rows = csvfile.readlines()
+            #print(len(rows)) 
+
+            # To Speed Up Search Cause line of Throughput in bottom
+            # Traverse a list in reverse order in Python
+            # https://stackoverflow.com/questions/529424/traverse-a-list-in-reverse-order-in-python
+            for row in reversed(rows):
+
+                if ',' in row:# check rows if inculde ','
+                    list_row = row.split(',')
+                    #for row in rows:
+                    # Does Python have a string 'contains' substring method?
+                    # https://stackoverflow.com/questions/3437059/does-python-have-a-string-contains-substring-method
+                    '''
+                        ['D:\\ChamberWirelessPerformanceTest\\TestResultTemp\\202003061038\\P0-Client5_Rx_result_1st.tst', 
+                        'All Pairs',
+                        '500.000000     ',
+                        '500.000000     ',
+                        '5000000000.000000',
+                        '0.000000       ',
+                        '',
+                        '', 
+                        '',
+                        '353.273',
+                        '22.982',
+                        '94.229', '     4.435', '     0.287', '     1.178', '     1.358', 
+                        '     0.849', '     3.481', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
+                        '', '', '', '', '', '', '', '', '', '']
+                    '''
+                            
+                    if 'All Pairs' in list_row[1]:
+                        csv_foldername  = self.zipfolder_txtcsvfiles.split("/")[0]
+                        csv_filename = self.zipfolder_txtcsvfiles.split("/")[1]
+                        thruput_avg = list_row[9]
+                        thruput_min = list_row[10]
+                        thruput_max = list_row[11]
+
+                        if self.opt_verbose.lower() == "on":
+                            #msg = "list_row[0]:{}"
+                            #logger.info(msg.format(list_row[0]))
+                            #msg = "list_row[1]:{}"
+                            #logger.info(msg.format(list_row[1]))                                    
+
+                            msg = "CSV_FolderName:{}, CSV_FileName:{}"
+                            logger.info(msg.format(csv_foldername, csv_filename))
+                            msg = "Throughput Avg.(Mbps):{}, Throughput Min.(Mbps):{} ,Throughput Max.(Mbps):{}"
+                            logger.info(msg.format(thruput_avg, thruput_min, thruput_max))
+
+                        list_csv_foldername_filename_thruput.append(csv_foldername)
+                        list_csv_foldername_filename_thruput.append(csv_filename)
+                        list_csv_foldername_filename_thruput.append(thruput_avg)
+                        list_csv_foldername_filename_thruput.append(thruput_min)
+                        list_csv_foldername_filename_thruput.append(thruput_max)        
+
+        return list_csv_foldername_filename_thruput
 
     def read_CSVFile(self):
 
         re_exp_zipfolder = r'\/$'    
         re_exp_txtfile = r'\.txt$'
-        re_exp_csvfile = r'\.csv$'
+        #re_exp_csvfile = r'\.csv$'
+        re_exp_csvfile = r'\_[0-9][a-z][a-z].csv$';#_1st.csv, _2nd.csv, _3rd.csv
+
+        ret_list_csv_foldername_filename_thruput = []
+        append_list_csv_foldername_filename_thruput = []
 
         for zipfolder_txtcsvfiles in self.list_zipfolder_txtcsvfiles:
+            self.zipfolder_txtcsvfiles = zipfolder_txtcsvfiles
+
             if self.opt_verbose.lower() == "on":
                 msg = "zipfolder_txtcsvfiles:{}"
                 logger.info(msg.format(zipfolder_txtcsvfiles))
 
             if re.search(re_exp_csvfile, zipfolder_txtcsvfiles):#check if csv file
-                self.csv_dirfolderdata = '{}\{}'.format(self.dirnamelog,zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt
+                ret_list_csv_foldername_filename_thruput = self.parse_CSVFile()
 
+                append_list_csv_foldername_filename_thruput.append(ret_list_csv_foldername_filename_thruput)
+
+        
+        self.append_list_csv_foldername_filename_thruput = \
+            append_list_csv_foldername_filename_thruput;#asign class variable
+    
+    def parse_targetkey_TXTFile(self, list_row):
+        list_target_key=['Test Method', 'Case Number', 'Model',
+                        'HW','FW', 'Wireless Mode',
+                        'Frequency','Channel','Country Code',
+                        'Encryption', 'Antenna Degree', 'Test Vendor',
+                        'Test Client']
+
+        for target_key in list_target_key:
+            # String comparison in Python: is vs. ==
+            # https://stackoverflow.com/questions/2988017/string-comparison-in-python-is-vs
+            '''
+            a = 19998989890
+            b = 19998989889 +1
+            >>> a is b
+            False
+            >>> a == b
+            True
+
+            is compares two objects in memory, 
+            == compares their values. For example, you can see that small integers are cached by Python:
+            c = 1
+            b = 1
+            >>> b is c
+            True
+            ''' 
+            #if self.opt_verbose.lower() == "on":
+            #    msg = "target_key:{}; row:{}"
+            #    logger.info(msg.format(target_key, list_row))
+
+            if target_key == list_row[0]:
                 if self.opt_verbose.lower() == "on":
-                    msg = "csv_dirfolderdata:{}"
-                    logger.info(msg.format(self.csv_dirfolderdata))
+                    msg = "target_key:{}; value:{}"
+                    logger.info(msg.format(target_key, list_row[0]))
 
-                with open(self.csv_dirfolderdata) as csvfile:
-                    #rows = csv.reader(csvfile)
-                    # Read CSV file line-by-line python
-                    # https://stackoverflow.com/questions/52937859/read-csv-file-line-by-line-python
-                    rows = csvfile.readlines()
-                    #print(len(rows)) 
+                return True        
 
-                    for row in rows:
-                        if ',' in row:# check rows if inculde ','
-                            list_row = row.split(',')
-                            #for row in rows:
-                            # Does Python have a string 'contains' substring method?
-                            # https://stackoverflow.com/questions/3437059/does-python-have-a-string-contains-substring-method
-                            '''
-                            ['D:\\ChamberWirelessPerformanceTest\\TestResultTemp\\202003061038\\P0-Client5_Rx_result_1st.tst', 
-                            'All Pairs',
-                            '500.000000     ',
-                            '500.000000     ',
-                            '5000000000.000000',
-                            '0.000000       ',
-                            '',
-                            '', 
-                            '',
-                            '353.273',
-                            '22.982',
-                            '94.229', '     4.435', '     0.287', '     1.178', '     1.358', 
-                            '     0.849', '     3.481', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                            '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
-                            '', '', '', '', '', '', '', '', '', '']
-                            '''
-                            
-                            #print(len(list_row), list_row)
-                            #print(len(list_row), list_row[0], list_row[1])
-                            
-                            if 'All Pairs' in list_row[1]:
-                                if self.opt_verbose.lower() == "on":
-                                    #msg = "list_row[0]:{}"
-                                    #logger.info(msg.format(list_row[0]))
-                                    #msg = "list_row[1]:{}"
-                                    #logger.info(msg.format(list_row[1]))
-                                    
-                                    msg = "Throughput Avg.(Mbps):{}, Throughput Min.(Mbps):{} ,Throughput Max.(Mbps):{}"
-                                    logger.info(msg.format(list_row[9], list_row[10], list_row[11]))
+    def parse_TXTFile(self):
+        self.txt_dirfolderdata = '{}\{}'.format(self.dirnamelog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
+        list_txt_foldername_filename_title = []
+
+        if self.opt_verbose.lower() == "on":
+            msg = "txt_dirfolderdata:{}"
+            logger.info(msg.format(self.txt_dirfolderdata))
+        '''
+        Test Method: PPPOENAT 
+        Case Number: 30010061 
+        Model: DIR-1950 
+        HW: A1 
+        FW: v1.01b08 
+        Wireless Mode: 802.11AC 
+        Frequency: 5 
+        Channel: 149 
+        Country Code: CA 
+        Encryption: YES 
+        Antenna Degree: 90 
+        Test Vendor: Cameo 
+        Test Client: Client1 
+        '''        
+
+        with open(self.txt_dirfolderdata) as txtfile:
+            rows = txtfile.readlines()
+
+            for row in rows:
+                if ':' in row:# check rows if inculde ':'
+                    list_row = row.split(':');# change to list
+                    if self.parse_targetkey_TXTFile(list_row):
+                                                
+                        if self.opt_verbose.lower() == "on":
+                            msg = "list_row[0]:{}; list_row[1]:{}"
+                            logger.info(msg.format(list_row[0], list_row[1]))
+
 
     def read_TXTFile(self):
 
@@ -181,9 +285,12 @@ class CSVDataAnalysis:
         re_exp_txtfile = r'\.txt$'
 
         for zipfolder_txtcsvfiles in self.list_zipfolder_txtcsvfiles:
+            self.zipfolder_txtcsvfiles = zipfolder_txtcsvfiles
+
             if self.opt_verbose.lower() == "on":
                 msg = "zipfolder_txtcsvfiles:{}"
                 logger.info(msg.format(zipfolder_txtcsvfiles))
 
             if re.search(re_exp_txtfile, zipfolder_txtcsvfiles):#check if txt file
-                self.csv_dirfolderdata = '{}\{}'.format(self.dirnamelog,zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
+                self.parse_TXTFile()
+                

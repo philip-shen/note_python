@@ -27,6 +27,7 @@ if __name__ == "__main__":
             #showFileNames_InZipFile_zip(ret_list_ZipFolder_TxtCsvFiles)
             
             opt_verbose='ON'
+            # Panada can't parse csv file
             #local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
             #                                            ret_list_ZipFolder_TxtCsvFiles,\
             #                                            opt_verbose)
@@ -35,9 +36,11 @@ if __name__ == "__main__":
             local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
                                                         ret_list_ZipFolder_TxtCsvFiles,\
                                                         opt_verbose)
+            local_csvdata_analysis.read_CSVFile()
+            #showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_csv_foldername_filename_thruput)
             
-            local_csvdata_analysis.read_CSVFile()     
-            
+            local_csvdata_analysis.read_TXTFile()
+
         else:
             unzip(os.path.join(args[1]))
             name, _ = os.path.splitext(args[1])

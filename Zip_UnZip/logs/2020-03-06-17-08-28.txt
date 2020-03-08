@@ -1,0 +1,241 @@
+2020-03-08 11:25:47,259 - libZip.py[line:46] - <MainThread 7348>- <Process 448> - INFO: fileName:..\logs\2-4G_DIR-1950_v1.01b08_AC88.zip in directory:..\logs
+2020-03-08 11:25:50,619 - libZip.py[line:46] - <MainThread 7348>- <Process 448> - INFO: fileName:..\logs\PPPoE_DIR1950_v1.01b08_AC88.zip in directory:..\logs
+2020-03-08 11:25:50,908 - libZip.py[line:46] - <MainThread 7348>- <Process 448> - INFO: fileName:..\logs\PPTP_DIR-1950_1.01b08_DWA192.zip in directory:..\logs
+2020-03-08 11:25:51,132 - libZip.py[line:46] - <MainThread 7348>- <Process 448> - INFO: fileName:..\logs\5G_DIR-1950_v1.01b08_AX200.zip in directory:..\logs
+2020-03-08 11:25:51,575 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/
+2020-03-08 11:25:51,589 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/chariotlog.txt
+2020-03-08 11:25:51,590 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/P0-Client1_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,591 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003051550/P0-Client1_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,594 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003051550, CSV_FileName:P0-Client1_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,604 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):449.099, Throughput Min.(Mbps):10.312 ,Throughput Max.(Mbps):56.980
+2020-03-08 11:25:51,606 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/P0-Client1_Rx_result_1st.csv
+2020-03-08 11:25:51,607 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003051550/P0-Client1_Rx_result_1st.csv
+2020-03-08 11:25:51,619 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003051550, CSV_FileName:P0-Client1_Rx_result_1st.csv
+2020-03-08 11:25:51,620 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):381.316, Throughput Min.(Mbps):21.587 ,Throughput Max.(Mbps):144.665
+2020-03-08 11:25:51,622 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/P0-Client1_Tx_result_1st.csv
+2020-03-08 11:25:51,623 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003051550/P0-Client1_Tx_result_1st.csv
+2020-03-08 11:25:51,637 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003051550, CSV_FileName:P0-Client1_Tx_result_1st.csv
+2020-03-08 11:25:51,639 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):423.196, Throughput Min.(Mbps):25.039 ,Throughput Max.(Mbps):81.549
+2020-03-08 11:25:51,641 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/
+2020-03-08 11:25:51,642 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/chariotlog.txt
+2020-03-08 11:25:51,643 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/Client1-W3_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,644 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061318/Client1-W3_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,660 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061318, CSV_FileName:Client1-W3_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,660 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):768.009, Throughput Min.(Mbps):38.186 ,Throughput Max.(Mbps):225.352
+2020-03-08 11:25:51,663 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/Client1-W3_Rx_result_1st.csv
+2020-03-08 11:25:51,664 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061318/Client1-W3_Rx_result_1st.csv
+2020-03-08 11:25:51,689 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061318, CSV_FileName:Client1-W3_Rx_result_1st.csv
+2020-03-08 11:25:51,690 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):693.564, Throughput Min.(Mbps):64.882 ,Throughput Max.(Mbps):124.611
+2020-03-08 11:25:51,694 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/Client1-W3_Tx_result_1st.csv
+2020-03-08 11:25:51,695 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061318/Client1-W3_Tx_result_1st.csv
+2020-03-08 11:25:51,704 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061318, CSV_FileName:Client1-W3_Tx_result_1st.csv
+2020-03-08 11:25:51,712 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):647.856, Throughput Min.(Mbps):39.101 ,Throughput Max.(Mbps):160.643
+2020-03-08 11:25:51,714 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/
+2020-03-08 11:25:51,715 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/chariotlog.txt
+2020-03-08 11:25:51,716 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/Client2-W4_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,718 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061104/Client2-W4_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,725 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061104, CSV_FileName:Client2-W4_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,732 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):191.118, Throughput Min.(Mbps):12.186 ,Throughput Max.(Mbps):86.300
+2020-03-08 11:25:51,735 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/Client2-W4_Rx_result_1st.csv
+2020-03-08 11:25:51,737 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061104/Client2-W4_Rx_result_1st.csv
+2020-03-08 11:25:51,762 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061104, CSV_FileName:Client2-W4_Rx_result_1st.csv
+2020-03-08 11:25:51,768 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):195.296, Throughput Min.(Mbps):16.185 ,Throughput Max.(Mbps):92.272
+2020-03-08 11:25:51,774 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/Client2-W4_Tx_result_1st.csv
+2020-03-08 11:25:51,776 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061104/Client2-W4_Tx_result_1st.csv
+2020-03-08 11:25:51,790 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061104, CSV_FileName:Client2-W4_Tx_result_1st.csv
+2020-03-08 11:25:51,791 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):155.531, Throughput Min.(Mbps):22.008 ,Throughput Max.(Mbps):39.428
+2020-03-08 11:25:51,793 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/
+2020-03-08 11:25:51,794 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/chariotlog.txt
+2020-03-08 11:25:51,795 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/P0-Client5_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,796 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061038/P0-Client5_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,808 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061038, CSV_FileName:P0-Client5_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,812 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):485.259, Throughput Min.(Mbps):11.551 ,Throughput Max.(Mbps):50.601
+2020-03-08 11:25:51,814 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/P0-Client5_Rx_result_1st.csv
+2020-03-08 11:25:51,815 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061038/P0-Client5_Rx_result_1st.csv
+2020-03-08 11:25:51,825 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061038, CSV_FileName:P0-Client5_Rx_result_1st.csv
+2020-03-08 11:25:51,836 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):353.273, Throughput Min.(Mbps):22.982 ,Throughput Max.(Mbps):94.229
+2020-03-08 11:25:51,839 - csvdataAnalysis.py[line:199] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/P0-Client5_Tx_result_1st.csv
+2020-03-08 11:25:51,840 - csvdataAnalysis.py[line:121] - <MainThread 7348>- <Process 448> - INFO: csv_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061038/P0-Client5_Tx_result_1st.csv
+2020-03-08 11:25:51,843 - csvdataAnalysis.py[line:172] - <MainThread 7348>- <Process 448> - INFO: CSV_FolderName:202003061038, CSV_FileName:P0-Client5_Tx_result_1st.csv
+2020-03-08 11:25:51,854 - csvdataAnalysis.py[line:174] - <MainThread 7348>- <Process 448> - INFO: Throughput Avg.(Mbps):646.509, Throughput Min.(Mbps):64.830 ,Throughput Max.(Mbps):231.214
+2020-03-08 11:25:51,857 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/
+2020-03-08 11:25:51,857 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/chariotlog.txt
+2020-03-08 11:25:51,859 - csvdataAnalysis.py[line:252] - <MainThread 7348>- <Process 448> - INFO: txt_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003051550/chariotlog.txt
+2020-03-08 11:25:51,862 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Method; value:Test Method
+2020-03-08 11:25:51,863 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Method; list_row[1]: Chamber 1 
+
+2020-03-08 11:25:51,864 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Case Number; value:Case Number
+2020-03-08 11:25:51,865 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Case Number; list_row[1]: 30010061 
+
+2020-03-08 11:25:51,866 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Model; value:Model
+2020-03-08 11:25:51,867 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Model; list_row[1]: DIR-1950 
+
+2020-03-08 11:25:51,868 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:HW; value:HW
+2020-03-08 11:25:51,868 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:HW; list_row[1]: A1 
+
+2020-03-08 11:25:51,870 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:FW; value:FW
+2020-03-08 11:25:51,872 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:FW; list_row[1]: v1.01b08 
+
+2020-03-08 11:25:51,873 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Wireless Mode; value:Wireless Mode
+2020-03-08 11:25:51,875 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Wireless Mode; list_row[1]: 802.11N 
+
+2020-03-08 11:25:51,876 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Frequency; value:Frequency
+2020-03-08 11:25:51,877 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Frequency; list_row[1]: 2.4 
+
+2020-03-08 11:25:51,878 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Channel; value:Channel
+2020-03-08 11:25:51,878 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Channel; list_row[1]: 6 
+
+2020-03-08 11:25:51,879 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Country Code; value:Country Code
+2020-03-08 11:25:51,881 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Country Code; list_row[1]: CA 
+
+2020-03-08 11:25:51,882 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Encryption; value:Encryption
+2020-03-08 11:25:51,883 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Encryption; list_row[1]: YES 
+
+2020-03-08 11:25:51,884 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Antenna Degree; value:Antenna Degree
+2020-03-08 11:25:51,885 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Antenna Degree; list_row[1]: 90 
+
+2020-03-08 11:25:51,888 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Vendor; value:Test Vendor
+2020-03-08 11:25:51,890 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Vendor; list_row[1]: Cameo 
+
+2020-03-08 11:25:51,891 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Client; value:Test Client
+2020-03-08 11:25:51,892 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Client; list_row[1]: Client1 
+
+2020-03-08 11:25:51,895 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/P0-Client1_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,896 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/P0-Client1_Rx_result_1st.csv
+2020-03-08 11:25:51,897 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003051550/P0-Client1_Tx_result_1st.csv
+2020-03-08 11:25:51,899 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/
+2020-03-08 11:25:51,900 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/chariotlog.txt
+2020-03-08 11:25:51,901 - csvdataAnalysis.py[line:252] - <MainThread 7348>- <Process 448> - INFO: txt_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061318/chariotlog.txt
+2020-03-08 11:25:51,903 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Method; value:Test Method
+2020-03-08 11:25:51,908 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Method; list_row[1]: PPPOENAT 
+
+2020-03-08 11:25:51,910 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Case Number; value:Case Number
+2020-03-08 11:25:51,912 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Case Number; list_row[1]: 30010061 
+
+2020-03-08 11:25:51,913 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Model; value:Model
+2020-03-08 11:25:51,914 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Model; list_row[1]: DIR-1950 
+
+2020-03-08 11:25:51,916 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:HW; value:HW
+2020-03-08 11:25:51,918 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:HW; list_row[1]: A1 
+
+2020-03-08 11:25:51,919 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:FW; value:FW
+2020-03-08 11:25:51,920 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:FW; list_row[1]: v1.01b08 
+
+2020-03-08 11:25:51,922 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Wireless Mode; value:Wireless Mode
+2020-03-08 11:25:51,923 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Wireless Mode; list_row[1]: 802.11AC 
+
+2020-03-08 11:25:51,925 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Frequency; value:Frequency
+2020-03-08 11:25:51,926 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Frequency; list_row[1]: 5 
+
+2020-03-08 11:25:51,927 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Channel; value:Channel
+2020-03-08 11:25:51,928 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Channel; list_row[1]: 149 
+
+2020-03-08 11:25:51,929 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Country Code; value:Country Code
+2020-03-08 11:25:51,930 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Country Code; list_row[1]: CA 
+
+2020-03-08 11:25:51,932 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Encryption; value:Encryption
+2020-03-08 11:25:51,933 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Encryption; list_row[1]: YES 
+
+2020-03-08 11:25:51,935 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Antenna Degree; value:Antenna Degree
+2020-03-08 11:25:51,936 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Antenna Degree; list_row[1]: 90 
+
+2020-03-08 11:25:51,939 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Vendor; value:Test Vendor
+2020-03-08 11:25:51,940 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Vendor; list_row[1]: Cameo 
+
+2020-03-08 11:25:51,942 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Client; value:Test Client
+2020-03-08 11:25:51,943 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Client; list_row[1]: Client1 
+
+2020-03-08 11:25:51,945 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/Client1-W3_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,947 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/Client1-W3_Rx_result_1st.csv
+2020-03-08 11:25:51,948 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061318/Client1-W3_Tx_result_1st.csv
+2020-03-08 11:25:51,949 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/
+2020-03-08 11:25:51,950 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/chariotlog.txt
+2020-03-08 11:25:51,951 - csvdataAnalysis.py[line:252] - <MainThread 7348>- <Process 448> - INFO: txt_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061104/chariotlog.txt
+2020-03-08 11:25:51,954 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Method; value:Test Method
+2020-03-08 11:25:51,955 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Method; list_row[1]: PPTPNAT 
+
+2020-03-08 11:25:51,957 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Case Number; value:Case Number
+2020-03-08 11:25:51,958 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Case Number; list_row[1]: 30010061 
+
+2020-03-08 11:25:51,959 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Model; value:Model
+2020-03-08 11:25:51,960 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Model; list_row[1]: DIR-1950 
+
+2020-03-08 11:25:51,962 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:HW; value:HW
+2020-03-08 11:25:51,963 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:HW; list_row[1]: A1 
+
+2020-03-08 11:25:51,965 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:FW; value:FW
+2020-03-08 11:25:51,966 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:FW; list_row[1]: v1.01b08 
+
+2020-03-08 11:25:51,967 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Wireless Mode; value:Wireless Mode
+2020-03-08 11:25:51,968 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Wireless Mode; list_row[1]: 802.11AC 
+
+2020-03-08 11:25:51,969 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Frequency; value:Frequency
+2020-03-08 11:25:51,971 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Frequency; list_row[1]: 5 
+
+2020-03-08 11:25:51,972 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Channel; value:Channel
+2020-03-08 11:25:51,973 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Channel; list_row[1]: 149 
+
+2020-03-08 11:25:51,975 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Country Code; value:Country Code
+2020-03-08 11:25:51,976 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Country Code; list_row[1]: CA 
+
+2020-03-08 11:25:51,977 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Encryption; value:Encryption
+2020-03-08 11:25:51,978 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Encryption; list_row[1]: YES 
+
+2020-03-08 11:25:51,979 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Antenna Degree; value:Antenna Degree
+2020-03-08 11:25:51,980 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Antenna Degree; list_row[1]: 90 
+
+2020-03-08 11:25:51,982 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Vendor; value:Test Vendor
+2020-03-08 11:25:51,983 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Vendor; list_row[1]: Cameo 
+
+2020-03-08 11:25:51,984 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Client; value:Test Client
+2020-03-08 11:25:51,985 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Client; list_row[1]: Client2 
+
+2020-03-08 11:25:51,987 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/Client2-W4_Bidirectional_result_1st.csv
+2020-03-08 11:25:51,988 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/Client2-W4_Rx_result_1st.csv
+2020-03-08 11:25:51,990 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061104/Client2-W4_Tx_result_1st.csv
+2020-03-08 11:25:51,990 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/
+2020-03-08 11:25:51,991 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/chariotlog.txt
+2020-03-08 11:25:51,992 - csvdataAnalysis.py[line:252] - <MainThread 7348>- <Process 448> - INFO: txt_dirfolderdata:f:\project\note_python\Zip_UnZip\logs\202003061038/chariotlog.txt
+2020-03-08 11:25:51,995 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Method; value:Test Method
+2020-03-08 11:25:51,996 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Method; list_row[1]: Chamber 1 
+
+2020-03-08 11:25:51,998 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Case Number; value:Case Number
+2020-03-08 11:25:51,999 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Case Number; list_row[1]: 30010061 
+
+2020-03-08 11:25:52,000 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Model; value:Model
+2020-03-08 11:25:52,001 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Model; list_row[1]: DIR-1950 
+
+2020-03-08 11:25:52,003 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:HW; value:HW
+2020-03-08 11:25:52,005 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:HW; list_row[1]: A1 
+
+2020-03-08 11:25:52,007 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:FW; value:FW
+2020-03-08 11:25:52,007 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:FW; list_row[1]: 1.01b08 
+
+2020-03-08 11:25:52,010 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Wireless Mode; value:Wireless Mode
+2020-03-08 11:25:52,011 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Wireless Mode; list_row[1]: 802.11AC 
+
+2020-03-08 11:25:52,013 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Frequency; value:Frequency
+2020-03-08 11:25:52,013 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Frequency; list_row[1]: 5 
+
+2020-03-08 11:25:52,015 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Channel; value:Channel
+2020-03-08 11:25:52,016 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Channel; list_row[1]: 149 
+
+2020-03-08 11:25:52,017 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Country Code; value:Country Code
+2020-03-08 11:25:52,018 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Country Code; list_row[1]: CA 
+
+2020-03-08 11:25:52,020 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Encryption; value:Encryption
+2020-03-08 11:25:52,021 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Encryption; list_row[1]: YES 
+
+2020-03-08 11:25:52,023 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Antenna Degree; value:Antenna Degree
+2020-03-08 11:25:52,024 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Antenna Degree; list_row[1]: 90 
+
+2020-03-08 11:25:52,026 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Vendor; value:Test Vendor
+2020-03-08 11:25:52,027 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Vendor; list_row[1]: Cameo 
+
+2020-03-08 11:25:52,028 - csvdataAnalysis.py[line:242] - <MainThread 7348>- <Process 448> - INFO: target_key:Test Client; value:Test Client
+2020-03-08 11:25:52,029 - csvdataAnalysis.py[line:279] - <MainThread 7348>- <Process 448> - INFO: list_row[0]:Test Client; list_row[1]: Client5 
+
+2020-03-08 11:25:52,031 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/P0-Client5_Bidirectional_result_1st.csv
+2020-03-08 11:25:52,032 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/P0-Client5_Rx_result_1st.csv
+2020-03-08 11:25:52,033 - csvdataAnalysis.py[line:292] - <MainThread 7348>- <Process 448> - INFO: zipfolder_txtcsvfiles:202003061038/P0-Client5_Tx_result_1st.csv
+2020-03-08 11:25:52,034 - test_unzip.py[line:55] - <MainThread 7348>- <Process 448> - INFO: Time duration: 4.78 seconds.
