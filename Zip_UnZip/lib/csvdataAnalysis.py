@@ -225,10 +225,10 @@ class CSVDataAnalysis:
     '''
     def parse_targetkey_TXTFile(self, list_row):
         list_txt_target_key_value = []
-        list_txt_value = [];#for insert sqlite purpose
+        txt_value = ' ';#for insert sqlite purpose
         list_target_key=['Test Method', 'Case Number', 'Model',
                         'HW','FW', 'Wireless Mode',
-                        'Frequency', 'Modulation', 'Channel',
+                        'Frequency',  'Channel', #'Modulation', remark
                         'Country Code','Encryption', 'Antenna Degree', 
                         'Test Vendor','Test Client']
 
@@ -254,6 +254,20 @@ class CSVDataAnalysis:
             #    msg = "target_key:{}; row:{}"
             #    logger.info(msg.format(target_key, list_row))
 
+            # Emulate a do-while loop in Python?
+            # https://stackoverflow.com/questions/743164/emulate-a-do-while-loop-in-python
+            '''
+            while True:
+                stuff()
+                if fail_condition:
+                    break
+            '''
+            '''
+            stuff()
+            while not fail_condition:
+                stuff()
+            '''
+            
             if target_key == list_row[0]:
                 if self.opt_verbose.lower() == "on":
                     msg = "target_key:{}; value:{}"
@@ -271,19 +285,19 @@ class CSVDataAnalysis:
                 '''
 
                 list_txt_target_key_value = [list_row[0], list_row[1].replace(" \n", "").replace(' ', "") ]
-                list_txt_value = [list_row[1].replace(" \n", "").replace(' ', "") ]
+                txt_value = list_row[1].replace(" \n", "").replace(' ', "")
                 #msg = "list_txt_target_key_value:{}"
                 #logger.info(msg.format(list_txt_target_key_value))
-
-                return list_txt_target_key_value, list_txt_value        
+            
+        return list_txt_target_key_value, txt_value        
 
     def parse_TXTFile(self):
         self.txt_dirfolderdata = '{}\{}'.format(self.dirnamelog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
         list_txt_row_target_key_value = []
-        list_txt_row_value = [];#for insert sqlite purpose
+        txt_row_value = '';#for insert sqlite purpose
 
         append_list_txt_row_target_key_value = []
-        append_list_txt_row_value = [];#for insert sqlite purpose
+        append_txt_row_value = [];#for insert sqlite purpose
 
         if self.opt_verbose.lower() == "on":
             msg = "txt_dirfolderdata:{}"
@@ -307,16 +321,16 @@ class CSVDataAnalysis:
 
         csv_foldername = self.zipfolder_txtcsvfiles.split('/')[0];#get csv_foldername value
         list_txt_row_target_key_value = ['CSV FolderName', csv_foldername];#assign key and value
-        list_txt_row_value = [csv_foldername];#assign value
+        txt_row_value = csv_foldername;#assign value
 
         append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
-        append_list_txt_row_value.append(list_txt_row_value);#for insert sqlite purpose
+        append_txt_row_value.append(txt_row_value);#for insert sqlite purpose
 
         if self.opt_verbose.lower() == "on":
             msg = "append_list_txt_row_target_key_value:{}"
             logger.info(msg.format(append_list_txt_row_target_key_value))
-            msg = "append_list_txt_row_value:{}"
-            logger.info(msg.format(append_list_txt_row_value))
+            msg = "append_txt_row_value:{}"
+            logger.info(msg.format(append_txt_row_value))
 
         with open(self.txt_dirfolderdata) as txtfile:
             rows = txtfile.readlines()
@@ -327,7 +341,7 @@ class CSVDataAnalysis:
 
                     if len(list_row) >= 2:#Make sure inculde target_key and value
 
-                        list_txt_row_target_key_value, list_txt_row_value = self.parse_targetkey_TXTFile(list_row)
+                        list_txt_row_target_key_value, txt_row_value = self.parse_targetkey_TXTFile(list_row)
                     
                         #if self.opt_verbose.lower() == "on":
                         #    msg = "list_txt_row_target_key_value:{}"
@@ -347,9 +361,11 @@ class CSVDataAnalysis:
                         if not (val is None):
                             # ...
                         '''                        
-                        if not (list_txt_row_target_key_value is None):# prvent NoneType
+                        if len(list_txt_row_target_key_value) > 0 and \
+                            len(txt_row_value) > 0:# prvent empty list
+
                             append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
-                            append_list_txt_row_value.append(list_txt_row_value);#for insert sqlite purpose
+                            append_txt_row_value.append(txt_row_value);#for insert sqlite purpose
 
                             if self.opt_verbose.lower() == "on":
                                 #msg = "list_row[0]:{}; list_row[1]:{}"
@@ -362,12 +378,20 @@ class CSVDataAnalysis:
                                 '''                            
                                 msg = "append_list_txt_row_target_key_value:{}"
                                 logger.info(msg.format(append_list_txt_row_target_key_value))
-                                msg = "append_list_txt_row_value:{}"
-                                logger.info(msg.format(append_list_txt_row_value))
+                                msg = "append_txt_row_value:{}"
+                                logger.info(msg.format(append_txt_row_value))
 
         #self.append_list_txt_row_target_key_value = append_list_txt_row_target_key_value;#assign class variable
         
-        return append_list_txt_row_target_key_value, append_list_txt_row_value    
+        return append_list_txt_row_target_key_value, append_txt_row_value    
+
+    '''
+            INFO: fileName of listOfFileNames: [['202003061318'], ['PPPOENAT'], ['30010061'], ['DIR-1950'], ['A1'], ['v1.01b08'], ['802.11AC'], ['5'], 
+                                                ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client1']]
+
+            INFO: fileName of listOfFileNames: [['202003061038'], ['Chamber1'], ['30010061'], ['DIR-1950'], ['A1'], ['1.01b08'], ['802.11AC'], ['5'], 
+                                                ['256QAM'], ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client5']]
+    '''
 
     def read_TXTFile(self):
 
@@ -394,6 +418,30 @@ class CSVDataAnalysis:
                 append_list_all_txt_row_target_key_value.append(list_all_txt_row_target_key_value)
                 append_list_all_txt_row_value.append(list_all_txt_row_value);#for sqlite purpose
 
+        # Insert an element at specific index in a list and return updated list
+        # https://stackoverflow.com/questions/14895599/insert-an-element-at-specific-index-in-a-list-and-return-updated-list
+        '''
+        >>> a = [1, 2, 4]
+        >>> print a
+        [1, 2, 4]
+
+        >>> print a.insert(2, 3)
+        None
+
+        >>> print a
+        [1, 2, 3, 4]
+
+        >>> b = a.insert(3, 6)
+        >>> print b
+        None
+
+        >>> print a
+        [1, 2, 3, 6, 4]
+        '''
+        #if self.opt_verbose.lower() == "on":
+        #    msg = "len of append_list_all_txt_row_value:{}"
+        #    logger.info(msg.format(len(append_list_all_txt_row_value)))
+        
         self.append_list_all_txt_row_target_key_value = append_list_all_txt_row_target_key_value;#assign class variable
         self.append_list_all_txt_row_value = append_list_all_txt_row_value;#for sqlite purpose
                 

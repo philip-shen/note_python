@@ -36,6 +36,8 @@ class DB_sqlite:
         except Error as e:
             print(e)
 
+    #modulation,
+    #,?
     def create_chariotlog_many(self, conn, list_chariotlog_s):
 
         sql = ''' INSERT INTO Chariot_Log(csv_foldername,
@@ -44,8 +46,7 @@ class DB_sqlite:
                                         model,
                                         hw,
                                         fw,
-                                        wireless_mode,
-                                        modulation,
+                                        wireless_mode,                                        
                                         frequency,
                                         channel,
                                         country_code,
@@ -53,7 +54,7 @@ class DB_sqlite:
                                         antenna_degree,
                                         test_vendor,
                                         test_client)
-                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?) '''
         try:
             cur = conn.cursor()
             # How to insert a list of lists into a table? [Python]

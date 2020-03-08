@@ -26,8 +26,8 @@ if __name__ == "__main__":
             #showFileNames_InZipFile_zip(ret_list_ZipFolderFileNames)
             #showFileNames_InZipFile_zip(ret_list_ZipFolder_TxtCsvFiles)
             
-            opt_verbose='ON'
-            #opt_verbose='OFF'
+            #opt_verbose='ON'
+            opt_verbose='OFF'
             
             # Panada can't parse csv file
             #local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
@@ -39,12 +39,15 @@ if __name__ == "__main__":
                                                         ret_list_ZipFolder_TxtCsvFiles,\
                                                         opt_verbose)
             local_csvdata_analysis.read_CSVFile()
-            #showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_csv_foldername_filename_thruput)
+            showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_csv_foldername_filename_thruput)
             
             
             local_csvdata_analysis.read_TXTFile()
             #showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_all_txt_row_target_key_value)
             showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_all_txt_row_value)
+            
+            #print("len of local_csvdata_analysis.append_list_all_txt_row_value: {}".\
+            #        format(len(local_csvdata_analysis.append_list_all_txt_row_value) ))
 
             # 2020/03/08 Initial to sqlite test code
             path_db = os.path.join(dirnamelog,'WiFiPerformance.db')
@@ -57,6 +60,14 @@ if __name__ == "__main__":
                                                                     throughput_max text   
                                             ); """
 
+            '''
+            INFO: fileName of listOfFileNames: [['202003061318'], ['PPPOENAT'], ['30010061'], ['DIR-1950'], ['A1'], ['v1.01b08'], ['802.11AC'], ['5'], 
+                                                ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client1']]
+
+            INFO: fileName of listOfFileNames: [['202003061038'], ['Chamber1'], ['30010061'], ['DIR-1950'], ['A1'], ['1.01b08'], ['802.11AC'], ['5'], 
+                                                ['256QAM'], ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client5']]
+            '''
+            # modulation text, #not moddulation column
             sql_create_Chariot_Log_table = """ CREATE TABLE IF NOT EXISTS Chariot_Log (
                                                                     id integer PRIMARY KEY,
                                                                     csv_foldername text NOT NULL,
@@ -66,8 +77,7 @@ if __name__ == "__main__":
                                                                     hw text,
                                                                     fw text,
                                                                     wireless_mode text,
-                                                                    frequency text,
-                                                                    modulation text,
+                                                                    frequency text,                                                                    
                                                                     channel text,
                                                                     country_code txt,
                                                                     encryption txt,
@@ -88,15 +98,15 @@ if __name__ == "__main__":
                 print("Error! cannot create the database connection.")                            
 
             #Insert CSV foldername_filename_thruput data into sqlite
-            #localdb_sqlite.insert_csv_data_tosqlite(local_csvdata_analysis.append_list_csv_foldername_filename_thruput, \
-            #                                        localdb_sqlite,conn)
+            localdb_sqlite.insert_csv_data_tosqlite(local_csvdata_analysis.append_list_csv_foldername_filename_thruput, \
+                                                    localdb_sqlite,conn)
             
             #localdb_sqlite.delete_table_chariot_csv_throughput_all(conn) 
             #localdb_sqlite.delete_table_chariot_csv_throughput(conn, '12') 
 
             #Insert Chariot log foldername_filename_thruput data into sqlite
-            #localdb_sqlite.insert_chariot_log_tosqlite(local_csvdata_analysis.append_list_all_txt_row_target_key_value, \
-            #                                        localdb_sqlite,conn)
+            localdb_sqlite.insert_chariot_log_tosqlite(local_csvdata_analysis.append_list_all_txt_row_value, \
+                                                    localdb_sqlite,conn)
 
             # We can also close the connection if we are done with it.
             # Just be sure any changes have been committed or they will be lost.
@@ -107,6 +117,7 @@ if __name__ == "__main__":
             name, _ = os.path.splitext(args[1])
             if (os.path.isdir(name)):
                 walk_in_dir(name)
+                
     except IndexError:
         print('IndexError: Usage "python %s ZIPFILE_NAME" or "python %s DIR_NAME"' % (args[0], args[0]))
     except IOError:
