@@ -206,8 +206,25 @@ class CSVDataAnalysis:
         
         self.append_list_csv_foldername_filename_thruput = \
             append_list_csv_foldername_filename_thruput;#asign class variable
-    
+    '''
+    chariotlog.txt
+
+    Test Method: PPPOENAT 
+    Case Number: 30010061 
+    Model: DIR-1950 
+    HW: A1 
+    FW: v1.01b08 
+    Wireless Mode: 802.11AC 
+    Frequency: 5 
+    Channel: 149 
+    Country Code: CA 
+    Encryption: YES 
+    Antenna Degree: 90 
+    Test Vendor: Cameo 
+    Test Client: Client1 
+    '''
     def parse_targetkey_TXTFile(self, list_row):
+        list_txt_target_key_value = []
         list_target_key=['Test Method', 'Case Number', 'Model',
                         'HW','FW', 'Wireless Mode',
                         'Frequency','Channel','Country Code',
@@ -239,13 +256,29 @@ class CSVDataAnalysis:
             if target_key == list_row[0]:
                 if self.opt_verbose.lower() == "on":
                     msg = "target_key:{}; value:{}"
-                    logger.info(msg.format(target_key, list_row[0]))
+                    logger.info(msg.format(target_key, list_row[1]))
 
-                return True        
+                # Remove all newlines from inside a string
+                # https://stackoverflow.com/questions/13298907/remove-all-newlines-from-inside-a-string
+                '''                  
+                            strip only removes characters from the beginning and end of a string. You want to use replace:
+
+                            str2 = str.replace("\n", "")
+                '''
+                '''
+                            list_txt_target_key_value:['Country Code', ' CA \n']
+                '''
+
+                list_txt_target_key_value=[list_row[0], list_row[1].replace(" \n", "") ]
+                #msg = "list_txt_target_key_value:{}"
+                #logger.info(msg.format(list_txt_target_key_value))
+
+                return list_txt_target_key_value        
 
     def parse_TXTFile(self):
         self.txt_dirfolderdata = '{}\{}'.format(self.dirnamelog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
-        list_txt_foldername_filename_title = []
+        list_txt_row_target_key_value = []
+        append_list_txt_row_target_key_value = []
 
         if self.opt_verbose.lower() == "on":
             msg = "txt_dirfolderdata:{}"
@@ -272,17 +305,33 @@ class CSVDataAnalysis:
             for row in rows:
                 if ':' in row:# check rows if inculde ':'
                     list_row = row.split(':');# change to list
-                    if self.parse_targetkey_TXTFile(list_row):
-                                                
+
+                    list_txt_row_target_key_value = self.parse_targetkey_TXTFile(list_row)
+
+                    if len(list_txt_row_target_key_value) > 0:#check if include targe key
+
                         if self.opt_verbose.lower() == "on":
-                            msg = "list_row[0]:{}; list_row[1]:{}"
-                            logger.info(msg.format(list_row[0], list_row[1]))
+                            #msg = "list_row[0]:{}; list_row[1]:{}"
+                            #logger.info(msg.format(list_row[0], list_row[1]))
+
+                            '''
+                             append_list_txt_target_key_value:[['Test Method', ' Chamber 1'], ['Case Number', ' 30010061'], ['Model', ' DIR-1950'], 
+                             ['HW', ' A1'], ['FW', ' 1.01b08'], ['Wireless Mode', ' 802.11AC'], ['Frequency', ' 5'], ['Channel', ' 149'], 
+                             ['Country Code', ' CA'], ['Encryption', ' YES'], ['Antenna Degree', ' 90'], ['Test Vendor', ' Cameo'], 
+                             ['Test Client', ' Client5']]
+                            '''                            
+                            append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
+                            msg = "append_list_txt_row_target_key_value:{}"
+                            logger.info(msg.format(append_list_txt_row_target_key_value))
+
+        #self.append_list_txt_target_key_value = append_list_txt_target_key_value;#assign class variable
 
 
     def read_TXTFile(self):
 
         re_exp_zipfolder = r'\/$'    
         re_exp_txtfile = r'\.txt$'
+        list_txt_foldername_filename_title = []
 
         for zipfolder_txtcsvfiles in self.list_zipfolder_txtcsvfiles:
             self.zipfolder_txtcsvfiles = zipfolder_txtcsvfiles
