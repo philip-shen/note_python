@@ -225,6 +225,7 @@ class CSVDataAnalysis:
     '''
     def parse_targetkey_TXTFile(self, list_row):
         list_txt_target_key_value = []
+        list_txt_value = [];#for insert sqlite purpose
         list_target_key=['Test Method', 'Case Number', 'Model',
                         'HW','FW', 'Wireless Mode',
                         'Frequency', 'Modulation', 'Channel',
@@ -269,16 +270,20 @@ class CSVDataAnalysis:
                             list_txt_target_key_value:['Country Code', ' CA \n']
                 '''
 
-                list_txt_target_key_value=[list_row[0], list_row[1].replace(" \n", "") ]
+                list_txt_target_key_value = [list_row[0], list_row[1].replace(" \n", "").replace(' ', "") ]
+                list_txt_value = [list_row[1].replace(" \n", "").replace(' ', "") ]
                 #msg = "list_txt_target_key_value:{}"
                 #logger.info(msg.format(list_txt_target_key_value))
 
-                return list_txt_target_key_value        
+                return list_txt_target_key_value, list_txt_value        
 
     def parse_TXTFile(self):
         self.txt_dirfolderdata = '{}\{}'.format(self.dirnamelog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
         list_txt_row_target_key_value = []
+        list_txt_row_value = [];#for insert sqlite purpose
+
         append_list_txt_row_target_key_value = []
+        append_list_txt_row_value = [];#for insert sqlite purpose
 
         if self.opt_verbose.lower() == "on":
             msg = "txt_dirfolderdata:{}"
@@ -302,11 +307,16 @@ class CSVDataAnalysis:
 
         csv_foldername = self.zipfolder_txtcsvfiles.split('/')[0];#get csv_foldername value
         list_txt_row_target_key_value = ['CSV FolderName', csv_foldername];#assign key and value
+        list_txt_row_value = [csv_foldername];#assign value
+
         append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
+        append_list_txt_row_value.append(list_txt_row_value);#for insert sqlite purpose
+
         if self.opt_verbose.lower() == "on":
             msg = "append_list_txt_row_target_key_value:{}"
             logger.info(msg.format(append_list_txt_row_target_key_value))
-
+            msg = "append_list_txt_row_value:{}"
+            logger.info(msg.format(append_list_txt_row_value))
 
         with open(self.txt_dirfolderdata) as txtfile:
             rows = txtfile.readlines()
@@ -317,7 +327,7 @@ class CSVDataAnalysis:
 
                     if len(list_row) >= 2:#Make sure inculde target_key and value
 
-                        list_txt_row_target_key_value = self.parse_targetkey_TXTFile(list_row)
+                        list_txt_row_target_key_value, list_txt_row_value = self.parse_targetkey_TXTFile(list_row)
                     
                         #if self.opt_verbose.lower() == "on":
                         #    msg = "list_txt_row_target_key_value:{}"
@@ -339,6 +349,7 @@ class CSVDataAnalysis:
                         '''                        
                         if not (list_txt_row_target_key_value is None):# prvent NoneType
                             append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
+                            append_list_txt_row_value.append(list_txt_row_value);#for insert sqlite purpose
 
                             if self.opt_verbose.lower() == "on":
                                 #msg = "list_row[0]:{}; list_row[1]:{}"
@@ -351,11 +362,12 @@ class CSVDataAnalysis:
                                 '''                            
                                 msg = "append_list_txt_row_target_key_value:{}"
                                 logger.info(msg.format(append_list_txt_row_target_key_value))
+                                msg = "append_list_txt_row_value:{}"
+                                logger.info(msg.format(append_list_txt_row_value))
 
         #self.append_list_txt_row_target_key_value = append_list_txt_row_target_key_value;#assign class variable
         
-        return append_list_txt_row_target_key_value    
-
+        return append_list_txt_row_target_key_value, append_list_txt_row_value    
 
     def read_TXTFile(self):
 
@@ -363,7 +375,11 @@ class CSVDataAnalysis:
         re_exp_txtfile = r'\.txt$'
         list_txt_foldername_filename_title = []
         list_all_txt_row_target_key_value = []
+        list_all_txt_row_value = [];#for sqlite purpose
+        
         append_list_all_txt_row_target_key_value = []
+        append_list_all_txt_row_value = [];#for sqlite purpose
+
 
         for zipfolder_txtcsvfiles in self.list_zipfolder_txtcsvfiles:
             self.zipfolder_txtcsvfiles = zipfolder_txtcsvfiles
@@ -373,9 +389,11 @@ class CSVDataAnalysis:
                 logger.info(msg.format(zipfolder_txtcsvfiles))
 
             if re.search(re_exp_txtfile, zipfolder_txtcsvfiles):#check if txt file
-                list_all_txt_row_target_key_value = self.parse_TXTFile()
+                list_all_txt_row_target_key_value, list_all_txt_row_value = self.parse_TXTFile()
 
                 append_list_all_txt_row_target_key_value.append(list_all_txt_row_target_key_value)
+                append_list_all_txt_row_value.append(list_all_txt_row_value);#for sqlite purpose
 
         self.append_list_all_txt_row_target_key_value = append_list_all_txt_row_target_key_value;#assign class variable
+        self.append_list_all_txt_row_value = append_list_all_txt_row_value;#for sqlite purpose
                 

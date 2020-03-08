@@ -13,7 +13,7 @@ from logger import logger
 from libZip import *
 from readConfig import *
 import csvdataAnalysis as csvdata_analysis
-
+import db_sqlite as db_sqlite
 
 if __name__ == "__main__":
     t0 = time.time()
@@ -39,11 +39,68 @@ if __name__ == "__main__":
                                                         ret_list_ZipFolder_TxtCsvFiles,\
                                                         opt_verbose)
             local_csvdata_analysis.read_CSVFile()
-            showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_csv_foldername_filename_thruput)
+            #showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_csv_foldername_filename_thruput)
             
             
             local_csvdata_analysis.read_TXTFile()
-            showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_all_txt_row_target_key_value)
+            #showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_all_txt_row_target_key_value)
+            showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_all_txt_row_value)
+
+            # 2020/03/08 Initial to sqlite test code
+            path_db = os.path.join(dirnamelog,'WiFiPerformance.db')
+            sql_create_Chariot_CSV_Throughput_table = """ CREATE TABLE IF NOT EXISTS Chariot_CSV_Throughput (
+                                                                    id integer PRIMARY KEY,
+                                                                    csv_foldername text NOT NULL,
+                                                                    csv_filename text,
+                                                                    throughput_avg text,
+                                                                    throughput_min text,
+                                                                    throughput_max text   
+                                            ); """
+
+            sql_create_Chariot_Log_table = """ CREATE TABLE IF NOT EXISTS Chariot_Log (
+                                                                    id integer PRIMARY KEY,
+                                                                    csv_foldername text NOT NULL,
+                                                                    test_method text,
+                                                                    case_number text,
+                                                                    model text,
+                                                                    hw text,
+                                                                    fw text,
+                                                                    wireless_mode text,
+                                                                    frequency text,
+                                                                    modulation text,
+                                                                    channel text,
+                                                                    country_code txt,
+                                                                    encryption txt,
+                                                                    antenna_degree txt,
+                                                                    test_vendor txt,
+                                                                    test_client text
+                                            ); """
+
+            localdb_sqlite = db_sqlite.DB_sqlite(path_db)
+            # create a database connection
+            conn = localdb_sqlite.create_connection()
+            
+            if conn is not None:
+                # create projects table
+                localdb_sqlite.create_table(conn, sql_create_Chariot_CSV_Throughput_table)
+                localdb_sqlite.create_table(conn, sql_create_Chariot_Log_table)
+            else:
+                print("Error! cannot create the database connection.")                            
+
+            #Insert CSV foldername_filename_thruput data into sqlite
+            #localdb_sqlite.insert_csv_data_tosqlite(local_csvdata_analysis.append_list_csv_foldername_filename_thruput, \
+            #                                        localdb_sqlite,conn)
+            
+            #localdb_sqlite.delete_table_chariot_csv_throughput_all(conn) 
+            #localdb_sqlite.delete_table_chariot_csv_throughput(conn, '12') 
+
+            #Insert Chariot log foldername_filename_thruput data into sqlite
+            #localdb_sqlite.insert_chariot_log_tosqlite(local_csvdata_analysis.append_list_all_txt_row_target_key_value, \
+            #                                        localdb_sqlite,conn)
+
+            # We can also close the connection if we are done with it.
+            # Just be sure any changes have been committed or they will be lost.
+            conn.close()    
 
         else:
             unzip(os.path.join(args[1]))
