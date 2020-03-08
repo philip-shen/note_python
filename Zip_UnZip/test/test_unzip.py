@@ -38,11 +38,12 @@ if __name__ == "__main__":
             local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
                                                         ret_list_ZipFolder_TxtCsvFiles,\
                                                         opt_verbose)
-            #local_csvdata_analysis.read_CSVFile()
-            #showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_csv_foldername_filename_thruput)
+            local_csvdata_analysis.read_CSVFile()
+            showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_csv_foldername_filename_thruput)
+            
             
             local_csvdata_analysis.read_TXTFile()
-            showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_txt_target_key_value)
+            showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_all_txt_row_target_key_value)
 
         else:
             unzip(os.path.join(args[1]))

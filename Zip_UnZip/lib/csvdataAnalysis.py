@@ -227,9 +227,9 @@ class CSVDataAnalysis:
         list_txt_target_key_value = []
         list_target_key=['Test Method', 'Case Number', 'Model',
                         'HW','FW', 'Wireless Mode',
-                        'Frequency','Channel','Country Code',
-                        'Encryption', 'Antenna Degree', 'Test Vendor',
-                        'Test Client']
+                        'Frequency', 'Modulation', 'Channel',
+                        'Country Code','Encryption', 'Antenna Degree', 
+                        'Test Vendor','Test Client']
 
         for target_key in list_target_key:
             # String comparison in Python: is vs. ==
@@ -291,13 +291,22 @@ class CSVDataAnalysis:
         FW: v1.01b08 
         Wireless Mode: 802.11AC 
         Frequency: 5 
+        Modulation: 256QAM
         Channel: 149 
         Country Code: CA 
         Encryption: YES 
         Antenna Degree: 90 
         Test Vendor: Cameo 
         Test Client: Client1 
-        '''        
+        '''
+
+        csv_foldername = self.zipfolder_txtcsvfiles.split('/')[0];#get csv_foldername value
+        list_txt_row_target_key_value = ['CSV FolderName', csv_foldername];#assign key and value
+        append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
+        if self.opt_verbose.lower() == "on":
+            msg = "append_list_txt_row_target_key_value:{}"
+            logger.info(msg.format(append_list_txt_row_target_key_value))
+
 
         with open(self.txt_dirfolderdata) as txtfile:
             rows = txtfile.readlines()
@@ -306,25 +315,46 @@ class CSVDataAnalysis:
                 if ':' in row:# check rows if inculde ':'
                     list_row = row.split(':');# change to list
 
-                    list_txt_row_target_key_value = self.parse_targetkey_TXTFile(list_row)
+                    if len(list_row) >= 2:#Make sure inculde target_key and value
 
-                    if len(list_txt_row_target_key_value) > 0:#check if include targe key
+                        list_txt_row_target_key_value = self.parse_targetkey_TXTFile(list_row)
+                    
+                        #if self.opt_verbose.lower() == "on":
+                        #    msg = "list_txt_row_target_key_value:{}"
+                        #    logger.info(msg.format(list_txt_row_target_key_value))
 
-                        if self.opt_verbose.lower() == "on":
-                            #msg = "list_row[0]:{}; list_row[1]:{}"
-                            #logger.info(msg.format(list_row[0], list_row[1]))
+                        # Python check for NoneType not working
+                        # https://stackoverflow.com/questions/20405628/python-check-for-nonetype-not-working
+                        '''
+                            In Python, | is a bitwise or. You want to use a logical or here:
 
-                            '''
-                             append_list_txt_target_key_value:[['Test Method', ' Chamber 1'], ['Case Number', ' 30010061'], ['Model', ' DIR-1950'], 
-                             ['HW', ' A1'], ['FW', ' 1.01b08'], ['Wireless Mode', ' 802.11AC'], ['Frequency', ' 5'], ['Channel', ' 149'], 
-                             ['Country Code', ' CA'], ['Encryption', ' YES'], ['Antenna Degree', ' 90'], ['Test Vendor', ' Cameo'], 
-                             ['Test Client', ' Client5']]
-                            '''                            
+                            if (cts is None) or (len(cts) == 0):
+                                return
+                        '''
+                        # not None test in Python
+                        # https://stackoverflow.com/questions/3965104/not-none-test-in-python     
+                        '''     
+                        if not (val is None):
+                            # ...
+                        '''                        
+                        if not (list_txt_row_target_key_value is None):# prvent NoneType
                             append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
-                            msg = "append_list_txt_row_target_key_value:{}"
-                            logger.info(msg.format(append_list_txt_row_target_key_value))
 
-        #self.append_list_txt_target_key_value = append_list_txt_target_key_value;#assign class variable
+                            if self.opt_verbose.lower() == "on":
+                                #msg = "list_row[0]:{}; list_row[1]:{}"
+                                #logger.info(msg.format(list_row[0], list_row[1]))
+                                '''
+                                append_list_txt_target_key_value:[['Test Method', ' Chamber 1'], ['Case Number', ' 30010061'], ['Model', ' DIR-1950'], 
+                                ['HW', ' A1'], ['FW', ' 1.01b08'], ['Wireless Mode', ' 802.11AC'], ['Frequency', ' 5'],  ['Modulation', ' 256QAM'],
+                                ['Channel', ' 149'], ['Country Code', ' CA'], ['Encryption', ' YES'], ['Antenna Degree', ' 90'], ['Test Vendor', ' Cameo'], 
+                                ['Test Client', ' Client5']]
+                                '''                            
+                                msg = "append_list_txt_row_target_key_value:{}"
+                                logger.info(msg.format(append_list_txt_row_target_key_value))
+
+        #self.append_list_txt_row_target_key_value = append_list_txt_row_target_key_value;#assign class variable
+        
+        return append_list_txt_row_target_key_value    
 
 
     def read_TXTFile(self):
@@ -332,6 +362,8 @@ class CSVDataAnalysis:
         re_exp_zipfolder = r'\/$'    
         re_exp_txtfile = r'\.txt$'
         list_txt_foldername_filename_title = []
+        list_all_txt_row_target_key_value = []
+        append_list_all_txt_row_target_key_value = []
 
         for zipfolder_txtcsvfiles in self.list_zipfolder_txtcsvfiles:
             self.zipfolder_txtcsvfiles = zipfolder_txtcsvfiles
@@ -341,5 +373,9 @@ class CSVDataAnalysis:
                 logger.info(msg.format(zipfolder_txtcsvfiles))
 
             if re.search(re_exp_txtfile, zipfolder_txtcsvfiles):#check if txt file
-                self.parse_TXTFile()
+                list_all_txt_row_target_key_value = self.parse_TXTFile()
+
+                append_list_all_txt_row_target_key_value.append(list_all_txt_row_target_key_value)
+
+        self.append_list_all_txt_row_target_key_value = append_list_all_txt_row_target_key_value;#assign class variable
                 
