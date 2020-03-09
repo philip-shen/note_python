@@ -10,9 +10,9 @@ Take note of Zip and UnZip
 [DDelete Redundant Rows by Client and Test_Mode Using INNER JOIN ](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)  
 [Delete Redundant Rows by 11AC](#delete-redundant-rows-by-11ac)  
 [Delete Redundant Rows by 11N](#delete-redundant-rows-by-11n)  
-[Select Clinet1 and 2nd run](#select-clinet1-and-2nd-run)  
-[Select Clinet1, TX and all runs](#select_clinet1-tx-and-all-runs)  
-[Select Clinet1, Bidirectional and all runs](#select-clinet1-bidirectional-and-all-runs)  
+[Select Client1 and 2nd run](#select-client1-and-2nd-run)  
+[Select Client1, TX and all runs](#select-client1-tx-and-all-runs)  
+[Select Client1, Bidirectional and all runs](#select-client1-bidirectional-and-all-runs)  
 
 [SQL JOIN](#sql-join)  
 
@@ -209,7 +209,7 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]N' and char_csv
 ORDER BY char_csv.csv_foldername ASC
 ```
 
-### Select Clinet1 and 2nd run  
+### Select Client1 and 2nd run  
 ```
 SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
 FROM Chariot_CSV_Throughput char_csv 
@@ -218,7 +218,7 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' an
 ORDER BY char_csv.csv_filename DESC
 ```
 
-### Select Clinet1, TX and all runs  
+### Select Client1, TX and all runs  
 ```
 SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
 FROM Chariot_CSV_Throughput char_csv 
@@ -227,7 +227,7 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' an
 ORDER BY char_csv.csv_filename ASC
 ```
 
-### Select Clinet1, Bidirectional and all runs  
+### Select Client1, Bidirectional and all runs  
 ```
 SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
 FROM Chariot_CSV_Throughput char_csv 
