@@ -8,9 +8,9 @@ Take note of Zip and UnZip
 [SQL COUNT](#sql-count)  
 
 [SQL JOIN](#sql-join)  
-[DDelete Redundant Rows by Client and Test_Mode Using INNER JOIN ](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)
-[Delete Redundant Rows by 11AC](#delete-redundant-rows-by-11ac)
-[Delete Redundant Rows by 11N](#delete-redundant-rows-by-11n)
+[DDelete Redundant Rows by Client and Test_Mode Using INNER JOIN ](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)  
+[Delete Redundant Rows by 11AC](#delete-redundant-rows-by-11ac)  
+[Delete Redundant Rows by 11N](#delete-redundant-rows-by-11n)  
 
 
 [Troubleshooting](#troubleshooting)  
