@@ -6,7 +6,9 @@ Take note of Zip and UnZip
 
 [SQL Sytnax](#sql-sytnax)  
 [SQL COUNT](#sql-count)  
+
 [SQL JOIN](#sql-join)  
+[DDelete Redundant Rows by Client and Test_Mode Using INNER JOIN ](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)
 
 
 [Troubleshooting](#troubleshooting)  
@@ -172,6 +174,18 @@ FROM Chariot_CSV_Throughput
 GROUP BY csv_foldername
 ORDER BY csv_filename ASC;
 ```
+
+## Delete Redundant Rows by Client and Test_Mode Using INNER JOIN 
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^PPTP'
+ORDER BY char_csv.csv_foldername ASC;
+```
+
+[SQL語法筆記 - Digishot Web Design Source  2013-09-09](https://digishot.keenchief.com/tw/1585550028/1585550028)  
+
 
 [[SQL] 多個各自count之後還要join成一張表 (在多個表格裡count資料) Sep 16 Fri 2011](https://j796160836.pixnet.net/blog/post/29729775)
 ```

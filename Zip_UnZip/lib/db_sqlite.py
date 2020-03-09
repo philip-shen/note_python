@@ -9,6 +9,46 @@ from sqlite3 import Error
 
 from logger import logger
 
+sql_query_WiFi_DHCP_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, 
+                                char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+                                FROM Chariot_CSV_Throughput char_csv 
+                                INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+                                WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^DHCP'
+                                ORDER BY char_csv.csv_foldername ASC
+                            ); """
+
+sql_query_WiFi_PPPOE_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, 
+                                char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+                                FROM Chariot_CSV_Throughput char_csv 
+                                INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+                                WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^PPPOE'
+                                ORDER BY char_csv.csv_foldername ASC
+                            ); """
+
+sql_query_WiFi_L2TP_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, 
+                                char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+                                FROM Chariot_CSV_Throughput char_csv 
+                                INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+                                WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^L2TP'
+                                ORDER BY char_csv.csv_foldername ASC
+                            ); """
+
+sql_query_WiFi_PPPTP_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, 
+                                char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+                                FROM Chariot_CSV_Throughput char_csv 
+                                INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+                                WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^PPTP'
+                                ORDER BY char_csv.csv_foldername ASC
+                            ); """
+
+sql_query_WiFi_STATIC_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, 
+                                char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+                                FROM Chariot_CSV_Throughput char_csv 
+                                INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+                                WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^STATICIP'
+                                ORDER BY char_csv.csv_foldername ASC
+                            ); """
+
 class DB_sqlite:
     def __init__(self, path_db_file):
         self.path_db_file = path_db_file
