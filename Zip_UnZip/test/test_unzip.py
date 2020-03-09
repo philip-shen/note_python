@@ -15,6 +15,43 @@ from readConfig import *
 import csvdataAnalysis as csvdata_analysis
 import db_sqlite as db_sqlite
 
+# 2020/03/08 Initial to sqlite test code
+sql_create_Chariot_CSV_Throughput_table = """ CREATE TABLE IF NOT EXISTS Chariot_CSV_Throughput (
+                                                                    id integer PRIMARY KEY,
+                                                                    csv_foldername text NOT NULL,
+                                                                    csv_filename text,
+                                                                    throughput_avg text,
+                                                                    throughput_min text,
+                                                                    throughput_max text   
+                                            ); """
+
+'''
+INFO: fileName of listOfFileNames: [['202003061318'], ['PPPOENAT'], ['30010061'], ['DIR-1950'], ['A1'], ['v1.01b08'], ['802.11AC'], ['5'], 
+                                  ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client1']]
+
+INFO: fileName of listOfFileNames: [['202003061038'], ['Chamber1'], ['30010061'], ['DIR-1950'], ['A1'], ['1.01b08'], ['802.11AC'], ['5'], 
+                                  ['256QAM'], ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client5']]
+'''
+
+# modulation text, #not moddulation column
+sql_create_Chariot_Log_table = """ CREATE TABLE IF NOT EXISTS Chariot_Log (
+                                                        id integer PRIMARY KEY,
+                                                        csv_foldername text NOT NULL,
+                                                        test_method text,
+                                                        case_number text,
+                                                        model text,
+                                                        hw text,
+                                                        fw text,
+                                                        wireless_mode text,
+                                                        frequency text,                                                                    
+                                                        channel text,
+                                                        country_code txt,
+                                                        encryption txt,
+                                                        antenna_degree txt,
+                                                        test_vendor txt,
+                                                        test_client text
+                                            ); """
+
 if __name__ == "__main__":
     t0 = time.time()
 
@@ -22,12 +59,12 @@ if __name__ == "__main__":
     try:
         if(os.path.isdir(args[1])):
             ret_list_ZipFolder_TxtCsvFiles, ret_list_ZipFolderFileNames = walk_in_dir(args[1])
-            
+            dirname_ziplog = args[1]
             #showFileNames_InZipFile_zip(ret_list_ZipFolderFileNames)
             #showFileNames_InZipFile_zip(ret_list_ZipFolder_TxtCsvFiles)
             
-            #opt_verbose='ON'
-            opt_verbose='OFF'
+            opt_verbose='ON'
+            #opt_verbose='OFF'
             
             # Panada can't parse csv file
             #local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
@@ -36,6 +73,7 @@ if __name__ == "__main__":
             
 
             local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
+                                                        dirname_ziplog,\
                                                         ret_list_ZipFolder_TxtCsvFiles,\
                                                         opt_verbose)
             local_csvdata_analysis.read_CSVFile()
@@ -47,44 +85,8 @@ if __name__ == "__main__":
             showFileNames_InZipFile_zip(local_csvdata_analysis.append_list_all_txt_row_value)
             
             #print("len of local_csvdata_analysis.append_list_all_txt_row_value: {}".\
-            #        format(len(local_csvdata_analysis.append_list_all_txt_row_value) ))
-
-            # 2020/03/08 Initial to sqlite test code
+            #        format(len(local_csvdata_analysis.append_list_all_txt_row_value) ))            
             path_db = os.path.join(dirnamelog,'WiFiPerformance.db')
-            sql_create_Chariot_CSV_Throughput_table = """ CREATE TABLE IF NOT EXISTS Chariot_CSV_Throughput (
-                                                                    id integer PRIMARY KEY,
-                                                                    csv_foldername text NOT NULL,
-                                                                    csv_filename text,
-                                                                    throughput_avg text,
-                                                                    throughput_min text,
-                                                                    throughput_max text   
-                                            ); """
-
-            '''
-            INFO: fileName of listOfFileNames: [['202003061318'], ['PPPOENAT'], ['30010061'], ['DIR-1950'], ['A1'], ['v1.01b08'], ['802.11AC'], ['5'], 
-                                                ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client1']]
-
-            INFO: fileName of listOfFileNames: [['202003061038'], ['Chamber1'], ['30010061'], ['DIR-1950'], ['A1'], ['1.01b08'], ['802.11AC'], ['5'], 
-                                                ['256QAM'], ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client5']]
-            '''
-            # modulation text, #not moddulation column
-            sql_create_Chariot_Log_table = """ CREATE TABLE IF NOT EXISTS Chariot_Log (
-                                                                    id integer PRIMARY KEY,
-                                                                    csv_foldername text NOT NULL,
-                                                                    test_method text,
-                                                                    case_number text,
-                                                                    model text,
-                                                                    hw text,
-                                                                    fw text,
-                                                                    wireless_mode text,
-                                                                    frequency text,                                                                    
-                                                                    channel text,
-                                                                    country_code txt,
-                                                                    encryption txt,
-                                                                    antenna_degree txt,
-                                                                    test_vendor txt,
-                                                                    test_client text
-                                            ); """
 
             localdb_sqlite = db_sqlite.DB_sqlite(path_db)
             # create a database connection

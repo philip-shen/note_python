@@ -9,10 +9,11 @@ import csv
 from logger import logger
 
 class PandasDataAnalysis:
-    def __init__(self,dirnamelog,list_ZipFolder_TxtCsvFiles,opt_verbose='OFF'):
+    def __init__(self,dirnamelog,dirname_ziplog,list_ZipFolder_TxtCsvFiles,opt_verbose='OFF'):
         #FOLDER = csv_dirfolder
         #self.csv_dirfolderdata = '{}/{}.csv'.format(dirnamelog,csv_dirfolder)
         self.dirnamelog = dirnamelog
+        self.dirname_ziplog = dirname_ziplog
         self.list_zipfolder_txtcsvfiles = list_ZipFolder_TxtCsvFiles
         self.opt_verbose = opt_verbose        
 
@@ -28,7 +29,7 @@ class PandasDataAnalysis:
                 logger.info(msg.format(zipfolder_txtcsvfiles))
 
             if re.search(re_exp_csvfile, zipfolder_txtcsvfiles):#check if csv or txt file
-                self.csv_dirfolderdata = '{}/{}'.format(self.dirnamelog,zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt
+                self.csv_dirfolderdata = '{}/{}'.format(self.dirname_ziplog,zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt
 
                 if self.opt_verbose.lower() == "on":
                     msg = "csv_dirfolderdata:{}"
@@ -105,15 +106,17 @@ class PandasDataAnalysis:
                     #logger.info(msg.format(self.df.iat[19,9], self.df.iat[19,10], self.df.iat[19,11]))
 
 
+
 class CSVDataAnalysis:
-    def __init__(self,dirnamelog,list_ZipFolder_TxtCsvFiles,opt_verbose='OFF'):
+    def __init__(self,dirnamelog,dirname_ziplog,list_ZipFolder_TxtCsvFiles,opt_verbose='OFF'):
         
         self.dirnamelog = dirnamelog
+        self.dirname_ziplog = dirname_ziplog
         self.list_zipfolder_txtcsvfiles = list_ZipFolder_TxtCsvFiles
         self.opt_verbose = opt_verbose
     
     def parse_CSVFile(self):
-        self.csv_dirfolderdata = '{}\{}'.format(self.dirnamelog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt
+        self.csv_dirfolderdata = '{}/{}'.format(self.dirname_ziplog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt
         list_csv_foldername_filename_thruput = []
 
         if self.opt_verbose.lower() == "on":
@@ -292,7 +295,7 @@ class CSVDataAnalysis:
         return list_txt_target_key_value, txt_value        
 
     def parse_TXTFile(self):
-        self.txt_dirfolderdata = '{}\{}'.format(self.dirnamelog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
+        self.txt_dirfolderdata = '{}\{}'.format(self.dirname_ziplog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
         list_txt_row_target_key_value = []
         txt_row_value = '';#for insert sqlite purpose
 
