@@ -376,6 +376,7 @@ WHERE name LIKE 'B';
 
 ```
 SELECT name,member FROM project WHERE name LIKE 'A' UNION SELECT name,member FROM project WHERE name LIKE 'B';
+
 +------+--------+
 | name | member |
 +------+--------+
