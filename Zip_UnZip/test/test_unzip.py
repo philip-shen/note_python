@@ -63,8 +63,8 @@ if __name__ == "__main__":
             #showFileNames_InZipFile_zip(ret_list_ZipFolderFileNames)
             #showFileNames_InZipFile_zip(ret_list_ZipFolder_TxtCsvFiles)
             
-            opt_verbose='ON'
-            #opt_verbose='OFF'
+            #opt_verbose='ON'
+            opt_verbose='OFF'
             
             # Panada can't parse csv file
             #local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
