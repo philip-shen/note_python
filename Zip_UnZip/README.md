@@ -7,11 +7,16 @@ Take note of Zip and UnZip
 [SQL Sytnax](#sql-sytnax)  
 [SQL COUNT](#sql-count)  
 
-[SQL JOIN](#sql-join)  
 [DDelete Redundant Rows by Client and Test_Mode Using INNER JOIN ](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)  
 [Delete Redundant Rows by 11AC](#delete-redundant-rows-by-11ac)  
 [Delete Redundant Rows by 11N](#delete-redundant-rows-by-11n)  
+[Select Clinet1 and 2nd run](#select-clinet1-and-2nd-run)  
+[Select Clinet1, TX and all runs](#select_clinet1-tx-and-all-runs)  
+[Select Clinet1, Bidirectional and all runs](#select-clinet1-bidirectional-and-all-runs)  
 
+[SQL JOIN](#sql-join)  
+
+[Regular Express](#regular-express)
 
 [Troubleshooting](#troubleshooting)  
 
@@ -203,6 +208,34 @@ INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_folder
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]N' and char_csv.csv_filename REGEXP  '^P[0-9]-Client[0-9]' and  char_log.test_method REGEXP  '^Chamber'
 ORDER BY char_csv.csv_foldername ASC
 ```
+
+### Select Clinet1 and 2nd run  
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' and char_csv.csv_filename REGEXP  '^.*Client[^2345]_[^13]*\.csv$' and  char_log.test_method REGEXP  '^Chamber'
+ORDER BY char_csv.csv_filename DESC
+```
+
+### Select Clinet1, TX and all runs  
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' and char_csv.csv_filename REGEXP  '^.*Client[^2345]_Tx_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber'
+ORDER BY char_csv.csv_filename ASC
+```
+
+### Select Clinet1, Bidirectional and all runs  
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' and char_csv.csv_filename REGEXP  '^.*Client[^2345]_Bi.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber'
+ORDER BY char_csv.csv_filename ASC
+```
+
 
 [SQL語法筆記 - Digishot Web Design Source  2013-09-09](https://digishot.keenchief.com/tw/1585550028/1585550028)  
 
@@ -407,6 +440,7 @@ UNION
 SELECT name,member 
 FROM project 
 WHERE name LIKE 'B';
+```
 
 ```
 SELECT name,member FROM project WHERE name LIKE 'A' UNION SELECT name,member FROM project WHERE name LIKE 'B';
@@ -424,9 +458,33 @@ SELECT name,member FROM project WHERE name LIKE 'A' UNION SELECT name,member FRO
 6 rows in set (0.02 sec)
 ```
 
+
+## Convert Column to Row (Pivot Table)  
+[MySQL- Convert Column to Row (Pivot Table 樞紐分析表) 2019-09-11](http://benjr.tw/102000)  
+
+```
+將資料庫的列 (Column) 轉換為行 (row) 來呈現 (Pivot Table : 樞紐分析表) 其統計結果,如下圖所示.
 ```
 
-![alt tag]()  
+![alt tag](http://benjr.tw/wp-content/uploads/2019/09/PivotTable0013.png)  
+
+```
+
+```
+```
+
+```
+
+# Regular Express  
+[[實用] 用 Regular Expression 做字串比對 23 Jun 2016](https://larry850806.github.io/2016/06/23/regex/)  
+RegExp | Description | Example
+------------------------------------ | --------------------------------------------- | ---------------------------------------------
+/^\d{4}-\d{2}-\d{2}$/ | 西元生日格式 | "1996-08-06"
+/^[A-Z]\d{9}$/ | 身分證字號 | "A123456789"
+/^09\d{8}$/ | 手機號碼 | "0912345678"
+/^[^aeiou]*$/ | 不包含小寫母音的字串 | "hEllO","ApplE"
+/^.*@gmail\.com$/ | gmail 信箱 | "test@gmail.com"
+/^[0-9\+\-\*\/]*$/ | 四則運算算式 | "1+2*3" 
 
 ![alt tag]()  
 
