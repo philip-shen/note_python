@@ -9,6 +9,8 @@ Take note of Zip and UnZip
 
 [SQL JOIN](#sql-join)  
 [DDelete Redundant Rows by Client and Test_Mode Using INNER JOIN ](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)
+[Delete Redundant Rows by 11AC](#delete-redundant-rows-by-11ac)
+[Delete Redundant Rows by 11N](#delete-redundant-rows-by-11n)
 
 
 [Troubleshooting](#troubleshooting)  
@@ -182,6 +184,24 @@ FROM Chariot_CSV_Throughput char_csv
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^PPTP'
 ORDER BY char_csv.csv_foldername ASC;
+```
+
+## Delete Redundant Rows by 11AC  
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]AC' and char_csv.csv_filename REGEXP  '^P[0-9]-Client[0-9]' and  char_log.test_method REGEXP  '^Chamber'
+ORDER BY char_csv.csv_foldername ASC
+```
+
+## Delete Redundant Rows by 11N  
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]N' and char_csv.csv_filename REGEXP  '^P[0-9]-Client[0-9]' and  char_log.test_method REGEXP  '^Chamber'
+ORDER BY char_csv.csv_foldername ASC
 ```
 
 [SQL語法筆記 - Digishot Web Design Source  2013-09-09](https://digishot.keenchief.com/tw/1585550028/1585550028)  

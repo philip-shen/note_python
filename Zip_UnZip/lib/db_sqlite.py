@@ -49,6 +49,21 @@ sql_query_WiFi_STATIC_Avg = """ SELECT DISTINCT char_log.test_method, char_log.m
                                 ORDER BY char_csv.csv_foldername ASC
                             ); """
 
+sql_query_WiFi_dot11N_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, 
+                                char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+                                FROM Chariot_CSV_Throughput char_csv 
+                                INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+                                WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]N' and char_csv.csv_filename REGEXP  '^P[0-9]-Client[0-9]' and  char_log.test_method REGEXP  '^Chamber'
+                                ORDER BY char_csv.csv_foldername ASC
+                            ); """
+
+sql_query_WiFi_dot11AC_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, 
+                                char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+                                FROM Chariot_CSV_Throughput char_csv 
+                                INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+                                WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]AC' and char_csv.csv_filename REGEXP  '^P[0-9]-Client[0-9]' and  char_log.test_method REGEXP  '^Chamber'
+                                ORDER BY char_csv.csv_foldername ASC
+                            ); """                            
 class DB_sqlite:
     def __init__(self, path_db_file):
         self.path_db_file = path_db_file
