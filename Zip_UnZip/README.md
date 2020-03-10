@@ -13,7 +13,8 @@ Take note of Zip and UnZip
 [Select Client1 and 2nd run](#select-client1-and-2nd-run)  
 [Select Client1, TX and all runs](#select-client1-tx-and-all-runs)  
 [Select Client1, Bidirectional and all runs](#select-client1-bidirectional-and-all-runs)  
-[Select Mode, Wireless_mode](#select-mode-wireless_mode)  
+[Select Mode, Wireless_Mode](#select-mode-wireless_mode)  
+[Select Mode, Wireless_Mode, Test_Mode, Client, TX](#select-mode-wireless_mode-test_mode-client-tx)
 
 [SQL JOIN](#sql-join)  
 
@@ -237,7 +238,7 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' an
 ORDER BY char_csv.csv_filename ASC
 ```
 
-### Select Mode, Wireless_mode  
+### Select Mode, Wireless_Mode  
 ```
 SELECT DISTINCT char_log.test_method, char_csv.csv_foldername, char_log.model, char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
 FROM Chariot_CSV_Throughput char_csv 
@@ -246,6 +247,16 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' an
 ORDER BY (char_csv.csv_filename and char_log.model) DESC
 ```
 
+### Select Mode, Wireless_Mode, Test_Mode, Client, TX
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^.*Client[^2345]_Tx_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber' and char_log.model REGEXP '^COVR1900'
+ORDER BY char_log.model  ASC
+```
+
+![alt tag](https://i.imgur.com/Cpiyb8Y.png)
 
 [SQL語法筆記 - Digishot Web Design Source  2013-09-09](https://digishot.keenchief.com/tw/1585550028/1585550028)  
 
