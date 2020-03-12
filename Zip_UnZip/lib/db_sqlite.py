@@ -123,10 +123,14 @@ class DB_sqlite:
             cur.executemany(sql, list_tuple_chariotlog_s)
 
         except sqlite3.Error as err:
-            print("Error occurred: %s" % err)
+            #print("Error occurred: %s" % err)
+            msg = "Error occurred: {}"
+            logger.info(msg.format(err))     
         else:
-            print('Total {} record(s) to insert table.'.format(cur.rowcount))
-        
+            #print('Total {} record(s) to insert table.'.format(cur.rowcount))
+            msg = 'Total {} record(s) to insert table.'
+            logger.info(msg.format(cur.rowcount))
+
         return cur.lastrowid
 
     '''
@@ -153,10 +157,13 @@ class DB_sqlite:
             cur.executemany(sql, list_tuple_csvthruput_s)
 
         except sqlite3.Error as err:
-            print("Error occurred: %s" % err)
+            #print("Error occurred: %s" % err)
+            msg = "Error occurred: {}"
+            logger.info(msg.format(err))     
         else:
-            print('Total {} record(s) to insert table.'.format(cur.rowcount))
-        
+            #print('Total {} record(s) to insert table.'.format(cur.rowcount))
+            msg = 'Total {} record(s) to insert table.'
+            logger.info(msg.format(cur.rowcount))
         return cur.lastrowid
 
     # 
