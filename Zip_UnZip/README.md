@@ -17,6 +17,8 @@ Take note of Zip and UnZip
 [Select Mode, Wireless_Mode 11AC, Test_Mode, Client, TX](#select-mode-wireless_mode-11ac-test_mode-client-tx)  
 [Select Mode, Wireless_Mode 11N, Test_Mode, Client, Bi](#select-mode-wireless_mode-11n-test_mode-client-bi)  
 [Regrssion Test, Wireless_Mode 11AC, Both](#regrssion-test-wireless_mode-11ac-both)  
+[Regrssion Test, Wireless_Mode 11AC, WAN_Type PPTP, TX](#regrssion-test-wireless_mode-11ac-wan_type-pptp-tx)
+
 
 [SQL JOIN](#sql-join)  
 
@@ -282,6 +284,16 @@ ORDER BY char_csv.csv_filename  ASC
 
 ![alt tag](https://i.imgur.com/5eLofDU.png)
 
+### Regrssion Test, Wireless_Mode 11AC, WAN_Type PPTP, TX   
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^Client[12345]-W[0-9]_T.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^PPTP' and char_log.model REGEXP '^DIR-17'
+ORDER BY char_csv.csv_filename  ASC
+```
+
+![alt tag](https://i.imgur.com/DUvcecS.png)  
 
 
 [SQL語法筆記 - Digishot Web Design Source  2013-09-09](https://digishot.keenchief.com/tw/1585550028/1585550028)  
