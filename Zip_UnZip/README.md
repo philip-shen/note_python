@@ -3,7 +3,7 @@ Take note of Zip and UnZip
 
 # Table of Contents  
 [Setup and Usage](#setup-and-usage)  
-[01. pip](#01-pip)  
+[01. Install library by pip](#01-install-library-by-pip)  
 [02. Go to \Zip_UnZip\test](#02-go-to-zip_unziptest)  
 [03. Places zip files in \Zip_UnZip\logzip](#03-places-zip-files-in-zip_unziplogzip)  
 [04. Excute python test_unzip.py ..\logzip](#04-excute-python-test_unzip.py-\logzip)  
@@ -35,7 +35,7 @@ Take note of Zip and UnZip
 [Reference](#reference)  
 
 # Setup and Usage  
-## 01. pip  
+## 01. Install library by pip  
 ```
 pip install -r requiremnets.txt
 ```
