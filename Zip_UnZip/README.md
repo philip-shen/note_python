@@ -13,7 +13,7 @@ Take note of Zip and UnZip
 [SQL Sytnax](#sql-sytnax)  
 [SQL COUNT](#sql-count)  
 
-[DDelete Redundant Rows by Client and Test_Mode Using INNER JOIN ](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)  
+[Delete Redundant Rows by Client and Test_Mode Using INNER JOIN](#delete-redundant-rows-by-client-and-test_mode-using-inner-join)  
 [Delete Redundant Rows by 11AC](#delete-redundant-rows-by-11ac)  
 [Delete Redundant Rows by 11N](#delete-redundant-rows-by-11n)  
 [Select Client1 and 2nd run](#select-client1-and-2nd-run)  
