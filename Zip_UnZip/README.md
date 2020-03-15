@@ -2,7 +2,13 @@
 Take note of Zip and UnZip  
 
 # Table of Contents  
-[]()  
+[Setup and Usage](setup-and-usage)  
+[01. pip](#01.-pip)  
+[02. Go to \Zip_UnZip\test]()  
+[03. Places zip files in \Zip_UnZip\logzip](#03.-places-zip-files-in-zip_unziplogzip)  
+[04. Excute python test_unzip.py ..\logzip](#04.-excute-python-test_unzip.py..\logzip)  
+[05. Check \Zip_UnZip\logs\WiFiPerformance.db by sqlite browser](#05.-check-Zip_UnZip\logs\WiFiPerformance.db by sqlite browser)  
+[06. Query reslut by ugin SQL](#)  
 
 [SQL Sytnax](#sql-sytnax)  
 [SQL COUNT](#sql-count)  
@@ -26,88 +32,31 @@ Take note of Zip and UnZip
 
 [Troubleshooting](#troubleshooting)  
 
-# 
-[Python: How to unzip a file | Extract Single, multiple or all files from a ZIP archive December 1, 2018](https://thispointer.com/python-how-to-unzip-a-file-extract-single-multiple-or-all-files-from-a-zip-archive/)  
+[Reference](#reference)  
+
+# Setup and Usage  
+## 01. pip  
 ```
-def main():
- 
-    print('Extract all files in ZIP to current directory')
-    # Create a ZipFile Object and load sample.zip in it
-    with ZipFile('sampleDir.zip', 'r') as zipObj:
-       # Extract all the contents of zip file in current directory
-       zipObj.extractall()
- 
-    print('Extract all files in ZIP to different directory')
- 
-    # Create a ZipFile Object and load sample.zip in it
-    with ZipFile('sampleDir.zip', 'r') as zipObj:
-       # Extract all the contents of zip file in different directory
-       zipObj.extractall('temp')
- 
-    print('Extract single file from ZIP')
- 
-    # Create a ZipFile Object and load sample.zip in it
-    with ZipFile('sampleDir.zip', 'r') as zipObj:
-       # Get a list of all archived file names from the zip
-       listOfFileNames = zipObj.namelist()
-       # Iterate over the file names
-       for fileName in listOfFileNames:
-           # Check filename endswith csv
-           if fileName.endswith('.csv'):
-               # Extract a single file from zip
-               zipObj.extract(fileName, 'temp_csv')
- 
- 
- 
-if __name__ == '__main__':
-   main()
+pip install -r requiremnets.txt
 ```
 
-[pythonでzipファイルを再帰的に展開 Jun 01, 2017](https://qiita.com/arwtyxouymz0110/items/2caed2f760d586969972)  
+## 02. Go to \Zip_UnZip\test  
 
+## 03. Places zip files in \Zip_UnZip\logzip  
+
+## 04. Excute python test_unzip.py ..\logzip
 ```
- expand_zip.py
-
-# -*- coding: utf-8 -*-
-import os
-import sys
-import zipfile
-import glob
-
-
-def unzip(filename):
-    with zipfile.ZipFile(filename, "r") as zf:
-        zf.extractall(path=os.path.dirname(filename))
-    delete_zip(filename)
-
-
-def delete_zip(zip_file):
-    os.remove(zip_file)
-
-
-def walk_in_dir(dir_path):
-    for filename in glob.glob(os.path.join(dir_path, "*.zip")):
-        unzip(filename=os.path.join(dir_path,filename))
-
-    for dirname in (d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))):
-        walk_in_dir(os.path.join(dir_path, dirname))
-
-
-if __name__ == "__main__":
-    args = sys.argv
-    try:
-        if(os.path.isdir(args[1])):
-            walk_in_dir(args[1])
-        else:
-            unzip(os.path.join(args[1]))
-            name, _ = os.path.splitext(args[1])
-            if (os.path.isdir(name)):
-                walk_in_dir(name)
-    except IndexError:
-        print('IndexError: Usage "python %s ZIPFILE_NAME" or "python %s DIR_NAME"' % (args[0], args[0]))
-    except IOError:
-        print('IOError: Couldn\'t open "%s"' % args[1])
+ python test_unzip.py ..\logzip
 ```
+![alt tag](https://i.imgur.com/TcIZJGX.gif)  
+
+![alt tag](https://i.imgur.com/4nDyXCs.gif)  
+
+## 05. Check \Zip_UnZip\logs\WiFiPerformance.db by sqlite browser  
+![alt tag](https://i.imgur.com/DORE80g.jpg)  
+
+## 06. Query reslut by ugin SQL  
+
 # SQL Sytnax  
 [SQL語法](https://www.1keydata.com/tw/sql/sql-syntax.html) 
 ```
@@ -550,8 +499,88 @@ RegExp | Description | Example
 # Troubleshooting  
 
 
-# Reference
+# Reference  
+[Python: How to unzip a file | Extract Single, multiple or all files from a ZIP archive December 1, 2018](https://thispointer.com/python-how-to-unzip-a-file-extract-single-multiple-or-all-files-from-a-zip-archive/)  
+```
+def main():
+ 
+    print('Extract all files in ZIP to current directory')
+    # Create a ZipFile Object and load sample.zip in it
+    with ZipFile('sampleDir.zip', 'r') as zipObj:
+       # Extract all the contents of zip file in current directory
+       zipObj.extractall()
+ 
+    print('Extract all files in ZIP to different directory')
+ 
+    # Create a ZipFile Object and load sample.zip in it
+    with ZipFile('sampleDir.zip', 'r') as zipObj:
+       # Extract all the contents of zip file in different directory
+       zipObj.extractall('temp')
+ 
+    print('Extract single file from ZIP')
+ 
+    # Create a ZipFile Object and load sample.zip in it
+    with ZipFile('sampleDir.zip', 'r') as zipObj:
+       # Get a list of all archived file names from the zip
+       listOfFileNames = zipObj.namelist()
+       # Iterate over the file names
+       for fileName in listOfFileNames:
+           # Check filename endswith csv
+           if fileName.endswith('.csv'):
+               # Extract a single file from zip
+               zipObj.extract(fileName, 'temp_csv')
+ 
+ 
+ 
+if __name__ == '__main__':
+   main()
+```
 
+[pythonでzipファイルを再帰的に展開 Jun 01, 2017](https://qiita.com/arwtyxouymz0110/items/2caed2f760d586969972)  
+
+```
+ expand_zip.py
+
+# -*- coding: utf-8 -*-
+import os
+import sys
+import zipfile
+import glob
+
+
+def unzip(filename):
+    with zipfile.ZipFile(filename, "r") as zf:
+        zf.extractall(path=os.path.dirname(filename))
+    delete_zip(filename)
+
+
+def delete_zip(zip_file):
+    os.remove(zip_file)
+
+
+def walk_in_dir(dir_path):
+    for filename in glob.glob(os.path.join(dir_path, "*.zip")):
+        unzip(filename=os.path.join(dir_path,filename))
+
+    for dirname in (d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))):
+        walk_in_dir(os.path.join(dir_path, dirname))
+
+
+if __name__ == "__main__":
+    args = sys.argv
+    try:
+        if(os.path.isdir(args[1])):
+            walk_in_dir(args[1])
+        else:
+            unzip(os.path.join(args[1]))
+            name, _ = os.path.splitext(args[1])
+            if (os.path.isdir(name)):
+                walk_in_dir(name)
+    except IndexError:
+        print('IndexError: Usage "python %s ZIPFILE_NAME" or "python %s DIR_NAME"' % (args[0], args[0]))
+    except IOError:
+        print('IOError: Couldn\'t open "%s"' % args[1])
+```
 
 * []()
 ![alt tag]()  
