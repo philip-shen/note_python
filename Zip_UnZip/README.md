@@ -2,13 +2,13 @@
 Take note of Zip and UnZip  
 
 # Table of Contents  
-[Setup and Usage](setup-and-usage)  
-[01. pip](#01.-pip)  
-[02. Go to \Zip_UnZip\test]()  
-[03. Places zip files in \Zip_UnZip\logzip](#03.-places-zip-files-in-zip_unziplogzip)  
-[04. Excute python test_unzip.py ..\logzip](#04.-excute-python-test_unzip.py..\logzip)  
-[05. Check \Zip_UnZip\logs\WiFiPerformance.db by sqlite browser](#05.-check-Zip_UnZip\logs\WiFiPerformance.db by sqlite browser)  
-[06. Query reslut by ugin SQL](#)  
+[Setup and Usage](#setup-and-usage)  
+[01. pip](#01-pip)  
+[02. Go to \Zip_UnZip\test](#02-go-to-zip_unziptest)  
+[03. Places zip files in \Zip_UnZip\logzip](#03-places-zip-files-in-zip_unziplogzip)  
+[04. Excute python test_unzip.py ..\logzip](#04-excute-python-test_unzip.py-\logzip)  
+[05. Check \Zip_UnZip\logs\WiFiPerformance.db by sqlite browser](#05-check-zip_unziplogswifiperformancedb-by-sqlite-browser)  
+[06. Query reslut by ugin SQL](#06-query-reslut-by-ugin-sql)  
 
 [SQL Sytnax](#sql-sytnax)  
 [SQL COUNT](#sql-count)  
