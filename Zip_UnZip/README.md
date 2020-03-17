@@ -24,7 +24,11 @@ Take note of Zip and UnZip
 [Select Mode, Wireless_Mode 11N, Test_Mode, Client, Bi](#select-mode-wireless_mode-11n-test_mode-client-bi)  
 [Regrssion Test, Wireless_Mode 11AC, Both](#regrssion-test-wireless_mode-11ac-both)  
 [Regrssion Test, Wireless_Mode 11AC, WAN_Type PPTP, TX](#regrssion-test-wireless_mode-11ac-wan_type-pptp-tx)
-
+[Regrssion Test, WAN_Type PPPoE](#regrssion-test-wan_type-pppoe)
+[Regrssion Test, WAN_Type DHCP](#regrssion-test-wan_type-dhcp)
+[Regrssion Test, WAN_Type StaticIP](#regrssion-test-wan_type-staticip)
+[Regrssion Test, WAN_Type PPTP](#regrssion-test-wan_type-pptp)
+[Regrssion Test, WAN_Type L2TP](#regrssion-test-wan_type-l2tp)
 
 [SQL JOIN](#sql-join)  
 
@@ -243,6 +247,51 @@ ORDER BY char_csv.csv_filename  ASC
 ```
 
 ![alt tag](https://i.imgur.com/DUvcecS.png)  
+
+### Regrssion Test, WAN_Type PPPoE   
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W3_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^PPPOE' and char_log.model REGEXP '^DIR-17'
+ORDER BY char_csv.csv_foldername  ASC
+```
+
+### Regrssion Test, WAN_Type DHCP     
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W1_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^DHCP' and char_log.model REGEXP '^DIR-17'
+ORDER BY char_csv.csv_foldername  ASC
+```
+
+### Regrssion Test, WAN_Type StaticIP     
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W2_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^STATICIP' and char_log.model REGEXP '^DIR-17'
+ORDER BY char_csv.csv_foldername  ASC
+```
+
+### Regrssion Test, WAN_Type PPTP     
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W4_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^PPTP' and char_log.model REGEXP '^DIR-17'
+ORDER BY char_csv.csv_foldername  ASC
+```
+
+### Regrssion Test, WAN_Type L2TP     
+```
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+FROM Chariot_CSV_Throughput char_csv 
+INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
+WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W5_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^L2TP' and char_log.model REGEXP '^DIR-17'
+ORDER BY char_csv.csv_foldername  ASC
+```
 
 
 [SQL語法筆記 - Digishot Web Design Source  2013-09-09](https://digishot.keenchief.com/tw/1585550028/1585550028)  
