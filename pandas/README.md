@@ -356,7 +356,16 @@ print(f'value to hit bbl: {lastvalue} -> check new bbl: {new_bbl}')
 [bollinger-bands-trading-analysis](#https://github.com/martinzugnoni/bollinger-bands-trading-analysis/blob/master/Bollinger%20Bands%20Trading%20Analysis.ipynb)
 
 
-# Reference
+# Reference  
+
+[pythonのアルゴリズムトレードライブラリ 2019-07-15](https://qiita.com/shiro-kuma/items/334a567d13f8a0c34ece)  
+
+    zipline
+    PyAlgoTrade
+    pybacktest
+    backtrader
+
+
 * [How to get the last N rows of a pandas DataFrame? Feb 3, 2013](https://stackoverflow.com/questions/14663004/how-to-get-the-last-n-rows-of-a-pandas-dataframe)  
 ```
 Don't forget DataFrame.tail! e.g. df1.tail(10)
