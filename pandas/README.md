@@ -16,6 +16,8 @@
 [Signals: Overbought/Oversold](#signals-overboughtoversold)  
 [Signals: Trend Identification](#signals-trend-identification)  
 
+[bollinger-bands-trading-analysis](#bollinger-bands-trading-analysis)
+
 [Reference](#reference)
 
 # Setting up a Bollinger Band with Python  
@@ -348,6 +350,11 @@ odf = pd.DataFrame({'A': [34, 34, 34, 33, 32, 34, 35.0, 21, 22, 25, 23, 21, 39, 
 lastvalue, new_bbh, new_bbl = get_last_bbh_bbl(odf)
 print(f'value to hit bbl: {lastvalue} -> check new bbl: {new_bbl}')
 ```
+
+
+# bollinger-bands-trading-analysis  
+[bollinger-bands-trading-analysis](#https://github.com/martinzugnoni/bollinger-bands-trading-analysis/blob/master/Bollinger%20Bands%20Trading%20Analysis.ipynb)
+
 
 # Reference
 * [How to get the last N rows of a pandas DataFrame? Feb 3, 2013](https://stackoverflow.com/questions/14663004/how-to-get-the-last-n-rows-of-a-pandas-dataframe)  
