@@ -143,7 +143,7 @@ ORDER BY csv_filename ASC;
 
 ## Delete Redundant Rows by Client and Test_Mode Using INNER JOIN 
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^PPTP'
@@ -152,7 +152,7 @@ ORDER BY char_csv.csv_foldername ASC;
 
 ## Delete Redundant Rows by 11AC  
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]AC' and char_csv.csv_filename REGEXP  '^P[0-9]-Client[0-9]' and  char_log.test_method REGEXP  '^Chamber'
@@ -161,7 +161,7 @@ ORDER BY char_csv.csv_foldername ASC
 
 ## Delete Redundant Rows by 11N  
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9]N' and char_csv.csv_filename REGEXP  '^P[0-9]-Client[0-9]' and  char_log.test_method REGEXP  '^Chamber'
@@ -170,7 +170,7 @@ ORDER BY char_csv.csv_foldername ASC
 
 ### Select Client1 and 2nd run  
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' and char_csv.csv_filename REGEXP  '^.*Client[^2345]_[^13]*\.csv$' and  char_log.test_method REGEXP  '^Chamber'
@@ -179,7 +179,7 @@ ORDER BY char_csv.csv_filename DESC
 
 ### Select Client1, TX and all runs  
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' and char_csv.csv_filename REGEXP  '^.*Client[^2345]_Tx_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber'
@@ -188,7 +188,7 @@ ORDER BY char_csv.csv_filename ASC
 
 ### Select Client1, Bidirectional and all runs  
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, char_log.wireless_mode, char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' and char_csv.csv_filename REGEXP  '^.*Client[^2345]_Bi.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber'
@@ -197,7 +197,7 @@ ORDER BY char_csv.csv_filename ASC
 
 ### Select Mode, Wireless_Mode  
 ```
-SELECT DISTINCT char_log.test_method, char_csv.csv_foldername, char_log.model, char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_csv.csv_foldername, char_log.model, char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Z]$' and  char_log.test_method REGEXP  '^Chamber' and char_log.model REGEXP '^COVR1900'
@@ -206,7 +206,7 @@ ORDER BY (char_csv.csv_filename and char_log.model) DESC
 
 ### Select Mode, Wireless_Mode 11AC, Test_Mode, Client, TX
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^.*Client[^2345]_Tx_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber' and char_log.model REGEXP '^COVR1900'
@@ -217,7 +217,7 @@ ORDER BY char_log.model  ASC
 
 ### Select Mode, Wireless_Mode 11N, Test_Mode, Client, Bi  
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^.*Client[^2345]_Bi.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber' and char_log.model REGEXP '^COVR1900'
@@ -228,7 +228,7 @@ ORDER BY char_log.model  ASC
 
 ### Regrssion Test, Wireless_Mode 11AC, Both   
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^.*Client[12345]_Bi.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^Chamber' and char_log.model REGEXP '^DIR-17'
@@ -239,7 +239,7 @@ ORDER BY char_csv.csv_filename  ASC
 
 ### Regrssion Test, Wireless_Mode 11AC, WAN_Type PPTP, TX   
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^Client[12345]-W[0-9]_T.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^PPTP' and char_log.model REGEXP '^DIR-17'
@@ -250,7 +250,7 @@ ORDER BY char_csv.csv_filename  ASC
 
 ### Regrssion Test, WAN_Type PPPoE   
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W3_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^PPPOE' and char_log.model REGEXP '^DIR-17'
@@ -259,7 +259,7 @@ ORDER BY char_csv.csv_foldername  ASC
 
 ### Regrssion Test, WAN_Type DHCP     
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W1_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^DHCP' and char_log.model REGEXP '^DIR-17'
@@ -268,7 +268,7 @@ ORDER BY char_csv.csv_foldername  ASC
 
 ### Regrssion Test, WAN_Type StaticIP     
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W2_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^STATICIP' and char_log.model REGEXP '^DIR-17'
@@ -277,7 +277,7 @@ ORDER BY char_csv.csv_foldername  ASC
 
 ### Regrssion Test, WAN_Type PPTP     
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W4_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^PPTP' and char_log.model REGEXP '^DIR-17'
@@ -286,7 +286,7 @@ ORDER BY char_csv.csv_foldername  ASC
 
 ### Regrssion Test, WAN_Type L2TP     
 ```
-SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg
+SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
 FROM Chariot_CSV_Throughput char_csv 
 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^P0-W5_.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^L2TP' and char_log.model REGEXP '^DIR-17'
