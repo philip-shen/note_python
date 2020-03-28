@@ -1,0 +1,237 @@
+{
+    "WiFi_ThroughputTest":[
+        {
+            "description": "Wireless_PerformanceTest",
+            "driver": "f:/",
+            "folder": "ChamberWirelessPerformanceTest",
+            "folder_zip": "TestResultTemp",
+            "folder_zip_backup": "The latest Test Result"
+        
+        },
+        {"AC_88":{
+            "model": "ac88",           
+            "description": "ASUS_AC_88(4*4)",
+            "wlan_ip_address":"192.168.0.101"
+            }
+        },
+        {"DWA_192":{
+            "model": "dwa192",           
+            "description": "DWA_192 A1(3*3)",
+            "wlan_ip_address":"192.168.0.102"
+            }
+        },
+        {"AC_8260":{
+            "model": "ac8260",           
+            "description": "Intel-8260_ac(2*2)",
+            "wlan_ip_address":"192.168.0.103"
+            }
+        },
+        {"MACBOOK":{
+            "model": "macbook",           
+            "description": "MacBook_Pro",
+            "wlan_ip_address":"192.168.0.104"
+            }
+        },
+        {"AX_200":{
+            "model": "ax200",           
+            "description": "Intel-AX_200",
+            "wlan_ip_address":"192.168.0.105"
+            }
+        }
+    ],
+    "DHCPNAT_ThroughputTest":[
+        {
+            "description": "DHCPNAT_PerformanceTest",
+            "driver": "f:/",
+            "folder": "DHCPNATThroughputTest",
+            "folder_zip": "TestResultTemp",
+            "folder_zip_backup": "The latest Test Result"
+        },
+        {"AC_88":{
+            "model": "ac88",           
+            "description": "ASUS_AC_88(4*4)",
+            "wlan_ip_address":"192.168.0.101"
+            }
+        },
+        {"DWA_192":{
+            "model": "dwa192",           
+            "description": "DWA_192 A1(3*3)",
+            "wlan_ip_address":"192.168.0.102"
+            }
+        },
+        {"AC_8260":{
+            "model": "ac8260",           
+            "description": "Intel-8260_ac(2*2)",
+            "wlan_ip_address":"192.168.0.103"
+            }
+        },
+        {"MACBOOK":{
+            "model": "macbook",           
+            "description": "MacBook_Pro",
+            "wlan_ip_address":"192.168.0.104"
+            }
+        },
+        {"AX_200":{
+            "model": "ax200",           
+            "description": "Intel-AX_200",
+            "wlan_ip_address":"192.168.0.105"
+            }
+        }       
+    ],
+    "L2TPNAT_ThroughputTest":[
+        {
+            "description": "L2TPNAT_PerformanceTest",
+            "driver": "f:/",
+            "folder": "L2TPNATThroughputTest",
+            "folder_zip": "TestResultTemp",
+            "folder_zip_backup": "The latest Test Result"
+        },
+        {"AC_88":{
+            "model": "ac88",           
+            "description": "ASUS_AC_88(4*4)",
+            "wlan_ip_address":"192.168.0.101"
+            }
+        },
+        {"DWA_192":{
+            "model": "dwa192",           
+            "description": "DWA_192 A1(3*3)",
+            "wlan_ip_address":"192.168.0.102"
+            }
+        },
+        {"AC_8260":{
+            "model": "ac8260",           
+            "description": "Intel-8260_ac(2*2)",
+            "wlan_ip_address":"192.168.0.103"
+            }
+        },
+        {"MACBOOK":{
+            "model": "macbook",           
+            "description": "MacBook_Pro",
+            "wlan_ip_address":"192.168.0.104"
+            }
+        },
+        {"AX_200":{
+            "model": "ax200",           
+            "description": "Intel-AX_200",
+            "wlan_ip_address":"192.168.0.105"
+            }
+        } 
+    ],
+    "PPPOENAT_ThroughputTest":[
+        {
+            "description": "PPPOENAT_PerformanceTest",
+            "driver": "f:/",
+            "folder": "PPPOENATThroughputTest",
+            "folder_zip": "TestResultTemp",
+            "folder_zip_backup": "The latest Test Result"
+        },
+        {"AC_88":{
+            "model": "ac88",           
+            "description": "ASUS_AC_88(4*4)",
+            "wlan_ip_address":"192.168.0.101"
+            }
+        },
+        {"DWA_192":{
+            "model": "dwa192",           
+            "description": "DWA_192 A1(3*3)",
+            "wlan_ip_address":"192.168.0.102"
+            }
+        },
+        {"AC_8260":{
+            "model": "ac8260",           
+            "description": "Intel-8260_ac(2*2)",
+            "wlan_ip_address":"192.168.0.103"
+            }
+        },
+        {"MACBOOK":{
+            "model": "macbook",           
+            "description": "MacBook_Pro",
+            "wlan_ip_address":"192.168.0.104"
+            }
+        },
+        {"AX_200":{
+            "model": "ax200",           
+            "description": "Intel-AX_200",
+            "wlan_ip_address":"192.168.0.105"
+            }
+        }       
+    ],
+    "PPTPNAT_ThroughputTest":[
+        {
+            "description": "PPTPNAT_PerformanceTest",
+            "driver": "f:/",
+            "folder": "PPTPNATThroughputTest",
+            "folder_zip": "TestResultTemp",
+            "folder_zip_backup": "The latest Test Result"
+        },
+        {"AC_88":{
+            "model": "ac88",           
+            "description": "ASUS_AC_88(4*4)",
+            "wlan_ip_address":"192.168.0.101"
+            }
+        },
+        {"DWA_192":{
+            "model": "dwa192",           
+            "description": "DWA_192 A1(3*3)",
+            "wlan_ip_address":"192.168.0.102"
+            }
+        },
+        {"AC_8260":{
+            "model": "ac8260",           
+            "description": "Intel-8260_ac(2*2)",
+            "wlan_ip_address":"192.168.0.103"
+            }
+        },
+        {"MACBOOK":{
+            "model": "macbook",           
+            "description": "MacBook_Pro",
+            "wlan_ip_address":"192.168.0.104"
+            }
+        },
+        {"AX_200":{
+            "model": "ax200",           
+            "description": "Intel-AX_200",
+            "wlan_ip_address":"192.168.0.105"
+            }
+        }        
+    ],
+    "STATICIPNAT_ThroughputTest":[
+        {
+            "description": "STATICIPNAT_PerformanceTest",
+            "driver": "f:/",
+            "folder": "STATICIPNATThroughputTest",
+            "folder_zip": "TestResultTemp",
+            "folder_zip_backup": "The latest Test Result"
+        },
+        {"AC_88":{
+            "model": "ac88",           
+            "description": "ASUS_AC_88(4*4)",
+            "wlan_ip_address":"192.168.0.101"
+            }
+        },
+        {"DWA_192":{
+            "model": "dwa192",           
+            "description": "DWA_192 A1(3*3)",
+            "wlan_ip_address":"192.168.0.102"
+            }
+        },
+        {"AC_8260":{
+            "model": "ac8260",           
+            "description": "Intel-8260_ac(2*2)",
+            "wlan_ip_address":"192.168.0.103"
+            }
+        },
+        {"MACBOOK":{
+            "model": "macbook",           
+            "description": "MacBook_Pro",
+            "wlan_ip_address":"192.168.0.104"
+            }
+        },
+        {"AX_200":{
+            "model": "ax200",           
+            "description": "Intel-AX_200",
+            "wlan_ip_address":"192.168.0.105"
+            }
+        }    
+    ]                
+}
