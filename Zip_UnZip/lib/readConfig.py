@@ -83,11 +83,11 @@ class ReadJSON:
                 msg = "path_zip_folder_backup: {}"
                 logger.info(msg.format(list_path_zip_folder_backup))
 
-        if self.opt_verbose.lower() == "on":
-            msg = "list_path_zip_folder: {}"
-            logger.info(msg.format(list_path_zip_folder))
-            msg = "list_path_zip_folder_backup: {}"
-            logger.info(msg.format(list_path_zip_folder_backup))
+        #if self.opt_verbose.lower() == "on":
+        msg = "list_path_zip_folder: {}"
+        logger.info(msg.format(list_path_zip_folder))
+        msg = "list_path_zip_folder_backup: {}"
+        logger.info(msg.format(list_path_zip_folder_backup))
 
         '''
         list_path_zip_folder: ['f:/ChamberWirelessPerformanceTest\\TestResultTemp', 
@@ -105,45 +105,72 @@ class ReadJSON:
 
         return list_path_zip_folder, list_path_zip_folder_backup
     
-    def parse_ZipFolder_Files(self,re_pattern,zip_folder):
+    def parse_ZipFolder_Files(self,re_pattern,list_path_zipfolder):
         ret_list = []        
 
-        for filename in os.listdir(zip_folder):
-            if re.search(re_pattern, filename):
-                ret_list.append(os.path.join(zip_folder,filename)) 
+        for path_zipfolder in list_path_zipfolder:
+            # check if folder or not
+            if os.path.isdir(path_zipfolder):
 
                 if self.opt_verbose.lower() == "on":
-                    msg = "parse_ZipFolder_Files: {}"
-                    logger.info(msg.format(os.path.join(zip_folder,filename)))
+                    msg = "path_zipfolder: {}"
+                    logger.info(msg.format(path_zipfolder))
+
+                #get zip files under folder
+                for filename in os.listdir(path_zipfolder):
+                    if re.search(re_pattern, filename):
+                        ret_list.append(os.path.join(path_zipfolder,filename)) 
+
+                    if self.opt_verbose.lower() == "on":
+                        msg = "parse_ZipFolder_Files: {}"
+                        logger.info(msg.format(os.path.join(path_zipfolder,filename)))
         
-        self.list_zipfiles_under_zip_folders.append(ret_list)
+        return ret_list
 
     def get_list_zipfiles_under_zip_folders(self):    
         re_exp_zipfile = r'\.zip$'
+        list_zipfiles_under_zip_folders = []
 
-        for path_zip_folder in self.list_path_zip_folder:
+        '''
+        bouble nested list
+
+        list_zipfiles_under_zip_folders: 
+        [['f:/ChamberWirelessPerformanceTest\\TestResultTemp\\5G_DIR-1750_v1.01b08_MacBook.zip', 'f:/ChamberWirelessPerformanceTest\\TestResultTemp\\2-4G_DIR-1750_v1.01b08_AC88.zip'], 
+        ['f:/DHCPNATThroughputTest\\TestResultTemp\\DHCP_DIR-1750_1.01b08__AX200.zip', 'f:/DHCPNATThroughputTest\\TestResultTemp\\DHCP_DIR-1750_1.01b08__AC8260.zip'], 
+        ['f:/L2TPNATThroughputTest\\TestResultTemp\\L2TP_v1.00b11_Macbook.zip', 'f:/L2TPNATThroughputTest\\TestResultTemp\\L2TP_DIR-1750_1.01b08_5G.zip'], 
+        ['f:/PPPOENATThroughputTest\\TestResultTemp\\PPPoE_DIR1750_v1.01b08_MacBook.zip', 'f:/PPPOENATThroughputTest\\TestResultTemp\\PPPoE_DIR1750_v1.01b08_AX200.zip'], 
+        ['f:/PPTPNATThroughputTest\\TestResultTemp\\PPTP_DIR-1750_1.01b08_AC8260.zip', 'f:/PPTPNATThroughputTest\\TestResultTemp\\PPTP_DIR-1750_1.01b08_AC88.zip'], 
+        ['f:/STATICIPNATThroughputTest\\TestResultTemp\\StaticIP_DIR1750_v1.01b08_AX200.zip', 'f:/STATICIPNATThroughputTest\\TestResultTemp\\StaticIP_DIR1750_v1.01b08_AC8260.zip']]
+        '''
+        #for path_zip_folder in self.list_path_zip_folder:
             # check if folder or not
-            if os.path.isdir(path_zip_folder):
+        #    if os.path.isdir(path_zip_folder):
                 
-                if self.opt_verbose.lower() == "on":
-                    msg = "path_zip_folder: {}"
-                    logger.info(msg.format(path_zip_folder))
+        #        if self.opt_verbose.lower() == "on":
+        #            msg = "path_zip_folder: {}"
+        #            logger.info(msg.format(path_zip_folder))
 
                 #get zip files under folder
-                self.parse_ZipFolder_Files(re_exp_zipfile, path_zip_folder)
+        #       ret_list = self.parse_ZipFolder_Files(re_exp_zipfile, path_zip_folder)
 
-        if self.opt_verbose.lower() == "on":
-            msg = "list_zipfiles_under_zip_folders: {}"
-            logger.info(msg.format(self.list_zipfiles_under_zip_folders))        
+        #       list_zipfiles_under_zip_folders.append(ret_list)
 
-
-
-
-
-
-
-
+        #self.list_zipfiles_under_zip_folders = list_zipfiles_under_zip_folders
         
+        '''        
+        list_zipfiles_under_zip_folders: 
+        ['f:/ChamberWirelessPerformanceTest\\TestResultTemp\\5G_DIR-1750_v1.01b08_MacBook.zip', 'f:/ChamberWirelessPerformanceTest\\TestResultTemp\\2-4G_DIR-1750_v1.01b08_AC88.zip', 
+        'f:/DHCPNATThroughputTest\\TestResultTemp\\DHCP_DIR-1750_1.01b08__AX200.zip', 'f:/DHCPNATThroughputTest\\TestResultTemp\\DHCP_DIR-1750_1.01b08__AC8260.zip', 
+        'f:/L2TPNATThroughputTest\\TestResultTemp\\L2TP_v1.00b11_Macbook.zip', 'f:/L2TPNATThroughputTest\\TestResultTemp\\L2TP_DIR-1750_1.01b08_5G.zip', 
+        'f:/PPPOENATThroughputTest\\TestResultTemp\\PPPoE_DIR1750_v1.01b08_MacBook.zip', 'f:/PPPOENATThroughputTest\\TestResultTemp\\PPPoE_DIR1750_v1.01b08_AX200.zip',
+        'f:/PPTPNATThroughputTest\\TestResultTemp\\PPTP_DIR-1750_1.01b08_AC8260.zip', 'f:/PPTPNATThroughputTest\\TestResultTemp\\PPTP_DIR-1750_1.01b08_AC88.zip', 
+        'f:/STATICIPNATThroughputTest\\TestResultTemp\\StaticIP_DIR1750_v1.01b08_AX200.zip', 'f:/STATICIPNATThroughputTest\\TestResultTemp\\StaticIP_DIR1750_v1.01b08_AC8260.zip']
+        '''
+        #get zip files under folder
+        self.list_zipfiles_under_zip_folders = self.parse_ZipFolder_Files(re_exp_zipfile, self.list_path_zip_folder)
+        
+        #self.list_zipfiles_under_zip_folders = list_zipfiles_under_zip_folders
 
-
-
+        #if self.opt_verbose.lower() == "on":
+        msg = "list_zipfiles_under_zip_folders: {}"
+        logger.info(msg.format(self.list_zipfiles_under_zip_folders))        

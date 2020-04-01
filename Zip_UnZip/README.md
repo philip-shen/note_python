@@ -528,9 +528,6 @@ SELECT name,member FROM project WHERE name LIKE 'A' UNION SELECT name,member FRO
 ```
 
 ```
-```
-
-```
 
 # Regular Express  
 [[實用] 用 Regular Expression 做字串比對 23 Jun 2016](https://larry850806.github.io/2016/06/23/regex/)  
@@ -544,6 +541,49 @@ RegExp | Description | Example
 /^[0-9\+\-\*\/]*$/ | 四則運算算式 | "1+2*3" 
 
 ![alt tag]()  
+
+# Google Driver  
+[PythonでGoogleドライブに画像をアップロード Apr 25, 2017](https://qiita.com/akabei/items/f25e4f79dd7c2f754f0e)  
+
+## Environment  
+```
+Windows 7 Professional SP1 64bit
+Python 3.6.1 (64bit)
+pip 9.0.1
+google-api-python-client 1.6.2
+PyDrive 1.3.1
+```
+```
+>pip install google-api-python-client
+>pip install PyDrive
+```
+PyDriveのインストールでエラーが発生したので以下の方法で解決しました。
+[pipでUnicodeDecodeErrorが発生(Windows環境) Jun 06, 2016](https://qiita.com/akabei/items/da70ebf61cc413d5ff0d)  
+
+## OAuthクライアントID取得  
+[OAuthクライアントID取得](https://qiita.com/akabei/items/f25e4f79dd7c2f754f0e#oauth%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88id%E5%8F%96%E5%BE%97)
+
+## プログラム作成  
+[プログラム作成](https://qiita.com/akabei/items/f25e4f79dd7c2f754f0e#%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E4%BD%9C%E6%88%90)  
+```
+# imageupload.py
+
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+
+gauth = GoogleAuth()
+gauth.CommandLineAuth()
+drive = GoogleDrive(gauth)
+
+f = drive.CreateFile({'title': 'test.jpg', 'mimeType': 'image/jpeg'})
+f.SetContentFile('test.jpg')
+f.Upload()
+```
+
+
+[Python#pydriveを使ってみよう Jul 26, 2018](https://qiita.com/soup01/items/670107d8454274297b5d)  
+[PyDriveでGoogle Driveの特定フォルダ配下のファイルをすべてダウンロードする Jun 26, 2018](https://qiita.com/i8b4/items/322dc8d81427717a86e4)  
+
 
 # Troubleshooting  
 

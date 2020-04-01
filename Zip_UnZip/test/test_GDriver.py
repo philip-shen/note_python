@@ -1,8 +1,11 @@
-
+# 3/28/2020 Initial
+# 
+########################################################
 import json
 import pandas as pd
 
 import os,sys,time
+from pydrive.drive import GoogleDrive
 
 strabspath=os.path.abspath(__file__)
 strdirname=os.path.dirname(strabspath)
@@ -14,17 +17,37 @@ sys.path.append(dirnamelib)
 
 from logger import logger
 import readConfig 
+import googleDrive as google_drive
 
-json_file='config.json'
-opt_verbose='ON'
-#opt_verbose='OFF'
+if __name__ == "__main__":
+    t0 = time.time()
 
-# Read zip files name under specific folders key:"folder_zip"
-# Read column name from df to act as key
-local_readConfig_readjson = readConfig.ReadJSON(json_file,opt_verbose)
-local_readConfig_readjson.get_list_zip_folder_folderbackup()
+    json_file='config.json'
+    #opt_verbose='ON'
+    opt_verbose='OFF'
 
-local_readConfig_readjson.get_list_zipfiles_under_zip_folders()
+    # Read column name from df to act as key
+    local_readConfig_readjson = readConfig.ReadJSON(json_file,opt_verbose)
+    # Read zip files name under specific folders key:"folder_zip" and key:"folder_zip_backup"    
+    local_readConfig_readjson.get_list_zip_folder_folderbackup()
 
-## Upolad zip files to Google Driver
-## Move zip files to key:"folder_zip_backup"
+    # Read zip files name under specific folders key:"folder_zip"
+    local_readConfig_readjson.get_list_zipfiles_under_zip_folders()    
+
+    opt_verbose='ON'
+    #opt_verbose='OFF'
+    
+    ## Upolad zip files to Google Driver
+    str_client_credentials = 'client_secrets_zipupload.json'
+    localgoogle_drive = google_drive.GoogleCloudDrive()
+
+    gauth = localgoogle_drive.GDriveAuth(str_client_credentials)
+    #Make GoogleDrive instance with Authenticated GoogleAuth instance
+    drive = GoogleDrive(gauth)
+
+
+
+    ## Move zip files to key:"folder_zip_backup"
+
+    msg = 'Time duration: {:.2f} seconds.'
+    logger.info(msg.format( time.time() - t0))     
