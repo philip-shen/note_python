@@ -34,6 +34,11 @@ Take note of Zip and UnZip
 
 [Regular Express](#regular-express)
 
+[Google Drive](#google-drive)  
+[Environment](#environment)  
+[OAuthクライアントID取得](#oauth%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88id%E5%8F%96%E5%BE%97)  
+
+
 [Troubleshooting](#troubleshooting)  
 
 [Reference](#reference)  
@@ -542,7 +547,7 @@ RegExp | Description | Example
 
 ![alt tag]()  
 
-# Google Driver  
+# Google Drive  
 [PythonでGoogleドライブに画像をアップロード Apr 25, 2017](https://qiita.com/akabei/items/f25e4f79dd7c2f754f0e)  
 
 ## Environment  
