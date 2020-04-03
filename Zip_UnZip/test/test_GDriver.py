@@ -39,9 +39,12 @@ if __name__ == "__main__":
     
     ## Upolad zip files to Google Driver
     str_client_credentials = 'client_secrets_zipupload.json'
-    localgoogle_drive = google_drive.GoogleCloudDrive()
+    str_dir_client_credentials = os.path.join(strdirname,str_client_credentials)
+    print(str_dir_client_credentials)
 
+    localgoogle_drive = google_drive.GoogleCloudDrive()
     gauth = localgoogle_drive.GDriveAuth(str_client_credentials)
+    
     #Make GoogleDrive instance with Authenticated GoogleAuth instance
     drive = GoogleDrive(gauth)
 
