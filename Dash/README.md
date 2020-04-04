@@ -25,7 +25,7 @@ Take note of Dash
 # Plotly  
 [[Python] Plotlyでぐりぐり動かせるグラフを作る Mar 16, 2019](https://qiita.com/inoory/items/12028af62018bf367722)  
 
-## Cufflinks  
+# Cufflinks  
 [[Python] CufflinksでPandasのデータフレームをPlotlyに一発描画 Mar 23, 2019](https://qiita.com/inoory/items/7c8ca9fd5e1aca3e2e72)  
 [santosjorge /cufflinks](https://github.com/santosjorge/cufflinks) 
 ```
@@ -36,6 +36,12 @@ This library is available on https://github.com/santosjorge/cufflinks
 This tutorial assumes that the plotly user credentials have already been 
 configured as stated on the getting started guide.
 ```
+
+[jupyter notebook上で金融データの描画・取得・操作 Dec 23, 2017](https://qiita.com/u1and0/items/6bc0dbeed0e20dd89eda)  
+```
+この記事はplotlyとpandasを結びつけるライブラリ"cufflinks"の紹介、およびそれを利用した金融関連のデータ描画、pandas_datareaderや自作モジュールによる金融データの取得、自作モジュールによる金融データの操作を行います。
+```
+
 
 # plotnine, altair, seaborn, pixiedust  
 [Python でデータ分析するのに適したグラフツール3選 Jan 22, 2019](https://qiita.com/s_katagiri/items/26763fd39f3dd9756809)  
