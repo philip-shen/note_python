@@ -26,6 +26,8 @@ import urllib.request
 from lxml import html
 import httplib2
 from apiclient import discovery
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 class Flag:
@@ -54,6 +56,24 @@ import excelRW as excelrw
 import readConfig as readConfig
 import googleDrive as google_drive
 import dataAnalysis as data_analysis
+
+N = 240
+XMAX = 5
+WINMA = 10
+ALPHA = 2
+
+def get_bollinger(data, winma=10, alpha=2):
+    ser = pd.Series(data)
+    ma = ser.rolling(winma).mean()
+    std = ser.rolling(winma).std()
+    lower = pd.Series(ma - alpha*std).fillna(method='bfill').values
+    upper = pd.Series(ma + alpha*std).fillna(method='bfill').values
+    return lower, upper
+
+def get_alerts(data, lower, upper):
+    low = np.argwhere(data < lower)
+    high = np.argwhere(data > upper)
+    return low, high
 
 if __name__ == '__main__':
     
@@ -147,7 +167,7 @@ if __name__ == '__main__':
     localgoogle_drive = google_drive.GoogleCloudDrive(str_candlestick_filepath)
     re_exp = r'\.jpg$'
     
-    localgoogle_drive.purgelocalfiles(re_exp)
+    #localgoogle_drive.purgelocalfiles(re_exp)
 
     # Initial to sqlite database code
     path_db = os.path.join(dirnamelog,'TWTSEOTCDaily.db')
@@ -162,7 +182,7 @@ if __name__ == '__main__':
     debug_verbose ='OFF'
 
     # get all stock's idx and name from file1 #"循環投機追蹤股"
-    list_all_stockidxname=localexcelrw.get_all_stockidxname_SeymourExcel(dirnamelog,list_excel_Seymour)
+    #list_all_stockidxname=localexcelrw.get_all_stockidxname_SeymourExcel(dirnamelog,list_excel_Seymour)
     '''
     9921 巨大
     9927 泰銘
@@ -182,17 +202,85 @@ if __name__ == '__main__':
     stock_idx= '1788'
     local_pdSqlA = data_analysis.PandasSqliteAnalysis(stock_idx,dirnamelog,path_db,str_first_year_month_day,debug_verbose)
     
+    '''
+              date    open    high     low   close stkidx CmpName
+    241 2018-10-01  100.50  100.50   99.90  100.00   1788      杏昌
+    242 2018-10-02  100.00  100.00  100.00  100.00   1788      杏昌
+    243 2018-10-03  100.50  100.50   99.90   99.90   1788      杏昌
+    ..         ...     ...     ...     ...     ...    ...     ...
+    479 2019-10-01  104.00  104.00  102.50  103.00   1788      杏昌
+    480 2019-10-02  104.00  104.00  103.00  103.50   1788      杏昌
+
+    [240 rows x 7 columns]
+    '''    
     # How to get the last N rows of a pandas DataFrame?
     # https://stackoverflow.com/questions/14663004/how-to-get-the-last-n-rows-of-a-pandas-dataframe   
     #print(local_pdSqlA.df.iloc[-240:])
+    '''    
+              date   close
+    241 2018-10-01  100.00
+    242 2018-10-02  100.00
+    ..         ...     ...
+    479 2019-10-01  103.00
+    480 2019-10-02  103.50
+
+    [240 rows x 2 columns]    
+    '''    
+    #print(local_pdSqlA.df[['date','close']].iloc[-240:])
+    item = local_pdSqlA.df[['date','close']].copy()
+
+    # Calculate 30 Day Moving Average, Std Deviation, Upper Band and Lower Band
+    item['30Days_MA'] = item['close'].rolling(window=20).mean()
     
+    # set .std(ddof=0) for population std instead of sample
+    item['30Days_STD'] = item['close'].rolling(window=20).std() 
+    
+    item['Upper_Band'] = item['30Days_MA'] + (item['30Days_STD'] * 2)
+    item['Lower_Band'] = item['30Days_MA'] - (item['30Days_STD'] * 2)
+
+    '''    
+              date   close  30Days_MA  30Days-STD  Upper_Band  Lower_Band
+    241 2018-10-01  100.00     99.700    0.284697  100.269395   99.130605
+    242 2018-10-02  100.00     99.720    0.291277  100.302553   99.137447
+    ..         ...     ...        ...         ...         ...         ...
+    479 2019-10-01  103.00    102.850    0.587143  104.024286  101.675714
+    480 2019-10-02  103.50    102.875    0.604261  104.083522  101.666478
+
+    [240 rows x 6 columns]    
+    '''    
+    #print(item.iloc[-240:])
+    item = item.iloc[-100:].copy()
+
+    # Simple 30 Day Bollinger Band 
+    # set style, empty figure and axes
+    plt.style.use('fivethirtyeight')
+    #fig = plt.figure(figsize=(12,6))
     f1, ax = plt.subplots(figsize = (12,6))
 
-    # select only close column
-    #close = local_pdSqlA.df[['close']].astype(float)
-    # rename the column with symbole name
-    #close = close.rename(columns={'close': stock_idx})
-    #ax = close.plot(title=stock_idx)
+    # Get index values for the X axis for facebook DataFrame
+    x_axis = item.index.get_level_values(0)
+    print(x_axis)
+    
+    # Plot Adjust Closing Price and Moving Averages
+    ax.plot(x_axis, item['close'], color='blue', label = 'Close')
+    ax.plot(x_axis, item['30Days_MA'], color='black', lw=2)
+    
+    # Plot shaded 21 Day Bollinger Band for Facebook
+    #ax.fill_between(item['date'], item['Upper_Band'], item['Lower_Band'], color='grey')
+
+    #plt.grid(True)
+    plt.title(stock_idx)
+    ax.yaxis.grid(True)
+    plt.legend(loc='best')
+
+    ax.xaxis_date()
+    ax.autoscale_view()
+    ax.grid()
+    plt.show()
+
+    '''    
+    f1, ax = plt.subplots(figsize = (12,6))
+    
     # Plotting Close 
     ax.plot(local_pdSqlA.df.iloc[-240:]['date'], local_pdSqlA.df.iloc[-240:]['close'], color = list_color_ma[0], label = 'Close')
     ax.set_xlabel('date')
@@ -207,7 +295,7 @@ if __name__ == '__main__':
     ax.autoscale_view()
     ax.grid()
     plt.show()
-    
+    '''        
 
 
 
