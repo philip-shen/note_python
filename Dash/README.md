@@ -3,6 +3,7 @@ Take note of Dash
 
 # Table of Contents  
 [Plotly](#plotly)  
+
 [Cufflinks](#cufflinks)  
 
 [plotnine, altair, seaborn, pixiedust](#plotnine-altair-seaborn-pixiedust)  
