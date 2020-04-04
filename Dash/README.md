@@ -2,6 +2,11 @@
 Take note of Dash  
 
 # Table of Contents  
+[Plotly](#plotly)  
+[Cufflinks](#cufflinks)  
+
+[plotnine, altair, seaborn, pixiedust](#plotnine-altair-seaborn-pixiedust)  
+
 [Data Visualization-Dash Tutorial](#data-visualization-dash-tutorial)  
 
 [Data Visualization-Dash Python Libray](#data-visualization-dash-python-libray)  
@@ -16,8 +21,36 @@ Take note of Dash
 [ButtonのCallback]()  
 
 []()  
-[]()  
 
+# Plotly  
+[[Python] Plotlyでぐりぐり動かせるグラフを作る Mar 16, 2019](https://qiita.com/inoory/items/12028af62018bf367722)  
+
+## Cufflinks  
+[[Python] CufflinksでPandasのデータフレームをPlotlyに一発描画 Mar 23, 2019](https://qiita.com/inoory/items/7c8ca9fd5e1aca3e2e72)  
+[santosjorge /cufflinks](https://github.com/santosjorge/cufflinks) 
+```
+This library binds the power of plotly with the flexibility of pandas for easy plotting.
+
+This library is available on https://github.com/santosjorge/cufflinks
+
+This tutorial assumes that the plotly user credentials have already been 
+configured as stated on the getting started guide.
+```
+
+# plotnine, altair, seaborn, pixiedust  
+[Python でデータ分析するのに適したグラフツール3選 Jan 22, 2019](https://qiita.com/s_katagiri/items/26763fd39f3dd9756809)  
+
+## plotnine  
+[plotnine](https://qiita.com/s_katagiri/items/26763fd39f3dd9756809#plotnine)  
+
+## altair  
+[altair](https://qiita.com/s_katagiri/items/26763fd39f3dd9756809#altair)  
+
+## seaborn  
+[seaborn](https://qiita.com/s_katagiri/items/26763fd39f3dd9756809#seaborn)  
+
+## pixiedust  
+[補足: pixiedust について](https://qiita.com/s_katagiri/items/26763fd39f3dd9756809#%E8%A3%9C%E8%B6%B3-pixiedust-%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)  
 
 
 # Data Visualization-Dash Tutorial  
@@ -28,7 +61,7 @@ Take note of Dash
 # Data Visualization-Dash Python Libray   
 [Pythonの可視化ライブラリDashを使う　1 Mar 12, 2019](https://qiita.com/OgawaHideyuki/items/6df65fbbc688f52eb82c)  
 [Pythonの可視化ライブラリDashを使う　2　Callbackをみる Mar 12, 2019](https://qiita.com/OgawaHideyuki/items/1eea435b3f7c90375848)  
-[Pythonの可視化ライブラリDashを使う　３　マウスホバーを活用する Mar 13, 2019](https://qiita.com/OgawaHideyuki/items/b4e0c4f134c94037fd4f)  
+[Pythonの可視化ライブラリDashを使う　3　マウスホバーを活用する Mar 13, 2019](https://qiita.com/OgawaHideyuki/items/b4e0c4f134c94037fd4f)  
 [Pythonの可視化ライブラリDashを使う　4　herokuに7行であげてウェブでみられるようにする Mar 15, 2019](https://qiita.com/OgawaHideyuki/items/e2a046bf80bdae5ca61a)  
 
 [COVID-19のデータでネットワーク図を作成した。Mar 13, 2020](https://qiita.com/OgawaHideyuki/items/204a2bcff6a3022ffc50)
