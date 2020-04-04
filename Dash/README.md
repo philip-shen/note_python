@@ -40,8 +40,49 @@ configured as stated on the getting started guide.
 
 [jupyter notebook上で金融データの描画・取得・操作 Dec 23, 2017](https://qiita.com/u1and0/items/6bc0dbeed0e20dd89eda)  
 ```
-この記事はplotlyとpandasを結びつけるライブラリ"cufflinks"の紹介、およびそれを利用した金融関連のデータ描画、pandas_datareaderや自作モジュールによる金融データの取得、自作モジュールによる金融データの操作を行います。
+この記事はplotlyとpandasを結びつけるライブラリ"cufflinks"の紹介、およびそれを利用した金融関連のデータ描画、
+pandas_datareaderや自作モジュールによる金融データの取得、自作モジュールによる金融データの操作を行います。
 ```
+![alt tag](https://i.imgur.com/OJgp2Z2.jpg)
+
+[Python金融分析（一）：Cufflinks与数据可视化| 北远山村 Mar 8, 2019](https://beiyuan.me/python4finance-1/)  
+示例2：金融数据可视化  
+```
+raw = pd.read_csv('./source/fxcm_eur_usd_eod_data.csv', index_col=0, parse_dates=True)
+raw.info()
+```
+
+```
+<class 'pandas.core.frame.DataFrame'>
+DatetimeIndex: 1547 entries, 2013-01-01 22:00:00 to 2017-12-31 22:00:00
+Data columns (total 8 columns):
+BidOpen     1547 non-null float64
+BidHigh     1547 non-null float64
+BidLow      1547 non-null float64
+BidClose    1547 non-null float64
+AskOpen     1547 non-null float64
+AskHigh     1547 non-null float64
+AskLow      1547 non-null float64
+AskClose    1547 non-null float64
+dtypes: float64(8)
+memory usage: 108.8 KB
+```
+
+```
+quotes = raw[['AskOpen', 'AskHigh', 'AskLow', 'AskClose']]
+quotes=quotes.iloc[-60:]
+```
+```
+qf = cf.QuantFig(
+    quotes,
+    title='EUR/USD Exchange Rate',
+    legend='top',
+    name='EUR/USD'
+)
+py_offline.iplot(qf.iplot(asFigure=True))
+```
+
+![alt tag](https://cloud.tsinghua.edu.cn/seafhttp/files/a6b2e842-7757-40cf-9a05-378f1c8d8111/output_23_0.png)
 
 
 # plotnine, altair, seaborn, pixiedust  
@@ -218,7 +259,7 @@ def click(n_clicks_timestamp):
 
 
 
-* []()
+* []()  
 ![alt tag]()
 
 # h1 size
