@@ -58,7 +58,7 @@ def walk_in_dir(dir_path):
 
         #showFileNames_InZipFile_zip(ret_listOfFileNames)
         
-    for dirname in (d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))):
+    for dirname in (d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d)) ):
         walk_in_dir(os.path.join(dir_path, dirname))
     
     return ret_list_ZipFolder_TxtCsvFiles,ret_listOfFileNames
@@ -111,3 +111,49 @@ def get_ZipFolder_TxtCsvFiles(list_ZipFolderFileNames):
     re_list_zipfolder_txtfiles_csvfiles = list_zipfolder + list_txtfiles + list_csvfiles
 
     return re_list_zipfolder_txtfiles_csvfiles
+
+'''
+http://wiki.alarmchang.com/index.php?title=Python_%E4%BD%BF%E7%94%A8_zipfile_%E5%B0%87%E6%95%B4%E5%80%8B%E7%9B%AE%E9%8C%84%E9%83%BD%E5%A3%93%E8%B5%B7%E4%BE%86
+'''
+
+def Achive_Folder_To_ZIP(sFilePath, dest = ""):
+    """
+    input : Folder path and name
+    output: using zipfile to ZIP folder
+    """
+    if (dest == ""):
+        zf = zipfile.ZipFile(sFilePath + '.ZIP', mode='w')
+    else:
+        zf = zipfile.ZipFile(dest, mode='w')
+ 
+    os.chdir(sFilePath)
+    #print sFilePath
+    msg = "Achive_Folder:{}.zip"
+    logger.info(msg.format(sFilePath))
+
+    for root, folders, files in os.walk(".\\"):
+        for sfile in files:
+            aFile = os.path.join(root, sfile)
+            #print aFile
+            #msg = "Achive_Folder_To_ZIP:{}"
+            #logger.info(msg.format(aFile))
+
+            zf.write(aFile)
+    zf.close()    
+
+def get_list_Folder_under_Directory(targetPath):
+    list_folders = []
+
+    if os.path.isdir(targetPath):
+        for root, folders, files in os.walk(targetPath):            
+            for folder in folders:
+                list_folders.append(folder)
+    
+    for folder in list_folders:
+        msg = "folder:{} under Target Path:{}"
+        logger.info(msg.format(folder, targetPath))
+
+    msg = "{} folders under Target Path:{}"
+    logger.info(msg.format(len(list_folders), targetPath))
+    
+    return list_folders    
