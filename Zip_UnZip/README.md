@@ -616,6 +616,65 @@ shutil.copytree() 是備份檔案的一個好方法。
 
 
 # Reference  
+[Python 使用 zipfile 將整個目錄都壓起來 ](http://wiki.alarmchang.com/index.php?title=Python_%E4%BD%BF%E7%94%A8_zipfile_%E5%B0%87%E6%95%B4%E5%80%8B%E7%9B%AE%E9%8C%84%E9%83%BD%E5%A3%93%E8%B5%B7%E4%BE%86)  
+```
+import zipfile
+ 
+ 
+def Achive_Folder_To_ZIP(sFilePath):
+    """
+    input : Folder path and name
+    output: using zipfile to ZIP folder
+    """
+    zf = zipfile.ZipFile(sFilePath + '.ZIP', mode='w')#只儲存不壓縮
+    #zf = zipfile.ZipFile(sFilePath + '.ZIP', mode = 'w', compression = zipfile.ZIP_DEFLATED)#預設的壓縮模式
+    os.chdir(sFilePath)
+    #print sFilePath
+    for root, folders, files in os.walk(".\\"):
+        for sfile in files:
+            aFile = os.path.join(root, sfile)
+            #print aFile
+            zf.write(aFile)
+    zf.close()
+ 
+ 
+if __name__ == "__main__":
+    Achive_Folder_To_ZIP("C:\\temp\\FolderN")#會將 C:\temp\FolderN 壓成 FolderN.zip 放在 C:\temp\ 裡面
+```
+
+```
+"""
+版本二～如果要指定壓縮後的檔案路徑，修改如下
+他會將 Z:\alarmchang\AutoUpdate 目錄壓起來
+存放到 Z:\alarmchang\xyz.zip 中
+"""
+import zipfile
+import os
+ 
+def Achive_Folder_To_ZIP(sFilePath, dest = ""):
+    """
+    input : Folder path and name
+    output: using zipfile to ZIP folder
+    """
+    if (dest == ""):
+        zf = zipfile.ZipFile(sFilePath + '.ZIP', mode='w')
+    else:
+        zf = zipfile.ZipFile(dest, mode='w')
+ 
+    os.chdir(sFilePath)
+    #print sFilePath
+    for root, folders, files in os.walk(".\\"):
+        for sfile in files:
+            aFile = os.path.join(root, sfile)
+            #print aFile
+            zf.write(aFile)
+    zf.close()
+ 
+ 
+if __name__ == "__main__":
+    Achive_Folder_To_ZIP(r"Z:\alarmchang\AutoUpdate", r"Z:\alarmchang\xyz.zip")
+```
+
 [Python: How to unzip a file | Extract Single, multiple or all files from a ZIP archive December 1, 2018](https://thispointer.com/python-how-to-unzip-a-file-extract-single-multiple-or-all-files-from-a-zip-archive/)  
 ```
 def main():
