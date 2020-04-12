@@ -38,6 +38,7 @@ Take note of Zip and UnZip
 [Environment](#environment)  
 [OAuthクライアントID取得](#oauth%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88id%E5%8F%96%E5%BE%97)  
 
+[File Directory Manipulation](#file-directory-manipulation)  
 
 [Troubleshooting](#troubleshooting)  
 
@@ -589,6 +590,27 @@ f.Upload()
 [Python#pydriveを使ってみよう Jul 26, 2018](https://qiita.com/soup01/items/670107d8454274297b5d)  
 [PyDriveでGoogle Driveの特定フォルダ配下のファイルをすべてダウンロードする Jun 26, 2018](https://qiita.com/i8b4/items/322dc8d81427717a86e4)  
 
+
+# File Directory Manipulation  
+[Python檔案操作，看這篇就足夠_程式碼與藝術- jishuwen(技術文) Feb 4, 2019](https://www.jishuwen.com/d/2LwL/zh-tw)  
+## 複製、移動和重新命名檔案和目錄--複製目錄   
+```
+import shutil
+dst = shutil.copytree('data_1', 'data1_backup')
+print(dst)  # data1_backup
+```
+```
+在此示例中，.copytree() 將 data_1 的內容複製到新位置 data1_backup 並返回目標目錄。 
+
+*** 目標目錄不能是已存在的。 它將被建立而不帶有其父目錄。 *** 
+
+shutil.copytree() 是備份檔案的一個好方法。
+```
+
+[使用shutil模組協助複製、移動、刪除目錄或檔 Oct 26, 2019](https://jennaweng0621.pixnet.net/blog/post/403501712-%E4%BD%BF%E7%94%A8shutil%E6%A8%A1%E7%B5%84%E5%8D%94%E5%8A%A9%E8%A4%87%E8%A3%BD%E3%80%81%E7%A7%BB%E5%8B%95%E3%80%81%E5%88%AA%E9%99%A4%E7%9B%AE%E9%8C%84%E6%88%96%E6%AA%94)  
+```
+
+```
 
 # Troubleshooting  
 
