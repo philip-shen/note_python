@@ -36,9 +36,13 @@ if __name__ == "__main__":
 
             for folder_under_targetPath in list_folder_under_targetPath:
                 #"d:\project\DIR1950\Chariot_Thruput\v1.01b12_toDLab\202004081607" 
-                Achive_Folder_To_ZIP(os.path.join(targetPath,folder_under_targetPath), \
+                #Achive_Folder_To_ZIP(os.path.join(targetPath,folder_under_targetPath), \
                    #"d:\project\DIR1950\Chariot_Thruput\v1.01b12_toDLab\202004081607.zip" 
-                   "{}\{}.zip".format(targetPath, folder_under_targetPath) )
+                #   "{}\{}.zip".format(targetPath, folder_under_targetPath) )
+
+                Achive_noFolder_To_ZIP(os.path.join(targetPath,folder_under_targetPath), \
+                   #"d:\project\DIR1950\Chariot_Thruput\v1.01b12_toDLab\202004081607.zip" 
+                   "{}\{}.zip".format(targetPath, folder_under_targetPath) )   
 
     except IndexError:
         print('IndexError: Usage "python %s DIR_NAME"' % ( args[0]))
