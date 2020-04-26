@@ -2,8 +2,9 @@
 Take note of deadman  
 
 # Table of Contents  
+[deadman](#deadman)  
 
-# 
+# deadman  
 [upa /deadman](https://github.com/upa/deadman)  
 ```
 deadman is a curses-based host status checking application using ping 
@@ -17,6 +18,9 @@ We recomend using deadman for building temporary networks such as conference and
 This software was originally designed and implemented for Interop Tokyo ShowNet.
 ```
 ![alt tag](https://raw.githubusercontent.com/upa/deadman/master/img/deadman-demo.gif)  
+
+![alt tag](https://i.imgur.com/kki7Tvk.png)  
+
 
 [系統工程師必備監控小工具 deadman Apr 22, 2020](https://blog.pichuang.com.tw/20200423-deadman/)  
 ```
