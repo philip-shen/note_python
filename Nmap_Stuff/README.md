@@ -1,3 +1,34 @@
+
+Table of Contents
+=================
+
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [Table of Contents](#table-of-contents-1)
+   * [rainmap-lite](#rainmap-lite)
+      * [Features](#features)
+      * [Installation instructions](#installation-instructions)
+         * [Docker container for Rainmap Lite.](#docker-container-for-rainmap-lite)
+            * [Here is the DockerFile:](#here-is-the-dockerfile)
+            * [Here is the run.sh:](#here-is-the-runsh)
+   * [Scantron](#scantron)
+      * [Overview](#overview)
+      * [Architecture Diagram](#architecture-diagram)
+   * [Nmap to XSL, CSV](#nmap-to-xsl-csv)
+      * [mrschyte/nmap-converter](#mrschytenmap-converter)
+      * [maaaaz/nmaptocsv](#maaaaznmaptocsv)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-2)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+
 # Purpose
 Take note of Nmap Stuffs  
 
@@ -123,7 +154,23 @@ If you are unfamiliar with these concepts, there are some great overviews and tu
 ![alt tag](https://github.com/rackerlabs/scantron/blob/master/img/scantron_architecture_overview.png)  
 
 
-# NmaptoCSV  
+# Nmap to XSL, CSV  
+
+## mrschyte/nmap-converter  
+[mrschyte/nmap-converter](https://github.com/mrschyte/nmap-converter)  
+> Python script for converting nmap reports into XLS   
+```
+usage: nmap-converter.py [-h] [-o XLS] XML [XML ...]
+
+positional arguments:
+  XML                   path to nmap xml report
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o XLS, --output XLS  path to xlsx output
+```
+
+## maaaaz/nmaptocsv  
 [maaaaz/nmaptocsv](https://github.com/maaaaz/nmaptocsv)  
 ```
 Description
@@ -170,3 +217,4 @@ A simple python script to convert Nmap output to CSV
 - 1
 - 2
 - 3
+
