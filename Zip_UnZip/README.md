@@ -60,12 +60,8 @@ pip install -r requiremnets.txt
 ```
  python test_unzip.py ..\logzip
 ```
-![alt tag](https://i.imgur.com/TcIZJGX.gif)  
-
-![alt tag](https://i.imgur.com/4nDyXCs.gif)  
 
 ## 05. Check \Zip_UnZip\logs\WiFiPerformance.db by sqlite browser  
-![alt tag](https://i.imgur.com/DORE80g.jpg)  
 
 ## 06. Query reslut by ugin SQL  
 
@@ -221,7 +217,6 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Z][A-Za-z]$'
 ORDER BY char_log.model  ASC
 ```
 
-![alt tag](https://i.imgur.com/Cpiyb8Y.png)
 
 ### Select Mode, Wireless_Mode 11N, Test_Mode, Client, Bi  
 ```
@@ -232,7 +227,6 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z]$'  and
 ORDER BY char_log.model  ASC
 ```
 
-![alt tag](https://i.imgur.com/uBTz9ax.png)
 
 ### Regrssion Test, Wireless_Mode 11AC, Both   
 ```
@@ -243,8 +237,6 @@ WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z
 ORDER BY char_csv.csv_filename  ASC
 ```
 
-![alt tag](https://i.imgur.com/5eLofDU.png)
-
 ### Regrssion Test, Wireless_Mode 11AC, WAN_Type PPTP, TX   
 ```
 SELECT DISTINCT char_log.test_method, char_log.model, char_csv.csv_foldername,  char_log.fw, char_log.wireless_mode,  char_csv.csv_filename, char_csv.throughput_avg, char_log.frequency, char_log.channel
@@ -253,8 +245,6 @@ INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_folder
 WHERE char_log.wireless_mode REGEXP  '^[0-9][0-9][0-9].[0-9][0-9][A-Za-z][A-Za-z]$'  and char_csv.csv_filename REGEXP  '^Client[12345]-W[0-9]_T.*_.*_.*\.csv$' and  char_log.test_method REGEXP  '^PPTP' and char_log.model REGEXP '^DIR-17'
 ORDER BY char_csv.csv_filename  ASC
 ```
-
-![alt tag](https://i.imgur.com/DUvcecS.png)  
 
 ### Regrssion Test, WAN_Type PPPoE   
 ```
