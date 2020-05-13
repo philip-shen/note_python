@@ -11,9 +11,12 @@ Table of Contents
       * [GitHub Instance](#github-instance)
       * [GitHub Repositories List](#github-repositories-list)
       * [GitHub Repositories Starts](#github-repositories-starts)
+   * [GitHub Repositories Starts Search](#github-repositories-starts-search)
+      * [Example](#example)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
       * [Script to list all repos for a github organization](#script-to-list-all-repos-for-a-github-organization)
+      * [GitHub Repositories Starts Ranking](#github-repositories-starts-ranking)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -22,7 +25,6 @@ Table of Contents
    * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose
 Take note of GitHub stuffs
@@ -103,6 +105,17 @@ print(repo.stargazers_count)
 1
 ```
 
+# GitHub Repositories Starts Search  
+[https://qiita.com/mazu/items/dd5042d22ef0d52ab0e1 updated at 2018-06-22](https://qiita.com/mazu/items/dd5042d22ef0d52ab0e1)  
+
+## Example  
+検索の例 | 説明 | urlクエリー
+------------------------------------ | --------------------------------------------- | --------------------------------------------- 
+crud stars:>=100 | CRUDを含むスター100以上 | https://github.com/search?q=crud+stars%3A%3E100
+crud language:python stars:>=100 | CRUDを含むpython言語のスター100以上 | https://github.com/search?q=crud+language%3Apython+stars%3A%3E%3D100
+crud stars:>=100 created:>2016-04-01 | crudを含むスター100以上で作成日2016年4/1以降のもの | https://github.com/search?q=crud+stars%3A%3E%3D100+created%3A%3E2015-04-01
+
+[https://help.github.com/articles/understanding-the-search-syntax/](https://help.github.com/articles/understanding-the-search-syntax/)
 
 # Troubleshooting
 
@@ -111,6 +124,20 @@ print(repo.stargazers_count)
 
 ## Script to list all repos for a github organization  
 [Script to list all repos for a github organization · GitHub](https://gist.github.com/ralphbean/5733076)
+
+
+
+## GitHub Repositories Starts Ranking  
+[GitHubリポジトリのスター数ランキングを表示する updated at 2019-06-09](https://qiita.com/notakaos/items/e344bbeca52e41df443a)  
+```
+curl -H "Accept: application/vnd.github.mercy-preview+json" "https://api.github.com/search/repositories?q=stars:%3E1&s=stars&type=Repositories"
+```
+
+```
+1curl -H "Accept: application/vnd.github.mercy-preview+json" "https://api.github.com/search/repositories?q=stars:%3E1&s=stars&type=Repositories" | jq '.items[] | [.full_name, .html_url, .language // "-", .stargazers_count] | @tsv' -r | awk '{printf("%d|[%s](%s)|%s|%'"'"'d\n", NR, $1, $2, $3, $4)}'
+```
+
+
 [github3.py: A Library for Using GitHub's REST API](https://github3py.readthedocs.io/en/master/)
 
 * []()  
@@ -142,5 +169,7 @@ print(repo.stargazers_count)
 - 1
 - 2
 - 3
+
+
 
 
