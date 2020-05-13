@@ -111,7 +111,7 @@ print(repo.stargazers_count)
 
 ## Script to list all repos for a github organization  
 [Script to list all repos for a github organization · GitHub](https://gist.github.com/ralphbean/5733076)
-
+[github3.py: A Library for Using GitHub's REST API](https://github3py.readthedocs.io/en/master/)
 
 * []()  
 ![alt tag]()  
