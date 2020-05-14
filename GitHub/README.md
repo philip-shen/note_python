@@ -7,6 +7,8 @@ Table of Contents
    * [Environment](#environment)
    * [Prerequirment](#prerequirment)
    * [Test Results](#test-results)
+      * [Start Search Top 100 Star Ranking by Login Username and password](#start-search-top-100-star-ranking-by-login-username-and-password)
+      * [List All Elements of Top 10 Star Ranking Repository](#list-all-elements-of-top-10-star-ranking-repository)
    * [The Most Popular and The Most Fork Repositories](#the-most-popular-and-the-most-fork-repositories)
       * [Most Forks](#most-forks)
       * [Most Starred](#most-starred)
@@ -49,10 +51,12 @@ pip3 install -r requirements.txt
 ```
 python test_github.py xxxx(github_usernamt) xxxx(github_password)
 ```
+## Start Search Top 100 Star Ranking by Login Username and password  
 ![alt tag](https://i.imgur.com/eeyheBk.jpg)  
 
 ![alt tag](https://i.imgur.com/KIB0MQt.jpg)  
 
+## List All Elements of Top 10 Star Ranking Repository
 ![alt tag](https://i.imgur.com/MgCfvqu.png)  
 
 ![alt tag](https://i.imgur.com/e6zGAdp.png)  
@@ -214,4 +218,6 @@ curl -H "Accept: application/vnd.github.mercy-preview+json" "https://api.github.
 - 1
 - 2
 - 3
+
+
 
