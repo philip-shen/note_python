@@ -62,10 +62,6 @@ if __name__ == "__main__":
             #print('\n')
             #msg = 'Top 1 Star Ranking: Repositorie id:{} full_name:{} Star_Count:{}.'
             #logger.info( msg.format( list_star_rank_id[0], list_star_rank_full_name[0], repo.stargazers_count) ) 
-
-
-            #opt_verbose='ON'
-            #opt_verbose='OFF'
             
             # Get GitHub Repo from UNPKG in JSON fromat  
             local_webapi_json = lib_github.WebAPI_JSON(opt_verbose)
