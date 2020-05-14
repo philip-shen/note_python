@@ -23,15 +23,16 @@ if __name__ == "__main__":
             logger.info( msg.format(args[0]) ) 
 
         if( len(args) == 3 ):
-            msg = 'Start Search Star Ranking Top 100.'
+            msg = 'Start Search Star Ranking Top 100 on GitHub.'
             logger.info(msg) 
 
-            opt_verbose='ON'
-            #opt_verbose='OFF'
+            #opt_verbose='ON'
+            opt_verbose='OFF'
 
             username = args[1]
             password = args[2]
             list_star_rank_id = []  
+            list_star_rank_full_name = []  
 
             ## Initaize 
             local_lib_github = lib_github.LibGithub(username, password, opt_verbose)
@@ -51,13 +52,26 @@ if __name__ == "__main__":
                 logger.info( msg.format(str_sort.upper(), rank_idx, repo.id,repo.full_name) ) 
 
                 list_star_rank_id.append(repo.id)
+                list_star_rank_full_name.append(repo.full_name)
 
                 if rank_idx == 100: break        
 
             # Get Star Ranking Top 1 Repo data  
             star_ranking_top_1_id = list_star_rank_id[0]
-            list_repo = local_lib_github.get_repo(star_ranking_top_1_id)
-            print(list_repo)
+            repo = local_lib_github.get_repo(star_ranking_top_1_id)            
+            print('\n')
+            msg = 'Top 1 Star Ranking: Repositorie id:{} full_name:{} Star_Count:{}.'
+            logger.info( msg.format( list_star_rank_id[0], list_star_rank_full_name[0], repo.stargazers_count) ) 
+
+
+            opt_verbose='ON'
+            #opt_verbose='OFF'
+            
+            # Get GitHub Repo from UNPKG in JSON fromat  
+            local_webapi_json = lib_github.WebAPI_JSON(opt_verbose)
+            data = local_webapi_json.dataGet()
+            #print('Len of data:{}'.format( len(data) ))
+            local_webapi_json.jsonConversion(data)
 
     except IndexError:
         print('IndexError: Usage "python %s github_username github_password"' % ( args[0]))
