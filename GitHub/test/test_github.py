@@ -11,7 +11,7 @@ dirnamelog=os.path.join(prevdirname,"logs")
 sys.path.append(dirnamelib)
 
 from logger import logger
-from github import Github
+import libgithub as lib_github
 
 if __name__ == "__main__":
     t0 = time.time()
@@ -19,13 +19,33 @@ if __name__ == "__main__":
     args = sys.argv
     try:
         if( len(args) == 3 ):
+            msg = 'Start Search Star Ranking Top 100.'
+            logger.info( msg ) 
+
+            #opt_verbose='ON'
+            opt_verbose='OFF'
+
             username = args[1]
             password = args[2]
-            g = Github(username, password)
+            
+            ## Initaize 
+            local_lib_github = lib_github.LibGithub(username, password, opt_verbose)
 
-            for repo in g.get_user().get_repos():
-                msg = 'repositories: {}.'
-                logger.info(msg.format(repo))        
+            #list_repos = local_lib_github.user_get_repos()
+            
+            ## start ranking over 43k   
+            str_query='stars:>43000'
+            str_sort='stars'
+            list_repos = local_lib_github.search_repos(str_query,str_sort)
+
+            # Show Star Ranking Top 100 Repo id and full name
+            for rank_idx,repo in enumerate(list_repos):
+                rank_idx +=1
+                #list_repo_info = local_lib_github.get_repo(repo.full_name)
+                msg = '{} Ranking: {}; Repositorie id:{} full_name:{}.'
+                logger.info( msg.format(str_sort.upper(), rank_idx, repo.id,repo.full_name) ) 
+
+                if rank_idx == 100: break        
 
     except IndexError:
         print('IndexError: Usage "python %s github_username github_password"' % ( args[0]))
