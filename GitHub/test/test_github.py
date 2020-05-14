@@ -18,16 +18,21 @@ if __name__ == "__main__":
 
     args = sys.argv
     try:
+        if( len(args) == 1 ):
+            msg = 'IndexError: Usage "python {} github_username github_password"'
+            logger.info( msg.format(args[0]) ) 
+
         if( len(args) == 3 ):
             msg = 'Start Search Star Ranking Top 100.'
-            logger.info( msg ) 
+            logger.info(msg) 
 
-            #opt_verbose='ON'
-            opt_verbose='OFF'
+            opt_verbose='ON'
+            #opt_verbose='OFF'
 
             username = args[1]
             password = args[2]
-            
+            list_star_rank_id = []  
+
             ## Initaize 
             local_lib_github = lib_github.LibGithub(username, password, opt_verbose)
 
@@ -38,14 +43,21 @@ if __name__ == "__main__":
             str_sort='stars'
             list_repos = local_lib_github.search_repos(str_query,str_sort)
 
-            # Show Star Ranking Top 100 Repo id and full name
+            ## Show Star Ranking Top 100 Repo id and full name
             for rank_idx,repo in enumerate(list_repos):
                 rank_idx +=1
                 #list_repo_info = local_lib_github.get_repo(repo.full_name)
                 msg = '{} Ranking: {}; Repositorie id:{} full_name:{}.'
                 logger.info( msg.format(str_sort.upper(), rank_idx, repo.id,repo.full_name) ) 
 
+                list_star_rank_id.append(repo.id)
+
                 if rank_idx == 100: break        
+
+            # Get Star Ranking Top 1 Repo data  
+            star_ranking_top_1_id = list_star_rank_id[0]
+            list_repo = local_lib_github.get_repo(star_ranking_top_1_id)
+            print(list_repo)
 
     except IndexError:
         print('IndexError: Usage "python %s github_username github_password"' % ( args[0]))

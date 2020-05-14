@@ -4,6 +4,9 @@ Table of Contents
 
    * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
+   * [Environment](#environment)
+   * [Prerequirment](#prerequirment)
+   * [Test Results](#test-results)
    * [The Most Popular and The Most Fork Repositories](#the-most-popular-and-the-most-fork-repositories)
       * [Most Forks](#most-forks)
       * [Most Starred](#most-starred)
@@ -13,6 +16,8 @@ Table of Contents
       * [GitHub Repositories Starts](#github-repositories-starts)
    * [GitHub Repositories Starts Search](#github-repositories-starts-search)
       * [Example](#example)
+   * [Github Repositories Ranking.](#github-repositories-ranking)
+      * [UNPKG](#unpkg)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
       * [Script to list all repos for a github organization](#script-to-list-all-repos-for-a-github-organization)
@@ -22,11 +27,32 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 # Purpose
 Take note of GitHub stuffs
+
+# Environment  
+* OS: Win 10 Home 64bit
+* Python:3.6+ 
+
+
+# Prerequirment  
+```
+pip3 install -r requirements.txt
+```
+
+
+# Test Results  
+```
+python test_github.py xxxx(github_usernamt) xxxx(github_password)
+```
+![alt tag](https://i.imgur.com/eeyheBk.jpg)  
+
+![alt tag](https://i.imgur.com/KIB0MQt.jpg)  
+
 
 # The Most Popular and The Most Fork Repositories  
 [How to find out “The most popular repositories” on Github? [closed] edited Jun 12 '16](https://stackoverflow.com/questions/19855552/how-to-find-out-the-most-popular-repositories-on-github)  
@@ -116,17 +142,25 @@ crud stars:>=100 created:>2016-04-01 | crudを含むスター100以上で作成�
 
 [https://help.github.com/articles/understanding-the-search-syntax/](https://help.github.com/articles/understanding-the-search-syntax/)
 
-# Troubleshooting
-
-
-# Reference
-
-## Github Repositories Ranking.
+# Github Repositories Ranking.
 [Github Repositories Ranking. - 小弟调调](https://wangchujiang.com/github-rank/repos.html)
 ![alt tag](https://i.imgur.com/IfoSd3s.png)  
 
 [jaywcjlove/github-rank](https://github.com/jaywcjlove/github-rank)
 > Github 中国和全球用户排名，全球仓库 Star 最多排名(自动日更)。 http://jaywcjlove.github.io/github-rank/  
+
+## UNPKG  
+```
+https://unpkg.com/@wcj/github-rank@20.5.14/dist/repos.json
+```
+![alt tag](https://i.imgur.com/8YaYOJI.png)  
+
+
+# Troubleshooting
+
+
+# Reference
+
 
 
 ## Script to list all repos for a github organization  

@@ -38,14 +38,14 @@ class LibGithub:
 
             if self.opt_verbose.lower() == 'on':
                 rank_idx +=1
-                msg = '{} Ranking: {}; Repositorie id:{} full_name:{}.'
+                msg = '{ } Ranking: {}; Repositorie id:{} full_name:{}.'
                 logger.info( msg.format(str_sort.upper(), rank_idx ,repo.id ,repo.full_name) ) 
 
         return repositories        
 
-    def get_repo(self, str_repo_full_name=''):
+    def get_repo(self, str_repo_id=''):
 
-        repo = self.g_token.get_repo(str_repo_full_name)
+        repo = self.g_token.get_repo(str_repo_id)
 
         if self.opt_verbose.lower() == 'on':
             msg = 'repositorie contents: {}.'
