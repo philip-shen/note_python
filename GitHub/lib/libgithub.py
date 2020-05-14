@@ -5,7 +5,7 @@ from github import Github
 
 import urllib.request; #用來建立請求
 import json
-import sys, time, os
+import sys, time, os, datetime
 import codecs
 
 class LibGithub:
@@ -62,8 +62,18 @@ class WebAPI_JSON:
     def __init__(self,opt_verbose='OFF'):
         
         self.opt_verbose = opt_verbose 
+        str_today_year_month_day = datetime.date.today().strftime('%y.%m.%d');#'%y.%b.%d', 20.May.14; '%y.%m.%d', 20.05.14
+        list_today_year_month_day = str_today_year_month_day.split('.')
+        str_today_year_month_day = list_today_year_month_day[0] + '.'+\
+                                    str(int(list_today_year_month_day[1]) ) + '.'\
+                                    + str(int(list_today_year_month_day[2]));#ex. 20.05.14--> 20.5.14
+
+        if self.opt_verbose.lower() == 'on':
+                msg = 'str_today_year_month_day:{} .'
+                logger.info( msg.format(str_today_year_month_day) ) 
+
         # URI Schema
-        self.url = 'https://unpkg.com/@wcj/github-rank@'+'20.5.14'+'/dist/repos.json'
+        self.url = 'https://unpkg.com/@wcj/github-rank@'+str_today_year_month_day+'/dist/repos.json'
 
     '''
     https://stackoverflow.max-everyday.com/2018/06/python-3-urllib/
@@ -466,9 +476,8 @@ class WebAPI_JSON:
             msg = 'Type of response: {}.'
             logger.info(msg.format(type(response)))
             
-            msg = 'Type of decode(ut-f8) of response: {}.'
-            logger.info(msg.format( type(str_response )))
-            
+            #msg = 'Type of decode(ut-f8) of response: {}.'
+            #logger.info(msg.format( type(str_response )))
             
             msg = 'Length of str_response {}.'
             logger.info(msg.format( len(str_response) ))           

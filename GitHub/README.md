@@ -49,6 +49,9 @@ pip3 install -r requirements.txt
 
 # Test Results  
 ```
+cd E:\note_python\GitHub\test
+e:
+
 python test_github.py xxxx(github_usernamt) xxxx(github_password)
 ```
 ## Start Search Top 100 Star Ranking by Login Username and password  

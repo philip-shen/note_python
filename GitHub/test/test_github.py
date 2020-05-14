@@ -57,15 +57,15 @@ if __name__ == "__main__":
                 if rank_idx == 100: break        
 
             # Get Star Ranking Top 1 Repo data  
-            star_ranking_top_1_id = list_star_rank_id[0]
-            repo = local_lib_github.get_repo(star_ranking_top_1_id)            
-            print('\n')
-            msg = 'Top 1 Star Ranking: Repositorie id:{} full_name:{} Star_Count:{}.'
-            logger.info( msg.format( list_star_rank_id[0], list_star_rank_full_name[0], repo.stargazers_count) ) 
+            #star_ranking_top_1_id = list_star_rank_id[0]
+            #repo = local_lib_github.get_repo(star_ranking_top_1_id)            
+            #print('\n')
+            #msg = 'Top 1 Star Ranking: Repositorie id:{} full_name:{} Star_Count:{}.'
+            #logger.info( msg.format( list_star_rank_id[0], list_star_rank_full_name[0], repo.stargazers_count) ) 
 
 
             #opt_verbose='ON'
-            opt_verbose='OFF'
+            #opt_verbose='OFF'
             
             # Get GitHub Repo from UNPKG in JSON fromat  
             local_webapi_json = lib_github.WebAPI_JSON(opt_verbose)
