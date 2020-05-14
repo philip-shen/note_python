@@ -476,17 +476,17 @@ class WebAPI_JSON:
         return str_response
 
     # Data from webAPI then change to JSON format
-    def jsonConversion(self,jsonStr):
+    def jsonConversion(self,str_json):
 
         # webAPIから取得したJSONデータをpythonで使える形に変換する
-        json_data = json.loads(jsonStr)
+        json_data = json.loads(str_json)
         
         if self.opt_verbose.lower() == 'on':
             msg = 'jsonStr: {}.'
-            logger.info(msg.format(jsonStr))
+            #logger.info(msg.format(str_json))
 
-            msg = 'json_data: {}.'
-            logger.info(msg.format(json_data))
+            msg = '1st json_data: {}.'
+            logger.info(msg.format(json_data[0]))
 
         return json_data    
 

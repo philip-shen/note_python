@@ -64,15 +64,22 @@ if __name__ == "__main__":
             logger.info( msg.format( list_star_rank_id[0], list_star_rank_full_name[0], repo.stargazers_count) ) 
 
 
-            opt_verbose='ON'
-            #opt_verbose='OFF'
+            #opt_verbose='ON'
+            opt_verbose='OFF'
             
             # Get GitHub Repo from UNPKG in JSON fromat  
             local_webapi_json = lib_github.WebAPI_JSON(opt_verbose)
-            data = local_webapi_json.dataGet()
-            #print('Len of data:{}'.format( len(data) ))
-            local_webapi_json.jsonConversion(data)
-
+            str_data = local_webapi_json.dataGet()            
+            json_data = local_webapi_json.jsonConversion(str_data)
+            
+            print('\n')            
+            msg = 'Top 1 Star Ranking, key: ; value:'
+            logger.info(msg) 
+            
+            for key, value in json_data[0].items():
+                msg = '{}; {}.'
+                logger.info( msg.format( key, value) ) 
+                
     except IndexError:
         print('IndexError: Usage "python %s github_username github_password"' % ( args[0]))
     
