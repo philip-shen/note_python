@@ -1,14 +1,142 @@
-# note of YAML and JSON
+Table of Contents
+=================
+
+   * [Purpose](#purpose)
+   * [Read JSON by Python:webAPI](#read-json-by-pythonwebapi)
+      * [Key and Value of List](#key-and-value-of-list)
+      * [Parse JSON by WebAPI](#parse-json-by-webapi)
+   * [What is the difference between YAML and JSON?](#what-is-the-difference-between-yaml-and-json)
+      * [How can I parse a YAML file in Python](#how-can-i-parse-a-yaml-file-in-python)
+      * [When to use YAML instead of JSON](#when-to-use-yaml-instead-of-json)
+   * [How to use JSON with Python](#how-to-use-json-with-python)
+      * [Writing a JSON file](#writing-a-json-file)
+      * [Reading JSON](#reading-json)
+   * [Python JSON: Encode(dump), Decode(load) json Data &amp; File (Example)](#python-json-encodedump-decodeload-json-data--file-example)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+
+# Purpose  
 Take some note of YAML and JSON
 
-# Table of Content  
-[What is the difference between YAML and JSON?](#what-is-the-difference-between-yaml-and-json?)
 
-[How to use JSON with Python](#how-to-use-json-with-python)  
-[Writing a JSON file](#writing-a-json-file)  
-[Reading JSON](#reading-json)  
+# Read JSON by Python:webAPI  
+[Python:webAPIからJSONデータの読み込み updated at 2018-10-29](https://qiita.com/tamago324/items/3b189a87342ae6120b1c)
 
-[Python JSON: Encode(dump), Decode(load) json Data & File (Example)]()  
+## Key and Value of List  
+[keyとvalueのリストを取得](https://qiita.com/tamago324/items/3b189a87342ae6120b1c#key%E3%81%A8value%E3%81%AE%E3%83%AA%E3%82%B9%E3%83%88%E3%82%92%E5%8F%96%E5%BE%97)  
+```
+test02.py
+
+# -*- coding: utf-8 -*-
+
+dict = {"name": "tamago", "color", "yellow"}
+
+# keyのリストを取得
+keyList = dict.keys()
+print keyList
+
+# valueのリストの取得
+vakList = dict.values()
+print valList
+
+# keyとvalueのリストの取得
+list = dict.items()
+print list
+```
+
+## Parse JSON by WebAPI
+[WebAPIからJSONデータを取得](https://qiita.com/tamago324/items/3b189a87342ae6120b1c#webapi%E3%81%8B%E3%82%89json%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E5%8F%96%E5%BE%97)
+```
+test02.py
+
+# -*- coding: utf-8 -*-
+
+import urllib
+import json
+import sys
+import codecs
+
+# これで、cp932に変換できない文字はなくすことができる
+sys.stdout = codecs.getwriter(sys.stdout.encoding)(sys.stdout, errors='ignore')
+
+# webAPIからJSONの形式の文字列の結果をもらう
+def dataGet():
+
+    # URIスキーム
+    url = 'http://api.twitcasting.tv/api/commentlist?'
+
+    # URIパラメータのデータ 
+    param = {
+        'user': 'tamago324_pad',    # 取得したい人のID
+        'type': 'json'             # 取得するデータの指定
+    }
+
+    # URIパラメータの文字列の作成
+    paramStr = urllib.urlencode(param)  # type=json&user=tamago324_pad と整形される
+
+    # 読み込むオブジェクトの作成
+    readObj = urllib.urlopen(url + paramStr)
+
+    # webAPIからのJSONを取得
+    response = readObj.read()
+
+    # print type(response)  # >> <type 'str'>
+
+    return response
+
+# webAPIから取得したデータをJSONに変換する
+def jsonConversion(jsonStr):
+
+    # webAPIから取得したJSONデータをpythonで使える形に変換する
+    data = json.loads(jsonStr)
+    return data
+
+    # 日本語が u'\u767d' のようになってしまうため、Unicodeに変換する
+    # return json.dumps(data[0], ensure_ascii=False)
+
+# コメントの投稿時間をh:mm:ssに変換する
+def getElapsedTime(duration):
+
+    secStr = ""
+    minStr = ""
+
+    hourInt = duration / 3600
+    minInt = (duration -3600 * hourInt) / 60
+    secInt = duration % 60
+
+    if minInt <= 9:
+        minStr = "0" + str(minInt)
+    else:
+        minStr = str(minInt)
+
+    if secInt <= 9:
+        secStr = "0" + str(secInt)
+    else:
+        secStr = str(secInt)
+
+    if hourInt >= 1:
+        return str(hourInt) + ":" + minStr + ":" + secStr
+    else:
+        return minStr + ":" + secStr
+
+if __name__ == '__main__':
+
+    resStr = dataGet()
+    res = jsonConversion(resStr)
+
+    # 取得したデータを表示する
+    for item in res:
+        print getElapsedTime(item['duration']) + " " + item['userstatus']['name'] + " " + item['message']
+```
+
+
 
 # What is the difference between YAML and JSON?  
 [What is the difference between YAML and JSON? Jun 7, 2013](https://stackoverflow.com/questions/1726802/what-is-the-difference-between-yaml-and-json)  
@@ -218,3 +346,4 @@ def load_dirty_json(dirty_json):
 - 1
 - 2
 - 3
+
