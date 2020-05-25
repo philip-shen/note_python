@@ -1,5 +1,25 @@
-Table of Contents  
+Table of Contents
 =================
+
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [SSH, SCP on Paramiko](#ssh-scp-on-paramiko)
+   * [Survey scp.SCPClient().get() and scp.SCPClient().put()](#survey-scpscpclientget-and-scpscpclientput)
+      * [get()](#get)
+      * [put()](#put)
+   * [scp module for paramiko](#scp-module-for-paramiko)
+      * [Uploading file-like objects](#uploading-file-like-objects)
+      * [Tracking progress of your file uploads/downloads](#tracking-progress-of-your-file-uploadsdownloads)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 
 # Purpose
@@ -7,6 +27,119 @@ Take note of SSH, SCP on Python
 
 # SSH, SCP on Paramiko  
 [Paramiko + scp 導入 ~ SSH接続 ~ SCPでファイル転送 updated at 2017-06-19](https://qiita.com/int_main_void/items/1cdec761b745010629d5)  
+
+# Survey scp.SCPClient().get() and scp.SCPClient().put()  
+[scp.SCPClient().get()と.put()を調べた posted at 2019-05-17](https://qiita.com/Angelan1720/items/a962e12fa81724b57526) 
+
+```
+import paramiko
+import scp
+
+# サーバに繋ぐ
+with paramiko.SSHClient() as sshc:
+  sshc.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+  sshc.connect(hostname='XXX.XXX.XXX.XXX', port=22, username='hoge', password='hogehoge')
+
+  # SSHClient()の接続設定を合わせてあげる
+  with scp.SCPClient(sshc.get_transport()) as scpc:
+    scpc.get('取得したいファイルのパス')
+```
+
+## get() 
+```
+# get_example.py
+
+with scp.SCPClient(ssh.get_transport()) as scpc:
+  scpc.get(
+    remote_path='取得したいファイルパス',
+    local_path='保存先のパス',
+    recursive=True, #再帰的に転送するならTrue
+    preserve_times=True #mtimeとatimeを保存したいならTrue
+  )
+```
+
+## put()  
+```
+#origin_example.py
+
+from paramiko import SSHClient
+from scp import SCPClient
+
+ssh = SSHClient()
+ssh.load_system_host_keys()
+ssh.connect('example.com')
+
+# SCPCLient takes a paramiko transport as an argument
+scp = SCPClient(ssh.get_transport())
+
+# -------------------- この部分 -------------------------
+scp.put('test.txt', 'test2.txt') #(files, remote_path)
+scp.get('test2.txt') #(remote_path)
+# -----------------------------------------------------
+```
+
+
+# scp module for paramiko  
+[jbardin/scp.py (https://github.com/jbardin/scp.py)  
+
+## Uploading file-like objects  
+[Uploading file-like objects](https://github.com/jbardin/scp.py#uploading-file-like-objects)  
+```
+import io
+from paramiko import SSHClient
+from scp import SCPClient
+
+ssh = SSHClient()
+ssh.load_system_host_keys()
+ssh.connect('example.com')
+
+# SCPCLient takes a paramiko transport as an argument
+scp = SCPClient(ssh.get_transport())
+
+# generate in-memory file-like object
+fl = io.BytesIO()
+fl.write(b'test')
+fl.seek(0)
+# upload it directly from memory
+scp.putfo(fl, '/tmp/test.txt')
+# close connection
+scp.close()
+# close file handler
+fl.close()
+```
+
+## Tracking progress of your file uploads/downloads  
+[Tracking progress of your file uploads/downloads](https://github.com/jbardin/scp.py#tracking-progress-of-your-file-uploadsdownloads)  
+
+> A progress function can be given as a callback to the SCPClient to handle how the current SCP operation handles the progress of the transfers. In the example below we print the percentage complete of the file transfer.  
+
+```
+from paramiko import SSHClient
+from scp import SCPClient
+import sys
+
+ssh = SSHClient()
+ssh.load_system_host_keys()
+ssh.connect('example.com')
+
+# Define progress callback that prints the current percentage completed for the file
+def progress(filename, size, sent):
+    sys.stdout.write("%s\'s progress: %.2f%%   \r" % (filename, float(sent)/float(size)*100) )
+
+# SCPCLient takes a paramiko transport and progress callback as its arguments.
+scp = SCPClient(ssh.get_transport(), progress=progress)
+
+# you can also use progress4, which adds a 4th parameter to track IP and port
+# useful with multiple threads to track source
+def progress4(filename, size, sent, peername):
+    sys.stdout.write("(%s:%s) %s\'s progress: %.2f%%   \r" % (peername[0], peername[1], filename, float(sent)/float(size)*100) )
+scp = SCPClient(ssh.get_transport(), progress4=progress4)
+
+scp.put('test.txt', '~/test.txt')
+# Should now be printing the current progress of your put function.
+
+scp.close()
+```
 
 
 # Troubleshooting
@@ -44,3 +177,5 @@ Take note of SSH, SCP on Python
 - 1
 - 2
 - 3
+
+
