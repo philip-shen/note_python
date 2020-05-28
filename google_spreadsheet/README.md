@@ -5,6 +5,28 @@ Take some note of google_spreadsheet in python
 
 
 # Reference
+* [【Google Drive upload 教學】使用Python上傳檔案，其實不難！2020 年 5 月 27 日](https://markteaching.com/google-drive-upload/?fbclid=IwAR3YjpRc70evRU5ScLWr0qQuTrq0USP-iqt2fDDxuXoR-UaDv5MGEWk_jE0)  
+```
+
+
+目錄
+
+    Python 上傳檔案到 Google Drive 三步驟
+        取得 Google Drive API
+        安裝Google 套件
+        執行Google Drive 程式碼
+        How does Python upload to Google Drive work?
+    Python 上傳檔案到 Google Drive 指定資料夾
+        Results of Python uploading files to Google Drive to specify folders
+        Upload a file to Google Drive to specify folder code
+    Python 如何上傳多個檔案 UploadFiles 到Google Drive 資料夾？
+        Upload multiple files to Google Drive to specify the folder code
+    Google Drive API Upload files 使用 Python thread，執行速度提升2倍
+        Uploading multiple files to Google Drive – Using Thread Differences
+        Thread Upload 程式碼講解
+    結論
+```
+
 * [Download a spreadsheet from Google Docs using Python - Stack Overflow Nov 7, 2011](https://www.google.com/search?q=python+download+google+spreadsheet&client=firefox-b-d&ei=x6fNXP_5H4vX8QWNsZrADw&start=0&sa=N&ved=0ahUKEwi_-fDqkILiAhWLa7wKHY2YBvg4ChDy0wMIdA&biw=1499&bih=816)  
 ```
 
