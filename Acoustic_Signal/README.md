@@ -1,3 +1,4 @@
+
 Table of Contents
 =================
 
@@ -19,6 +20,9 @@ Table of Contents
          * [効果音をつける（音声を重ねる）](#効果音をつける音声を重ねる)
          * [音量を変える](#音量を変える)
          * [RMSレベル](#rmsレベル)
+   * [LibROSA](#librosa)
+      * [Wavの読み込み](#wavの読み込み)
+      * [Fourier transform](#fourier-transform)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -28,6 +32,7 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose
 Take note of Acoustic Process by Python  
@@ -266,6 +271,53 @@ print(resul_tratio)  # 0.7998836532867947が返ってきた
 sound.maxの値を使って調整するやり方も考えられましたが、返り値の単位がよくわからないので却下。
 ```
 
+# LibROSA  
+[信号処理とか音楽の分析に大活躍しそうなlibrosa ](https://qiita.com/tom_m_m/items/91ba624dd8507bc0b746)  
+
+## Wavの読み込み  
+```
+import librosa
+
+file_name = '/home/sound_process/data/sound/engine/1-18527-A-44.wav'
+wav, sr = librosa.load(file_name, sr=44100)
+```
+
+```
+注意しないといけないのが、srの値です。
+srの値がデフォルトで22,050Hzになっています。
+なので、返ってくる値が22,050Hzになってしまいます。
+読み込みに直接影響はないですが、周波数計算する時とかグラフの横軸に影響がでます。
+```
+
+```
+import librosa.display
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.figure(figsize=(15, 5))
+librosa.display.waveplot(wav, sr)
+plt.show()
+```
+
+## Fourier transform 
+Short-time Fourier transform (短時間フーリエ変換) ができます。
+```
+import numpy as np
+
+stft_result = librosa.stft(wav)
+abs_result = np.abs(stft_result)
+power_spec = librosa.amplitude_to_db(abs_result, ref=np.max)
+
+plt.figure(figsize=(25,5))
+librosa.display.specshow(power_spec, y_axis='log', x_axis='time', sr = sr)
+plt.title('Power Spectrogram')
+plt.colorbar(format='%+2.0f dB')
+
+plt.tight_layout()
+plt.show()
+```
+
+
 [【Audio入門】音声変換してみる♬ posted at 2019-07-07](https://qiita.com/MuAuan/items/675854ab602595c79612)  
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
 [Pythonで音声信号処理  2011-05-14](http://aidiary.hatenablog.com/entry/20110514/1305377659)
@@ -307,5 +359,6 @@ sound.maxの値を使って調整するやり方も考えられましたが、�
 - 1
 - 2
 - 3
+
 
 
