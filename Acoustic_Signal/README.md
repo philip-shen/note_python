@@ -317,6 +317,40 @@ plt.tight_layout()
 plt.show()
 ```
 
+[Python分离立体声WAV压缩文件的左右声道 - 机器在学习 Aug 13, 2019](http://www.siyuanblog.com/?p=104790)  
+```
+import soundfile as sf
+
+musicFileName = "1016(37)_13733163362(4)_In_20190808140419.wav"
+sig, sample_rate = sf.read(musicFileName)
+print("采样率：%d" % sample_rate)    
+print("时长：", sig.shape[0]/sample_rate, '秒')    
+
+serviceData = sig.T[0]
+clientData = sig.T[1]
+```
+
+```
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.figure()
+l=sig.shape[0]
+x = [i/8000 for i in range(l)]
+plt.plot(x, clientData, c='r')
+plt.show()
+```
+
+```
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.figure()
+l=sig.shape[0]
+x = [i/8000 for i in range(l)]
+plt.plot(x, serviceData , c='b')
+plt.show()
+```
 
 [【Audio入門】音声変換してみる♬ posted at 2019-07-07](https://qiita.com/MuAuan/items/675854ab602595c79612)  
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
