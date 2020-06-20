@@ -86,6 +86,61 @@ scp.get('test2.txt') #(remote_path)
 # -----------------------------------------------------
 ```
 
+# paramiko+scp  
+[paramiko+scpで共有サーバにファイル転送する updated at 2018-03-08](https://qiita.com/Kata_Oka/items/d361ed94db8f680e3d6d)  
+```
+import paramiko
+import scp
+
+with paramiko.SSHClient() as ssh:
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(hostname='XXX.XXX.XXX.XX', port=22, username='username', password='password')
+with scp.SCPclient(ssh.get_transport()) as scp:
+        scp.put('filename', '/upload/to/remote/directory/')
+        scp.get('/upload/to/remote/directory/')
+
+```
+
+[python:ローカルファイルをtimestampでソートしてscpで転送 posted at 2018-03-08](https://qiita.com/Kata_Oka/items/48990fb4aeda9d367cb5)  
+local.py  
+```
+import os 
+
+localpath = r"C:\test
+
+def sorted_ls(localpath):
+    mtime = lambda m: os.stat(os.path.join(localpath, m)).st_mtime
+    return list(sorted(os.listdir(localpath), key=mtime))
+
+print(sorted_ls(localpath))
+```
+
+ssh.py  
+```
+#-*- coding:utf-8 -*-
+import paramiko
+import scp
+import os
+
+localpath = 'localpath'
+remotepath = 'remotepath'
+
+def sorted_ls(localpath):
+    mtime = lambda x: os.stat(os.path.join(localpath, x)).st_mtime
+    return list(sorted(os.listdir(localpath), key=mtime))
+
+files = sorted_ls(localpath)
+
+with paramiko.SSHClient() as ssh:
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(hostname=hostname, port=22, username=username, password=password)
+
+    with scp.SCPClient(ssh.get_transport()) as scp:
+        for f in files:
+            scp.put(localpath + f,remotepath)
+            os.remove(localpath + f)
+```
+
 
 # scp module for paramiko  
 [jbardin/scp.py (https://github.com/jbardin/scp.py)  
