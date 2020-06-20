@@ -10,6 +10,15 @@ Table of Contents
    * [scp module for paramiko](#scp-module-for-paramiko)
       * [Uploading file-like objects](#uploading-file-like-objects)
       * [Tracking progress of your file uploads/downloads](#tracking-progress-of-your-file-uploadsdownloads)
+   * [Install Paramiko and Netmiko on Windows](#install-paramiko-and-netmiko-on-windows)
+      * [5. Unzip the  ~
+etmiko-2.3.3.tar\dist
+etmiko-2.3.3.tar file again.](#5-unzip-the--netmiko-233tardistnetmiko-233tar-file-again)
+      * [6. Open cmd and use command "cd" go the this folder ~
+etmiko-2.3.3.tar\dist
+etmiko-2.3.3](#6-open-cmd-and-use-command-cd-go-the-this-folder-netmiko-233tardistnetmiko-233)
+      * [7. Typing command "python setup.py install"](#7-typing-command-python-setuppy-install)
+      * [8. It will auto install.](#8-it-will-auto-install)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -17,7 +26,6 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -141,11 +149,24 @@ scp.put('test.txt', '~/test.txt')
 scp.close()
 ```
 
+# Install Paramiko and Netmiko on Windows  
+[05 - Install Paramiko and Netmiko on Windows 10月 08, 2018](http://juilin77.blogspot.com/2018/10/05-install-paramiko-and-netmiko-on.html)  
+
+## 5. Unzip the  ~\netmiko-2.3.3.tar\dist\netmiko-2.3.3.tar file again.  
+
+## 6. Open cmd and use command "cd" go the this folder ~\netmiko-2.3.3.tar\dist\netmiko-2.3.3
+
+## 7. Typing command "python setup.py install"  
+
+## 8. It will auto install.  
+![alt tag](https://1.bp.blogspot.com/-PrVaLv3K3B4/XRLlrKmZxAI/AAAAAAAACCA/j8Q06CrK6qsJolr5mhs0_2ax9VOUbKFkACLcBGAs/s1600/8.jpg)  
+
 
 # Troubleshooting
 
 
 # Reference
+
 
 
 * []()  
@@ -177,5 +198,6 @@ scp.close()
 - 1
 - 2
 - 3
+
 
 
