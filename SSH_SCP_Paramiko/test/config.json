@@ -1,0 +1,38 @@
+{
+    "SSH_Client":[
+        {
+            "hostname": "192.168.1.104",
+            "port": 22,
+            "username": "test",
+            "password": "1234qwer"
+        }
+    ],
+    "SCP_Param":[        
+        {"01_dut":{
+            "remote_path": "ac88",           
+            "local_path": "ASUS_AC_88(4*4)",
+            "recursive":"True",
+            "preserve_times":"True"
+            },
+         "01_standmic":{
+            "remote_path": "ac88",           
+            "local_path": "ASUS_AC_88(4*4)",
+            "recursive":"True",
+            "preserve_times":"True"
+            }   
+        },
+        {"02_dut":{
+            "remote_path": "ac88",           
+            "local_path": "ASUS_AC_88(4*4)",
+            "recursive":"True",
+            "preserve_times":"True"
+            },
+        "02_standmic":{
+            "remote_path": "ac88",           
+            "local_path": "ASUS_AC_88(4*4)",
+            "recursive":"True",
+            "preserve_times":"True"
+            }
+        }    
+    ]                
+}
