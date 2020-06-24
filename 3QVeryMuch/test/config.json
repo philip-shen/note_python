@@ -1,0 +1,18 @@
+{
+    "3Quest":[        
+        {"dut":{
+            "path": "..\\logs\\boommic_SWout\\dut"
+            },
+         "standmic":{
+            "path": "..\\logs\\boommic_SWout\\standmic"
+            }   
+        },
+        {"dut":{
+            "path": "..\\logs\\Intermic_SWin\\dut"
+            },
+        "standmic":{
+            "path": "..\\logs\\Intermic_SWin\\standmic"
+            }
+        }    
+    ]                
+}
