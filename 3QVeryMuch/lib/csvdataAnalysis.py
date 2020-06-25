@@ -99,6 +99,36 @@ class PandasDataAnalysis:
                     logger.info(msg.format(self.df_3quest))
                     
                     '''
+                    df_noindex = pd.read_csv('./data/12/sample_pandas_normal.csv')
+                    print(df_noindex)
+                    #       name  age state  point
+                    # 0    Alice   24    NY     64
+                    # 1      Bob   42    CA     92
+                    # 2  Charlie   18    CA     70
+                    # 3     Dave   68    TX     70
+                    # 4    Ellen   24    CA     88
+                    # 5    Frank   30    NY     57
+
+                    print(df_noindex.index)
+                    # RangeIndex(start=0, stop=6, step=1)
+
+                    如果是序列号，则无论原样指定数字值还是使用index属性，结果都将相同。
+
+                    print(df_noindex.drop([1, 3, 5]))
+                    #       name  age state  point
+                    # 0    Alice   24    NY     64
+                    # 2  Charlie   18    CA     70
+                    # 4    Ellen   24    CA     88
+
+                    print(df_noindex.drop(df_noindex.index[[1, 3, 5]]))
+                    #       name  age state  point
+                    # 0    Alice   24    NY     64
+                    # 2  Charlie   18    CA     70
+                    # 4    Ellen   24    CA     88
+
+                    '''
+                    # https://www.pythonf.cn/read/98780
+                    '''
                     df_csv_3questfile.drop([0,2]):                                                    0
                     1     ,   ,   ,   ,   ,   ,   ,pub,pub,pub,pub,ro...
                     3  /home/philip.shen/3Quest/LuxShare/0623/Boommic...
