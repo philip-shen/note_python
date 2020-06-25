@@ -62,9 +62,9 @@ if __name__ == "__main__":
             msg = '{}th path_dut_3quest:{}'
             logger.info(msg.format(i, os.path.join(data["3Quest"][i]['dut']['path']+'.3quest', 'Results') ) )
 
-
+            # Check path if exists or not
             if(os.path.isdir(os.path.join(data["3Quest"][i]['dut']['path']+'.3quest', 'Results'))):
-                
+
                 opt_verbose='OFF'
 
     except IOError:

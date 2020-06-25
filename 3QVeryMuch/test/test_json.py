@@ -18,7 +18,7 @@ sys.path.append(dirnamelib)
 
 from logger import logger
 
-with open('config.json') as f:
+with open('_config.json') as f:
     data = json.load(f)
 
 '''
