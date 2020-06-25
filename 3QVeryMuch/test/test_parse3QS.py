@@ -46,18 +46,20 @@ if __name__ == "__main__":
                 opt_verbose='ON'
                 #opt_verbose='OFF'
                 
-                #local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
-                #                                        path_dut_3quest_results,\
-                #                                        ret_list_3questFolder_CsvFiles,\
-                #                                        opt_verbose)
-                #local_csvdata_analysis.read_CSVFile()
-                
-                local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
+                local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
                                                         path_dut_3quest_results,\
                                                         ret_list_3questFolder_CsvFiles,\
                                                         opt_verbose)
+                local_csvdata_analysis.read_CSVFile()
+                local_csvdata_analysis.write_CSVFile_del1strow()
 
-                local_csvdata_analysis.read_CSVFile()                                        
+                #local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
+                #                                        path_dut_3quest_results,\
+                #                                        ret_list_3questFolder_CsvFiles,\
+                #                                        opt_verbose)
+
+                #local_csvdata_analysis.read_CSVFile()
+                #local_csvdata_analysis.read_CSVFile_02()                                                                                
 
 
     except IOError:

@@ -16,6 +16,39 @@ class PandasDataAnalysis:
         self.list_3questfolder_csvfiles = list_3questFolder_CsvFiles
         self.opt_verbose = opt_verbose
 
+    def read_CSVFile_02(self):
+
+        re_exp_zipfolder = r'\/$'    
+        re_exp_txtfile = r'\.txt$'
+        re_exp_csvfile = r'\\[a-z][a-z][a-z][a-z][a-z][a-z].csv$';#..\logs\boommic_SWout\dut.3quest\Results\output.csv
+
+        for _3questfolder_csvfiles in self.list_3questfolder_csvfiles:            
+
+            if re.search(re_exp_csvfile, _3questfolder_csvfiles):#check if csv or txt file
+                self._3questfolder_csvfiles = _3questfolder_csvfiles            
+
+                '''
+                _3questfolder_csvfiles:..\logs\boommic_SWout\dut.3quest\Results\output.csv                
+                '''
+                if self.opt_verbose.lower() == "on":
+                    msg = "_3questfolder_csvfiles:{}"
+                    logger.info(msg.format(_3questfolder_csvfiles))
+
+                df_csv_3questfile = pd.read_csv(self._3questfolder_csvfiles, sep='\n',
+                                            header = 0, 
+                                            delimiter=','
+                                )
+                df = df_csv_3questfile.copy()
+                self.df = df    
+
+                if self.opt_verbose.lower() == "on":
+                    msg = "df_csv_3questfile: {}"
+                    logger.info(msg.format(df_csv_3questfile))
+
+                    msg = "df.columns: {}"
+                    logger.info(msg.format(self.df.columns))                    
+
+
     def read_CSVFile(self):
 
         re_exp_zipfolder = r'\/$'    
@@ -45,7 +78,7 @@ class PandasDataAnalysis:
                                
                 df_csv_3questfile = pd.read_csv(self._3questfolder_csvfiles, sep='\n',
                                             header = None, 
-                                             index_col=False,
+                                            index_col=False,
                                             error_bad_lines=False,
                                             warn_bad_lines=False                                            
                                 )
@@ -66,7 +99,7 @@ class PandasDataAnalysis:
                     '''
                     
                     msg = "df_csv_3questfile: {}"
-                    logger.info(msg.format(df_csv_3questfile))
+                    #logger.info(msg.format(df_csv_3questfile))
                     
                     '''                    
                      ❖ 資料選擇與篩選
@@ -89,44 +122,15 @@ class PandasDataAnalysis:
                     '''
                     msg = "self.df.iloc[1:4, :]: {}";#row 1~row 3：組的組名與人數  
                     self.df_3quest=self.df.iloc[1:4, :]
-                    logger.info(msg.format(self.df_3quest))
+                    #logger.info(msg.format(self.df_3quest))
 
                     '''
                     df_csv_3questfile.index: RangeIndex(start=1, stop=4, step=1)
                     '''                    
                     msg = "df_csv_3questfile.index: {}"
                     self.df_3quest=self.df_3quest.index
-                    logger.info(msg.format(self.df_3quest))
-                    
-                    '''
-                    df_noindex = pd.read_csv('./data/12/sample_pandas_normal.csv')
-                    print(df_noindex)
-                    #       name  age state  point
-                    # 0    Alice   24    NY     64
-                    # 1      Bob   42    CA     92
-                    # 2  Charlie   18    CA     70
-                    # 3     Dave   68    TX     70
-                    # 4    Ellen   24    CA     88
-                    # 5    Frank   30    NY     57
-
-                    print(df_noindex.index)
-                    # RangeIndex(start=0, stop=6, step=1)
-
-                    如果是序列号，则无论原样指定数字值还是使用index属性，结果都将相同。
-
-                    print(df_noindex.drop([1, 3, 5]))
-                    #       name  age state  point
-                    # 0    Alice   24    NY     64
-                    # 2  Charlie   18    CA     70
-                    # 4    Ellen   24    CA     88
-
-                    print(df_noindex.drop(df_noindex.index[[1, 3, 5]]))
-                    #       name  age state  point
-                    # 0    Alice   24    NY     64
-                    # 2  Charlie   18    CA     70
-                    # 4    Ellen   24    CA     88
-
-                    '''
+                    #logger.info(msg.format(self.df_3quest))
+                                        
                     # https://www.pythonf.cn/read/98780
                     '''
                     df_csv_3questfile.drop([0,2]):                                                    0
@@ -135,7 +139,29 @@ class PandasDataAnalysis:
                     '''
                     msg = "df_csv_3questfile.drop([0,2]): {}"
                     self.df_3quest=self.df.drop([0,2])
-                    logger.info(msg.format(self.df_3quest))                    
+                    #logger.info(msg.format(self.df_3quest))                    
+
+                    '''
+                    df_csv_3questfile.drop([0,2]).columns: Int64Index([0], dtype='int64')
+                    '''
+                    msg = "df_3questfile.drop([0,2]).columns: {}"
+                    self.df_3quest=self.df.drop([0,2]).columns
+                    #logger.info(msg.format(self.df_3quest))                    
+
+                    # Split a text column into two columns in Pandas DataFrame
+                    # https://www.geeksforgeeks.org/split-a-text-column-into-two-columns-in-pandas-dataframe/
+
+                    self.df_3quest=self.df.drop([0])
+                    msg = "self.df_3quest[0]:\n{}"
+                    logger.info(msg.format(self.df_3quest[0]))
+
+                    #self.df_3quest[0].apply(lambda x: pd.Series( str(x).split(',') ))    
+                    self.df_3quest[0].str.split(',', expand=True)                
+                    msg = "\nSplitting column into many different columns :\n{}"
+                    logger.info(msg.format(self.df_3quest))
+                    
+                    msg = "df_3questfile.columns: {}"
+                    logger.info(msg.format(self.df_3quest.columns))                    
 
                     '''
                     self.df.iloc[3, 0]: 
@@ -143,8 +169,7 @@ class PandasDataAnalysis:
                     '''
                     msg = "self.df.iloc[3, 0]: {}"
                     self.df_3quest=self.df.iloc[3, 0]
-                    logger.info(msg.format(self.df_3quest))
-                    
+                    #logger.info(msg.format(self.df_3quest))
                     
 
                     #df.iloc[:3, :]
@@ -222,32 +247,36 @@ class CSVDataAnalysis:
                     # Does Python have a string 'contains' substring method?
                     # https://stackoverflow.com/questions/3437059/does-python-have-a-string-contains-substring-method
                     
-                            
-                    #if 'All Pairs' in list_row[1]:
-                    #    csv_foldername  = self.zipfolder_txtcsvfiles.split("/")[0]
-                    #    csv_filename = self.zipfolder_txtcsvfiles.split("/")[1]
-                    #    thruput_avg = list_row[9]
-                    #    thruput_min = list_row[10]
-                    #    thruput_max = list_row[11]
+    def write_CSVFile_del1strow(self):
+        re_exp_csvfile = r'WB,'
 
-                    #    if self.opt_verbose.lower() == "on":
-                            #msg = "list_row[0]:{}"
-                            #logger.info(msg.format(list_row[0]))
-                            #msg = "list_row[1]:{}"
-                            #logger.info(msg.format(list_row[1]))                                    
+        if self.opt_verbose.lower() == "on":
+            msg = "self._3questfolder_csvfiles:{}"
+            logger.info(msg.format(self._3questfolder_csvfiles))
 
-                    #        msg = "CSV_FolderName:{}, CSV_FileName:{}"
-                    #        logger.info(msg.format(csv_foldername, csv_filename))
-                    #        msg = "Throughput Avg.(Mbps):{}, Throughput Min.(Mbps):{} ,Throughput Max.(Mbps):{}"
-                    #        logger.info(msg.format(thruput_avg, thruput_min, thruput_max))
+        
+        '''
+        WB, run_case=132, group_num=16, sort_take_num=16
+        '''
+        '''
+        
+        '''
+        
+        with open(self._3questfolder_csvfiles, 'rt') as inp, open('output_edit.csv', 'wb') as out:
+            writer = csv.writer(out)
+            for row in csv.reader(inp):        
+                
+                if self.opt_verbose.lower() == "on":
+                    msg = "row in csv.reader(inp):{}"
+                    logger.info(msg.format(row))
 
-                    #    list_csv_foldername_filename_thruput.append(csv_foldername)
-                    #    list_csv_foldername_filename_thruput.append(csv_filename)
-                    #    list_csv_foldername_filename_thruput.append(thruput_avg)
-                    #    list_csv_foldername_filename_thruput.append(thruput_min)
-                    #    list_csv_foldername_filename_thruput.append(thruput_max)        
+                if "WB," not in row:
+                    
+                    if self.opt_verbose.lower() == "on":
+                        msg = "row in csv.reader(inp):{}"
+                        logger.info(msg.format(row))
 
-        #return list_csv_foldername_filename_thruput
+                    writer.writerow(row)
 
     def read_CSVFile(self):
 
@@ -268,251 +297,11 @@ class CSVDataAnalysis:
                 '''
                 if self.opt_verbose.lower() == "on":
                     msg = "_3questfolder_csvfiles:{}"
-                    logger.info(msg.format(_3questfolder_csvfiles))
+                    logger.info(msg.format(self._3questfolder_csvfiles))
 
-                ret_list_csv_foldername_filename_3quest = self.parse_CSVFile()
+                #ret_list_csv_foldername_filename_3quest = self.parse_CSVFile()
 
                 #append_list_csv_foldername_filename_3quest.append(ret_list_csv_foldername_filename_3quest)
         
         #self.append_list_csv_foldername_filename_3quest = \
-        #    append_list_csv_foldername_filename_3quest;#asign class variable
-    
-    '''
-    chariotlog.txt
-
-    Test Method: PPPOENAT 
-    Case Number: 30010061 
-    Model: DIR-1950 
-    HW: A1 
-    FW: v1.01b08 
-    Wireless Mode: 802.11AC 
-    Frequency: 5 
-    Channel: 149 
-    Country Code: CA 
-    Encryption: YES 
-    Antenna Degree: 90 
-    Test Vendor: Cameo 
-    Test Client: Client1 
-    '''
-    def parse_targetkey_TXTFile(self, list_row):
-        list_txt_target_key_value = []
-        txt_value = ' ';#for insert sqlite purpose
-        list_target_key=['Test Method', 'Case Number', 'Model',
-                        'HW','FW', 'Wireless Mode',
-                        'Frequency',  'Channel', #'Modulation', remark
-                        'Country Code','Encryption', 'Antenna Degree', 
-                        'Test Vendor','Test Client']
-
-        for target_key in list_target_key:
-            # String comparison in Python: is vs. ==
-            # https://stackoverflow.com/questions/2988017/string-comparison-in-python-is-vs
-            '''
-            a = 19998989890
-            b = 19998989889 +1
-            >>> a is b
-            False
-            >>> a == b
-            True
-
-            is compares two objects in memory, 
-            == compares their values. For example, you can see that small integers are cached by Python:
-            c = 1
-            b = 1
-            >>> b is c
-            True
-            ''' 
-            #if self.opt_verbose.lower() == "on":
-            #    msg = "target_key:{}; row:{}"
-            #    logger.info(msg.format(target_key, list_row))
-
-            # Emulate a do-while loop in Python?
-            # https://stackoverflow.com/questions/743164/emulate-a-do-while-loop-in-python
-            '''
-            while True:
-                stuff()
-                if fail_condition:
-                    break
-            '''
-            '''
-            stuff()
-            while not fail_condition:
-                stuff()
-            '''
-            
-            if target_key == list_row[0]:
-                if self.opt_verbose.lower() == "on":
-                    msg = "target_key:{}; value:{}"
-                    logger.info(msg.format(target_key, list_row[1]))
-
-                # Remove all newlines from inside a string
-                # https://stackoverflow.com/questions/13298907/remove-all-newlines-from-inside-a-string
-                '''                  
-                            strip only removes characters from the beginning and end of a string. You want to use replace:
-
-                            str2 = str.replace("\n", "")
-                '''
-                '''
-                            list_txt_target_key_value:['Country Code', ' CA \n']
-                '''
-
-                list_txt_target_key_value = [list_row[0], list_row[1].replace(" \n", "").replace(' ', "") ]
-                txt_value = list_row[1].replace(" \n", "").replace(' ', "")
-                #msg = "list_txt_target_key_value:{}"
-                #logger.info(msg.format(list_txt_target_key_value))
-            
-        return list_txt_target_key_value, txt_value        
-
-    def parse_TXTFile(self):
-        self.txt_dirfolderdata = '{}\{}'.format(self.dirname_ziplog,self.zipfolder_txtcsvfiles);#..\logs/202003051550/chariotlog.txt                                
-        list_txt_row_target_key_value = []
-        txt_row_value = '';#for insert sqlite purpose
-
-        append_list_txt_row_target_key_value = []
-        append_txt_row_value = [];#for insert sqlite purpose
-
-        if self.opt_verbose.lower() == "on":
-            msg = "txt_dirfolderdata:{}"
-            logger.info(msg.format(self.txt_dirfolderdata))
-        '''
-        Test Method: PPPOENAT 
-        Case Number: 30010061 
-        Model: DIR-1950 
-        HW: A1 
-        FW: v1.01b08 
-        Wireless Mode: 802.11AC 
-        Frequency: 5 
-        Modulation: 256QAM
-        Channel: 149 
-        Country Code: CA 
-        Encryption: YES 
-        Antenna Degree: 90 
-        Test Vendor: Cameo 
-        Test Client: Client1 
-        '''
-
-        csv_foldername = self.zipfolder_txtcsvfiles.split('/')[0];#get csv_foldername value
-        list_txt_row_target_key_value = ['CSV FolderName', csv_foldername];#assign key and value
-        txt_row_value = csv_foldername;#assign value
-
-        append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
-        append_txt_row_value.append(txt_row_value);#for insert sqlite purpose
-
-        if self.opt_verbose.lower() == "on":
-            msg = "append_list_txt_row_target_key_value:{}"
-            logger.info(msg.format(append_list_txt_row_target_key_value))
-            msg = "append_txt_row_value:{}"
-            logger.info(msg.format(append_txt_row_value))
-
-        with open(self.txt_dirfolderdata) as txtfile:
-            rows = txtfile.readlines()
-
-            for row in rows:
-                if ':' in row:# check rows if inculde ':'
-                    list_row = row.split(':');# change to list
-
-                    if len(list_row) >= 2:#Make sure inculde target_key and value
-
-                        list_txt_row_target_key_value, txt_row_value = self.parse_targetkey_TXTFile(list_row)
-                    
-                        #if self.opt_verbose.lower() == "on":
-                        #    msg = "list_txt_row_target_key_value:{}"
-                        #    logger.info(msg.format(list_txt_row_target_key_value))
-
-                        # Python check for NoneType not working
-                        # https://stackoverflow.com/questions/20405628/python-check-for-nonetype-not-working
-                        '''
-                            In Python, | is a bitwise or. You want to use a logical or here:
-
-                            if (cts is None) or (len(cts) == 0):
-                                return
-                        '''
-                        # not None test in Python
-                        # https://stackoverflow.com/questions/3965104/not-none-test-in-python     
-                        '''     
-                        if not (val is None):
-                            # ...
-                        '''                        
-                        if len(list_txt_row_target_key_value) > 0 and \
-                            len(txt_row_value) > 0:# prvent empty list
-
-                            append_list_txt_row_target_key_value.append(list_txt_row_target_key_value)
-                            append_txt_row_value.append(txt_row_value);#for insert sqlite purpose
-
-                            if self.opt_verbose.lower() == "on":
-                                #msg = "list_row[0]:{}; list_row[1]:{}"
-                                #logger.info(msg.format(list_row[0], list_row[1]))
-                                '''
-                                append_list_txt_target_key_value:[['Test Method', ' Chamber 1'], ['Case Number', ' 30010061'], ['Model', ' DIR-1950'], 
-                                ['HW', ' A1'], ['FW', ' 1.01b08'], ['Wireless Mode', ' 802.11AC'], ['Frequency', ' 5'],  ['Modulation', ' 256QAM'],
-                                ['Channel', ' 149'], ['Country Code', ' CA'], ['Encryption', ' YES'], ['Antenna Degree', ' 90'], ['Test Vendor', ' Cameo'], 
-                                ['Test Client', ' Client5']]
-                                '''                            
-                                msg = "append_list_txt_row_target_key_value:{}"
-                                logger.info(msg.format(append_list_txt_row_target_key_value))
-                                msg = "append_txt_row_value:{}"
-                                logger.info(msg.format(append_txt_row_value))
-
-        #self.append_list_txt_row_target_key_value = append_list_txt_row_target_key_value;#assign class variable
-        
-        return append_list_txt_row_target_key_value, append_txt_row_value    
-
-    '''
-            INFO: fileName of listOfFileNames: [['202003061318'], ['PPPOENAT'], ['30010061'], ['DIR-1950'], ['A1'], ['v1.01b08'], ['802.11AC'], ['5'], 
-                                                ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client1']]
-
-            INFO: fileName of listOfFileNames: [['202003061038'], ['Chamber1'], ['30010061'], ['DIR-1950'], ['A1'], ['1.01b08'], ['802.11AC'], ['5'], 
-                                                ['256QAM'], ['149'], ['CA'], ['YES'], ['90'], ['Cameo'], ['Client5']]
-    '''
-
-    def read_TXTFile(self):
-
-        re_exp_zipfolder = r'\/$'    
-        re_exp_txtfile = r'\.txt$'
-        list_txt_foldername_filename_title = []
-        list_all_txt_row_target_key_value = []
-        list_all_txt_row_value = [];#for sqlite purpose
-        
-        append_list_all_txt_row_target_key_value = []
-        append_list_all_txt_row_value = [];#for sqlite purpose
-
-
-        for zipfolder_txtcsvfiles in self.list_zipfolder_txtcsvfiles:
-            self.zipfolder_txtcsvfiles = zipfolder_txtcsvfiles
-
-            if self.opt_verbose.lower() == "on":
-                msg = "zipfolder_txtcsvfiles:{}"
-                logger.info(msg.format(zipfolder_txtcsvfiles))
-
-            if re.search(re_exp_txtfile, zipfolder_txtcsvfiles):#check if txt file
-                list_all_txt_row_target_key_value, list_all_txt_row_value = self.parse_TXTFile()
-
-                append_list_all_txt_row_target_key_value.append(list_all_txt_row_target_key_value)
-                append_list_all_txt_row_value.append(list_all_txt_row_value);#for sqlite purpose
-
-        # Insert an element at specific index in a list and return updated list
-        # https://stackoverflow.com/questions/14895599/insert-an-element-at-specific-index-in-a-list-and-return-updated-list
-        '''
-        >>> a = [1, 2, 4]
-        >>> print a
-        [1, 2, 4]
-
-        >>> print a.insert(2, 3)
-        None
-
-        >>> print a
-        [1, 2, 3, 4]
-
-        >>> b = a.insert(3, 6)
-        >>> print b
-        None
-
-        >>> print a
-        [1, 2, 3, 6, 4]
-        '''
-        #if self.opt_verbose.lower() == "on":
-        #    msg = "len of append_list_all_txt_row_value:{}"
-        #    logger.info(msg.format(len(append_list_all_txt_row_value)))
-        
-        self.append_list_all_txt_row_target_key_value = append_list_all_txt_row_target_key_value;#assign class variable
-        self.append_list_all_txt_row_value = append_list_all_txt_row_value;#for sqlite purpose
-                
+        #    append_list_csv_foldername_filename_3quest;#asign class variable                    
