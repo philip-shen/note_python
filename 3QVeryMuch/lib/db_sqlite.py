@@ -16,7 +16,106 @@ sql_query_WiFi_DHCP_Avg = """ SELECT DISTINCT char_log.test_method, char_log.mod
                                 WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^DHCP'
                                 ORDER BY char_csv.csv_foldername ASC
                             ); """
-                        
+sql_insert_table_3Quest_pub = ''' INSERT INTO _3Quest_pub(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_road = ''' INSERT INTO _3Quest_road(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_crossroad = ''' INSERT INTO _3Quest_crossroad(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_train = ''' INSERT INTO _3Quest_train(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_car = ''' INSERT INTO _3Quest_car(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_cafeteria = ''' INSERT INTO _3Quest_cafeteria(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_mensa = ''' INSERT INTO _3Quest_mensa(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_callcenter = ''' INSERT INTO _3Quest_callcenter(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_voice_distractor = ''' INSERT INTO _3Quest_voice_distractor(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_nobgn = ''' INSERT INTO _3Quest_nobgn(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_AVG = ''' INSERT INTO _3Quest_AVG(
+                                        SMOS,
+                                        NMOS,
+                                        GMOS,
+                                        delta_SNR,
+                                        dut_foldername,
+                                        insert_date,                                        
+                                        insert_time)
+                    VALUES(?,?,?,?,?,?,?) '''
+
 class DB_sqlite:
     def __init__(self, path_db_file):
         self.path_db_file = path_db_file
