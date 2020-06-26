@@ -313,6 +313,23 @@ This allows for the sometimes very handy chaining of operations:
 "a string".strip().upper()
 ```
 
+[Display number with leading zeros ](https://stackoverflow.com/questions/134934/display-number-with-leading-zeros/33860138)  
+```
+print "%02d" % (1,)
+
+print("{:02d}".format(1))
+```
+
+[How to add element in Python to the end of list using list.insert?](https://stackoverflow.com/questions/30212447/how-to-add-element-in-python-to-the-end-of-list-using-list-insert)  
+```
+a=[1,2,3,4]
+a.insert(len(a),5)
+a
+
+[1, 2, 3, 4, 5]
+```
+
+
 # Troubleshooting
 
 

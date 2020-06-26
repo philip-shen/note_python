@@ -161,8 +161,8 @@ if __name__ == "__main__":
                 file_type="*.csv"
                 ret_list_3questFolder_CsvFiles = walk_in_dir(path_dut_3quest_results,file_type)  
 
-                opt_verbose='ON'
-                #opt_verbose='OFF'
+                #opt_verbose='ON'
+                opt_verbose='OFF'
                 
                 local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
                                                         path_dut_3quest_results,\
@@ -182,10 +182,20 @@ if __name__ == "__main__":
                 # get list of all background noise 3Quest value
                 list_allnoises_3quest_values = local_csvdata_analysis.parse_CSVFile_02()
                 
+                
+                
+                strdirname = os.path.dirname(data["3Quest"][i]['path_dut'])
+                str_split=os.path.split(strdirname)
+                dut_foldername=str_split[1]
+                insert_date = str(local_time.tm_year)+str("{:02d}".format(local_time.tm_mon) )+str("{:02d}".format(local_time.tm_mday))
+                insert_time = str("{:02d}".format(local_time.tm_hour))+':'+str("{:02d}".format(local_time.tm_min))+':'+str("{:02d}".format(local_time.tm_sec))
+
                 # Ready to store 3Quest data to DB
                 path_db = os.path.join(dirnamelog,'3QuestDB.db')
 
-                localdb_sqlite = db_sqlite.DB_sqlite(path_db)
+                localdb_sqlite = db_sqlite.DB_sqlite(path_db,\
+                                                    dut_foldername,insert_date,insert_time,\
+                                                    opt_verbose)
                 # create a database connection
                 conn = localdb_sqlite.create_connection()
             
@@ -206,11 +216,20 @@ if __name__ == "__main__":
                 else:
                     print("Error! cannot create the database connection.")                            
 
-                strdirname = os.path.dirname(data["3Quest"][i]['path_dut'])
-                str_split=os.path.split(strdirname)
-                dut_foldername=str_split[1]
-                insert_date = str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)
-                insert_time = str(local_time.tm_hour)+':'+str(local_time.tm_min)+':'+str(local_time.tm_sec)
+                
+
+                for list_noises_3quest_values in list_allnoises_3quest_values:
+
+                    ''' 
+                    INFO: list_noises_3quest_values:[['pub', 'pub', 'pub', 'pub'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['2.840550', '4.154481', '2.914813', '29.453750']]
+                    INFO: list_noises_3quest_values:[['AVG', 'AVG', 'AVG', 'AVG'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.358136', '4.220144', '3.328679', '24.638061']]
+                    ''' 
+                    #Insert list_noises_3quest_values data into sqlite
+                    localdb_sqlite.insert_csv_data_tosqlite(list_noises_3quest_values, \
+                                                            localdb_sqlite, \
+                                                            conn)
+
+
 
                 # We can also close the connection if we are done with it.
                 # Just be sure any changes have been committed or they will be lost.

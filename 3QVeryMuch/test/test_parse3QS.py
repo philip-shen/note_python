@@ -83,8 +83,8 @@ if __name__ == "__main__":
                         msg = "dut_foldername:{}"
                         logger.info(msg.format(dut_foldername))
 
-                        insert_date = str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)
-                        insert_time = str(local_time.tm_hour)+':'+str(local_time.tm_min)+':'+str(local_time.tm_sec)
+                        insert_date = str(local_time.tm_year)+str("{:02d}".format(local_time.tm_mon) )+str("{:02d}".format(local_time.tm_mday))
+                        insert_time = str("{:02d}".format(local_time.tm_hour))+':'+str("{:02d}".format(local_time.tm_min))+':'+str("{:02d}".format(local_time.tm_sec))
                         msg = "insert_date:{}"
                         logger.info(msg.format(insert_date))
                         msg = "insert_time:{}"
