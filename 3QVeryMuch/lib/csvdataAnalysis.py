@@ -17,11 +17,13 @@ class PandasDataAnalysis:
         self.list_3questfolder_csvfiles = list_3questFolder_CsvFiles
         self.opt_verbose = opt_verbose
 
-    def read_CSVFile_02(self):
+    def parse_CSVFile_02(self):
 
         re_exp_zipfolder = r'\/$'    
         re_exp_txtfile = r'\.txt$'
         re_exp_csvfile = r'\\[a-z][a-z][a-z][a-z][a-z][a-z].csv$';#..\logs\boommic_SWout\dut.3quest\Results\output.csv
+
+        self.list_allnoises_3quest_values = []
 
         for _3questfolder_csvfiles in self.list_3questfolder_csvfiles:            
 
@@ -40,47 +42,90 @@ class PandasDataAnalysis:
                                             delimiter=','
                                 )
                 df = df_csv_3questfile.copy()
-                self.df = df    
-
+                self.df = df                    
                 '''
-                INFO: df_csv_3questfile:                                                   
-                                                                  0          1          2          3          4          5   ...        45         46        47        48        49         50
-                0                                                                                                            ...     nobgn      nobgn       AVG       AVG       AVG        AVG
-                1                                               Type         xx         xx         xx         xx         xx  ...      GMOS  delta_SNR      SMOS      NMOS      GMOS  delta_SNR
-                2  /home/philip.shen/3Quest/LuxShare/0623/Boommic...  -1.000000  -1.000000  -1.000000  -1.000000  -1.000000  ...  3.938181  10.014188  3.358136  4.220144  3.328679  24.638061
-
-                [3 rows x 51 columns]
-                '''
-                '''
-                INFO: df.columns: Int64Index([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
-                                                17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                                                34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-                                                50],
+                INFO: df.columns: Int64Index([ 0,  1,  2,  3,  4,  5,  6,  
+                                                7,  8,  9, 10, 
+                                                11, 12, 13, 14, 
+                                                15, 16, 17, 18, 
+                                                19, 20, 21, 22, 
+                                                23, 24, 25, 26, 
+                                                27, 28, 29, 30, 
+                                                31, 32, 33, 34, 
+                                                35, 36, 37, 38, 
+                                                39, 40, 41, 42, 
+                                                43, 44, 45, 46, 
+                                                47, 48, 49, 50],
                                     dtype='int64')
                 '''                
+                
                 '''                
-                INFO: self.df[[7]]:          7
-                            0       pub
-                            1      SMOS
-                            2  2.840550
+                    INFO: self.df[7:11]:          7         8         9
+                            0      road      road      road       road
+                            1      SMOS      NMOS      GMOS  delta_SNR
+                            2  2.840550  4.154481  2.914813  29.453750
+
+                    INFO: self.df[47:51]:          47        48        49 
+                            0       AVG       AVG       AVG        AVG
+                            1      SMOS      NMOS      GMOS  delta_SNR
+                            2  3.358136  4.220144  3.328679  24.638061                            
                 '''                
+                '''                
+                    INFO: background noise:pub
+
+                    INFO: list_3quest_values:[['pub', 'pub', 'pub', 'pub'], 
+                                            ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], 
+                                            ['1.942594', '2.833337', '1.825394', '-0.305027']]
+                ''' 
+                for columns_idx in range(7, len(self.df.columns), 4):                    
+                    list_3quest_values = self.df.iloc[ :, columns_idx:columns_idx+4].values.tolist()
+                    str_background_noise = self.df.iloc[0, columns_idx]
+
+                    if self.opt_verbose.lower() == "on":
+                        msg = "self.df.iloc[{}]: {}"
+                        logger.info(msg.format( str(columns_idx)+':'+ str(columns_idx+4), self.df.iloc[ :, columns_idx:columns_idx+4] ))    
+                        
+                        msg  = "background noise:{}"
+                        logger.info(msg.format(str_background_noise))
+                        
+                        msg  = "list_3quest_values:{}"
+                        logger.info(msg.format(list_3quest_values))          
+
+                    self.list_allnoises_3quest_values.append(list_3quest_values)          
+
+                ''' 
+                INFO: len(self.list_allnoises_3quest_values):11
+
+                INFO: self.list_allnoises_3quest_values: 
+                [[['pub', 'pub', 'pub', 'pub'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['2.840550', '4.154481', '2.914813', '29.453750']], 
+                    [['road', 'road', 'road', 'road'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['2.443025', '4.164413', '2.665425', '32.881812']], 
+                    [['crossroad', 'crossroad', 'crossroad', 'crossroad'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.009269', '4.283569', '3.091669', '33.826437']], 
+                    [['train', 'train', 'train', 'train'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.096144', '4.268156', '3.148156', '34.712750']], 
+                    [['car', 'car', 'car', 'car'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.542413', '4.314669', '3.485562', '37.809625']], 
+                    [['cafeteria', 'cafeteria', 'cafeteria', 'cafeteria'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.580419', '4.189887', '3.467494', '19.377625']], 
+                    [['mensa', 'mensa', 'mensa', 'mensa'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.236650', '4.173863', '3.203125', '17.238875']], 
+                    [['callcenter', 'callcenter', 'callcenter', 'callcenter'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.818250', '4.232238', '3.674519', '16.904438']], 
+                    [['voice_distractor', 'voice_distractor', 'voice_distractor', 'voice_distractor'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.936700', '4.056738', '3.697850', '14.161112']], 
+                    [['nobgn', 'nobgn', 'nobgn', 'nobgn'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['4.077944', '4.363425', '3.938181', '10.014188']], 
+                    [['AVG', 'AVG', 'AVG', 'AVG'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.358136', '4.220144', '3.328679', '24.638061']]]
+                ''' 
                 if self.opt_verbose.lower() == "on":
-                    msg = "df_csv_3questfile: {}"
-                    logger.info(msg.format(df_csv_3questfile))
+                    msg = "len(self.list_allnoises_3quest_values):{}"
+                    logger.info(msg.format( len(self.list_allnoises_3quest_values) ))
 
-                    msg = "df.columns: {}"
-                    logger.info(msg.format(self.df.columns))
+                    msg = "self.list_allnoises_3quest_values: {}"
+                    logger.info(msg.format(self.list_allnoises_3quest_values))
 
-                    msg = "len of df.columns: {}"
-                    logger.info(msg.format(len(self.df.columns) ))
+                #    msg = "df_csv_3questfile: {}"
+                #    logger.info(msg.format(df_csv_3questfile))
 
-                    for columns_idx in range(7, len(self.df.columns)):
-                        msg = "self.df[{}]: {}"
-                        logger.info(msg.format(columns_idx, self.df[columns_idx] ))
+                #    msg = "df.columns: {}"
+                #    logger.info(msg.format(self.df.columns))
 
-                    msg = "self.df[[7]]:{}"
-                    logger.info(msg.format(self.df[[7]] ))
-
+                #    msg = "len of df.columns: {}"
+                #    logger.info(msg.format(len(self.df.columns) ))
+                
+        if len(self.list_allnoises_3quest_values) > 0: return self.list_allnoises_3quest_values
 
     def read_CSVFile(self):
 

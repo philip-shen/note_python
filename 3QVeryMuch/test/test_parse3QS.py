@@ -22,7 +22,13 @@ from libCSV import *
 import csvdataAnalysis as csvdata_analysis
 
 if __name__ == "__main__":
+
+    # Get present time
     t0 = time.time()
+    local_time = time.localtime(t0)
+    msg = 'Start Time is {}/{}/{} {}:{}:{}'
+    logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
+                            local_time.tm_hour,local_time.tm_min,local_time.tm_sec))         
 
     with open('config.json') as f:
         data = json.load(f)
@@ -62,18 +68,33 @@ if __name__ == "__main__":
                                                         ret_list_3questFolder_CsvFiles,\
                                                         opt_verbose)
 
-                #local_csvdata_analysis.read_CSVFile()
-                local_csvdata_analysis.read_CSVFile_02()                                                                                
+                list_allnoises_3quest_values = local_csvdata_analysis.parse_CSVFile_02()
 
+                for list_noises_3quest_values in list_allnoises_3quest_values:
+
+                    ''' 
+                    INFO: list_noises_3quest_values:[['pub', 'pub', 'pub', 'pub'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['2.840550', '4.154481', '2.914813', '29.453750']]
+                    INFO: list_noises_3quest_values:[['AVG', 'AVG', 'AVG', 'AVG'], ['SMOS', 'NMOS', 'GMOS', 'delta_SNR'], ['3.358136', '4.220144', '3.328679', '24.638061']]
+                    ''' 
+                    if opt_verbose.lower() == "on":
+                        strdirname = os.path.dirname(data["3Quest"][i]['path_dut'])
+                        str_split=os.path.split(strdirname)
+                        dut_foldername=str_split[1]
+                        msg = "dut_foldername:{}"
+                        logger.info(msg.format(dut_foldername))
+
+                        insert_date = str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)
+                        insert_time = str(local_time.tm_hour)+':'+str(local_time.tm_min)+':'+str(local_time.tm_sec)
+                        msg = "insert_date:{}"
+                        logger.info(msg.format(insert_date))
+                        msg = "insert_time:{}"
+                        logger.info(msg.format(insert_time))
+
+                        msg = "list_noises_3quest_values:{}"
+                        logger.info(msg.format(list_noises_3quest_values))
 
     except IOError:
         print('IOError: Couldn\'t open "%s"' % args[1])
 
     msg = 'Time duration: {:.2f} seconds.'
-    logger.info(msg.format( time.time() - t0))     
-
-
-
-
-
-    
+    logger.info(msg.format( time.time() - t0))         

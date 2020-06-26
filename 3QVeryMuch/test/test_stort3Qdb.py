@@ -29,7 +29,7 @@ sql_create_table_3Quest_pub = """ CREATE TABLE IF NOT EXISTS _3Quest_pub (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """
@@ -39,7 +39,7 @@ sql_create_table_3Quest_road = """ CREATE TABLE IF NOT EXISTS _3Quest_road (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """
@@ -49,7 +49,7 @@ sql_create_table_3Quest_crossroad = """ CREATE TABLE IF NOT EXISTS _3Quest_cross
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """
@@ -59,7 +59,7 @@ sql_create_table_3Quest_train = """ CREATE TABLE IF NOT EXISTS _3Quest_train (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """
@@ -69,7 +69,7 @@ sql_create_table_3Quest_car = """ CREATE TABLE IF NOT EXISTS _3Quest_car (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """                     
@@ -79,7 +79,7 @@ sql_create_table_3Quest_cafeteria = """ CREATE TABLE IF NOT EXISTS _3Quest_cafet
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """                     
@@ -89,7 +89,7 @@ sql_create_table_3Quest_mensa = """ CREATE TABLE IF NOT EXISTS _3Quest_mensa (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """                                            
@@ -99,7 +99,7 @@ sql_create_table_3Quest_callcenter = """ CREATE TABLE IF NOT EXISTS _3Quest_call
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """                                           
@@ -109,7 +109,7 @@ sql_create_table_3Quest_voice_distractor = """ CREATE TABLE IF NOT EXISTS _3Ques
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """                                               
@@ -119,7 +119,7 @@ sql_create_table_3Quest_nobgn = """ CREATE TABLE IF NOT EXISTS _3Quest_nobgn (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """                                     
@@ -129,12 +129,17 @@ sql_create_table_3Quest_AVG = """ CREATE TABLE IF NOT EXISTS _3Quest_AVG (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
-                                                                    csv_foldername text NOT NULL,
+                                                                    dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
                                             ); """                                                                                                                               
 if __name__ == "__main__":
+    # Get present time
     t0 = time.time()
+    local_time = time.localtime(t0)
+    msg = 'Start Time is {}/{}/{} {}:{}:{}'
+    logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
+                            local_time.tm_hour,local_time.tm_min,local_time.tm_sec))         
 
     with open('config.json') as f:
         data = json.load(f)
@@ -171,10 +176,11 @@ if __name__ == "__main__":
 
                 local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
                                                         path_dut_3quest_results,\
-                                                        ret_list_3questFolder_CsvFiles,\
-                                                        opt_verbose)
+                                                        ret_list_3questFolder_CsvFiles
+                                                        )
 
-                #local_csvdata_analysis.read_CSVFile_02()
+                # get list of all background noise 3Quest value
+                list_allnoises_3quest_values = local_csvdata_analysis.parse_CSVFile_02()
                 
                 # Ready to store 3Quest data to DB
                 path_db = os.path.join(dirnamelog,'3QuestDB.db')
@@ -199,6 +205,12 @@ if __name__ == "__main__":
                     
                 else:
                     print("Error! cannot create the database connection.")                            
+
+                strdirname = os.path.dirname(data["3Quest"][i]['path_dut'])
+                str_split=os.path.split(strdirname)
+                dut_foldername=str_split[1]
+                insert_date = str(local_time.tm_year)+'/'+str(local_time.tm_mon)+'/'+str(local_time.tm_mday)
+                insert_time = str(local_time.tm_hour)+':'+str(local_time.tm_min)+':'+str(local_time.tm_sec)
 
                 # We can also close the connection if we are done with it.
                 # Just be sure any changes have been committed or they will be lost.

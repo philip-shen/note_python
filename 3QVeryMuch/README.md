@@ -4,7 +4,7 @@ Table of Contents
 
 # Purpose
 
-# Pandas—01
+# Pandas—01  [Python] Pandas 基礎教學  
 [[Python] Pandas 基礎教學 01 October 2017](https://oranwind.org/python-pandas-ji-chu-jiao-xue/)
 ```
 # Pandas 透過使用中括號 [] 與 .iloc 可以很靈活地從 data frame 中選擇想要的元素
@@ -33,7 +33,7 @@ print(select_df.num) # 各組的人數
 ```
 
 
-# Pandas—02
+# Pandas—02  Python 資料處理筆記 - 使用Panda進行數據處理  
 [Python 資料處理筆記 - 使用Panda進行數據處理 Nov 22, 2018](https://medium.com/@yanweiliu/python-pandas%E4%BD%BF%E7%94%A8%E7%AD%86%E8%A8%98-a4682e254d90)  
 
 ## 資料操作  
@@ -150,7 +150,7 @@ ix擁有iloc與loc的功能
 iloc:以第幾筆來選擇資料(隻對數值類型有用)
 ```
 
-# Pandas—03  
+# Pandas—03  How to get column by number in Pandas?  
 [How to get column by number in Pandas? - Stack Overflow May 32, 2017](https://stackoverflow.com/questions/17193850/how-to-get-column-by-number-in-pandas)  
 
 One is a column (aka Series), while the other is a DataFrame:  
@@ -204,6 +204,63 @@ Out[7]:
 1    4
 Name: b, dtype: int64
 ```
+
+
+# Pandas—04  How to select multiple columns in a pandas dataframe  
+[How to select multiple columns in a pandas dataframe](https://www.geeksforgeeks.org/how-to-select-multiple-columns-in-a-pandas-dataframe/)  
+```
+# Import pandas package 
+import pandas as pd 
+  
+# Define a dictionary containing employee data 
+data = {'Name':['Jai', 'Princi', 'Gaurav', 'Anuj'], 
+        'Age':[27, 24, 22, 32], 
+        'Address':['Delhi', 'Kanpur', 'Allahabad', 'Kannauj'], 
+        'Qualification':['Msc', 'MA', 'MCA', 'Phd']} 
+  
+# Convert the dictionary into DataFrame  
+df = pd.DataFrame(data) 
+  
+# iloc[row slicing, column slicing] 
+df.iloc [0:2, 1:3] 
+```
+![alt tag](https://media.geeksforgeeks.org/wp-content/uploads/df_col7.png)  
+
+
+# Pandas—05  How to Convert Pandas DataFrame into a List  
+[How to Convert Pandas DataFrame into a List January 6, 2020](https://datatofish.com/convert-pandas-dataframe-to-list/)  
+```
+from pandas import DataFrame
+
+products = {'Product': ['Tablet','iPhone','Laptop','Monitor'],
+            'Price': [250,800,1200,300]
+            }
+
+df = DataFrame(products, columns= ['Product', 'Price'])
+
+products_list = df.values.tolist()
+print (products_list)
+```
+![alt tag](https://datatofish.com/wp-content/uploads/2018/09/0002_tolist.png)
+
+```
+from pandas import DataFrame
+
+products = {'Product': ['Tablet','iPhone','Laptop','Monitor'],
+            'Price': [250,800,1200,300]
+            }
+
+df = DataFrame(products, columns= ['Product', 'Price'])
+
+products_list = [df.columns.values.tolist()] + df.values.tolist()
+print (products_list)
+```
+![alt tag](https://datatofish.com/wp-content/uploads/2018/09/0003_tolist.png)
+
+
+[Pandas DataFrame column to list [duplicate] May 20, 2019](https://stackoverflow.com/questions/23748995/pandas-dataframe-column-to-list)  
+
+
 
 [Deleting rows with Python in a CSV file](https://stackoverflow.com/questions/29725932/deleting-rows-with-python-in-a-csv-file)
 
