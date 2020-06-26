@@ -75,8 +75,8 @@ class PandasDataAnalysis:
                     logger.info(msg.format(len(self.df.columns) ))
 
                     for columns_idx in range(7, len(self.df.columns)):
-                        msg = "self.df[::, {}]: {}"
-                        logger.info(msg.format(columns_idx, self.df[::, columns_idx] ))
+                        msg = "self.df[{}]: {}"
+                        logger.info(msg.format(columns_idx, self.df[columns_idx] ))
 
                     msg = "self.df[[7]]:{}"
                     logger.info(msg.format(self.df[[7]] ))

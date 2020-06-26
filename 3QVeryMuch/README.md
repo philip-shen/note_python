@@ -120,7 +120,9 @@ df.dropna(subset=['PM25'])           #只刪除PM25欄位中的缺失值df=df.fi
 df=df.fillna(method='pad')           #填入前一筆資料的數值
 df=df.fillna(method='bfill')         #填入下一筆資料的數值
 df['PM25']=df['PM25'].fillna((df['PM25'].mode())) #填入眾數
-df['PM25'] = df['PM25'].interpolate()#使用插值法填入數字(用函數方式)df['PM25'].fillna(value=df['PM25'].mean()) #把NaN值改成該屬性的所有平均值
+df['PM25'] = df['PM25'].interpolate()#使用插值法填入數字(用函數方式)
+
+df['PM25'].fillna(value=df['PM25'].mean()) #把NaN值改成該屬性的所有平均值
 ```
 
 ```

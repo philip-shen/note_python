@@ -1,5 +1,6 @@
 # 3/28/2020 Convert Nested JSON to Pandas DataFrame and Flatten List in a Column 
 # https://gist.github.com/rafaan/4ddc91ae47ea46a46c0b
+# 6/25/2020 Initial
 ########################################################
 
 import json
