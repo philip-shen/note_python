@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import re
 import csv
+from shutil import copyfile
 
 from logger import logger
 
@@ -35,18 +36,50 @@ class PandasDataAnalysis:
                     logger.info(msg.format(_3questfolder_csvfiles))
 
                 df_csv_3questfile = pd.read_csv(self._3questfolder_csvfiles, sep='\n',
-                                            header = 0, 
+                                            header = None, 
                                             delimiter=','
                                 )
                 df = df_csv_3questfile.copy()
                 self.df = df    
 
+                '''
+                INFO: df_csv_3questfile:                                                   
+                                                                  0          1          2          3          4          5   ...        45         46        47        48        49         50
+                0                                                                                                            ...     nobgn      nobgn       AVG       AVG       AVG        AVG
+                1                                               Type         xx         xx         xx         xx         xx  ...      GMOS  delta_SNR      SMOS      NMOS      GMOS  delta_SNR
+                2  /home/philip.shen/3Quest/LuxShare/0623/Boommic...  -1.000000  -1.000000  -1.000000  -1.000000  -1.000000  ...  3.938181  10.014188  3.358136  4.220144  3.328679  24.638061
+
+                [3 rows x 51 columns]
+                '''
+                '''
+                INFO: df.columns: Int64Index([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+                                                17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                                                34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+                                                50],
+                                    dtype='int64')
+                '''                
+                '''                
+                INFO: self.df[[7]]:          7
+                            0       pub
+                            1      SMOS
+                            2  2.840550
+                '''                
                 if self.opt_verbose.lower() == "on":
                     msg = "df_csv_3questfile: {}"
                     logger.info(msg.format(df_csv_3questfile))
 
                     msg = "df.columns: {}"
-                    logger.info(msg.format(self.df.columns))                    
+                    logger.info(msg.format(self.df.columns))
+
+                    msg = "len of df.columns: {}"
+                    logger.info(msg.format(len(self.df.columns) ))
+
+                    for columns_idx in range(7, len(self.df.columns)):
+                        msg = "self.df[::, {}]: {}"
+                        logger.info(msg.format(columns_idx, self.df[::, columns_idx] ))
+
+                    msg = "self.df[[7]]:{}"
+                    logger.info(msg.format(self.df[[7]] ))
 
 
     def read_CSVFile(self):
@@ -248,35 +281,63 @@ class CSVDataAnalysis:
                     # https://stackoverflow.com/questions/3437059/does-python-have-a-string-contains-substring-method
                     
     def write_CSVFile_del1strow(self):
-        re_exp_csvfile = r'WB,'
-
-        if self.opt_verbose.lower() == "on":
-            msg = "self._3questfolder_csvfiles:{}"
-            logger.info(msg.format(self._3questfolder_csvfiles))
-
+        re_exp_csvfile = r'WB,'        
         
         '''
         WB, run_case=132, group_num=16, sort_take_num=16
         '''
         '''
+        Deleting rows with Python in a CSV file        
         
+        # https://stackoverflow.com/questions/29725932/deleting-rows-with-python-in-a-csv-file        
         '''
-        
-        with open(self._3questfolder_csvfiles, 'rt') as inp, open('output_edit.csv', 'wb') as out:
+        '''
+        csv.Error: iterator should return strings, not bytes
+        https://stackoverflow.com/questions/8515053/csv-error-iterator-should-return-strings-not-bytes
+        '''
+        '''
+        TypeError: a bytes-like object is required, not 'str' in python and CSV
+        https://stackoverflow.com/questions/34283178/typeerror-a-bytes-like-object-is-required-not-str-in-python-and-csv
+        '''
+        tmp_csv = os.path.join(self.dirnamelog,'tmp.csv')
+        with open(self._3questfolder_csvfiles, 'r') as inp, open(tmp_csv, 'w', newline='') as out:
             writer = csv.writer(out)
             for row in csv.reader(inp):        
                 
+                '''
+                row in csv.reader(inp):['WB, run_case=128, group_num=16, sort_take_num=16']
+                '''
                 if self.opt_verbose.lower() == "on":
                     msg = "row in csv.reader(inp):{}"
                     logger.info(msg.format(row))
 
-                if "WB," not in row:
+                '''
+                How to convert list to string - Stack Overflow
+                #https://stackoverflow.com/questions/5618878/how-to-convert-list-to-string
+                '''                
+                
+                '''
+                str_row:                     pubpubpubpubroadroadroadroadcrossroadcrossroadcrossroadcrossroadtraintraintraintraincarcarcarcarcafeteriacafeteriacafeteriacafeteriamensamensamensamensacallcentercallcentercallcentercallcentervoice_distractorvoice_distractorvoice_distractorvoice_distractornobgnnobgnnobgnnobgnAVGAVGAVGAVG    
+                '''
+
+                '''
+                CSV in Python adding an extra carriage return, on Windows
+                https://stackoverflow.com/questions/3191528/csv-in-python-adding-an-extra-carriage-return-on-windows
+                '''
+                str_row = ''.join(row)
+                if "WB," not in str_row:
                     
                     if self.opt_verbose.lower() == "on":
-                        msg = "row in csv.reader(inp):{}"
-                        logger.info(msg.format(row))
+                        msg = "str_row:{}"
+                        logger.info(msg.format(str_row))
 
                     writer.writerow(row)
+        
+        if os.path.isfile(tmp_csv):
+            return tmp_csv 
+
+    def copy_CSVFile_to3questResultPath(self,src,dst): 
+        copyfile(src, dst)
 
     def read_CSVFile(self):
 

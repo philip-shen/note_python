@@ -63,7 +63,12 @@ df.Danger.unique()  #找出唯一值
 df.duplicated()     #顯示重複的資料
 df.drop_duplicates()#刪除重複的資料
 df.drop_duplicates(['Name']) #刪除Name欄位重複的資料
-df.value_counts()  #查看有哪些不同的值，並計算每個值有多少個重複值groupby方法
+
+df.value_counts()  #查看有哪些不同的值，並計算每個值有多少個重複值
+```
+
+```
+groupby方法
 dfTotal=df.groupby(['AQI','PM25']).sum() 
 #合併種類的名稱，並且顯示該名稱欄位的所有數量總合
 dfTotal.sum()                        
@@ -71,21 +76,37 @@ dfTotal.sum()
 -------------------------------------------------------------------
 df_Danger_PM25=df[df.PM25>35.5].groupby("Danger_Air")
 #合併所有PM2.5數值>35.5以上的資料成一個新欄位「Danger_Air」df_Danger_PM25["AQI"].sum()
-#查詢Danger_Air中，所有的AQI值總合iloc,loc,ix方法
+#查詢Danger_Air中，所有的AQI值總合
+```
+
+```
+iloc,loc,ix方法
 df.iloc[4]   #顯示第4筆資料的所有數據 
 df1 = df.set_index(['測站'])       #將測站設定為索引(即擺到第一行第一列)
 df1 = df1.reset_index(['測站'])    #恢復原本設置
 df1.loc['左營']                    #列出所有左營的數據
-df.loc[df['name'] == 'Jason']     #列出Name為Jason的資料找極端的排序
+df.loc[df['name'] == 'Jason']     #列出Name為Jason的資料
+```
+
+```
+找極端的排序
 (例如:前n個大的值或n個最小的值，實際一點的例子像是查詢班上的前三名是誰)
 df.nlargest(3,'HEIGHT')    #查詢HEIGHT欄位中數值前3大的
-df.nsmallest(3,'WEIGHT')   #查詢WEIGHT欄位中數值前3小的刪除資料
+df.nsmallest(3,'WEIGHT')   #查詢WEIGHT欄位中數值前3小的
+```
+
+```
+刪除資料
 df.drop(labels=['SO2','CO'],axis='columns') #刪除SO2和CO這兩個欄位
 df.drop(labels=['SO2','CO'],axis='columns',inplace=True)
 df=df.drop_duplicates()                     #刪除重複的資料
 df.drop(df.index[-1])                       #刪除最後一筆資料axis=0和asxis='row'一樣
 axis=1和axis='columns'一樣
-使用inplace=True才會把原本的資料改變處理Nan資料
+使用inplace=True才會把原本的資料改變
+```
+
+```
+處理Nan資料
 df.isnull()                          #判斷是否有遺失值
 df.isnull().any()                    #迅速查看是否有遺失值(大筆數資料)
 df.isnull().sum()                    #查看每個欄位有幾個缺失值
@@ -99,16 +120,138 @@ df.dropna(subset=['PM25'])           #只刪除PM25欄位中的缺失值df=df.fi
 df=df.fillna(method='pad')           #填入前一筆資料的數值
 df=df.fillna(method='bfill')         #填入下一筆資料的數值
 df['PM25']=df['PM25'].fillna((df['PM25'].mode())) #填入眾數
-df['PM25'] = df['PM25'].interpolate()#使用插值法填入數字(用函數方式)df['PM25'].fillna(value=df['PM25'].mean()) #把NaN值改成該屬性的所有平均值Sort排序
+df['PM25'] = df['PM25'].interpolate()#使用插值法填入數字(用函數方式)df['PM25'].fillna(value=df['PM25'].mean()) #把NaN值改成該屬性的所有平均值
+```
+
+```
+Sort排序
 df.sort_index(ascending=True).head(100)         #升階排序
-df.sort_index(ascending=False).head(100)        #降階排序#指定欄位進行由小到大的排序
-dfSort=df.sort_values(by='物種中文名',ascending=False).head(100) #指定多個欄位進行由小到大的排序
-dfSort=df.sort_values(by=['名稱1', '名稱2'], ascending=False)備註
+df.sort_index(ascending=False).head(100)        #降階排序
+```
+
+```
+#指定欄位進行由小到大的排序
+dfSort=df.sort_values(by='物種中文名',ascending=False).head(100) 
+```
+
+```
+#指定多個欄位進行由小到大的排序
+dfSort=df.sort_values(by=['名稱1', '名稱2'], ascending=False)
+```
+
+```
+備註
 基本上df[['AQI']]和df.AQI功能一樣
 
 loc:以行列標題選擇資料(隻對字串類型有用)
 ix擁有iloc與loc的功能
 iloc:以第幾筆來選擇資料(隻對數值類型有用)
+```
+
+# Pandas—03  
+[How to get column by number in Pandas? - Stack Overflow May 32, 2017](https://stackoverflow.com/questions/17193850/how-to-get-column-by-number-in-pandas)  
+
+One is a column (aka Series), while the other is a DataFrame:  
+```
+In [1]: df = pd.DataFrame([[1,2], [3,4]], columns=['a', 'b'])
+
+In [2]: df
+Out[2]:
+   a  b
+0  1  2
+1  3  4
+```
+
+The column 'b' (aka Series):
+```
+In [3]: df['b']
+Out[3]:
+0    2
+1    4
+Name: b, dtype: int64
+```
+
+The subdataframe with columns (position) in [1]:
+
+```
+In [4]: df[[1]]
+Out[4]:
+   b
+0  2
+1  4
+```
+
+Note: it's preferable (and less ambiguous) to specify whether you're talking about the column name e.g. ['b'] or the integer location, since sometimes you can have columns named as integers:
+
+```
+In [5]: df.iloc[:, [1]]
+Out[5]:
+   b
+0  2
+1  4
+
+In [6]: df.loc[:, ['b']]
+Out[6]:
+   b
+0  2
+1  4
+
+In [7]: df.loc[:, 'b']
+Out[7]:
+0    2
+1    4
+Name: b, dtype: int64
+```
+
+[Deleting rows with Python in a CSV file](https://stackoverflow.com/questions/29725932/deleting-rows-with-python-in-a-csv-file)
+
+[csv.Error: iterator should return strings, not bytes](https://stackoverflow.com/questions/8515053/csv-error-iterator-should-return-strings-not-bytes)
+
+[TypeError: a bytes-like object is required, not 'str' in python and CSV](https://stackoverflow.com/questions/34283178/typeerror-a-bytes-like-object-is-required-not-str-in-python-and-csv)
+
+[How to convert list to string - Stack Overflow](https://stackoverflow.com/questions/5618878/how-to-convert-list-to-string)  
+
+```
+list1 = ['1', '2', '3']
+str1 = ''.join(list1)
+
+Or if the list is of integers, convert the elements before joining them.
+
+list1 = [1, 2, 3]
+str1 = ''.join(str(e) for e in list1)
+```
+
+[CSV in Python adding an extra carriage return, on Windows](https://stackoverflow.com/questions/3191528/csv-in-python-adding-an-extra-carriage-return-on-windows)  
+
+```
+Python 3:
+
+    As described by YiboYang, set newline=''
+
+with open('output.csv', 'w', newline='') as f:
+    writer = csv.writer(f)
+    
+
+    As noted in the comments by CoDEmanX, set newline='\n'
+
+with open('output.csv', 'w', newline='\n', encoding='utf-8') as f:
+    writer = csv.writer(f)
+```
+
+
+     
+
+[rstrip not removing newline char what am I doing wrong? [duplicate] Jan 23 '10](https://stackoverflow.com/questions/2121839/rstrip-not-removing-newline-char-what-am-i-doing-wrong)  
+```
+The clue is in the signature of rstrip.
+
+It returns a copy of the string, but with the desired characters stripped, thus you'll need to assign line the new value:
+
+line = line.rstrip('\n')
+
+This allows for the sometimes very handy chaining of operations:
+
+"a string".strip().upper()
 ```
 
 # Troubleshooting

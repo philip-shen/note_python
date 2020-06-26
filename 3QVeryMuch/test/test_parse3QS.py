@@ -48,18 +48,21 @@ if __name__ == "__main__":
                 
                 local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
                                                         path_dut_3quest_results,\
+                                                        ret_list_3questFolder_CsvFiles
+                                                        )
+                local_csvdata_analysis.read_CSVFile()
+                tmp_csv=local_csvdata_analysis.write_CSVFile_del1strow()
+                # copy tmp.csv to output.csv of 3Quest Result Path 
+                local_csvdata_analysis.copy_CSVFile_to3questResultPath(tmp_csv,\
+                                                                       local_csvdata_analysis._3questfolder_csvfiles)            
+
+                local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
+                                                        path_dut_3quest_results,\
                                                         ret_list_3questFolder_CsvFiles,\
                                                         opt_verbose)
-                local_csvdata_analysis.read_CSVFile()
-                local_csvdata_analysis.write_CSVFile_del1strow()
-
-                #local_csvdata_analysis = csvdata_analysis.PandasDataAnalysis(dirnamelog,\
-                #                                        path_dut_3quest_results,\
-                #                                        ret_list_3questFolder_CsvFiles,\
-                #                                        opt_verbose)
 
                 #local_csvdata_analysis.read_CSVFile()
-                #local_csvdata_analysis.read_CSVFile_02()                                                                                
+                local_csvdata_analysis.read_CSVFile_02()                                                                                
 
 
     except IOError:
