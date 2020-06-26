@@ -1,6 +1,25 @@
-Table of Contents  
+Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [Pandas—01  [Python] Pandas 基礎教學](#pandas01--python-pandas-基礎教學)
+   * [Pandas—02  Python 資料處理筆記 - 使用Panda進行數據處理](#pandas02--python-資料處理筆記---使用panda進行數據處理)
+      * [資料操作](#資料操作)
+   * [Pandas—03  How to get column by number in Pandas?](#pandas03--how-to-get-column-by-number-in-pandas)
+   * [Pandas—04  How to select multiple columns in a pandas dataframe](#pandas04--how-to-select-multiple-columns-in-a-pandas-dataframe)
+   * [Pandas—05  How to Convert Pandas DataFrame into a List](#pandas05--how-to-convert-pandas-dataframe-into-a-list)
+   * [Pandas—06  Pandas DataFrame column to list](#pandas06--pandas-dataframe-column-to-list)
+   * [Display number with leading zeros](#display-number-with-leading-zeros)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 # Purpose
 
@@ -258,6 +277,7 @@ print (products_list)
 ![alt tag](https://datatofish.com/wp-content/uploads/2018/09/0003_tolist.png)
 
 
+# Pandas—06  Pandas DataFrame column to list  
 [Pandas DataFrame column to list [duplicate] May 20, 2019](https://stackoverflow.com/questions/23748995/pandas-dataframe-column-to-list)  
 
 
@@ -313,7 +333,8 @@ This allows for the sometimes very handy chaining of operations:
 "a string".strip().upper()
 ```
 
-[Display number with leading zeros ](https://stackoverflow.com/questions/134934/display-number-with-leading-zeros/33860138)  
+# Display number with leading zeros   
+[Display number with leading zeros](https://stackoverflow.com/questions/134934/display-number-with-leading-zeros/33860138)  
 ```
 print "%02d" % (1,)
 
@@ -393,3 +414,5 @@ a
 - 1
 - 2
 - 3
+
+
