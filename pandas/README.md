@@ -385,7 +385,7 @@ print(f'value to hit bbl: {lastvalue} -> check new bbl: {new_bbl}')
 
 ![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F236849%2F8fc04f5a-1c2d-bf9f-66a4-20e0b0c93647.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=769ecc35b8a24b86d59df9ecbbd2f910)  
 
-[Pandas Cheat Sheet for Data Science in Python November 2nd, 2016](https://www.datacamp.com/community/blog/python-pandas-cheat-sheet)
+[Pandas Cheat Sheet for Data Science in Python November 2nd, 2016](https://www.datacamp.com/community/blog/python-pandas-cheat-sheet)  
 [Pandas cheat sheet](http://datacamp-community-prod.s3.amazonaws.com/dbed353d-2757-4617-8206-8767ab379ab3)
 
 
