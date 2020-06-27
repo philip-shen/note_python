@@ -9,6 +9,139 @@ from sqlite3 import Error
 
 from logger import logger
 
+# 2020/06/25 Initial to sqlite test code
+sql_create_table_3Quest_pub = """ CREATE TABLE IF NOT EXISTS _3Quest_pub (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """
+sql_create_table_3Quest_road = """ CREATE TABLE IF NOT EXISTS _3Quest_road (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """
+sql_create_table_3Quest_crossroad = """ CREATE TABLE IF NOT EXISTS _3Quest_crossroad (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """
+sql_create_table_3Quest_train = """ CREATE TABLE IF NOT EXISTS _3Quest_train (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """
+sql_create_table_3Quest_car = """ CREATE TABLE IF NOT EXISTS _3Quest_car (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """                     
+sql_create_table_3Quest_cafeteria = """ CREATE TABLE IF NOT EXISTS _3Quest_cafeteria (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """                     
+sql_create_table_3Quest_mensa = """ CREATE TABLE IF NOT EXISTS _3Quest_mensa (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """                                            
+sql_create_table_3Quest_callcenter = """ CREATE TABLE IF NOT EXISTS _3Quest_callcenter (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """                                           
+sql_create_table_3Quest_voice_distractor = """ CREATE TABLE IF NOT EXISTS _3Quest_voice_distractor (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """                                               
+sql_create_table_3Quest_nobgn = """ CREATE TABLE IF NOT EXISTS _3Quest_nobgn (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """                                     
+sql_create_table_3Quest_AVG = """ CREATE TABLE IF NOT EXISTS _3Quest_AVG (
+                                                                    id integer PRIMARY KEY,
+                                                                    SMOS text,
+                                                                    NMOS text,
+                                                                    GMOS text,
+                                                                    delta_SNR text,
+                                                                    noise text,
+                                                                    dut_foldername text NOT NULL,
+                                                                    insert_date text,
+                                                                    insert_time text   
+                                            ); """
+sql_create_table_3Quest_path = """ CREATE TABLE IF NOT EXISTS _3Quest_path (
+                                                                    id integer PRIMARY KEY,
+                                                                    path text
+                                            ); """                                            
+sql_create_table_noise_type = """ CREATE TABLE IF NOT EXISTS noise_type (
+                                                                    id integer PRIMARY KEY,
+                                                                    name text,
+                                                                    description text,
+                                                                    path text
+                                            ); """
+
 sql_query_WiFi_DHCP_Avg = """ SELECT DISTINCT char_log.test_method, char_log.model, char_log.fw, 
                                 char_csv.csv_foldername, char_csv.csv_filename, char_csv.throughput_avg
                                 FROM Chariot_CSV_Throughput char_csv 
@@ -126,6 +259,9 @@ sql_insert_table_3Quest_AVG = ''' INSERT INTO _3Quest_AVG(
                                         insert_date,
                                         insert_time)
                     VALUES(?,?,?,?,?,?,?,?) '''
+sql_insert_table_3Quest_path = ''' INSERT INTO _3Quest_path(
+                                        path)
+                    VALUES(?) '''
 sql_insert_table_noise_type = ''' INSERT INTO noise_type(
                                         name,
                                         description,
@@ -135,11 +271,12 @@ sql_query_table_noise_type_count = """  SELECT COUNT(*) FROM noise_type;
                              """
 
 class DB_sqlite:
-    def __init__(self, path_db_file, dut_foldername, insert_date, insert_time, opt_verbose='OFF'):
+    def __init__(self, path_db_file, dut_foldername, insert_date, insert_time, path_dut, opt_verbose='OFF'):
         self.path_db_file = path_db_file
         self.dut_foldername = dut_foldername
         self.insert_date = insert_date
         self.insert_time = insert_time
+        self.path_dut = path_dut
         self.opt_verbose = opt_verbose
         self.list_noise_file = [['000','nobgn',''], \
                           ['001', 'pub', ''], \
@@ -183,6 +320,22 @@ class DB_sqlite:
     #modulation,
     #,?    
     
+    def create_all_tables_3Quest(self,conn):
+        self.create_table(conn, sql_create_table_3Quest_pub)
+        self.create_table(conn, sql_create_table_3Quest_road)
+        self.create_table(conn, sql_create_table_3Quest_crossroad)
+        self.create_table(conn, sql_create_table_3Quest_train)
+        self.create_table(conn, sql_create_table_3Quest_car)
+        self.create_table(conn, sql_create_table_3Quest_cafeteria)
+        self.create_table(conn, sql_create_table_3Quest_mensa)
+        self.create_table(conn, sql_create_table_3Quest_callcenter)
+        self.create_table(conn, sql_create_table_3Quest_voice_distractor)
+        self.create_table(conn, sql_create_table_3Quest_nobgn)
+        self.create_table(conn, sql_create_table_3Quest_AVG)
+        self.create_table(conn, sql_create_table_3Quest_path)
+
+        self.create_table(conn, sql_create_table_noise_type)
+
     '''
     
     '''
@@ -354,6 +507,39 @@ class DB_sqlite:
             # Save (commit) the changes daily
             conn.commit()    
 
+    # To prevent dulpicate 3Quest data to insert
+    def insert_3quest_path_tosqlite(self, pt_db_sqlite, conn):
+        sql_query_table_3Quest_path_count="SELECT COUNT(*) FROM _3Quest_path WHERE path Like '"+\
+                                            self.path_dut+"';"
+        
+        try:
+            c = conn.cursor()
+            c.execute(sql_query_table_3Quest_path_count)
+            (number_of_rows_3Quest_path, )=c.fetchone()
+        except Error as e:
+            msg = "Error create_table:{}"
+            logger.info(msg.format(e)) 
+        
+        if self.opt_verbose.lower() == "on":
+            msg = "sql_query_table_3Quest_path_count:{}"
+            logger.info(msg.format(sql_query_table_3Quest_path_count))
+            
+
+        if number_of_rows_3Quest_path < 1: # Insert if not exists
+            self.insert_sql=sql_insert_table_3Quest_path
+
+            if self.opt_verbose.lower() == "on":
+                msg = "self.insert_sql:{}"
+                logger.info(msg.format(self.insert_sql))
+
+            # Insert total lists to sqlite directly
+            pt_db_sqlite.create_csv3quest_many(conn, [[self.path_dut]])
+
+            # Save (commit) the changes daily
+            conn.commit()     
+
+        return number_of_rows_3Quest_path            
+            
     def delete_table_chariot_csv_throughput(self,conn, id):
         """
         Delete a tseotcdaily by Chariot_CSV_Throughput id

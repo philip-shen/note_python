@@ -549,34 +549,92 @@ a
  SELECT COUNT(*) FROM TableName
 ```
 
-# SQL—02      
+# SQL—02  INSERT IF NOT EXISTS ELSE UPDATE?   
+[INSERT IF NOT EXISTS ELSE UPDATE? Nov 13, 2014](https://stackoverflow.com/questions/3634984/insert-if-not-exists-else-update)  
+[sqlite3 INSERT IF NOT EXIST (with Python) Sep 30, 2016](https://stackoverflow.com/questions/39793327/sqlite3-insert-if-not-exist-with-python)  
 ```
-SELECT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time
+self.cur.execute('SELECT * FROM ProSolut WHERE (Col1=? AND Col2=? AND Col3=?)', ('a', 'b', 'c'))
+entry = self.cur.fetchone()
+
+if entry is None:
+    self.cur.execute('INSERT INTO ProSolut (Col1, Col2, Col3) VALUES (?,?,?)', ('a', 'b', 'c'))
+    print 'New entry added'
+else:
+    print 'Entry found'
+```
+
+[“Insert if not exists” statement in SQLite ](https://stackoverflow.com/questions/19337029/insert-if-not-exists-statement-in-sqlite)
+```
+INSERT INTO memos(id,text) 
+SELECT 5, 'text to insert' 
+WHERE NOT EXISTS(SELECT 1 FROM memos WHERE id = 5 AND text = 'text to insert');
+```
+
+
+# SQL—03   
+```
+SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time
 FROM _3Quest_nobgn tb_nobgn 
 INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise
-WHERE tb_nobgn.dut_foldername='boommic_SWout' and tb_nobgn.insert_date='20200627' and tb_nobgn.insert_time='14:12:54'
+WHERE tb_nobgn.dut_foldername='boommic_SWout' and tb_nobgn.insert_date='20200627' and tb_nobgn.insert_time='22:41:39'
 UNION
-SELECT noise.name,noise.description as noise, tb_pub.SMOS , tb_pub.NMOS , tb_pub.GMOS , tb_pub.delta_SNR, tb_pub.dut_foldername, tb_pub.insert_date, tb_pub.insert_time
+SELECT DISTINCT noise.name,noise.description as noise, tb_pub.SMOS , tb_pub.NMOS , tb_pub.GMOS , tb_pub.delta_SNR, tb_pub.dut_foldername, tb_pub.insert_date, tb_pub.insert_time
 FROM _3Quest_pub tb_pub 
 INNER JOIN noise_type noise ON noise.name = tb_pub.noise
-WHERE tb_pub.dut_foldername='boommic_SWout' and tb_pub.insert_date='20200627' and tb_pub.insert_time='14:12:54'
+WHERE tb_pub.dut_foldername='boommic_SWout' and tb_pub.insert_date='20200627' and tb_pub.insert_time='22:41:39'
 UNION
-SELECT noise.name,noise.description as noise, tb_road.SMOS , tb_road.NMOS , tb_road.GMOS , tb_road.delta_SNR, tb_road.dut_foldername, tb_road.insert_date, tb_road.insert_time
+SELECT DISTINCT noise.name,noise.description as noise, tb_road.SMOS , tb_road.NMOS , tb_road.GMOS , tb_road.delta_SNR, tb_road.dut_foldername, tb_road.insert_date, tb_road.insert_time
 FROM _3Quest_road tb_road 
 INNER JOIN noise_type noise ON noise.name = tb_road.noise
-WHERE tb_road.dut_foldername='boommic_SWout' and tb_road.insert_date='20200627' and tb_road.insert_time='14:12:54'
+WHERE tb_road.dut_foldername='boommic_SWout' and tb_road.insert_date='20200627' and tb_road.insert_time='22:41:39'
 UNION
-SELECT noise.name,noise.description as noise, tb_crossroad.SMOS , tb_crossroad.NMOS , tb_crossroad.GMOS , tb_crossroad.delta_SNR, tb_crossroad.dut_foldername, tb_crossroad.insert_date, tb_crossroad.insert_time
+SELECT DISTINCT noise.name,noise.description as noise, tb_crossroad.SMOS , tb_crossroad.NMOS , tb_crossroad.GMOS , tb_crossroad.delta_SNR, tb_crossroad.dut_foldername, tb_crossroad.insert_date, tb_crossroad.insert_time
 FROM _3Quest_crossroad tb_crossroad 
 INNER JOIN noise_type noise ON noise.name = tb_crossroad.noise
-WHERE tb_crossroad.dut_foldername='boommic_SWout' and tb_crossroad.insert_date='20200627' and tb_crossroad.insert_time='14:12:54'
+WHERE tb_crossroad.dut_foldername='boommic_SWout' and tb_crossroad.insert_date='20200627' and tb_crossroad.insert_time='22:41:39'
 UNION
-SELECT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time
+SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time
 FROM _3Quest_nobgn tb_nobgn 
 INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise
-WHERE tb_nobgn.dut_foldername='boommic_SWout' and tb_nobgn.insert_date='20200627' and tb_nobgn.insert_time='14:12:54'
-;
+WHERE tb_nobgn.dut_foldername='boommic_SWout' and tb_nobgn.insert_date='20200627' and tb_nobgn.insert_time='22:41:39'
+UNION
+SELECT DISTINCT noise.name,noise.description as noise, tb_train.SMOS , tb_train.NMOS , tb_train.GMOS , tb_train.delta_SNR, tb_train.dut_foldername, tb_train.insert_date, tb_train.insert_time
+FROM _3Quest_train tb_train 
+INNER JOIN noise_type noise ON noise.name = tb_train.noise
+WHERE tb_train.dut_foldername='boommic_SWout' and tb_train.insert_date='20200627' and tb_train.insert_time='22:41:39'
+UNION
+SELECT DISTINCT noise.name,noise.description as noise, tb_car.SMOS , tb_car.NMOS , tb_car.GMOS , tb_car.delta_SNR, tb_car.dut_foldername, tb_car.insert_date, tb_car.insert_time
+FROM _3Quest_car tb_car 
+INNER JOIN noise_type noise ON noise.name = tb_car.noise
+WHERE tb_car.dut_foldername='boommic_SWout' and tb_car.insert_date='20200627' and tb_car.insert_time='22:41:39'
+UNION
+SELECT DISTINCT noise.name,noise.description as noise, tb_cafeteria.SMOS , tb_cafeteria.NMOS , tb_cafeteria.GMOS , tb_cafeteria.delta_SNR, tb_cafeteria.dut_foldername, tb_cafeteria.insert_date, tb_cafeteria.insert_time
+FROM _3Quest_cafeteria tb_cafeteria 
+INNER JOIN noise_type noise ON noise.name = tb_cafeteria.noise
+WHERE tb_cafeteria.dut_foldername='boommic_SWout' and tb_cafeteria.insert_date='20200627' and tb_cafeteria.insert_time='22:41:39'
+UNION
+SELECT DISTINCT noise.name,noise.description as noise, tb_mensa.SMOS , tb_mensa.NMOS , tb_mensa.GMOS , tb_mensa.delta_SNR, tb_mensa.dut_foldername, tb_mensa.insert_date, tb_mensa.insert_time
+FROM _3Quest_mensa tb_mensa 
+INNER JOIN noise_type noise ON noise.name = tb_mensa.noise
+WHERE tb_mensa.dut_foldername='boommic_SWout' and tb_mensa.insert_date='20200627' and tb_mensa.insert_time='22:41:39'
+UNION
+SELECT DISTINCT noise.name,noise.description as noise, tb_callcenter.SMOS , tb_callcenter.NMOS , tb_callcenter.GMOS , tb_callcenter.delta_SNR, tb_callcenter.dut_foldername, tb_callcenter.insert_date, tb_callcenter.insert_time
+FROM _3Quest_callcenter tb_callcenter 
+INNER JOIN noise_type noise ON noise.name = tb_callcenter.noise
+WHERE tb_callcenter.dut_foldername='boommic_SWout' and tb_callcenter.insert_date='20200627' and tb_callcenter.insert_time='22:41:39'
+UNION
+SELECT DISTINCT noise.name,noise.description as noise, tb_voice_distractor.SMOS , tb_voice_distractor.NMOS , tb_voice_distractor.GMOS , tb_voice_distractor.delta_SNR, tb_voice_distractor.dut_foldername, tb_voice_distractor.insert_date, tb_voice_distractor.insert_time
+FROM _3Quest_voice_distractor tb_voice_distractor 
+INNER JOIN noise_type noise ON noise.name = tb_voice_distractor.noise
+WHERE tb_voice_distractor.dut_foldername='boommic_SWout' and tb_voice_distractor.insert_date='20200627' and tb_voice_distractor.insert_time='22:41:39'
+UNION
+SELECT DISTINCT noise.name,noise.description as noise, tb_AVG.SMOS , tb_AVG.NMOS , tb_AVG.GMOS , tb_AVG.delta_SNR, tb_AVG.dut_foldername, tb_AVG.insert_date, tb_AVG.insert_time
+FROM _3Quest_AVG tb_AVG 
+INNER JOIN noise_type noise ON noise.name = tb_AVG.noise
+WHERE tb_AVG.dut_foldername='boommic_SWout' and tb_AVG.insert_date='20200627' and tb_AVG.insert_time='22:41:39'
 ```
+![alt tag](https://i.imgur.com/Q5UC5uX.png)  
+
 
 # Troubleshooting
 
