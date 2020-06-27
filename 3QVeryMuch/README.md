@@ -1,3 +1,4 @@
+
 Table of Contents
 =================
 
@@ -10,6 +11,17 @@ Table of Contents
    * [Pandas—04  How to select multiple columns in a pandas dataframe](#pandas04--how-to-select-multiple-columns-in-a-pandas-dataframe)
    * [Pandas—05  How to Convert Pandas DataFrame into a List](#pandas05--how-to-convert-pandas-dataframe-into-a-list)
    * [Pandas—06  Pandas DataFrame column to list](#pandas06--pandas-dataframe-column-to-list)
+   * [Pandas—07  Deleting rows with Python in a CSV file](#pandas07--deleting-rows-with-python-in-a-csv-file)
+   * [Pandas—08  Export Pandas Table to Excel](#pandas08--export-pandas-table-to-excel)
+      * [Library Installation](#library-installation)
+      * [ヘッダーを表示しない](#ヘッダーを表示しない)
+      * [インデックス（行名）を表示しない](#インデックス行名を表示しない)
+      * [ヘッダーおよびインデックスを表示しない](#ヘッダーおよびインデックスを表示しない)
+      * [上部に空白行を入れる](#上部に空白行を入れる)
+      * [左に空白列を入れる](#左に空白列を入れる)
+      * [小数点の最大表示桁数を指定](#小数点の最大表示桁数を指定)
+      * [No such file or directory](#no-such-file-or-directory)
+      * [Unicode error](#unicode-error)
    * [Display number with leading zeros](#display-number-with-leading-zeros)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
@@ -18,8 +30,10 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose
 
@@ -281,8 +295,144 @@ print (products_list)
 [Pandas DataFrame column to list [duplicate] May 20, 2019](https://stackoverflow.com/questions/23748995/pandas-dataframe-column-to-list)  
 
 
-
+# Pandas—07  Deleting rows with Python in a CSV file    
 [Deleting rows with Python in a CSV file](https://stackoverflow.com/questions/29725932/deleting-rows-with-python-in-a-csv-file)
+
+# Pandas—08  Export Pandas Table to Excel    
+[【python】pandasの表をエクセルファイルに出力する方法 posted at 2020-06-16](https://qiita.com/yuta-38/items/cbe1981a3f71e1ccc6b9)  
+
+## Library Installation  
+```
+pip install -U openpyxl
+pip install -U xlwt
+pip install -U pandas
+```
+> ①openpyxl：xlsx / xlsm / xltx / xltmファイルを読み書きするためのPythonライブラリ  
+> ②xlwt：古いExcelファイル（.xlsなど）にデータとフォーマット情報を書き込むためのライブラリ(Excel2003以前)  
+> ③pythonでデータ分析を行うためのライブラリ。表データの扱いで使用。  
+
+## ヘッダーを表示しない  
+```
+import pandas as pd
+df.to_excel('~/desktop/output.xlsx', header=None)
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F93727159-4dd4-8e32-5b91-d99be2687049.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=597be84bbe76a33a3152d9971f35eef3)  
+
+## インデックス（行名）を表示しない  
+```
+import pandas as pd
+df.to_excel('~/desktop/output.xlsx', index=None)
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F1001e369-dd1c-6803-79c6-f8bd21c9eb9e.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=4507d508594d9ac7c039329a361bded0)  
+
+## ヘッダーおよびインデックスを表示しない  
+```
+import pandas as pd
+df.to_excel('~/desktop/output.xlsx', index=False, header=False)
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F39ec13d7-c99d-cfae-526d-37affd64be3b.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=3c49efad520d71c68a88720db6c95bd5)  
+
+## 上部に空白行を入れる  
+```
+オプションにstartrow=nを記述。
+　└「n」:空ける行数
+```
+
+```
+import pandas as pd
+df.to_excel('~/desktop/output.xlsx', startrow=3)
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F8e5c658a-a63b-d1b8-19d7-8f6d88e45d9a.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=980254f4ebb2961fabc007d114a745cf)  
+
+## 左に空白列を入れる  
+```
+オプションにstartcol=nを記述。
+　└「n」:空ける列数
+```
+
+```
+import pandas as pd
+df.to_excel('~/desktop/output.xlsx', startcol=2)
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F7c62640f-cbed-e250-ea26-311383bb391f.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=834cc45929d8fd411054d27c5878b67b)  
+
+## 小数点の最大表示桁数を指定  
+```
+オプションにfloat_format='%.nf'を記述。
+　└「n」:表示する桁数
+```
+
+```
+import pandas as pd
+df.to_excel('~/desktop/output.xlsx', float_format='%.2f')
+```
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F9803707b-91c7-2b48-dd75-2a79d73a4855.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=b683ddfcf07cab684c2ca219c249961e)  
+
+> n=2なら、3桁目を四捨五入し、小数点第2桁まで表示。  
+
+## No such file or directory  
+[【備忘録】unicode errorとNo such file or directoryの対処法（pandasで表をexcelファイルに出力） posted at 2020-04-04](https://qiita.com/yuta-38/items/f0d75a5585169c98da4a#no-such-file-or-directory)   
+```
+df2 = df.copy()
+with pd.ExcelWriter('~/Desktop/GA-demo.xlsx') as writer:  
+    df.to_excel(writer, sheet_name='AAA')
+    df2.to_excel(writer, sheet_name='BBB')
+```
+```
+エラー
+
+FileNotFoundError: [Errno 2] No such file or directory: '~/Desktop/GA-demo.xlsx'
+```
+
+```
+df2 = df.copy()
+with pd.ExcelWriter('~\\Desktop\\GA-demo.xlsx') as writer:  
+    df.to_excel(writer, sheet_name='AAA')
+    df2.to_excel(writer, sheet_name='BBB')
+```
+```
+エラー
+
+FileNotFoundError: [Errno 2] No such file or directory: '~/Desktop/GA-demo.xlsx'
+```
+
+```
+OK
+
+df2 = df.copy()
+with pd.ExcelWriter('C:/Users/name/Desktop/GA-demo3.xlsx') as writer:  
+    df.to_excel(writer, sheet_name='AAA')
+    df2.to_excel(writer, sheet_name='BBB')
+```
+
+## Unicode error
+[【備忘録】unicode errorとNo such file or directoryの対処法（pandasで表をexcelファイルに出力） posted at 2020-04-04](https://qiita.com/yuta-38/items/f0d75a5585169c98da4a#no-such-file-or-directory)   
+```
+df2 = df.copy()
+with pd.ExcelWriter('C:\Users\name\Desktop\GA-demo.xlsx') as writer:  
+    df.to_excel(writer, sheet_name='AAA')
+    df2.to_excel(writer, sheet_name='BBB')
+```
+```
+SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 2-3: truncated \UXXXXXXXX escape
+```
+*バックスラッシュ「\」はエスケープのため。文字として認識させる場合は「\」とする必要がある。*
+
+```
+OK！
+
+df2 = df.copy()
+with pd.ExcelWriter('C:\\Users\\name\\Desktop\\GA-demo2.xlsx') as writer:  
+    df.to_excel(writer, sheet_name='AAA')
+    df2.to_excel(writer, sheet_name='BBB')
+```
+
+> 記述は下記どちらでもOK。
+```
+「C:\Users\name\」
+「C://Users//name//」
+```
+
 
 [csv.Error: iterator should return strings, not bytes](https://stackoverflow.com/questions/8515053/csv-error-iterator-should-return-strings-not-bytes)
 
@@ -340,6 +490,8 @@ print "%02d" % (1,)
 
 print("{:02d}".format(1))
 ```
+
+
 
 [How to add element in Python to the end of list using list.insert?](https://stackoverflow.com/questions/30212447/how-to-add-element-in-python-to-the-end-of-list-using-list-insert)  
 ```
@@ -416,5 +568,6 @@ a
 - 1
 - 2
 - 3
+
 
 
