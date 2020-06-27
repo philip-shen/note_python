@@ -1,31 +1,45 @@
-# note_python
+
+Table of Contents
+=================
+
+   * [Table of Content](#table-of-content)
+   * [Purpose](#purpose)
+   * [Installation](#installation)
+      * [Step1 Install Python3.6-32bit](#step1-install-python36-32bit)
+      * [Step2 Upgrade pip](#step2-upgrade-pip)
+      * [Step3 Install VirtualEnv &amp; Install VirtualEnvWrapper-win](#step3-install-virtualenv--install-virtualenvwrapper-win)
+      * [Step4 Make virtualenv](#step4-make-virtualenv)
+      * [Step5 Set Project Directory](#step5-set-project-directory)
+      * [Step6 Deactivate](#step6-deactivate)
+      * [Step7 Workon](#step7-workon)
+      * [Step8 Install modules](#step8-install-modules)
+      * [Step9 Check installed mdules](#step9-check-installed-mdules)
+      * [Step10 Install modules manually](#step10-install-modules-manually)
+      * [Step11 Double Check installed mdules](#step11-double-check-installed-mdules)
+      * [Step12 Dump installed modules inot requirement.txt](#step12-dump-installed-modules-inot-requirementtxt)
+   * [Installing python2.7 hosts on python3.6 Laptop](#installing-python27-hosts-on-python36-laptop)
+   * [how-to-use-args-and-kwargs-in-python-3](#how-to-use-args-and-kwargs-in-python-3)
+   * [if <strong>name</strong> == '<strong>main</strong>' ?](#if-name--main-)
+      * [何をしているか](#何をしているか)
+      * [原理](#原理)
+      * [実用例](#実用例)
+         * [①import helloの場合](#import-helloの場合)
+         * [②$python hello.pyの場合](#python-hellopyの場合)
+   * [Environment](#environment)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+      * [如何在 Windows 打造 Python 開發環境設定基礎入門教學](#如何在-windows-打造-python-開發環境設定基礎入門教學)
+      * [How can I download Anaconda for python 3.6](#how-can-i-download-anaconda-for-python-36)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+# Purpose
 Take some note of python
-
-# Table of Content
-[Installation](#installation)  
-[Step1 Install Python3.6-32bit](#step1-install-python36-32bit)  
-[Step2 Upgrade pip](#step2-upgrade-pip)  
-[Step3 Install VirtualEnv & Install VirtualEnvWrapper-win](#step3-install-virtualenv--install-virtualenvwrapper-win)  
-[Step4 Make virtualenv](#step4-make-virtualenv)  
-[Step5 Set Project Directory](#step5-set-project-directory)  
-[Step6 Deactivate](#step6-deactivate)  
-[Step7 Workon](#step7-workon)  
-[Step8 Install modules](#step8-install-modules)  
-[Step9 Check installed mdules](#step9-check-installed-mdules)  
-[Step10 Install modules manually](#step10-install-modules-manually)  
-[Step11 Double Check installed mdules](#step11-double-check-installed-mdules)    
-[Step12 Dump installed modules inot requirement.txt](#step12-dump-installed-modules-inot-requirementtxt)    
-
-[Installing python2.7 hosts on python3.6 Laptop](#installing-python27-hosts-on-python36-laptop)  
-
-[How To Use *args and **kwargs in Python 3](#how-to-use-args-and-kwargs-in-python-3)
-
-[Environment](#environment)  
-[Troubleshooting](#troubleshooting)  
-
-[Reference](#reference)  
-[如何在 Windows 打造 Python 開發環境設定基礎入門教學](#%E5%A6%82%E4%BD%95%E5%9C%A8-windows-%E6%89%93%E9%80%A0-python-%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A%E5%9F%BA%E7%A4%8E%E5%85%A5%E9%96%80%E6%95%99%E5%AD%B8)  
-[How can I download Anaconda for python 3.6](#how-can-i-download-anaconda-for-python-36)  
 
 # Installation
 ## Step1 Install Python3.6-32bit  
@@ -229,6 +243,51 @@ The value of name_3 is Harper
 The value of name_1 is Alex
 ```
 
+# if __name__ == '__main__' ?  
+[【python】if __name__ == '__main__':とは？ updated at 2020-06-08](https://qiita.com/yuta-38/items/5107914933fc6d5babb8)  
+
+## 何をしているか  
+```
+・ファイルをimportしたときに、if以下は実行しない。
+
+デフォルトとして、.pyファイルをインポートすると、ファイルの中身が実行される。
+
+if __name__ == '__main__':以下に記述することで、import時の実行を回避できる。
+```
+
+## 原理  
+```
+変数 __name__が、importした場合と、ファイル実行した場合で挙動が異なる性質を利用。
+「__name__」
+
+    importした場合は "モジュール名" に置き換わる。
+    ファイルを実行した場合は、"main"に置き換わる。
+```
+
+## 実用例  
+```
+hello.py
+
+def hello():
+    print("hello world")
+
+if __name__ == "__main__":
+    hello()
+```
+
+### ①import helloの場合  
+```
+    何も出力しない。
+    __name__にモジュール名「"hello"」が代入される
+```
+
+### ②$python hello.pyの場合  
+```
+    "hello world"を出力
+    __name__に「__main__」が代入される
+```
+
+
 
 # Environment  
 windows 10 64bit  
@@ -367,3 +426,4 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
+
