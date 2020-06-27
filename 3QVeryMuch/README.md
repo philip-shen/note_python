@@ -1,4 +1,8 @@
 
+
+
+
+
 Table of Contents
 =================
 
@@ -12,7 +16,8 @@ Table of Contents
    * [Pandas—05  How to Convert Pandas DataFrame into a List](#pandas05--how-to-convert-pandas-dataframe-into-a-list)
    * [Pandas—06  Pandas DataFrame column to list](#pandas06--pandas-dataframe-column-to-list)
    * [Pandas—07  Deleting rows with Python in a CSV file](#pandas07--deleting-rows-with-python-in-a-csv-file)
-   * [Pandas—08  Export Pandas Table to Excel](#pandas08--export-pandas-table-to-excel)
+   * [Pandas—08  Python: Number of rows affected by cursor.execute("SELECT …)](#pandas08--python-number-of-rows-affected-by-cursorexecuteselect-)
+   * [Pandas—09  Export Pandas Table to Excel](#pandas09--export-pandas-table-to-excel)
       * [Library Installation](#library-installation)
       * [書き込む表データ](#書き込む表データ)
       * [ファイル名を指定して出力](#ファイル名を指定して出力)
@@ -25,6 +30,8 @@ Table of Contents
       * [No such file or directory](#no-such-file-or-directory)
       * [Unicode error](#unicode-error)
    * [Display number with leading zeros](#display-number-with-leading-zeros)
+   * [SQL—01  SQL count rows in a table](#sql01--sql-count-rows-in-a-table)
+   * [SQL—02](#sql02)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -299,7 +306,22 @@ print (products_list)
 # Pandas—07  Deleting rows with Python in a CSV file    
 [Deleting rows with Python in a CSV file](https://stackoverflow.com/questions/29725932/deleting-rows-with-python-in-a-csv-file)
 
-# Pandas—08  Export Pandas Table to Excel    
+# Pandas—08  Python: Number of rows affected by cursor.execute("SELECT …)  
+[Python: Number of rows affected by cursor.execute("SELECT …)](https://stackoverflow.com/questions/2511679/python-number-of-rows-affected-by-cursor-executeselect)
+```
+cursor.execute("SELECT COUNT(*) from result where server_state='2' AND name LIKE '"+digest+"_"+charset+"_%'")
+result=cursor.fetchone()
+
+number_of_rows=result[0]
+```
+
+```
+cursor.execute("SELECT COUNT(*) from result where server_state='2' AND name LIKE '"+digest+"_"+charset+"_%'")
+(number_of_rows,)=cursor.fetchone()
+```
+
+
+# Pandas—09  Export Pandas Table to Excel    
 [【python】pandasの表をエクセルファイルに出力する方法 posted at 2020-06-16](https://qiita.com/yuta-38/items/cbe1981a3f71e1ccc6b9)  
 
 ## Library Installation  
@@ -521,6 +543,40 @@ a
 [1, 2, 3, 4, 5]
 ```
 
+# SQL—01  SQL count rows in a table    
+[SQL count rows in a table Mar 8, 2015](https://stackoverflow.com/questions/28916917/sql-count-rows-in-a-table)  
+```
+ SELECT COUNT(*) FROM TableName
+```
+
+# SQL—02      
+```
+SELECT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time
+FROM _3Quest_nobgn tb_nobgn 
+INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise
+WHERE tb_nobgn.dut_foldername='boommic_SWout' and tb_nobgn.insert_date='20200627' and tb_nobgn.insert_time='14:12:54'
+UNION
+SELECT noise.name,noise.description as noise, tb_pub.SMOS , tb_pub.NMOS , tb_pub.GMOS , tb_pub.delta_SNR, tb_pub.dut_foldername, tb_pub.insert_date, tb_pub.insert_time
+FROM _3Quest_pub tb_pub 
+INNER JOIN noise_type noise ON noise.name = tb_pub.noise
+WHERE tb_pub.dut_foldername='boommic_SWout' and tb_pub.insert_date='20200627' and tb_pub.insert_time='14:12:54'
+UNION
+SELECT noise.name,noise.description as noise, tb_road.SMOS , tb_road.NMOS , tb_road.GMOS , tb_road.delta_SNR, tb_road.dut_foldername, tb_road.insert_date, tb_road.insert_time
+FROM _3Quest_road tb_road 
+INNER JOIN noise_type noise ON noise.name = tb_road.noise
+WHERE tb_road.dut_foldername='boommic_SWout' and tb_road.insert_date='20200627' and tb_road.insert_time='14:12:54'
+UNION
+SELECT noise.name,noise.description as noise, tb_crossroad.SMOS , tb_crossroad.NMOS , tb_crossroad.GMOS , tb_crossroad.delta_SNR, tb_crossroad.dut_foldername, tb_crossroad.insert_date, tb_crossroad.insert_time
+FROM _3Quest_crossroad tb_crossroad 
+INNER JOIN noise_type noise ON noise.name = tb_crossroad.noise
+WHERE tb_crossroad.dut_foldername='boommic_SWout' and tb_crossroad.insert_date='20200627' and tb_crossroad.insert_time='14:12:54'
+UNION
+SELECT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time
+FROM _3Quest_nobgn tb_nobgn 
+INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise
+WHERE tb_nobgn.dut_foldername='boommic_SWout' and tb_nobgn.insert_date='20200627' and tb_nobgn.insert_time='14:12:54'
+;
+```
 
 # Troubleshooting
 
@@ -587,5 +643,3 @@ a
 - 1
 - 2
 - 3
-
-

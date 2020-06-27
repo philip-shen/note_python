@@ -15,106 +15,124 @@ sql_query_WiFi_DHCP_Avg = """ SELECT DISTINCT char_log.test_method, char_log.mod
                                 INNER JOIN Chariot_Log char_log ON char_csv.csv_foldername = char_log.csv_foldername  
                                 WHERE char_csv.csv_filename REGEXP  '^Client[0-9]' and  char_log.test_method REGEXP  '^DHCP'
                                 ORDER BY char_csv.csv_foldername ASC
-                            ); """
+                            ; """
 sql_insert_table_3Quest_pub = ''' INSERT INTO _3Quest_pub(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_road = ''' INSERT INTO _3Quest_road(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_crossroad = ''' INSERT INTO _3Quest_crossroad(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_train = ''' INSERT INTO _3Quest_train(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_car = ''' INSERT INTO _3Quest_car(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_cafeteria = ''' INSERT INTO _3Quest_cafeteria(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_mensa = ''' INSERT INTO _3Quest_mensa(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_callcenter = ''' INSERT INTO _3Quest_callcenter(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_voice_distractor = ''' INSERT INTO _3Quest_voice_distractor(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_nobgn = ''' INSERT INTO _3Quest_nobgn(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
                                         insert_date,                                        
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
 sql_insert_table_3Quest_AVG = ''' INSERT INTO _3Quest_AVG(
                                         SMOS,
                                         NMOS,
                                         GMOS,
                                         delta_SNR,
+                                        noise,
                                         dut_foldername,
-                                        insert_date,                                        
+                                        insert_date,
                                         insert_time)
-                    VALUES(?,?,?,?,?,?,?) '''
+                    VALUES(?,?,?,?,?,?,?,?) '''
+sql_insert_table_noise_type = ''' INSERT INTO noise_type(
+                                        name,
+                                        description,
+                                        path)
+                    VALUES(?,?,?) '''
+sql_query_table_noise_type_count = """  SELECT COUNT(*) FROM noise_type;
+                             """
 
 class DB_sqlite:
     def __init__(self, path_db_file, dut_foldername, insert_date, insert_time, opt_verbose='OFF'):
@@ -123,6 +141,17 @@ class DB_sqlite:
         self.insert_date = insert_date
         self.insert_time = insert_time
         self.opt_verbose = opt_verbose
+        self.list_noise_file = [['000','nobgn',''], \
+                          ['001', 'pub', ''], \
+                          ['002', 'road', ''], \
+                          ['003', 'crossroad', ''], \
+                          ['004', 'train', ''], \
+                          ['005', 'car', ''], \
+                          ['006', 'cafeteria', ''], \
+                          ['007', 'mensa', ''], \
+                          ['008', 'callcenter', ''], \
+                          ['009', 'voice_distractor', ''], \
+                          ['010', 'AVG', ''] ]                                
 
     def create_connection(self):
         """ create a database connection to a SQLite database """
@@ -153,6 +182,7 @@ class DB_sqlite:
 
     #modulation,
     #,?    
+    
     '''
     
     '''
@@ -186,19 +216,65 @@ class DB_sqlite:
             logger.info(msg.format(cur.rowcount))
         return cur.lastrowid
 
-    #
+    # select noise name for sorting ex. no_bgn is first
+    def select_noise_name(self,noise):
+        noise_name=''
+
+        for list_noise_name_desc in self.list_noise_file:
+            noise_name=list_noise_name_desc[0]
+            noise_desc=list_noise_name_desc[1]
+            
+            if noise in noise_desc: 
+                if self.opt_verbose.lower() == "on":
+                    msg = "noise:{}; noise_desc:{}"
+                    logger.info(msg.format(noise, noise_desc))
+                
+                return noise_name
+
     def select_insert_tab_sql(self,noise):
-        if re.search(r'pub', noise): self.insert_sql=sql_insert_table_3Quest_pub
-        if re.search(r'road', noise): self.insert_sql=sql_insert_table_3Quest_road
-        if re.search(r'crossroad', noise): self.insert_sql=sql_insert_table_3Quest_crossroad
-        if re.search(r'train', noise): self.insert_sql=sql_insert_table_3Quest_train
-        if re.search(r'car', noise): self.insert_sql=sql_insert_table_3Quest_car
-        if re.search(r'cafeteria', noise): self.insert_sql=sql_insert_table_3Quest_cafeteria
-        if re.search(r'mensa', noise): self.insert_sql=sql_insert_table_3Quest_mensa
-        if re.search(r'callcenter', noise): self.insert_sql=sql_insert_table_3Quest_callcenter
-        if re.search(r'voice_distractor', noise): self.insert_sql=sql_insert_table_3Quest_voice_distractor
-        if re.search(r'nobgn', noise): self.insert_sql=sql_insert_table_3Quest_nobgn
-        if re.search(r'AVG', noise): self.insert_sql=sql_insert_table_3Quest_AVG
+        if re.search(r'pub', noise): 
+            self.insert_sql=sql_insert_table_3Quest_pub 
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'road', noise): 
+            self.insert_sql=sql_insert_table_3Quest_road
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'crossroad', noise): 
+            self.insert_sql=sql_insert_table_3Quest_crossroad
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'train', noise): 
+            self.insert_sql=sql_insert_table_3Quest_train
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'car', noise): 
+            self.insert_sql=sql_insert_table_3Quest_car
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'cafeteria', noise): 
+            self.insert_sql=sql_insert_table_3Quest_cafeteria
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'mensa', noise): 
+            self.insert_sql=sql_insert_table_3Quest_mensa
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'callcenter', noise): 
+            self.insert_sql=sql_insert_table_3Quest_callcenter
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'voice_distractor', noise): 
+            self.insert_sql=sql_insert_table_3Quest_voice_distractor
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'nobgn', noise): 
+            self.insert_sql=sql_insert_table_3Quest_nobgn
+            self.noise = self.select_noise_name(noise)
+
+        if re.search(r'AVG', noise): 
+            self.insert_sql=sql_insert_table_3Quest_AVG
+            self.noise = self.select_noise_name(noise)
 
         if self.opt_verbose.lower() == "on":
             msg = "self.insert_sql:{}"
@@ -221,10 +297,13 @@ class DB_sqlite:
         ''' 
         list_noise_3quest_values = ['2.840550', '4.154481', '2.914813', '29.453750']
         ''' 
+        # prepare noise, dut_foldername, insert_date, insert_time
         list_noise_3quest_values = list_noise_s_3quest_values[2]
+        list_noise_3quest_values.insert(len(list_noise_3quest_values), self.noise)
         list_noise_3quest_values.insert(len(list_noise_3quest_values), self.dut_foldername)
         list_noise_3quest_values.insert(len(list_noise_3quest_values), self.insert_date)
         list_noise_3quest_values.insert(len(list_noise_3quest_values), self.insert_time)
+
         if self.opt_verbose.lower() == "on":
             msg = "list_noise_3quest_values:{}"
             logger.info(msg.format(list_noise_3quest_values))
@@ -244,12 +323,36 @@ class DB_sqlite:
         # Save (commit) the changes daily
         conn.commit()    
 
-    def insert_chariot_log_tosqlite(self,list_list_all_txt_row_target_key_value, pt_db_sqlite, conn):
-        # Insert total lists to sqlite directly
-        pt_db_sqlite.create_chariotlog_many(conn, list_list_all_txt_row_target_key_value)
-                        
-        # Save (commit) the changes daily
-        conn.commit()    
+    def insert_noise_file_tosqlite(self, pt_db_sqlite, conn):
+        self.insert_sql=sql_insert_table_noise_type
+        
+        if self.opt_verbose.lower() == "on":
+            msg = "self.insert_sql:{}"
+            logger.info(msg.format(self.insert_sql))
+            msg = "len(self.list_noise_file): {}"
+            logger.info(msg.format(len(self.list_noise_file) ))
+
+        '''    
+        Python: Number of rows affected by cursor.execute("SELECT …)
+        https://stackoverflow.com/questions/2511679/python-number-of-rows-affected-by-cursor-executeselect
+        '''        
+        try:
+            c = conn.cursor()
+            c.execute(sql_query_table_noise_type_count)
+            (number_of_rows_noise_type, )=c.fetchone()
+        except Error as e:
+            msg = "Error create_table:{}"
+            logger.info(msg.format(e))    
+
+        if number_of_rows_noise_type < len(self.list_noise_file): # If previous number less than current one       
+            msg = "number_of_rows_noise_type: {} < len(self.list_noise_file):{}; update noise type"
+            logger.info(msg.format(number_of_rows_noise_type, len(self.list_noise_file)))    
+
+            # Insert total lists to sqlite directly
+            pt_db_sqlite.create_csv3quest_many(conn, self.list_noise_file)
+
+            # Save (commit) the changes daily
+            conn.commit()    
 
     def delete_table_chariot_csv_throughput(self,conn, id):
         """

@@ -29,6 +29,7 @@ sql_create_table_3Quest_pub = """ CREATE TABLE IF NOT EXISTS _3Quest_pub (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -39,6 +40,7 @@ sql_create_table_3Quest_road = """ CREATE TABLE IF NOT EXISTS _3Quest_road (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -49,6 +51,7 @@ sql_create_table_3Quest_crossroad = """ CREATE TABLE IF NOT EXISTS _3Quest_cross
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -59,6 +62,7 @@ sql_create_table_3Quest_train = """ CREATE TABLE IF NOT EXISTS _3Quest_train (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -79,6 +83,7 @@ sql_create_table_3Quest_cafeteria = """ CREATE TABLE IF NOT EXISTS _3Quest_cafet
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -89,6 +94,7 @@ sql_create_table_3Quest_mensa = """ CREATE TABLE IF NOT EXISTS _3Quest_mensa (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -99,6 +105,7 @@ sql_create_table_3Quest_callcenter = """ CREATE TABLE IF NOT EXISTS _3Quest_call
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -109,6 +116,7 @@ sql_create_table_3Quest_voice_distractor = """ CREATE TABLE IF NOT EXISTS _3Ques
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -119,6 +127,7 @@ sql_create_table_3Quest_nobgn = """ CREATE TABLE IF NOT EXISTS _3Quest_nobgn (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
@@ -129,10 +138,17 @@ sql_create_table_3Quest_AVG = """ CREATE TABLE IF NOT EXISTS _3Quest_AVG (
                                                                     NMOS text,
                                                                     GMOS text,
                                                                     delta_SNR text,
+                                                                    noise text,
                                                                     dut_foldername text NOT NULL,
                                                                     insert_date text,
                                                                     insert_time text   
-                                            ); """                                                                                                                               
+                                            ); """
+sql_create_table_noise_type = """ CREATE TABLE IF NOT EXISTS noise_type (
+                                                                    id integer PRIMARY KEY,
+                                                                    name text,
+                                                                    description text,
+                                                                    path text
+                                            ); """                                            
 if __name__ == "__main__":
     # Get present time
     t0 = time.time()
@@ -184,6 +200,7 @@ if __name__ == "__main__":
                 
                 
                 
+                # prepare dut_foldername, insert_date, insert_time
                 strdirname = os.path.dirname(data["3Quest"][i]['path_dut'])
                 str_split=os.path.split(strdirname)
                 dut_foldername=str_split[1]
@@ -213,10 +230,12 @@ if __name__ == "__main__":
                     localdb_sqlite.create_table(conn, sql_create_table_3Quest_nobgn)
                     localdb_sqlite.create_table(conn, sql_create_table_3Quest_AVG)
                     
+                    localdb_sqlite.create_table(conn, sql_create_table_noise_type)
                 else:
                     print("Error! cannot create the database connection.")                            
 
-                
+                # Insert noise type data to DB  
+                localdb_sqlite.insert_noise_file_tosqlite(localdb_sqlite, conn)
 
                 for list_noises_3quest_values in list_allnoises_3quest_values:
 
