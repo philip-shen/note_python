@@ -1,24 +1,37 @@
-# Take notes of pandas releated stuffs
+Table of Contents
+=================
 
-# Table of Contents
-[Setting up a Bollinger Band with Python](#setting-up-a-bollinger-band-with-python)  
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [Setting up a Bollinger Band with Python](#setting-up-a-bollinger-band-with-python)
+      * [Main Components of a Bollinger Bands](#main-components-of-a-bollinger-bands)
+      * [The formula for a typical 20 day Bollinger Band:](#the-formula-for-a-typical-20-day-bollinger-band)
+      * [Bollinger Band in Python](#bollinger-band-in-python)
+   * [How to compute and plot Bollinger Bands® in Python](#how-to-compute-and-plot-bollinger-bands-in-python)
+   * [Trading: Calculate Technical Analysis Indicators with Pandas](#trading-calculate-technical-analysis-indicators-with-pandas)
+      * [Prerequisite environment setup](#prerequisite-environment-setup)
+      * [Data:](#data)
+      * [Code:](#code)
+   * [Bollinger-Bands](#bollinger-bands)
+   * [ Indicator](#b-indicator)
+      * [Introduction](#introduction)
+      * [Calculation](#calculation)
+      * [Signals: Overbought/Oversold](#signals-overboughtoversold)
+      * [Signals: Trend Identification](#signals-trend-identification)
+   * [Back-calculating Bollinger Bands with python and pandas (How t0 calculate next value to hit Upper Band or Lower Band)](#back-calculating-bollinger-bands-with-python-and-pandas-how-t0-calculate-next-value-to-hit-upper-band-or-lower-band)
+   * [bollinger-bands-trading-analysis](#bollinger-bands-trading-analysis)
+   * [Pandas Cheat Sheet](#pandas-cheat-sheet)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
 
-[How to compute and plot Bollinger Bands® in Python](#how-to-compute-and-plot-bollinger-bands-in-python)  
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
-[Trading: Calculate Technical Analysis Indicators with Pandas](#trading-calculate-technical-analysis-indicators-with-pandas)  
-[Prerequisite environment setup](#prerequisite-environment-setup)  
-[Data:](#data)  
-[Code:](#code)  
-
-[%B Indicator](#b-indicator)  
-[Introduction](#introduction)  
-[Calculation](#calculation)  
-[Signals: Overbought/Oversold](#signals-overboughtoversold)  
-[Signals: Trend Identification](#signals-trend-identification)  
-
-[bollinger-bands-trading-analysis](#bollinger-bands-trading-analysis)
-
-[Reference](#reference)
+# Purpose  
+Take notes of pandas releated stuffs
 
 # Setting up a Bollinger Band with Python  
 [Setting up a Bollinger Band with Python Jan 13, 2018](https://medium.com/python-data/setting-up-a-bollinger-band-with-python-28941e2fa300)
@@ -363,6 +376,17 @@ print(f'value to hit bbl: {lastvalue} -> check new bbl: {new_bbl}')
 
 # bollinger-bands-trading-analysis  
 [bollinger-bands-trading-analysis](#https://github.com/martinzugnoni/bollinger-bands-trading-analysis/blob/master/Bollinger%20Bands%20Trading%20Analysis.ipynb)
+
+
+# Pandas Cheat Sheet  
+[Pandas 公式チートシートを翻訳しました updated at 2020-02-19](https://qiita.com/s_katagiri/items/4cd7dee37aae7a1e1fc0)  
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F236849%2Fca722689-34c5-d69d-5146-0e537c4c15bd.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=98d358ddcdd84512a6d2c2b51f059012)  
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F236849%2F8fc04f5a-1c2d-bf9f-66a4-20e0b0c93647.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=769ecc35b8a24b86d59df9ecbbd2f910)  
+
+[Pandas Cheat Sheet for Data Science in Python November 2nd, 2016](https://www.datacamp.com/community/blog/python-pandas-cheat-sheet)
+[Pandas cheat sheet](http://datacamp-community-prod.s3.amazonaws.com/dbed353d-2757-4617-8206-8767ab379ab3)
 
 
 # Reference  
