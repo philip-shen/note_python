@@ -14,6 +14,8 @@ Table of Contents
    * [Pandas—07  Deleting rows with Python in a CSV file](#pandas07--deleting-rows-with-python-in-a-csv-file)
    * [Pandas—08  Export Pandas Table to Excel](#pandas08--export-pandas-table-to-excel)
       * [Library Installation](#library-installation)
+      * [書き込む表データ](#書き込む表データ)
+      * [ファイル名を指定して出力](#ファイル名を指定して出力)
       * [ヘッダーを表示しない](#ヘッダーを表示しない)
       * [インデックス（行名）を表示しない](#インデックス行名を表示しない)
       * [ヘッダーおよびインデックスを表示しない](#ヘッダーおよびインデックスを表示しない)
@@ -33,7 +35,6 @@ Table of Contents
    * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose
 
@@ -311,6 +312,24 @@ pip install -U pandas
 > ②xlwt：古いExcelファイル（.xlsなど）にデータとフォーマット情報を書き込むためのライブラリ(Excel2003以前)  
 > ③pythonでデータ分析を行うためのライブラリ。表データの扱いで使用。  
 
+## 書き込む表データ  
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F254b4458-6d97-485e-020d-f7e9ca090152.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=b437ffc5262b9fe81b48cf2bfdffc4d8)  
+
+
+## ファイル名を指定して出力  
+```
+df.to_excel('ファイルパス')
+　└「df」：出力する表データ
+　└「ファイルパス」：ファイル名も記載
+```
+
+```
+import pandas as pd
+df.to_excel('~/desktop/output.xlsx')
+```
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F563526%2F89758dd5-8bbd-3785-088e-76b542ed3d17.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=6bd6fb979b23039f7497e1b3d0cf4f6d)  
+
 ## ヘッダーを表示しない  
 ```
 import pandas as pd
@@ -568,6 +587,5 @@ a
 - 1
 - 2
 - 3
-
 
 
