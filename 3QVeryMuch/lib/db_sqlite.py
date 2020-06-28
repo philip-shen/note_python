@@ -270,6 +270,7 @@ sql_insert_table_noise_type = ''' INSERT INTO noise_type(
 sql_query_table_noise_type_count = """  SELECT COUNT(*) FROM noise_type;
                              """
 
+
 class DB_sqlite:
     def __init__(self, path_db_file, dut_foldername, insert_date, insert_time, path_dut, opt_verbose='OFF'):
         self.path_db_file = path_db_file
@@ -289,6 +290,16 @@ class DB_sqlite:
                           ['008', 'callcenter', ''], \
                           ['009', 'voice_distractor', ''], \
                           ['010', 'AVG', ''] ]                                
+    
+    def str_sql_query_table_3quest_values(self):
+        self.sql_query_table_3quest_values=\
+            "SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time"+\
+            " FROM _3Quest_nobgn tb_nobgn"+\
+            " INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise"+\
+            " WHERE tb_nobgn.dut_foldername='"+self.dut_foldername+\
+            "' and tb_nobgn.insert_date='"+self.insert_date+\
+            "' and tb_nobgn.insert_time='"+self.path_dut+"'"+\
+            ";"
 
     def create_connection(self):
         """ create a database connection to a SQLite database """

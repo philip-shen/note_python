@@ -1,8 +1,3 @@
-
-
-
-
-
 Table of Contents
 =================
 
@@ -29,9 +24,11 @@ Table of Contents
       * [小数点の最大表示桁数を指定](#小数点の最大表示桁数を指定)
       * [No such file or directory](#no-such-file-or-directory)
       * [Unicode error](#unicode-error)
+   * [Pandas—10  Panda Execute SQL](#pandas10--panda-execute-sql)
    * [Display number with leading zeros](#display-number-with-leading-zeros)
    * [SQL—01  SQL count rows in a table](#sql01--sql-count-rows-in-a-table)
-   * [SQL—02](#sql02)
+   * [SQL—02  INSERT IF NOT EXISTS ELSE UPDATE?](#sql02--insert-if-not-exists-else-update)
+   * [SQL—03](#sql03)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -39,11 +36,13 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
+
 # Purpose
+Take note of 3Quest  
+
 
 # Pandas—01  [Python] Pandas 基礎教學  
 [[Python] Pandas 基礎教學 01 October 2017](https://oranwind.org/python-pandas-ji-chu-jiao-xue/)
@@ -474,6 +473,9 @@ with pd.ExcelWriter('C:\\Users\\name\\Desktop\\GA-demo2.xlsx') as writer:
 「C://Users//name//」
 ```
 
+# Pandas—10  Panda Execute SQL    
+[SQLクエリの結果をPANDASデータ構造に変換する方法は？](https://www.it-swarm.dev/ja/python/sql%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%AE%E7%B5%90%E6%9E%9C%E3%82%92pandas%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0%E3%81%AB%E5%A4%89%E6%8F%9B%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AF%EF%BC%9F/1067685717/)  
+
 
 [csv.Error: iterator should return strings, not bytes](https://stackoverflow.com/questions/8515053/csv-error-iterator-should-return-strings-not-bytes)
 
@@ -701,3 +703,5 @@ WHERE tb_AVG.dut_foldername='boommic_SWout' and tb_AVG.insert_date='20200627' an
 - 1
 - 2
 - 3
+
+
