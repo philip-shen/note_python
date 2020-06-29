@@ -1,10 +1,34 @@
 {
-    "3Quest":[        
-        {"path_dut": "..\\logs\\boommic_SWout\\dut",
-         "path_standmic": "..\\logs\\boommic_SWout\\standmic"
+    "3Quest":[
+        {"path_dut": "D:\\project\\3Quest\\asus_s54c\\BoomMic\\02_dut",
+         "path_standmic": "D:\\project\\3Quest\\asus_s54c\\BoomMic\\02_standmic"
         },
-        {"path_dut": "..\\logs\\Intermic_SWin\\dut",
-         "path_standmic": "..\\logs\\Intermic_SWin\\standmic"        
+        {"path_dut": "D:\\project\\3Quest\\LuxShare\\Luxshare_0623\\Boommic_SWin\\dut",
+         "path_standmic": "D:\\project\\3Quest\\LuxShare\\Luxshare_0623\\Boommic_SWin\\standmic"
+        },
+        {"path_dut": "D:\\project\\3Quest\\LuxShare\\Luxshare_0623\\Boommic_SWout\\dut",
+         "path_standmic": "D:\\project\\3Quest\\LuxShare\\Luxshare_0623\\Boommic_SWout\\standmic"
+        },
+        {"path_dut": "D:\\project\\3Quest\\LuxShare\\Luxshare_0624\\Intermic_SWin\\dut",
+         "path_standmic": "D:\\project\\3Quest\\LuxShare\\Luxshare_0624\\Intermic_SWin\\standmic"
+        },
+        {"path_dut": "D:\\project\\3Quest\\LuxShare\\Luxshare_0623\\InternalMic_SWout\\dut",
+         "path_standmic": "D:\\project\\3Quest\\LuxShare\\Luxshare_0623\\InternalMic_SWout\\standmic"
+        },        
+        {"path_dut": "D:\\project\\3Quest\\Logitech\\logitech_0629\\dut",
+         "path_standmic": "D:\\project\\3Quest\\Logitech\\logitech_0629\\standmic"
+        },
+        {"path_dut": "D:\\project\\3Quest\\Logitech\\logitech_0629_02\\dut",
+         "path_standmic": "D:\\project\\3Quest\\Logitech\\logitech_0629_02\\standmic"
+        },
+        {"path_dut": "D:\\project\\3Quest\\Logitech\\logitech_0629_03\\dut",
+         "path_standmic": "D:\\project\\3Quest\\Logitech\\logitech_0629_03\\standmic"
+        },
+        {"path_dut": "",
+         "path_standmic": ""
+        },
+        {"path_dut": "",
+         "path_standmic": ""        
         }    
     ]                
 }

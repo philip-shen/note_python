@@ -50,8 +50,8 @@ if __name__ == "__main__":
                 file_type="*.csv"
                 ret_list_3questFolder_CsvFiles = walk_in_dir(path_dut_3quest_results,file_type)  
 
-                opt_verbose='ON'
-                #opt_verbose='OFF'
+                #opt_verbose='ON'
+                opt_verbose='OFF'
                 
                 local_csvdata_analysis = csvdata_analysis.CSVDataAnalysis(dirnamelog,\
                                                         path_dut_3quest_results,\
