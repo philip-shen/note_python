@@ -36,6 +36,30 @@
         {"path_dut": "D:\\project\\3Quest\\Roman\\fromRichard\\NR1p0\\proc",
          "path_standmic": "D:\\project\\3Quest\\Roman\\fromRichard\\NR1p0\\SND"
         },
+        {"path_dut": "D:\\project\\3Quest\\asus\\fromRichard\\S54WL\\Wideband",
+         "path_standmic": "D:\\project\\3Quest\\asus\\fromRichard\\S54WL\\SND"
+        },
+        {"path_dut": "D:\\project\\3Quest\\asus\\fromRichard\\AH73\\AH73_20200302\\Wideband",
+         "path_standmic": "D:\\project\\3Quest\\asus\\fromRichard\\AH73\\AH73_20200302\\SND"
+        },
+        {"path_dut": "D:\\project\\3Quest\\asus\\fromRichard\\RH200\\RH200_nr1.0\\nr1.0",
+         "path_standmic": "D:\\project\\3Quest\\asus\\fromRichard\\RH200\\SND"
+        },
+        {"path_dut": "D:\\project\\3Quest\\asus\\fromRichard\\RH200\\RH200_nr1.1\\nr1.1",
+            "path_standmic": "D:\\project\\3Quest\\asus\\fromRichard\\RH200\\SND"
+           },
+        {"path_dut": "D:\\project\\3Quest\\asus\\fromRichard\\RH200\\RH200_proc\\proc",
+         "path_standmic": "D:\\project\\3Quest\\asus\\fromRichard\\RH200\\SND"
+        },
+        {"path_dut": "D:\\project\\3Quest\\sixp\\fromRichard\\sixp_proc\\proc",
+         "path_standmic": "D:\\project\\3Quest\\sixp\\fromRichard\\SND"
+        },
+        {"path_dut": "D:\\project\\3Quest\\Logitech\\logitech_0701_03-0629\\dut",
+         "path_standmic": "D:\\project\\3Quest\\Logitech\\logitech_0701_03-0629\\standmic"
+        },
+        {"path_dut": "D:\\project\\3Quest\\Logitech\\logitech_0701_04-0629\\dut",
+         "path_standmic": "D:\\project\\3Quest\\Logitech\\logitech_0701_04-0629\\standmic"
+        },
         {"path_dut": "",
          "path_standmic": ""
         },

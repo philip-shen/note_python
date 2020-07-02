@@ -21,7 +21,8 @@ class PandasDataAnalysis:
 
         re_exp_zipfolder = r'\/$'    
         re_exp_txtfile = r'\.txt$'
-        re_exp_csvfile = r'\\[a-z][a-z][a-z][a-z][a-z][a-z].csv$';#..\logs\boommic_SWout\dut.3quest\Results\output.csv
+        ##re_exp_csvfile = r'\\[a-z][a-z][a-z][a-z][a-z][a-z].csv$';#remark for linux enviroment
+        re_exp_csvfile = r'[a-z][a-z][a-z][a-z][a-z][a-z].csv$'
 
         self.list_allnoises_3quest_values = []
 
