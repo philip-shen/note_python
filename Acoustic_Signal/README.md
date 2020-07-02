@@ -317,6 +317,27 @@ plt.tight_layout()
 plt.show()
 ```
 
+
+# Beginner's Guide to Audio Data  
+[音声データの初心者向けガイド 〜 updated at 2018-05-04](https://qiita.com/daisukelab/items/d084c0a82e3f229043a7)  
+
+
+## 1. データの分析  
+
+## 2. Raw波形を使ったモデルの構築  
+```
+ここでは2つのモデルを作ります。
+
+   1.  一つ目はRaw波形(1次元配列)を入力とし、Conv1Dを主な演算処理とするモデル。
+   2.  二つ目はMFCC(後述)を入力とするモデル。
+```
+### Raw波形を使ったKerasモデル  
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fraw.githubusercontent.com%2Fzaffnet%2Fimages%2Fmaster%2Fimages%2Fraw_model.jpg?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=52d76b7013c61c0ddfe7594732a956a8)  
+
+## 3.3. MFCCの紹介  
+### Librosaを使ったMFCCの生成  
+
+
 [Python分离立体声WAV压缩文件的左右声道 - 机器在学习 Aug 13, 2019](http://www.siyuanblog.com/?p=104790)  
 ```
 import soundfile as sf
