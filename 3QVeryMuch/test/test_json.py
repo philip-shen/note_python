@@ -66,3 +66,27 @@ for i,_3quest in enumerate(data["3Quest"]):
     logger.info(msg.format(str_split))
     msg = 'prevdirname: {}'
     logger.info(msg.format(prevdirname))
+
+for i,trim_ref_info in enumerate(data["trim_ref_info"]):
+    msg = 'data["trim_ref_info"][\'ref_fpath_16K\']: {}'
+    logger.info(msg.format(data["trim_ref_info"]['ref_fpath_16K']))
+    msg = 'data["trim_ref_info"][\'ref_fpath_48K\']: {}'
+    logger.info(msg.format(data["trim_ref_info"]['ref_fpath_48K']))
+
+for i,_3quest_after in enumerate(data["3Quest_after"]):    
+    msg = 'data["3Quest_after"][{}][\'path_dut\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['path_dut']))
+    msg = 'data["3Quest_after"][{}][\'mic_dut\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['mic_dut']))
+    msg = 'data["3Quest_after"][{}][\'label_dut\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['label_dut']))
+    msg = 'data["3Quest_after"][{}][\'gain_dut\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['gain_dut']))
+    msg = 'data["3Quest_after"][{}][\'path_standmic\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['path_standmic']))
+    msg = 'data["3Quest_after"][{}][\'mic_standmic\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['mic_standmic']))
+    msg = 'data["3Quest_after"][{}][\'label_standmic\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['label_standmic']))
+    msg = 'data["3Quest_after"][{}][\'gain_standmic\']: {}'
+    logger.info(msg.format(i,data["3Quest_after"][i]['gain_standmic']))
