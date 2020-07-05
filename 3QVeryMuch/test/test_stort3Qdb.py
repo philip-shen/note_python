@@ -7,7 +7,7 @@ import json
 from pandas.io.json import json_normalize
 import pandas as pd
 
-import os,sys,time
+import os,sys,time,platform
 
 strabspath=os.path.abspath(__file__)
 strdirname=os.path.dirname(strabspath)
@@ -81,7 +81,9 @@ if __name__ == "__main__":
                 insert_time = str("{:02d}".format(local_time.tm_hour))+':'+str("{:02d}".format(local_time.tm_min))+':'+str("{:02d}".format(local_time.tm_sec))
 
                 # Ready to store 3Quest data to DB
-                path_db = os.path.join(dirnamelog,'3QuestDB.db')
+                if platform.system().lower() == 'windows': db_name_3quest = '3QuestDB.db'
+                if platform.system().lower() == 'linux': db_name_3quest = '3QuestDB_tensor4.db'
+                path_db = os.path.join(dirnamelog,db_name_3quest)
 
                 localdb_sqlite = db_sqlite.DB_sqlite(path_db,\
                                                     dut_foldername,insert_date,insert_time,\
