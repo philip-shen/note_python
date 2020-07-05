@@ -373,6 +373,29 @@ plt.plot(x, serviceData , c='b')
 plt.show()
 ```
 
+# LibROSA  
+[Pythonの音声処理ライブラリ【LibROSA】で音声読み込み⇒スペクトログラム変換・表示⇒位相推定して音声復元 posted at Jul 05, 2020](https://qiita.com/lilacs/items/a331a8933ec135f63ab1)  
+
+今回は以下の音声処理の基本処理をまとめました。
+```
+
+    音声の読み込み
+    周波数を指定して音声を読み込み
+    Notebook上で、音声をプレーヤーで再生
+    音声波形のグラフを表示
+    スペクトログラムへの変換
+    STFTで音声からスペクトログラムへ変換
+    強度をdB単位に変換
+    スペクトログラムのカラープロットを表示
+    音声を復元
+    逆STFTでスペクトログラムから音声を復元する場合
+    位相情報を推定して音声を復元する場合
+```
+ソースコード：https://github.com/lilacs2039/ColabNotebooks/blob/master/audio/LibROSA%E4%BD%BF%E3%81%84%E6%96%B9.ipynb
+
+[pythonのlibrosaでサクッと音声波形を表示する posted at Mar 08, 2019](https://qiita.com/amuyikam/items/a5ba64d7bc045feee2d1)
+
+
 [【Audio入門】音声変換してみる♬ posted at 2019-07-07](https://qiita.com/MuAuan/items/675854ab602595c79612)  
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
 [Pythonで音声信号処理  2011-05-14](http://aidiary.hatenablog.com/entry/20110514/1305377659)
