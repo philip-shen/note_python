@@ -6,6 +6,7 @@ import csv,re
 import json, yaml
 import sqlite3
 from sqlite3 import Error
+import pandas as pd
 
 from logger import logger
 
@@ -291,15 +292,12 @@ class DB_sqlite:
                           ['009', 'voice_distractor', ''], \
                           ['010', 'AVG', ''] ]                                
     
-    def str_sql_query_table_3quest_values(self):
-        self.sql_query_table_3quest_values=\
-            "SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time"+\
-            " FROM _3Quest_nobgn tb_nobgn"+\
-            " INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise"+\
-            " WHERE tb_nobgn.dut_foldername='"+self.dut_foldername+\
-            "' and tb_nobgn.insert_date='"+self.insert_date+\
-            "' and tb_nobgn.insert_time='"+self.path_dut+"'"+\
-            ";"
+    def str_sql_query_table_3quest_report(self):
+        self.sql_query_table_3quest_report=\
+            "SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time \
+            FROM _3Quest_nobgn tb_nobgn \
+            INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise \
+            WHERE tb_nobgn.dut_foldername LIKE (?) and tb_nobgn.insert_date LIKE (?)"
 
     def create_connection(self):
         """ create a database connection to a SQLite database """
@@ -550,7 +548,28 @@ class DB_sqlite:
             conn.commit()     
 
         return number_of_rows_3Quest_path            
-            
+
+    def query_3quest_report(self, pt_db_sqlite, conn):
+        self.str_sql_query_table_3quest_report()
+
+        if self.opt_verbose.lower() == "on":
+            msg = "self.sql_query_table_3quest_report:{}"
+            logger.info(msg.format(self.sql_query_table_3quest_report))    
+
+        try:
+            df = pd.read_sql_query(self.sql_query_table_3quest_report, conn, \
+                                params=(self.dut_foldername, self.insert_date,))
+
+        except Error as e:
+            msg = "Error create_table:{}"
+            logger.info(msg.format(e)) 
+
+        if self.opt_verbose.lower() == "on":
+            msg = "self.dut_foldername:{}; self.insert_date:{}"
+            logger.info(msg.format(self.dut_foldername, self.insert_date))    
+            msg = "query_table_3quest_report:{}"
+            logger.info(msg.format(df))    
+
     def delete_table_chariot_csv_throughput(self,conn, id):
         """
         Delete a tseotcdaily by Chariot_CSV_Throughput id

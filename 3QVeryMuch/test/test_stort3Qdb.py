@@ -29,7 +29,8 @@ if __name__ == "__main__":
     msg = 'Start Time is {}/{}/{} {}:{}:{}'
     logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
                             local_time.tm_hour,local_time.tm_min,local_time.tm_sec))         
-
+    args = sys.argv
+    
     with open('config.json') as f:
         data = json.load(f)
 

@@ -573,7 +573,53 @@ WHERE NOT EXISTS(SELECT 1 FROM memos WHERE id = 5 AND text = 'text to insert');
 ```
 
 
-# SQL—03   
+# SQL—03 How to open and convert sqlite database to pandas dataframe   
+[How to open and convert sqlite database to pandas dataframe answered Mar 16 '16](https://stackoverflow.com/questions/36028759/how-to-open-and-convert-sqlite-database-to-pandas-dataframe)  
+```
+import sqlite3
+import pandas as pd
+# Create your connection.
+cnx = sqlite3.connect('file.db')
+
+df = pd.read_sql_query("SELECT * FROM table_name", cnx)
+```
+
+[Pandas Sqlite query using variable answered Dec 25 '16](https://stackoverflow.com/questions/41324503/pandas-sqlite-query-using-variable)  
+```
+df = pd.read_sql_query('SELECT open FROM NYSEMSFT WHERE date = (?)', conn, params=(date,))
+```
+
+[Working with SQLite Databases using Python and Pandas ](https://www.dataquest.io/blog/python-pandas-databases/)  
+```
+import pandas as pd
+import sqlite3
+conn = sqlite3.connect("flights.db")
+df = pd.read_sql_query("select * from airlines limit 5;", conn)
+df
+```
+
+
+# SQL—04 Using SQL query with REGEXP operator in Python throws an error  
+[Using SQL query with REGEXP operator in Python throws an error 21 Dec 2017](https://github.com/thomasnield/oreilly_intermediate_sql_for_data/issues/5)
+```
+import sqlite3
+import re
+
+def regexp(expr, item):
+    reg = re.compile(expr)
+    return reg.search(item) is not None
+
+conn = sqlite3.connect('thunderbird_manufacturing.db')
+conn.create_function("REGEXP", 2, regexp)
+cursor = conn.cursor()
+
+stmt="SELECT * FROM CUSTOMER WHERE ADDRESS REGEXP \'.*(Blvd|St)$\'"
+cursor.execute(stmt)
+
+print(cursor.fetchall())
+```
+
+# SQL—05 
 ```
 SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time
 FROM _3Quest_nobgn tb_nobgn 
