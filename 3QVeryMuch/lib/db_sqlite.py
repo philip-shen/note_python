@@ -297,7 +297,57 @@ class DB_sqlite:
             "SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time \
             FROM _3Quest_nobgn tb_nobgn \
             INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise \
-            WHERE tb_nobgn.dut_foldername LIKE (?) and tb_nobgn.insert_date LIKE (?)"
+            WHERE tb_nobgn.dut_foldername LIKE (?) and tb_nobgn.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_pub.SMOS , tb_pub.NMOS , tb_pub.GMOS , tb_pub.delta_SNR, tb_pub.dut_foldername, tb_pub.insert_date, tb_pub.insert_time \
+            FROM _3Quest_pub tb_pub \
+            INNER JOIN noise_type noise ON noise.name = tb_pub.noise \
+            WHERE tb_pub.dut_foldername LIKE (?) and tb_pub.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_road.SMOS , tb_road.NMOS , tb_road.GMOS , tb_road.delta_SNR, tb_road.dut_foldername, tb_road.insert_date, tb_road.insert_time \
+            FROM _3Quest_road tb_road \
+            INNER JOIN noise_type noise ON noise.name = tb_road.noise \
+            WHERE tb_road.dut_foldername LIKE (?) and tb_road.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_crossroad.SMOS , tb_crossroad.NMOS , tb_crossroad.GMOS , tb_crossroad.delta_SNR, tb_crossroad.dut_foldername, tb_crossroad.insert_date, tb_crossroad.insert_time \
+            FROM _3Quest_crossroad tb_crossroad \
+            INNER JOIN noise_type noise ON noise.name = tb_crossroad.noise \
+            WHERE tb_crossroad.dut_foldername LIKE (?) and tb_crossroad.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_train.SMOS , tb_train.NMOS , tb_train.GMOS , tb_train.delta_SNR, tb_train.dut_foldername, tb_train.insert_date, tb_train.insert_time \
+            FROM _3Quest_train tb_train \
+            INNER JOIN noise_type noise ON noise.name = tb_train.noise \
+            WHERE tb_train.dut_foldername LIKE (?) and tb_train.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_car.SMOS , tb_car.NMOS , tb_car.GMOS , tb_car.delta_SNR, tb_car.dut_foldername, tb_car.insert_date, tb_car.insert_time \
+            FROM _3Quest_car tb_car \
+            INNER JOIN noise_type noise ON noise.name = tb_car.noise \
+            WHERE tb_car.dut_foldername LIKE (?) and tb_car.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_cafeteria.SMOS , tb_cafeteria.NMOS , tb_cafeteria.GMOS , tb_cafeteria.delta_SNR, tb_cafeteria.dut_foldername, tb_cafeteria.insert_date, tb_cafeteria.insert_time \
+            FROM _3Quest_cafeteria tb_cafeteria \
+            INNER JOIN noise_type noise ON noise.name = tb_cafeteria.noise \
+            WHERE tb_cafeteria.dut_foldername LIKE (?) and tb_cafeteria.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_mensa.SMOS , tb_mensa.NMOS , tb_mensa.GMOS , tb_mensa.delta_SNR, tb_mensa.dut_foldername, tb_mensa.insert_date, tb_mensa.insert_time \
+            FROM _3Quest_mensa tb_mensa \
+            INNER JOIN noise_type noise ON noise.name = tb_mensa.noise \
+            WHERE tb_mensa.dut_foldername LIKE (?) and tb_mensa.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_callcenter.SMOS , tb_callcenter.NMOS , tb_callcenter.GMOS , tb_callcenter.delta_SNR, tb_callcenter.dut_foldername, tb_callcenter.insert_date, tb_callcenter.insert_time \
+            FROM _3Quest_callcenter tb_callcenter \
+            INNER JOIN noise_type noise ON noise.name = tb_callcenter.noise \
+            WHERE tb_callcenter.dut_foldername LIKE (?) and tb_callcenter.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_voice_distractor.SMOS , tb_voice_distractor.NMOS , tb_voice_distractor.GMOS , tb_voice_distractor.delta_SNR, tb_voice_distractor.dut_foldername, tb_voice_distractor.insert_date, tb_voice_distractor.insert_time \
+            FROM _3Quest_voice_distractor tb_voice_distractor \
+            INNER JOIN noise_type noise ON noise.name = tb_voice_distractor.noise \
+            WHERE tb_voice_distractor.dut_foldername LIKE (?) and tb_voice_distractor.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_AVG.SMOS , tb_AVG.NMOS , tb_AVG.GMOS , tb_AVG.delta_SNR, tb_AVG.dut_foldername, tb_AVG.insert_date, tb_AVG.insert_time \
+            FROM _3Quest_AVG tb_AVG \
+            INNER JOIN noise_type noise ON noise.name = tb_AVG.noise \
+            WHERE tb_AVG.dut_foldername LIKE (?) and tb_AVG.insert_date LIKE (?)"
 
     def create_connection(self):
         """ create a database connection to a SQLite database """
@@ -313,7 +363,8 @@ class DB_sqlite:
         return None
 
     def create_table(self,conn, create_table_sql):
-        """ create a table from the create_table_sql statement
+        """ 
+        create a table from the create_table_sql statement
         :param conn: Connection object
         :param create_table_sql: a CREATE TABLE statement
         :return:
@@ -554,19 +605,44 @@ class DB_sqlite:
 
         if self.opt_verbose.lower() == "on":
             msg = "self.sql_query_table_3quest_report:{}"
-            logger.info(msg.format(self.sql_query_table_3quest_report))    
+            #logger.info(msg.format(self.sql_query_table_3quest_report)) 
+            msg = "self.dut_foldername:{}; self.insert_date:{}"
+            logger.info(msg.format(self.dut_foldername, self.insert_date))       
 
         try:
             df = pd.read_sql_query(self.sql_query_table_3quest_report, conn, \
-                                params=(self.dut_foldername, self.insert_date,))
+                                params=(self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,))
 
         except Error as e:
             msg = "Error create_table:{}"
             logger.info(msg.format(e)) 
-
+        
+        """ 
+            name             noise      SMOS      NMOS      GMOS  delta_SNR                               dut_foldername insert_date insert_time
+        0   000             nobgn  3.903344  4.451300  3.827119  28.773125  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        1   001               pub  2.544831  4.215844  2.754500  37.121313  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        2   002              road  2.013450  4.305000  2.464431  42.814312  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        3   003         crossroad  2.858994  4.326850  3.014300  45.056937  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        4   004             train  2.781244  4.358738  2.982506  44.793063  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        5   005               car  3.259744  4.335181  3.284425  46.144687  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        6   006         cafeteria  3.690281  4.305944  3.597819  31.478625  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        7   007             mensa  3.457444  4.252481  3.398813  29.928375  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        8   008        callcenter  3.839938  4.179069  3.666994  28.150125  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        9   009  voice_distractor  3.826412  3.867169  3.529694  22.014875  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        10  010               AVG  3.217568  4.259757  3.252060  35.627544  logitech_0702_noise-18dB_debussy-debug-0701    20200705    16:14:28
+        """ 
+        
         if self.opt_verbose.lower() == "on":
-            msg = "self.dut_foldername:{}; self.insert_date:{}"
-            logger.info(msg.format(self.dut_foldername, self.insert_date))    
             msg = "query_table_3quest_report:{}"
             logger.info(msg.format(df))    
 
