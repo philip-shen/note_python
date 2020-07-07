@@ -28,7 +28,9 @@ Table of Contents
    * [Display number with leading zeros](#display-number-with-leading-zeros)
    * [SQL—01  SQL count rows in a table](#sql01--sql-count-rows-in-a-table)
    * [SQL—02  INSERT IF NOT EXISTS ELSE UPDATE?](#sql02--insert-if-not-exists-else-update)
-   * [SQL—03](#sql03)
+   * [SQL—03 How to open and convert sqlite database to pandas dataframe](#sql03-how-to-open-and-convert-sqlite-database-to-pandas-dataframe)
+   * [SQL—04 Using SQL query with REGEXP operator in Python throws an error](#sql04-using-sql-query-with-regexp-operator-in-python-throws-an-error)
+   * [SQL—05](#sql05)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -873,5 +875,3 @@ WHERE tb_AVG.dut_foldername='boommic_SWout' and tb_AVG.insert_date='20200627' an
 - 1
 - 2
 - 3
-
-
