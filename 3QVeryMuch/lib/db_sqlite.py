@@ -652,12 +652,33 @@ class DB_sqlite:
     def write_to_excel(self):
         path_report_excel = os.path.join(self.path_dut, self.dut_foldername+'.xlsx')
 
+        # https://www.geeksforgeeks.org/how-to-select-multiple-columns-in-a-pandas-dataframe/
+        # iloc[row slicing, column slicing] 
+        df_3quest_table_excel=self.df_query_3quest_table.iloc [0:11, 1:8] 
+        """ 
+        df_3quest_table_excel:               
+            noise      SMOS      NMOS      GMOS  delta_SNR                              dut_foldername insert_date
+        0   nobgn  3.903344  4.451300  3.827119  28.773125  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        1   pub  2.544831  4.215844  2.754500  37.121313  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        2   road  2.013450  4.305000  2.464431  42.814312  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        3   crossroad  2.858994  4.326850  3.014300  45.056937  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        4   train  2.781244  4.358738  2.982506  44.793063  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        5   car  3.259744  4.335181  3.284425  46.144687  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        6   cafeteria  3.690281  4.305944  3.597819  31.478625  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        7   mensa  3.457444  4.252481  3.398813  29.928375  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        8   callcenter  3.839938  4.179069  3.666994  28.150125  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        9   voice_distractor  3.826412  3.867169  3.529694  22.014875  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        10  AVG  3.217568  4.259757  3.252060  35.627544  logitech_0702_noise-18dB_debussy-debug-0701    20200705
+        """ 
         if self.opt_verbose.lower() == "on":
             msg = "path_report_excel:{}"
             logger.info(msg.format(path_report_excel))
+            msg = "df_3quest_table_excel:{}"
+            logger.info(msg.format(df_3quest_table_excel))
 
         #self.df_query_3quest_table.to_excel(path_report_excel, index=False, header=False)
-        self.df_query_3quest_table.to_excel(path_report_excel, index=False)
+        # output to excel without index
+        df_3quest_table_excel.to_excel(path_report_excel, index=False)
 
 
     def delete_table_chariot_csv_throughput(self,conn, id):
