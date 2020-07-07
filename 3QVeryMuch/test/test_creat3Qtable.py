@@ -46,7 +46,7 @@ if __name__ == "__main__":
                 str_split=os.path.split(path_dut)
                 dut_foldername=str_split[1]
                 insert_date = '20200705'
-                insert_time = '20200705'
+                insert_time = ''
 
                 # Ready to store 3Quest data to DB
                 if platform.system().lower() == 'windows': db_name_3quest = '3QuestDB.db'
@@ -62,7 +62,10 @@ if __name__ == "__main__":
                 conn = localdb_sqlite.create_connection()
 
                 # create dataframe by SQL
-                localdb_sqlite.query_3quest_report(localdb_sqlite, conn)
+                localdb_sqlite.query_3quest_table(localdb_sqlite, conn)
+
+                # write dataframe to excel
+                localdb_sqlite.write_to_excel()
 
                 # We can also close the connection if we are done with it.
                 # Just be sure any changes have been committed or they will be lost.

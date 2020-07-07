@@ -600,7 +600,7 @@ class DB_sqlite:
 
         return number_of_rows_3Quest_path            
 
-    def query_3quest_report(self, pt_db_sqlite, conn):
+    def query_3quest_table(self, pt_db_sqlite, conn):
         self.str_sql_query_table_3quest_report()
 
         if self.opt_verbose.lower() == "on":
@@ -610,7 +610,7 @@ class DB_sqlite:
             logger.info(msg.format(self.dut_foldername, self.insert_date))       
 
         try:
-            df = pd.read_sql_query(self.sql_query_table_3quest_report, conn, \
+            df_sql_table = pd.read_sql_query(self.sql_query_table_3quest_report, conn, \
                                 params=(self.dut_foldername, self.insert_date,\
                                         self.dut_foldername, self.insert_date,\
                                         self.dut_foldername, self.insert_date,\
@@ -622,6 +622,9 @@ class DB_sqlite:
                                         self.dut_foldername, self.insert_date,\
                                         self.dut_foldername, self.insert_date,\
                                         self.dut_foldername, self.insert_date,))
+
+            #df = df_sql_table.copy()
+            self.df_query_3quest_table = df_sql_table.copy()
 
         except Error as e:
             msg = "Error create_table:{}"
@@ -643,8 +646,19 @@ class DB_sqlite:
         """ 
         
         if self.opt_verbose.lower() == "on":
-            msg = "query_table_3quest_report:{}"
-            logger.info(msg.format(df))    
+            msg = "self.df_query_3quest_table:{}"
+            logger.info(msg.format(self.df_query_3quest_table))    
+    
+    def write_to_excel(self):
+        path_report_excel = os.path.join(self.path_dut, self.dut_foldername+'.xlsx')
+
+        if self.opt_verbose.lower() == "on":
+            msg = "path_report_excel:{}"
+            logger.info(msg.format(path_report_excel))
+
+        #self.df_query_3quest_table.to_excel(path_report_excel, index=False, header=False)
+        self.df_query_3quest_table.to_excel(path_report_excel, index=False)
+
 
     def delete_table_chariot_csv_throughput(self,conn, id):
         """
