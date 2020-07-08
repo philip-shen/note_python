@@ -1,4 +1,3 @@
-
 Table of Contents
 =================
 
@@ -23,6 +22,19 @@ Table of Contents
    * [LibROSA](#librosa)
       * [Wavの読み込み](#wavの読み込み)
       * [Fourier transform](#fourier-transform)
+   * [Beginner's Guide to Audio Data](#beginners-guide-to-audio-data)
+      * [1. データの分析](#1-データの分析)
+      * [2. Raw波形を使ったモデルの構築](#2-raw波形を使ったモデルの構築)
+         * [Raw波形を使ったKerasモデル](#raw波形を使ったkerasモデル)
+      * [3.3. MFCCの紹介](#33-mfccの紹介)
+         * [Librosaを使ったMFCCの生成](#librosaを使ったmfccの生成)
+   * [LibROSA](#librosa-1)
+   * [Pythonで音響信号処理](#pythonで音響信号処理)
+      * [周波数応答を表示したい](#周波数応答を表示したい)
+   * [Pythonで音響信号処理(2)](#pythonで音響信号処理2)
+      * [サンプリングレートを変換したい](#サンプリングレートを変換したい)
+      * [waveモジュールで24bitの音声ファイルを読みたい](#waveモジュールで24bitの音声ファイルを読みたい)
+      * [TSP信号を生成したい](#tsp信号を生成したい)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -32,7 +44,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose
 Take note of Acoustic Process by Python  
@@ -557,7 +568,57 @@ if __name__ == '__main__':
     plt.show()
 ```
 
+## TSP信号を生成したい  
+[金田先生のインパルス応答測定の基礎の講習資料](http://www.asp.c.dendai.ac.jp/ASP/IRseminor2016.pdf)  
+```
+#!/usr/bin/env python
+# vim:fileencoding=utf-8
 
+import numpy as np
+import matplotlib.pyplot as plt
+
+import scipy.fftpack as fft
+
+import soundfile as sf
+
+if __name__ == '__main__':
+    plt.close("all")
+
+    # parameters
+    N_exp = 16
+    m_exp = 2
+    nrepeat = 5
+    fs = 48000
+    gain = 100.0
+
+    N = 2 ** N_exp
+    m = N // (2 ** m_exp)  # (J=2m)
+    a = ((m * np.pi) * (2.0 / N) ** 2)
+
+    tsp_freqs = np.zeros(N, dtype=np.complex128)
+    tsp_freqs[:(N // 2) + 1] = np.exp(-1j * a * (np.arange((N // 2) + 1) ** 2))
+    tsp_freqs[(N // 2) + 1:] = np.conj(tsp_freqs[1:(N // 2)][::-1])
+
+    # ifft and real
+    tsp = np.real(fft.ifft(tsp_freqs, N))
+
+    # roll
+    tsp = gain * np.roll(tsp, (N // 2) - m)
+
+    # repeat
+    tsp_repeat = np.r_[np.tile(tsp, nrepeat), np.zeros(N)]
+
+    # write
+    sf.write("tsp.wav", tsp_repeat, fs)
+
+    fig = plt.figure(1)
+    ax = fig.add_subplot(211)
+    ax.plot(tsp)
+    ax = fig.add_subplot(212)
+    ax.plot(tsp_repeat)
+
+    plt.show()
+```
 
 [【Audio入門】音声変換してみる♬ posted at 2019-07-07](https://qiita.com/MuAuan/items/675854ab602595c79612)  
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
@@ -600,3 +661,5 @@ if __name__ == '__main__':
 - 1
 - 2
 - 3
+
+
