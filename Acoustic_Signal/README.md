@@ -395,6 +395,169 @@ plt.show()
 
 [pythonのlibrosaでサクッと音声波形を表示する posted at Mar 08, 2019](https://qiita.com/amuyikam/items/a5ba64d7bc045feee2d1)
 
+# Pythonで音響信号処理  
+[Pythonで音響信号処理 updated at 2015-12-13](https://qiita.com/wrist/items/5759f894303e4364ebfd)  
+```
+
+    Pythonで音響信号処理をするモチベーション
+    オーディオファイルの読み書き
+    リアルタイムにオーディオ処理を行いたい
+    周波数応答を表示したい
+    デジタルフィルタを設計したい
+    零点、極と係数配列b, aを変換したい
+    デジタルフィルタを時系列信号に適用したい
+    群遅延を計算したい
+    時間相関(相互相関関数)を計算したい
+    ピークを検出したい
+
+```
+
+## 周波数応答を表示したい  
+
+# Pythonで音響信号処理(2)  
+[Pythonで音響信号処理(2) updated at 2016-12-20](https://qiita.com/wrist/items/4b404230e264c5cb571c#%E3%81%9D%E3%81%AE%E4%BB%96)
+
+## サンプリングレートを変換したい  
+```
+#!/usr/bin/env python
+# vim:fileencoding=utf-8
+
+from fractions import Fraction
+
+import numpy as np
+import scipy as sp
+import matplotlib.pyplot as plt
+
+import scipy.signal as sg
+
+import soundfile as sf
+
+if __name__ == '__main__':
+    plt.close("all")
+
+    fs_target = 44100
+    cutoff_hz = 21000.0
+    n_lpf = 4096
+
+    sec = 10
+
+    wav, fs_src = sf.read("../wav/souvenir_mono_16bit_48kHz.wav")
+    wav_48kHz = wav[:fs_src * sec]
+
+    frac = Fraction(fs_target, fs_src)  # 44100 / 48000
+
+    up = frac.numerator  # 147
+    down = frac.denominator  # 160
+
+    # up sampling
+    wav_up = np.zeros(np.alen(wav_48kHz) * up)
+    wav_up[::up] = up * wav_48kHz
+    fs_up = fs_src * up
+
+    cutoff = cutoff_hz / (fs_up / 2.0)
+    lpf = sg.firwin(n_lpf, cutoff)
+
+    # filtering and down sampling
+    wav_down = sg.lfilter(lpf, [1], wav_up)[n_lpf // 2::down]
+
+    # write wave file
+    sf.write("down.wav", wav_down, fs_target)
+
+    # lowpass filter plot
+    w, h = sg.freqz(lpf, a=1, worN=1024)
+    f = fs_up * w / (2.0 * np.pi)
+    fig = plt.figure(1)
+    ax = fig.add_subplot(111)
+    ax.semilogx(f, 20.0 * np.log10(np.abs(h)))
+    ax.axvline(fs_target, color="r")
+    ax.set_ylim([-80.0, 10.0])
+    ax.set_xlim([3000.0, fs_target + 5000.0])
+    ax.set_xlabel("frequency [Hz]")
+    ax.set_ylabel("power [dB]")
+
+    plt.show()
+```
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F8799%2F85b75f83-027d-0e87-0863-dd8ca57b8207.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=5855a131ce4dabfc7b59cb45e99dd1ae)  
+
+## waveモジュールで24bitの音声ファイルを読みたい  
+[e-onkyoのサンプル音源](http://www.e-onkyo.com/music/album/sample02/)
+```
+#!/usr/bin/env python
+# vim:fileencoding=utf-8
+
+import numpy as np
+import matplotlib.pyplot as plt
+import wave
+
+from struct import unpack
+
+if __name__ == '__main__':
+    plt.close("all")
+
+    fname = "../wav/souvenir.wav"
+    fp = wave.open(fname, "r")
+
+    nframe = fp.getnframes()
+    nchan = fp.getnchannels()
+    nbyte = fp.getsampwidth()
+    fs = fp.getframerate()
+
+    print("frame:{0}, "
+          "channel:{1}, "
+          "bytewidth:{2}, "
+          "fs:{3}".format(nframe, nchan, nbyte, fs))
+
+    buf = fp.readframes(nframe * nchan)
+    fp.close()
+
+    read_sec = 40
+    read_sample = read_sec * nchan * fs
+    print("read {0} second (= {1} frame)...".format(read_sec,
+                                                    read_sample))
+
+    # 最下位bitに0を詰めてintにunpackすることで
+    # 24bitの値を32bit intとして値を取り出す
+    #  (<iはリトルエンディアンのint値を仮定)
+    # unpackはtupleを返すので[0]を取る
+    unpacked_buf = [unpack("<i",
+                           bytearray([0]) + buf[nbyte * i:nbyte * (i + 1)])[0]
+                    for i in range(read_sample)]
+
+    # ndarray化
+    ndarr_buf = np.array(unpacked_buf)
+
+    # -1.0〜1.0に正規化
+    float_buf = np.where(ndarr_buf > 0,
+                         ndarr_buf / (2.0 ** 31 - 1),
+                         ndarr_buf / (2.0 ** 31))
+
+    # interleaveを解く(ステレオ音源の場合)
+    wav_l = float_buf[::2]
+    wav_r = float_buf[1::2]
+    time = np.arange(np.alen(wav_l)) / fs
+
+    # plot
+    fig = plt.figure(1)
+
+    ax = fig.add_subplot(2, 1, 1)
+    ax.plot(time, wav_l)
+    ax.set_xlabel("time [pt]")
+    ax.set_ylabel("amplitude")
+    ax.set_title("left channel")
+    ax.grid()
+
+    ax = fig.add_subplot(2, 1, 2)
+    ax.plot(time, wav_r)
+    ax.set_xlabel("time [pt]")
+    ax.set_ylabel("amplitude")
+    ax.set_title("right channel")
+    ax.grid()
+
+    plt.show()
+```
+
+
 
 [【Audio入門】音声変換してみる♬ posted at 2019-07-07](https://qiita.com/MuAuan/items/675854ab602595c79612)  
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
