@@ -569,7 +569,13 @@ class DB_sqlite:
 
     # To prevent dulpicate 3Quest data to insert
     def insert_3quest_path_tosqlite(self, pt_db_sqlite, conn):
-        sql_query_table_3Quest_path_count="SELECT COUNT(*) FROM _3Quest_path WHERE path Like '"+\
+        '''    
+        07/13/2020
+        change Like to == 
+        cause '/home/philip.shen/3Quest/asus/RH200_0709' ~ '/home/philip.shen/3Quest/asus/RH200/0709'
+        '''    
+        
+        sql_query_table_3Quest_path_count="SELECT COUNT(*) FROM _3Quest_path WHERE path == '"+\
                                             self.path_dut+"';"
         
         try:
