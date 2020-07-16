@@ -23,6 +23,7 @@ Table of Contents
          * [フォルダの削除](#フォルダの削除)
       * [pysmbの使い方（匿名接続）](#pysmbの使い方匿名接続)
          * [WindowsVista以降の場合](#windowsvista以降の場合)
+   * [PythonでSambaサーバーにあるExcelファイルを編集する](#pythonでsambaサーバーにあるexcelファイルを編集する)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -434,6 +435,44 @@ print(conn.echo('echo success'))
 conn.close()
 ```
 
+# PythonでSambaサーバーにあるExcelファイルを編集する  
+[PythonでSambaサーバーにあるExcelファイルを編集する posted at 2019-05-21](https://qiita.com/shirasublue/items/12121d1c65c15d81dc74)  
+```
+import io
+import platform
+
+import openpyxl
+import smb
+from smb.SMBConnection import SMBConnection
+
+
+conn = SMBConnection(
+    "username",
+    "password",
+    platform.uname().node,
+    "remote_name",
+    use_ntlm_v2=True,
+)
+# ファイルサーバーに接続する
+conn.connect("hostname", 139)
+
+root = "/"
+filepath = "/hoge.xlsx"
+
+# 開く
+with io.BytesIO() as inputfile:
+    conn.retrieveFile(root, filepath, inputfile)
+    workbook = openpyxl.load_workbook(inputfile)
+
+# ここで編集操作など
+
+# 保存
+with io.BytesIO() as outputfile:
+    workbook.save(outputfile)
+    outputfile.seek(0)
+    conn.storeFile(root, filepath, outputfile)
+```
+
 
 # Troubleshooting
 
@@ -470,5 +509,7 @@ conn.close()
 - 1
 - 2
 - 3
+
+
 
 
