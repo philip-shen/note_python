@@ -35,6 +35,8 @@ Table of Contents
       * [サンプリングレートを変換したい](#サンプリングレートを変換したい)
       * [waveモジュールで24bitの音声ファイルを読みたい](#waveモジュールで24bitの音声ファイルを読みたい)
       * [TSP信号を生成したい](#tsp信号を生成したい)
+   * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
+      * [What do the bytes in a .wav file represent?](#what-do-the-bytes-in-a-wav-file-represent)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -44,6 +46,7 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose
 Take note of Acoustic Process by Python  
@@ -623,6 +626,51 @@ if __name__ == '__main__':
 [【Audio入門】音声変換してみる♬ posted at 2019-07-07](https://qiita.com/MuAuan/items/675854ab602595c79612)  
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
 [Pythonで音声信号処理  2011-05-14](http://aidiary.hatenablog.com/entry/20110514/1305377659)
+
+# Return value of scipy.io.wavfile.read  
+[python - scipy.io.wavfile.read返回的数据是什么意思？](https://www.coder.work/article/3164721)  
+```
+Returns
+-------
+rate : int
+    Sample rate of wav file.
+data : numpy array
+    Data read from wav file.  Data-type is determined from the file;
+    see Notes.
+```
+
+## What do the bytes in a .wav file represent?  
+[What do the bytes in a .wav file represent? asked Oct 23 '12](https://stackoverflow.com/questions/13039846/what-do-the-bytes-in-a-wav-file-represent)  
+![alt tag](https://i.stack.imgur.com/fV2nh.png)  
+```
+You see your audio wave (the gray line). 
+The current value of that wave is repeatedly measured and given as a number. That's the numbers in those bytes. 
+There are two different things that can be adjusted with this: 
+The number of measurements you take per second (that's the sampling rate, given in Hz -- that's how many per second you grab). 
+The other adjustment is how exact you measure. 
+In the 2-byte case, you take two bytes for one measurement (that's values from -32768 to 32767 normally). 
+So with those numbers given there, you can recreate the original wave (up to a limited quality, of course, but that's always so when storing stuff digitally). 
+And recreating the original wave is what your speaker is trying to do on playback.
+```
+
+```
+There are some more things you need to know. 
+First, since it's two bytes, you need to know the byte order (big endian, little endian) to recreate the numbers correctly. 
+Second, you need to know how many channels you have, and how they are stored. 
+Typically you would have mono (one channel) or stereo (two), but more is possible. 
+If you have more than one channel, you need to know, how they are stored. 
+Often you would have them interleaved, that means you get one value for each channel for every point in time, 
+and after that all values for the next point in time.
+```
+
+[Sampling (signal processing)](https://en.wikipedia.org/wiki/Sampling_(signal_processing)#Sampling_rate)  
+Sampling rate | Use 
+------------------------------------ | --------------------------------------------- 
+8,000Hz | Telephone and encrypted walkie-talkie, wireless intercom and wireless microphone transmission; adequate for human speech but without sibilance (ess sounds like eff (/s/, /f/)).
+16,000Hz | Wideband frequency extension over standard telephone narrowband 8,000 Hz. Used in most modern VoIP and VVoIP communication products.
+32,000Hz | miniDV digital video camcorder, video tapes with extra channels of audio (e.g. DVCAM with four channels of audio), DAT (LP mode), Germany's Digitales Satellitenradio, NICAM digital audio, used alongside analogue television sound in some countries. High-quality digital wireless microphones. Suitable for digitizing FM radio.
+44,100Hz | Audio CD, also most commonly used with MPEG-1 audio (VCD, SVCD, MP3). Originally chosen by Sony because it could be recorded on modified video equipment running at either 25 frames per second (PAL) or 30 frame/s (using an NTSC monochrome video recorder) and cover the 20 kHz bandwidth thought necessary to match professional analog recording equipment of the time. A PCM adaptor would fit digital audio samples into the analog video channel of, for example, PAL video tapes using 3 samples per line, 588 lines per frame, 25 frames per second. 
+48,000Hz | The standard audio sampling rate used by professional digital video equipment such as tape recorders, video servers, vision mixers and so on. This rate was chosen because it could reconstruct frequencies up to 22 kHz and work with 29.97 frames per second NTSC video – as well as 25 frame/s, 30 frame/s and 24 frame/s systems. With 29.97 frame/s systems it is necessary to handle 1601.6 audio samples per frame delivering an integer number of audio samples only every fifth video frame.  Also used for sound with consumer video formats like DV, digital TV, DVD, and films. The professional Serial Digital Interface (SDI) and High-definition Serial Digital Interface (HD-SDI) used to connect broadcast television equipment together uses this audio sampling frequency. Most professional audio gear uses 48 kHz sampling, including mixing consoles, and digital recording devices. 
 
 
 # Troubleshooting
