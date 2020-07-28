@@ -672,6 +672,44 @@ Sampling rate | Use
 44,100Hz | Audio CD, also most commonly used with MPEG-1 audio (VCD, SVCD, MP3). Originally chosen by Sony because it could be recorded on modified video equipment running at either 25 frames per second (PAL) or 30 frame/s (using an NTSC monochrome video recorder) and cover the 20 kHz bandwidth thought necessary to match professional analog recording equipment of the time. A PCM adaptor would fit digital audio samples into the analog video channel of, for example, PAL video tapes using 3 samples per line, 588 lines per frame, 25 frames per second. 
 48,000Hz | The standard audio sampling rate used by professional digital video equipment such as tape recorders, video servers, vision mixers and so on. This rate was chosen because it could reconstruct frequencies up to 22 kHz and work with 29.97 frames per second NTSC video – as well as 25 frame/s, 30 frame/s and 24 frame/s systems. With 29.97 frame/s systems it is necessary to handle 1601.6 audio samples per frame delivering an integer number of audio samples only every fifth video frame.  Also used for sound with consumer video formats like DV, digital TV, DVD, and films. The professional Serial Digital Interface (SDI) and High-definition Serial Digital Interface (HD-SDI) used to connect broadcast television equipment together uses this audio sampling frequency. Most professional audio gear uses 48 kHz sampling, including mixing consoles, and digital recording devices. 
 
+# 音楽のデジタル信号での各ビットの役割。
+[N-1. 量子化のビット構成に付いて](https://qiita.com/Try-Jizy/items/178aefe3f06a634064ca#n-1-%E9%87%8F%E5%AD%90%E5%8C%96%E3%81%AE%E3%83%93%E3%83%83%E3%83%88%E6%A7%8B%E6%88%90%E3%81%AB%E4%BB%98%E3%81%84%E3%81%A6)  
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F277872%2Fbad72a9d-7e31-1cb3-a6b1-9944c64bca56.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=233e8bac1199460095c049e6b6b274fe)  
+
+```
+図-N11左半分では、「16bit符号付きリニアPCM」(WAV)のビット構成を表しています。CDもこの構成になっていると思われます。
+
+すなわち、波形の「0 から +1」の信号を「 32,768 (15bit、2の15乗)ステップ」で、
+「0 から -1(0を含まない)」の信号を同様に「 32,768 ステップ」で数値化し、
+「プラスとマイナスを区別するために1bit」を用いて、「合計 16bitで表現している」となります。
+
+ちなみに、アナログ時代からの著者は、この量子化が「16bitなので、65536(2の16乗)ステップ、96dBのダイナミックレンジがある」
+と表現する事に違和感を感じています。
+```
+
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F277872%2F9eda71ed-f598-f1c6-5cd3-57eafba7109c.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=46a23d0d0e91d5ed1457faa864a41038)  
+
+```
+図-N12は、デジタル編集が内部で計算に使う「32bit-float(符号付き、32bit浮動小数点数)」のビット構成です。
+一番上位のビット(赤文字)が±の符号を表す符号部、その下の8bit(青文字)が指数(小数点の位置)を表す指数部、
+さらにその下の23ビット(黒文字)が小数点の位置が指定されていない数値本体を表す仮数部です。<引用資料-N12>
+
+特徴的なのは指数部が追加されていることです。これは、Excelでお馴染み「100000=1.0E+05 or 0.00001=1.0E-05」
+の表現が出来ることなのでしょう。これにより、途中計算で扱える数値の幅が格段に増加して計算途中のクリップを防いでくれます。
+入り口と出口は、自己責任ですが・・・・。
+```
+
+
+# ディープラーニング (Deep learning)声質変換環境構築
+[初めての「誰でも好きなキャラの声になれる」ディープラーニング声質変換環境構築【Ubuntu 18.04LTS】updated at 2019-06-11](https://qiita.com/BURI55/items/92ba127c7beb95b2b3f0)  
+
+[「ディープラーニングの力で結月ゆかりの声になる」*4レポジトリbecome-yukarin](https://github.com/Hiroshiba/become-yukarin)  
+[「become-yukarin解説用」レポジトリ　become-yukarin](https://github.com/YoshikazuOota/become-yukarin)  
+
+[『Yukarinライブラリ』become-yukarin, yukarin コマンド解説 updated at 2020-04-16](https://qiita.com/atticatticattic/items/37441f3be6916cd1e73a)
+![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F12429%2F30df6ea3-7c37-8043-04d2-ebaac6519306.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=97331b6e335cc3778fa0955f4ea4b720)  
+
 
 # Troubleshooting
 
