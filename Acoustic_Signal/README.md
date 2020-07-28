@@ -37,6 +37,8 @@ Table of Contents
       * [TSP信号を生成したい](#tsp信号を生成したい)
    * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
       * [What do the bytes in a .wav file represent?](#what-do-the-bytes-in-a-wav-file-represent)
+   * [音楽のデジタル信号での各ビットの役割。](#音楽のデジタル信号での各ビットの役割)
+   * [ディープラーニング (Deep learning)声質変換環境構築](#ディープラーニング-deep-learning声質変換環境構築)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -46,6 +48,7 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 
 # Purpose
@@ -747,5 +750,4 @@ Sampling rate | Use
 - 1
 - 2
 - 3
-
 
