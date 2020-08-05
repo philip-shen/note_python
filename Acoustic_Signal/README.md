@@ -43,6 +43,7 @@ Table of Contents
       * [Downsampling処理](#downsampling処理)
       * [Wavファイルの書き出し処理](#wavファイルの書き出し処理)
       * [Mainスクリプト](#mainスクリプト)
+      * [wave.Error: unknown format:3](#waveerror-unknown-format3)
    * [RaspberryPi   Python3でPyaudio](#raspberrypi--python3でpyaudio)
       * [マイクとスピーカーの接続と録音の確認](#マイクとスピーカーの接続と録音の確認)
    * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
@@ -56,9 +57,8 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 
 # Purpose
@@ -778,6 +778,10 @@ if __name__ == "__main__":
     writeWav("down.wav",downData,downFs)
 ```
 
+## wave.Error: unknown format:3  
+[wave.Error: unknown format:3](https://www.twblogs.net/a/5d232ca8bd9eee1ede068342)
+[Sox在Windows下的安装以及Sox在python中的安装](https://blog.csdn.net/weixin_43216017/article/details/88531363)
+在python中安装Sox包
 
 # RaspberryPi + Python3でPyaudio  
 [RaspberryPi + Python3でPyaudioとdocomo音声認識APIを使ってみる updated at 2018-10-27](https://qiita.com/yukky-k/items/0d18ec22420e8b35d0ac#%E3%83%9E%E3%82%A4%E3%82%AF%E3%81%A8%E3%82%B9%E3%83%94%E3%83%BC%E3%82%AB%E3%83%BC%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%81%A8%E9%8C%B2%E9%9F%B3%E3%81%AE%E7%A2%BA%E8%AA%8D)  
@@ -937,6 +941,8 @@ Sampling rate | Use
 - 1
 - 2
 - 3
+
+
 
 
 

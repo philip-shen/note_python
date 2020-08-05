@@ -5,7 +5,6 @@ import wave
 import array
 import struct
 
-FILENAME = "./wav/test.wav"
 
 def readWav(filename):
     """
@@ -97,12 +96,13 @@ def downsampling(conversion_rate,data,fs):
     return (downData,fs/conversion_rate)
 
 
+FILENAME = "../src_wav/3Quest_dut.wav"
 
 if __name__ == "__main__":
     # 何倍にするかを決めておく
     up_conversion_rate = 4
     # 何分の1にするか決めておく．ここではその逆数を指定しておく（例：1/2なら2と指定）
-    down_conversion_rate = 4
+    down_conversion_rate = 2
 
     # テストwavファイルを読み込む
     data,fs = readWav(FILENAME)
@@ -110,5 +110,5 @@ if __name__ == "__main__":
     upData,upFs = upsampling(up_conversion_rate,data,fs)
     downData,downFs = downsampling(down_conversion_rate,data,fs)
 
-    writeWav("./wav/up.wav",upData,upFs)
-    writeWav("./wav/down.wav",downData,downFs)
+    writeWav("../src_wav/up.wav",upData,upFs)
+    writeWav("../src_wav/down.wav",downData,downFs)
