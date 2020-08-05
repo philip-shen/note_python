@@ -35,6 +35,16 @@ Table of Contents
       * [サンプリングレートを変換したい](#サンプリングレートを変換したい)
       * [waveモジュールで24bitの音声ファイルを読みたい](#waveモジュールで24bitの音声ファイルを読みたい)
       * [TSP信号を生成したい](#tsp信号を生成したい)
+   * [サンプリング周波数変換(SamplingRateConversion)](#サンプリング周波数変換samplingrateconversion)
+      * [Upsampling](#upsampling)
+      * [Downsampling](#downsampling)
+      * [Wavファイルの読み込み処理](#wavファイルの読み込み処理)
+      * [Upsampling処理](#upsampling処理)
+      * [Downsampling処理](#downsampling処理)
+      * [Wavファイルの書き出し処理](#wavファイルの書き出し処理)
+      * [Mainスクリプト](#mainスクリプト)
+   * [RaspberryPi   Python3でPyaudio](#raspberrypi--python3でpyaudio)
+      * [マイクとスピーカーの接続と録音の確認](#マイクとスピーカーの接続と録音の確認)
    * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
       * [What do the bytes in a .wav file represent?](#what-do-the-bytes-in-a-wav-file-represent)
    * [音楽のデジタル信号での各ビットの役割。](#音楽のデジタル信号での各ビットの役割)
@@ -46,7 +56,7 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-
+   
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 
@@ -630,6 +640,180 @@ if __name__ == '__main__':
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
 [Pythonで音声信号処理  2011-05-14](http://aidiary.hatenablog.com/entry/20110514/1305377659)
 
+
+# サンプリング周波数変換(SamplingRateConversion)  
+[サンプリング周波数変換(SamplingRateConversion)を実装してみた．updated at 2020-04-02](https://qiita.com/sumita_v09/items/808a3f8506065639cf51)  
+[ T-Sumida /SamplingRateConversion](https://github.com/T-Sumida/SamplingRateConversion)  
+
+## Upsampling  
+```
+アップサンプリングは，基本的には補完処理を行います．
+もとのサンプリング周波数 fs1 をサンプリング周波数 fs2 に変換する場合，信号の各サンプルの間に (fs2/fs1 - 1) 個の新しい値0のサンプルを追加します．
+
+このようにサンプルを増やしていきますが，こうしたとき波形がギザギザになってしまいます．
+これは信号に不要な成分（折り返しノイズ）が入ってしまっているためです．
+なので，もとのサンプリング周波数のナイキスト周波数 (fs1/2) 以上の周波数成分を除去するようなLPF（Low Pass Filter）処理を施します．
+```
+
+## Downsampling  
+```
+ダウンサンプリングはアップサンプリングとは対象的に，信号のサンプルを間引きます．
+もとのサンプリング周波数 fs1 をサンプリング周波数 fs2 に変換する場合，サンプル1個を取りだした後に (fs2/fs1 - 1) 個のサンプルを捨ててしまいます．
+
+この時，間引いた信号には折り返しが発生する可能性があります（例：44.1kHzを22.05kHzに落とすとき，元信号に20kHzの信号が入ってるとダウンサンプリングしたとき折り返しが発生する）．
+なので，間引き処理を行う前に変換後のサンプリング周波数の半分（ナイキスト周波数）以上の周波数成分を除去するためにLPF処理を施します．
+```
+
+## Wavファイルの読み込み処理  
+```
+def readWav(filename):
+    """
+    wavファイルを読み込んで，データ・サンプリングレートを返す関数
+    """
+    wf = wave.open(filename)
+    fs = wf.getframerate()
+    # -1 ~ 1までに正規化した信号データを読み込む
+    data = np.frombuffer(wf.readframes(wf.getnframes()),dtype="int16")/32768.0
+    return (data,fs)
+```
+
+## Upsampling処理  
+```
+def upsampling(conversion_rate,data,fs):
+    """
+    アップサンプリングを行う．
+    入力として，変換レートとデータとサンプリング周波数．
+    アップサンプリング後のデータとサンプリング周波数を返す．
+    """
+    # 補間するサンプル数を決める
+    interpolationSampleNum = conversion_rate-1
+
+    # FIRフィルタの用意をする
+    nyqF = fs/2.0     # 変換後のナイキスト周波数
+    cF = (fs/2.0-500.)/nyqF             # カットオフ周波数を設定（変換前のナイキスト周波数より少し下を設定）
+    taps = 511                          # フィルタ係数（奇数じゃないとだめ）
+    b = scipy.signal.firwin(taps, cF)   # LPFを用意
+
+    # 補間処理
+    upData = []
+    for d in data:
+        upData.append(d)
+        # 1サンプルの後に，interpolationSampleNum分だけ0を追加する
+        for i in range(interpolationSampleNum):
+            upData.append(0.0)
+
+    # フィルタリング
+    resultData = scipy.signal.lfilter(b,1,upData)
+    return (resultData,fs*conversion_rate)
+```
+
+## Downsampling処理  
+```
+def downsampling(conversion_rate,data,fs):
+    """
+    ダウンサンプリングを行う．
+    入力として，変換レートとデータとサンプリング周波数．
+    ダウンサンプリング後のデータとサンプリング周波数を返す．
+    """
+    # 間引くサンプル数を決める
+    decimationSampleNum = conversion_rate-1
+
+    # FIRフィルタの用意をする
+    nyqF = fs/2.0             # 変換後のナイキスト周波数
+    cF = (fs/conversion_rate/2.0-500.)/nyqF     # カットオフ周波数を設定（変換前のナイキスト周波数より少し下を設定）
+    taps = 511                                  # フィルタ係数（奇数じゃないとだめ）
+    b = scipy.signal.firwin(taps, cF)           # LPFを用意
+
+    #フィルタリング
+    data = scipy.signal.lfilter(b,1,data)
+
+    #間引き処理
+    downData = []
+    for i in range(0,len(data),decimationSampleNum+1):
+        downData.append(data[i])
+
+    return (downData,fs/conversion_rate)
+```
+
+## Wavファイルの書き出し処理  
+```
+def writeWav(filename,data,fs):
+    """
+    入力されたファイル名でwavファイルを書き出す．
+    """
+    # データを-32768から32767の整数値に変換
+    data = [int(x * 32767.0) for x in data]
+    #バイナリ化
+    binwave = struct.pack("h" * len(data), *data)
+    wf = wave.Wave_write(filename)
+    wf.setparams((
+        1,                          # channel
+        2,                          # byte width
+        fs,                         # sampling rate
+        len(data),                  # number of frames
+        "NONE", "not compressed"    # no compression
+        ))
+    wf.writeframes(binwave)
+    wf.close()
+```
+
+## Mainスクリプト  
+```
+if __name__ == "__main__":
+    # 何倍にするかを決めておく
+    up_conversion_rate = 4
+    # 何分の1にするか決めておく．ここではその逆数を指定しておく（例：1/2なら2と指定）
+    down_conversion_rate = 4
+
+    # テストwavファイルを読み込む
+    data,fs = readWav("test.wav")
+
+    upData,upFs = upsampling(up_conversion_rate,data,fs)
+    downData,downFs = downsampling(down_conversion_rate,data,fs)
+
+    writeWav("up.wav",upData,upFs)
+    writeWav("down.wav",downData,downFs)
+```
+
+
+# RaspberryPi + Python3でPyaudio  
+[RaspberryPi + Python3でPyaudioとdocomo音声認識APIを使ってみる updated at 2018-10-27](https://qiita.com/yukky-k/items/0d18ec22420e8b35d0ac#%E3%83%9E%E3%82%A4%E3%82%AF%E3%81%A8%E3%82%B9%E3%83%94%E3%83%BC%E3%82%AB%E3%83%BC%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%81%A8%E9%8C%B2%E9%9F%B3%E3%81%AE%E7%A2%BA%E8%AA%8D)  
+
+## マイクとスピーカーの接続と録音の確認  
+```
+$ lsusb
+Bus 001 Device 006: ID 054c:0686 Sony Corp.
+Bus 001 Device 007: ID 0424:7800 Standard Microsystems Corp.
+Bus 001 Device 003: ID 0424:2514 Standard Microsystems Corp. USB 2.0 Hub
+Bus 001 Device 002: ID 0424:2514 Standard Microsystems Corp. USB 2.0 Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+```
+
+```
+$ arecord -l
+**** ハードウェアデバイス CAPTURE のリスト ****
+カード 1: UAB80 [UAB-80], デバイス 0: USB Audio [USB Audio]
+  サブデバイス: 1/1
+  サブデバイス #0: subdevice #0
+```
+
+```
+$ arecord -D plughw:1,0 test.wav
+録音中 WAVE 'test.wav' : Unsigned 8 bit, レート 8000 Hz, モノラル
+
+$ aplay -D plughw:1,0 test.wav
+再生中 WAVE 'test.wav' : Unsigned 8 bit, レート 8000 Hz, モノラル
+```
+
+```
+$ alsamixer
+```
+
+```
+$ aplay -D plughw:1,0 /usr/share/sounds/alsa/Front_Center.wav
+```
+
+
 # Return value of scipy.io.wavfile.read  
 [python - scipy.io.wavfile.read返回的数据是什么意思？](https://www.coder.work/article/3164721)  
 ```
@@ -750,4 +934,6 @@ Sampling rate | Use
 - 1
 - 2
 - 3
+
+
 
