@@ -96,11 +96,12 @@ def downsampling(conversion_rate,data,fs):
     return (downData,fs/conversion_rate)
 
 
-FILENAME = "../src_wav/3Quest_dut.wav"
+#FILENAME = "../src_wav/3Quest_dut.wav"
+FILENAME = "../src_wav/3Quest_Standmic.wav"
 
 if __name__ == "__main__":
     # 何倍にするかを決めておく
-    up_conversion_rate = 4
+    up_conversion_rate = 2
     # 何分の1にするか決めておく．ここではその逆数を指定しておく（例：1/2なら2と指定）
     down_conversion_rate = 2
 

@@ -44,6 +44,8 @@ Table of Contents
       * [Wavファイルの書き出し処理](#wavファイルの書き出し処理)
       * [Mainスクリプト](#mainスクリプト)
       * [wave.Error: unknown format:3](#waveerror-unknown-format3)
+         * [SoXのインストール](#soxのインストール)
+         * [実際に使うには](#実際に使うには)
    * [RaspberryPi   Python3でPyaudio](#raspberrypi--python3でpyaudio)
       * [マイクとスピーカーの接続と録音の確認](#マイクとスピーカーの接続と録音の確認)
    * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
@@ -779,9 +781,36 @@ if __name__ == "__main__":
 ```
 
 ## wave.Error: unknown format:3  
-[wave.Error: unknown format:3](https://www.twblogs.net/a/5d232ca8bd9eee1ede068342)
+[wave.Error: unknown format:3](https://www.twblogs.net/a/5d232ca8bd9eee1ede068342)  
+![alt tag](https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdnimg.cn/20190708154152326.png)  
+
 [Sox在Windows下的安装以及Sox在python中的安装](https://blog.csdn.net/weixin_43216017/article/details/88531363)
-在python中安装Sox包
+在python中安装Sox包  
+![alt tag](https://img-blog.csdnimg.cn/20190313141410785.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIxNjAxNw==,size_16,color_FFFFFF,t_70)  
+
+[SoXをWindows10で使い始めるまでの手順(メモ) posted at 2019-01-17](https://qiita.com/teteyateiya/items/e4dc27e384d947b9946d)  
+
+### SoXのインストール  
+[公式サイト](https://sourceforge.net/projects/sox/)  
+
+### 実際に使うには  
+```
+まず音声ファイルを保存するフォルダに移動し、次のようにパスを通す。
+path %PATH%;C:\Program Files (x86)\sox-14-4-2
+これでこのフォルダではsoxと打つだけでSoXが使えるようになる。
+
+次に、出力・入力先デバイスをコマンドラインに教えてあげる必要がある。
+今のままsox test.wav -dといったコマンドを打つと次のエラーが出る。
+sox FAIL sox: Sorry, there is no default audio device configured
+つまり、soxを使いたいけど入出力デバイスが設定されてないから使えないといった意味。
+
+この問題は
+set AUDIODRIVER=waveaudio
+と打てば解決する。
+デフォルトのデバイスを固定する必要があるということ。
+この「waveaudio」はsox -hと打つとAUDIO DEVICE DRIVERS: waveaudioというように出てくるので確認してからsetする。
+```
+
 
 # RaspberryPi + Python3でPyaudio  
 [RaspberryPi + Python3でPyaudioとdocomo音声認識APIを使ってみる updated at 2018-10-27](https://qiita.com/yukky-k/items/0d18ec22420e8b35d0ac#%E3%83%9E%E3%82%A4%E3%82%AF%E3%81%A8%E3%82%B9%E3%83%94%E3%83%BC%E3%82%AB%E3%83%BC%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%81%A8%E9%8C%B2%E9%9F%B3%E3%81%AE%E7%A2%BA%E8%AA%8D)  
@@ -941,8 +970,5 @@ Sampling rate | Use
 - 1
 - 2
 - 3
-
-
-
 
 
