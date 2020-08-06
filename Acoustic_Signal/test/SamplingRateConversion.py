@@ -4,7 +4,29 @@ import scipy.signal
 import wave
 import array
 import struct
+from scipy.io import wavfile
 
+def wav_read(file_path, mmap=False):
+    """
+    return sample value between range(-1,1)
+    Note" librosa.load use aioread, which may truncate the precision of the audio data to 16 bits.
+    :param file_path:
+    :param mmap: False read all data directly, True read data memory mapping
+    :return:  samples ,fs
+    """
+
+    fs, samples = wavfile.read(file_path, mmap=mmap)
+
+    # transfer samples from fixed to float
+    if samples.dtype == np.int16:
+        samples = np.array(samples, dtype=np.float32)
+        samples /= 2 ** 15
+    elif samples.dtype == np.float32:
+        samples = np.array(samples)
+    else:
+        raise NotImplementedError
+
+    return samples, fs
 
 def readWav(filename):
     """
@@ -96,8 +118,8 @@ def downsampling(conversion_rate,data,fs):
     return (downData,fs/conversion_rate)
 
 
-#FILENAME = "../src_wav/3Quest_dut.wav"
-FILENAME = "../src_wav/3Quest_Standmic.wav"
+FILENAME = "../src_wav/3Quest_dut.wav"
+#FILENAME = "../src_wav/3Quest_Standmic.wav"
 
 if __name__ == "__main__":
     # 何倍にするかを決めておく
@@ -106,7 +128,8 @@ if __name__ == "__main__":
     down_conversion_rate = 2
 
     # テストwavファイルを読み込む
-    data,fs = readWav(FILENAME)
+    #data,fs = readWav(FILENAME)
+    data,fs = wav_read(FILENAME)
 
     upData,upFs = upsampling(up_conversion_rate,data,fs)
     downData,downFs = downsampling(down_conversion_rate,data,fs)
