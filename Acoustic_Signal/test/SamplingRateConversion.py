@@ -16,7 +16,7 @@ def wav_read(file_path, mmap=False):
     """
 
     fs, samples = wavfile.read(file_path, mmap=mmap)
-
+   
     # transfer samples from fixed to float
     if samples.dtype == np.int16:
         samples = np.array(samples, dtype=np.float32)
@@ -27,6 +27,20 @@ def wav_read(file_path, mmap=False):
         raise NotImplementedError
 
     return samples, fs
+
+def wav_write(file_path, samples, fs, wav_type='int16'):
+    # scipy.io.wavfile.write cannot process np.float16 data
+    if wav_type == 'float32':
+        wavfile.write(file_path, fs, samples.astype(np.float32))
+    elif wav_type == 'int16':
+        output_samples = samples * (2 ** 15)
+        wav_type_iinfo = np.iinfo(wav_type)
+        output_samples.clip(min=wav_type_iinfo.min, max=wav_type_iinfo.max,
+                            out=output_samples)
+        output_samples = output_samples.astype(wav_type)
+        wavfile.write(file_path, fs, output_samples)
+    else:
+        raise NotImplementedError
 
 def readWav(filename):
     """
@@ -118,7 +132,7 @@ def downsampling(conversion_rate,data,fs):
     return (downData,fs/conversion_rate)
 
 
-FILENAME = "../src_wav/3Quest_dut.wav"
+FILENAME = "D:/project/FeqResp/Asus/asus_S54C_0807_Igo_Speech_FR_BandG/dut.wav"
 #FILENAME = "../src_wav/3Quest_Standmic.wav"
 
 if __name__ == "__main__":
@@ -126,13 +140,17 @@ if __name__ == "__main__":
     up_conversion_rate = 2
     # 何分の1にするか決めておく．ここではその逆数を指定しておく（例：1/2なら2と指定）
     down_conversion_rate = 2
+    down_conversion_wave = "D:/project/FeqResp/Asus/asus_S54C_0807_Igo_Speech_FR_BandG/dut_16k.wav"
 
     # テストwavファイルを読み込む
     #data,fs = readWav(FILENAME)
     data,fs = wav_read(FILENAME)
-
+    print('fs {}',fs)
     upData,upFs = upsampling(up_conversion_rate,data,fs)
     downData,downFs = downsampling(down_conversion_rate,data,fs)
 
-    writeWav("../src_wav/up.wav",upData,upFs)
-    writeWav("../src_wav/down.wav",downData,downFs)
+    #writeWav("../src_wav/up.wav",upData,upFs)
+    writeWav(down_conversion_wave,downData,downFs)
+    
+    #wav_write("../src_wav/up.wav",upFs,upData)
+    #wav_write("../src_wav/down.wav",downFs,downData)
