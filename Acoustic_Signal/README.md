@@ -928,7 +928,9 @@ Sampling rate | Use
 # DSP (digital signal processing ) functionality  
 [Christian's Python Library](https://homepage.univie.ac.at/christian.herbst/python/index.html)
 ```
-This is a collection of open source Python scripts that I found useful for analyzing data from human and mammalian vocalizations, and for generating aesthetically pleasing graphs and videos, to be used in publications and presentations/lectures. 
+This is a collection of open source Python scripts that I found useful for analyzing data from human and mammalian vocalizations, 
+and for generating aesthetically pleasing graphs and videos, 
+to be used in publications and presentations/lectures. 
 ```
 
 ## Loading a wave file and saving a normalized version of the sound  
