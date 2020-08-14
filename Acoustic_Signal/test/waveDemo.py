@@ -1,3 +1,13 @@
+import os,sys,time,platform
+
+strabspath=os.path.abspath(__file__)
+strdirname=os.path.dirname(strabspath)
+str_split=os.path.split(strdirname)
+prevdirname=str_split[0]
+dirnamelib=os.path.join(prevdirname,"lib")
+dirnamelog=os.path.join(prevdirname,"logs")
+sys.path.append(dirnamelib)
+
 import myWave
 import dspUtil
 import numpy
