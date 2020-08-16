@@ -351,54 +351,54 @@ class DB_sqlite:
 
     def str_sql_query_table_3quest_noise_nobgnOnly(self):
         self.sql_query_table_3quest_noise_nobgnOnly=\
-            "SELECT DISTINCT noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time \
+            "SELECT DISTINCT noise.name,noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time \
             FROM _3Quest_nobgn tb_nobgn \
             INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise \
             WHERE tb_nobgn.dut_foldername LIKE (?) and tb_nobgn.insert_date LIKE (?)"
 
     def str_sql_query_table_3quest_noise_withoutnobgn(self):
         self.sql_query_table_3quest_noise_withoutnobgn=\
-            "SELECT DISTINCT noise.description as noise, tb_pub.SMOS , tb_pub.NMOS , tb_pub.GMOS , tb_pub.delta_SNR, tb_pub.dut_foldername, tb_pub.insert_date, tb_pub.insert_time \
+            "SELECT DISTINCT noise.name,noise.description as noise, tb_pub.SMOS , tb_pub.NMOS , tb_pub.GMOS , tb_pub.delta_SNR, tb_pub.dut_foldername, tb_pub.insert_date, tb_pub.insert_time \
             FROM _3Quest_pub tb_pub \
             INNER JOIN noise_type noise ON noise.name = tb_pub.noise \
             WHERE tb_pub.dut_foldername LIKE (?) and tb_pub.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_road.SMOS , tb_road.NMOS , tb_road.GMOS , tb_road.delta_SNR, tb_road.dut_foldername, tb_road.insert_date, tb_road.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_road.SMOS , tb_road.NMOS , tb_road.GMOS , tb_road.delta_SNR, tb_road.dut_foldername, tb_road.insert_date, tb_road.insert_time \
             FROM _3Quest_road tb_road \
             INNER JOIN noise_type noise ON noise.name = tb_road.noise \
             WHERE tb_road.dut_foldername LIKE (?) and tb_road.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_crossroad.SMOS , tb_crossroad.NMOS , tb_crossroad.GMOS , tb_crossroad.delta_SNR, tb_crossroad.dut_foldername, tb_crossroad.insert_date, tb_crossroad.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_crossroad.SMOS , tb_crossroad.NMOS , tb_crossroad.GMOS , tb_crossroad.delta_SNR, tb_crossroad.dut_foldername, tb_crossroad.insert_date, tb_crossroad.insert_time \
             FROM _3Quest_crossroad tb_crossroad \
             INNER JOIN noise_type noise ON noise.name = tb_crossroad.noise \
             WHERE tb_crossroad.dut_foldername LIKE (?) and tb_crossroad.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_train.SMOS , tb_train.NMOS , tb_train.GMOS , tb_train.delta_SNR, tb_train.dut_foldername, tb_train.insert_date, tb_train.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_train.SMOS , tb_train.NMOS , tb_train.GMOS , tb_train.delta_SNR, tb_train.dut_foldername, tb_train.insert_date, tb_train.insert_time \
             FROM _3Quest_train tb_train \
             INNER JOIN noise_type noise ON noise.name = tb_train.noise \
             WHERE tb_train.dut_foldername LIKE (?) and tb_train.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_car.SMOS , tb_car.NMOS , tb_car.GMOS , tb_car.delta_SNR, tb_car.dut_foldername, tb_car.insert_date, tb_car.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_car.SMOS , tb_car.NMOS , tb_car.GMOS , tb_car.delta_SNR, tb_car.dut_foldername, tb_car.insert_date, tb_car.insert_time \
             FROM _3Quest_car tb_car \
             INNER JOIN noise_type noise ON noise.name = tb_car.noise \
             WHERE tb_car.dut_foldername LIKE (?) and tb_car.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_cafeteria.SMOS , tb_cafeteria.NMOS , tb_cafeteria.GMOS , tb_cafeteria.delta_SNR, tb_cafeteria.dut_foldername, tb_cafeteria.insert_date, tb_cafeteria.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_cafeteria.SMOS , tb_cafeteria.NMOS , tb_cafeteria.GMOS , tb_cafeteria.delta_SNR, tb_cafeteria.dut_foldername, tb_cafeteria.insert_date, tb_cafeteria.insert_time \
             FROM _3Quest_cafeteria tb_cafeteria \
             INNER JOIN noise_type noise ON noise.name = tb_cafeteria.noise \
             WHERE tb_cafeteria.dut_foldername LIKE (?) and tb_cafeteria.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_mensa.SMOS , tb_mensa.NMOS , tb_mensa.GMOS , tb_mensa.delta_SNR, tb_mensa.dut_foldername, tb_mensa.insert_date, tb_mensa.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_mensa.SMOS , tb_mensa.NMOS , tb_mensa.GMOS , tb_mensa.delta_SNR, tb_mensa.dut_foldername, tb_mensa.insert_date, tb_mensa.insert_time \
             FROM _3Quest_mensa tb_mensa \
             INNER JOIN noise_type noise ON noise.name = tb_mensa.noise \
             WHERE tb_mensa.dut_foldername LIKE (?) and tb_mensa.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_callcenter.SMOS , tb_callcenter.NMOS , tb_callcenter.GMOS , tb_callcenter.delta_SNR, tb_callcenter.dut_foldername, tb_callcenter.insert_date, tb_callcenter.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_callcenter.SMOS , tb_callcenter.NMOS , tb_callcenter.GMOS , tb_callcenter.delta_SNR, tb_callcenter.dut_foldername, tb_callcenter.insert_date, tb_callcenter.insert_time \
             FROM _3Quest_callcenter tb_callcenter \
             INNER JOIN noise_type noise ON noise.name = tb_callcenter.noise \
             WHERE tb_callcenter.dut_foldername LIKE (?) and tb_callcenter.insert_date LIKE (?) \
             UNION \
-            SELECT DISTINCT noise.description as noise, tb_voice_distractor.SMOS , tb_voice_distractor.NMOS , tb_voice_distractor.GMOS , tb_voice_distractor.delta_SNR, tb_voice_distractor.dut_foldername, tb_voice_distractor.insert_date, tb_voice_distractor.insert_time \
+            SELECT DISTINCT noise.name,noise.description as noise, tb_voice_distractor.SMOS , tb_voice_distractor.NMOS , tb_voice_distractor.GMOS , tb_voice_distractor.delta_SNR, tb_voice_distractor.dut_foldername, tb_voice_distractor.insert_date, tb_voice_distractor.insert_time \
             FROM _3Quest_voice_distractor tb_voice_distractor \
             INNER JOIN noise_type noise ON noise.name = tb_voice_distractor.noise \
             WHERE tb_voice_distractor.dut_foldername LIKE (?) and tb_voice_distractor.insert_date LIKE (?)"
@@ -751,13 +751,41 @@ class DB_sqlite:
             msg = "Error create_table:{}"
             logger.info(msg.format(e))     
 
+        # change data type from object to float
+        self.df_query_3quest_table_noise_withoutnobgn.loc[:,'SMOS']= \
+                                        self.df_query_3quest_table_noise_withoutnobgn['SMOS'].astype(float)
+        self.df_query_3quest_table_noise_withoutnobgn.loc[:,'NMOS']= \
+                                        self.df_query_3quest_table_noise_withoutnobgn['NMOS'].astype(float)
+        self.df_query_3quest_table_noise_withoutnobgn.loc[:,'GMOS']= \
+                                        self.df_query_3quest_table_noise_withoutnobgn['GMOS'].astype(float)
+        self.df_query_3quest_table_noise_withoutnobgn.loc[:,'delta_SNR']= \
+                                        self.df_query_3quest_table_noise_withoutnobgn['delta_SNR'].astype(float)
+
+        """ 
+        https://stackoverflow.com/questions/19124148/modify-output-from-python-pandas-describe
+        Modify output from Python Pandas describe
+
+           name             noise      SMOS      NMOS      GMOS  delta_SNR dut_foldername insert_date insert_time
+        0  001               pub  3.505662  4.694719  3.611600  34.243937     RH200_0709    20200713    17:49:11
+        1  002              road  3.182438  4.819850  3.426544  39.837500     RH200_0709    20200713    17:49:11
+        2  003         crossroad  3.946375  4.710913  3.970131  36.502313     RH200_0709    20200713    17:49:11
+        3  004             train  4.038169  4.735881  4.053469  36.160563     RH200_0709    20200713    17:49:11
+        4  005               car  4.053244  4.773944  4.079769  43.256937     RH200_0709    20200713    17:49:11
+        5  006         cafeteria  4.199275  4.501906  4.097437  19.505313     RH200_0709    20200713    17:49:11
+        6  007             mensa  4.063969  4.520631  3.990037  18.241287     RH200_0709    20200713    17:49:11
+        7  008        callcenter  4.289669  4.703481  4.243694  21.900437     RH200_0709    20200713    17:49:11
+        8  009  voice_distractor  4.320113  4.285831  4.117600  13.012050     RH200_0709    20200713    17:49:11
+        """ 
+        """ 
+                    SMOS      NMOS      GMOS  delta_SNR
+        mean   3.955435  4.638573  3.954476  29.184482
+        """ 
         if self.opt_verbose.lower() == "on":
             msg = "self.df_query_3quest_table_noise_withoutnobgn:\n {}"
             logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn))   
-            msg = "{}"
-            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn.dtypes ))         
+            
             msg = "self.df_query_3quest_table_noise_withoutnobgn.describe():\n {}"
-            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn.describe(include =  'all') ))
+            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']] ))
 
     def write_to_excel(self):
         path_report_excel = os.path.join(self.path_dut, self.dut_foldername+'.xlsx')
