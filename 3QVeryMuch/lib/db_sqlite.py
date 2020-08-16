@@ -349,6 +349,60 @@ class DB_sqlite:
             INNER JOIN noise_type noise ON noise.name = tb_AVG.noise \
             WHERE tb_AVG.dut_foldername LIKE (?) and tb_AVG.insert_date LIKE (?)"
 
+    def str_sql_query_table_3quest_noise_nobgnOnly(self):
+        self.sql_query_table_3quest_noise_nobgnOnly=\
+            "SELECT DISTINCT noise.description as noise, tb_nobgn.SMOS , tb_nobgn.NMOS , tb_nobgn.GMOS , tb_nobgn.delta_SNR, tb_nobgn.dut_foldername, tb_nobgn.insert_date, tb_nobgn.insert_time \
+            FROM _3Quest_nobgn tb_nobgn \
+            INNER JOIN noise_type noise ON noise.name = tb_nobgn.noise \
+            WHERE tb_nobgn.dut_foldername LIKE (?) and tb_nobgn.insert_date LIKE (?)"
+
+    def str_sql_query_table_3quest_noise_withoutnobgn(self):
+        self.sql_query_table_3quest_noise_withoutnobgn=\
+            "SELECT DISTINCT noise.description as noise, tb_pub.SMOS , tb_pub.NMOS , tb_pub.GMOS , tb_pub.delta_SNR, tb_pub.dut_foldername, tb_pub.insert_date, tb_pub.insert_time \
+            FROM _3Quest_pub tb_pub \
+            INNER JOIN noise_type noise ON noise.name = tb_pub.noise \
+            WHERE tb_pub.dut_foldername LIKE (?) and tb_pub.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_road.SMOS , tb_road.NMOS , tb_road.GMOS , tb_road.delta_SNR, tb_road.dut_foldername, tb_road.insert_date, tb_road.insert_time \
+            FROM _3Quest_road tb_road \
+            INNER JOIN noise_type noise ON noise.name = tb_road.noise \
+            WHERE tb_road.dut_foldername LIKE (?) and tb_road.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_crossroad.SMOS , tb_crossroad.NMOS , tb_crossroad.GMOS , tb_crossroad.delta_SNR, tb_crossroad.dut_foldername, tb_crossroad.insert_date, tb_crossroad.insert_time \
+            FROM _3Quest_crossroad tb_crossroad \
+            INNER JOIN noise_type noise ON noise.name = tb_crossroad.noise \
+            WHERE tb_crossroad.dut_foldername LIKE (?) and tb_crossroad.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_train.SMOS , tb_train.NMOS , tb_train.GMOS , tb_train.delta_SNR, tb_train.dut_foldername, tb_train.insert_date, tb_train.insert_time \
+            FROM _3Quest_train tb_train \
+            INNER JOIN noise_type noise ON noise.name = tb_train.noise \
+            WHERE tb_train.dut_foldername LIKE (?) and tb_train.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_car.SMOS , tb_car.NMOS , tb_car.GMOS , tb_car.delta_SNR, tb_car.dut_foldername, tb_car.insert_date, tb_car.insert_time \
+            FROM _3Quest_car tb_car \
+            INNER JOIN noise_type noise ON noise.name = tb_car.noise \
+            WHERE tb_car.dut_foldername LIKE (?) and tb_car.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_cafeteria.SMOS , tb_cafeteria.NMOS , tb_cafeteria.GMOS , tb_cafeteria.delta_SNR, tb_cafeteria.dut_foldername, tb_cafeteria.insert_date, tb_cafeteria.insert_time \
+            FROM _3Quest_cafeteria tb_cafeteria \
+            INNER JOIN noise_type noise ON noise.name = tb_cafeteria.noise \
+            WHERE tb_cafeteria.dut_foldername LIKE (?) and tb_cafeteria.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_mensa.SMOS , tb_mensa.NMOS , tb_mensa.GMOS , tb_mensa.delta_SNR, tb_mensa.dut_foldername, tb_mensa.insert_date, tb_mensa.insert_time \
+            FROM _3Quest_mensa tb_mensa \
+            INNER JOIN noise_type noise ON noise.name = tb_mensa.noise \
+            WHERE tb_mensa.dut_foldername LIKE (?) and tb_mensa.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_callcenter.SMOS , tb_callcenter.NMOS , tb_callcenter.GMOS , tb_callcenter.delta_SNR, tb_callcenter.dut_foldername, tb_callcenter.insert_date, tb_callcenter.insert_time \
+            FROM _3Quest_callcenter tb_callcenter \
+            INNER JOIN noise_type noise ON noise.name = tb_callcenter.noise \
+            WHERE tb_callcenter.dut_foldername LIKE (?) and tb_callcenter.insert_date LIKE (?) \
+            UNION \
+            SELECT DISTINCT noise.description as noise, tb_voice_distractor.SMOS , tb_voice_distractor.NMOS , tb_voice_distractor.GMOS , tb_voice_distractor.delta_SNR, tb_voice_distractor.dut_foldername, tb_voice_distractor.insert_date, tb_voice_distractor.insert_time \
+            FROM _3Quest_voice_distractor tb_voice_distractor \
+            INNER JOIN noise_type noise ON noise.name = tb_voice_distractor.noise \
+            WHERE tb_voice_distractor.dut_foldername LIKE (?) and tb_voice_distractor.insert_date LIKE (?)"
+
     def create_connection(self):
         """ create a database connection to a SQLite database """
         try:
@@ -649,6 +703,62 @@ class DB_sqlite:
             msg = "self.df_query_3quest_table:{}"
             logger.info(msg.format(self.df_query_3quest_table))    
     
+    def query_3quest_table_nobgnOnly(self, pt_db_sqlite, conn):
+        self.str_sql_query_table_3quest_noise_nobgnOnly()
+
+        if self.opt_verbose.lower() == "on":
+            msg = "self.dut_foldername:{}; self.insert_date:{}"
+            logger.info(msg.format(self.dut_foldername, self.insert_date))   
+        
+        try:
+            df_sql_table = pd.read_sql_query(self.sql_query_table_3quest_noise_nobgnOnly, conn, \
+                                params=(self.dut_foldername, self.insert_date) )
+
+            #df = df_sql_table.copy()
+            self.df_query_3quest_table_noise_nobgnOnly = df_sql_table.copy()
+
+        except Error as e:
+            msg = "Error create_table:{}"
+            logger.info(msg.format(e))        
+
+        if self.opt_verbose.lower() == "on":
+            msg = "self.df_query_3quest_table_noise_nobgnOnly:\n {}"
+            logger.info(msg.format(self.df_query_3quest_table_noise_nobgnOnly))        
+
+    def query_3quest_table_withoutnobgn(self, pt_db_sqlite, conn):
+        self.str_sql_query_table_3quest_noise_withoutnobgn()
+
+        if self.opt_verbose.lower() == "on":
+            msg = "self.dut_foldername:{}; self.insert_date:{}"
+            logger.info(msg.format(self.dut_foldername, self.insert_date))    
+
+        try:
+            df_sql_table = pd.read_sql_query(self.sql_query_table_3quest_noise_withoutnobgn, conn, \
+                                params=(self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,\
+                                        self.dut_foldername, self.insert_date,))
+
+            #df = df_sql_table.copy()
+            self.df_query_3quest_table_noise_withoutnobgn = df_sql_table.copy()
+
+        except Error as e:
+            msg = "Error create_table:{}"
+            logger.info(msg.format(e))     
+
+        if self.opt_verbose.lower() == "on":
+            msg = "self.df_query_3quest_table_noise_withoutnobgn:\n {}"
+            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn))   
+            msg = "{}"
+            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn.dtypes ))         
+            msg = "self.df_query_3quest_table_noise_withoutnobgn.describe():\n {}"
+            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn.describe(include =  'all') ))
+
     def write_to_excel(self):
         path_report_excel = os.path.join(self.path_dut, self.dut_foldername+'.xlsx')
 
@@ -679,27 +789,3 @@ class DB_sqlite:
         #self.df_query_3quest_table.to_excel(path_report_excel, index=False, header=False)
         # output to excel without index
         df_3quest_table_excel.to_excel(path_report_excel, index=False)
-
-
-    def delete_table_chariot_csv_throughput(self,conn, id):
-        """
-        Delete a tseotcdaily by Chariot_CSV_Throughput id
-        :param conn:  Connection to the SQLite database
-        :param id: id of the tseotcdaily
-        :return:
-        """
-        sql = 'DELETE FROM Chariot_CSV_Throughput WHERE id=?'
-        cur = conn.cursor()
-        cur.execute(sql, (id,))
-
-    def delete_table_chariot_csv_throughput_all(self,conn):
-        """
-        Delete all rows in the Chariot_CSV_Throughput table
-        :param conn: Connection to the SQLite database
-        :return:
-        """
-        sql = 'DELETE FROM Chariot_CSV_Throughput'
-        cur = conn.cursor()
-        cur.execute(sql)
-
-        print('Delete all rows in Table Chariot_CSV_Throughput.')    

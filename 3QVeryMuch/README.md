@@ -6,13 +6,15 @@ Table of Contents
    * [Pandas—01  [Python] Pandas 基礎教學](#pandas01--python-pandas-基礎教學)
    * [Pandas—02  Python 資料處理筆記 - 使用Panda進行數據處理](#pandas02--python-資料處理筆記---使用panda進行數據處理)
       * [資料操作](#資料操作)
+      * [Describe](#describe)
    * [Pandas—03  How to get column by number in Pandas?](#pandas03--how-to-get-column-by-number-in-pandas)
    * [Pandas—04  How to select multiple columns in a pandas dataframe](#pandas04--how-to-select-multiple-columns-in-a-pandas-dataframe)
    * [Pandas—05  How to Convert Pandas DataFrame into a List](#pandas05--how-to-convert-pandas-dataframe-into-a-list)
    * [Pandas—06  Pandas DataFrame column to list](#pandas06--pandas-dataframe-column-to-list)
    * [Pandas—07  Deleting rows with Python in a CSV file](#pandas07--deleting-rows-with-python-in-a-csv-file)
    * [Pandas—08  Python: Number of rows affected by cursor.execute("SELECT …)](#pandas08--python-number-of-rows-affected-by-cursorexecuteselect-)
-   * [Pandas—09  Export Pandas Table to Excel](#pandas09--export-pandas-table-to-excel)
+   * [Pandas—09  pandas get column average/mean](#pandas09--pandas-get-column-averagemean)
+   * [Pandas—10  Export Pandas Table to Excel](#pandas10--export-pandas-table-to-excel)
       * [Library Installation](#library-installation)
       * [書き込む表データ](#書き込む表データ)
       * [ファイル名を指定して出力](#ファイル名を指定して出力)
@@ -192,6 +194,12 @@ ix擁有iloc與loc的功能
 iloc:以第幾筆來選擇資料(隻對數值類型有用)
 ```
 
+## Describe  
+[[Python] 跌入數據分析的坑 – 談談起手式 Pandas (二) 2 月 15, 2019](https://mks.tw/2764/python-%E8%B7%8C%E5%85%A5%E6%95%B8%E6%93%9A%E5%88%86%E6%9E%90%E7%9A%84%E5%9D%91-%E8%AB%87%E8%AB%87%E8%B5%B7%E6%89%8B%E5%BC%8F-pandas-%E4%BA%8C)  
+
+![alt tag](https://i.imgur.com/lJmQPfw.png)  
+
+
 # Pandas—03  How to get column by number in Pandas?  
 [How to get column by number in Pandas? - Stack Overflow May 32, 2017](https://stackoverflow.com/questions/17193850/how-to-get-column-by-number-in-pandas)  
 
@@ -322,7 +330,28 @@ cursor.execute("SELECT COUNT(*) from result where server_state='2' AND name LIKE
 ```
 
 
-# Pandas—09  Export Pandas Table to Excel    
+# Pandas—09  pandas get column average/mean    
+[pandas get column average/mean - Stack Overflow Aug 8, 2018](https://stackoverflow.com/questions/31037298/pandas-get-column-average-mean)  
+```
+If you only want the mean of the weight column, select the column (which is a Series) 
+and call .mean():
+```
+
+```
+In [479]: df
+Out[479]: 
+         ID  birthyear    weight
+0    619040       1962  0.123123
+1    600161       1963  0.981742
+2  25602033       1963  1.312312
+3    624870       1987  0.942120
+
+In [480]: df["weight"].mean()
+Out[480]: 0.83982437500000007
+```
+
+
+# Pandas—10  Export Pandas Table to Excel    
 [【python】pandasの表をエクセルファイルに出力する方法 posted at 2020-06-16](https://qiita.com/yuta-38/items/cbe1981a3f71e1ccc6b9)  
 
 ## Library Installation  
@@ -875,3 +904,5 @@ WHERE tb_AVG.dut_foldername='boommic_SWout' and tb_AVG.insert_date='20200627' an
 - 1
 - 2
 - 3
+
+
