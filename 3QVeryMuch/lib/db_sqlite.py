@@ -720,7 +720,11 @@ class DB_sqlite:
         except Error as e:
             msg = "Error create_table:{}"
             logger.info(msg.format(e))        
-
+        """ 
+           name  noise      SMOS      NMOS      GMOS  delta_SNR dut_foldername insert_date insert_time
+        0  000  nobgn  4.443500  4.725825  4.346600  13.558875     RH200_0709    20200713    17:49:11
+        """ 
+        
         if self.opt_verbose.lower() == "on":
             msg = "self.df_query_3quest_table_noise_nobgnOnly:\n {}"
             logger.info(msg.format(self.df_query_3quest_table_noise_nobgnOnly))        
@@ -760,6 +764,8 @@ class DB_sqlite:
                                         self.df_query_3quest_table_noise_withoutnobgn['GMOS'].astype(float)
         self.df_query_3quest_table_noise_withoutnobgn.loc[:,'delta_SNR']= \
                                         self.df_query_3quest_table_noise_withoutnobgn['delta_SNR'].astype(float)
+        self.df_query_3quest_table_noise_withoutnobgn_average= \
+                                        self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']] 
 
         """ 
         https://stackoverflow.com/questions/19124148/modify-output-from-python-pandas-describe
@@ -784,8 +790,8 @@ class DB_sqlite:
             msg = "self.df_query_3quest_table_noise_withoutnobgn:\n {}"
             logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn))   
             
-            msg = "self.df_query_3quest_table_noise_withoutnobgn.describe():\n {}"
-            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']] ))
+            msg = "self.df_query_3quest_table_noise_withoutnobgn_average:\n {}"
+            logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn_average ))
 
     def write_to_excel(self):
         path_report_excel = os.path.join(self.path_dut, self.dut_foldername+'.xlsx')
