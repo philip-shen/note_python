@@ -43,6 +43,8 @@ pandasのインストール方法をpipからapt-getに変更します。
 ##  Beebotteの設定  
 ![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F406130%2Fccc2804b-7e02-1f84-d8b9-066accdc6570.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=d8c45a3a9adda2595c2300b30ad037d8)  
 
+[LIRCでRaspberry Piの赤外線制御 （家電、エアコン、照明、テレビなどを制御するホームIoT）](https://www.indoorcorgielec.com/resources/%E5%BF%9C%E7%94%A8%E4%BE%8B/lirc%E3%81%A7rpitph-monitor-rpz-ir-sensor%E3%81%AE%E8%B5%A4%E5%A4%96%E7%B7%9A%E5%88%B6%E5%BE%A1/)  
+
 
 # Troubleshooting
 
