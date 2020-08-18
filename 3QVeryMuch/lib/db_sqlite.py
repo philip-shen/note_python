@@ -724,7 +724,16 @@ class DB_sqlite:
            name  noise      SMOS      NMOS      GMOS  delta_SNR dut_foldername insert_date insert_time
         0  000  nobgn  4.443500  4.725825  4.346600  13.558875     RH200_0709    20200713    17:49:11
         """ 
-        
+        # change data type from object to float
+        self.df_query_3quest_table_noise_nobgnOnly.loc[:,'SMOS']= \
+                                        self.df_query_3quest_table_noise_nobgnOnly['SMOS'].astype(float)
+        self.df_query_3quest_table_noise_nobgnOnly.loc[:,'NMOS']= \
+                                        self.df_query_3quest_table_noise_nobgnOnly['NMOS'].astype(float)
+        self.df_query_3quest_table_noise_nobgnOnly.loc[:,'GMOS']= \
+                                        self.df_query_3quest_table_noise_nobgnOnly['GMOS'].astype(float)
+        self.df_query_3quest_table_noise_nobgnOnly.loc[:,'delta_SNR']= \
+                                        self.df_query_3quest_table_noise_nobgnOnly['delta_SNR'].astype(float)
+
         if self.opt_verbose.lower() == "on":
             msg = "self.df_query_3quest_table_noise_nobgnOnly:\n {}"
             logger.info(msg.format(self.df_query_3quest_table_noise_nobgnOnly))        
@@ -767,6 +776,10 @@ class DB_sqlite:
         self.df_query_3quest_table_noise_withoutnobgn_average= \
                                         self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']] 
 
+        #self.df_query_3quest_table_noise= self.df_query_3quest_table_noise_nobgnOnly.copy()
+        #self.df_query_3quest_table_noise.append(self.df_query_3quest_table_noise_withoutnobgn)
+        self.df_query_3quest_table_noise_nobgnOnly.append(self.df_query_3quest_table_noise_withoutnobgn)
+
         """ 
         https://stackoverflow.com/questions/19124148/modify-output-from-python-pandas-describe
         Modify output from Python Pandas describe
@@ -792,6 +805,13 @@ class DB_sqlite:
             
             msg = "self.df_query_3quest_table_noise_withoutnobgn_average:\n {}"
             logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn_average ))
+
+            #msg = "self.df_query_3quest_table_noise:\n {}"
+            #logger.info(msg.format(self.df_query_3quest_table_noise))   
+            
+            msg = "self.df_query_3quest_table_noise_nobgnOnly:\n {}"
+            logger.info(msg.format(self.df_query_3quest_table_noise_nobgnOnly))   
+
 
     def write_to_excel(self):
         path_report_excel = os.path.join(self.path_dut, self.dut_foldername+'.xlsx')
@@ -823,3 +843,13 @@ class DB_sqlite:
         #self.df_query_3quest_table.to_excel(path_report_excel, index=False, header=False)
         # output to excel without index
         df_3quest_table_excel.to_excel(path_report_excel, index=False)
+
+    def write_to_excel_fromdata(self,path_report_excel,df_3quest_table_excel,start_row=0,start_col=0):
+        if self.opt_verbose.lower() == "on":
+            msg = "path_report_excel:{}"
+            logger.info(msg.format(path_report_excel))
+            msg = "df_3quest_table_excel:{}"
+            logger.info(msg.format(df_3quest_table_excel))
+
+        # output to excel without index
+        df_3quest_table_excel.to_excel(path_report_excel, index=False, startrow=start_row, startcol=start_col)

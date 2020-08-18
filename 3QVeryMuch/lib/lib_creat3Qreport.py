@@ -266,6 +266,15 @@ def create3Qreport_wonobgn_reAverage(data, local_time, opt_verbose='OFF'):
             localdb_sqlite.query_3quest_table_nobgnOnly(localdb_sqlite, conn)
             localdb_sqlite.query_3quest_table_withoutnobgn(localdb_sqlite, conn)    
             
+            path_report_excel = os.path.join(path_dut, dut_foldername+'.xlsx')
+            
+            df_3quest_table_excel= localdb_sqlite.df_query_3quest_table_noise_nobgnOnly
+            #localdb_sqlite.write_to_excel_fromdata(path_report_excel,df_3quest_table_excel)
+
+            df_3quest_table_excel= localdb_sqlite.df_query_3quest_table_noise_withoutnobgn
+            #localdb_sqlite.write_to_excel_fromdata(path_report_excel,df_3quest_table_excel,4,0)
+
+
             # We can also close the connection if we are done with it.
             # Just be sure any changes have been committed or they will be lost.
             conn.close()    
