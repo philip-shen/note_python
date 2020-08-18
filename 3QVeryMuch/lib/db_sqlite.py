@@ -777,9 +777,9 @@ class DB_sqlite:
                                         self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']] 
 
         #self.df_query_3quest_table_noise= self.df_query_3quest_table_noise_nobgnOnly.copy()
-        #self.df_query_3quest_table_noise.append(self.df_query_3quest_table_noise_withoutnobgn)
-        self.df_query_3quest_table_noise_nobgnOnly.append(self.df_query_3quest_table_noise_withoutnobgn)
-
+        self.df_query_3quest_table_noise= self.df_query_3quest_table_noise_nobgnOnly.append(\
+                                            self.df_query_3quest_table_noise_withoutnobgn, ignore_index=True)
+        
         """ 
         https://stackoverflow.com/questions/19124148/modify-output-from-python-pandas-describe
         Modify output from Python Pandas describe
@@ -799,6 +799,19 @@ class DB_sqlite:
                     SMOS      NMOS      GMOS  delta_SNR
         mean   3.955435  4.638573  3.954476  29.184482
         """ 
+        """ 
+           name             noise      SMOS      NMOS      GMOS  delta_SNR dut_foldername insert_date insert_time
+        0  000             nobgn  4.443500  4.725825  4.346600  13.558875     RH200_0709    20200713    17:49:11
+        1  001               pub  3.505662  4.694719  3.611600  34.243937     RH200_0709    20200713    17:49:11
+        2  002              road  3.182438  4.819850  3.426544  39.837500     RH200_0709    20200713    17:49:11
+        3  003         crossroad  3.946375  4.710913  3.970131  36.502313     RH200_0709    20200713    17:49:11
+        4  004             train  4.038169  4.735881  4.053469  36.160563     RH200_0709    20200713    17:49:11
+        5  005               car  4.053244  4.773944  4.079769  43.256937     RH200_0709    20200713    17:49:11
+        6  006         cafeteria  4.199275  4.501906  4.097437  19.505313     RH200_0709    20200713    17:49:11
+        7  007             mensa  4.063969  4.520631  3.990037  18.241287     RH200_0709    20200713    17:49:11
+        8  008        callcenter  4.289669  4.703481  4.243694  21.900437     RH200_0709    20200713    17:49:11
+        9  009  voice_distractor  4.320113  4.285831  4.117600  13.012050     RH200_0709    20200713    17:49:11
+        """ 
         if self.opt_verbose.lower() == "on":
             msg = "self.df_query_3quest_table_noise_withoutnobgn:\n {}"
             logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn))   
@@ -806,11 +819,9 @@ class DB_sqlite:
             msg = "self.df_query_3quest_table_noise_withoutnobgn_average:\n {}"
             logger.info(msg.format(self.df_query_3quest_table_noise_withoutnobgn_average ))
 
-            #msg = "self.df_query_3quest_table_noise:\n {}"
-            #logger.info(msg.format(self.df_query_3quest_table_noise))   
+            msg = "self.df_query_3quest_table_noise:\n {}"
+            logger.info(msg.format(self.df_query_3quest_table_noise))   
             
-            msg = "self.df_query_3quest_table_noise_nobgnOnly:\n {}"
-            logger.info(msg.format(self.df_query_3quest_table_noise_nobgnOnly))   
 
 
     def write_to_excel(self):
