@@ -776,7 +776,6 @@ class DB_sqlite:
         self.df_query_3quest_table_noise_withoutnobgn_average= \
                                         self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']] 
 
-        #self.df_query_3quest_table_noise= self.df_query_3quest_table_noise_nobgnOnly.copy()
         self.df_query_3quest_table_noise= self.df_query_3quest_table_noise_nobgnOnly.append(\
                                             self.df_query_3quest_table_noise_withoutnobgn, ignore_index=True)
         

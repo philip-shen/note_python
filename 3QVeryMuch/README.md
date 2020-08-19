@@ -365,12 +365,229 @@ dtype: float64
 ```
 
 
-# Pandas—11  Concatenating and Appending dataframes   
+# Pandas—11  Concatenating, Appending, Joining, and Merging dataframes   
 [Pandas DataFrame: append() function May 15, 2020](https://www.w3resource.com/pandas/dataframe/dataframe-append.php)  
 ```
 df.append(df2, ignore_index=True)
 ```
+[[筆記] pandas 用法(2) 讀寫檔合併concat merge 圖表 2017年6月6日](http://violin-tao.blogspot.com/2017/06/pandas-2-concat-merge.html)  
 
+## concat 的 join 屬性有兩種模式 inner, outer(預設)  
+```
+#coding=utf-8
+import pandas as pd 
+import numpy as np 
+
+# concat 使用 join 設定
+# join 有兩種模式，分別為 inner, outer
+df1 = pd.DataFrame(np.ones((3,4))*0, columns=['a','b','c','d'],index=[1,2,3])
+df2 = pd.DataFrame(np.ones((3,4))*0, columns=['b','c','d','e'],index=[2,3,4])
+
+print(df1)
+'''
+     a    b    c    d
+1  0.0  0.0  0.0  0.0
+2  0.0  0.0  0.0  0.0
+3  0.0  0.0  0.0  0.0
+'''
+print(df2)
+'''
+     b    c    d    e
+2  0.0  0.0  0.0  0.0
+3  0.0  0.0  0.0  0.0
+4  0.0  0.0  0.0  0.0
+'''
+
+# 使用 concat 合併時，他預設的 join 模式是 'outer'，會直接把沒有的資料用 NaN 代替
+res = pd.concat([df1,df2])               # 這兩行程式是全等的
+res = pd.concat([df1,df2], join='outer') # 這兩行程式是全等的
+print(res)
+'''
+     a    b    c    d    e
+1  0.0  0.0  0.0  0.0  NaN
+2  0.0  0.0  0.0  0.0  NaN
+3  0.0  0.0  0.0  0.0  NaN
+2  NaN  0.0  0.0  0.0  0.0
+3  NaN  0.0  0.0  0.0  0.0
+4  NaN  0.0  0.0  0.0  0.0
+'''
+
+# 使用 concat 的 join 模式為 'inner'，會直接把沒有完整資料的刪除掉
+res = pd.concat([df1,df2], join='inner', ignore_index=True)
+print(res)
+'''
+     b    c    d
+0  0.0  0.0  0.0
+1  0.0  0.0  0.0
+2  0.0  0.0  0.0
+3  0.0  0.0  0.0
+4  0.0  0.0  0.0
+5  0.0  0.0  0.0
+'''
+```
+
+## merge by 一個 key  
+```
+#coding=utf-8
+import pandas as pd 
+import numpy as np 
+
+left = pd.DataFrame({
+    'key':['K0','K1','K2','K3'],
+    'A':['A0','A1','A2','A3'],
+    'B':['B0','B1','B2','B3']})
+
+right = pd.DataFrame({
+    'key':['K0','K1','K2','K3'],
+    'C':['C0','C1','C2','C3'],
+    'D':['D0','D1','D2','D3']})
+
+print(left)
+'''
+    A   B key
+0  A0  B0  K0
+1  A1  B1  K1
+2  A2  B2  K2
+3  A3  B3  K3
+'''
+print(right)
+'''
+    C   D key
+0  C0  D0  K0
+1  C1  D1  K1
+2  C2  D2  K2
+3  C3  D3  K3
+'''
+
+# 目標，基於 key 把 left 與 right 合併
+# 使用 merge
+res = pd.merge(left,right, on='key')
+print(res)
+'''
+    A   B key   C   D
+0  A0  B0  K0  C0  D0
+1  A1  B1  K1  C1  D1
+2  A2  B2  K2  C2  D2
+3  A3  B3  K3  C3  D3
+'''
+```
+
+## merge by 多個 key  
+## inner 模式  
+```
+# 目標，基於 key1, key2 把 left 與 right 合併
+# 使用 merge 同時合併 by 多個 key 預設為 how='inner' 模式
+res = pd.merge(left,right, on=['key1','key2'])           # 這兩行效果一樣
+res = pd.merge(left,right, on=['key1','key2'],how='inner')  # 這兩行效果一樣
+print(res)
+''' 合併後，他預設只把相同的部分留下來 (inner 模式)
+    A   B key1 key2   C   D
+0  A0  B0   K0   K0  C0  D0
+1  A2  B2   K1   K0  C1  D1
+2  A2  B2   K1   K0  C2  D2
+'''
+```
+
+## outer 模式  
+```
+# 使用 merge 同時合併 by 多個 key, how='outer' 模式
+res = pd.merge(left,right, on=['key1','key2'],how='outer')
+print(res)
+'''
+     A    B key1 key2    C    D
+0   A0   B0   K0   K0   C0   D0
+1   A1   B1   K0   K1  NaN  NaN
+2   A2   B2   K1   K0   C1   D1
+3   A2   B2   K1   K0   C2   D2
+4   A3   B3   K2   K1  NaN  NaN
+5  NaN  NaN   K2   K0   C3   D3
+'''
+```
+
+## right 模式  
+```
+# 使用 merge 同時合併 by 多個 key, how='right' 模式
+res = pd.merge(left,right, on=['key1','key2'],how='right')
+print(res)
+'''
+     A    B key1 key2   C   D
+0   A0   B0   K0   K0  C0  D0
+1   A2   B2   K1   K0  C1  D1
+2   A2   B2   K1   K0  C2  D2
+3  NaN  NaN   K2   K0  C3  D3
+'''
+```
+
+## left 模式  
+```
+# 使用 merge 同時合併 by 多個 key, how='left' 模式
+res = pd.merge(left,right, on=['key1','key2'],how='left')
+print(res)
+'''
+    A   B key1 key2    C    D
+0  A0  B0   K0   K0   C0   D0
+1  A1  B1   K0   K1  NaN  NaN
+2  A2  B2   K1   K0   C1   D1
+3  A2  B2   K1   K0   C2   D2
+4  A3  B3   K2   K1  NaN  NaN
+'''
+```
+
+## 使用 indicator 顯示 merge 的 mode  
+## 設定 indicator 欄位的名字  
+##  merge by index  
+## merge 合併時，處理欄位名稱相同衝突，以 suffixes 區別  
+```
+#coding=utf-8
+import pandas as pd 
+import numpy as np 
+
+# 處理 overlapping
+boys = pd.DataFrame({'k':['K0','K1','K2'],'age':[1,2,3]})
+girls = pd.DataFrame({'k':['K0','K0','K3'],'age':[4,5,6]})
+
+print(boys)
+'''
+   age   k
+0    1  K0
+1    2  K1
+2    3  K2
+'''
+print(girls)
+'''
+   age   k
+0    4  K0
+1    5  K0
+2    6  K3
+'''
+
+# 目前 age 欄位是重複的，我們為了要區別 boy 與 girl，必須要在新的合併表格中，為 age 欄位取新的名字
+# 使用 suffixes 屬性即可辦到
+res = pd.merge(boys,girls, on='k', suffixes=['_boy','_girl'], how='outer')
+print(res)
+'''
+   age_boy   k  age_girl
+0      1.0  K0       4.0
+1      1.0  K0       5.0
+2      2.0  K1       NaN
+3      3.0  K2       NaN
+4      NaN  K3       6.0
+'''
+```
+
+[Pandas DataFrame concat vs append](https://stackoverflow.com/questions/15819050/pandas-dataframe-concat-vs-append)  
+```
+Pandas concat vs append vs join vs merge
+
+    Concat gives the flexibility to join based on the axis( all rows or all columns)
+
+    Append is the specific case(axis=0, join='outer') of concat
+
+    Join is based on the indexes (set by set_index) on how variable =['left','right','inner','couter']
+
+    Merge is based on any particular column each of the two dataframes, this columns are variables on like 'left_on', 'right_on', 'on'
+
+```
 
 # Pandas—12  Export Pandas Table to Excel    
 [【python】pandasの表をエクセルファイルに出力する方法 posted at 2020-06-16](https://qiita.com/yuta-38/items/cbe1981a3f71e1ccc6b9)  
