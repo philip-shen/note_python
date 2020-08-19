@@ -766,7 +766,7 @@ class DB_sqlite:
 
         # change data type from object to float
         self.df_query_3quest_table_noise_withoutnobgn.loc[:,'SMOS']= \
-                                        self.df_query_3quest_table_noise_withoutnobgn['SMOS'].astype(float)
+                                       self.df_query_3quest_table_noise_withoutnobgn['SMOS'].astype(float)
         self.df_query_3quest_table_noise_withoutnobgn.loc[:,'NMOS']= \
                                         self.df_query_3quest_table_noise_withoutnobgn['NMOS'].astype(float)
         self.df_query_3quest_table_noise_withoutnobgn.loc[:,'GMOS']= \
@@ -774,7 +774,7 @@ class DB_sqlite:
         self.df_query_3quest_table_noise_withoutnobgn.loc[:,'delta_SNR']= \
                                         self.df_query_3quest_table_noise_withoutnobgn['delta_SNR'].astype(float)
         self.df_query_3quest_table_noise_withoutnobgn_average= \
-                                        self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']] 
+                                        self.df_query_3quest_table_noise_withoutnobgn.describe().loc[['mean']]
 
         self.df_query_3quest_table_noise= self.df_query_3quest_table_noise_nobgnOnly.append(\
                                             self.df_query_3quest_table_noise_withoutnobgn, ignore_index=True)

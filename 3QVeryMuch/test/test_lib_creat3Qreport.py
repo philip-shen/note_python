@@ -41,8 +41,8 @@ if __name__ == "__main__":
     try:
         
         #create3Qreport(data,local_time, opt_verbose)
-        #test_create3Qreport_wonobgn_reAverage(data,local_time, opt_verbose)
-        create3Qreport_wonobgn_reAverage(data,local_time, opt_verbose)
+        test_create3Qreport_wonobgn_reAverage(data,local_time, opt_verbose)
+        #create3Qreport_wonobgn_reAverage(data,local_time, opt_verbose)
 
     except IOError:
         print('IOError: Couldn\'t open "%s"' % args[1])

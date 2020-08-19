@@ -15,8 +15,20 @@ Table of Contents
    * [Pandas—08  Python: Number of rows affected by cursor.execute("SELECT …)](#pandas08--python-number-of-rows-affected-by-cursorexecuteselect-)
    * [Pandas—09  pandas get column average/mean](#pandas09--pandas-get-column-averagemean)
    * [Pandas—10  pandas describe mean only](#pandas10--pandas-describe-mean-only)
-   * [Pandas—11  Concatenating and Appending dataframes](#pandas11--concatenating-and-appending-dataframes)
-   * [Pandas—12  Export Pandas Table to Excel](#pandas12--export-pandas-table-to-excel)
+   * [Pandas—11  Concatenating, Appending, Joining, and Merging dataframes](#pandas11--concatenating-appending-joining-and-merging-dataframes)
+      * [concat 的 join 屬性有兩種模式 inner, outer(預設)](#concat-的-join-屬性有兩種模式-inner-outer預設)
+      * [merge by 一個 key](#merge-by-一個-key)
+      * [merge by 多個 key](#merge-by-多個-key)
+      * [inner 模式](#inner-模式)
+      * [outer 模式](#outer-模式)
+      * [right 模式](#right-模式)
+      * [left 模式](#left-模式)
+      * [使用 indicator 顯示 merge 的 mode](#使用-indicator-顯示-merge-的-mode)
+      * [設定 indicator 欄位的名字](#設定-indicator-欄位的名字)
+      * [merge by index](#merge-by-index)
+      * [merge 合併時，處理欄位名稱相同衝突，以 suffixes 區別](#merge-合併時處理欄位名稱相同衝突以-suffixes-區別)
+   * [Pandas—12  Panda Dataframe Float Format](#pandas12--panda-dataframe-float-format)
+   * [Pandas—13  Export Pandas Table to Excel](#pandas13--export-pandas-table-to-excel)
       * [Library Installation](#library-installation)
       * [書き込む表データ](#書き込む表データ)
       * [ファイル名を指定して出力](#ファイル名を指定して出力)
@@ -28,7 +40,7 @@ Table of Contents
       * [小数点の最大表示桁数を指定](#小数点の最大表示桁数を指定)
       * [No such file or directory](#no-such-file-or-directory)
       * [Unicode error](#unicode-error)
-   * [Pandas—13  Panda Execute SQL](#pandas13--panda-execute-sql)
+   * [Pandas—14  Panda Execute SQL](#pandas14--panda-execute-sql)
    * [Display number with leading zeros](#display-number-with-leading-zeros)
    * [SQL—01  SQL count rows in a table](#sql01--sql-count-rows-in-a-table)
    * [SQL—02  INSERT IF NOT EXISTS ELSE UPDATE?](#sql02--insert-if-not-exists-else-update)
@@ -589,7 +601,46 @@ Pandas concat vs append vs join vs merge
 
 ```
 
-# Pandas—12  Export Pandas Table to Excel    
+# Pandas—12  Panda Dataframe Float Format  
+[How to display pandas DataFrame of floats using a format string for columns? Jan 8, 2017](https://stackoverflow.com/questions/20937538/how-to-display-pandas-dataframe-of-floats-using-a-format-string-for-columns)  
+
+```
+import pandas as pd
+pd.options.display.float_format = '${:,.2f}'.format
+df = pd.DataFrame([123.4567, 234.5678, 345.6789, 456.7890],
+                  index=['foo','bar','baz','quux'],
+                  columns=['cost'])
+print(df)
+```
+
+```
+        cost
+foo  $123.46
+bar  $234.57
+baz  $345.68
+quux $456.79
+```
+
+```
+import pandas as pd
+df = pd.DataFrame([123.4567, 234.5678, 345.6789, 456.7890],
+                  index=['foo','bar','baz','quux'],
+                  columns=['cost'])
+df['foo'] = df['cost']
+df['cost'] = df['cost'].map('${:,.2f}'.format)
+print(df)
+```
+
+```
+         cost       foo
+foo   $123.46  123.4567
+bar   $234.57  234.5678
+baz   $345.68  345.6789
+quux  $456.79  456.7890
+```
+
+
+# Pandas—13  Export Pandas Table to Excel    
 [【python】pandasの表をエクセルファイルに出力する方法 posted at 2020-06-16](https://qiita.com/yuta-38/items/cbe1981a3f71e1ccc6b9)  
 
 ## Library Installation  
@@ -742,7 +793,7 @@ with pd.ExcelWriter('C:\\Users\\name\\Desktop\\GA-demo2.xlsx') as writer:
 「C://Users//name//」
 ```
 
-# Pandas—13  Panda Execute SQL    
+# Pandas—14  Panda Execute SQL    
 [SQLクエリの結果をPANDASデータ構造に変換する方法は？](https://www.it-swarm.dev/ja/python/sql%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%AE%E7%B5%90%E6%9E%9C%E3%82%92pandas%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0%E3%81%AB%E5%A4%89%E6%8F%9B%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AF%EF%BC%9F/1067685717/)  
 
 
@@ -1142,5 +1193,7 @@ WHERE tb_AVG.dut_foldername='boommic_SWout' and tb_AVG.insert_date='20200627' an
 - 1
 - 2
 - 3
+
+
 
 
