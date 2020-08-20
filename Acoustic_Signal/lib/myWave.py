@@ -21,12 +21,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 """
 
+import os, sys
 import wave, struct
 import numpy, array
 import copy
 import gc
 import dspUtil
 gc.enable()
+
+import generalUtility
+from logger import logger
 
 import scipy.io.wavfile as sciWav
 #from scipy import weave as weave
@@ -198,3 +202,23 @@ def writeWaveFile(data, fileName, SRate = 44100.0, normalize = False, \
 	gc.collect()
 	
 ###############################################################################
+
+def wavDCOffes(path_dut_wav, opt_verbose='OFF'):
+
+    numFrames, fs, wav_data = readMonoWaveFile(path_dut_wav)
+
+    # save the normalized file
+    dataOut = wav_data 
+    fileNameOnly = generalUtility.getFileNameOnly(path_dut_wav)
+    path_dut, fileName, suffix= generalUtility.splitFullFileName(path_dut_wav)
+    outputFileName = os.path.join(path_dut,fileNameOnly + "_DCOffset.wav");#fileNameOnly + "_processed.wav"
+    writeWaveFile(dataOut, outputFileName, fs)
+
+    if opt_verbose.lower() == "on":
+        
+        msg = 'path_dut:{}; fileName:{}; suffix:{}'
+        logger.info(msg.format(path_dut, fileName, suffix) )
+        msg = 'outputFileName:{}'
+        logger.info(msg.format(outputFileName) )
+
+    return outputFileName

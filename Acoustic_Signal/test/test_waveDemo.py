@@ -51,6 +51,7 @@ if __name__ == "__main__":
 
                 for DUTFolder_wavFiles in ret_list_DUTFolder_wavFiles:
 
+                    """
                     # normalize the left channel, leave the right channel untouched
                     # load the input file
                     #numChannels, numFrames, fs, wav_data = myWave.readWaveFile(DUTFolder_wavFiles)
@@ -66,18 +67,22 @@ if __name__ == "__main__":
                     dataOut = wav_data 
                     fileNameOnly = generalUtility.getFileNameOnly(DUTFolder_wavFiles)
                     outputFileName = fileNameOnly + "_processed.wav"
-                    myWave.writeWaveFile(dataOut, outputFileName, fs, True, True)
-
+                    myWave.writeWaveFile(dataOut, outputFileName, fs)
+                    """
+                    path_dut_dutoffsec_wave= myWave.wavDCOffes(DUTFolder_wavFiles,opt_verbose)
 
                     if opt_verbose.lower() == "on":
-                        msg = 'len(wav_data):{}'
-                        logger.info(msg.format(len(wav_data)) )
+                        #msg = 'len(wav_data):{}'
+                        #logger.info(msg.format(len(wav_data)) )
 
                         msg = '{}th DUTFolder DUTFolder_wavFiles:{}'
                         logger.info(msg.format(i, DUTFolder_wavFiles) )
 
-                        msg = 'numFrames:{}; fs:{}'
-                        logger.info(msg.format(numFrames, fs) )
+                        #msg = 'numFrames:{}; fs:{}'
+                        #logger.info(msg.format(numFrames, fs) )
+
+                        msg = 'path_dut_dutoffsec_wave:{}'
+                        logger.info(msg.format(path_dut_dutoffsec_wave) )
 
 
     except IOError:
