@@ -391,6 +391,7 @@ https://stackoverflow.com/questions/4998629/split-string-with-multiple-delimiter
 """	
 
 def getFileNameOnly(fileName):
+	import re
 	"""
 	return the file name minus the trailing suffix
 	"""
