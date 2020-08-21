@@ -383,12 +383,21 @@ def splitFullFileName(fileName):
 	return path, fileName, suffix
 
 ######################################################################
+"""
+Split string with multiple delimiters in Python [duplicate]
+
+https://stackoverflow.com/questions/4998629/split-string-with-multiple-delimiters-in-python
+
+"""	
 
 def getFileNameOnly(fileName):
 	"""
 	return the file name minus the trailing suffix
 	"""
-	return '.'.join(fileName.split('/')[-1].split('.')[:-1])
+	#return '.'.join(fileName.split('/')[-1].split('.')[:-1])
+	
+	re_fileName= re.split('; |, |\\|\n',fileName)
+	return '.'.join(re_fileName[-1].split('.')[:-1])
 
 ######################################################################
 
