@@ -69,7 +69,7 @@ if __name__ == "__main__":
                     outputFileName = fileNameOnly + "_processed.wav"
                     myWave.writeWaveFile(dataOut, outputFileName, fs)
                     """
-                    path_dut_dutoffsec_wave= myWave.wavDCOffes(DUTFolder_wavFiles,opt_verbose)
+                    path_dut_dutoffsec_wave= myWave.wavDCOffes(DUTFolder_wavFiles,opt_verbose, True, True)
 
                     if opt_verbose.lower() == "on":
                         #msg = 'len(wav_data):{}'
