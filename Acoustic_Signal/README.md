@@ -54,6 +54,7 @@ Table of Contents
    * [DSP (digital signal processing ) functionality](#dsp-digital-signal-processing--functionality)
       * [Loading a wave file and saving a normalized version of the sound](#loading-a-wave-file-and-saving-a-normalized-version-of-the-sound)
    * [ディープラーニング (Deep learning)声質変換環境構築](#ディープラーニング-deep-learning声質変換環境構築)
+   * [音声を並列で再生する方法](#音声を並列で再生する方法)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -975,6 +976,28 @@ myWave.writeWaveFile(dataOut, outputFileName, fs)
 ![alt tag](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F12429%2F30df6ea3-7c37-8043-04d2-ebaac6519306.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=97331b6e335cc3778fa0955f4ea4b720)  
 
 
+# 音声を並列で再生する方法  
+[pythonで音声を並列で再生する方法 updated at 2019-08-28](https://qiita.com/yunishi3/items/4fe5b7c6718a71fd4c81)  
+
+```
+import subprocess
+
+A = '○○○.mp3'
+B = '●●●.mp3'
+
+subprocess.Popen(['mplayer', A])
+subprocess.Popen(['mplayer', B])
+```
+
+```
+pythonで音声を再生する際はpyAudioを使うのが一般的ですが、これをthreadingなどで並列処理化しても、
+うまく並列再生されず、しまいにはおそらくメモリーエラーでSegmentation Faultになりました(信号の取得等の処理を入れています)。
+```
+
+```
+
+```
+
 # Troubleshooting
 
 
@@ -1011,3 +1034,5 @@ myWave.writeWaveFile(dataOut, outputFileName, fs)
 - 1
 - 2
 - 3
+
+
