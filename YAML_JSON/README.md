@@ -1,6 +1,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [Read JSON by Python:webAPI](#read-json-by-pythonwebapi)
       * [Key and Value of List](#key-and-value-of-list)
@@ -12,6 +13,10 @@ Table of Contents
       * [Writing a JSON file](#writing-a-json-file)
       * [Reading JSON](#reading-json)
    * [Python JSON: Encode(dump), Decode(load) json Data &amp; File (Example)](#python-json-encodedump-decodeload-json-data--file-example)
+   * [JSON Dump](#json-dump)
+   * [loggingとjsonへのdump](#loggingとjsonへのdump)
+      * [対策1(ファイルハンドラを扱う/余りキレイじゃない？)](#対策1ファイルハンドラを扱う余りキレイじゃない)
+      * [対策2(どうせファイルハンドラ使うなら直接書き出す)](#対策2どうせファイルハンドラ使うなら直接書き出す)
    * [Reference](#reference)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
@@ -20,7 +25,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose  
 Take some note of YAML and JSON
@@ -252,6 +256,129 @@ True | True
 False | False
 None | Null 
 
+# JSON Dump  
+[[python] JSONファイルのフォーマットを整えてDumpする updated at 2019-06-20](https://qiita.com/Hyperion13fleet/items/7129623ab32bdcc6e203) 
+
+```
+dict_sample = {'幽助': {'霊丸': {'ショットガン': 30, '霊光弾': 40}}, '桑原': '霊剣', 'Hiei': '邪王炎殺黒龍波', 'Kurama': 'ローズウィップ'}
+
+f = open("output.json", "w")
+json.dump(dict_sample, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+```
+
+```
+ensure_ascii: False の場合、文字はそのまま出力されるとのこと
+indent: 辞書のKeyやValueの階層を識別するためのインデント数
+sort_keys: Keyでソートするか否か
+separators:tuppleで1.KeyとValueを識別する区切り、2.要素を識別する区切りを指定できる
+```
+
+```
+{
+    "Hiei": "邪王炎殺黒龍波",
+    "Kurama": "ローズウィップ",
+    "幽助": {
+        "霊丸": {
+            "ショットガン": 30,
+            "霊光弾": 40
+        }
+    },
+    "桑原": "霊剣"
+}
+```
+
+[公式ドキュメント](https://docs.python.org/ja/3/library/json.html)  
+
+# loggingとjsonへのdump  
+[Pythonのloggingとjsonへのdump May 27, 2015](https://qiita.com/takilog/items/bf9dcbe979b2c4d91955)  
+```
+from datetime import datetime as dt
+import os, logging
+def main():
+  for i in xrange(1,6):
+    log = logging.getLogger()
+
+    # i番目の繰り返し用のディレクトリ
+    dir_name = "dir_{0}".format(i)
+    os.makedirs(dir_name)
+
+    # i番目の繰り返し用のディレクトリのためにログファイル（作りたい）
+    log_file_name = "{0}/lg_index{1}.log".format(dir_name, i)
+    logging.basicConfig(level = logging.INFO,\
+                        filename = log_file_name,\
+                        format = "[%(name)s: %(levelname)s @ %(asctime)s] %(message)s")
+
+    # log
+    log.info('hoge')
+    log.info('foo')
+    log.info(dt.now().strftime('%Y%m%d%H%M%S))
+```
+
+```
+気持ちとしてはdir_1, dir_2, ..., dir_5のそれぞれのディレクトリに
+何らかの処理をした時のログを書き出したかったのだけど、これをすると
+一番最初にloggingの設定をしたdir_1のログファイル(dir_1/lg_index1.log"に
+全部のinfo(この場合level=logging.INFOなため)が書き出される。
+(そもそもこの使い方が正しくない/イケてない可能性がある。)
+```
+
+## 対策1(ファイルハンドラを扱う/余りキレイじゃない？)
+[これを参考にした](http://stackoverflow.com/questions/24816456/python-logging-wont-shutdown)   
+```
+from datetime import datetime as dt
+import os, logging
+def main():
+  for i in xrange(1,6):
+    log = logging.getLogger()
+
+    # i番目の繰り返し用のディレクトリ
+    dir_name = "dir_{0}".format(i)
+    os.makedirs(dir_name)
+
+    # i番目の繰り返し用のディレクトリのためにログファイル（作りたい）
+    log_file_name = "{0}/lg_index{1}.log".format(dir_name, i)
+    log.setLevel(logging.INFO)
+    fh = logging.FileHandler(filename = log_file_name)
+    formatter = logging.Formatter(
+        fmt='"[%(name)s: %(levelname)s @ %(asctime)s] %(message)s"',
+        datefmt='%Y-%m-%d %H:%M:%S')
+    fh.setFormatter(formatter)
+    log.addHandler(fh)    
+
+    # log
+    log.info('hoge')
+    log.info('foo')
+    log.info(dt.now().strftime('%Y%m%d%H%M%S))
+
+    # close file handler
+    log.removeHandler(fh)
+    del log, fh
+```
+
+## 対策2(どうせファイルハンドラ使うなら直接書き出す)  
+[@shima__shimaさんが教えてくれた。](https://twitter.com/taki__taki__/status/602473227412054016)  
+```
+from datetime import datetime as dt
+import os, json
+def main():
+  for i in xrange(1,6):
+    # i番目の繰り返し用のディレクトリ
+    info = {} # データを入れる辞書
+    dir_name = "dir_{0}".format(i)
+    os.makedirs(dir_name)
+
+    # i番目の繰り返し用のディレクトリのためにログファイル（作りたい）
+    log_file_name = "{0}/lg_index{1}.log".format(dir_name, i)
+    info['hoge'] = 0
+    info['foo'] = 0
+    info['bar'] = dt.now().strftime('%Y%m%d%H%M%S)
+
+    # jsonファイル書き出し
+    with open(log_file_name, 'w') as f:
+        json.dump(info, f)
+```
+
+
 # Reference
 * [Why can't Python parse this JSON data? Mar 19, 2019](https://stackoverflow.com/questions/2835559/why-cant-python-parse-this-json-data)  
 ```
@@ -346,4 +473,6 @@ def load_dirty_json(dirty_json):
 - 1
 - 2
 - 3
+
+
 
