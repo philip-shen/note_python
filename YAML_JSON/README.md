@@ -289,6 +289,17 @@ separators:tuppleで1.KeyとValueを識別する区切り、2.要素を識別す
 
 [公式ドキュメント](https://docs.python.org/ja/3/library/json.html)  
 
+[Append a dictionary to a dictionary - Stack Overflow](https://stackoverflow.com/questions/8930915/append-a-dictionary-to-a-dictionary) 
+
+```
+dest = dict(orig)  # or orig.copy()
+dest.update(extra)
+```
+
+```
+dest = {**orig, **extra}
+```
+
 # loggingとjsonへのdump  
 [Pythonのloggingとjsonへのdump May 27, 2015](https://qiita.com/takilog/items/bf9dcbe979b2c4d91955)  
 ```

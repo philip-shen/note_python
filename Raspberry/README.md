@@ -23,6 +23,7 @@ Table of Contents
          * [1. コマンドラインでの操作](#1-コマンドラインでの操作)
          * [2.raspi-configでの操作](#2raspi-configでの操作)
       * [おまけ2：音質](#おまけ2音質)
+   * [PythonとラズパイでI2C！速度](#pythonとラズパイでi2c速度)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -253,6 +254,14 @@ subprocess.call("aplay ファイル名.wav", shell=True)
 
 ## おまけ2：音質
 
+
+# PythonとラズパイでI2C！速度  
+[PythonとラズパイでI2C！速度・アドレス変更時の波形を確認 2019.04.27](https://misoji-engineer.com/archives/python-i2c.html)  
+
+![alt tag](https://misoji-engineer.com/wp-content/uploads/2019/04/python_i2c_6-1-1024x548.png)  
+
+[I2CのACKとNACKの波形を見てみる 2020.01.03](https://misoji-engineer.com/archives/8202971.html) 
+
 # Troubleshooting
 
 
@@ -288,9 +297,4 @@ subprocess.call("aplay ファイル名.wav", shell=True)
 - 1
 - 2
 - 3
-
-
-
-
-
 
