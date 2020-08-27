@@ -24,6 +24,9 @@ Table of Contents
          * [2.raspi-configでの操作](#2raspi-configでの操作)
       * [おまけ2：音質](#おまけ2音質)
    * [PythonとラズパイでI2C！速度](#pythonとラズパイでi2c速度)
+   * [aspberry PiのI2Cデータ転送速度と波形を見る](#aspberry-piのi2cデータ転送速度と波形を見る)
+      * [2MHzまではコンスタントに温度データを送ってくる](#2mhzまではコンスタントに温度データを送ってくる)
+      * [High-speed （Hs-mode） に挑戦したが](#high-speed-hs-mode-に挑戦したが)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -33,7 +36,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose
 Take note of Raspberry stuffs
@@ -262,6 +264,23 @@ subprocess.call("aplay ファイル名.wav", shell=True)
 
 [I2CのACKとNACKの波形を見てみる 2020.01.03](https://misoji-engineer.com/archives/8202971.html) 
 
+
+# aspberry PiのI2Cデータ転送速度と波形を見る  
+[Raspberry PiのI2Cデータ転送速度と波形を見る　その2 2016.10.30](https://www.denshi.club/pc/raspi/raspberry-pii2c2.html)
+
+## 2MHzまではコンスタントに温度データを送ってくる  
+```
+PicoScope 5242Bではデコードがクリチカルになりました。KeysightのオシロスコープDSOX3012Tの観測結果です。
+```
+![alt tag](https://www.denshi.club/pc/.assets/thumbnail/i2c-502-2MHz-hp-400wi.png)  
+
+## High-speed （Hs-mode） に挑戦したが  
+```
+3.4MHzではコンスタントに通信できていません。プログラムは途中で読めないとあきらめましたが、数十秒温度データを送っていました。
+```
+![alt tag](https://www.denshi.club/pc/.assets/thumbnail/i2c-502-3_4MHz-hp-400wi.png)  
+
+
 # Troubleshooting
 
 
@@ -297,4 +316,6 @@ subprocess.call("aplay ファイル名.wav", shell=True)
 - 1
 - 2
 - 3
+
+
 
