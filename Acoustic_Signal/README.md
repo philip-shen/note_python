@@ -1013,6 +1013,40 @@ plt.show()
 ```
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F177433%2F444645cb-a8ce-a9f8-22e2-dbb64dfc3168.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=8dc76cfbe252f06d4a1d8828086d4776"  width="500" height="500">
 
+[Matplotlibでレーダーチャートを描く（16行）updated at 2019-01-14](https://qiita.com/1007/items/80406e098a4212571b2e)  
+
+```
+要約すると
+
+1. 極座標のAxesオブジェクトを作って、
+2. そこにポリゴンを描画する。
+3. 塗りつぶしても良し。
+
+凡例やタイトルの追加、複数データのプロットは通常のグラフ同様にできるので省略。
+```
+
+```
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_polar(labels, values, imgname):
+    angles = np.linspace(0, 2 * np.pi, len(labels) + 1, endpoint=True)
+    values = np.concatenate((values, [values[0]]))  # 閉じた多角形にする
+    fig = plt.figure()
+    ax = fig.add_subplot(111, polar=True)
+    ax.plot(angles, values, 'o-')  # 外枠
+    ax.fill(angles, values, alpha=0.25)  # 塗りつぶし
+    ax.set_thetagrids(angles[:-1] * 180 / np.pi, labels)  # 軸ラベル
+    ax.set_rlim(0 ,250)
+    fig.savefig(imgname)
+    plt.close(fig)
+
+labels = ['HP', 'Attack', 'Defense', 'Speed']
+values = [155, 156, 188, 139]
+plot_polar(labels, values, "radar.png")
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F146259%2F5826f4fd-decd-b94e-7f3d-e962e81e350a.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=58e46ad60547cecb75f80d7e544c610c"  width="700" height="700">
+
 
 # ディープラーニング (Deep learning)声質変換環境構築
 [初めての「誰でも好きなキャラの声になれる」ディープラーニング声質変換環境構築【Ubuntu 18.04LTS】updated at 2019-06-11](https://qiita.com/BURI55/items/92ba127c7beb95b2b3f0)  
