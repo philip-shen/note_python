@@ -53,6 +53,7 @@ Table of Contents
    * [音楽のデジタル信号での各ビットの役割。](#音楽のデジタル信号での各ビットの役割)
    * [DSP (digital signal processing ) functionality](#dsp-digital-signal-processing--functionality)
       * [Loading a wave file and saving a normalized version of the sound](#loading-a-wave-file-and-saving-a-normalized-version-of-the-sound)
+   * [Polar Response](#polar-response)
    * [ディープラーニング (Deep learning)声質変換環境構築](#ディープラーニング-deep-learning声質変換環境構築)
    * [音声を並列で再生する方法](#音声を並列で再生する方法)
    * [Troubleshooting](#troubleshooting)
@@ -965,6 +966,53 @@ outputFileName = fileNameOnly + "_processed.wav"
 myWave.writeWaveFile(dataOut, outputFileName, fs)
 ```
 
+# Polar Response   
+[Jupyter Notebookで指向性をグラフ化してみた updated at 2017-12-16](https://qiita.com/chanyou0311/items/1f4b09b3a9bcf28c3746)  
+```
+データ数が増えるのはいいとして、これ指向性だから極座標形式で描画しないといけない。
+できるだろうけど文献がほとんどないぞ。がんばろう。
+```
+
+```
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('sample.csv')
+
+deg = df['Phi [deg]']
+values = df.iloc[:, 1:]
+
+lines = ['-', '--', '-.', ':', '.', ',']
+
+ax = plt.subplot(111, projection='polar')
+
+ax.axes.set_theta_zero_location('N')
+ax.set_theta_direction(-1)
+ax.set_rlabel_position(0)
+ax.set_xticks(np.pi/180. * np.linspace(0,  360, 12, endpoint=False))
+
+ax.spines['polar'].set_color('darkgray')
+
+plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['font.size'] = 12
+
+plt.ylim(-60.1, 5)
+
+theta = deg*np.pi/180
+r = values
+
+for i in range(len(values.columns)):
+    label = values.columns[i]
+    line = lines[i%len(lines)]
+    ax.plot(theta, values.iloc[:, i], line, label=label)
+
+plt.legend(bbox_to_anchor=(0.5, -0.15),  ncol=len(values.columns), loc='center')
+plt.savefig('sample.png', dpi=500, bbox_inches='tight')
+plt.show()
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F177433%2F444645cb-a8ce-a9f8-22e2-dbb64dfc3168.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=8dc76cfbe252f06d4a1d8828086d4776"  width="500" height="500">
+
 
 # ディープラーニング (Deep learning)声質変換環境構築
 [初めての「誰でも好きなキャラの声になれる」ディープラーニング声質変換環境構築【Ubuntu 18.04LTS】updated at 2019-06-11](https://qiita.com/BURI55/items/92ba127c7beb95b2b3f0)  
@@ -1007,6 +1055,7 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 
 * []()  
 ![alt tag]()  
+<img src=""  width="300" height="400">
 
 # h1 size
 
@@ -1034,5 +1083,7 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
+
+
 
 
