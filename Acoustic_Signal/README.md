@@ -54,6 +54,9 @@ Table of Contents
    * [DSP (digital signal processing ) functionality](#dsp-digital-signal-processing--functionality)
       * [Loading a wave file and saving a normalized version of the sound](#loading-a-wave-file-and-saving-a-normalized-version-of-the-sound)
    * [Polar Response](#polar-response)
+   * [Progress Bar](#progress-bar)
+      * [light-progress](#light-progress)
+      * [Download Large Files with Tqdm Progress Bar](#download-large-files-with-tqdm-progress-bar)
    * [ディープラーニング (Deep learning)声質変換環境構築](#ディープラーニング-deep-learning声質変換環境構築)
    * [音声を並列で再生する方法](#音声を並列で再生する方法)
    * [Troubleshooting](#troubleshooting)
@@ -65,6 +68,7 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 
 # Purpose
@@ -1047,6 +1051,196 @@ plot_polar(labels, values, "radar.png")
 ```
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F146259%2F5826f4fd-decd-b94e-7f3d-e962e81e350a.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=58e46ad60547cecb75f80d7e544c610c"  width="700" height="700">
 
+[Pythonで音のSTFT計算を自作!スペクトログラム表示する方法 2019.05.19](https://watlab-blog.com/2019/05/19/python-spectrogram/)  
+
+```
+import function
+import numpy as np
+from matplotlib import pyplot as plt
+from scipy.signal import chirp
+
+# チャープ信号を作成
+t = np.linspace(0, 5, 128000)
+data = chirp(t, f0=1, f1=2000, t1=5, method='linear')
+samplerate = 25600
+
+x = np.arange(0, len(data)) / samplerate    #波形生成のための時間軸の作成
+
+# Fsとoverlapでスペクトログラムの分解能を調整する。
+Fs = 4096                                   # フレームサイズ
+overlap = 75                               # オーバーラップ率
+
+# オーバーラップ抽出された時間波形配列
+time_array, N_ave, final_time = function.ov(data, samplerate, Fs, overlap)
+
+# ハニング窓関数をかける
+time_array, acf = function.hanning(time_array, Fs, N_ave)
+
+# FFTをかける
+fft_array, fft_mean, fft_axis = function.fft_ave(time_array, samplerate, Fs, N_ave, acf)
+
+# スペクトログラムで縦軸周波数、横軸時間にするためにデータを転置
+fft_array = fft_array.T
+
+# ここからグラフ描画
+# グラフをオブジェクト指向で作成する。
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
+
+# データをプロットする。
+im = ax1.imshow(fft_array, \
+                vmin = -10, vmax = 60,
+                extent = [0, final_time, 0, samplerate], \
+                aspect = 'auto',\
+                cmap = 'jet')
+
+# カラーバーを設定する。
+cbar = fig.colorbar(im)
+cbar.set_label('SPL [dBA]')
+
+# 軸設定する。
+ax1.set_xlabel('Time [s]')
+ax1.set_ylabel('Frequency [Hz]')
+
+# スケールの設定をする。
+ax1.set_xticks(np.arange(0, 120, 1))
+ax1.set_yticks(np.arange(0, 20000, 500))
+ax1.set_xlim(0, 5)
+ax1.set_ylim(0, 2000)
+
+# グラフを表示する。
+plt.show()
+plt.close()
+```
+<img src="https://watlab-blog.com/wp-content/uploads/2019/09/spectrogram-chirp.png"  width="800" height="700">
+
+
+# Progress Bar  
+## light-progress  
+[Pythonで `light-progress` を使って進捗(プログレスバー)を表示 updated at 2018-12-04](https://qiita.com/itkr/items/fab6a5e492b28bb07fab)  
+```
+format_str = '{} {} ({})'
+
+widgets = [widget.Bar(), widget.Percentage(), widget.Num()]
+ProgressBar.iteration(
+    range(100),
+    lambda item: sleep(0.01),
+    widgets=widgets,
+    format_str=format_str)
+
+# [███████████████████████████████] 100% (100/100)
+```
+
+```
+format_str = '{} *** {} *** ({})'
+
+widgets = [widget.Bar(), widget.Percentage(), widget.Num()]
+ProgressBar.iteration(
+    range(100),
+    lambda item: sleep(0.01),
+    widgets=widgets,
+    format_str=format_str)
+
+# [███████████████████████████████] *** 100% *** (100/100)
+```
+
+## Download Large Files with Tqdm Progress Bar  
+[Python Progress Bars with Tqdm by Example Dec 10, 2019](https://medium.com/better-programming/python-progress-bars-with-tqdm-by-example-ce98dbbc9697)  
+```
+#  Copyright 2019 tiptapcode Authors. All Rights Reserved.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+# -*- coding: utf-8 -*-
+import os
+import sys
+import tqdm
+import requests
+import validators
+
+
+class FileDownloader(object):
+
+    def get_url_filename(self, url):
+        """
+        Discover file name from HTTP URL, If none is discovered derive name from http redirect HTTP content header Location
+        :param url: Url link to file to download
+        :type url: str
+        :return: Base filename
+        :rtype: str
+        """
+        try:
+            if not validators.url(url):
+                raise ValueError('Invalid url')
+            filename = os.path.basename(url)
+            basename, ext = os.path.splitext(filename)
+            if ext:
+                return filename
+            header = requests.head(url, allow_redirects=False).headers
+            return os.path.basename(header.get('Location')) if 'Location' in header else filename
+        except requests.exceptions.HTTPError as errh:
+            print("Http Error:", errh)
+            raise errh
+        except requests.exceptions.ConnectionError as errc:
+            print("Error Connecting:", errc)
+            raise errc
+        except requests.exceptions.Timeout as errt:
+            print("Timeout Error:", errt)
+            raise errt
+        except requests.exceptions.RequestException as err:
+            print("OOps: Something Else", err)
+            raise err
+
+    def download_file(self, url, filename=None, target_dir=None):
+        """
+        Stream downloads files via HTTP
+        :param url: Url link to file to download
+        :type url: str
+        :param filename: filename overrides filename defined in Url param
+        :type filename: str
+        :param target_dir: target destination directory to download file to
+        :type target_dir: str
+        :return: Absolute path to target destination where file has been downloaded to
+        :rtype: str
+        """
+        if target_dir and not os.path.isdir(target_dir):
+            raise ValueError('Invalid target_dir={} specified'.format(target_dir))
+        local_filename = self.get_url_filename(url) if not filename else filename
+
+        req = requests.get(url, stream=True)
+        file_size = int(req.headers['Content-Length'])
+        chunk_size = 1024  # 1 MB
+        num_bars = int(file_size / chunk_size)
+
+        base_path = os.path.abspath(os.path.dirname(__file__))
+        target_dest_dir = os.path.join(base_path, local_filename) if not target_dir else os.path.join(target_dir, local_filename)
+        with open(target_dest_dir, 'wb') as fp:
+            for chunk in tqdm.tqdm(req.iter_content(chunk_size=chunk_size), total=num_bars, unit='KB', desc=local_filename, leave=True, file=sys.stdout):
+                fp.write(chunk)
+
+        return target_dest_dir
+
+
+if __name__== "__main__":
+
+    links = ['https://nodejs.org/dist/v12.13.1/node-v12.13.1.pkg', 'https://aka.ms/windev_VM_virtualbox']
+
+    downloader = FileDownloader()
+
+    for url in links:
+        downloader.download_file(url)
+```
+
 
 # ディープラーニング (Deep learning)声質変換環境構築
 [初めての「誰でも好きなキャラの声になれる」ディープラーニング声質変換環境構築【Ubuntu 18.04LTS】updated at 2019-06-11](https://qiita.com/BURI55/items/92ba127c7beb95b2b3f0)  
@@ -1117,7 +1311,3 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
-
-
-
-
