@@ -54,6 +54,8 @@ Table of Contents
    * [DSP (digital signal processing ) functionality](#dsp-digital-signal-processing--functionality)
       * [Loading a wave file and saving a normalized version of the sound](#loading-a-wave-file-and-saving-a-normalized-version-of-the-sound)
    * [Polar Response](#polar-response)
+   * [Kaldi](#kaldi)
+      * [Kaldiインストール](#kaldiインストール)
    * [Progress Bar](#progress-bar)
       * [light-progress](#light-progress)
       * [Download Large Files with Tqdm Progress Bar](#download-large-files-with-tqdm-progress-bar)
@@ -1115,6 +1117,65 @@ plt.close()
 <img src="https://watlab-blog.com/wp-content/uploads/2019/09/spectrogram-chirp.png"  width="800" height="700">
 
 
+# Kaldi  
+[音声認識システム　Kaldiを試しに動かしてみた Apr 10, 2015](https://qiita.com/GushiSnow/items/43d5916cc8a0c939f1dd)  
+## Kaldiインストール  
+```
+build-essential
+gfortran
+libgfortran3
+python-dev(python3-dev)
+libblas-dev
+libatlas-base-dev
+cython
+g++ 
+zlib1g-dev
+automake
+libtool
+autoconf 
+```
+
+[Kaldiに関する処理を日本語のドキュメントでまとめてみた(データ準備編）１ 2015/04/15](http://qiita.com/GushiSnow/items/cc1440e0a8ea199e78c5)  
+[Kaldiに関する処理を日本語のドキュメントでまとめてみた（データ準備編）2 2015/04/15](http://qiita.com/GushiSnow/items/a24cad7231de341738ee)  
+[Kaldiに関する処理を日本語のドキュメントでまとめてみた（特徴量抽出編）3 2015/04/15](http://qiita.com/GushiSnow/items/e099baf9d1c2e72cb3d1)  
+[Kaldiに関する処理を日本語のドキュメントでまとめてみた（学習編）4 2015/04/15](http://qiita.com/GushiSnow/items/d431a5c49dc4206def2d)  
+[Kaldiに関する処理を日本語のドキュメントでまとめてみた（グラフ作成編）5 2015/04/16](https://qiita.com/GushiSnow/items/8e1c25b1d2eda8c1f2c3)  
+[Kaldiに関する処理を日本語のドキュメントでまとめてみた（デコーディング編）6 2015/04/16](https://qiita.com/GushiSnow/items/01296c16f0d9d823ae55)  
+
+[音声認識について噛み砕いてみた Dec 02, 2019](https://qiita.com/dcm_katou/items/9ec80f7c714631f568bb)
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F525974%2F11bd68e4-60ac-284e-351c-63a0af5444e4.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=e1eabfed9cf6938e27a78596ad558d58"  width="800" height="400">
+
+
+[ここ10年の音声認識のアーキテクチャの変化を雑に整理する（前編） Dec 18, 2019](https://qiita.com/corocn/items/81c255e5f742f767144f)  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F66417%2F68e83929-e678-7f27-c75e-19cd11bdc557.jpeg?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=12b4db9c31b6ecf94a86c07d18de757a"  width="800" height="400">
+
+
+[ここ10年の音声認識のアーキテクチャの変化を雑に整理する（中編） Dec 14, 2019](https://qiita.com/corocn/items/7eb846ff83c0f67bca53)  
+```
+kaldi
+
+    https://kaldi-asr.org/
+    https://github.com/kaldi-asr/kaldi
+
+こちらはWFST型の音声認識です。作者の論文はよく見てましたが、ちょうどKaldiが話題になったごろで音声認識から離れてしまったのでちゃんと動かしておらず。今でも結構使われてるみたいです。
+```
+
+[Kaldiを用いたリアルタイム音声認識 Dec 08, 2017](https://qiita.com/sayonari/items/936171340990c474be73)  
+```
+最近音声認識研究業界では標準になっているＫａｌｄｉを用いて，リアルタイム音声認識をする方法です．
+音声が入力されている間にも，どんどん音声認識がされていく環境です
+（１発話が終わってから，音声が認識開始されるのではない．）．
+
+Kaldi GStreamer serverを用いて音声認識を行いますが，この環境がDockerイメージで公開されているので，
+それを使います．使わなくてもできると思います．
+
+以下の例では，DNNの音声認識モデルにて，英語の音声認識をします．kaldi用online_nnet2モデルがあれば，
+日本語でもできるようです．
+```
+[Kaldi GStreamer server](https://github.com/alumae/kaldi-gstreamer-server)  
+[docker-kaldi-gstreamer-server](https://github.com/jcsilva/docker-kaldi-gstreamer-server)  
+
+
 # Progress Bar  
 ## light-progress  
 [Pythonで `light-progress` を使って進捗(プログレスバー)を表示 updated at 2018-12-04](https://qiita.com/itkr/items/fab6a5e492b28bb07fab)  
@@ -1311,3 +1372,5 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
+
+
