@@ -19,16 +19,17 @@ Table of Contents
          * [効果音をつける（音声を重ねる）](#効果音をつける音声を重ねる)
          * [音量を変える](#音量を変える)
          * [RMSレベル](#rmsレベル)
+      * [wav音频文件：音频信息，读取内容，获取时长，切割音频，波形图，pcm与wav互转](#wav音频文件音频信息读取内容获取时长切割音频波形图pcm与wav互转)
    * [LibROSA](#librosa)
       * [Wavの読み込み](#wavの読み込み)
       * [Fourier transform](#fourier-transform)
+      * [LibROSAで音声読み込み⇒スペクトログラム変換・表示⇒位相推定して音声復元](#librosaで音声読み込みスペクトログラム変換表示位相推定して音声復元)
    * [Beginner's Guide to Audio Data](#beginners-guide-to-audio-data)
       * [1. データの分析](#1-データの分析)
       * [2. Raw波形を使ったモデルの構築](#2-raw波形を使ったモデルの構築)
          * [Raw波形を使ったKerasモデル](#raw波形を使ったkerasモデル)
       * [3.3. MFCCの紹介](#33-mfccの紹介)
          * [Librosaを使ったMFCCの生成](#librosaを使ったmfccの生成)
-   * [LibROSA](#librosa-1)
    * [Pythonで音響信号処理](#pythonで音響信号処理)
       * [周波数応答を表示したい](#周波数応答を表示したい)
    * [Pythonで音響信号処理(2)](#pythonで音響信号処理2)
@@ -56,6 +57,7 @@ Table of Contents
    * [Polar Response](#polar-response)
    * [Kaldi](#kaldi)
       * [Kaldiインストール](#kaldiインストール)
+      * [Simple Guide To “KALDI”](#simple-guide-to-kaldi)
    * [Progress Bar](#progress-bar)
       * [light-progress](#light-progress)
       * [Download Large Files with Tqdm Progress Bar](#download-large-files-with-tqdm-progress-bar)
@@ -269,8 +271,6 @@ base_sound.dBFS
 base_sound.max    
 ```
 
-
-
 ### RMSレベル
 
 [レベル計測の方法：PEAK / RMS / LOUDNESS 2015年12月27日](https://sleepfreaks-dtm.com/dtm-mix-technique/level-metering/)  
@@ -309,6 +309,52 @@ print(resul_tratio)  # 0.7998836532867947が返ってきた
 
 sound.maxの値を使って調整するやり方も考えられましたが、返り値の単位がよくわからないので却下。
 ```
+
+## wav音频文件：音频信息，读取内容，获取时长，切割音频，波形图，pcm与wav互转  
+[python处理wav音频文件：音频信息，读取内容，获取时长，切割音频，波形图，pcm与wav互转 2018-12-22](https://mp.weixin.qq.com/s/Kw_n3RgYfZCn_0ZOJpaxHg)  
+[ silencesmile /python_wav ](https://github.com/silencesmile/python_wav)  
+
+```
+with wave.open(wav_path, "rb") as f:
+    f = wave.open(wav_path)
+```
+
+```
+返回内容为：
+
+声道，采样宽度，帧速率，帧数，唯一标识，无损    
+```
+<img src="https://mmbiz.qpic.cn/mmbiz_png/daO6rm02504QicIojcXpztXXMz0ne1wt0m1D1tObmPPgs2apfMwIVMSBqx2lM2vrg6DMXyJqNOPKibezr9yZB8Fg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1"  width="300" height="300">
+
+```
+采样点的个数为 2510762，采样的频率为44100HZ，通过这两个参数可以得到声音信号的时长
+
+每个采样点是16 bit = 2 bytes ,那么将采样点的个数 2510762*2/(1024*1024)=4.78889MB，那么这个信息就是文件大小信息。
+
+
+检验一下声音波形的时间
+
+ child1.wav 4.78MB,时长56s
+
+time = 56.93337868480726
+
+根据上面WAVE PCM soundfile format 的资料信息查询。有一个印象：WAV文件中由以下三个部分组成：
+
+
+1."RIFF" chunk descriptor    
+2.The "fmt" sub-chunk   
+3.The "data" sub-chunk 存这些信息的时候都要要有 “ID”、“大小”、“格式”，这些信息标注了数据的位置，
+
+“WAV”格式由“fmt”和“data”，两个部分组成，
+其中“fmt”的存储块用来存音频文件的格式，
+“data”的存储块用来存实际听到的声音的信息，
+物理上描述的振幅和时间：长度(时间)和振幅，当然人的耳朵听听见的是长度和音调。
+
+
+也就是说可以读取这个数组，在配合频率的信息直接画出波形图。
+```
+<img src="https://mmbiz.qpic.cn/mmbiz_png/daO6rm02504QicIojcXpztXXMz0ne1wt0OE0Ho30MX5lGR3h6QUlxrHiaSYGOBNxg4D5YmEsmMFrblzGyIQCkm3g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1"  width="600" height="400">
+
 
 # LibROSA  
 [信号処理とか音楽の分析に大活躍しそうなlibrosa ](https://qiita.com/tom_m_m/items/91ba624dd8507bc0b746)  
@@ -355,6 +401,28 @@ plt.colorbar(format='%+2.0f dB')
 plt.tight_layout()
 plt.show()
 ```
+
+## LibROSAで音声読み込み⇒スペクトログラム変換・表示⇒位相推定して音声復元
+[Pythonの音声処理ライブラリ【LibROSA】で音声読み込み⇒スペクトログラム変換・表示⇒位相推定して音声復元 posted at Jul 05, 2020](https://qiita.com/lilacs/items/a331a8933ec135f63ab1)  
+
+今回は以下の音声処理の基本処理をまとめました。
+```
+
+    音声の読み込み
+    周波数を指定して音声を読み込み
+    Notebook上で、音声をプレーヤーで再生
+    音声波形のグラフを表示
+    スペクトログラムへの変換
+    STFTで音声からスペクトログラムへ変換
+    強度をdB単位に変換
+    スペクトログラムのカラープロットを表示
+    音声を復元
+    逆STFTでスペクトログラムから音声を復元する場合
+    位相情報を推定して音声を復元する場合
+```
+ソースコード：https://github.com/lilacs2039/ColabNotebooks/blob/master/audio/LibROSA%E4%BD%BF%E3%81%84%E6%96%B9.ipynb
+
+[pythonのlibrosaでサクッと音声波形を表示する posted at Mar 08, 2019](https://qiita.com/amuyikam/items/a5ba64d7bc045feee2d1)
 
 
 # Beginner's Guide to Audio Data  
@@ -412,27 +480,6 @@ plt.plot(x, serviceData , c='b')
 plt.show()
 ```
 
-# LibROSA  
-[Pythonの音声処理ライブラリ【LibROSA】で音声読み込み⇒スペクトログラム変換・表示⇒位相推定して音声復元 posted at Jul 05, 2020](https://qiita.com/lilacs/items/a331a8933ec135f63ab1)  
-
-今回は以下の音声処理の基本処理をまとめました。
-```
-
-    音声の読み込み
-    周波数を指定して音声を読み込み
-    Notebook上で、音声をプレーヤーで再生
-    音声波形のグラフを表示
-    スペクトログラムへの変換
-    STFTで音声からスペクトログラムへ変換
-    強度をdB単位に変換
-    スペクトログラムのカラープロットを表示
-    音声を復元
-    逆STFTでスペクトログラムから音声を復元する場合
-    位相情報を推定して音声を復元する場合
-```
-ソースコード：https://github.com/lilacs2039/ColabNotebooks/blob/master/audio/LibROSA%E4%BD%BF%E3%81%84%E6%96%B9.ipynb
-
-[pythonのlibrosaでサクッと音声波形を表示する posted at Mar 08, 2019](https://qiita.com/amuyikam/items/a5ba64d7bc045feee2d1)
 
 # Pythonで音響信号処理  
 [Pythonで音響信号処理 updated at 2015-12-13](https://qiita.com/wrist/items/5759f894303e4364ebfd)  
@@ -651,6 +698,7 @@ if __name__ == '__main__':
 [【Audio入門】音声変換してみる♬ posted at 2019-07-07](https://qiita.com/MuAuan/items/675854ab602595c79612)  
 [深層学習による声質変換 updated at 2016-12-23](https://qiita.com/satopirka/items/7a8a503725fc1a8224a5)  
 [Pythonで音声信号処理  2011-05-14](http://aidiary.hatenablog.com/entry/20110514/1305377659)
+
 
 
 # サンプリング周波数変換(SamplingRateConversion)  
@@ -1135,6 +1183,135 @@ libtool
 autoconf 
 ```
 
+## Simple Guide To “KALDI”  
+[Simple Guide To “KALDI” — an efficient open source speech recognition tool for Extreme Beginners — by a beginner! May 30, 2018](https://medium.com/@nikhilamunipalli/simple-guide-to-kaldi-an-efficient-open-source-speech-recognition-tool-for-extreme-beginners-98a48bb34756)
+
+Kaldi- made easy steps start here :  
+```
+step 1 : Before you start with kaldi learn the foundation of docker with this simple video tutorial. 
+: https://www.youtube.com/watch?v=pGYAg7TMmp0
+
+```
+```
+step 2 : installation of docker : https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+That was a great intro to docker. I advise you to learn docker usage with the official documentation : https://docs.docker.com/get-started/.
+
+As already said lazy ones can skip learning.
+
+```
+```
+step 3 : downloading tedlium dataset :https://phon.ioc.ee/%7Etanela/tedlium_nnet_ms_sp_online.tgz
+
+This file must be stored in media/kaldi_models directory.
+
+to access media, go to computer>media
+
+open terminal there and make directory by running this command.
+
+sudo mkdir kaldi_models
+
+move the downloaded file, after extraction, from downloads to this directory by this command.
+
+sudo mv /downloads/english media/kaldi_models/
+
+this dataset is 1.4GB which is neither too big nor too small!
+
+```
+```
+step 4 : pulling the docker image from dockerHub :
+
+sudo docker pull jcsilva/docker-kaldi-gstreamer-server
+
+run this command to download the image.
+
+```
+```
+step 5 : yaml file download : https://github.com/alumae/kaldi-gstreamer-server/blob/master/sample_english_nnet2.yaml
+
+from the above link download yaml file and name it nnet2.yaml.
+
+store the file in english directory.
+
+imp :open the file in the text editor and replace test/models with opt/models.
+
+this will be explained later.
+
+In the file, comment out the line
+
+“full-post-processor: ./sample_full_post_processor.py”
+
+as you wont have the sample_full_post_processor.py file . This wont effect the functionality of yaml file.
+
+for further information about yaml follow this great video : https://www.youtube.com/watch?v=cdLNKUoMc6c
+
+```
+```
+step 6: sudo docker container ls
+
+this command gives the list of available containers. if you find a container with image : 
+jcsilva/docker-kaldi-gstreamer-server:latest, your container allocation is successful 
+under the port 8080:80.
+
+```
+```
+step 7 : getting inside the container :
+
+docker run -it -p 8080:80 -v /media/kaldi_models:/opt/models jcsilva/docker-kaldi-gstreamer-server:latest /bin/bash
+
+this gets you inside the container which can almost be used as a normal linux terminal. 
+Docker partitions memory for its container. place the yaml file in opt/models.
+
+```
+```
+step 8 : starting master and worker by docker :
+
+./start.sh -y /opt/models/nnet2.yaml
+
+this will create master.log and worker.log in opt.
+
+```
+```
+step 9 : run ls -l to see the available items in the container.
+
+if the list contains :
+
+gst-kaldi-nnet2-online, kaldi, kaldi-gstreamer-server, master.log, models, start.sh, stop.sh, worker.log
+
+then your ./start was executed properly.
+
+```
+```
+step 10 : run cat worker.doc to find whether worker is working.
+
+you probably should encounter an error showing no path found which can be eliminated by modifying the conf files.
+
+ls models/english/tedlium_nnet_ms_sp_online/conf/
+
+this gives all the files in conf.
+
+vi models/english/tedlium_nnet_ms_sp_online/conf/<file>
+
+replace the <file> with the name of the file in conf folder. modify the test/models path anywhere 
+if found to opt/models. View each file of conf folder by running the same command.
+
+run cat worker.doc again to test the functionality. This time the error must be resolved 
+and worker available message must be displayed.
+
+```
+```
+step 11 : websocket url : http://www.websocket.org/echo.html
+
+enter the web page. in the location enter : ws://localhost:8080/client/ws/status and press connect. On connecting, if you find the message : 
+RECEIVED: {“num_workers_available”: 1, “num_requests_processed”: 9} in log, then the connection is perfect.
+
+Congratulations!! now you have a working kaldi speech recognizer(english) with gstreamer and docker.
+```
+
+[【Kaldi 新手入門】手把手教你搭建簡易英文數字ASR系統 2018-12-18](https://www.itread01.com/content/1545129581.html)
+[AndroidStudio2017 /digitsASR](https://github.com/AndroidStudio2017/digitsASR)
+
+
 [Kaldiに関する処理を日本語のドキュメントでまとめてみた(データ準備編）１ 2015/04/15](http://qiita.com/GushiSnow/items/cc1440e0a8ea199e78c5)  
 [Kaldiに関する処理を日本語のドキュメントでまとめてみた（データ準備編）2 2015/04/15](http://qiita.com/GushiSnow/items/a24cad7231de341738ee)  
 [Kaldiに関する処理を日本語のドキュメントでまとめてみた（特徴量抽出編）3 2015/04/15](http://qiita.com/GushiSnow/items/e099baf9d1c2e72cb3d1)  
@@ -1372,5 +1549,7 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
+
+
 
 
