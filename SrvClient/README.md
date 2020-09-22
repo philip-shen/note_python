@@ -3,13 +3,16 @@ Table of Contents
 
    * [Table of Contents](#table-of-contents)
    * [note_python_TCP UDP Srv Clinet](#note_python_tcp-udp-srv-clinet)
-   * [mcjoin - tiny multicast testing tool](#mcjoin---tiny-multicast-testing-tool)
    * [Chat-App-using-Socket-Programming-and-Tkinter](#chat-app-using-socket-programming-and-tkinter)
+      * [Server on Windows and Client on Linux](#server-on-windows-and-client-on-linux)
+      * [Server on Windows and Client on Windows](#server-on-windows-and-client-on-windows)
+      * [File Download Location](#file-download-location)
    * [SimpleChatApp](#simplechatapp)
       * [Now, first start the server from multiChatServer.py](#now-first-start-the-server-from-multichatserverpy)
       * [Then, run the below to start one client from multiChatClient.py](#then-run-the-below-to-start-one-client-from-multichatclientpy)
    * [Pingpong Socket](#pingpong-socket)
       * [No Module Named ServerSocket](#no-module-named-serversocket)
+   * [mcjoin - tiny multicast testing tool](#mcjoin---tiny-multicast-testing-tool)
    * [Reference](#reference)
    * [Troubleshooting](#troubleshooting)
       * [OSError: [WinError 10065] A socket operation was attempted to an unreachable host](#oserror-winerror-10065-a-socket-operation-was-attempted-to-an-unreachable-host)
@@ -25,34 +28,32 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 # note_python_TCP UDP Srv Clinet
 Take some note of TCP UDP Srv Clinet
 
-# mcjoin - tiny multicast testing tool  
-[mcjoin](https://github.com/troglobit/mcjoin)  
 
-[usage](https://github.com/troglobit/mcjoin#usage)  
-```
- $ mcjoin -h
-    
-    Usage: mcjoin [-dhjqsv] [-c COUNT] [-i IFNAME] [-p PORT] [-r SEC] [-t TTL]
-                  [[SOURCE,]GROUP0 .. [SOURCE,]GROUPN | [SOURCE,]GROUP+NUM]
-    
-    Options:
-      -c COUNT     Exit after COUNT number of received and/or sent packets
-      -d           Debug output
-      -h           This help text
-      -i IFNAME    Interface to use for multicast groups, default eth0
-      -j           Join groups, default unless acting as sender
-      -p PORT      UDP port number to listen to, default: 1234
-      -q           Quiet mode
-      -r SEC       Do a join/leave every SEC seconds
-      -s           Act as sender, sends packets to select groups
-      -t TTL       TTL to use when sending multicast packets, default 1
-      -v           Display program version
-    
-    Bug report address: https://github.com/troglobit/mcjoin/issues
-    Project homepage: https://github.com/troglobit/mcjoin/
-```
 # Chat-App-using-Socket-Programming-and-Tkinter  
-[ Samjith888 /Chat-App-using-Socket-Programming-and-Tkinter ](https://github.com/Samjith888/Chat-App-using-Socket-Programming-and-Tkinter) 
+*Can work successfully*  
+
+[Samjith888 /Chat-App-using-Socket-Programming-and-Tkinter ](https://github.com/Samjith888/Chat-App-using-Socket-Programming-and-Tkinter) 
+
+## Server on Windows and Client on Linux  
+<img src="https://i.imgur.com/zkDuolP.jpg" width="700" height="500">
+
+## Server on Windows and Client on Windows  
+<img src="https://i.imgur.com/BbDLWCd.jpg" width="700" height="500">
+
+## File Download Location  
+<img src="https://i.imgur.com/ae8zUJH.jpg" width="500" height="300">
+
+
+![chat_screenshot1](https://user-images.githubusercontent.com/39676803/63266288-41c3ea00-c2ad-11e9-80e8-cd0b41a48e34.PNG)
+
+
+![chat_screenshot2](https://user-images.githubusercontent.com/39676803/63266312-51433300-c2ad-11e9-9e5d-23a23941da79.PNG)
+
+
+![chat_screenshot3](https://user-images.githubusercontent.com/39676803/63265898-46d46980-c2ac-11e9-8b8f-0af9d288e3c7.PNG)
+
+
+![chat_screenshot4](https://user-images.githubusercontent.com/39676803/63265915-5358c200-c2ac-11e9-9b90-2b4d68695789.PNG)
 
 
 # SimpleChatApp  
@@ -89,7 +90,37 @@ python2 only
 The right name is SocketServer in Python2 and socketserver in Python3.
 ```
 
+[Build a Chatroom App with Python ](https://medium.com/python-in-plain-english/build-a-chatroom-app-with-python-458fc435025a)  
 
+<img src="https://miro.medium.com/max/1800/1*EjcHnH1pQP3U-aj-QnLQcw.png" width="800" height="0">
+
+
+# mcjoin - tiny multicast testing tool  
+[mcjoin](https://github.com/troglobit/mcjoin)  
+
+[usage](https://github.com/troglobit/mcjoin#usage)  
+```
+ $ mcjoin -h
+    
+    Usage: mcjoin [-dhjqsv] [-c COUNT] [-i IFNAME] [-p PORT] [-r SEC] [-t TTL]
+                  [[SOURCE,]GROUP0 .. [SOURCE,]GROUPN | [SOURCE,]GROUP+NUM]
+    
+    Options:
+      -c COUNT     Exit after COUNT number of received and/or sent packets
+      -d           Debug output
+      -h           This help text
+      -i IFNAME    Interface to use for multicast groups, default eth0
+      -j           Join groups, default unless acting as sender
+      -p PORT      UDP port number to listen to, default: 1234
+      -q           Quiet mode
+      -r SEC       Do a join/leave every SEC seconds
+      -s           Act as sender, sends packets to select groups
+      -t TTL       TTL to use when sending multicast packets, default 1
+      -v           Display program version
+    
+    Bug report address: https://github.com/troglobit/mcjoin/issues
+    Project homepage: https://github.com/troglobit/mcjoin/
+```
 
 # Reference  
 * [Python TCP several listen on several ports at once - Stack Overflow Mar 18, 2017](https://stackoverflow.com/questions/22468160/python-tcp-several-listen-on-several-ports-at-once)  
@@ -302,6 +333,3 @@ Similarly you would use .decode() to receive the data on the UDP server side, if
 - 1
 - 2
 - 3
-
-
-
