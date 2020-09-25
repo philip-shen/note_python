@@ -6,6 +6,7 @@ Table of Contents
       * [Server on Windows and Client on Linux](#server-on-windows-and-client-on-linux)
       * [Server on Windows and Client on Windows](#server-on-windows-and-client-on-windows)
       * [File Download Location](#file-download-location)
+      * [Python [Errno 98] Address already in use](#python-errno-98-address-already-in-use)
    * [SimpleChatApp](#simplechatapp)
       * [Now, first start the server from multiChatServer.py](#now-first-start-the-server-from-multichatserverpy)
       * [Then, run the below to start one client from multiChatClient.py](#then-run-the-below-to-start-one-client-from-multichatclientpy)
@@ -24,7 +25,6 @@ Table of Contents
    * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 # note_python_TCP UDP Srv Clinet
 Take some note of TCP UDP Srv Clinet
 
@@ -54,6 +54,17 @@ Take some note of TCP UDP Srv Clinet
 
 
 ![chat_screenshot4](https://user-images.githubusercontent.com/39676803/63265915-5358c200-c2ac-11e9-9b90-2b4d68695789.PNG)
+
+## Python [Errno 98] Address already in use  
+[Python [Errno 98] Address already in use](https://stackoverflow.com/questions/4465959/python-errno-98-address-already-in-use)  
+
+```
+Yes, it is intended. Here you can read detailed explanation. It is possible to override this behavior by setting SO_REUSEADDR option on a socket. 
+
+For example:
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+```
+
 
 
 # SimpleChatApp  
@@ -338,5 +349,4 @@ Similarly you would use .decode() to receive the data on the UDP server side, if
 - 1
 - 2
 - 3
-
 
