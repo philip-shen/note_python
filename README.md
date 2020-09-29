@@ -2,7 +2,7 @@
 Table of Contents
 =================
 
-   * [Table of Content](#table-of-content)
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [Installation](#installation)
       * [Step1 Install Python3.6-32bit](#step1-install-python36-32bit)
@@ -25,6 +25,14 @@ Table of Contents
       * [実用例](#実用例)
          * [①import helloの場合](#import-helloの場合)
          * [②$python hello.pyの場合](#python-hellopyの場合)
+   * [method, @classmethod, @staticmethod](#method-classmethod-staticmethod)
+      * [method](#method)
+      * [classmethod](#classmethod)
+      * [staticmethod](#staticmethod)
+      * [@abstractmethod](#abstractmethod)
+      * [@abstractclassmethod (version 3.2)](#abstractclassmethod-version-32)
+      * [@abstractstaticmethod (version 3.2)](#abstractstaticmethod-version-32)
+      * [Duck Typing（ダック・タイピング）](#duck-typingダックタイピング)
    * [Environment](#environment)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
@@ -287,6 +295,233 @@ if __name__ == "__main__":
     __name__に「__main__」が代入される
 ```
 
+# method, @classmethod, @staticmethod   
+[Pythonで、呼び出し方によってメソッドの振る舞いを変える posted at 2017-04-29](https://qiita.com/masaru/items/5ebf2e96d6524830511b)  
+
+```
+Pythonのクラスのメソッドは3種類ある。
+    通常のメソッド（インスタンスメソッド）
+        第1引数は必須で、慣例としてselfにする。
+        インスタンス経由で呼び出すと、呼び出したインスタンスが第1引数に入る。
+        クラス経由で呼び出すと、呼び出したときの引数がそのまま渡される。
+
+    クラスメソッド
+        @classmethodを付けて定義する。第1引数は必須で、慣例としてclsにする。
+        インスタンス経由で呼び出すと、呼び出したインスタンスのクラスが第1引数に入る。
+        クラス経由で呼び出すと、そのクラスが第1引数に入る。
+
+    スタティックメソッド
+        @staticmethodを付けて定義する。引数は必須ではない。
+        呼び出したときの引数がそのまま渡される。
+```
+
+```
+class C:
+  val = 20
+  def __init__(self):
+    self.val = 1
+  def normal_method(self, v):
+    return self.val + v + 2
+  @classmethod
+  def class_method(cls, v):
+    return cls.val + v + 3
+  @staticmethod
+  def static_method(v):
+    return C.val + v + 4
+
+i = C()
+i.normal_method(5)    # i.val + 5 + 2 = 1 + 5 + 2 = 8
+i.class_method(6)     # C.val + 6 + 3 = 20 + 6 + 3 = 29
+i.static_method(7)    # C.val + 7 + 4 = 20 + 7 + 4 = 31
+C.normal_method(5)    # requires 2 args but 1: error
+C.normal_method(i, 6) # i.val + 6 + 2 = 1 + 6 + 2 = 9
+C.normal_method(C, 7) # C.val + 7 + 2 = 20 + 7 + 2 = 29
+C.class_method(8)     # C.val + 8 + 3 = 20 + 8 + 3 = 31
+C.static_method(9)    # C.val + 9 + 4 = 20 + 9 + 4 = 33
+```
+
+```
+通常のメソッドも関数であることに変わりはない。
+
+    第1引数がselfというのは単なるお約束であって、selfの型については制約はない。
+    インスタンス経由で呼び出すと、処理系が勝手に第1引数にそのインスタンスを入れている。
+
+これを逆手にとって、第1引数によって振る舞いを変えることができる。
+```
+
+```
+class C:
+  # 上記に追加
+  def trick_method(arg, v):
+    if isinstance(arg, C):
+      return arg.val * 2 * v
+    else:
+      return C.val + arg * v
+
+i.trick_method(4)    # i.val * 2 * 4 = 1 * 2 * 4 = 8
+C.trick_method(5)    # requires 2 args but 1: error
+C.trick_method(6, 7) # C.val + 6 * 7 = 20 + 6 * 7 = 62
+C.trick_method(i, 8) # i.val * 2 * 8 = 1 * 2 * 8 = 16
+C.trick_method(C, 9) # C.val + C * v: error
+```
+
+[Pythonで classmethod、staticmethod を使う updated at 2018-01-18](https://qiita.com/msrks/items/fdc9afd12effc2cba1bc)  
+## method  
+## classmethod  
+## staticmethod  
+```
+    インスタンス変数やインスタンスメソッドにアクセスしないとき(メソッド内でselfを使わないとき）は classmethod、staticmethodを使おう。
+
+    classmethod: クラス変数にアクセスすべきときや、継承クラスで動作が変わるべきときは classmethodを使おう。
+    
+    staticmethod: 継承クラスでも動作が変わらないときはstaticmethodを使おう
+
+どちらもデコレーターで定義できる。classmethodでは第一引数にclsを与えて定義する。
+```
+
+```
+class Student:
+    def __init__(self, name, school):
+        self.name = name
+        self.school = school
+        self.marks = []
+
+    def average(self):
+        """平均成績を返す
+
+        インスタンス変数にアクセスしたいのでinstancemethodを使う。
+        """
+        return sum(self.marks) / len(self.marks)
+
+    @classmethod
+    def friend(cls, origin, friend_name, *args):
+        """同じ学校の友達を追加する。
+
+        継承クラスで動作が変わるべき(継承クラスでは salaryプロパティがある)
+        なのでclassmethodを使う。
+        子クラスの初期化引数は *argsで受けるのがいい
+        """
+        return cls(friend_name, origin.school, *args)
+
+    @staticmethod
+    def say_hello():
+        """先生に挨拶する
+
+        継承しても同じ動きでいいのでstaticmethodを使う
+        """
+        print("Hello Teacher!")
+
+class WorkingStudent(Student):
+    def __init__(self, name, school, salary):
+        super().__init__(name, school)
+        self.salary = salary
+
+hiro = WorkingStudent("Hiro", "Stanford", 20.00)
+mitsu = WorkingStudent.friend(hiro, "Mitsu", 15.00)
+print(mitsu.salary)
+```
+
+[PythonのABC - 抽象クラスとダック・タイピング posted at Dec 08, 2015](https://qiita.com/kaneshin/items/269bc5f156d86f8a91c4)  
+## @abstractmethod  
+```
+抽象メソッドを示すデコレータです。
+抽象メソッドですが、デコレータを指定したメソッドに処理を記述し、サブクラスから呼び出すことも可能です。
+```
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from abc import ABCMeta, abstractmethod
+
+class Animal(metaclass=ABCMeta):
+    @abstractmethod
+    def sound(self):
+        print("Hello")
+
+# 抽象クラスを継承
+class Cat(Animal):
+    def sound(self):
+        # 継承元のsoundを呼び出す
+        super(Cat, self).sound()
+        print("Meow")
+
+if __name__ == "__main__":
+    print(Cat().sound())
+```
+
+```
+super(Cat, self).sound()で継承元の抽象メソッドを呼び出すことができます。Javaとは少し違う印象ですね。
+```
+
+## @abstractclassmethod (version 3.2)  
+```
+class Animal(metaclass=ABCMeta):
+    @classmethod
+    @abstractmethod
+    def sound_classmethod(self):
+        pass
+```
+
+## @abstractstaticmethod (version 3.2)  
+```
+class Animal(metaclass=ABCMeta):
+    @staticmethod
+    @abstractmethod
+    def sound_staticmethod(self):
+        pass
+```
+
+## Duck Typing（ダック・タイピング） 
+```
+"If it walks like a duck and quacks like a duck, it must be a duck." 
+- 「アヒルのように歩き、鳴けば、それはアヒルだ。」
+```
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from abc import ABCMeta, abstractmethod
+
+class Animal(metaclass=ABCMeta):
+    @abstractmethod
+    def sound(self):
+        pass
+
+class Cat(Animal):
+    def sound(self):
+        print("Meow")
+
+class Dog():
+    def sound(self):
+        print("Bow")
+
+class Book():
+    pass
+
+Animal.register(Dog)
+
+def output(animal):
+    print(animal.__class__.__name__, end=": ")
+    animal.sound()
+
+if __name__ == "__main__":
+    c = Cat()
+    output(c)
+
+    d = Dog()
+    output(d)
+
+    b = Book()
+    output(b)
+```
+
+```
+Cat: Meow
+Dog: Bow
+AttributeError: 'Book' object has no attribute 'sound'
+```
 
 
 # Environment  
@@ -426,4 +661,6 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
+
+
 
