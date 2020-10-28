@@ -1,10 +1,34 @@
+Table of Contents
+=================
+
+   * [Purpose](#purpose)
+   * [HTTPS Stuffs](#https-stuffs)
+      * [How Does Cryptography Help?](#how-does-cryptography-help)
+      * [HTTPS connection Python](#https-connection-python)
+      * [Implementing TLS Clients With Python](#implementing-tls-clients-with-python)
+      * [SSL Certificate Verification](#ssl-certificate-verification)
+         * [1. Disable SSL verify驗證.](#1-disable-ssl-verify驗證)
+         * [2. 把目標server 的 cert加入python執行環境的信任憑證清單中.](#2-把目標server-的-cert加入python執行環境的信任憑證清單中)
+      * [CA Installation](#ca-installation)
+         * [python - certifi/requests の CA 設定](#python---certifirequests-の-ca-設定)
+         * [python - ssl の設定](#python---ssl-の設定)
+         * [Windows 10](#windows-10)
+      * [PycURL](#pycurl)
+   * [HTTP Signatures](#http-signatures)
+      * [A HTTP Signature consists of the following elements](#a-http-signature-consists-of-the-following-elements)
+   * [Python TW](#python-tw)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # Purpose  
 Take note of HTTP Signatures  
-
-# Table of Contents  
-[HTTPS Stuffs](#https-stuffs)  
-[HTTP Signatures](#http-signatures)  
-[]()  
 
 # HTTPS Stuffs  
 [Exploring HTTPS With Python – Real Python Jan 8, 2020](https://realpython.com/python-https/)  
@@ -286,3 +310,4 @@ print(digest.decode('utf-8'))
 - 1
 - 2
 - 3
+

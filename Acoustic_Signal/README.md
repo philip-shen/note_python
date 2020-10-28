@@ -1,3 +1,4 @@
+
 Table of Contents
 =================
 
@@ -47,6 +48,7 @@ Table of Contents
       * [wave.Error: unknown format:3](#waveerror-unknown-format3)
          * [SoXのインストール](#soxのインストール)
          * [実際に使うには](#実際に使うには)
+   * [From Stereo to Mono](#from-stereo-to-mono)
    * [RaspberryPi   Python3でPyaudio](#raspberrypi--python3でpyaudio)
       * [マイクとスピーカーの接続と録音の確認](#マイクとスピーカーの接続と録音の確認)
    * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
@@ -870,6 +872,239 @@ set AUDIODRIVER=waveaudio
 ```
 
 
+# From Stereo to Mono  
+[PythonでWAVをステレオからモノラルに変換するにはど](https://stackoverrun.com/ja/q/1243814)  
+```
+from pydub import AudioSegment
+sound = AudioSegment.from_wav("/path/to/file.wav")
+sound = sound.set_channels(1)
+sound.export("/output/path.wav", format="wav")
+```
+
+```
+1つの注意点：ffmpegを使用してオーディオ形式の変換を処理しますが、wavのみを使用する場合は、純粋なpythonにすることができます。
+```
+
+[Pythonでモノラルとステレオのwavファイルを保存する方法  2019.10.23](https://watlab-blog.com/2019/10/23/wav-mono-stereo/)  
+```
+import soundfile as sf
+from scipy.signal import chirp
+import numpy as np
+import matplotlib.pyplot as plt
+ 
+# サンプル波形を生成（チャープ信号）
+samplerate = 44100                                      # サンプリングレート
+ts = 0                                                  # 信号の開始時間
+tf = 4                                                  # 信号の終了時間
+t = np.linspace(ts, tf, tf * samplerate)                # 時間軸を作成
+L = chirp(t, f0=10, f1=5000, t1=10, method='linear')    # 縦軸を作成
+ 
+# モノラルのwavファイルを保存
+sf.write('mono.wav', L, samplerate)
+ 
+# ここからグラフ描画
+# フォントの種類とサイズを設定する。
+plt.rcParams['font.size'] = 14
+plt.rcParams['font.family'] = 'Times New Roman'
+ 
+# 目盛を内側にする。
+plt.rcParams['xtick.direction'] = 'in'
+plt.rcParams['ytick.direction'] = 'in'
+ 
+# グラフの上下左右に目盛線を付ける。
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
+ax1.yaxis.set_ticks_position('both')
+ax1.xaxis.set_ticks_position('both')
+ 
+# 軸のラベルを設定する。
+ax1.set_xlabel('Time [s]')
+ax1.set_ylabel('L')
+ 
+# データプロット。
+ax1.plot(t, L)
+ 
+# レイアウト設定
+fig.tight_layout()
+ 
+# グラフを表示する。
+plt.show()
+plt.close()
+```
+
+```
+import soundfile as sf
+from scipy.signal import chirp
+import numpy as np
+import matplotlib.pyplot as plt
+ 
+# サンプル波形を生成（チャープ信号）
+samplerate = 44100                                      # サンプリングレート
+ts = 0                                                  # 信号の開始時間
+tf = 4                                                  # 信号の終了時間
+t = np.linspace(ts, tf, tf * samplerate)                # 時間軸を作成
+L = chirp(t, f0=10, f1=5000, t1=10, method='linear')    # 1チャンネル目の縦軸を作成
+R = np.flip(L) / 2                                      # 2チャンネル目の縦軸を作成
+ 
+wave = np.array([L, R])                                 # チャンネル1と2を結合
+wave = wave.T                                           # 多チャンネルwav形式に変換（転置）
+ 
+# ステレオのwavファイルを保存
+sf.write('stereo.wav', wave, samplerate)
+ 
+# ここからグラフ描画
+# フォントの種類とサイズを設定する。
+plt.rcParams['font.size'] = 14
+plt.rcParams['font.family'] = 'Times New Roman'
+ 
+# 目盛を内側にする。
+plt.rcParams['xtick.direction'] = 'in'
+plt.rcParams['ytick.direction'] = 'in'
+ 
+# グラフの上下左右に目盛線を付ける。
+fig = plt.figure()
+ax1 = fig.add_subplot(211)
+ax1.yaxis.set_ticks_position('both')
+ax1.xaxis.set_ticks_position('both')
+ax2 = fig.add_subplot(212)
+ax2.yaxis.set_ticks_position('both')
+ax2.xaxis.set_ticks_position('both')
+ 
+# 軸のラベルを設定する。
+ax1.set_xlabel('Time [s]')
+ax1.set_ylabel('L')
+ax2.set_xlabel('Time [s]')
+ax2.set_ylabel('R')
+ 
+# データプロット。
+ax1.plot(t, L)
+ax2.plot(t, R)
+ 
+# レイアウト設定
+fig.tight_layout()
+ 
+# グラフを表示する。
+plt.show()
+plt.close()
+```
+
+```
+モノラルの場合は生成した波形をそのまま保存すればよかったのですが、ステレオデータの場合はデータをリストでまとめた後に以下の図のように転置する必要があります。
+```
+<img src="https://watlab-blog.com/wp-content/uploads/2019/10/wav-save-stereodata-tenchi.png"  width="600" height="400">
+
+[Python:ステレオwavファイルをLRに分ける  2018-07-30](https://gsmcustomeffects.hatenablog.com/entry/2018/07/30/073640)  
+```
+import wave
+import matplotlib.pyplot as plt
+import audio_func as af
+import scipy
+
+wf = wave.open("GS03.wav", "r")
+af.printWaveInfo(wf)  # デバッグ用
+data = wf.readframes(wf.getnframes())
+num_data = scipy.fromstring(data,dtype = "int16")
+
+if(wf.getnchannels() == 2):
+    left = num_data[::2]
+    right= num_data[1::2]
+
+    #スライスの説明
+    #a[1,2,3,4,5]ていうリストがあったとして
+    #a[::2]  -> 1,3,5
+    #a[1::2] -> 2,4
+
+# left channel
+plt.subplot(2, 1, 1)
+plt.plot(left,label="left")
+plt.legend()
+
+# right channel
+plt.subplot(2, 1, 2)
+plt.plot(right,label="right")
+plt.legend()
+plt.show()
+```
+
+```
+def printWaveInfo(wf):
+    """WAVEファイルの情報を取得"""
+    print("チャンネル数 : "+ str(wf.getnchannels()))
+    print("サンプル幅 : "+ str(wf.getsampwidth()))
+    print("サンプルレート : "+ str(wf.getframerate()))
+    print("フレーム数 : "+ str(wf.getnframes()))
+    print("総パラメータ（一括表示用） : "+ str(wf.getparams()))
+    print("再生時間 : "+ str(float(wf.getnframes()) / wf.getframerate()))
+```
+
+[ @peterleif/peterleif/audio_test.py](https://gist.github.com/peterleif/babcab8881762845fd462237a010644d)  
+(https://gist.github.com/peterleif/babcab8881762845fd462237a010644d#file-audio_test-py)
+
+[モノラルの各wavファイルを一括フーリエ変換し、同じ名前のCSVで出力したい ](https://teratail.com/questions/275967)  
+```
+import wave
+from pydub import AudioSegment
+import glob
+import os
+import struct
+from scipy import fromstring, int32
+import numpy as np
+from pylab import *
+%matplotlib inline
+
+os.chdir('C://Users//karita//sound//data//wav') #パス指定
+
+def fourier(x, n, w):
+    K = []
+    for i in range(w):
+        sample = x[i * n : (i + 1) * n]
+        partial = np.fft.fft(sample)
+        K.append(partial)
+    return K
+
+for file in glob.glob("*.wav"):
+    wavfile = open(file, "rb")#サンプルwavファイル
+    wr = wave.open(wavfile, "rb") #wavファイルの読み込み
+    ch = wr.getnchannels() # モノラルなら1，ステレオなら2
+    width = wr.getsampwidth() # サンプル長(1byte=8bit)
+    fr = wr.getframerate() #サンプリンググレート（サンプリング周波数）
+    fn = wr.getnframes() # 全体のオーディオフレーム数（全データ点数）⇒サンプリング周波数で割れば時間
+    buf = wr.readframes(fn)
+
+    mono = np.frombuffer(buf, dtype="int16")
+    N = 256
+    span = mono.size // N  # int(fn/N) と同じ
+
+
+    print(wavfile)
+    print('サンプル数',N)
+    print('チャンネル', ch)
+    print('サンプル長（bytes）', width)
+    print('サンプリンググレート', fr)
+    print('全オーディオフレーム数', fn)
+    print("オーディオフレームのバイト数", len(buf))
+    print('サンプル時間',fn/fr,'秒')
+    print('N*span時間', 1.0 * N * span / fr, '秒')
+
+    mono = np.frombuffer(buf, dtype="int16")
+    N = 256
+    span = mono.size // N  # int(fn/N) と同じ
+
+    K = fourier(mono, N, span)
+    freqlist = np.fft.fftfreq(N, d=1 / fr)
+    amp = [np.sqrt(c.real ** 2 + c.imag ** 2) for c in K]
+
+    for i, file in enumerate(glob.glob("*.wav")):
+        csv_path = os.path.splitext(os.path.basename(file))[0] + '.csv' # 出力CSVファイル名# 元のファイル名をそのままつける
+        np.savetxt(csv_path, [amp], fmt="%.0f",delimiter=",")
+
+
+
+    print('==============================================================================================================================')
+```
+
+
+
 # RaspberryPi + Python3でPyaudio  
 [RaspberryPi + Python3でPyaudioとdocomo音声認識APIを使ってみる updated at 2018-10-27](https://qiita.com/yukky-k/items/0d18ec22420e8b35d0ac#%E3%83%9E%E3%82%A4%E3%82%AF%E3%81%A8%E3%82%B9%E3%83%94%E3%83%BC%E3%82%AB%E3%83%BC%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%81%A8%E9%8C%B2%E9%9F%B3%E3%81%AE%E7%A2%BA%E8%AA%8D)  
 
@@ -1549,7 +1784,5 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
-
-
 
 
