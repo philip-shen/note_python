@@ -49,6 +49,11 @@ Table of Contents
          * [SoXのインストール](#soxのインストール)
          * [実際に使うには](#実際に使うには)
    * [From Stereo to Mono](#from-stereo-to-mono)
+   * [Sound by Python](#sound-by-python)
+      * [Comparison of Audio Libraries](#comparison-of-audio-libraries)
+      * [Play](#play)
+      * [Record](#record)
+      * [Devices](#devices)
    * [RaspberryPi   Python3でPyaudio](#raspberrypi--python3でpyaudio)
       * [マイクとスピーカーの接続と録音の確認](#マイクとスピーカーの接続と録音の確認)
    * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
@@ -74,7 +79,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 
 # Purpose
@@ -1104,6 +1108,97 @@ for file in glob.glob("*.wav"):
 ```
 
 
+# Sound by Python  
+## Comparison of Audio Libraries  
+[Playing and Recording Sound in Python](https://realpython.com/playing-and-recording-sound-python/)  
+
+| Library | Platform | Playback | Record | Convert | Dependencies | 
+| :------------ |:---------------:|:---------------:|:---------------:|:---------------:|:---------------:|
+playsound | Cross-platform | WAV, MP3 | - | - | None
+simpleaudio | Cross-platform | WAV, array, bytes | - | - | None
+winsound | Windows | WAV | - | - | None
+sounddevice | Cross-platform | NumPy array | NumPy array | - | numpy, soundfile
+pydub | Cross-platform | Any type supported by ffmpeg | - | Any type supported by ffmpeg | simpleaudio, ffmpeg
+pyaudio | Cross-platform | bytes | bytes | - | wave
+wavio | Cross-platform | - | - | WAV, NumPy array | numpy, wave
+soundfile | Cross-platform | - | - | Any type supported by libsndfile | CFFI, libsndfile, numpy
+
+## Play  
+
+```
+import winsound
+
+winsound.PlaySound("sample.wav", winsound.SND_FILENAME)
+```
+
+```
+# ビープ音の再生
+import winsound
+
+winsound.Beep(1000, 100) # 1000Hzのビープを100ms再生
+```
+
+## Record  
+```
+import sounddevice as sd
+from scipy.io.wavfile import write
+
+record_second = 3
+fs = 44100
+
+myrecording = sd.rec(int(record_second * fs), samplerate=fs, channels=2)
+
+write('output.wav', fs, myrecording)
+```
+
+```
+import pyaudio
+import wave
+
+chunk = 1024
+format = pyaudio.paInt16
+channels = 2
+fs = 44100
+record_second = 3
+
+p = pyaudio.PyAudio()
+stream = p.open(format=format, channels=channels, rate=fs, input=True, frames_per_buffer=chunk)
+
+print("* recording")
+
+frames = []
+
+for i in range(int(fs / chunk * record_second)):
+    data = stream.read(chunk)
+    frames.append(data)
+
+print("* done recording")
+
+stream.stop_stream()
+stream.close()
+p.terminate()
+
+wf = wave.open("output.wav", "wb")
+wf.setnchannels(channels)
+wf.setsampwidth(p.get_sample_size(format))
+wf.setframerate(fs)
+wf.writeframes(b''.join(frames))
+wf.close()
+```
+
+## Devices  
+```
+import sounddevice as sd
+sd.query_devices()
+```
+
+> デバイスIDを、default.device に設定するか、play() や Stream() に device引数 として割り当てることで、デバイスの選択が可能
+
+```
+import sounddevice as sd
+sd.default.device = 1, 5
+```
+
 
 # RaspberryPi + Python3でPyaudio  
 [RaspberryPi + Python3でPyaudioとdocomo音声認識APIを使ってみる updated at 2018-10-27](https://qiita.com/yukky-k/items/0d18ec22420e8b35d0ac#%E3%83%9E%E3%82%A4%E3%82%AF%E3%81%A8%E3%82%B9%E3%83%94%E3%83%BC%E3%82%AB%E3%83%BC%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%81%A8%E9%8C%B2%E9%9F%B3%E3%81%AE%E7%A2%BA%E8%AA%8D)  
@@ -1141,6 +1236,15 @@ $ alsamixer
 ```
 $ aplay -D plughw:1,0 /usr/share/sounds/alsa/Front_Center.wav
 ```
+
+[windowsのGUIからpython呼び出す時のエラー通知方法というかwinsound.Beep  Sep 25, 2016](https://qiita.com/noexpect/items/382ee6bdb3b718aa838a)  
+
+[OpenJTalk + python で日本語テキストを発話 Feb 20, 2016](https://qiita.com/kkoba84/items/b828229c374a249965a9)  
+
+[OpenJTalk on Windows10 (環境構築からPythonで日本語をしゃべらせる) Dec 27, 2019](https://qiita.com/koichi_baseball/items/09cd984a409b3701b423)  
+
+[Pythonのみを使って、今実運用可能なWindowsアプリ（exe）を作るとしたら Jul 15, 2020](https://qiita.com/miu200521358/items/557d9f7a29b1a6a9b28d#33-exe%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B)
+[ miu200521358 /PythonExeSample ](https://github.com/miu200521358/PythonExeSample)
 
 
 # Return value of scipy.io.wavfile.read  
@@ -1784,5 +1888,3 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
-
-
