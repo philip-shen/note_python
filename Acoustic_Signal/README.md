@@ -1,4 +1,3 @@
-
 Table of Contents
 =================
 
@@ -49,6 +48,13 @@ Table of Contents
          * [SoXのインストール](#soxのインストール)
          * [実際に使うには](#実際に使うには)
    * [From Stereo to Mono](#from-stereo-to-mono)
+   * [Build an Audio Spectrum Analyzer](#build-an-audio-spectrum-analyzer)
+      * [Reading Audio Files](#reading-audio-files)
+      * [Fourier Transform (FT)](#fourier-transform-ft)
+      * [Fast Fourier Transform (FFT)](#fast-fourier-transform-fft)
+      * [Spectrogram](#spectrogram)
+      * [Speech Recognition using Spectrogram Features](#speech-recognition-using-spectrogram-features)
+      * [Conclusion](#conclusion)
    * [Sound by Python](#sound-by-python)
       * [Comparison of Audio Libraries](#comparison-of-audio-libraries)
       * [Play](#play)
@@ -1108,6 +1114,24 @@ for file in glob.glob("*.wav"):
 ```
 
 
+# Build an Audio Spectrum Analyzer  
+[markjay4k/Audio-Spectrum-Analyzer-in-Python](https://github.com/markjay4k/Audio-Spectrum-Analyzer-in-Python)  
+
+[Audio spectrum extraction from audio file by python Jun 24 '14](https://stackoverflow.com/questions/24382832/audio-spectrum-extraction-from-audio-file-by-python)  
+```
+
+```
+
+[Understanding Audio data, Fourier Transform, FFT and Spectrogram features for a Speech Recognition System Jan 19](https://towardsdatascience.com/understanding-audio-data-fourier-transform-fft-spectrogram-and-speech-recognition-a4072d228520)  
+
+## Reading Audio Files
+## Fourier Transform (FT)
+## Fast Fourier Transform (FFT)
+## Spectrogram
+## Speech Recognition using Spectrogram Features
+## Conclusion
+
+
 # Sound by Python  
 ## Comparison of Audio Libraries  
 [Playing and Recording Sound in Python](https://realpython.com/playing-and-recording-sound-python/)  
@@ -1888,3 +1912,4 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
+
