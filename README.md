@@ -35,6 +35,8 @@ Table of Contents
       * [Duck Typing（ダック・タイピング）](#duck-typingダックタイピング)
    * [Environment](#environment)
    * [Troubleshooting](#troubleshooting)
+      * [Permission denied error by installing matplotlib](#permission-denied-error-by-installing-matplotlib)
+      * [Python 3 ImportError: No module named 'ConfigParser'](#python-3-importerror-no-module-named-configparser)
    * [Reference](#reference)
       * [如何在 Windows 打造 Python 開發環境設定基礎入門教學](#如何在-windows-打造-python-開發環境設定基礎入門教學)
       * [How can I download Anaconda for python 3.6](#how-can-i-download-anaconda-for-python-36)
@@ -528,7 +530,8 @@ AttributeError: 'Book' object has no attribute 'sound'
 windows 10 64bit  
 python 3.6.2  
 
-# Troubleshooting
+# Troubleshooting  
+## Permission denied error by installing matplotlib  
 * [Permission denied error by installing matplotlib 2018年4月29日](https://stackoverflow.com/questions/50087098/permission-denied-error-by-installing-matplotlib)  
 ```
 Windows
@@ -543,6 +546,13 @@ You can install the package as Administrator, by following these steps:
     Select the option Run This Program As An Administrator.
     Run the command pip install <package>
 ```
+
+## Python 3 ImportError: No module named 'ConfigParser'  
+[Python 3 ImportError: No module named 'ConfigParser' ](https://stackoverflow.com/questions/14087598/python-3-importerror-no-module-named-configparser)  
+```
+In Python 3, ConfigParser has been renamed to configparser for PEP 8 compliance. It looks like the package you are installing does not support Python 3.
+```
+
 
 # Reference  
 ## 如何在 Windows 打造 Python 開發環境設定基礎入門教學  
@@ -661,6 +671,3 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
-
-
-
