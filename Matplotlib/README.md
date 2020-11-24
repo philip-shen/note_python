@@ -12,6 +12,10 @@ Table of Contents
    * [[Matplotlib] ヒストグラムの作成](#matplotlib-ヒストグラムの作成)
       * [binの幅を調整する](#binの幅を調整する)
       * [データを正規化して相対度数を表示する](#データを正規化して相対度数を表示する)
+   * [Polar_極座標](#polar_極座標)
+      * [角度の範囲指定](#角度の範囲指定)
+      * [r方向の範囲指定](#r方向の範囲指定)
+      * [アルキメデスの渦巻線](#アルキメデスの渦巻線)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -19,8 +23,10 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose
 Take note of Matplotlib
@@ -415,3 +421,5 @@ plt.show()
 
 
 <img src=""  width="400" height="500">
+
+
