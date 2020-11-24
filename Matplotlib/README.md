@@ -318,6 +318,65 @@ display(fig)
 ![alt tag](https://python.atelierkobato.com/wp-content/uploads/2018/10/a87f6597234474ff5e178c47b5c61492.png)  
 
 
+# Polar_極座標  
+## 角度の範囲指定  
+[[Python]Matplotlibによる極座標表示の散布図 Sep 18, 2020](https://qiita.com/supersaiakujin/items/34659d94fe377d2b0ab5)  
+```
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100
+r = np.random.rand(N)
+theta = 2 * np.pi * np.random.rand(N)
+
+
+fig = plt.figure(figsize=(8,8))
+ax = fig.add_subplot(111, projection='polar')
+ax.scatter(theta, r)
+ax.set_title('Polar coordinates',fontsize=18)
+ax.set_thetamin(0)
+ax.set_thetamax(180)
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F100523%2Ff0651eb2-d73c-41d2-6d69-d09079cda63d.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=2ac466ebabf399e33d307279fb7c0304"  width="500" height="500">
+
+## r方向の範囲指定  
+```
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100
+r = np.random.rand(N)
+theta = 2 * np.pi * np.random.rand(N)
+
+fig = plt.figure(figsize=(8,8))
+ax = fig.add_subplot(111, projection='polar')
+ax.scatter(theta, r)
+ax.set_title('Polar coordinates',fontsize=18)
+ax.set_rmin(0)
+ax.set_rmax(0.5)
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F100523%2F12621981-5ed7-6873-6d36-9e185cf9fce3.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=7a61961c68bd07dc0a7f93802b6d899a"  width="500" height="500">
+
+## アルキメデスの渦巻線  
+[[Pythonによる科学・技術計算] 極座標グラフ，可視化，matplotlib Jul 20, 2017](https://qiita.com/sci_Haru/items/b604083b431849938e26)  
+
+```
+import numpy as np
+import matplotlib.pyplot as plt
+"""
+極方程式
+例:アルキメデスの渦巻線
+"""
+
+theta = np.arange(0.0, 4*2*np.pi, 0.01) #θの範囲を 0-8π ラジアン(4周分)とする
+r = 0.5*theta   ## 極方程式を指定する。
+plt.polar(theta,r) # 極座標グラフのプロット
+
+plt.show()
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F192457%2F4f59f5b4-a903-cafa-a665-0433b827d483.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=b041080ac16bb4b17bff2ce3028da98f"  width="500" height="500">
+
+
 # Troubleshooting
 
 
@@ -355,3 +414,4 @@ display(fig)
 - 3
 
 
+<img src=""  width="400" height="500">
