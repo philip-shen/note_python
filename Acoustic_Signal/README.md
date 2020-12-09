@@ -74,6 +74,12 @@ Table of Contents
    * [Progress Bar](#progress-bar)
       * [light-progress](#light-progress)
       * [Download Large Files with Tqdm Progress Bar](#download-large-files-with-tqdm-progress-bar)
+   * [【Scipy】 FFT, STFT and wavelet](#scipy-fft-stft-and-wavelet)
+      * [STFT変換の例題](#stft変換の例題)
+      * [FFT変換の例](#fft変換の例)
+      * [FFT変換・逆変換](#fft変換逆変換)
+      * [STFT変換・逆変換](#stft変換逆変換)
+      * [wavelet変換・逆変換](#wavelet変換逆変換)
    * [ディープラーニング (Deep learning)声質変換環境構築](#ディープラーニング-deep-learning声質変換環境構築)
    * [音声を並列で再生する方法](#音声を並列で再生する方法)
    * [Troubleshooting](#troubleshooting)
@@ -1842,6 +1848,167 @@ if __name__== "__main__":
         downloader.download_file(url)
 ```
 
+# 【Scipy】 FFT, STFT and wavelet
+
+## STFT変換の例題  
+```
+#scipy.signal.istft example
+#https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.istft.html
+#
+import numpy as np  #added by author
+from scipy import signal
+import matplotlib.pyplot as plt
+
+#Generate a test signal, a 2 Vrms sine wave at 50Hz corrupted by 0.001 V**2/Hz of white noise sampled at 1024 Hz.
+#テスト信号、1024 Hzでサンプリングされた0.001 V ** 2 / Hzのホワイトノイズで破損した50 Hzの2 Vrmsの正弦波を生成します
+
+fs = 1024
+N = 10*fs
+nperseg = 512
+amp = 2 * np.sqrt(2)
+noise_power = 0.001 * fs / 2
+time = np.arange(N) / float(fs)
+carrier = amp * np.sin(2*np.pi*50*time)
+noise = np.random.normal(scale=np.sqrt(noise_power),
+                         size=time.shape)
+x = carrier + noise
+#Compute and plot the STFT’s magnitude.
+#STFTの振幅を計算してプロットします
+
+f, t, Zxx = signal.stft(x, fs=fs, nperseg=nperseg)
+plt.figure()
+plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=amp)
+plt.ylim([f[1], f[-1]])
+plt.title('STFT Magnitude')
+plt.ylabel('Frequency [Hz]')
+plt.xlabel('Time [sec]')
+plt.yscale('log')
+plt.show()
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2Fbf55fa04-2c83-d05a-794d-62bc9fbbd714.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=7ed09b364b57c1d7f04b7521b984b835"  width="400" height="400">
+
+
+## FFT変換の例  
+[【Scipy】FFT、STFTとwavelet変換で遊んでみた♬  Jan 09, 2019](https://qiita.com/MuAuan/items/8850e037babcff991b8e)
+
+```
+スケールはともかく、時間領域（vs振幅）の図から、周波数領域（vsパワー）の図に変換される。どちらも、
+周波数や時間（それぞれ共役量）の記憶がなくなる（積分される）。
+```
+
+```
+from scipy.fftpack import fft, ifft
+import numpy as np
+import matplotlib.pyplot as plt
+
+t = np.linspace(0, 100, 10000, endpoint=False)
+sig = np.cos(2 * np.pi * 4 * t)+np.cos(2 * np.pi * 8 * t)  + np.cos(2 * np.pi * 15 * t)    #*np.exp(-0.1*t) *5
+plt.plot(t, sig)
+plt.axis([0, 5, -5, 5])
+plt.show()
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2Ffef2ad39-7ebf-fa12-05bb-ceff90e407d4.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=e68f25e83a131905fba545411ea95a2a"  width="400" height="400">
+
+```
+freq =fft(sig,1024)
+Pyy = np.abs(freq)/1025    #freq*freq.conj(freq)/1025
+f = np.arange(1024)
+plt.plot(f,Pyy)
+plt.axis([0, 200, 0, 1])
+plt.show()
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2Fa72bfd7c-7318-d1ed-9eb1-68a2f89c29dc.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=a12ee65f00a40e273528a87e1c1854bb"  width="400" height="400">
+
+```
+t1=np.linspace(0, 10, 1024, endpoint=False)
+sig1=ifft(freq)
+plt.plot(t1, sig1)
+plt.axis([0, 5, -5, 5])
+plt.show()
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2F08d82c52-336a-efcc-3dbd-81d0559e8dc3.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=a96376eb4a0cabe30cc86d0284f3a509"  width="400" height="400">
+
+## FFT変換・逆変換
+[【Scipy】FFT、STFTとwavelet変換で遊んでみた♬～②不確定原理について～ Jan 12, 2019](https://qiita.com/MuAuan/items/504160465e83e556dd3e)  
+
+```
+ここで注意したいのは、最後のしっぽが完全には戻らないことである。
+
+以上のとおり、FFTにおける不確定性原理は、時間軸から変換の共役変数である周波数軸に完全に移り、変換の前後で以前の空間の情報は完全に失われることである。
+```
+
+```
+from scipy.fftpack import fft, ifft
+import numpy as np
+import matplotlib.pyplot as plt
+
+t = np.linspace(0, 100, 1000, endpoint=False)
+sig=[]
+for t1 in t:
+    if t1<20:
+        sig1 = np.cos(2 * np.pi * 0.5 * t1)
+        print("5",t1)
+    elif t1<40:
+        sig1 = np.cos(2 * np.pi * 1 * t1)
+        print("10",t1)
+    elif t1<60:
+        sig1 = np.cos(2 * np.pi * 1.5 * t1)
+        print("20",t1)
+    elif t1<80:
+        sig1 = np.cos(2 * np.pi * 2 * t1)
+        print("30",t1)
+    else:
+        sig1 = np.cos(2 * np.pi * 2.5 * t1)
+        print(t1)
+    sig.append(sig1)
+
+plt.plot(t, sig)
+plt.axis([0, 100, -2, 2])
+plt.show()
+```
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2F9a97485d-ec2c-53c8-4144-beaf08f72f1b.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=d3279fea4637b65ca8290d7bd997210c"  width="400" height="400">
+
+```
+freq =fft(sig,1024)
+Pyy = np.sqrt(freq*freq.conj())/1025 #np.abs(freq)/1025    
+f = np.arange(1024)
+plt.plot(f,Pyy)
+plt.axis([0, 512, 0, 0.2])
+plt.show()
+```
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2F1b251f2f-3215-47ab-efed-2cf5fb8ebd52.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=851edd84066c33b23cdf5a2d3489aa48"  width="400" height="400">
+
+```
+t1=np.linspace(0, 100, 1024, endpoint=False)
+sig1=ifft(freq)
+plt.plot(t1, sig1)
+plt.axis([0, 100, -2, 2])
+plt.show()
+```
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2F6d6b9293-7e68-4d45-ff32-098d55cd390f.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=9a3ea13a07b005b3066058cfdb86bf33"  width="400" height="400">
+
+## STFT変換・逆変換
+
+
+## wavelet変換・逆変換  
+
+<img src=""  width="400" height="400">
+
+[【Scipy】FFT、STFTとwavelet変換で遊んでみた♬～③音声データに応用する～ Jan 21, 2019](https://qiita.com/MuAuan/items/858aab2879708668e2bb)  
+[【Scipy】FFT、STFTとwavelet変換で遊んでみた♬～④FFTからwavelet変換まで；ちょっと理論 Jan 24, 2019](https://qiita.com/MuAuan/items/70c87d42c3a258d0b6fd)  
+[【Scipy】FFT、STFTとwavelet変換で遊んでみた♬～音声合成アプリ Feb 08, 2019](https://qiita.com/MuAuan/items/1199a63797f50a6141a1)  
+[【Scipy】FFT、STFTとwavelet変換で遊んでみた♬～⑦リアルタイム・スペクトログラム Feb 03, 2019](https://qiita.com/MuAuan/items/85b077640901dbb29514)  
+[【Scipy】FFT、STFTとwavelet変換で遊んでみた♬～⑦リアルタイム・スペクトログラム；高速化 Feb 03, 2019](https://qiita.com/MuAuan/items/6c2ab8497409bac6304e)  
+[【Audio入門】発生した音（音声）をSTFTする♬ Jul 17, 2019](https://qiita.com/MuAuan/items/53e5ae4983a307567dc8)  
+[【Audio入門】FFT利用のフォルマント音声合成をリアルタイムでやってみる♬ Jul 21, 2019](https://qiita.com/MuAuan/items/2014dd4a28dc9761d86e)  
+[【Raspi4；サウンド入門】pythonで音入力を安定して記録する♪  Jun 03, 2020](https://qiita.com/MuAuan/items/c86d45159655dc2fda0e)  
+
+[【動物会話】Keras(Tensorflow), Opencv, pyaudio, ffmpeg, moviepyなどでCPU環境構築♬ Mar 21, 2019](https://qiita.com/MuAuan/items/3a698ef99bb6895aa100)  
+[【Finetuningの極意】動物会話のアプリをFinetuning（＋中間層利用）で小規模かつ高速に作成♬  Mar 24, 2019](https://qiita.com/MuAuan/items/2dbf2d454786f9d3d2e4)  
+[]()  
 
 # ディープラーニング (Deep learning)声質変換環境構築
 [初めての「誰でも好きなキャラの声になれる」ディープラーニング声質変換環境構築【Ubuntu 18.04LTS】updated at 2019-06-11](https://qiita.com/BURI55/items/92ba127c7beb95b2b3f0)  
@@ -1912,4 +2079,6 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
+
+
 
