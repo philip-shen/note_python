@@ -1991,7 +1991,7 @@ plt.show()
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F233744%2F6d6b9293-7e68-4d45-ff32-098d55cd390f.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=9a3ea13a07b005b3066058cfdb86bf33"  width="400" height="400">
 
 ## STFT変換・逆変換
-
+[短時間フーリエ変換@Wikipedia](https://ja.wikipedia.org/wiki/%E7%9F%AD%E6%99%82%E9%96%93%E3%83%95%E3%83%BC%E3%83%AA%E3%82%A8%E5%A4%89%E6%8F%9B)  
 
 ## wavelet変換・逆変換  
 
