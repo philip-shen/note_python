@@ -77,6 +77,158 @@ C:\Users\Philip.Shen\Envs\3quest\Lib\site-packages\qt5_applications\Qt\bin\desig
 
 [PyQt5とpython3によるGUIプログラミング：実践編[0] Feb 04, 2019](https://qiita.com/kenasman/items/b9ca3beb25ecf87bfb06)  
 
+# Display logs in PyQt  
+[Best way to display logs in pyqt? Feb 22](https://stackoverflow.com/questions/28655198/best-way-to-display-logs-in-pyqt?noredirect=1&lq=1)
+```
+import sys
+from PyQt5 import QtWidgets
+import logging
+
+# Uncomment below for terminal log messages
+# logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+class QTextEditLogger(logging.Handler):
+    def __init__(self, parent):
+        super().__init__()
+        self.widget = QtWidgets.QPlainTextEdit(parent)
+        self.widget.setReadOnly(True)
+
+    def emit(self, record):
+        msg = self.format(record)
+        self.widget.appendPlainText(msg)
+
+
+class MyDialog(QtWidgets.QDialog, QtWidgets.QPlainTextEdit):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        logTextBox = QTextEditLogger(self)
+        # You can format what is printed to text box
+        logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+        logging.getLogger().addHandler(logTextBox)
+        # You can control the logging level
+        logging.getLogger().setLevel(logging.DEBUG)
+
+        self._button = QtWidgets.QPushButton(self)
+        self._button.setText('Test Me')
+
+        layout = QtWidgets.QVBoxLayout()
+        # Add the new logging box widget to the layout
+        layout.addWidget(logTextBox.widget)
+        layout.addWidget(self._button)
+        self.setLayout(layout)
+
+        # Connect signal to slot
+        self._button.clicked.connect(self.test)
+
+    def test(self):
+        logging.debug('damn, a bug')
+        logging.info('something to remember')
+        logging.warning('that\'s not right')
+        logging.error('foobar')
+
+app = QtWidgets.QApplication(sys.argv)
+dlg = MyDialog()
+dlg.show()
+dlg.raise_()
+sys.exit(app.exec_())
+```
+
+[How to Redirect Logger Output into PyQt Text Widget ](https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget)
+```
+import sys
+from PyQt4 import QtCore, QtGui
+import logging
+
+class QtHandler(logging.Handler):
+    def __init__(self):
+        logging.Handler.__init__(self)
+    def emit(self, record):
+        record = self.format(record)
+        if record: XStream.stdout().write('%s\n'%record)
+        # originally: XStream.stdout().write("{}\n".format(record))
+
+
+logger = logging.getLogger(__name__)
+handler = QtHandler()
+handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+
+
+class XStream(QtCore.QObject):
+    _stdout = None
+    _stderr = None
+    messageWritten = QtCore.pyqtSignal(str)
+    def flush( self ):
+        pass
+    def fileno( self ):
+        return -1
+    def write( self, msg ):
+        if ( not self.signalsBlocked() ):
+            self.messageWritten.emit(unicode(msg))
+    @staticmethod
+    def stdout():
+        if ( not XStream._stdout ):
+            XStream._stdout = XStream()
+            sys.stdout = XStream._stdout
+        return XStream._stdout
+    @staticmethod
+    def stderr():
+        if ( not XStream._stderr ):
+            XStream._stderr = XStream()
+            sys.stderr = XStream._stderr
+        return XStream._stderr
+
+class MyDialog(QtGui.QDialog):
+    def __init__( self, parent = None ):
+        super(MyDialog, self).__init__(parent)
+
+        self._console = QtGui.QTextBrowser(self)
+        self._button  = QtGui.QPushButton(self)
+        self._button.setText('Test Me')
+
+        layout = QtGui.QVBoxLayout()
+        layout.addWidget(self._console)
+        layout.addWidget(self._button)
+        self.setLayout(layout)
+
+        XStream.stdout().messageWritten.connect( self._console.insertPlainText )
+        XStream.stderr().messageWritten.connect( self._console.insertPlainText )
+
+        self._button.clicked.connect(self.test)
+
+    def test( self ):
+        logger.debug('debug message')
+        logger.info('info message')
+        logger.warning('warning message')
+        logger.error('error message')
+        print 'Old school hand made print message'
+
+if ( __name__ == '__main__' ):
+    app = None
+    if ( not QtGui.QApplication.instance() ):
+        app = QtGui.QApplication([])
+    dlg = MyDialog()
+    dlg.show()
+    if ( app ):
+        app.exec_()
+```
+
+[Redirecting Output in PyQt Jul 13](https://stackoverflow.com/questions/11465971/redirecting-output-in-pyqt)
+
+[同步logging訊息到QT GUI上 Jul 22, 2018](https://medium.com/@webeasyplay.cr/%E5%90%8C%E6%AD%A5logging%E8%A8%8A%E6%81%AF%E5%88%B0-qt-gui%E4%B8%8A-49af3f9788a1)
+[ webeasyplay /logging_sync_qt](https://github.com/webeasyplay/logging_sync_qt)
+
+[Python Log Viewer](https://pythonhosted.org/logview/)  
+
+
+# PyQt5 GUI      
+[PythonのPyQtによるクロスプラットフォームGUIアプリ作成入門](https://myenigma.hatenablog.com/entry/2016/01/24/113413)
+
+## リスト選択のGUIを作る  
+[リスト選択のGUIを作る](https://myenigma.hatenablog.com/entry/2016/01/24/113413#%E3%83%AA%E3%82%B9%E3%83%88%E9%81%B8%E6%8A%9E%E3%81%AEGUI%E3%82%92%E4%BD%9C%E3%82%8B)  
+
 
 
 # PyQt5 pyinstaller    
