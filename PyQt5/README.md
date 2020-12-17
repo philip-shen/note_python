@@ -245,6 +245,12 @@ if ( __name__ == '__main__' ):
 [Python Log Viewer](https://pythonhosted.org/logview/)  
 
 
+# Detect resizing in Widget-window  
+[Detect resizing in Widget-window resized signal Mar 30 '17](https://stackoverflow.com/questions/43126721/detect-resizing-in-widget-window-resized-signal)  
+
+[Basic-Pyqt5](https://github.com/webeasyplay/Basic-Pyqt5) 
+
+
 # PyQt5 GUI      
 [PythonのPyQtによるクロスプラットフォームGUIアプリ作成入門](https://myenigma.hatenablog.com/entry/2016/01/24/113413)
 
