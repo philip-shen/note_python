@@ -1,4 +1,23 @@
+Table of Contents
+=================
 
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [pyinstaller matplotlib](#pyinstaller-matplotlib)
+      * [Matplotlib](#matplotlib)
+      * [過剰にパッケージを取り込んでしまう場合がある](#過剰にパッケージを取り込んでしまう場合がある)
+      * [Multiprocessing対応](#multiprocessing対応)
+      * [UPXでexeファイルが少し圧縮できる](#upxでexeファイルが少し圧縮できる)
+   * [Anaconda環境](#anaconda環境)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 
 # Purpose
@@ -30,6 +49,25 @@ matplotlib.use('TkAgg')
 dist配下が140MBほどになりました。--onefileを指定すると１ファイルにまとまり、60MBほどでした。
 自分はconda createで環境を分けてます（virtualenvのようなもの）が、matplotlibがPyQt等に依存しているようなので切り離すのは難しそうです。
 ```
+
+## Multiprocessing対応  
+問題  
+```
+Error: no such option: --multiprocessing-fork
+```
+
+対処方法
+```
+    UPX化 のDisable
+    Myprog.py に multiprocessing.freeze_support() を追加（下記まとめ myprog.py 参照）。
+
+※ 参考サイトでは onefileの場合は上記対処だけでは無理と記述があったが、手元ではできた。
+```
+
+[PyInstaller-built Windows EXE fails with multiprocessing Jul 24 '14](https://stackoverflow.com/questions/24944558/pyinstaller-built-windows-exe-fails-with-multiprocessing)
+
+
+
 [Pyinstaller で Python スクリプトを Windows で実行可能な .exe にする 2015-07-21](https://qiita.com/kounoike/items/128f3294362a229005d7#exe-%E3%81%AE%E4%BD%9C%E6%88%90)  
 
 ## UPXでexeファイルが少し圧縮できる
@@ -38,6 +76,21 @@ dist配下が140MBほどになりました。--onefileを指定すると１フ�
 [Python matplotlibでグラフを作る-5（Pythonプログラムをスタンドアロンの実行可能ファイルにする） Jul 29, 2018](https://qiita.com/ty21ky/items/baec82726c492ca4fd5f)  
 
 [Ubuntuでショートカットを作成する（初心者向け） 2018-03-19](https://qiita.com/ty21ky/items/c2357b6cf24fda49280e)  
+
+# Anaconda環境
+[Anaconda環境で作成したPythonプログラムをexe化した話。 Oct 01, 2018](https://qiita.com/shikasama/items/d0418fa4a604cfc00337)  
+
+[python3のpyinstallerを使用したexe化について 2018/09/26](https://teratail.com/questions/148542)  
+```
+c:\users\user\anaconda3\lib\site-packages\PyInstaller\compat.py の370行目
+
+out = out.decode(encoding)
+↓ 変更
+out = out.decode(encoding, errors='ignore')
+
+```
+
+
 
 [超軽量、超高速な配布用Python「embeddable python」2020-11-21](https://qiita.com/mm_sys/items/1fd3a50a930dac3db299) 
 
@@ -119,4 +172,8 @@ if __name__ == "__main__":
 - 1
 - 2
 - 3
+
+
+
+
 
