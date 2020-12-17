@@ -16,6 +16,9 @@ Table of Contents
       * [角度の範囲指定](#角度の範囲指定)
       * [r方向の範囲指定](#r方向の範囲指定)
       * [アルキメデスの渦巻線](#アルキメデスの渦巻線)
+   * [spectrogram](#spectrogram)
+      * [スペクトログラムを観察する](#スペクトログラムを観察する)
+      * [短時間フーリエ変換(STFT)](#短時間フーリエ変換stft)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -23,7 +26,6 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -485,7 +487,7 @@ sox ./audios/harmony1.wav -n trim 0 8 rate 44.1k spectrogram
 4. 短時間フーリエ変換のWikiに書いてあるとおり、STFTの絶対値の2乗をすることでスペクトログラム(パワースペクトルの時間変化)を得ます。
 ```
 
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F103754%2F87e6f9f4-3c1f-ff7e-93d9-05eb495cf673.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=3e447e779629d0081654db353c95dbf2"  width="400" height="500">
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F103754%2F87e6f9f4-3c1f-ff7e-93d9-05eb495cf673.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=3e447e779629d0081654db353c95dbf2"  width="200" height="100">
 
 
 ```
@@ -569,7 +571,7 @@ plt.colorbar()
 plt.show()
 ```
 
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F103754%2F5bafc925-95f1-70b9-35fe-b27eb69a320b.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=be00aaccedf624fc0a3a00291d952c22"  width="400" height="500">
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F103754%2F5bafc925-95f1-70b9-35fe-b27eb69a320b.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=be00aaccedf624fc0a3a00291d952c22"  width="600" height="400">
 
 # Troubleshooting
 
@@ -609,5 +611,3 @@ plt.show()
 
 
 <img src=""  width="400" height="500">
-
-
