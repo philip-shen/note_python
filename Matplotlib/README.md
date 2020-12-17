@@ -17,6 +17,9 @@ Table of Contents
       * [r方向の範囲指定](#r方向の範囲指定)
       * [アルキメデスの渦巻線](#アルキメデスの渦巻線)
    * [spectrogram](#spectrogram)
+      * [STFT](#stft)
+      * [周波数ビン・時刻ビンの計算方法](#周波数ビン時刻ビンの計算方法)
+      * [原理、引数の軽い説明](#原理引数の軽い説明)
       * [スペクトログラムを観察する](#スペクトログラムを観察する)
       * [短時間フーリエ変換(STFT)](#短時間フーリエ変換stft)
    * [Troubleshooting](#troubleshooting)
@@ -387,6 +390,36 @@ plt.show()
 
 # spectrogram  
 [Pythonの音声処理ライブラリ【LibROSA】で音声読み込み⇒スペクトログラム変換・表示⇒位相推定して音声復元 Jul 05, 2020](https://qiita.com/lilacs/items/a331a8933ec135f63ab1) 
+## STFT  
+```
+    STFTの手順
+        音声信号のある時間範囲を窓で区切ってフーリエ変換して、その時間範囲の周波数スペクトルを計算します。
+        窓をずらしながら繰り返すことで、周波数スペクトルの時間経過の行列Dが得られます。
+    STFTの主なパラメータ
+        n_fft（窓の長さ）
+        デフォルト値は2048
+        hop_length（窓の移動幅）
+        デフォルト値はn_fft/4
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F186338%2F3335f616-0719-b044-14b4-d51f74efb3b4.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=815685a45a3f1b755cde7148cc2c8b59"  width="400" height="500">
+
+## 周波数ビン・時刻ビンの計算方法  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F186338%2F6044dbbc-9342-f50c-c9c8-c7418d9197f6.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=edac516fbe3bfa9f08e48d1271328dc8"  width="400" height="500">
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F186338%2Fafe04726-aecc-9454-0e69-c0110a289847.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=3a8657ee1b325bcf2d23a666ee2f53d9"  width="400" height="500">
+
+## 原理、引数の軽い説明    
+[pythonで時間周波数解析(STFT)  2018/11/13 ](http://heartstat.net/2018/11/13/%E6%99%82%E9%96%93%E5%91%A8%E6%B3%A2%E6%95%B0%E8%A7%A3%E6%9E%90time-frequency-analysis/)
+
+<img src="http://heartstat.net/wp-content/uploads/2018/11/2018-11-14-3.png"  width="500" height="300">
+```
+この赤い枠が窓関数に相当していて、上記2つのライブラリでは窓関数の幅(Nperseg(matplotlibではNFFT))と窓関数の重なり(Noverlap)を指定できます。
+(実際には窓関数はこの図より細かく設定すると思いますが)
+Npersegを大きくするほど窓関数が大きくなり周波数分解能が高くなる。
+NoverlapがNpersegより小さい範囲でより大きくしてあげると時間分解能が高くなるように見える。
+みたいなイメージを持っていただければよいと思います。
+```
+
 
 [matplotlibのspecgram Nov 21, 2018](https://qiita.com/wataoka/items/3f01caaa85ae58ace4b0)  
 ```
@@ -447,10 +480,104 @@ freqs | 一次元配列 | スペクトルの行に対応する周波数。
 t | 一次元配列 | セグメントの中点に対応する時間。
 im | AxesImageクラスのインスタンス | スペクトログラムを含むimshowによって作成された画像。
 
-[Pythonで音声ファイル（モノラル・ステレオ両対応）のスペクトログラム描画 Nov 29, 2020]()  
+[Pythonで音声ファイル（モノラル・ステレオ両対応）のスペクトログラム描画 Nov 29, 2020](https://qiita.com/toast-uz/items/3d446b2535f408a99878)  
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import soundfile as sf
+from scipy import signal as sg
+
+# 入力はwavファイルであること（mp3等は入力前にツールで変換する）
+x, fs = sf.read('sample.wav', always_2d=True)
+x = x[:fs*300]   # 最初の5分間だけを分析する
+
+# stftのパラメータ
+nperseg = 256
+noverlap = nperseg // 2
+# ウインドウがぴったりと切り分けられるように入力配列の後ろを少し削る
+# stftしたデータを逆stftをするときに、この前処理があると、変換逆変換でピッタリと戻る
+rest_of_window = (len(x) - nperseg) % (nperseg - noverlap)
+if rest_of_window > 0:
+    x = x[:-rest_of_window]
+# soundfileの形式をstftするには転置する
+f, t, Zxx = sg.stft(x.T, fs=fs, nperseg=nperseg, noverlap=noverlap)
+
+# 逆stftの式（今回は使わない）
+#_, x = sg.istft(Zxx, fs=fs, nperseg=nperseg, noverlap=noverlap)
+#x = x.T
+
+# 人間の声を分析するため7kHz以上の高音はカット
+f = f[f < 7000]
+Zxx = Zxx[:,:len(f)]
+# スペクトログラムを描画するために相対デシベルを求める
+dB = 20 * np.log10(np.abs(Zxx))
+
+# スペクトログラムの描画
+channels = dB.shape[0]
+fig, ax = plt.subplots(channels)
+if channels == 1:
+    ax = (ax,)  #チャネル1つの時はaxがスカラーなので調整
+for i in range(channels):
+    ax[i].set_title(f'CH{i+1}-Time-Frequency')
+    ax[i].set_xlabel('Time(s)')
+    ax[i].set_ylabel('Frequency(Hz)')
+    ax[i].pcolormesh(t, f, dB[i], shading='auto', cmap='jet')
+plt.subplots_adjust(wspace=0.5, hspace=0.5)
+plt.show()
+```
+
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F156600%2Fb0e86085-d429-b8d7-bb22-6b591a4434a9.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=c530b1ce08bed8d91b8916e7a0f77da3"  width="600" height="900">
 
 [Pythonで長い会議を見える化〜スペクトログラム描画の応用〜 Dec 01, 2020](https://qiita.com/toast-uz/items/2f9fc5a436bd1d9e97a5)  
+
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import soundfile as sf
+from scipy import signal as sg
+
+# 入力はwavファイルであること（mp3等は入力前にツールで変換する）
+x, fs = sf.read('sample.wav', always_2d=True)
+# 2CHの平均をとってモノラル化する
+x = x.mean(axis=1)
+
+# stft
+nperseg = 256
+noverlap = nperseg // 2
+f, t, Zxx = sg.stft(x, fs=fs, nperseg=nperseg, noverlap=noverlap)
+# 人間の声を分析するため7kHz以上の高音はカット
+f = f[f < 7000]
+Zxx = Zxx[:len(f)]
+# interval単位に時間軸で区切った配列にする
+interval = 300  # 5分
+window = (interval * fs) // (nperseg - noverlap)
+padding_size = window - Zxx.shape[1] % window
+if padding_size != window:
+    Zxx = np.append(Zxx, np.zeros((Zxx.shape[0], padding_size)), axis=1)
+    t = np.linspace(0, Zxx.shape[1]/window*interval, Zxx.shape[1])
+Zxx = np.reshape(Zxx.T, (-1, window, Zxx.shape[0])).transpose((0, 2, 1))
+t = t[:window]
+
+# スペクトログラムを描画するために相対デシベルを求める
+dB = 20 * np.log10(np.abs(Zxx))
+# スペクトログラムの描画
+num_of_graph = dB.shape[0]
+fig, ax = plt.subplots(num_of_graph)
+if num_of_graph == 1:
+    ax = (ax,)  # グラフ1つの時はaxがスカラーなので調整
+for i in range(num_of_graph):
+    ax[i].tick_params(labelleft=False)
+    ax[i].set_ylabel(f'{interval*i//60}')  # 分で表示
+    ax[i].pcolormesh(t, f, dB[i], shading='auto', cmap='jet')
+    if i == 0:  # 最初のグラフだけ表題をつけて、全体の表題に見せる
+        ax[i].set_title('Meeting spectrogram')
+        ax[i].set_ylabel(f'{interval*i//60}(m)')
+    if i == num_of_graph - 1:  # 最後のグラフだけx軸ラベルをつける
+        ax[i].set_xlabel('Time(s)')
+    else:
+        ax[i].tick_params(labelbottom=False)
+plt.show()
+```
 
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F156600%2F9131b3e7-a422-ab3f-9450-6908cc1b2929.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=92a1083d045f5533d1cc8eded91c4c9e"  width="600" height="900">
 
@@ -611,3 +738,4 @@ plt.show()
 
 
 <img src=""  width="400" height="500">
+
