@@ -68,6 +68,64 @@ Paint Systemの翻訳です。
 ■起動確認
 ```
 
+
+[Anaconda附属のPyQt5とQtDesigerにてGUI作成 Nov 03, 2018](https://qiita.com/zack0828/items/d71c7123a518bb6cfb56)
+
+[PyQt5とpython3によるGUIプログラミング［１］Jun 12, 2016](https://qiita.com/kenasman/items/70a3ef914b0e7e55a123)  
+[PyQt5とpython3によるGUIプログラミング［２］Jun 14, 2016](https://qiita.com/kenasman/items/73d01df973a25ae704e4)  
+[PyQt5とpython3によるGUIプログラミング［３］Jul 09, 2016](https://qiita.com/kenasman/items/794d2874d56d0dc37aea)  
+[PyQt5とpython3によるGUIプログラミング［４］Jul 09, 2016](https://qiita.com/kenasman/items/3119efb6ee1c53dbd877)  
+[PyQt5とpython3によるGUIプログラミング［５］Sep 12, 2016](https://qiita.com/kenasman/items/4da65dd4dd4192f30c21)  
+
+
+# Qt Designer  
+[PyQt5とpython3によるGUIプログラミング［６］Sep 24, 2016](https://qiita.com/kenasman/items/765457d440b923f4e555)  
+```
+Qt Designerで画面を作り、uiファイルをpythonのソースに変換する方法を示していきます。
+```
+
+```
+※なぜ、これをもっと初めに紹介しなかったかというと、実はこのツールは中級から上級者が対象のためでした。
+ツール類は基本を理解していることが前提で作られているようなので、初心者がいきなりこのツールを使って、
+思うものを作ろうとすると大体は挫折してしまうようです。
+```
+
+```
+Qt Designer 自体の使い方は、Qt Designer使い方入門Qt Designer使い方入門 がわかりやすい。
+```
+
+
+```
+ユーザインタフェースを設計し.uiファイルに保存した後、使用する前に、それをコードに変換しなければなりません。
+これはpyuic5コマンドラインプログラムを使用して行います。
+.uiファイルのあるディレクトリで、以下を実行します。
+```
+
+```
+pyuic5 -o ui_test_designer.py test_designer.ui
+```
+
+```
+ここで注意が必要なのは上記のコマンドで作成したpythonのコードを直接編集してはいけないということです。
+なぜなら次にpyuic5コマンドを実行すると上書きされるため、追加したコードは消えてしまいます。
+```
+
+[Qt Designer使い方入門 Feb-2014](http://vivi.dyndns.org/tech/Qt/QtDesigner.html)
+
+## 起動方法・画面説明  
+<img src="http://vivi.dyndns.org/tech/Qt/QtDesigner.png"  width="600" height="400">
+
+## モード  
+```
+QtDesigner には以下の４つの動作モードがあります。
+
+   1. ウィジェットの編集 F3
+   2. シグナル/スロットの編集 F4
+   3. buddy の編集
+   4. タブ順序の編集
+```
+
+
 [PyQt5 基本教學 (1) 安裝 PyQt5，印出 Hello World! 2019-08-26](https://clay-atlas.com/blog/2019/08/26/python-chinese-pyqt5-tutorial-install/)
 ```
 首先我們必須安裝以下兩個套件：
@@ -85,14 +143,7 @@ pip3 install pyqt5-tools
 C:\Users\Philip.Shen\Envs\3quest\Lib\site-packages\qt5_applications\Qt\bin\designer.exe
 ```
 
-[Anaconda附属のPyQt5とQtDesigerにてGUI作成 Nov 03, 2018](https://qiita.com/zack0828/items/d71c7123a518bb6cfb56)
 
-[PyQt5とpython3によるGUIプログラミング［１］Jun 12, 2016](https://qiita.com/kenasman/items/70a3ef914b0e7e55a123)  
-[PyQt5とpython3によるGUIプログラミング［２］Jun 14, 2016](https://qiita.com/kenasman/items/73d01df973a25ae704e4)  
-[PyQt5とpython3によるGUIプログラミング［３］Jul 09, 2016](https://qiita.com/kenasman/items/794d2874d56d0dc37aea)  
-[PyQt5とpython3によるGUIプログラミング［４］Jul 09, 2016](https://qiita.com/kenasman/items/3119efb6ee1c53dbd877)  
-[PyQt5とpython3によるGUIプログラミング［５］Sep 12, 2016](https://qiita.com/kenasman/items/4da65dd4dd4192f30c21)  
-[PyQt5とpython3によるGUIプログラミング［６］Sep 24, 2016](https://qiita.com/kenasman/items/765457d440b923f4e555)  
 [PyQt5とpython3によるGUIプログラミング［7-1］Nov 21, 2016](https://qiita.com/kenasman/items/87c12f3a8b63f5948153)  
 [PyQt5とpython3によるGUIプログラミング［7-2］（編集中）Feb 23, 2017](https://qiita.com/kenasman/items/b3d5b7c8cd442c3c4429)  
 [PyQt5とpython3によるGUIプログラミング［８］（編集中）Feb 18, 2017](https://qiita.com/kenasman/items/fb3f1260c355585a5dce)  
@@ -100,6 +151,26 @@ C:\Users\Philip.Shen\Envs\3quest\Lib\site-packages\qt5_applications\Qt\bin\desig
 [PyQt5とpython3によるGUIプログラミング：実践編[0] Feb 04, 2019](https://qiita.com/kenasman/items/b9ca3beb25ecf87bfb06)  
 
 # Display logs in PyQt  
+[A Qt GUI for logging - Plumber Jack 15 November 2019](http://plumberjack.blogspot.com/2019/11/a-qt-gui-for-logging.html)  
+```
+A question that comes up from time to time is about how to log to a GUI application. The Qt framework is a popular cross-platform UI framework with Python bindings using PySide2 or PyQt5 libraries.
+
+The following example shows how to log to a Qt GUI. This introduces a simple QtHandler class which takes a callable, which should be a slot in the main thread that does GUI updates. A worker thread is also created to show how you can log to the GUI from both the UI itself (via a button for manual logging) as well as a worker thread doing work in the background (here, just logging messages at random levels with random short delays in between).
+
+The worker thread is implemented using Qt’s QThread class rather than the threading module, as there are circumstances where one has to use QThread, which offers better integration with other Qt components.
+
+The code should work with recent releases of either PySide2 or PyQt5. You should be able to adapt the approach to earlier versions of Qt. Please refer to the comments in the code snippet for more detailed information.
+```
+
+[同步logging訊息到 QT GUI上 Jul 22, 2018](https://medium.com/@webeasyplay.cr/%E5%90%8C%E6%AD%A5logging%E8%A8%8A%E6%81%AF%E5%88%B0-qt-gui%E4%B8%8A-49af3f9788a1)
+```
+再來我們有三件事情要做
+1. 建立ADD_BTN的click事件來做測試
+2. 自定義一個logging.HANDLER
+3. 把Mywidge的write 方法在MyNewHandler傳入，讓emit調用
+```
+
+
 [Best way to display logs in pyqt? Feb 22](https://stackoverflow.com/questions/28655198/best-way-to-display-logs-in-pyqt?noredirect=1&lq=1)
 ```
 import sys
