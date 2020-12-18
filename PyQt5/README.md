@@ -2,10 +2,15 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [PyQt5とpython3](#pyqt5とpython3)
       * [PyQt5インストール（Windows編）](#pyqt5インストールwindows編)
+   * [Qt Designer](#qt-designer)
+      * [起動方法・画面説明](#起動方法画面説明)
+      * [モード](#モード)
    * [Display logs in PyQt](#display-logs-in-pyqt)
+   * [Detect resizing in Widget-window](#detect-resizing-in-widget-window)
    * [PyQt5 GUI](#pyqt5-gui)
       * [リスト選択のGUIを作る](#リスト選択のguiを作る)
    * [PyQt5 pyinstaller](#pyqt5-pyinstaller)
@@ -402,4 +407,6 @@ python3.6に対応してないということでしょうか？
 - 1
 - 2
 - 3
+
+
 
