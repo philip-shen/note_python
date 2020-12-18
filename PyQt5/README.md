@@ -158,13 +158,18 @@ C:\Users\Philip.Shen\Envs\3quest\Lib\site-packages\qt5_applications\Qt\bin\desig
 # Display logs in PyQt  
 [A Qt GUI for logging - Plumber Jack 15 November 2019](http://plumberjack.blogspot.com/2019/11/a-qt-gui-for-logging.html)  
 ```
-A question that comes up from time to time is about how to log to a GUI application. The Qt framework is a popular cross-platform UI framework with Python bindings using PySide2 or PyQt5 libraries.
+A question that comes up from time to time is about how to log to a GUI application. 
+The Qt framework is a popular cross-platform UI framework with Python bindings using PySide2 or PyQt5 libraries.
 
-The following example shows how to log to a Qt GUI. This introduces a simple QtHandler class which takes a callable, which should be a slot in the main thread that does GUI updates. A worker thread is also created to show how you can log to the GUI from both the UI itself (via a button for manual logging) as well as a worker thread doing work in the background (here, just logging messages at random levels with random short delays in between).
+The following example shows how to log to a Qt GUI. This introduces a simple QtHandler class which takes a callable, which should be a slot in the main thread that does GUI updates. 
+A worker thread is also created to show how you can log to the GUI from both the UI itself (via a button for manual logging) as well as a worker thread doing work in the background (here, just logging messages at random levels with random short delays in between).
 
-The worker thread is implemented using Qt’s QThread class rather than the threading module, as there are circumstances where one has to use QThread, which offers better integration with other Qt components.
+The worker thread is implemented using Qt’s QThread class rather than the threading module, 
+as there are circumstances where one has to use QThread, which offers better integration with other Qt components.
 
-The code should work with recent releases of either PySide2 or PyQt5. You should be able to adapt the approach to earlier versions of Qt. Please refer to the comments in the code snippet for more detailed information.
+The code should work with recent releases of either PySide2 or PyQt5. 
+You should be able to adapt the approach to earlier versions of Qt. 
+Please refer to the comments in the code snippet for more detailed information.
 ```
 
 [同步logging訊息到 QT GUI上 Jul 22, 2018](https://medium.com/@webeasyplay.cr/%E5%90%8C%E6%AD%A5logging%E8%A8%8A%E6%81%AF%E5%88%B0-qt-gui%E4%B8%8A-49af3f9788a1)
