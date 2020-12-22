@@ -6,6 +6,15 @@ Table of Contents
    * [Purpose](#purpose)
    * [PyQt5とpython3](#pyqt5とpython3)
       * [PyQt5インストール（Windows編）](#pyqt5インストールwindows編)
+      * [Button, RadioButton](#button-radiobutton)
+      * [ComboBox](#combobox)
+      * [File Open Dialogue](#file-open-dialogue)
+      * [QTableWidget](#qtablewidget)
+      * [tablewidgetのセルの色を変えてみる](#tablewidgetのセルの色を変えてみる)
+      * [デジタル時計を表示](#デジタル時計を表示)
+      * [Windowのstyleを変えてみる](#windowのstyleを変えてみる)
+      * [standardIcon](#standardicon)
+      * [QGraphicsSceneに楕円と矩形を置いてマウスで移動可能にする](#qgraphicssceneに楕円と矩形を置いてマウスで移動可能にする)
    * [Qt Designer](#qt-designer)
       * [起動方法・画面説明](#起動方法画面説明)
       * [モード](#モード)
@@ -77,7 +86,76 @@ Paint Systemの翻訳です。
 [Anaconda附属のPyQt5とQtDesigerにてGUI作成 Nov 03, 2018](https://qiita.com/zack0828/items/d71c7123a518bb6cfb56)
 
 [PyQt5とpython3によるGUIプログラミング［１］Jun 12, 2016](https://qiita.com/kenasman/items/70a3ef914b0e7e55a123)  
+
+## Button, RadioButton  
+<img src=""  width="300" height="400">
+
+## ComboBox  
+<img src=""  width="300" height="400">
+
+## File Open Dialogue  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F124460%2F3c7e41a8-9659-cf35-2d82-04448b307efa.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=1156b31a9ef5ede3c5f8aee54ddbb2ba"  width="300" height="100">
+
+[PyQt5 tutorial August 14, 2020](http://zetcode.com/gui/pyqt5/)
+[ janbodnar /PyQt5-Tutorial-Examples](https://github.com/janbodnar/PyQt5-Tutorial-Examples)  
+
+## QTableWidget  
+<img src=""  width="300" height="400">
+
+## tablewidgetのセルの色を変えてみる  
+<img src=""  width="300" height="400">  
+
+## デジタル時計を表示  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F124460%2Fbd4671e2-6032-f76b-9448-30a27346d7c7.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=1e43e2197c89c09882709dc7dfc53b60"  width="300" height="100">
+
+```
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+
+class TestTimer(QWidget):
+
+    def __init__(self, parent=None):
+
+        super(TestTimer, self).__init__(parent)
+        self.setWindowTitle('Digital Clock')
+        timer = QTimer(self)
+
+        timer.timeout.connect(self.updtTime)
+        self.testTimeDisplay = QLCDNumber(self)
+        self.testTimeDisplay.setSegmentStyle(QLCDNumber.Filled)
+        self.testTimeDisplay.setDigitCount(8)
+        self.testTimeDisplay.resize(500, 150)
+        self.updtTime()
+        timer.start(1000)
+
+    def updtTime(self):
+
+        currentTime = QDateTime.currentDateTime().toString('hh:mm:ss')
+        self.testTimeDisplay.display(currentTime)
+
+if __name__ == '__main__':
+
+    myApp = QApplication(sys.argv)
+    myWindow = TestTimer()
+    myWindow.show()
+    myApp.exec_()
+    sys.exit()
+```
+## Windowのstyleを変えてみる  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F124460%2F43c9c5e0-c5e4-ab06-775b-12b13289029a.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=06d8d1d8df3622d7c6d0a629a8e16809"  width="300" height="400">  
+
+## standardIcon  
+[List of Qt Icons September 23, 2015](https://joekuan.wordpress.com/2015/09/23/list-of-qt-icons/)  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F124460%2F07ee7d07-b4d1-9b7d-81a5-6387af88e6d7.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=4b49776ba9c303180ad7e5512121654c"  width="300" height="400">  
+
+## QGraphicsSceneに楕円と矩形を置いてマウスで移動可能にする  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F124460%2F5cbef573-dd68-a1fc-2a5f-805e61dd0dc1.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=ed06bff892fc424a6240273de2323ff0"  width="300" height="400">  
+
 [PyQt5とpython3によるGUIプログラミング［２］Jun 14, 2016](https://qiita.com/kenasman/items/73d01df973a25ae704e4)  
+
+
+
 [PyQt5とpython3によるGUIプログラミング［３］Jul 09, 2016](https://qiita.com/kenasman/items/794d2874d56d0dc37aea)  
 [PyQt5とpython3によるGUIプログラミング［４］Jul 09, 2016](https://qiita.com/kenasman/items/3119efb6ee1c53dbd877)  
 [PyQt5とpython3によるGUIプログラミング［５］Sep 12, 2016](https://qiita.com/kenasman/items/4da65dd4dd4192f30c21)  
@@ -412,6 +490,5 @@ python3.6に対応してないということでしょうか？
 - 1
 - 2
 - 3
-
 
 
