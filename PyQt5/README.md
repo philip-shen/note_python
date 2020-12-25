@@ -184,6 +184,7 @@ Qt Designer 自体の使い方は、Qt Designer使い方入門Qt Designer使い�
 .uiファイルのあるディレクトリで、以下を実行します。
 ```
 
+## pyuic5
 ```
 pyuic5 -o ui_test_designer.py test_designer.ui
 ```
@@ -408,6 +409,17 @@ if ( __name__ == '__main__' ):
 [Detect resizing in Widget-window resized signal Mar 30 '17](https://stackoverflow.com/questions/43126721/detect-resizing-in-widget-window-resized-signal)  
 
 [Basic-Pyqt5](https://github.com/webeasyplay/Basic-Pyqt5) 
+
+
+# Lineedit, TextEdit, Plaintextedit  
+[The difference between Lineedit, TextEdit, Plaintextedit three controls in QT 2014-12-03](https://topic.alibabacloud.com/a/the-difference-between-lineedit-textedit-plaintextedit-three-controls-in-qt_8_8_31580469.html)  
+```
+Qlineedit is a single-line text input, generally used for user names, passwords and other small text interaction places.
+Qtextedit is used for multiple lines of text, or it can display HTML-formatted text.
+Qplaintextedit is much like Qtextedit, but it is used in places where it needs to be processed with text, and Qtextedit is used for display, so to speak, qplaintextedit for plain The text processing ability is stronger than TextEdit.
+
+The difference between Lineedit, TextEdit, Plaintextedit three controls in QT
+```
 
 
 # PyQt5 GUI      
