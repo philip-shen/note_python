@@ -33,6 +33,10 @@ Table of Contents
       * [@abstractclassmethod (version 3.2)](#abstractclassmethod-version-32)
       * [@abstractstaticmethod (version 3.2)](#abstractstaticmethod-version-32)
       * [Duck Typing（ダック・タイピング）](#duck-typingダックタイピング)
+   * [break、continue、pass](#breakcontinuepass)
+      * [break](#break)
+      * [continue](#continue)
+      * [pass](#pass)
    * [Environment](#environment)
    * [Troubleshooting](#troubleshooting)
       * [Permission denied error by installing matplotlib](#permission-denied-error-by-installing-matplotlib)
@@ -525,6 +529,33 @@ Dog: Bow
 AttributeError: 'Book' object has no attribute 'sound'
 ```
 
+# break、continue、pass  
+[1 分鐘搞懂 Python 迴圈控制：break、continue、pass Aug 6, 2018](https://medium.com/@chiayinchen/1-%E5%88%86%E9%90%98%E6%90%9E%E6%87%82-python-%E8%BF%B4%E5%9C%88%E6%8E%A7%E5%88%B6-break-continue-pass-be290cd1f9d8)  
+
+```
+break：強制跳出 ❮整個❯ 迴圈
+
+continue：強制跳出 ❮本次❯ 迴圈，繼續進入下一圈
+
+pass：不做任何事情，所有的程式都將繼續
+```
+
+## break  
+<img src="https://miro.medium.com/max/823/1*LoPPsAj0LcPYUvdqip8j3A.png"  width="300" height="500">
+
+## continue
+<img src="https://miro.medium.com/max/848/1*NpzxHL70qp8W93IO64q0rg.png"  width="300" height="500">
+
+## pass  
+<img src="https://miro.medium.com/max/855/1*Olr_yRRPvaLuhAMtzjqBOg.png"  width="300" height="500">
+
+pass 就像是 To do 的概念，在寫程式的時候，有時候想的比實際寫出來的速度快，例如定義一個函數，
+但還沒有實作出來，空著內容不寫又會產生語法錯誤🤦‍♂️，
+這時就會使用 pass 來替代，當作是個指標，提醒自己之後要來完成。
+```
+def myfunction():
+    pass  #提醒自己之後要來完成
+```
 
 # Environment  
 windows 10 64bit  
@@ -644,6 +675,7 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 * []()  
 ![alt tag]()  
+<img src=""  width="300" height="400">
 
 # h1 size
 
@@ -671,3 +703,5 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
+
+
