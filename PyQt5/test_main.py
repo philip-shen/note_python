@@ -24,7 +24,7 @@ class MyNewHandler(logging.Handler):
     def emit(self, record):
         self.write(record.message + "\r\n")
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow):
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
@@ -32,7 +32,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.root_folder = ''
         self.ADD_BTN.clicked.connect(self.add_click_handler)
-        self.out_log = MyNewHandler(app_window.write)
+        #self.out_log = MyNewHandler(app_window.write)
+        self.out_log = MyNewHandler(QMainWindow.write)
         self.show()
     
     def add_click_handler(self):
@@ -73,6 +74,7 @@ if __name__ == "__main__":
     #     "QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }"
     # )
     app = QApplication(sys.argv)
+    app_window = MainWindow(Ui_MainWindow)
     console = MyNewHandler(app_window.write)
     console.setLevel(logging.INFO)
     formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
