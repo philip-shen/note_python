@@ -700,6 +700,88 @@ plt.show()
 
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F103754%2F5bafc925-95f1-70b9-35fe-b27eb69a320b.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=be00aaccedf624fc0a3a00291d952c22"  width="600" height="400">
 
+
+# Show Chinese in matplotlib/seaborn  
+[如何在 matplotlib/seaborn 的圖中使用中文 — 2021 完全講解](https://medium.com/@kimballwu/%E5%A6%82%E4%BD%95%E5%9C%A8-matplotlib-seaborn-%E7%9A%84%E5%9C%96%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%B8%AD%E6%96%87-2021-%E5%AE%8C%E5%85%A8%E8%AC%9B%E8%A7%A3-191329b565bf)  
+
+## 1. 直接使用內建之中文字形  
+```
+import matplotlib.pyplot as plt
+
+plt.rcParams['font.family'] = 'san-serif'
+# 設定就只有這兩行而已
+plt.rcParams['font.san-serif'] = ['Microsoft JhengHei'] 
+
+# 驗證
+fig, ax = plt.subplots()
+ax.set_title('簡單無腦中文標題使用中')
+plt.show()
+```
+
+```
+首先要知道變數 plt.rcParams 其實是 matplotlib 的設定檔。檔案位置是在 python安裝目錄\Lib\site-packages\matplotlib\mpl-data\ 下面一個叫 matplotlibrc 的檔案
+（例如：若你使用 Anaconda3 預設安裝，此檔應該會在 %USERPROFILE%\anaconda3\Lib\site-packages\matplotlib\mpl-data 路徑下）。
+在 import 的時候，這個設定檔會自動讀入，並存成字典格式供使用者即時修改設定值。若你要永久修改此檔案的話，也可以直接用文字編輯器打開修改。
+
+有了這層認識，接下來的操作就很直觀了。
+第 4 行的設定是告訴 matplotlib，接下來要用的字體屬於無襯線體（san-serif）。
+無襯線體並不是一種特定的字體，而是一類字體的總稱。
+故第 5 行，就是要實際指定使用哪一個非襯線字體。在範例中我指定的是微軟正黑體（Microsoft JhengHei）。
+根據維基百科 ，微軟正黑體在 Windows Vista 時代就成為內建字體了。
+若你只是要讓繁體中文字可以正常顯示的話，應該都至少有微軟正黑體能用。
+```
+
+## 2. 需使用新安裝的字體  
+```
+第一步，你要先安裝好字體。在你的作業系統下該如何安裝字體，
+就怎麼安裝， 不需要特地將字體檔放到 matplotlib 的自帶字體資料夾中 
+（事實上，你根本不該知道有這麼一個資料夾存在）。
+```
+
+```
+第二步是關鍵的一步，你要讓 matplotlib 知道新安裝的字體裝在哪裡。
+在一般情況下，matplotlib 是從一個字體資訊檔中（叫 fontList.json，若你的 matplotlib 版本是 3 以上檔名會帶版本號）知道字體的訊息的。
+問題是，這個字體資訊檔在你安裝了新字體之後 並不會自動更新 。
+因此，接下來的操作就是要令 matplotlib 更新字體資訊檔，以讀入新安裝的字體資訊。
+```
+
+```
+import matplotlib.font_manager as fm
+fm._rebuild()
+```
+
+## 2.5 新字體番外篇：如果不知道新字體的英文名稱怎麼辦？  
+```
+import matplotlib.font_manager as fm
+fm_manager = fm.FontManager()
+fm_manager.ttflist # 列表一
+fm_manager.afmlist # 列表二
+```
+
+```
+基本上，新安裝的字體資訊很有可能存在兩個內建列表（之一）的 最後面。
+當看到類似 <Font 'Times New Roman' (timesbi.ttf) italic normal roman normal> 的資訊時，單引號中間的名稱就是該字體的英文名稱（此例為 Times New Roman）。
+```
+
+```
+用字體檔案名來掃描字體表
+
+如果用上述方式無法確定字體名稱，只好掃描字體資訊了。
+首先，從下載的字體檔案中，取得任一字體檔案的檔名並存成 font_file 變數，
+再執行下述程式找出字體名稱。以下同樣以 Times New Roman 為例（字體檔名為 timesbi.ttf）:
+```
+
+```
+import matplotlib.font_manager as fm
+import os
+
+font_file = 'timesbi.ttf' # 以 New Times Roman 為例
+fm_manager = fm.FontManager()
+for f in list([*fm_manager.ttflist, *fm_manager.afmlist]):
+    if os.path.basename(f.fname) == font_file:
+        print(f.name)
+```
+
 # Troubleshooting
 
 

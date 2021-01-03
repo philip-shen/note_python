@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>575</height>
+    <width>918</width>
+    <height>748</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>781</width>
+      <width>891</width>
       <height>491</height>
      </rect>
     </property>
@@ -42,14 +42,99 @@ font: 75 14pt &quot;微軟正黑體&quot;;</string>
      <string>ADD</string>
     </property>
    </widget>
+   <widget class="QLineEdit" name="lineEdit_Srv_port">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>580</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_disconn_metakit_srv">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>620</y>
+      <width>111</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DisConnect</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>510</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>MetaKit_Servers</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>540</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Server_IP_Address:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>570</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Server_Port:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_conn_metakit_srv">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>620</y>
+      <width>131</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Connect</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_Srv_Ip_Add">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>550</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>22</height>
+     <width>918</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
