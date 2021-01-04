@@ -172,6 +172,60 @@ set GOOGLE_APPLICATION_CREDENTIALS=C:\credential.json
 第三関門：文字化け
 ```
 
+## Google Speech APIv2による音声ファイル認識  
+[Pythonを使って、Google Speech APIv2による音声ファイル認識 Jan 11, 2017](https://qiita.com/clock/items/cb0cfce139af747a3c9f#google-%E3%81%AEspeech-api-v2%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AB%E3%81%AF)  
+
+### 注意点  
+```
+音声ファイルが長すぎると、どこ要因かは分かっていない（2017/01/11現在）のですが、
+エラーになります。私の環境では、10秒程度の音声ファイルの結果は返ってくるのですが、
+20秒になるとエラーになります。
+
+SpeechRecognitionのサンプルを使う場合には、
+audio = r.record(source, duration=10)のように、
+durationで時間を調整して結果を確認してみてください。長いとエラーになりますよね？
+```
+
+### 無音部分でのファイル分割
+```
+Google Speech APIv2で音声認識しようとしたとき、ファイルが大きいと、（どこ要因か不明ですが）
+エラーになるので、ファイルを分割して認識にかけるために無音部分で分割しようとする試みです。
+```  
+[WAVファイル, MP3ファイルを無音部分で分割  2016-10-03](https://chachay.hatenablog.com/entry/2016/10/03/215841)  
+
+```  
+import speech_recognition as sr
+from os import path
+from googleapiclient import discovery
+import httplib2
+import base64, json
+import urllib
+import os
+from pydub import AudioSegment
+from pydub.silence import split_on_silence
+
+
+if __name__ == '__main__':
+    r = sr.Recognizer()
+    audio_data = []
+    sound = AudioSegment.from_file('./filename.wav', format='wav')
+    chunks = split_on_silence(sound, min_silence_len=1500, silence_thresh=-30, keep_silence=500)
+
+    for chunk in chunks:
+        chunk.export('./temp.wav', format='wav')
+        AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "temp.wav") 
+
+        with sr.AudioFile(AUDIO_FILE) as source:
+            audio = r.record(source)
+            audio_data.append(audio)
+    for audio in audio_data:
+        try:
+            print("Google Speech Recognition thinks you said " + r.recognize_google(audio,key='your API key', language='ja'))
+        except sr.UnknownValueError:
+            print("Google Speech Recognition could not understand audio")
+        except sr.RequestError as e:
+            print("Could not request results from Google Speech Recognition service; {0}".format(e))
+```  
 
 #  HarryVolek /PyTorch_Speaker_Verification  
 [ HarryVolek /PyTorch_Speaker_Verification ](https://github.com/HarryVolek/PyTorch_Speaker_Verification?fbclid=IwAR0ROhwtLOKXtnalGWkHmSEghdlZCFA1hywtbFilBhHxfNqDGqwzh2sfcBI)  
