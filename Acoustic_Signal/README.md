@@ -64,6 +64,8 @@ Table of Contents
       * [マイクとスピーカーの接続と録音の確認](#マイクとスピーカーの接続と録音の確認)
    * [Return value of scipy.io.wavfile.read](#return-value-of-scipyiowavfileread)
       * [What do the bytes in a .wav file represent?](#what-do-the-bytes-in-a-wav-file-represent)
+   * [speech_process_exercise](#speech_process_exercise)
+      * [ディジタル信号処理の基礎](#ディジタル信号処理の基礎)
    * [音楽のデジタル信号での各ビットの役割。](#音楽のデジタル信号での各ビットの役割)
    * [DSP (digital signal processing ) functionality](#dsp-digital-signal-processing--functionality)
       * [Loading a wave file and saving a normalized version of the sound](#loading-a-wave-file-and-saving-a-normalized-version-of-the-sound)
@@ -1322,6 +1324,13 @@ Sampling rate | Use
 44,100Hz | Audio CD, also most commonly used with MPEG-1 audio (VCD, SVCD, MP3). Originally chosen by Sony because it could be recorded on modified video equipment running at either 25 frames per second (PAL) or 30 frame/s (using an NTSC monochrome video recorder) and cover the 20 kHz bandwidth thought necessary to match professional analog recording equipment of the time. A PCM adaptor would fit digital audio samples into the analog video channel of, for example, PAL video tapes using 3 samples per line, 588 lines per frame, 25 frames per second. 
 48,000Hz | The standard audio sampling rate used by professional digital video equipment such as tape recorders, video servers, vision mixers and so on. This rate was chosen because it could reconstruct frequencies up to 22 kHz and work with 29.97 frames per second NTSC video – as well as 25 frame/s, 30 frame/s and 24 frame/s systems. With 29.97 frame/s systems it is necessary to handle 1601.6 audio samples per frame delivering an integer number of audio samples only every fifth video frame.  Also used for sound with consumer video formats like DV, digital TV, DVD, and films. The professional Serial Digital Interface (SDI) and High-definition Serial Digital Interface (HD-SDI) used to connect broadcast television equipment together uses this audio sampling frequency. Most professional audio gear uses 48 kHz sampling, including mixing consoles, and digital recording devices. 
 
+# speech_process_exercise  
+[tam17aki /speech_process_exercise](https://github.com/tam17aki/speech_process_exercise)  
+[speech_process_exercise/DigitalSignalProcessing/](https://github.com/tam17aki/speech_process_exercise/tree/master/DigitalSignalProcessing)
+
+## ディジタル信号処理の基礎  
+
+
 # 音楽のデジタル信号での各ビットの役割。
 [N-1. 量子化のビット構成に付いて](https://qiita.com/Try-Jizy/items/178aefe3f06a634064ca#n-1-%E9%87%8F%E5%AD%90%E5%8C%96%E3%81%AE%E3%83%93%E3%83%83%E3%83%88%E6%A7%8B%E6%88%90%E3%81%AB%E4%BB%98%E3%81%84%E3%81%A6)  
 
@@ -2079,6 +2088,4 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
-
-
 
