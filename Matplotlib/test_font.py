@@ -42,7 +42,7 @@ def test_font3():
 
 if __name__ == "__main__":
     
-    test_font1()
+    #test_font1()
 
     test_font3()
 

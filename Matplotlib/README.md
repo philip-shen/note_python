@@ -26,6 +26,7 @@ Table of Contents
       * [1. 直接使用內建之中文字形](#1-直接使用內建之中文字形)
       * [2. 需使用新安裝的字體](#2-需使用新安裝的字體)
       * [2.5 新字體番外篇：如果不知道新字體的英文名稱怎麼辦？](#25-新字體番外篇如果不知道新字體的英文名稱怎麼辦)
+      * [mpl-tc-fonts](#mpl-tc-fonts)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -785,6 +786,13 @@ for f in list([*fm_manager.ttflist, *fm_manager.afmlist]):
     if os.path.basename(f.fname) == font_file:
         print(f.name)
 ```
+
+## mpl-tc-fonts  
+```
+A package to solve the problem of "Tofu" in your matplotlib plots whenever you're trying to use Traditional Chinese characters in labels or texts.
+```
+[ Hsins /mpl-tc-fonts ](https://github.com/Hsins/mpl-tc-fonts)  
+
 
 # Troubleshooting
 
