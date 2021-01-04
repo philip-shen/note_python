@@ -22,6 +22,10 @@ Table of Contents
       * [原理、引数の軽い説明](#原理引数の軽い説明)
       * [スペクトログラムを観察する](#スペクトログラムを観察する)
       * [短時間フーリエ変換(STFT)](#短時間フーリエ変換stft)
+   * [Show Chinese in matplotlib/seaborn](#show-chinese-in-matplotlibseaborn)
+      * [1. 直接使用內建之中文字形](#1-直接使用內建之中文字形)
+      * [2. 需使用新安裝的字體](#2-需使用新安裝的字體)
+      * [2.5 新字體番外篇：如果不知道新字體的英文名稱怎麼辦？](#25-新字體番外篇如果不知道新字體的英文名稱怎麼辦)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -820,4 +824,6 @@ for f in list([*fm_manager.ttflist, *fm_manager.afmlist]):
 
 
 <img src=""  width="400" height="500">
+
+
 
