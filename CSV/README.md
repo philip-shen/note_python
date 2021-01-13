@@ -1,6 +1,25 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [Create a .csv file with values from a Python list](#create-a-csv-file-with-values-from-a-python-list)
+   * [使用python獲取csv文字的某行或某列資料的例項](#使用python獲取csv文字的某行或某列資料的例項)
+   * [Troubleshooting](#troubleshooting)
+      * [python csv2libsvm.py: AttributeError: '_csv.reader' object has no attribute 'next'](#python-csv2libsvmpy-attributeerror-_csvreader-object-has-no-attribute-next)
+      * [Error: “ 'dict' object has no attribute 'iteritems' ”](#error--dict-object-has-no-attribute-iteritems-)
+      * [TypeError: 'dict_keys' object does not support indexing](#typeerror-dict_keys-object-does-not-support-indexing)
+   * [Reference](#reference)
+      * [Python中split()和os.path.split()](#python中split和ospathsplit)
+      * [os.path套件處理檔案路徑名稱](#ospath套件處理檔案路徑名稱)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # Purpose
 Take a note of CSV in Python
 
@@ -79,3 +98,4 @@ The solution is to pass list(d.keys()) (or simply list(d)) to shuffle.
 - 1
 - 2
 - 3
+
