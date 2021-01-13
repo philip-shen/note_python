@@ -209,7 +209,40 @@ QtDesigner には以下の４つの動作モードがあります。
    4. タブ順序の編集
 ```
 
+## QT Designer for UI  
+[用QT Designer 制作Maya工具UI 2018-04-04](https://zhuanlan.zhihu.com/p/35278775)  
+ 
+<img src="https://pic1.zhimg.com/80/v2-208e6b492440ff950151a0d5891b3e80_720w.jpg"  width="300" height="400">
+```
+其中最重要的是 objectName, 可以对所选widget重新命名，这个名称将会在代码中调用，
+建立widget和function 的关联(创建slot,后面会详细讲)。
 
+将建立好的文件储存到任意的文件夹，这里我命名为 ui_test.ui
+
+接下来就是在maya的python脚本编辑器里调用这个 .ui 文件。
+```
+
+```
+调用 .ui 文件有两种方式，一种是先将 .ui 文件convert成 python 脚本文件, 然后调用；
+也可以直接导入 .ui文件，这里我倾向使用后者。
+至于第一种方法，网上已有教程，我就不讲了。
+```
+
+```
+首先说明一下一些定义：
+
+在QT里面，对widget的每一次“操作”称为signal, 不同的widget有不同signal，
+signal也不是唯一的，不同的signal可以让不同“操作”有不同的影响。
+
+具体的signal可以在文档中搜索到，比如：
+```
+
+
+
+<img src=""  width="300" height="400">
+
+
+## Qt Designer in Virtual Environment   
 [PyQt5 基本教學 (1) 安裝 PyQt5，印出 Hello World! 2019-08-26](https://clay-atlas.com/blog/2019/08/26/python-chinese-pyqt5-tutorial-install/)
 ```
 首先我們必須安裝以下兩個套件：
