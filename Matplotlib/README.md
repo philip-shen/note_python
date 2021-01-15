@@ -18,6 +18,10 @@ Table of Contents
       * [アルキメデスの渦巻線](#アルキメデスの渦巻線)
    * [spectrogram](#spectrogram)
       * [STFT](#stft)
+      * [強度をdb単位へ変換](#強度をdb単位へ変換)
+      * [スペクトログラムを表示](#スペクトログラムを表示)
+         * [周波数：線形スケール](#周波数線形スケール)
+         * [周波数：対数スケール](#周波数対数スケール)
       * [周波数ビン・時刻ビンの計算方法](#周波数ビン時刻ビンの計算方法)
       * [原理、引数の軽い説明](#原理引数の軽い説明)
       * [スペクトログラムを観察する](#スペクトログラムを観察する)
@@ -34,6 +38,7 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -407,6 +412,46 @@ plt.show()
         デフォルト値はn_fft/4
 ```
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F186338%2F3335f616-0719-b044-14b4-d51f74efb3b4.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&s=815685a45a3f1b755cde7148cc2c8b59"  width="400" height="500">
+
+## 強度をdb単位へ変換  
+[強度をdb単位へ変換](https://qiita.com/lilacs/items/a331a8933ec135f63ab1#%E5%BC%B7%E5%BA%A6%E3%82%92db%E5%8D%98%E4%BD%8D%E3%81%B8%E5%A4%89%E6%8F%9B)  
+
+```
+スペクトログラムの強度が線形スケールで扱いづらい場合は、dB単位に変換して対数スケールで扱えるようにします。
+
+dB単位では、+20dBで（振幅）スペクトログラムの強度は10倍になります。
+```
+
+[librosa.amplitude_to_db() ドキュメント](https://librosa.org/librosa/master/generated/librosa.core.amplitude_to_db.html)
+
+```
+Sdb = librosa.amplitude_to_db(S)  # 強度をdb単位へ変換
+```
+
+## スペクトログラムを表示 
+[スペクトログラムを表示](https://qiita.com/lilacs/items/a331a8933ec135f63ab1#%E3%82%B9%E3%83%9A%E3%82%AF%E3%83%88%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%A1%A8%E7%A4%BA)
+
+### 周波数：線形スケール  
+```
+librosa.display.specshow()の引数に、y_axis='hz'を指定します
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F186338%2Fa09705bc-29ec-bae9-dccf-bd74f94718c9.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=0f9b52ce84f7ad9cd14fe71fe86167e0"  width="600" height="300">
+
+### 周波数：対数スケール  
+```
+librosa.display.specshow()の引数に、y_axis='log'を指定します
+```
+
+```
+fig,axes = plt.subplots(nrows=1,ncols=2)
+axes[0].set_title("強度：線形スケール")
+librosa.display.specshow(S, sr=sr, x_axis='time', y_axis='log', ax=axes[0])
+axes[1].set_title("強度：対数スケール（dB単位）")
+librosa.display.specshow(Sdb, sr=sr, x_axis='time', y_axis='log', ax=axes[1])
+```
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F186338%2F3464c392-a1de-2f2e-a092-d375b117a87d.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=f77815df296b8885a7f8948d8fa586fd"  width="600" height="300">
+
 
 ## 周波数ビン・時刻ビンの計算方法  
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F186338%2F6044dbbc-9342-f50c-c9c8-c7418d9197f6.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=edac516fbe3bfa9f08e48d1271328dc8"  width="400" height="500">
@@ -832,6 +877,3 @@ A package to solve the problem of "Tofu" in your matplotlib plots whenever you'r
 
 
 <img src=""  width="400" height="500">
-
-
-
