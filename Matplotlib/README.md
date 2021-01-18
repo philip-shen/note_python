@@ -19,6 +19,7 @@ Table of Contents
    * [spectrogram](#spectrogram)
       * [STFT](#stft)
       * [強度をdb単位へ変換](#強度をdb単位へ変換)
+      * [mer spectrogram を求める](#mer-spectrogram-を求める)
       * [スペクトログラムを表示](#スペクトログラムを表示)
          * [周波数：線形スケール](#周波数線形スケール)
          * [周波数：対数スケール](#周波数対数スケール)
@@ -38,7 +39,6 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -422,11 +422,60 @@ plt.show()
 dB単位では、+20dBで（振幅）スペクトログラムの強度は10倍になります。
 ```
 
-[librosa.amplitude_to_db() ドキュメント](https://librosa.org/librosa/master/generated/librosa.core.amplitude_to_db.html)
+[librosa.amplitude_to_db() ドキュメント](https://librosa.org/doc/latest/generated/librosa.amplitude_to_db.html?highlight=amplitude_to_db#librosa.amplitude_to_db)
 
 ```
 Sdb = librosa.amplitude_to_db(S)  # 強度をdb単位へ変換
 ```
+
+## mer spectrogram を求める  
+[機械学習で（楽曲の）音声信号処理をするならlibrosaが便利 Jan 06, 2018](https://qiita.com/Nelca/items/8c0aaaf2a8452352ffe4)
+```
+S = librosa.feature.melspectrogram(y, sr=sr, n_mels=128)
+```
+
+```
+log_S = librosa.amplitude_to_db(S, ref=np.max)
+```
+
+こうして、dBに変換します。
+dBに変換したものをmatplot libで可視化します。  
+
+```
+plt.figure(figsize=(12, 4))
+librosa.display.specshow(log_S, sr=sr, x_axis='time', y_axis='mel')
+plt.title('mel power spectrogram')
+plt.colorbar(format='%02.0f dB')
+plt.tight_layout()
+```
+
+[librosaを使って音楽で遊んでみる Sep 08, 2019](https://qiita.com/__Attsun__/items/e033d689c336315435b3)  
+[グラフで理論を理解する](https://qiita.com/__Attsun__/items/e033d689c336315435b3#%E3%82%B0%E3%83%A9%E3%83%95%E3%81%A7%E7%90%86%E8%AB%96%E3%82%92%E7%90%86%E8%A7%A3%E3%81%99%E3%82%8B)
+```
+D = librosa.stft(y)
+H, P = librosa.decompose.hpss(D, margin=3.0)
+
+plt.figure()
+plt.subplot(3, 1, 1)
+librosa.display.specshow(librosa.amplitude_to_db(np.abs(D), ref=np.max), y_axis='log')
+plt.colorbar(format='%+2.0f dB')
+plt.title('Full power spectrogram')
+
+plt.subplot(3, 1, 2)
+librosa.display.specshow(librosa.amplitude_to_db(np.abs(H), ref=np.max), y_axis='log')
+plt.colorbar(format='%+2.0f dB')
+plt.title('Harmonic power spectrogram')
+
+plt.subplot(3, 1, 3)
+librosa.display.specshow(librosa.amplitude_to_db(np.abs(P), ref=np.max), y_axis='log')
+plt.colorbar(format='%+2.0f dB')
+plt.title('Percussive power spectrogram')
+
+plt.tight_layout()
+plt.show()
+```
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F24894%2F4134f59a-fcb2-29bc-5ebf-f597b376826a.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=f0825c83388e13f768ef9bf64373e8c3"  width="300" height="400">
+
 
 ## スペクトログラムを表示 
 [スペクトログラムを表示](https://qiita.com/lilacs/items/a331a8933ec135f63ab1#%E3%82%B9%E3%83%9A%E3%82%AF%E3%83%88%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%A1%A8%E7%A4%BA)
