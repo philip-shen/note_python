@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
-    <height>748</height>
+    <width>940</width>
+    <height>845</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -127,13 +127,242 @@ font: 75 14pt &quot;微軟正黑體&quot;;</string>
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>630</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stereo:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_4">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>630</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_rec_filename">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>720</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_rec_time_sec">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>660</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>690</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rec_Path:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>540</y>
+      <width>58</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>iGo_App:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>600</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>VBID:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_rec_path">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>690</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>720</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rec_Filename:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_audio_rec">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>750</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Audio Rec</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>660</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rec_Time_Sec:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_3">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>600</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>4</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>540</y>
+      <width>201</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Meta-Kit_Tool_QA_v3-4.exe</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Meta-Kit_Tool_QA_v3-3.exe</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>570</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sampling_Rate:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>570</y>
+      <width>51</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>16k</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>32k</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>48k</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>918</width>
+     <width>940</width>
      <height>26</height>
     </rect>
    </property>
