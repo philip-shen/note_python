@@ -26,6 +26,9 @@ Table of Contents
       * [(2)按一下Tello的電源鍵。](#2按一下tello的電源鍵)
       * [(3)開啟手機wifi，收尋Tello字樣的訊號，連接。](#3開啟手機wifi收尋tello字樣的訊號連接)
       * [(4)出現前鏡頭的畫面後，表示你可以控制Tello了。](#4出現前鏡頭的畫面後表示你可以控制tello了)
+      * [電腦與空拍機的連線](#電腦與空拍機的連線)
+         * [DJI Tello 內建的方式是可以用wifi的連接](#dji-tello-內建的方式是可以用wifi的連接)
+         * [Tello的插件(另外要有python latest(2.7 or 3.7))](#tello的插件另外要有python-latest27-or-37)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -157,6 +160,21 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 
 ## (4)出現前鏡頭的畫面後，表示你可以控制Tello了。
 
+## 電腦與空拍機的連線  
+[DJI Tello 的基礎操作與套件 Feb 23, 2020](https://www.coderbridge.com/series/726ee8e84edc4073aab642d1ab5965fa/posts/68c91aee8877432b9348ea69745f328a)  
+
+### DJI Tello 內建的方式是可以用wifi的連接  
+```
+注意:因為圖像辨識傳輸的數據量大，訊號要強，必須使用外接wifi接收器
+
+    裝上電池，開啟Tello(開機按鈕於機身側面)
+    開機後，確認Tello 前方之LED燈是否亮起並閃爍
+    使用筆電 or 手機連接wifi: TELLO-XXXXXX
+```
+
+### Tello的插件(另外要有python latest(2.7 or 3.7))  
+[ hanyazou /TelloPy ](https://github.com/hanyazou/TelloPy)  
+
 
 
 * []()  
@@ -189,5 +207,4 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 - 1
 - 2
 - 3
-
 
