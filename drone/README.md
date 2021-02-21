@@ -1,6 +1,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [ドローン操作システムを作ろう（目次）](#ドローン操作システムを作ろう目次)
       * [最終的なシステム構成](#最終的なシステム構成)
@@ -20,6 +21,11 @@ Table of Contents
       * [動作確認環境](#動作確認環境)
       * [Source Code](#source-code-1)
       * [参考](#参考)
+   * [DJI Tello 設定教學](#dji-tello-設定教學)
+      * [(1)手機下載Tello的APP](#1手機下載tello的app)
+      * [(2)按一下Tello的電源鍵。](#2按一下tello的電源鍵)
+      * [(3)開啟手機wifi，收尋Tello字樣的訊號，連接。](#3開啟手機wifi收尋tello字樣的訊號連接)
+      * [(4)出現前鏡頭的畫面後，表示你可以控制Tello了。](#4出現前鏡頭的畫面後表示你可以控制tello了)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -138,6 +144,21 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 [Python+OpenCVでWebカメラの画像中のものをトラッキングする話](http://ensekitt.hatenablog.com/entry/2017/12/21/200000)   
 [OpenCV3.3.1 顔認識とトラッキングのサンプルプログラム #2](http://www.netosa.com/blog/2017/12/opencv331-2.html)   
 
+# DJI Tello 設定教學   
+[DJI Tello 設定教學 2018年3月17日 星期六](https://farmer0093.blogspot.com/2018/03/dji-tello.html)  
+
+## (1)手機下載Tello的APP  
+## (2)按一下Tello的電源鍵。  
+## (3)開啟手機wifi，收尋Tello字樣的訊號，連接。  
+```
+空機時並沒有設定密碼，開啟後請依個人情況去設定。我建議是設定，避免人家開wifi去劫持你的飛機。
+```
+<img src="https://1.bp.blogspot.com/-5O-5spo00CE/WqzeT7e_C6I/AAAAAAAACJE/7dn3kPKYeBwwrAcbq3EyLiKOigTVOxGZwCK4BGAYYCw/s400/IMG_8268.jpg" width="500" height="300">  
+
+## (4)出現前鏡頭的畫面後，表示你可以控制Tello了。
+
+
+
 * []()  
 ![alt tag]()
 <img src="" width="" height="">  
@@ -168,3 +189,5 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 - 1
 - 2
 - 3
+
+
