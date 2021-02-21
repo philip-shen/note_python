@@ -1,4 +1,32 @@
+Table of Contents
+=================
 
+   * [Purpose](#purpose)
+   * [ドローン操作システムを作ろう（目次）](#ドローン操作システムを作ろう目次)
+      * [最終的なシステム構成](#最終的なシステム構成)
+      * [目次](#目次)
+      * [dronekit-python を使ってみる(実機編)](#dronekit-python-を使ってみる実機編)
+         * [準備するもの](#準備するもの)
+   * [Google Homeに話しかけてドローンを音声操作してみる](#google-homeに話しかけてドローンを音声操作してみる)
+   * [Tello Eduを用いたPythonプログラミング教育支援環境（SDK2対応，改訂版）](#tello-eduを用いたpythonプログラミング教育支援環境sdk2対応改訂版)
+      * [実行環境](#実行環境)
+      * [Source Code](#source-code)
+   * [トイドローンTelloをPython3で制御する](#トイドローンtelloをpython3で制御する)
+      * [動作環境](#動作環境)
+      * [大きな変更点](#大きな変更点)
+         * [tello3.pyとstats3.pyについて](#tello3pyとstats3pyについて)
+         * [tello_test3.pyについて](#tello_test3pyについて)
+   * [トイドローン Tello をプログラミングで機能拡張！顔認識と自動追尾を実装してみた](#トイドローン-tello-をプログラミングで機能拡張顔認識と自動追尾を実装してみた)
+      * [動作確認環境](#動作確認環境)
+      * [Source Code](#source-code-1)
+      * [参考](#参考)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 # Purpose  
 Take some note of Drone
@@ -8,7 +36,7 @@ Take some note of Drone
 [ドローン操作システムを作ろう（目次） updated at 2020-04-03](https://qiita.com/hsgucci/items/86eedb5555b4234ee0e7)  
 
 ## 最終的なシステム構成  
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F256470%2Ff51f0b3b-eb72-1b0e-9b8f-a2a9e62ed617.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=1f5abc4b8e1b43f823bca2b1b4c41d1e" width="800" height="800">  
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F256470%2Ff51f0b3b-eb72-1b0e-9b8f-a2a9e62ed617.png?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=1f5abc4b8e1b43f823bca2b1b4c41d1e" width="500" height="500">  
 
 ## 目次  
 * 01[dronekit-python を使ってみる SITL編](https://qiita.com/hsgucci/items/27fa33d7c7de505839da)
@@ -104,11 +132,11 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 [ mozzio369 /playtello ](https://github.com/mozzio369/playtello)  
 
 ## 参考  
-[Python版OpenCVとカメラで簡易距離計測](http://opencv.blog.jp/python/%E7%B0%A1%E6%98%93%E8%B7%9D%E9%9B%A2%E8%A8%88%E6%B8%AC) 
-[PythonとOpenCV 3でPCのビデオカメラでリアルタイム顔認識してみた](http://totech.hateblo.jp/entry/2017/10/22/100726) 
-[OpenCVを利用したアプリ開発 顔認識](http://robinit.hatenablog.com/entry/2018/01/13/190349) 
-[Python+OpenCVでWebカメラの画像中のものをトラッキングする話](http://ensekitt.hatenablog.com/entry/2017/12/21/200000) 
-[OpenCV3.3.1 顔認識とトラッキングのサンプルプログラム #2](http://www.netosa.com/blog/2017/12/opencv331-2.html) 
+[Python版OpenCVとカメラで簡易距離計測](http://opencv.blog.jp/python/%E7%B0%A1%E6%98%93%E8%B7%9D%E9%9B%A2%E8%A8%88%E6%B8%AC)   
+[PythonとOpenCV 3でPCのビデオカメラでリアルタイム顔認識してみた](http://totech.hateblo.jp/entry/2017/10/22/100726)   
+[OpenCVを利用したアプリ開発 顔認識](http://robinit.hatenablog.com/entry/2018/01/13/190349)   
+[Python+OpenCVでWebカメラの画像中のものをトラッキングする話](http://ensekitt.hatenablog.com/entry/2017/12/21/200000)   
+[OpenCV3.3.1 顔認識とトラッキングのサンプルプログラム #2](http://www.netosa.com/blog/2017/12/opencv331-2.html)   
 
 * []()  
 ![alt tag]()
@@ -140,6 +168,3 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 - 1
 - 2
 - 3
-
-
-
