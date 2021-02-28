@@ -17,6 +17,8 @@ Table of Contents
       * [大きな変更点](#大きな変更点)
          * [tello3.pyとstats3.pyについて](#tello3pyとstats3pyについて)
          * [tello_test3.pyについて](#tello_test3pyについて)
+   * [Tello Eduをpythonで動かそう！（SDK2対応）](#tello-eduをpythonで動かそうsdk2対応)
+      * [gotello関数の内部で使える命令（コマンド）](#gotello関数の内部で使える命令コマンド)
    * [トイドローン Tello をプログラミングで機能拡張！顔認識と自動追尾を実装してみた](#トイドローン-tello-をプログラミングで機能拡張顔認識と自動追尾を実装してみた)
       * [動作確認環境](#動作確認環境)
       * [Source Code](#source-code-1)
@@ -129,6 +131,35 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 また、細かい部分でちょっと変更していますのでそこはコードを見てください。
 ```
 
+
+# Tello Eduをpythonで動かそう！（SDK2対応）  
+[Tello Eduをpythonで動かそう！（SDK2対応）updated at 2019-12-10](https://qiita.com/yoomori/items/e847166433d44ab53c29)
+
+## gotello関数の内部で使える命令（コマンド）  
+コマンド | 引数 | 説明 | 返値
+------------------------------------ | --------------------------------------------- | --------------------------------------------- | ---------------------------------------------
+command() | なし | Tello EduのモードをSDK2に設定最初にこのコマンドを送信する必要がある | なし
+takeoff() | なし | 離陸（約1m上昇する） | なし
+land() | なし | 着陸 | なし
+stop() | なし | ホバリング（次のコマンドを50秒以内に送信 | なし
+up(x) | x: 20cm〜200cm | 上昇 | なし
+down(x) | x: 20cm〜200cm | 下降 | なし
+left(x) | x: 20cm〜200cm | 左側に動く | なし
+right(x) | x: 20cm〜200cm | 右側に動く | なし
+forward(x) | x: 20cm〜200cm | 前進 | なし
+back(x) | x: 20cm〜200cm | 後進 | なし
+cw(x) | x:1度〜360度 | 時計回りに回転(Clockwise Rotation) | なし
+ccw(x) | x:1度〜360度 | 反時計回りに回転(Counter Clockwise Rotation) | なし
+end() | なし | すべてのコマンドを終了（一番最後に送信する必要がある） | なし
+streamon() | なし | ビデオ録画開始　※録画中にget_qrcode()を呼び出さないこと | なし
+streamoff() | なし | ビデオ録画終了 | なし
+set_speed(x) | x:10〜100 | ドローンの動くスピードを指定 | なし
+get_qrcode() | なし | QRコードを撮影して解析　※解析中にstreamon()を呼び出さないこと | 解析結果（文字列）
+get_speed() | なし | ドローンに設定されてるスピード情報を得ることができる | スピード（数値：浮動小数点）
+get_battery() | なし | ドローンのバッテリー残量を得ることができる | 残量（0〜100）
+emergency() | なし | 緊急停止（4つのモータを停止させる | なし
+
+
 # トイドローン Tello をプログラミングで機能拡張！顔認識と自動追尾を実装してみた  
 [トイドローン Tello をプログラミングで機能拡張！顔認識と自動追尾を実装してみた updated at 2018-07-12](https://qiita.com/mozzio369/items/1f80103339faaedc6be3)
 
@@ -207,4 +238,5 @@ URL: https://qiita.com/hsgucci/items/a199e021bb55572bb43d
 - 1
 - 2
 - 3
+
 
