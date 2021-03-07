@@ -31,6 +31,7 @@ Table of Contents
       * [電腦與空拍機的連線](#電腦與空拍機的連線)
          * [DJI Tello 內建的方式是可以用wifi的連接](#dji-tello-內建的方式是可以用wifi的連接)
          * [Tello的插件(另外要有python latest(2.7 or 3.7))](#tello的插件另外要有python-latest27-or-37)
+   * [Tello Drone Programming with Python](#tello-drone-programming-with-python)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -207,6 +208,32 @@ emergency() | なし | 緊急停止（4つのモータを停止させる | な�
 [ hanyazou /TelloPy ](https://github.com/hanyazou/TelloPy)  
 
 
+# Tello Drone Programming with Python  
+[Tello Drone Programming with Python](https://learn.droneblocks.io/p/tello-drone-programming-with-python)  
+
+```
+Lesson 1: Setting up your Python programming environment with Anaconda and Jupyter Notebook
+
+Lesson 2: An intro to UDP, Packet Sender, and sending a basic UDP message
+
+Lesson 3: Send and receive UDP packets to and from Tello
+
+Lesson 4: Program Tello to fly a box mission with Python code
+
+Lesson 5: Write custom spin and bounce functions to give Tello new flight behavior
+
+Lesson 6: Send keyboard commands to Tello and tap into the software development kit (SDK) - Free Preview
+
+Lesson 7: Convert imperial units to metric and fly Tello in a star patten
+
+Lesson 8: Add retry logic for more robust Tello missions
+
+Lesson 9: Bonus lesson - Control Tello with Raspberry Pi and Python 
+```
+
+[ dbaldwin /DroneBlocks-Tello-Python ](https://github.com/dbaldwin/droneblocks-tello-python)  
+
+
 
 * []()  
 ![alt tag]()
@@ -238,5 +265,7 @@ emergency() | なし | 緊急停止（4つのモータを停止させる | な�
 - 1
 - 2
 - 3
+
+
 
 
