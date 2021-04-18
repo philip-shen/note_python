@@ -43,8 +43,8 @@ def play_record(filename, timeout):
     clips = json.loads(clipsinfo)
     duration = clips[0]['end'] - clips[0]['start']
     # Now we can start recording.
-    msg = 'Sleeping until recording is complete...'
-    logger.info(msg)
+    msg = 'Waiting {} secs until recording is complete...'
+    logger.info(msg.format(duration))
     do_command("Record2ndChoice", duration)
     
     #time.sleep(duration + 0.1)

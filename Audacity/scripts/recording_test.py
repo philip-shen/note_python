@@ -130,9 +130,10 @@ def play_record(filename):
     clips = json.loads(clipsinfo)
     duration = clips[0]['end'] - clips[0]['start']
     # Now we can start recording.
-    do_command("Record2ndChoice")
     print('Sleeping until recording is complete...')
-    #time.sleep(duration + 0.1)
+    do_command("Record2ndChoice")
+    
+    time.sleep(duration + 0.1)
 
 
 def export(filename):
