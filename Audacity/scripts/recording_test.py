@@ -119,8 +119,9 @@ def play_record(filename):
     """Import track and record to new track.
     Note that a stop command is not required as playback will stop at end of selection.
     """
-    #do_command(f"Import2: Filename={os.path.join(PATH, filename + '.wav')}")    
-    do_command("Import2: Filename={}".format(os.path.join(PATH, filename + '.wav')))    
+    #do_command(f"Import2: Filename={}"); #Fail on Windows        
+    #do_command("Import2: Filename={}".format('E:/project/note_python/Audacity/scripts/SPEECH_001_record.wav')); #OK    
+    do_command("Import2: Filename={}".format(os.path.join(PATH, filename + '.wav').replace('\\','/') )); #OK    
     do_command("Select: Track=0")
     do_command("SelTrackStartToEnd")
     # Our imported file has one clip. Find the length of it.
@@ -131,17 +132,16 @@ def play_record(filename):
     # Now we can start recording.
     do_command("Record2ndChoice")
     print('Sleeping until recording is complete...')
-    time.sleep(duration + 0.1)
+    #time.sleep(duration + 0.1)
 
 
 def export(filename):
     """Export the new track, and deleted both tracks."""
-    #do_command("Select: Track=1 mode=Set")
-    do_command("Select: Track=2 mode=Set")
+    do_command("Select: Track=1 mode=Set")
     do_command("SelTrackStartToEnd")
-    do_command(f"Export2: Filename={os.path.join(PATH, filename)} NumChannels=1.0")
-    #do_command("SelectAll")
-    #do_command("RemoveTracks")
+    do_command("Export2: Filename={} NumChannels=1.0".format(os.path.join(PATH, filename + '.wav').replace('\\','/') ))
+    do_command("SelectAll")
+    do_command("RemoveTracks")
 
 
 def do_one_file(name):
