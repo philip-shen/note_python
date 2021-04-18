@@ -1,4 +1,25 @@
-# Table of Contents  
+Table of Contents
+=================
+
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [Scripting - Audacity Development Manual - Audacity GUI](#scripting---audacity-development-manual---audacity-gui)
+      * [Enable mod-script-pipe](#enable-mod-script-pipe)
+   * [Scripting - Audacity Manual](#scripting---audacity-manual)
+   * [Scripting Reference](#scripting-reference)
+   * [audacity/scripts/piped-work/](#audacityscriptspiped-work)
+   * [用於Mac的Python pywinauto for Audacity](#用於mac的python-pywinauto-for-audacity)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose  
 Take note of Audacity Script  
@@ -99,3 +120,5 @@ def noiseReduce(filename):
 - 1
 - 2
 - 3
+
+
