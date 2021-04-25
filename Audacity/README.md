@@ -7,6 +7,7 @@ Table of Contents
       * [Enable mod-script-pipe](#enable-mod-script-pipe)
    * [Scripting - Audacity Manual](#scripting---audacity-manual)
    * [Scripting Reference](#scripting-reference)
+   * [Audacity Forum](#audacity-forum)
    * [audacity/scripts/piped-work/](#audacityscriptspiped-work)
    * [用於Mac的Python pywinauto for Audacity](#用於mac的python-pywinauto-for-audacity)
    * [Troubleshooting](#troubleshooting)
@@ -46,10 +47,14 @@ This establishes that Audacity is finding mod-script pipe, and that the version 
 
 # Scripting - Audacity Manual  
 [Scripting - Audacity Manual 2021/3/9](https://manual.audacityteam.org/man/scripting.html)
- 
+
 
 # Scripting Reference  
 [Scripting Reference ](https://manual.audacityteam.org/man/scripting_reference.html)
+
+
+# Audacity Forum  
+[Audacity Forum](https://forum.audacityteam.org/)
 
 
 # audacity/scripts/piped-work/   
@@ -120,5 +125,7 @@ def noiseReduce(filename):
 - 1
 - 2
 - 3
+
+
 
 
