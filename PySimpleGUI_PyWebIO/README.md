@@ -8,6 +8,9 @@ Table of Contents
    * [PySimpleGUIを使ってプレゼン用カウントダウンタイマーを作った](#pysimpleguiを使ってプレゼン用カウントダウンタイマーを作った)
       * [subterraneananimism/timer](#subterraneananimismtimer)
       * [効果音ラボ](#効果音ラボ)
+   * [async-desktop-chat](#async-desktop-chat)
+   * [Animated-Popup](#animated-popup)
+   * [Bitcoin-wallet-cracker](#bitcoin-wallet-cracker)
    * [PySimpleGuiで入力に応じてグラフを表示・更新する](#pysimpleguiで入力に応じてグラフを表示更新する)
    * [Python画像処理のためのGUI入門（PySimpleGUI解説）](#python画像処理のためのgui入門pysimplegui解説)
    * [「PyWebIO」があればPython 100\xでWebアプリ作れるってマジ！？](#pywebioがあればpython-100でwebアプリ作れるってマジ)
@@ -50,8 +53,37 @@ Take note of Webscreenshoot
 次のフリー効果音素材サイトにアラーム音あり  
 [効果音ラボ](https://soundeffect-lab.info/sound/machine/machine2.html)
 
-# 
+# async-desktop-chat  
+[async-desktop-chat](https://github.com/nngogol/async-desktop-chat)  
+
+<img src="https://user-images.githubusercontent.com/46163555/81684482-ffd36900-9424-11ea-9ef1-a6015de75e28.gif" width="800" height="600">  
+
+<img src="https://raw.githubusercontent.com/nngogol/async-desktop-chat/master/diagram.jpg" width="400" height="500">  
+
+<img src="https://raw.githubusercontent.com/nngogol/async-desktop-chat/master/diagrams/output/en.diagram-start.svg.png" width="600" height="500">  
+
+<img src="https://raw.githubusercontent.com/nngogol/async-desktop-chat/master/diagrams/output/en.diagram2_1.svg.png" width="600" height="500">  
+
+<img src="https://raw.githubusercontent.com/nngogol/async-desktop-chat/master/diagrams/output/en.diagram2_2.svg.png" width="600" height="500">  
+
+<img src="https://raw.githubusercontent.com/nngogol/async-desktop-chat/master/diagrams/output/en.diagram2_3.svg.png" width="600" height="500">   
+
 [PySimpleGUIのユーザー入力を非表示にする方法 Jul 18, 2020](https://qiita.com/konson78960/items/d56434f6025b05e79d2f)  
+
+# Animated-Popup  
+[israel-dryer / Animated-Popup](https://github.com/israel-dryer/Animated-Popup)  
+
+<img src="https://raw.githubusercontent.com/israel-dryer/Animated-Popup/master/examples/splashscreen.gif" width="500" height="600">  
+
+<img src="https://raw.githubusercontent.com/israel-dryer/Animated-Popup/master/examples/animated_popup.gif" width="300" height="300">  
+
+<img src="https://raw.githubusercontent.com/israel-dryer/Animated-Popup/master/examples/ascii_progress.gif" width="400" height="500">  
+
+# Bitcoin-wallet-cracker   
+[Py-Project / Bitcoin-wallet-cracker ](https://github.com/Py-Project/Bitcoin-wallet-cracker)
+
+<img src="https://raw.githubusercontent.com/Py-Project/Bitcoin-wallet-cracker/main/bc.gif" width="400" height="500">  
+
 
 # PySimpleGuiで入力に応じてグラフを表示・更新する  
 [PySimpleGuiで入力に応じてグラフを表示・更新する Jan 11, 2021](https://qiita.com/Qlitre/items/d07d3b16c8f55dfc1d7d)  
@@ -84,7 +116,7 @@ Take note of Webscreenshoot
 
 * []()  
 ![alt tag]()
-<img src="" width="400" height="500">
+<img src="" width="400" height="500">  
 
 # h1 size
 
@@ -112,4 +144,6 @@ Take note of Webscreenshoot
 - 1
 - 2
 - 3
+
+
 
