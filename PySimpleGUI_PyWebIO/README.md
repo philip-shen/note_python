@@ -14,6 +14,11 @@ Table of Contents
    * [PySimpleGuiで入力に応じてグラフを表示・更新する](#pysimpleguiで入力に応じてグラフを表示更新する)
    * [Python画像処理のためのGUI入門（PySimpleGUI解説）](#python画像処理のためのgui入門pysimplegui解説)
    * [「PyWebIO」があればPython 100\xでWebアプリ作れるってマジ！？](#pywebioがあればpython-100でwebアプリ作れるってマジ)
+   * [WebSocket Client](#websocket-client)
+      * [websocket-client](#websocket-client-1)
+         * [Long-lived Connection](#long-lived-connection)
+   * [Websocket GUI Debug Tool比較](#websocket-gui-debug-tool比較)
+      * [Browser WebSocket Client](#browser-websocket-client)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -24,7 +29,6 @@ Table of Contents
    * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose
 Take note of Webscreenshoot  
@@ -106,6 +110,90 @@ Take note of Webscreenshoot
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F81851%2F12aa82b7-e50f-67d4-42ab-004a0cf092ce.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=5e45055760710a4ffdd3aa9c442fbbea" width="500" height="400">
 
 
+# WebSocket Client  
+[[Python]WebSocket Client實作  2020-03-25](https://ithelp.ithome.com.tw/articles/10230592)  
+```
+產生websocket的連線
+
+直接將websocket的網址，傳入物件裡面，就會開始嘗試連線，這邊可以一起傳入各種事件觸發時候要執行的function，或是稍後再指定也是可以的
+```
+
+```
+from websocket import enableTrace, WebSocketApp
+
+# 取物件的時候就直接指定事件方法
+ws = WebSocketApp(
+    "ws://localhost:9453",
+    on_message=MessageFunc,
+    on_error=ErrorFunc,
+    on_close=CloseFunc
+)
+
+# 取完物件再指定事件方法
+ws.on_open = OpenFunc
+```
+
+```
+這幾種事件觸發的時機，分別如下：
+
+    on_open：開啟連線成功時執行
+    on_message：收到來自server端傳來的訊息時執行
+    on_error：連線發生錯誤時執行
+    on_close：關閉連線時執行
+```
+
+## websocket-client  
+[websocket-client /websocket-client](https://github.com/websocket-client/websocket-client)  
+```
+websocket-client is a WebSocket client for Python. It provides access to low level APIs for WebSockets. websocket-client implements version hybi-13 of the WebSocket procotol. This client does not currently support the permessage-deflate extension from RFC 7692.
+```
+
+### Long-lived Connection  
+```
+import websocket
+import _thread
+import time
+
+def on_message(ws, message):
+    print(message)
+
+def on_error(ws, error):
+    print(error)
+
+def on_close(ws, close_status_code, close_msg):
+    print("### closed ###")
+
+def on_open(ws):
+    def run(*args):
+        for i in range(3):
+            time.sleep(1)
+            ws.send("Hello %d" % i)
+        time.sleep(1)
+        ws.close()
+        print("thread terminating...")
+    _thread.start_new_thread(run, ())
+
+if __name__ == "__main__":
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp("ws://echo.websocket.org/",
+                              on_open=on_open,
+                              on_message=on_message,
+                              on_error=on_error,
+                              on_close=on_close)
+
+    ws.run_forever()
+```
+
+# Websocket GUI Debug Tool比較  
+[Websocket GUI Debug Tool比較 updated at 2020-06-09](https://qiita.com/snamiki1212/items/9ee83302dfec39c80a2f)  
+
+## Browser WebSocket Client  
+[Browser WebSocket Client](https://qiita.com/snamiki1212/items/9ee83302dfec39c80a2f#4-browser-websocket-client)
+
+<img src="https://camo.qiitausercontent.com/cb310ed21fe64237e177e7c7573b801be29f0a11/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e616d617a6f6e6177732e636f6d2f302f3138363232382f65336635643562662d356361312d653333392d333630362d6339396436663835323839622e706e67" width="400" height="600"> 
+
+[[Python] Websocket Example - Justin 程式教學 2018年11月7日](https://jccsc.blogspot.com/2018/11/python-websocket-example.html)  
+
 # Troubleshooting
 
 
@@ -144,6 +232,5 @@ Take note of Webscreenshoot
 - 1
 - 2
 - 3
-
 
 
