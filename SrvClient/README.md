@@ -138,6 +138,117 @@ The right name is SocketServer in Python2 and socketserver in Python3.
     Project homepage: https://github.com/troglobit/mcjoin/
 ```
 
+# Async-RSA-Chat  
+[LightDashing/Async-RSA-Chat](https://github.com/LightDashing/Async-RSA-Chat) 
+```
+pip install -r requirements.txt или
+
+python3 -m pip install -r requirements.txt если не вышло с первым
+```
+
+```
+python3 ./server.py
+```
+
+```
+тут всё просто python3 ./new_client.py пам-пам
+```
+
+# Simple-Asyncio-Chat-Client  
+[ henry232323 /Simple-Asyncio-Chat-Client ](https://github.com/henry232323/Simple-Asyncio-Chat-Client)
+```
+A simple Asyncio chat / relay server and client (Async Protocol / Callback) using a STDOUT / tKinter UI through Async create_connection and running the input/GUI in an executor, or using the Quamash PyQt5 loop and running the create_connection as a coroutine. STDOUT / No GUI mode can be a little buggy (i.e if a message is received while typing etc.,)
+```
+
+## Usage  
+```
+Server
+
+    python server.py --addr [**address] --port [**port]
+
+Tkinter Client
+
+    python client.py --user [**username] --addr [**address] --port [**port] --nogui [**bool]
+
+PyQt5 Client
+
+    python qtclient.py --user [**username] --addr [**address] --port [**port]
+```
+
+# chat  
+[ achicha /chat ](https://github.com/achicha/chat)  
+
+## Async Client-Server chat written in python.  
+```
+pip install aiogbchat --upgrade  # install
+python -m aiogbserver  -- nogui  # run server in console mode
+python -m aiogbclient            # run client in GUI mode
+```
+
+## Known issues: 
+```
+    some clients share(?) the DB session, and disconnected simultaneously, if one of them is out.
+    windows: client doesn't work in console mode.
+    windows8 and higher: only works with pyqt5==5.9.2
+    tests
+```
+
+## Helpful:
+
+### How to generate docs:  
+```
+pip install sphinx
+sphinx-apidoc -f ../../chat -o /some_dir/docs/source
+make html
+```
+
+### How to deploy to pypi:  
+```
+pip install twine
+python3 setup.py bdist_wheel # generate wheel
+twine upload dist/*
+```
+
+
+# python-chat  
+[ SiegfriedWagner /python-chat ](https://github.com/SiegfriedWagner/python-chat)
+```
+It's a simple async chat that uses TCP. Project contains both async server (with GUI) and GUI client written in PyQt.
+
+Distinctive feature is logger that logs:
+
+    information about users
+    connection opening timestamp
+    every word
+    sent messages
+    received messages
+    connection closing timestamp
+```
+## Installation_Windows  
+```
+Just run install.ps1 in PowersHell. After running script two shortcuts should appear in project folder:
+
+    run_server.lnk - starts server with GUI interface
+    run_client.lnk - start client setup with GUI interface
+```
+
+# websocket_connection_example  
+[websocket_connection_example ](https://github.com/AktanKasymaliev/websocket_connection_example)
+```
+Here using Python and Django, I have created a Chatting Application. For achieving Async behavior with Django, I have used Channels and Reddis database. 
+The program has a simple database to store multiple people and then you can connect to them and start chatting. 
+The program is also capable of doing group chatting.
+```
+
+
+# PythonDjangoAsyncChatting  
+[ MathurAditya724 /PythonDjangoAsyncChatting ](https://github.com/MathurAditya724/PythonDjangoAsyncChatting)
+
+# django-chat-application  
+[ AktanKasymaliev /django-chat-application ](https://github.com/AktanKasymaliev/django-chat-application)
+[ AktanKasymaliev /docker-practic ](https://github.com/AktanKasymaliev/docker-practic)  
+
+
 # Reference  
 * [Python TCP several listen on several ports at once - Stack Overflow Mar 18, 2017](https://stackoverflow.com/questions/22468160/python-tcp-several-listen-on-several-ports-at-once)  
 There is single-threaded approach (on the listening side anyway - actually handling the connections may still require multiple threads).
