@@ -2,6 +2,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [threading and multiprocessing](#threading-and-multiprocessing)
       * [threading](#threading)
@@ -14,14 +15,24 @@ Table of Contents
          * [map、as_completedとwait](#mapas_completedとwait)
    * [subprocessの使い方(Python3.6)](#subprocessの使い方python36)
       * [Pip of shell script](#pip-of-shell-script)
+   * [Python 好用模組教學 - concurrent.futures](#python-好用模組教學---concurrentfutures)
+   * [Python multiprocessing 模組進階說明與範例](#python-multiprocessing-模組進階說明與範例)
+      * [Process 類別(class)](#process-類別class)
+      * [join() 方法](#join-方法)
+      * [多個 Processes](#多個-processes)
+      * [封裝複雜邏輯](#封裝複雜邏輯)
+      * [Processes 之間的溝通](#processes-之間的溝通)
+         * [Queues](#queues)
+         * [Pipe](#pipe)
+      * [shared memory 共享記憶體](#shared-memory-共享記憶體)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose  
 Take some note of threading and multiprocessing  
@@ -224,6 +235,48 @@ p1.stdout.close()  # SIGPIPE if p2 exits.
 output = p2.communicate()[0]
 ```
 
+# Python 好用模組教學 - concurrent.futures  
+[Python 好用模組教學 - concurrent.futures 2020年8月15日](https://myapollo.com.tw/zh-tw/python-concurrent-futures/) 
+
+```
+Python 關於平行處理的模組除了 multiprocessing 與 threading 之外，其實還提供 1 個更為簡單易用的 concurrent.futures 可以使用。
+
+該模組提供 ThreadPoolExecutor 與 ProcessPoolExecutor 2 個經過封裝的 classes ，讓人方便上手之外，也讓程式看起來更加簡潔。
+
+個人認為是相當值得學習＆使用的模組之一，可以應付絕大多數日常關於平行處理的使用場景。
+
+本文將透過幾個範例學習 concurrent.futures 模組。
+```
+
+# Python multiprocessing 模組進階說明與範例  
+[Python multiprocessing 模組進階說明與範例 2021年5月2日](https://myapollo.com.tw/zh-tw/more-about-python-multiprocessing/)
+
+## Process 類別(class)  
+```
+實際上，絕大多數需要平行處理的情況，都可以透過將平行處理的部分轉成函式(function)後，交由 Pool 進行執行即可。
+
+不過，仍有少數情況不適合用 Pool 執行，例如我們只需要 1 個 process 在背景執行一些工作達成類似非同步(asynchronous)執行的效果。
+
+此時就可以考慮使用 Process 類別(class) 。
+
+只要繼承該類別並且實作 run() 方法(method)即可將需要在背景執行的工作放在另 1 個 process 中執行，例如以下範例實作 1 個能夠每 3 秒監控某網站的 process ，並且在監控 5 次後結束執行：
+```
+
+## join() 方法 
+## 多個 Processes  
+## 封裝複雜邏輯  
+
+## Processes 之間的溝通  
+### Queues  
+### Pipe
+```
+另 1 個 processes 之間溝通的方式為 Pipe （或稱為管道），有別於 Queue 單向溝通的限制，Pipe 具有雙向溝通的能力，當我們呼叫 Pipe() 時會回傳 2 個 Connection ，代表一個管道的 2 端，可以理解為一條水管的 2 端開口，2 個開口都具有傳送與接收資料的能力(稱為 duplex )，因此 main process 與 child process 可以透過這個管道進行雙向溝通。
+
+例如以下範例程式，第 21 行建立 1 個管道，我們將 2 個 connections 分別命名為 parent_conn 與 child_conn 代表管道一端是 main process, 另一端是 child process, 接著將 10 透過 parent_conn 送進管道內，所以要取得這筆資料就得在 child_conn 接收才行，也就是第 12 行接收資料的部分，再來將資料運算完之後，同樣透過 child_conn 將資料送進管道，因此要接收結果就得在 parent_conn 那端接收，也就是第 27 行的部分：
+```
+
+## shared memory 共享記憶體  
+
 * []()  
 ![alt tag]()
 <img src="" width="" height="">  
@@ -254,3 +307,5 @@ output = p2.communicate()[0]
 - 1
 - 2
 - 3
+
+

@@ -131,6 +131,80 @@ As such, it can't be indexed.
 The solution is to pass list(d.keys()) (or simply list(d)) to shuffle.
 '''
 
+## How to solve error: Zip argument #1 must support iteration  
+[How to solve error: Zip argument #1 must support iteration ](https://stackoverflow.com/questions/17423779/how-to-solve-error-zip-argument-1-must-support-iteration)
+
+'''
+Your gen_num_pointers() and gen_num_words() methods return an integer. zip() can only work with sequences (lists, sets, tuples, strings, iterators, etc.)
+'''
+
+'''
+You don't need to call zip() at all here; you are testing one integer against another:
+'''
+
+'''
+def test_get_num_words(self):
+    word_part = ['13797906', '23', 'n', '04', 'flood', '0', 'inundation', '0', 'deluge', '0', 'torrent', '0', '005', '@', '13796604', 'n', '0000', '+', '00603894', 'a', '0401', '+', '00753137', 'v', '0302', '+', '01527311', 'v', '0203', '+', '02361703', 'v', '0101', '|', 'an', 'overwhelming', 'number', 'or', 'amount;', '"a', 'flood', 'of', 'requests";', '"a', 'torrent', 'of', 'abuse"']
+    self.assertEqual(4, self.wn.get_num_words(word_part))
+
+def test_get_num_pointers(self):
+    before_at = '13797906 23 n 04 flood 0 inundation 0 deluge 0 torrent 0 005'
+    self.assertEqual(5, self.wn.get_num_pointers(before_at))
+'''
+
+## Python list to csv throws error: iterable expected, not numpy.int64  
+[Python list to csv throws error: iterable expected, not numpy.int64 ](https://stackoverflow.com/questions/39282516/python-list-to-csv-throws-error-iterable-expected-not-numpy-int64)  
+
+'''
+You can get this done in many ways. But if you wish to writerows from the csv module, then you will have to turn your list fin_ids into a sequence of lists first:
+'''
+
+'''
+fin_ids = [1002774, 0, 1000702, 1000339, 
+   1001620, 1000710, 1000202, 1003143, 147897, 
+   31018, 1001502, 1002812, 1003026, 1003280, 
+   1003289, 1002714, 133191, 5252218, 6007821, 1002632]
+
+outfile = open('D:/dataset/fin_ids.csv','w')
+out = csv.writer(outfile)
+out.writerows(map(lambda x: [x], fin_ids))
+outfile.close()
+'''
+
+'''
+Another way would be to just use the .to_csv() method from pandas Series. Since you started with a dataframe, you could just do:
+'''
+
+'''
+org_city_id['org_id'].unique().to_csv("D:/dataset/fin_ids.csv", index=False)
+'''
+
+'''
+Both of these should generate a csv file with the following data:
+'''
+
+'''
+1002774
+0
+1000702
+1000339
+1001620
+1000710
+1000202
+1003143
+147897
+31018
+1001502
+1002812
+1003026
+1003280
+1003289
+1002714
+133191
+5252218
+6007821
+1002632
+'''
 
 # Reference  
 ## Python中split()和os.path.split()  
