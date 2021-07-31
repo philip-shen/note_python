@@ -923,7 +923,9 @@ In the animated graph above, the legend for each line is fixed at the corner, it
 
 [Thomas Kühn, “Animate points with labels with matplotlib”](https://stackoverflow.com/questions/18351932/animate-points-with-labels-with-matplotlib?noredirect=1&lq=1)    
 
-[jarmoluk, “innovation business information”]( https://pixabay.com/photos/innovation-business-information-561388/)  
+[jarmoluk, “innovation business information”](https://pixabay.com/photos/innovation-business-information-561388)  
+
+[Matplotlib Animation Tutorial Sat 18 August 2012](http://jakevdp.github.io/blog/2012/08/18/matplotlib-animation-tutorial/) 
 
 # Troubleshooting
 
