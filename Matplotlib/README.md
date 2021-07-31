@@ -916,6 +916,15 @@ Matplotlib is a well-known python library used for data visualisation, we usuall
 In the animated graph above, the legend for each line is fixed at the corner, it’s not convenient to distinct the country when we focus on the changes of each line. Why not animate the legends and let them move with lines? It’s similar as the steps for the graph above, but we need to add the text into the graph with annotate().
 ```
 
+## Reference  
+[Viviane, “How to Create Animated Graphs in Python”](https://towardsdatascience.com/how-to-create-animated-graphs-in-python-bb619cc2dec1)  
+
+[Louis Tiao, “Save Matplotlib Animations as GIFs”](ttp://louistiao.me/posts/notebooks/save-matplotlib-animations-as-gifs/)   
+
+[Thomas Kühn, “Animate points with labels with matplotlib”](https://stackoverflow.com/questions/18351932/animate-points-with-labels-with-matplotlib?noredirect=1&lq=1)    
+
+[jarmoluk, “innovation business information”]( https://pixabay.com/photos/innovation-business-information-561388/)  
+
 # Troubleshooting
 
 
