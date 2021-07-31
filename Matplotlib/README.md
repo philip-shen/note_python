@@ -32,6 +32,9 @@ Table of Contents
       * [2. 需使用新安裝的字體](#2-需使用新安裝的字體)
       * [2.5 新字體番外篇：如果不知道新字體的英文名稱怎麼辦？](#25-新字體番外篇如果不知道新字體的英文名稱怎麼辦)
       * [mpl-tc-fonts](#mpl-tc-fonts)
+   * [Draw animated graphs with matplotlib](#draw-animated-graphs-with-matplotlib)
+      * [Animated graph with static legend](#animated-graph-with-static-legend)
+      * [Animated graph with animated legend](#animated-graph-with-animated-legend)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -39,6 +42,7 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -888,6 +892,30 @@ A package to solve the problem of "Tofu" in your matplotlib plots whenever you'r
 [ Hsins /mpl-tc-fonts ](https://github.com/Hsins/mpl-tc-fonts)  
 
 
+# Draw animated graphs with matplotlib  
+[Draw animated graphs with matplotlib ](https://jingwen-z.github.io/draw-animated-graphs-with-matplotlib/)
+
+[jingwen-z /python-playground](https://github.com/jingwen-z/python-playground/blob/master/python_for_data_analysis/plotting_and_visualization/animated_graphs.ipynb)  
+
+```
+Matplotlib is a well-known python library used for data visualisation, we usually create static plots with it. But how if we create animated graph to present the evolution in terms of time? In this blog, I will show you how to create animated graphs with matplotlib in the following point:
+
+    Libraries
+    Data preparation
+    Animated graph with static legend
+    Animated graph with animated legend
+```
+
+## Animated graph with static legend  
+```
+
+```
+
+## Animated graph with animated legend  
+```
+In the animated graph above, the legend for each line is fixed at the corner, it’s not convenient to distinct the country when we focus on the changes of each line. Why not animate the legends and let them move with lines? It’s similar as the steps for the graph above, but we need to add the text into the graph with annotate().
+```
+
 # Troubleshooting
 
 
@@ -926,3 +954,5 @@ A package to solve the problem of "Tofu" in your matplotlib plots whenever you'r
 
 
 <img src=""  width="400" height="500">
+
+
