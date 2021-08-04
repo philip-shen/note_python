@@ -1,6 +1,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [note_python_TCP UDP Srv Clinet](#note_python_tcp-udp-srv-clinet)
    * [Chat-App-using-Socket-Programming-and-Tkinter](#chat-app-using-socket-programming-and-tkinter)
       * [Server on Windows and Client on Linux](#server-on-windows-and-client-on-linux)
@@ -14,7 +15,30 @@ Table of Contents
       * [No Module Named ServerSocket](#no-module-named-serversocket)
    * [Tkinter Countdown Timer](#tkinter-countdown-timer)
    * [mcjoin - tiny multicast testing tool](#mcjoin---tiny-multicast-testing-tool)
+   * [Async-RSA-Chat](#async-rsa-chat)
+   * [Simple-Asyncio-Chat-Client](#simple-asyncio-chat-client)
+      * [Usage](#usage)
+   * [chat](#chat)
+      * [Async Client-Server chat written in python.](#async-client-server-chat-written-in-python)
+      * [Known issues:](#known-issues)
+      * [Helpful:](#helpful)
+         * [How to generate docs:](#how-to-generate-docs)
+         * [How to deploy to pypi:](#how-to-deploy-to-pypi)
+   * [python-chat](#python-chat)
+      * [Installation_Windows](#installation_windows)
+   * [websocket_connection_example](#websocket_connection_example)
+   * [[Python] WebSocketを使う方法](#python-websocketを使う方法)
+      * [websocketServer.py](#websocketserverpy)
+      * [index.html](#indexhtml)
+   * [PythonDjangoAsyncChatting](#pythondjangoasyncchatting)
+   * [django-chat-application](#django-chat-application)
    * [Reference](#reference)
+      * [Python TCP several listen on several ports at once](#python-tcp-several-listen-on-several-ports-at-once)
+      * [how to create a UDP server that will listen on multiple ports](#how-to-create-a-udp-server-that-will-listen-on-multiple-ports)
+      * [Essentials of Python Socket Programming](#essentials-of-python-socket-programming)
+      * [Multiple UDP listener on the same port](#multiple-udp-listener-on-the-same-port)
+      * [Asynchronous HTTP libraries benchmark for upcoming PyPy](#asynchronous-http-libraries-benchmark-for-upcoming-pypy)
+      * [Python server ipv6 UDP program](#python-server-ipv6-udp-program)
    * [Troubleshooting](#troubleshooting)
       * [OSError: [WinError 10065] A socket operation was attempted to an unreachable host](#oserror-winerror-10065-a-socket-operation-was-attempted-to-an-unreachable-host)
    * [h1 size](#h1-size)
@@ -25,6 +49,7 @@ Table of Contents
    * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # note_python_TCP UDP Srv Clinet
 Take some note of TCP UDP Srv Clinet
 
@@ -240,6 +265,132 @@ The program has a simple database to store multiple people and then you can conn
 The program is also capable of doing group chatting.
 ```
 
+# [Python] WebSocketを使う方法  
+[[Python] WebSocketを使う方法 2020/07/07](https://www.nowonbun.com/247.html)
+
+## websocketServer.py  
+```
+import asyncio
+# WebSocketモジュールを宣言する。
+import websockets
+ 
+
+# クライアント接続すると呼び出す。
+async def accept(websocket, path):
+
+  # 無限ループ
+  while True:
+
+    # クライアントからメッセージを待機する。
+    data = await websocket.recv()
+
+    # コンソールに出力
+    print("receive : " + data)
+
+    # クライアントでechoを付けて再送信する。
+    await websocket.send("echo : " + data)
+ 
+
+# WebSocketサーバー生成。ホストはlocalhost、portは9998に生成する。
+start_server = websockets.serve(accept, "localhost", 9998)
+
+# 非同期でサーバを待機する。
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()
+```
+
+## index.html
+```
+<!DOCTYPE html>
+
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Insert title here</title>
+  </head>
+
+<body>
+
+  <form>
+
+    <!-- サーバーにメッセージを送信するテキストボックス -->
+    <input id="textMessage" type="text">
+
+    <!-- 送信ボタン -->
+    <input onclick="sendMessage()" value="Send" type="button">
+
+    <!-- 接続終了ボタン -->
+    <input onclick="disconnect()" value="Disconnect" type="button">
+
+  </form>
+
+  <br />
+
+  <!-- 出力 area -->
+  <textarea id="messageTextArea" rows="10" cols="50"></textarea>
+
+  <script type="text/javascript">
+
+    // ウェブサーバを接続する。
+    var webSocket = new WebSocket("ws://localhost:9998");
+
+    // ウェブサーバから受信したデータを出力するオブジェクトを取得する。
+    var messageTextArea = document.getElementById("messageTextArea");
+
+    // ソケット接続すれば呼び出す関数。
+    webSocket.onopen = function(message){
+      messageTextArea.value += "Server connect...\n";
+    };
+
+    // ソケット接続が切ると呼び出す関数。
+    webSocket.onclose = function(message){
+      messageTextArea.value += "Server Disconnect...\n";
+
+    };
+
+    // ソケット通信中でエラーが発生すれば呼び出す関数。
+    webSocket.onerror = function(message){
+      messageTextArea.value += "error...\n";
+
+    };
+
+    // ソケットサーバからメッセージが受信すれば呼び出す関数。
+    webSocket.onmessage = function(message){
+
+      // 出力areaにメッセージを表示する
+      messageTextArea.value += "Recieve From Server => "+message.data+"\n";
+
+    };
+
+    // サーバにメッセージを送信する関数。
+
+    function sendMessage(){
+      var message = document.getElementById("textMessage");
+      messageTextArea.value += "Send to Server => "+message.value+"\n";
+
+      // WebSocketでtextMessageのオブジェクトの値を送信する。
+      webSocket.send(message.value);
+
+      //textMessageオブジェクトの初期化
+      message.value = "";
+    }
+
+    // 通信を切断する。
+    function disconnect(){
+      webSocket.close();
+    }
+
+  </script>
+
+</body>
+</html>
+```
+
+<img src="https://www.nowonbun.com/contents/247/1285_002.png" width="400" height="300">  
+
+<img src="https://www.nowonbun.com/contents/247/1288_003.png" width="400" height="600">  
+
 
 # PythonDjangoAsyncChatting  
 [ MathurAditya724 /PythonDjangoAsyncChatting ](https://github.com/MathurAditya724/PythonDjangoAsyncChatting)
@@ -250,6 +401,7 @@ The program is also capable of doing group chatting.
 
 
 # Reference  
+## Python TCP several listen on several ports at once  
 * [Python TCP several listen on several ports at once - Stack Overflow Mar 18, 2017](https://stackoverflow.com/questions/22468160/python-tcp-several-listen-on-several-ports-at-once)  
 There is single-threaded approach (on the listening side anyway - actually handling the connections may still require multiple threads).
 
@@ -283,6 +435,7 @@ while True:
     # if it is long-lived  
 ```
 
+## how to create a UDP server that will listen on multiple ports  
 * [how to create a UDP server that will listen on multiple ports in Mar 28, 2016](https://stackoverflow.com/questions/36262374/how-to-create-a-udp-server-that-will-listen-on-multiple-ports-in-python)  
 ```
 import socket
@@ -308,6 +461,8 @@ for s in sockets:
 ```
 
 ```
+
+## Essentials of Python Socket Programming  
 * [Essentials of Python Socket Programming ](https://www.techbeamers.com/python-tutorial-essentials-of-python-socket-programming/)  
 ```
 
@@ -315,10 +470,13 @@ for s in sockets:
 ![alt tag](https://cdn.techbeamers.com/wp-content/uploads/2016/02/Python-Socket-Programming-WorkFlow.png)  
 
 
+## Multiple UDP listener on the same port  
 * [Multiple UDP listener on the same port ](https://gist.github.com/Lothiraldan/3951784)  
 
+## Asynchronous HTTP libraries benchmark for upcoming PyPy  
 * [Asynchronous HTTP libraries benchmark for upcoming PyPy release 5 Mar 2017](https://github.com/squeaky-pl/zenchmarks)
 
+## Python server ipv6 UDP program  
 * [Python server ipv6 UDP program Mar 10, 2016](https://stackoverflow.com/questions/34272372/python-server-ipv6-udp-program)  
 
 
@@ -460,4 +618,8 @@ Similarly you would use .decode() to receive the data on the UDP server side, if
 - 1
 - 2
 - 3
+
+
+<img src="" width="400" height="500">  
+
 
