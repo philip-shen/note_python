@@ -254,6 +254,114 @@ matplotlibとかbokehとかnumpyのインストール方法は省略するよ。
 <img src="https://camo.qiitausercontent.com/057b5122f3c2850254f16c95e74145856c947204/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f38313835312f64616139313534642d316161642d353362312d383664382d3330383731316462343962612e706e67" width="400" height="500">  
 
 
+# streamlitで遊ぼう！  
+[streamlitで遊ぼう！ updated at 2021-01-13](https://qiita.com/irisu-inwl/items/9d49a14c1c67391565f8)
+
+repository: https://github.com/irisu-inwl/streamlit-tutorial
+動作確認環境: windwos10, docker for windows
+
+
+# Streamlitで爆速アプリ開発  
+[Streamlitで爆速アプリ開発 posted at 2020-12-14](https://qiita.com/nyax/items/fc418416e97a12141d0a)
+
+## デプロイもできちゃう  
+```
+Streamlitでデプロイもできてしまう、、！
+https://docs.streamlit.io/en/stable/deploy_streamlit_app.html
+に沿ってするとできます
+```
+
+# 【Python】LINEのグルチャ履歴をヌルヌル動くグラフにしてみた～原理からWebアプリ化まで～  
+[【Python】LINEのグルチャ履歴をヌルヌル動くグラフにしてみた～原理からWebアプリ化まで～ posted at 2021-02-17](https://qiita.com/adumaru0828/items/4be1c07aeb461f7d9341) 
+```
+app.py
+```
+
+# Streamlitで作成した株価アプリをWEB公開した（キャッシュ説明あり）  
+[Streamlitで作成した株価アプリをWEB公開した（キャッシュ説明あり）updated at 2021-02-01](https://qiita.com/morita-toyscreation/items/c9c873bce8d54cfe5b36)  
+
+## キャッシュ化  
+```
+このままWEB公開するとBigQueryアクセスが多くなるのでキャッシュ化を行う
+@st.cacheデコレーターを付けることで返り値をキャッシュする
+@st.cacheは引数種類別にキャッシュする
+2回目以降はキャッシュを使いBigQueryにアクセスしない
+allow_output_mutationをTrueにすると返り値が変わってもエラーにならない
+```
+
+```
+@st.cache(allow_output_mutation=True, suppress_st_warning=True)
+def _get_stock(stock_no: str, start_date: str, end_date: str):
+```
+
+## Docker環境準備  
+```
+Dockerfile作成
+Cloud Runで動かすのでポート8080に設定する
+```
+
+```
+FROM python:3.7.4
+
+WORKDIR /app
+ADD . /app
+
+RUN apt-get update && apt-get clean;
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+ENV TZ Asia/Tokyo
+ENV LANG ja_JP.UTF-8
+ENV LANGUAGE ja_JP:ja
+ENV LC_ALL ja_JP.UTF-8
+ENV GOOGLE_APPLICATION_CREDENTIALS /app/config/xxx.json
+
+EXPOSE 8080
+
+CMD streamlit run --server.port 8080 app.py
+```
+
+```
+$ docker build -t kabu-analysis .
+```
+
+```
+$ docker run --name kabu-analysis \
+-p 8080:8080 -v ~/Sites/kabu-analysis/:/app -it --rm kabu-analysis
+```
+
+# PyCaretとStreamlitでAutoMLのGUIツールをさくっと作ってみる   
+[PyCaretとStreamlitでAutoMLのGUIツールをさくっと作ってみる posted at 2021-02-21](https://qiita.com/ryoshi81/items/e9560ade1f0adedbaf6c)
+
+
+# 【Streamlit】JavaScriptが嫌いだからPythonだけでWebアプリをつくる  
+[【Streamlit】JavaScriptが嫌いだからPythonだけでWebアプリをつくる updated at 2020-08-08](https://qiita.com/SPShota/items/a63e19807779175aa29b)
+
+```
+フロント（SPA）開発案件2つのプレイングマネージャーと開発リーダーやってますが、JavaScriptが死ぬほど嫌いです。
+ブラウザ上で動作するスクリプトなので仕方ないし、async-awaitで大分便利になったけど、非同期処理がやっぱり好きじゃないです。
+
+JavaとかPythonとかそれなりの期間触った言語は大概「みんな違ってみんないい」みたいな感じになるんですが、JavaScriptだけそうならないので本当に嫌いなんだと思います。
+
+因みにCSSはもっと嫌いです。
+
+機械学習モデルの構築をPythonで実装することは多いと思いますが、ちょっとしたデモアプリでも作るとなると、フロント側はどうしてもHTML、JavaScript、CSSで組まないといけないです。
+
+Jupyter Notebookも選択肢に入るかもしれませんが、Webアプリと比べると表現の自由度は下がるし、コードセルが見えるのはなんか煩雑に見えます。
+
+嫌いかどうかは置いておいて、フロント開発の煩わしさを抱えている人って結構いるんじゃないかなって思ってます。 ・・・いるよね？
+7月の連休中に触ったStreamlitっていうライブラリが滅茶苦茶便利だったので、今回はこれを使ってPython "だけ" でWEBアプリを作ってみようと思います！
+```
+
+## WEBUIを使ってインタラクティブなアプリにする  
+```
+ここまでだと、Jupyterで可視化してるのとあまり差がないのでWEBアプリケーションらしいインタラクションを実装します。
+
+データ取得処理の後に日付の範囲指定をするコンポーネントの表示処理を追加して、データフレームを絞り込みます。
+bodyの場合はst.コンポーネント名、サイドバーにの場合、st.sidebar.コンポーネント名でUIコンポーネントを追加します。
+```
+
+
 # Troubleshooting
 
 
