@@ -194,6 +194,66 @@ if __name__ == "__main__":
 
 [[Python] Websocket Example - Justin 程式教學 2018年11月7日](https://jccsc.blogspot.com/2018/11/python-websocket-example.html)  
 
+# Streamlit vs PyWebIO Webフレームワーク対決！  
+[Streamlit vs PyWebIO Webフレームワーク対決！ 2021-08-07](https://qiita.com/payaneco/items/050a7e21a9f3c020ff4f)
+
+```
+Streamlitを使えばHTMLを一行も書かずにPython 100%でWebアプリを作れるお手軽フレームワークを味わったよ！
+```
+
+## Streamlit  
+```
+Streamlitはデータ可視化機能が豊富に用意されてる。
+
+公式サイトで紹介されてるstreamlit helloコマンドを打つだけでアニメーションとか地図とかグラフがぐねぐね動いて「おーさむ！1」ってなること請け合い。
+まだ2021年7月に出たばかりのVersion 0.84でセッション情報を扱う機能が追加されるなど、ページ遷移ロジックの定石は確立されてないようにも見える。
+標準で用意されている機能が多く追加変更が早い分、凝り性の人はこだわりが多くなるかもしれない。
+
+ちなみにSharing・Streamlitに申し込むことでHerokuやPython AnywhereのようにGithubから爆速無料でWebアプリを公開できるっぽい点も魅力的。
+```
+
+## コード実行  
+### Streamlit  
+```
+Djangoみたいに専用コマンドがある。
+
+streamlit run .\test.py
+```
+
+### PyWebIO
+```
+BottleとかFlaskみたいにpython実行で呼び出す。
+
+python .\test.py
+```
+
+## 画面遷移  
+```
+変数を保持しながら画面遷移するコードの比較だよ。
+どっちのフレームワークもあんまり資料がなくて苦労したよ。
+```
+<img src="https://camo.qiitausercontent.com/38bcbba09a638dbad5e5d67aab4a45c3f7cc8ba1/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f38313835312f31323934343865372d633338392d623662652d663263652d3730623434613233386134352e706e67" width="400" height="500">  
+
+### Streamlit  
+```
+グローバル変数とかは最初に読み込まれるだけで、ラジオボタンを選択し直しても再読み込みしてくれないっぽい。
+対策として最近できたSession State APIを使ってセッションに残したデータを遷移先でも使うコードにしてみた。
+※0.84より前でも一工夫すればできる
+```
+<img src="https://camo.qiitausercontent.com/1558a525e5de6d391d04ffd379a6fee1ecc66567/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f38313835312f37616566656362312d646534322d663061362d313539652d6566623233373635343065652e706e67" width="400" height="300">  
+
+
+## データ可視化  
+### Streamlit  
+```
+せっかくだから外部ツールと連携してData Virtualizationもしとく。
+これをやっておくとできる！SEって感じがするからね！
+
+matplotlibとかbokehとかnumpyのインストール方法は省略するよ。
+```
+<img src="https://camo.qiitausercontent.com/057b5122f3c2850254f16c95e74145856c947204/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f38313835312f64616139313534642d316161642d353362312d383664382d3330383731316462343962612e706e67" width="400" height="500">  
+
+
 # Troubleshooting
 
 
