@@ -381,6 +381,17 @@ bodyの場合はst.コンポーネント名、サイドバーにの場合、st.s
 ```
 
 
+# Streamlit極簡易的Dashboard開發 - Neutron 
+[Streamlit極簡易的Dashboard開發 - Neutron Dec 16, 2020](https://neutron0916.medium.com/streamlit%E6%A5%B5%E7%B0%A1%E6%98%93%E7%9A%84dashboard%E9%96%8B%E7%99%BC-c433e1da1559) 
+
+## Streamlit 概念  
+<img src="https://miro.medium.com/max/2000/1*lU7YeppmSvFiZmEkUDX06w.png" width="700" height="500">  
+
+
+# Streamlit Offical API  
+[Streamlit Offical API](https://share.streamlit.io/daniellewisdl/streamlit-cheat-sheet/app.py)  
+
+
 # Troubleshooting
 
 
