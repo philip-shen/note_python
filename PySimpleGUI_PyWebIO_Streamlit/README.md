@@ -38,6 +38,20 @@ Table of Contents
    * [PyCaretとStreamlitでAutoMLのGUIツールをさくっと作ってみる](#pycaretとstreamlitでautomlのguiツールをさくっと作ってみる)
    * [【Streamlit】JavaScriptが嫌いだからPythonだけでWebアプリをつくる](#streamlitjavascriptが嫌いだからpythonだけでwebアプリをつくる)
       * [WEBUIを使ってインタラクティブなアプリにする](#webuiを使ってインタラクティブなアプリにする)
+   * [Streamlit極簡易的Dashboard開發 - Neutron](#streamlit極簡易的dashboard開發---neutron)
+      * [Streamlit 概念](#streamlit-概念)
+   * [Streamlitを用いた音響信号処理ダッシュボードの開発(Tokyo BISH Bash #03発表資料)](#streamlitを用いた音響信号処理ダッシュボードの開発tokyo-bish-bash-03発表資料)
+   * [Python: Streamlit を使って手早く WebUI 付きのプロトタイプを作る](#python-streamlit-を使って手早く-webui-付きのプロトタイプを作る)
+      * [Column](#column)
+      * [container](#container)
+      * [Expander](#expander)
+      * [Sidebar](#sidebar)
+      * [Help](#help)
+      * [単一のスクリプトで複数のアプリケーションを扱う](#単一のスクリプトで複数のアプリケーションを扱う)
+      * [Argparse](#argparse)
+      * [Click](#click)
+   * [cdsdashboards](#cdsdashboards)
+   * [Streamlit Offical API](#streamlit-offical-api)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -48,6 +62,7 @@ Table of Contents
    * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose
 Take note of Webscreenshoot  
@@ -388,6 +403,311 @@ bodyの場合はst.コンポーネント名、サイドバーにの場合、st.s
 <img src="https://miro.medium.com/max/2000/1*lU7YeppmSvFiZmEkUDX06w.png" width="700" height="500">  
 
 
+# Streamlitを用いた音響信号処理ダッシュボードの開発(Tokyo BISH Bash #03発表資料) 
+[Streamlitを用いた音響信号処理ダッシュボードの開発(Tokyo BISH Bash #03発表資料) 2020-10-13](https://www.hiromasa.info/posts/22/) 
+[ wrist /streamlit-dsp ](https://github.com/wrist/streamlit-dsp)
+
+[window_viwer.py](https://github.com/wrist/streamlit-dsp/blob/master/streamlit_dsp/window_viewer.py)
+
+# Python: Streamlit を使って手早く WebUI 付きのプロトタイプを作る  
+[Python: Streamlit を使って手早く WebUI 付きのプロトタイプを作る 2021-05-14](https://blog.amedama.jp/entry/streamlit-tutorial)  
+
+## Column  
+[カラム](https://blog.amedama.jp/entry/streamlit-tutorial#%E3%82%AB%E3%83%A9%E3%83%A0) 
+```
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+
+
+def main():
+    # カラムを追加する
+    col1, col2, col3 = st.beta_columns(3)
+
+    # コンテキストマネージャとして使う
+    with col1:
+        st.header('col1')
+
+    with col2:
+        st.header('col2')
+
+    with col3:
+        st.header('col3')
+
+    # カラムに直接書き込むこともできる
+    col1.write('This is column 1')
+    col2.write('This is column 2')
+    col3.write('This is column 3')
+
+
+if __name__ == '__main__':
+    main()
+```
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210511/20210511184758.png" width="600" height="400">  
+
+## container 
+[コンテナ](https://blog.amedama.jp/entry/streamlit-tutorial#%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A)
+```
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+
+
+def main():
+    # コンテナを追加する
+    container = st.beta_container()
+
+    # コンテキストマネージャとして使うことで出力先になる
+    with container:
+        st.write('This is inside the container')
+    # これはコンテナの外への書き込み
+    st.write('This is outside the container')
+
+    # コンテナに直接書き込むこともできる
+    container = st.beta_container()
+    container.write('1')
+    st.write('2')
+    # 出力順は後だがレイアウト的にはこちらが先に現れる
+    container.write('3')
+
+
+if __name__ == '__main__':
+    main()
+```
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210511/20210511185155.png" width="600" height="400">  
+
+```
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+
+
+def main():
+    placeholder = st.empty()
+    # プレースホルダにコンテナを追加する
+    container = placeholder.beta_container()
+    # コンテナにカラムを追加する
+    col1, col2 = container.beta_columns(2)
+    # それぞれのカラムに書き込む
+    with col1:
+        st.write('Hello, World')
+    with col2:
+        st.write('Konnichiwa, Sekai')
+
+
+if __name__ == '__main__':
+    main()
+```
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210511/20210511185307.png" width="600" height="400">  
+
+
+## Expander
+[エキスパンダ](https://blog.amedama.jp/entry/streamlit-tutorial#%E3%82%A8%E3%82%AD%E3%82%B9%E3%83%91%E3%83%B3%E3%83%80)
+```
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+
+
+def main():
+    with st.beta_expander('See details'):
+        st.write('Hidden item')
+
+
+if __name__ == '__main__':
+    main()
+```
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210511/20210511185400.png" width="600" height="400">  
+
+## Sidebar
+[サイドバー](https://blog.amedama.jp/entry/streamlit-tutorial#%E3%82%B5%E3%82%A4%E3%83%89%E3%83%90%E3%83%BC)  
+
+```
+ウィジェットやオブジェクトの表示をサイドバーに配置することもできる。 使い方は単純で、サイドバーに置きたいなと思ったら sidebar をつけて API を呼び出す。
+
+以下のサンプルコードでは、サイドバーにボタンを配置している。 前述したとおり、streamlit.button() を streamlit.sidebar.button() に変えるだけ。 同様に、streamlit.sidebar.dataframe() のように間に sidebar をはさむことで大体の要素はサイドバーに置ける。
+```
+
+```
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+
+def main()  :
+    # サイドバーにリロードボタンをつける
+    st.sidebar.button('Reload')
+    # サイドバーにデータフレームを書き込む
+    data = np.random.randn(20, 3)
+    df = pd.DataFrame(data, columns=['x', 'y', 'z'])
+    st.sidebar.dataframe(df)
+
+
+if __name__ == '__main__':
+    main()
+```
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210512/20210512222116.png" width="600" height="400">  
+
+## Help   
+[オブジェクトの docstring を表示する](https://blog.amedama.jp/entry/streamlit-tutorial#%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE-docstring-%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B) 
+```
+# -*- coding: utf-8 -*-
+
+import pandas as pd
+
+import streamlit as st
+
+
+def main():
+    st.help(pd.DataFrame)
+
+
+if __name__ == '__main__':
+    main()
+```
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210512/20210512222544.png" width="600" height="400">  
+
+## 単一のスクリプトで複数のアプリケーションを扱う
+```
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+
+
+def render_gup():
+    """GuP のアプリケーションを処理する関数"""
+    character_and_quotes = {
+        'Miho Nishizumi': 'パンツァーフォー',
+        'Saori Takebe': 'やだもー',
+        'Hana Isuzu': '私この試合絶対勝ちたいです',
+        'Yukari Akiyama': '最高だぜ！',
+        'Mako Reizen': '以上だ',
+    }
+    selected_items = st.multiselect('What are your favorite characters?',
+                                    list(character_and_quotes.keys()))
+    for selected_item in selected_items:
+        st.write(character_and_quotes[selected_item])
+
+
+def render_aim_for_the_top():
+    """トップ！のアプリケーションを処理する関数"""
+    selected_item = st.selectbox('Which do you like more in the series?',
+                                 [1, 2])
+    if selected_item == 1:
+        st.write('me too!')
+    else:
+        st.write('2 mo ii yo ne =)')
+
+
+def main():
+    # アプリケーション名と対応する関数のマッピング
+    apps = {
+        '-': None,
+        'GIRLS und PANZER': render_gup,
+        'Aim for the Top! GunBuster': render_aim_for_the_top,
+    }
+    selected_app_name = st.sidebar.selectbox(label='apps',
+                                             options=list(apps.keys()))
+
+    if selected_app_name == '-':
+        st.info('Please select the app')
+        st.stop()
+
+    # 選択されたアプリケーションを処理する関数を呼び出す
+    render_func = apps[selected_app_name]
+    render_func()
+
+
+if __name__ == '__main__':
+    main()
+```
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210512/20210512223221.png" width="600" height="400">  
+
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210512/20210512223230.png" width="600" height="400">  
+
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/momijiame/20210512/20210512223239.png" width="600" height="400">  
+
+
+## Argparse  
+```
+# -*- coding: utf-8 -*-
+
+import argparse
+
+import streamlit as st
+
+
+def main():
+    parser = argparse.ArgumentParser(description='parse argument example')
+    # --message または -m オプションで文字列を受け取る
+    parser.add_argument('--message', '-m', type=str, default='World')
+    # 引数をパースする
+    args = parser.parse_args()
+    # パースした引数を表示する
+    st.write(f'Hello, {args.message}!')
+
+
+if __name__ == '__main__':
+    main()
+```
+
+```
+$ streamlit run example.py -m Sekai
+Usage: streamlit run [OPTIONS] TARGET [ARGS]...
+Try 'streamlit run --help' for help.
+
+Error: no such option: -m
+```
+
+```
+$ streamlit run example.py -- -m Sekai
+```
+
+## Click  
+```
+続いてサードパーティ製のパッケージである Click を使う場合。 
+Click は純粋なコマンドラインパーサ以外の機能もあることから、スクリプトを記述する時点から注意点がある。 
+具体的には、デコレータで修飾したオブジェクトを呼び出すときに standalone_mode を False に指定する。 
+こうすると、デフォルトでは実行が完了したときに exit() してしまう振る舞いを抑制できる。
+```
+
+```
+# -*- coding: utf-8 -*-
+
+import streamlit as st
+import click
+
+
+@click.command()
+@click.option('--message', '-m', type=str, default='World')
+def main(message):
+    # パースした引数を表示する
+    st.write(f'Hello, {message}!')
+
+
+if __name__ == '__main__':
+    # click.BaseCommand.main() メソッドが呼ばれる
+    # デフォルトの動作では返り値を戻さずに exit してしまう
+    # スタンドアロンモードを無効にすることで純粋なコマンドラインパーサとして動作する
+    main(standalone_mode=False)
+```
+
+```
+$ streamlit run example.py -- -m Sekai
+```
+
+
+# 【Streamlit】株価データのお手軽GUI分析  
+[【Streamlit】株価データのお手軽GUI分析  2021-03-20](https://dajiro.com/entry/2021/03/20/171130)  
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/D/Dajiro/20210320/20210320160918.png" width="700" height="500">  
+
+
+# cdsdashboards 
+[ideonate/cdsdashboards](https://github.com/ideonate/cdsdashboards/tree/master/examples/sample-source-code/streamlit)  
+
+
 # Streamlit Offical API  
 [Streamlit Offical API](https://share.streamlit.io/daniellewisdl/streamlit-cheat-sheet/app.py)  
 
@@ -430,4 +750,5 @@ bodyの場合はst.コンポーネント名、サイドバーにの場合、st.s
 - 1
 - 2
 - 3
+
 

@@ -78,11 +78,13 @@ class stock:
         data1 = self.get_three_major()
         data2 = self.get_price_value()
         data = data1.merge(data2, left_on = '日期', right_on = '日期')
-
+        print('data: {}'.format(data) )
+        print('data[\'日期\']: {}'.format( data.loc[ data['日期'] ]) )
         # 將日期109/11/1 轉換 至2020/11/1...
         #data['日期'] = data['日期'].apply(lambda x: f'{ int( (x :=x.split("/") )[0])+1911}/{x[1]}/{x[2] }')
-        data['日期'] = data['日期'].apply(lambda x: f'{ int( (x.split("/"))[0] )+1911}/{x[1]}/{x[2] }')
-       
+        data['日期'] = data['日期'].apply(lambda x: f'{ int( ( x.split("/") )[0])+1911}/{x[1]}/{x[2] }')
+        
+        #print('data[\'日期\']: {}'.format(data['日期']) )
 
         # 屬性轉換 --> 將其餘資料轉至 number
         for i in data.columns:
