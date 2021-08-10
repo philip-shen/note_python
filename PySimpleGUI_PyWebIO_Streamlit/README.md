@@ -50,6 +50,7 @@ Table of Contents
       * [単一のスクリプトで複数のアプリケーションを扱う](#単一のスクリプトで複数のアプリケーションを扱う)
       * [Argparse](#argparse)
       * [Click](#click)
+   * [【Streamlit】株価データのお手軽GUI分析](#streamlit株価データのお手軽gui分析)
    * [cdsdashboards](#cdsdashboards)
    * [Streamlit Offical API](#streamlit-offical-api)
    * [Troubleshooting](#troubleshooting)
@@ -750,5 +751,7 @@ $ streamlit run example.py -- -m Sekai
 - 1
 - 2
 - 3
+
+
 
 
