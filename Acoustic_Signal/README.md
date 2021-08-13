@@ -3,6 +3,30 @@ Table of Contents
 
    * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
+   * [Pythonで音圧のデシベル(dB)変換式と逆変換式!](#pythonで音圧のデシベルdb変換式と逆変換式)
+      * [dBを使う理由](#dbを使う理由)
+      * [dB変換式](#db変換式)
+      * [dB逆変換式](#db逆変換式)
+      * [Pythonで実装しよう！](#pythonで実装しよう)
+   * [Pythonでwav波形を切り出す!NumPyの配列処理](#pythonでwav波形を切り出すnumpyの配列処理)
+      * [使用する波形](#使用する波形)
+      * [波形の情報取得](#波形の情報取得)
+      * [波形情報の図解](#波形情報の図解)
+      * [配列から要素を抽出するコード](#配列から要素を抽出するコード)
+   * [Pythonでヒルベルト変換!時間波形の包絡線を求める方法](#pythonでヒルベルト変換時間波形の包絡線を求める方法)
+   * [Pythonで学ぶ信号処理!振幅変調のサイドバンドを観察してみる](#pythonで学ぶ信号処理振幅変調のサイドバンドを観察してみる)
+      * [参考の記事は以下にリンクしておきますので、是非ご覧下さい。](#参考の記事は以下にリンクしておきますので是非ご覧下さい)
+   * [PythonでFFTやスペクトログラムからバンド計算をする方法](#pythonでfftやスペクトログラムからバンド計算をする方法)
+      * [バンド計算とは？](#バンド計算とは)
+      * [FFT波形の場合](#fft波形の場合)
+      * [スペクトログラムの場合](#スペクトログラムの場合)
+   * [Pythonでスペクトログラムからピーク値を任意数抽出する方法](#pythonでスペクトログラムからピーク値を任意数抽出する方法)
+      * [ピーク自動検出のメリット](#ピーク自動検出のメリット)
+      * [スペクトログラムのピーク検出方針(大きい順に抽出する方法）](#スペクトログラムのピーク検出方針大きい順に抽出する方法)
+      * [ピーク検出の関数](#ピーク検出の関数)
+      * [全コード（コピペ用：単一ピークを検出）](#全コードコピペ用単一ピークを検出)
+      * [複数ピークを検出する方法](#複数ピークを検出する方法)
+      * [録音データからピーク検出するコード](#録音データからピーク検出するコード)
    * [Acoustic Process by Python](#acoustic-process-by-python)
       * [使用言語・モジュール](#使用言語モジュール)
       * [音を式で表現せねば…](#音を式で表現せねば)
@@ -91,12 +115,213 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
+   * [Table of Contents](#table-of-contents-2)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 
 # Purpose
 Take note of Acoustic Process by Python  
+
+# Pythonで音圧のデシベル(dB)変換式と逆変換式!  
+[Pythonで音圧のデシベル(dB)変換式と逆変換式! 2019.04.25](https://watlab-blog.com/2019/04/25/db/)  
+
+## dBを使う理由  
+```
+音を分析するために精密騒音計で音圧を測定すると、騒音計の表示はデシベル(dB)で表現されています。
+
+マイクで計測しているのは「音圧」で単位はパスカル[Pa]です。そのままPaで計測値を表示しないのは理由があります。
+
+人間は耳で音を聞き、その音の大きさをレベルとして感じることができます。
+人間が聞くことのできる最小可聴値は20[μPa]、最大可聴値は200[Pa]とされており、その範囲には1000万倍もの開きがあります。
+
+騒音計では音圧[Pa]を測定していますが、これをそのままディスプレイに表示してしまうと、必要な桁数が多すぎてしまいますね。
+
+dBを使うとこの20[μPa]～200[Pa]は0[dB]～140[dB]で扱えることになり表示に関しては非常に効率が良くなります。
+
+そしてdBは人間の感覚と近いというのも、広く使われている理由にあります。
+
+人は0.1[Pa]から1[Pa]の音圧の変化と、1[Pa]から10[Pa]への変化は同じように音量が増加したと感じることがわかっています。
+つまり人の耳は物理量を差としてではなく倍率で評価しているということになります。
+
+dBで表示すると0.1[Pa]から1[Pa]は20[dB], 1[Pa]から10[Pa]も20[dB]と同じ量になるため、変化量も単純に捉えやすいという利点があります。
+```
+
+## dB変換式  
+```
+dBへの変換は非常に簡単です。以下の式を使います。
+
+SPLdB=20log10(SPLin/dBref)
+
+ここでSPLdB（Sound Pressure Level）がデシベル値で、SPLin（Sound Pressure）が実際の物理値である音圧[Pa]を意味しています。
+dBに変換する前の物理値のことを、一般には「リニア値」と読んだりします。
+
+式中のdBrefはデシベル基準値（デシベルリファレンス）のことで、0[dB]の時の物理値のことを意味しており、音圧の場合は最小可聴値と設定されている20[μPa]になります。
+```
+
+## dB逆変換式  
+```
+次に逆変換式を示します。この式はdB値をリニア値に変換する式として使います。
+
+SPLin=dBref⋅10^(SPLdB/20)
+```
+
+## Pythonで実装しよう！
+```
+import numpy as np
+
+#リニア値からdBへ変換
+def db(x, dBref):
+    y = 20 * np.log10(x / dBref)     #変換式
+    return y                         #dB値を返す
+
+#dB値からリニア値へ変換
+def idb(x, dBref):
+    y = dBref * np.power(10, x / 20) #変換式
+    return y                         #リニア値を返す
+```
+
+```
+import db_function as dbf
+
+x = 1
+dBref = 2e-5
+y_db = dbf.db(x, dBref)
+y_lin = dbf.idb(y_db, dBref)
+
+print(y_db)
+print(y_lin)
+
+>>93.97940008672037
+>>0.9999999999999999
+```
+
+# Pythonでwav波形を切り出す!NumPyの配列処理  
+[Pythonでwav波形を切り出す!NumPyの配列処理 2019.04.15](2019.04.15)
+
+## 使用する波形  
+
+## 波形の情報取得  
+
+## 波形情報の図解 
+<img src="https://watlab-blog.com/wp-content/uploads/2019/04/sampling_theory.png" width="600" height="300">  
+
+## 配列から要素を抽出するコード  
+
+```
+配列から任意の位置のデータを抽出するために、以下の構文を使います。
+
+開始指標とは、配列のどの位置から抽出を開始するかを設定する項目です。この値は秒で指定するのではなく、何番目かを指定します。
+
+終了指標は配列のどの位置まで抽出するかを設定する項目です。開始指標と同様に何番目かを指定します。
+
+ステップは1を設定すると開始指標から終了指標までの全てのデータを抽出します。2であれば一つずつ飛ばしながら抽出と、間引き間隔を指定可能です。
+```
+
+```
+#配列から任意位置のデータを抽出
+配列[開始指標:終了指標:ステップ]
+```
+
+```
+以下に例として、今回の波形の抽出設定を示します。波形からは「〇秒から〇秒」を切り出したいので、最初にt_startとt_endで設定します。
+
+4, 5行目は指標を算出しています。秒数を時間刻み幅で除すれば、その秒の指標が得られます。
+しかし除した結果は小数点を含む型ですので、int()文にて強制的に整数にしています（intはintegerの意味）。
+```
+
+```
+dt = 1/samplerate              #dt:時間刻み幅
+t_start = 1.2                  #開始時間
+t_end = 7                      #終了時間
+index_start = int(t_start/dt)  #開始時間の指標
+index_end = int(t_end/dt)      #終了時間の指標
+ 
+data = data[index_start:index_end:1]  #波形切り出し
+```
+<img src="https://watlab-blog.com/wp-content/uploads/2019/04/wav-subset.png" width="600" height="300">  
+
+
+# Pythonでヒルベルト変換!時間波形の包絡線を求める方法  
+[Pythonでヒルベルト変換!時間波形の包絡線を求める方法 2019.10.13](https://watlab-blog.com/2019/10/13/hilbert-envelope/)
+
+# Pythonで学ぶ信号処理!振幅変調のサイドバンドを観察してみる  
+[Pythonで学ぶ信号処理!振幅変調のサイドバンドを観察してみる 2021.01.10](https://watlab-blog.com/2021/01/10/amplitude-modulation/)
+
+## 参考の記事は以下にリンクしておきますので、是非ご覧下さい。
+[PythonでFFT実装!SciPyのフーリエ変換まとめ](https://watlab-blog.com/2019/04/21/python-fft/) 
+[Pythonでヒルベルト変換!時間波形の包絡線を求める方法](https://watlab-blog.com/2019/10/13/hilbert-envelope/) 
+[PythonでFFT波形から任意個数のピークを自動検出する方法](https://watlab-blog.com/2020/09/26/fft-find-peaks/) 
+
+
+# PythonでFFTやスペクトログラムからバンド計算をする方法 
+[PythonでFFTやスペクトログラムからバンド計算をする方法 2021.01.06](https://watlab-blog.com/2021/01/06/fft-band-calculation/)
+
+## バンド計算とは？
+```
+バンド計算を説明する前に、まずは上記FFTから得られる情報をみてみましょう。
+
+時間波形に対しFFTをかけると、以下のような周波数波形（ここでは振幅を例にしています）を得ます。この波形を見ると、まず目に入ってくるのは図中に示したピークの情報です。
+```
+
+<img src="https://watlab-blog.com/wp-content/uploads/2021/01/fft-band-example.png" width="600" height="300">  
+
+```
+ピークの値を定量的に求める場合は
+```
+[PythonでFFT波形から任意個数のピークを自動検出する方法](https://watlab-blog.com/2020/09/26/fft-find-peaks/)
+
+```
+で紹介した方法があります。
+
+しかし、単純にピークの値を知りたいわけではなく、○[Hz]-○[Hz]の範囲の統計量（平均・分散・標準偏差等）を知りたい時もよくあります。
+```
+<img src="https://watlab-blog.com/wp-content/uploads/2021/01/fft-band-example2-1024x482.png" width="600" height="300">  
+
+
+```
+この周波数領域の任意範囲というのがバンド（Band：帯域）と呼ばれるものです。
+統計量の他に音や振動の場合は全バンドのオーバーオール値や部分バンドのパーシャルオーバーオール値といった振幅レベルの指標を求めるというのも、製品開発の中では頻繁に行われています。
+
+この記事ではバンド毎の計算を行う事をバンド計算と呼んでいますが、特に一般用語ではないと思われるので使用の際はご注意下さい。
+
+ちなみに、スペクトログラムに対して任意のバンドを設定して統計量を計算すると、下図のような時間によって統計量が変化する結果を得ます。
+```
+<img src="https://watlab-blog.com/wp-content/uploads/2021/01/spectrogram-band-example-1024x498.png" width="600" height="300">  
+
+## FFT波形の場合
+
+<img src="https://watlab-blog.com/wp-content/uploads/2021/01/fft-band-result.png" width="600" height="300">  
+
+## スペクトログラムの場合
+[PythonでFFT波形から任意個数のピークを自動検出する方法](https://watlab-blog.com/2020/09/26/fft-find-peaks/)
+
+<img src="https://watlab-blog.com/wp-content/uploads/2021/01/spectrogram-band-result-1024x307.png" width="600" height="300">  
+
+
+# Pythonでスペクトログラムからピーク値を任意数抽出する方法 
+[Pythonでスペクトログラムからピーク値を任意数抽出する方法  2020.09.29](https://watlab-blog.com/2020/09/29/findpeaks-spectrogram/)
+
+## ピーク自動検出のメリット 
+<img src="https://watlab-blog.com/wp-content/uploads/2020/09/fft-peak-ideal-768x534.png" width="400" height="300">  
+
+## スペクトログラムのピーク検出方針(大きい順に抽出する方法）  
+<img src="https://watlab-blog.com/wp-content/uploads/2020/09/2d-findpeaks-orientation-1024x618.png" width="600" height="300">  
+  
+## ピーク検出の関数  
+
+## 全コード（コピペ用：単一ピークを検出）
+[Pythonで音のSTFT計算を自作!スペクトログラム表示する方法](https://watlab-blog.com/2019/05/19/python-spectrogram/)
+<img src="https://watlab-blog.com/wp-content/uploads/2020/09/2d-findpeaks-max.png" width="600" height="300">  
+
+
+## 複数ピークを検出する方法  
+<img src="https://watlab-blog.com/wp-content/uploads/2020/09/2d-findpeaks-maxpeaks-1024x466.png" width="600" height="300">  
+
+## 録音データからピーク検出するコード
+<img src="https://watlab-blog.com/wp-content/uploads/2021/05/original_spectrogram_peaks.png" width="600" height="500">  
+
 
 # Acoustic Process by Python  
 [pythonで音を鳴らす方法を詳しめに解説 updated at 2020-04-17](https://qiita.com/ShijiMi-Soup/items/3bbf34911f6e43ee14a3)  
@@ -2088,4 +2313,6 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
+
+
 
