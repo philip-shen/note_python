@@ -17,6 +17,15 @@ Table of Contents
       * [concurrent.futures](#concurrentfutures)
          * [ExecutorとFuture](#executorとfuture)
          * [map、as_completedとwait](#mapas_completedとwait)
+   * [pythonで平行処理入門 (threading.Thread)](#pythonで平行処理入門-threadingthread)
+      * [平行処理の例](#平行処理の例)
+   * [pythonで並列化入門 (multiprocessing.Pool)](#pythonで並列化入門-multiprocessingpool)
+      * [一気にまとめて処理する (Pool.map)](#一気にまとめて処理する-poolmap)
+      * [Pool.mapで複数引数を渡したい](#poolmapで複数引数を渡したい)
+      * [Pool.mapで複数引数を渡す (wrapper経由)](#poolmapで複数引数を渡す-wrapper経由)
+   * [[Python] TkinterでYoutube Downloaderを作ってみた。](#python-tkinterでyoutube-downloaderを作ってみた)
+      * [生成順番](#生成順番)
+      * [2.2.2. 呼び出し](#222-呼び出し)
    * [subprocessの使い方(Python3.6)](#subprocessの使い方python36)
       * [Pip of shell script](#pip-of-shell-script)
    * [Python 好用模組教學 - concurrent.futures](#python-好用模組教學---concurrentfutures)
@@ -34,10 +43,8 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose  
 Take some note of threading and multiprocessing  
@@ -399,6 +406,235 @@ all completed.
 ```
 
 
+# pythonで平行処理入門 (threading.Thread)  
+[pythonで平行処理入門 (threading.Thread) posted at 2019-09-08](https://qiita.com/studio_haneya/items/a3485ea837e17e37bae9)
+
+```
+平行処理: 同じCPUコアの同じpythonプロセスで複数の処理を同時にやる
+並列処理: 別のCPUコアの別のpythonプロセスで複数の処理を同時にやる
+```
+
+## 平行処理の例  
+```
+threading.Threadを定義してstart()で開始、join()すると終了するまで待機します。
+待機するのでなくis_alive()でチェックしながら別の作業をやることも出来ます。
+
+threading.Threadは返り値を受け取れないようなので参照渡しの引数に仕込みます。
+ただし、受け取り用の引数を result = x * x のようにすると別の変数になってしまって返ってこないのでlistやdictで渡して書き加えて戻すようにします。
+```
+
+```
+import time
+import threading
+
+
+def nijou(x, result):
+    print('input: %d' % x)
+    time.sleep(3)
+    result[threading.current_thread().name] = x * x
+    print('double:', result)
+
+
+if __name__ == "__main__":
+    result = dict()
+    thread = threading.Thread(target=nijou, args=[4, result], name='thread1')
+
+    thread.start()
+    for k in range(6):
+        time.sleep(1)
+        print(thread.is_alive())
+    thread.join()
+    print(result)
+```
+
+```
+結果
+
+input: 4
+True
+True
+double: {'thread1': 16}
+False
+False
+False
+False
+{'thread1': 16}
+```
+
+
+# pythonで並列化入門 (multiprocessing.Pool)  
+[pythonで並列化入門 (multiprocessing.Pool) updated at 2019-09-12](https://qiita.com/studio_haneya/items/1cf192a0185e12c7559b)  
+
+```
+並列処理: 別のCPUコアの別のpythonプロセスで複数の処理を同時にやる
+平行処理: 同じCPUコアの同じpythonプロセスで複数の処理を同時にやる
+
+待機が多いような楽な処理は平行処理で、負荷が重い処理は並列処理でやるのが良いでしょう。
+今回は並列処理をmultiprocessing.Pool()でやる話です。
+```
+
+## 一気にまとめて処理する (Pool.map)  
+http://iatlex.com/python/parallel_first 
+
+```
+import time
+from multiprocessing import Pool
+
+# 並列処理させる関数
+def nijou(x):
+    print('input: %d' % x)
+    time.sleep(2)
+    retValue = x * x
+    print('double: %d' % (retValue))
+    return(retValue)
+
+if __name__ == "__main__":
+    p = Pool(4) # プロセス数を4に設定
+    result = p.map(nijou, range(10))  # nijou()に0,1,..,9を与えて並列演算
+    print(result)
+```
+
+```
+上記コードを実行すると下の結果が返ってきます。p = multiprocessing.Pool(4)
+で同時実行するプロセス数を指定しておいてp.map()で実行するという使い方です。
+p.map()の第1引数に使う関数を渡し第2引数が関数に渡す引数になります。この書き方だと渡せる引数は１つだけです。
+```
+
+```
+input: 0
+input: 1
+input: 2
+input: 3
+double: 0
+input: 4
+double: 1
+input: 5
+double: 4
+input: 6
+double: 9
+input: 7
+double: 16
+input: 8
+double: 25
+input: 9
+double: 36
+double: 49
+double: 64
+double: 81
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+
+## Pool.mapで複数引数を渡したい  
+```
+p.map()が渡してくれる引数は1個だけですが、listとかでまとめちゃえば複数の値を渡すことは普通にできます。
+```
+
+```
+import time
+from multiprocessing import Pool
+
+def nijou(inputs):
+    x, y = inputs
+    print('input: %d, %d' % (x, y))
+    time.sleep(2)
+    retValue = [x * x, y * y]
+    print('double: %d, %d' % (retValue[0], retValue[1]))
+    return(retValue)
+
+if __name__ == "__main__":
+    p = Pool(4)
+    values = [(x, y) for x in range(4) for y in range(4)]
+    print(values)
+    result = p.map(nijou, values)
+    print(result)
+```
+
+p.map()がvaluesの中の値を1個ずつ渡してくれるので、(0, 0) → (0, 1) → (0, 2)の順で渡していきます。
+
+```
+[(0, 0), (0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]
+input: 0, 0
+input: 0, 1
+input: 0, 2
+input: 0, 3
+double: 0, 0
+input: 1, 0
+double: 0, 1
+input: 1, 1
+double: 0, 4
+input: 1, 2
+double: 0, 9
+input: 1, 3
+double: 1, 0
+(略)
+double: 9, 4
+double: 9, 9
+[[0, 0], [0, 1], [0, 4], [0, 9], [1, 0], [1, 1], [1, 4], [1, 9], [4, 0], [4, 1], [4, 4], [4, 9], 
+```
+
+## Pool.mapで複数引数を渡す (wrapper経由)  
+関数が複数引数を受け取るような書き方になってる場合は、複数引数をまとめるwrapper関数をつくります。
+既にある関数を利用する場合はこの書き方の方がやりやすいと思います。
+
+```
+import time
+from multiprocessing import Pool
+
+def nijou(x, y):
+    print('input: %d %d' % (x, y))
+    time.sleep(2)
+    print('double: %d %d' % ((x * x), (y * y)))
+
+def nijou_wrapper(args):
+    return nijou(*args)
+
+if __name__ == "__main__":
+    p = Pool(4)
+    values = [(x, y) for x in range(4) for y in range(4)]
+    print(values)
+    p.map(nijou_wrapper, values)
+```
+
+
+# [Python] TkinterでYoutube Downloaderを作ってみた。  
+[[Python] TkinterでYoutube Downloaderを作ってみた。 posted at 2020-05-26](https://qiita.com/kotai2003/items/6a289b431d167b209b9d)  
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F208980%2Fd54c757e-6f1c-27e7-5cbf-dc5631b10a72.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=d74d37f597a5a54c6b352ece51a1431a" width="600" height="400">  
+
+## 生成順番
+```
+下記の順番で、Threadを設計します。
+StartボタンのCall Back関数　→　Thread生成メソッド　→　実行メソッド
+```
+
+```
+from threading import Thread
+
+#Call Back関数
+def click_me(self):
+    self.create_thread()
+
+#Thread生成メソッド
+def create_thread(self):
+    self.run_thread = Thread( target=self.method_in_a_thread )
+    self.run_thread.start()
+    print(self.run_thread)
+
+#実行メソッド
+def method_in_a_thread(self):
+    print('New Thread is Running.')
+    self.get_youtube( self.URL_name.get(), self.Folder_name.get())
+```
+
+## 2.2.2. 呼び出し  
+```
+self.btn_Start = tk.Button(self.frame_form, text = 'Start')
+self.btn_Start.configure( font= self.font02 )
+self.btn_Start.grid( column=1, row=2, padx=20, pady=20, sticky= tk.W + tk.E )
+self.btn_Start.configure( command = self.click_me)
+```
+
+
 # subprocessの使い方(Python3.6)  
 [subprocessの使い方(Python3.6) updated at 2020-08-21](https://qiita.com/caprest/items/0245a16825789b0263ad)
 
@@ -606,6 +842,5 @@ Pipe 具有雙向溝通的能力，當我們呼叫 Pipe() 時會回傳 2 個 Con
 - 1
 - 2
 - 3
-
 
 
