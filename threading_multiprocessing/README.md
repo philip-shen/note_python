@@ -439,9 +439,12 @@ Python 關於平行處理的模組除了 multiprocessing 與 threading 之外，
 ```
 
 ```
-透過繼承 Process 類別實作完 ChildProcess 類別之後，ChildProcess 就具有在不同 process 中執行的能力，當我們呼叫 start() 方法之後， ChildProcess 類別就會在另 1 個 process 中執行。
+透過繼承 Process 類別實作完 ChildProcess 類別之後，ChildProcess 就具有在不同 process 中執行的能力，
+當我們呼叫 start() 方法之後， ChildProcess 類別就會在另 1 個 process 中執行。
 
-例如以下範例，我們在 22 行實例化該類別，接著在第 23 行呼叫 start() 方法，此時就會讓 ChildProcess 在另外的 process 中執行 run() 方法，同時為了證明 ChildProcess 不會阻礙 main process 的執行，我們在第 25 - 27 行執行其他工作：
+例如以下範例，我們在 22 行實例化該類別，接著在第 23 行呼叫 start() 方法，
+此時就會讓 ChildProcess 在另外的 process 中執行 run() 方法，
+同時為了證明 ChildProcess 不會阻礙 main process 的執行，我們在第 25 - 27 行執行其他工作：
 ```
 
 ```
@@ -477,7 +480,9 @@ print("[%s] %s terminated" % (parent_p.pid, parent_p.name))
 ```
 
 ```
-上述範例的執行結果如下，可以看到 2 個不同 PID 的 processes 各自執行其工作，而且互不影響，其中 main process 51090 執行完其工作後就先結束，直到 child process 51106 執行完監控網站的任務後，整個 python process 才結束執行：
+上述範例的執行結果如下，可以看到 2 個不同 PID 的 processes 各自執行其工作，
+而且互不影響，其中 main process 51090 執行完其工作後就先結束，
+直到 child process 51106 執行完監控網站的任務後，整個 python process 才結束執行：
 
 ```
 
@@ -557,9 +562,16 @@ New process -> [13436] ChildProcess-1
 ### Queues  
 ### Pipe
 ```
-另 1 個 processes 之間溝通的方式為 Pipe （或稱為管道），有別於 Queue 單向溝通的限制，Pipe 具有雙向溝通的能力，當我們呼叫 Pipe() 時會回傳 2 個 Connection ，代表一個管道的 2 端，可以理解為一條水管的 2 端開口，2 個開口都具有傳送與接收資料的能力(稱為 duplex )，因此 main process 與 child process 可以透過這個管道進行雙向溝通。
+另 1 個 processes 之間溝通的方式為 Pipe （或稱為管道），有別於 Queue 單向溝通的限制，
+Pipe 具有雙向溝通的能力，當我們呼叫 Pipe() 時會回傳 2 個 Connection ，代表一個管道的 2 端，
+可以理解為一條水管的 2 端開口，2 個開口都具有傳送與接收資料的能力(稱為 duplex )，
+因此 main process 與 child process 可以透過這個管道進行雙向溝通。
 
-例如以下範例程式，第 21 行建立 1 個管道，我們將 2 個 connections 分別命名為 parent_conn 與 child_conn 代表管道一端是 main process, 另一端是 child process, 接著將 10 透過 parent_conn 送進管道內，所以要取得這筆資料就得在 child_conn 接收才行，也就是第 12 行接收資料的部分，再來將資料運算完之後，同樣透過 child_conn 將資料送進管道，因此要接收結果就得在 parent_conn 那端接收，也就是第 27 行的部分：
+例如以下範例程式，第 21 行建立 1 個管道，
+我們將 2 個 connections 分別命名為 parent_conn 與 child_conn 代表管道一端是 main process, 
+另一端是 child process, 接著將 10 透過 parent_conn 送進管道內，
+所以要取得這筆資料就得在 child_conn 接收才行，
+也就是第 12 行接收資料的部分，再來將資料運算完之後，同樣透過 child_conn 將資料送進管道，因此要接收結果就得在 parent_conn 那端接收，也就是第 27 行的部分：
 ```
 
 ## shared memory 共享記憶體  
