@@ -6,6 +6,10 @@ Table of Contents
    * [Purpose](#purpose)
    * [threading and multiprocessing](#threading-and-multiprocessing)
       * [threading](#threading)
+         * [インスタンス化(Instance)](#インスタンス化instance)
+         * [カスタマイズ(Classes)](#カスタマイズclasses)
+         * [スレッド数を計算(thread)](#スレッド数を計算thread)
+         * [デーモンスレッド(Dameo)](#デーモンスレッドdameo)
       * [multiprocessing](#multiprocessing)
       * [multiprocessing](#multiprocessing-1)
          * [subprocess.run](#subprocessrun)
@@ -34,6 +38,7 @@ Table of Contents
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
+
 # Purpose  
 Take some note of threading and multiprocessing  
 
@@ -43,6 +48,177 @@ Take some note of threading and multiprocessing
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F246522%2F9db33432-ebde-4226-849c-543708a98f9a.jpeg?ixlib=rb-1.2.2&auto=format&gif-q=60&q=75&w=1400&fit=max&s=ccc9e36388dddc4d14bddc896ad3fd53" width="600" height="400">  
 
 ## threading  
+関数  | 説明
+------------------------------------ | ---------------------------------------------
+start()	 |  スレッドを開始する
+setName() | スレッドに名前をつける 
+getName() | スレッドの名前を取得
+setDaemon(True) | スレッドをデーモンにする
+join() | スレッドの処理が終わるまで待機
+run() | スレッドの処理をマニュアルで実行する
+
+### インスタンス化(Instance)  
+```
+　関数などを導入してThreadのインスタンスを作成し、startで開始させると、スレッドを立ち上げられます。
+```
+
+
+```
+import threading
+import time
+
+
+def run(n):
+    # threading.current_thread().nameはgetName()を呼び出す
+    print("task: {} (thread name: {})".format(n, threading.current_thread().name))
+    time.sleep(1)
+    print('2s')
+    time.sleep(1)
+    print('1s')
+    time.sleep(1)
+    print('0s')
+    time.sleep(1)
+
+
+t1 = threading.Thread(target=run, args=("t1",))
+t2 = threading.Thread(target=run, args=("t2",), name='Thread T2') # ここではsetName()が呼び出される
+# start()
+t1.start()
+t2.start()
+# join()
+t1.join()
+t2.join()
+# join()を呼び出したため
+# メインスレッドは上記のスレッドが終わるまで待機し
+# 全部終わったらprintする
+print(threading.current_thread().name)
+```
+
+```
+task: t1 (thread name: Thread-1)
+task: t2 (thread name: Thread T2)
+2s
+2s
+1s
+1s
+0s
+0s
+MainThread
+```
+
+```
+t1とt2が交替で実行されていることが確認できます。交替ルールの1つはIO操作（ここではprint操作が該当する）の後で、1.5 GILのところでまた詳しく説明します。
+```
+
+### カスタマイズ(Classes)  
+```
+　Threadを継承して、スレッドクラスのrunメソッドをカスタマイズした上での利用も可能です。
+```
+
+```
+import threading
+import time
+
+
+class MyThread(threading.Thread):
+    def __init__(self, n):
+        super(MyThread, self).__init__()
+        self.n = n
+
+    # run()を書き直す
+    def run(self):
+        print("task: {}".format(self.n))
+        time.sleep(1)
+        print('2s')
+        time.sleep(1)
+        print('1s')
+        time.sleep(1)
+        print('0s')
+        time.sleep(1)
+
+
+t1 = MyThread("t1")
+t2 = MyThread("t2")
+
+t1.start()
+t2.start()
+
+```
+
+```
+task: t1
+task: t2
+2s
+2s
+1s
+1s
+0s
+0s
+```
+
+### スレッド数を計算(thread)  
+
+```
+import threading
+import time
+
+
+def run(n):
+    print("task: {}".format(n))
+    time.sleep(1)
+
+
+for i in range(1, 4):
+    t = threading.Thread(target=run, args=("t{}".format(i),))
+    t.start()
+
+time.sleep(0.5)
+print(threading.active_count())
+```
+
+```
+task: t1
+task: t2
+task: t3
+4
+```
+
+###  デーモンスレッド(Dameo)
+```
+import threading
+import time
+
+
+def run(n):
+    print("task: {}".format(n))
+    time.sleep(1)
+    print('3')
+    time.sleep(1)
+    print('2')
+    time.sleep(1)
+    print('1')
+
+
+for i in range(1, 4):
+    t = threading.Thread(target=run, args=("t{}".format(i),))
+    # setDaemon(True)
+    t.setDaemon(True) 
+    t.start()
+
+time.sleep(1.5)
+print('スレッド数: {}'.format(threading.active_count()))
+```
+
+```
+task: t1
+task: t2
+task: t3
+3
+3
+3
+スレッド数: 4
+```
+
 
 ## multiprocessing  
 
@@ -262,7 +438,118 @@ Python 關於平行處理的模組除了 multiprocessing 與 threading 之外，
 只要繼承該類別並且實作 run() 方法(method)即可將需要在背景執行的工作放在另 1 個 process 中執行，例如以下範例實作 1 個能夠每 3 秒監控某網站的 process ，並且在監控 5 次後結束執行：
 ```
 
+```
+透過繼承 Process 類別實作完 ChildProcess 類別之後，ChildProcess 就具有在不同 process 中執行的能力，當我們呼叫 start() 方法之後， ChildProcess 類別就會在另 1 個 process 中執行。
+
+例如以下範例，我們在 22 行實例化該類別，接著在第 23 行呼叫 start() 方法，此時就會讓 ChildProcess 在另外的 process 中執行 run() 方法，同時為了證明 ChildProcess 不會阻礙 main process 的執行，我們在第 25 - 27 行執行其他工作：
+```
+
+```
+mport time
+
+import requests
+
+from multiprocessing import Process, current_process
+
+
+class ChildProcess(Process):
+    def run(self):
+        p = current_process()
+        print("New process -> [%s] %s" % (p.pid, p.name))
+        for _ in range(5):
+            resp = requests.get('https://example.com')
+            print('example.com [%d]' % resp.status_code) 
+            time.sleep(3)
+        print("[%s] %s terminated" % (p.pid, p.name))
+
+
+parent_p = current_process()
+print("I'm main process -> [%s] %s" % (parent_p.pid, parent_p.name))
+
+child_p = ChildProcess()
+child_p.start()
+
+for _ in range(5):
+    print("I'm main process, doing a job now")
+    time.sleep(2)
+
+print("[%s] %s terminated" % (parent_p.pid, parent_p.name))
+```
+
+```
+上述範例的執行結果如下，可以看到 2 個不同 PID 的 processes 各自執行其工作，而且互不影響，其中 main process 51090 執行完其工作後就先結束，直到 child process 51106 執行完監控網站的任務後，整個 python process 才結束執行：
+
+```
+
+```
+
+$ python test.py
+I'm main process -> [51090] MainProcess
+I'm main process, doing a job now
+New process -> [51106] ChildProcess-1
+example.com [200]
+I'm main process, doing a job now
+I'm main process, doing a job now
+example.com [200]
+I'm main process, doing a job now
+example.com [200]
+I'm main process, doing a job now
+[51090] MainProcess terminated
+example.com [200]
+example.com [200]
+[51106] ChildProcess-1 terminated
+```
+
 ## join() 方法 
+```
+前述章節中提到 main process 比 child process 先結束執行的情況，
+如果有些情況是需要先等 child process 執行完的情況，那麼可以額外針對 child process 呼叫 join() 方法，
+如此一來 main process 就會先停在呼叫 join() 的地方等待，直到 child process 結束後才繼續執行 main process, 
+例如以下範例：
+```
+
+```
+import time
+
+from multiprocessing import Process, current_process
+
+
+class ChildProcess(Process):
+    def run(self):
+        p = current_process()
+        print("New process -> [%s] %s" % (p.pid, p.name))
+        time.sleep(10)
+        print("[%s] %s terminated" % (p.pid, p.name))
+
+
+parent_p = current_process()
+print("I'm main process -> [%s] %s" % (parent_p.pid, parent_p.name))
+
+child_p = ChildProcess()
+child_p.start()
+child_p.join()
+
+print("[%s] %s terminated" % (parent_p.pid, parent_p.name))
+```
+
+```
+上述範例執行結果如下，可以發現不管執行幾次， MainProcess 總是會等 child process 結束後才結束：
+```
+
+```
+$ python test.py
+I'm main process -> [13420] MainProcess
+New process -> [13436] ChildProcess-1
+[13436] ChildProcess-1 terminated
+[13420] MainProcess terminated
+```
+
+```
+如果把 child_p.join() 刪掉，就會發現 MainProcess 總是先結束執行。
+
+以上就是 join() 方法的功效。
+```
+
 ## 多個 Processes  
 ## 封裝複雜邏輯  
 
@@ -307,5 +594,6 @@ Python 關於平行處理的模組除了 multiprocessing 與 threading 之外，
 - 1
 - 2
 - 3
+
 
 
