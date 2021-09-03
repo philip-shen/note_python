@@ -9,7 +9,7 @@ Table of Contents
          * [インスタンス化(Instance)](#インスタンス化instance)
          * [カスタマイズ(Classes)](#カスタマイズclasses)
          * [スレッド数を計算(thread)](#スレッド数を計算thread)
-         * [デーモンスレッド(Dameo)](#デーモンスレッドdameo)
+         * [デーモンスレッド(Daemo)](#デーモンスレッドdaemo)
       * [multiprocessing](#multiprocessing)
       * [multiprocessing](#multiprocessing-1)
          * [subprocess.run](#subprocessrun)
@@ -183,7 +183,7 @@ task: t3
 4
 ```
 
-###  デーモンスレッド(Dameo)
+###  デーモンスレッド(Daemo)
 ```
 import threading
 import time
