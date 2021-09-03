@@ -26,6 +26,11 @@ Table of Contents
    * [[Python] TkinterでYoutube Downloaderを作ってみた。](#python-tkinterでyoutube-downloaderを作ってみた)
       * [生成順番](#生成順番)
       * [2.2.2. 呼び出し](#222-呼び出し)
+   * [Pythonでthreadingを使った非同期処理](#pythonでthreadingを使った非同期処理)
+   * [Pythonにおける非同期処理: asyncio逆引きリファレンス](#pythonにおける非同期処理-asyncio逆引きリファレンス)
+      * [並列で処理を行いたい(固定長)](#並列で処理を行いたい固定長)
+      * [並列で処理を行いたい(不定長)](#並列で処理を行いたい不定長)
+      * [並列での実行数を制御したい](#並列での実行数を制御したい)
    * [subprocessの使い方(Python3.6)](#subprocessの使い方python36)
       * [Pip of shell script](#pip-of-shell-script)
    * [Python 好用模組教學 - concurrent.futures](#python-好用模組教學---concurrentfutures)
@@ -45,6 +50,7 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose  
 Take some note of threading and multiprocessing  
@@ -635,6 +641,133 @@ self.btn_Start.configure( command = self.click_me)
 ```
 
 
+# Pythonでthreadingを使った非同期処理
+[Pythonでthreadingを使った非同期処理 updated at 2020-04-16](https://qiita.com/Gattaca/items/a63707aac2cdcccb6127)
+```
+worker()はスレッドで実行させる処理です。
+q.get()でキューから要素を取り出し、1秒スリープしてから取り出した要素を表示しています。
+q.task_done()でキューから取り出した要素の処理が完了したことをキューに知らせます。これらの処理を無限ループします。
+```
+
+```
+from queue import Queue
+from threading import Thread
+import time
+
+
+def worker(q):
+    while True:
+        result = q.get()
+        time.sleep(1)
+        print(result)
+        q.task_done()
+
+if __name__ == '__main__':
+    q = Queue()
+
+    for _ in range(3):
+        thread = Thread(target=worker, args=(q,))
+        thread.setDaemon(True)
+        thread.start()
+
+    a = [1, 2, 3, 4, 5, 6]
+    for i in a:
+        q.put(i)
+
+    q.join()
+```
+
+```
+メインの処理では、q = Queue()でキューを作成します。
+引数にmaxsizeを指定しない場合はキューの大きさは無限になります。
+thread = Thread(target=worker, args=(q,))でスレッドを作成し、上で作成したworker()関数と引数を渡します。
+thread.setDaemon(True)でスレッドをデーモンスレッドにする処理です。
+デーモンスレッドは残っているスレッドがデーモンスレッドだけの時pythonプログラムを終了させます。
+thread.start()でスレッドをスタートさせています。
+今回はfor文で3つのスレッドをたてています。
+
+次はキューにaの要素を順次入れていきます。
+最後q.join()でキューの処理が全部終わるまで待機します。
+```
+
+```
+python async.py
+# 1秒待機
+1
+3
+2
+# 1秒待機
+5
+6
+4
+```
+
+
+# Pythonにおける非同期処理: asyncio逆引きリファレンス 
+[Pythonにおける非同期処理: asyncio逆引きリファレンス updated at 2019-03-06](https://qiita.com/icoxfog417/items/07cbf5110ca82629aca0)
+
+```
+
+```
+
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F25990%2Fd4f19dcb-140e-beda-4985-a2bbf35b7233.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=c31c617f5252d6644825b156b7925002
+" width="400" height="200">
+
+[第1回　マルチスレッドはこんなときに使う (1/2)](https://atmarkit.itmedia.co.jp/ait/articles/0503/12/news025.html) 
+
+```
+import asyncio
+
+
+Seconds = [
+    ("first", 5),
+    ("second", 0),
+    ("third", 3)
+]
+
+
+async def sleeping(order, seconds, hook=None):
+    await asyncio.sleep(seconds)
+    if hook:
+        hook(order)
+    return order
+
+
+async def basic_async():
+    # the order of result is nonsequential (not depends on order, even sleeping time)
+    for s in Seconds:
+        r = await sleeping(*s)
+        print("{0} is finished.".format(r))
+    return True
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(basic_async())
+```
+
+## 並列で処理を行いたい(固定長)  
+```
+あらかじめ並列で実行したい処理の数が決まっている際は、
+それらを並列で一斉に処理させることができます。そのために提供されている機能が、asyncio.gatherとasyncio.waitです。
+
+まず、asyncio.gatherのパターン
+```
+
+## 並列で処理を行いたい(不定長)  
+```
+先ほどの並列処理は並列処理をする数がわかっていましたが、
+次々リクエストが来る場合など長さが固定でない場合もあります(ストリームなど)。
+そうした場合は、Queueを使った処理が可能です。
+```
+
+## 並列での実行数を制御したい 
+```
+特にスクレイピングなどを行う場合、あるサイト内の1000個のコンテンツのurlを一斉に処理するなどするとと多大な迷惑がかかるため、並列で実行するプロセスの数を制御したい場合があります。
+この時に使うのがSemaphoreになります。
+```
+
+
 # subprocessの使い方(Python3.6)  
 [subprocessの使い方(Python3.6) updated at 2020-08-21](https://qiita.com/caprest/items/0245a16825789b0263ad)
 
@@ -842,5 +975,7 @@ Pipe 具有雙向溝通的能力，當我們呼叫 Pipe() 時會回傳 2 個 Con
 - 1
 - 2
 - 3
+
+
 
 
