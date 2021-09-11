@@ -30,12 +30,16 @@ Table of Contents
          * [Pyo tips_Avoid graphical updates](#pyo-tips_avoid-graphical-updates)
          * [Pyo tips_List of CPU intensive objects](#pyo-tips_list-of-cpu-intensive-objects)
    * [Pyo scripts collection](#pyo-scripts-collection)
+   * [WASAPI](#wasapi)
+      * [Working with WasapiOut](#working-with-wasapiout)
+         * [Configuring WasapiOut](#configuring-wasapiout)
+         * [Record Soundcard Output with WasapiLoopbackCapture](#record-soundcard-output-with-wasapiloopbackcapture)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   
+
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
    
 
@@ -559,8 +563,121 @@ Here is a non-exhaustive list of the most CPU intensive objects of the library.
 ------------------------------------ | ---------------------------------------------
 
 
+# WASAPI 
+ 
+## Working with WasapiOut  
+[Working with WasapiOut](https://github.com/naudio/NAudio/blob/master/Docs/WasapiOut.md)  
+
+### Configuring WasapiOut  
+[Configuring WasapiOut](https://github.com/naudio/NAudio/blob/master/Docs/WasapiOut.md#configuring-wasapiout)
+```
+When you create an instance of WasapiOut you can choose an output device. 
+This is discussed in the enumerating output devices article.
+
+There are a number of other options you can specify with WASAPI.
+
+First of all, you can choose the "share mode". This is normally set to AudioClientShareMode.Shared 
+which means you are happy to share the sound card with other audio applications in Windows. 
+This however does mean that the sound card will continue to operate at whatever sample rate it is currently set to, 
+irrespective of the sample rate of audio you want to play, and this is why the ResamplerDmoStream may be required.
+
+If you choose AudioClientShareMode.Exclusive then you are requesting exclusive access to the sound card. 
+The benefits of this approach are that you can specify the exact sample rate you want 
+(has to be supported by the sound card and usually cannot be less than 44.1kHz), 
+and you can often work at lower latencies. Obviously this mode impacts on other programs wanting to use the soundcard.
+
+You can choose whether to use eventSync or not. 
+This governs the behaviour of the background thread that is supplying audio to WASAPI. With event sync, 
+you listen on an event for when WASAPI wants more audio. 
+Without, you simply sleep for a short period of time and then provide more audio. Event sync is the default and generally is fine for most use cases.
+
+You can also request the latency you want. This is only a request, and depending on the share mode may not have any effect. 
+The lower the latency, the shorter the period of time between supplying audio to the soundcard and hearing it.
+
+This can be very useful for real-time monitoring effects, 
+but comes at the cost of higher CPU usage and potential for dropouts causing pops and clicks. 
+So take care when adjusting this setting. The default is currently set to a fairly conservative 200ms.
+```
+
+### Record Soundcard Output with WasapiLoopbackCapture  
+[Record Soundcard Output with WasapiLoopbackCapture](https://github.com/naudio/NAudio/blob/master/Docs/WasapiLoopbackCapture.md)
+
+```
+Lots of people ask how they can use NAudio to record the audio being played by another program. 
+The answer is that unfortunately Windows does not provide an API that lets you target the output of one specific program to record. 
+However, with WASAPI loopback capture, you can record all the audio that is being played out of a specific output device.
+
+The audio has to be captured at the WaveFormat the device is already using. 
+This will typically be stereo 44.1kHz (sometimes 48kHz) IEEE floating point. 
+Obviously you can manually manipulate the audio after capturing it into another format, 
+but for this example, we'll pass it straight onto the WAV file unchanged.
+
+Let's start off by selecting a path to record to, creating an instance of WasapiLoopbackCapture (uses the default system device, 
+but we can pass any rendering MMDevice that we want which we can find with MMDeviceEnumerator). 
+We'll also create a WaveFileWriter using the capture WaveFormat.
+```
+
+```
+var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "NAudio");
+Directory.CreateDirectory(outputFolder);
+var outputFilePath = Path.Combine(outputFolder, "recorded.wav");
+var capture = new WasapiLoopbackCapture();
+var writer = new WaveFileWriter(outputFilePath, capture.WaveFormat);
+```
+
+```
+We need to handle the DataAvailable event, and it's very much the same approach here as recording to a WAV file from a regular WaveIn device. 
+We just write BytesRecorded bytes from the Buffer into the WaveFileWriter. 
+And in this example, I am stopping recording when we've captured 20 seconds worth of audio, by calling StopRecording.
+```
+
+```
+capture.DataAvailable += (s, a) =>
+{
+    writer.Write(a.Buffer, 0, a.BytesRecorded);
+    if (writer.Position > capture.WaveFormat.AverageBytesPerSecond * 20)
+    {
+        capture.StopRecording();
+    }
+};
+```
+
+```
+When the RecordingStopped event fires, we Dispose our WaveFileWriter so we create a valid WAV file, 
+and we're done recording so we'll Dispose our capture device as well.
+```
+
+```
+capture.RecordingStopped += (s, a) =>
+{
+    writer.Dispose();
+    writer = null;
+    capture.Dispose();
+};
+```
+
+```
+All that remains is for us to start recording with StartRecording and wait for recording to finish by monitoring the CaptureState.
+```
+
+```
+capture.StartRecording();
+while (capture.CaptureState != NAudio.CoreAudioApi.CaptureState.Stopped)
+{
+    Thread.Sleep(500);
+}
+```
+```
+
+Now there is one gotcha with WasapiLoopbackCapture. If no audio is playing whatsoever, 
+then the DataAvailable event won't fire. 
+So if you want to record "silence", one simple trick is to simply use an NAudio playback device 
+to play silence through that device for the duration of time you're recording. 
+Alternatively, you could insert silence yourself when you detect gaps in the incoming audio.
+```
 
 * []()  
+
 ![alt tag]()
 <img src="" width="" height="">  
 
