@@ -1,4 +1,3 @@
-
 Table of Contents
 =================
 
@@ -31,6 +30,7 @@ Table of Contents
          * [Pyo tips_List of CPU intensive objects](#pyo-tips_list-of-cpu-intensive-objects)
    * [Pyo scripts collection](#pyo-scripts-collection)
    * [WASAPI](#wasapi)
+      * [ベストのオーディオインターフェイスはどれ？](#ベストのオーディオインターフェイスはどれ)
       * [Working with WasapiOut](#working-with-wasapiout)
          * [Configuring WasapiOut](#configuring-wasapiout)
          * [Record Soundcard Output with WasapiLoopbackCapture](#record-soundcard-output-with-wasapiloopbackcapture)
@@ -711,6 +711,4 @@ Alternatively, you could insert silence yourself when you detect gaps in the inc
 - 1
 - 2
 - 3
-
-
 
