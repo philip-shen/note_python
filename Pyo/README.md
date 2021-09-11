@@ -564,7 +564,11 @@ Here is a non-exhaustive list of the most CPU intensive objects of the library.
 
 
 # WASAPI 
- 
+## ベストのオーディオインターフェイスはどれ？  
+[ベストのオーディオインターフェイスはどれ？](https://pcde24bit192khz.blogspot.com/2010/04/blog-post_17.html)  
+
+<img src="https://3.bp.blogspot.com/_G-bpb_5A1Qo/S8mvicbaRjI/AAAAAAAAAYs/PXQ39HBbeWI/s1600/20100417_windows_audio_interfaces.png" width="800" height="500">  
+
 ## Working with WasapiOut  
 [Working with WasapiOut](https://github.com/naudio/NAudio/blob/master/Docs/WasapiOut.md)  
 
