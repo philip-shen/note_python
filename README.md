@@ -39,6 +39,7 @@ Table of Contents
       * [break](#break)
       * [continue](#continue)
       * [pass](#pass)
+   * [<strong>call</strong> method in Class](#call-method-in-class)
    * [Environment](#environment)
    * [Troubleshooting](#troubleshooting)
       * [Permission denied error by installing matplotlib](#permission-denied-error-by-installing-matplotlib)
@@ -54,6 +55,7 @@ Table of Contents
    * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose
 Take some note of python
@@ -594,6 +596,58 @@ pass 就像是 To do 的概念，在寫程式的時候，有時候想的比實�
 def myfunction():
     pass  #提醒自己之後要來完成
 ```
+
+# __call__ method in Class  
+[Pythonのクラスにおける__call__メソッドの使い方 updated at 2016-03-20](https://qiita.com/ko-da-k/items/439d8cc3a0424c45214a)  
+**クラスを作るときに、initは頻繁に使うけど、callって何ってなったときに自分なりに解釈**
+
+```
+class A:
+
+    def __init__(self, a):
+        self.a = a
+        print("A init")
+
+    def __call__(self, b):
+        print("A call")
+        print(b + self.a)
+
+class B(A):
+
+    def __init__(self, a, c):
+        super().__init__(a)
+        self.c = c
+        print("B init")
+
+    def __call__(self, d):
+        print("B call")
+        print(self.a + self.c + d)
+```
+
+```
+>>> a = A(1)
+A init
+
+>>> a(2)
+A call
+3
+
+>>> b = B(1,3)
+A init
+B init
+
+>>> b(4)
+B call
+8
+```
+
+```
+インスタンス生成では__init__しか呼び出されない。
+しかし、一度生成されたインスタンスを関数っぽく引数を与えて呼び出せば、__call__が呼び出されるという仕組み
+
+もちろん、__call__に返り値をつければ,インスタンスから得られた値を別の変数に使ったりもできるということ。
+```
+
 
 # Environment  
 windows 10 64bit  
