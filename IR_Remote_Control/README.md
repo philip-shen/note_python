@@ -1,6 +1,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [IoT 家中の赤外線リモコン製品をpythonから操作する。](#iot-家中の赤外線リモコン製品をpythonから操作する)
       * [準備(接続)](#準備接続)
@@ -25,6 +26,7 @@ Table of Contents
          * [Philips Prontoコードを黒豆コードに変換するサンプル](#philips-prontoコードを黒豆コードに変換するサンプル)
       * [■送信コードの解析結果](#送信コードの解析結果)
       * [■実践編](#実践編)
+   * [aioiotprov](#aioiotprov)
    * [smartHomeHub / SmartIR](#smarthomehub--smartir)
    * [eschava / broadlink-mqtt](#eschava--broadlink-mqtt)
    * [h1 size](#h1-size)
@@ -32,8 +34,11 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
+   * [Table of Contents](#table-of-contents-2)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 # Purpose  
 Take some notes of IR Remote Control
@@ -334,6 +339,17 @@ $ ./broadlink_cli --device @ROOM.device --send @FLOOR_LIGHT.off
 [http://itline.jp/~svx/diary/?date=20110612](http://itline.jp/~svx/diary/?date=20110612)
 [https://qiita.com/yamori813/items/9a6587bc22e8f61ce182](https://qiita.com/yamori813/items/9a6587bc22e8f61ce182)
 
+# aioiotprov  
+[aioiotprov](https://github.com/frawau/aioiotprov)
+```
+This is early day. Currently it can provision TP-Link smartplugs, Broadlink IR blasters, Sonoff switches running the Tasmota firmware, Shelly devices and E-Trix power monitors, Xiaomi Yeelights (Possibly other Xiaomi too)
+
+This uses nmcli or wpa_cli to control and configure WIFI access. This means this will work only with Linux, and then again not all. 
+It is working on a RaspberryPi running Debian Stretch (No NetworkManager) and works on a laptop running Ubuntu 18.10 to 20.04
+
+When using nmcli, it is possible to use a connected WiFi adapter, this has not yet been tested with wpa_cli
+```
+
 
 # smartHomeHub / SmartIR 
 [smartHomeHub /SmartIR ](https://github.com/smartHomeHub/SmartIR)  
@@ -375,6 +391,4 @@ $ ./broadlink_cli --device @ROOM.device --send @FLOOR_LIGHT.off
 - 1
 - 2
 - 3
-
-
 
