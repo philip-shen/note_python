@@ -6,6 +6,9 @@ Table of Contents
    * [How-To-Ask-Questions-The-Smart-Way](#how-to-ask-questions-the-smart-way)
       * [當你提問時](#當你提問時)
       * [如何解讀答案](#如何解讀答案)
+   * [engineer-ability-visualizer](#engineer-ability-visualizer)
+      * [Technical](#technical)
+      * [Architecture](#architecture)
    * [Installation](#installation)
       * [Step1 Install Python3.6-32bit](#step1-install-python36-32bit)
       * [Step2 Upgrade pip](#step2-upgrade-pip)
@@ -94,6 +97,45 @@ Take some note of python
     處理無禮的回應
 
 
+# engineer-ability-visualizer 
+[ocoteron /engineer-ability-visualizer](https://github.com/tocoteron/engineer-ability-visualizer)  
+```
+本プロダクトは、新卒エンジニア採用担当向けのエンジニアの能力を可視化するWebサービスです。
+
+採用担当の「会社にマッチしているエンジニアを採用したいがミスマッチがある」といった課題を解決するために作成しました。
+
+現状の選考方法の例としては以下のようなものがあります。
+
+    書類選考
+    面接
+    筆記試験
+    コーディイングテスト
+
+これらは、本番一発勝負であったり選考のためだけに準備をしてくる場合が多いと思います。 その場合、エンジニアが本当はどんな人でどんな能力に長けているのかといった点は見えづらいのではないかと考えています。
+
+その問題を解決するために本プロダクトでは、エンジニアのGitHubの普段の活動を分析し、能力として可視化します。
+```
+
+```
+エンジニアの評価軸は、以下の通りです。
+
+    発見力 (課題を発見する能力)
+        イシュースコア
+    解決力 (課題に取り組む能力)
+        リポジトリスコア
+        コミットスコア
+        プルリクスコア
+    スピード (課題に取り組む速さ)
+        コミットスピードスコア
+```
+
+<img src="https://raw.githubusercontent.com/tocoteron/engineer-ability-visualizer/master/images/ability.png" width="600" height="400">  
+
+## Technical  
+<img src="https://raw.githubusercontent.com/tocoteron/engineer-ability-visualizer/master/images/tech.png" width="800" height="600">  
+
+## Architecture  
+<img src="https://raw.githubusercontent.com/tocoteron/engineer-ability-visualizer/master/images/architecture.png" width="800" height="600">  
 
 # Installation
 ## Step1 Install Python3.6-32bit  
@@ -795,7 +837,5 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
-
-
 
 
