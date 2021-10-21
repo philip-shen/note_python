@@ -17,6 +17,8 @@ Table of Contents
       * [環境](#環境)
       * [PyautoGUIについて](#pyautoguiについて)
          * [Installation_Windows](#installation_windows)
+   * [python開機時自動進入google meet](#python開機時自動進入google-meet)
+   * [AutoLogin-Google-Meet](#autologin-google-meet)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -127,6 +129,15 @@ C:\Python37\Scripts\pip.exe install PyTweening
 C:\Python37\Scripts\pip.exe install opencv_python
 ```
 
+
+# python開機時自動進入google meet  
+[用python開機時自動進入google meet 2021年6月1日](https://www.youtube.com/watch?v=61u8r8U5_04)
+[meet.py](https://drive.google.com/file/d/1DB4XveaDmjqbkKjI6cjsyLN5n4rXT1mc/view)
+
+# AutoLogin-Google-Meet 
+[AutoLogin-Google-Meet](https://github.com.cnpmjs.org/RyzerZ/AutoLogin-Google-Meet/blob/master/login.py)
+
+
 # Troubleshooting
 
 
@@ -163,6 +174,8 @@ C:\Python37\Scripts\pip.exe install opencv_python
 - 1
 - 2
 - 3
+
+
 
 
 
