@@ -2,6 +2,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [自動でMicrosoft teamsで個人あてにチャットを送る方法](#自動でmicrosoft-teamsで個人あてにチャットを送る方法)
       * [Microsoft Teamsを操作するプログラム](#microsoft-teamsを操作するプログラム)
@@ -15,6 +16,7 @@ Table of Contents
       * [seleniumでby_class_nameでスペースが入った要素が取得できずエラーになる時の対処法](#seleniumでby_class_nameでスペースが入った要素が取得できずエラーになる時の対処法)
    * [続！pyAutoGUIでリモートワークサボり隊！](#続pyautoguiでリモートワークサボり隊)
       * [Python(pyAutoGUI)を使って操作してる風にみせる](#pythonpyautoguiを使って操作してる風にみせる)
+   * [MS-Teams-Automation](#ms-teams-automation)
    * [PythonでZoomミーティングに自動出席しよう](#pythonでzoomミーティングに自動出席しよう)
    * [pywinauto の使い方メモ](#pywinauto-の使い方メモ)
       * [オンライン授業にPython Seleniumで自動出席したい！](#オンライン授業にpythonseleniumで自動出席したい)
@@ -174,6 +176,13 @@ except KeyboardInterrupt:
 それぞれの処理に待ち時間を設定している(時間は適当なので起動しながら調整してほしい)。
 ```
 
+# MS-Teams-Automation  
+[ayushi7rawat / MS-Teams-Automation](https://github.com/ayushi7rawat/MS-Teams-Automation)
+
+```
+Automating MS Teams with Python using PyAutoGui
+```
+
 
 
 # PythonでZoomミーティングに自動出席しよう  
@@ -317,11 +326,3 @@ C:\Python37\Scripts\pip.exe install opencv_python
 - 1
 - 2
 - 3
-
-
-
-
-
-
-
-
