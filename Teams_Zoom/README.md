@@ -2,8 +2,19 @@
 Table of Contents
 =================
 
-   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
+   * [自動でMicrosoft teamsで個人あてにチャットを送る方法](#自動でmicrosoft-teamsで個人あてにチャットを送る方法)
+      * [Microsoft Teamsを操作するプログラム](#microsoft-teamsを操作するプログラム)
+         * [1.Microsoft公式Teams app "Incoming Webhook"を使う。](#1microsoft公式teams-app-incoming-webhookを使う)
+         * [2.Microsoft公式Tool ""Power Automate for desktop""を使う](#2microsoft公式tool-power-automate-for-desktopを使う)
+         * [3.Seleniumによりブラウザを操作して、Web版teamsを操作する。  　](#3seleniumによりブラウザを操作してweb版teamsを操作する--)
+      * [Chrome Driver](#chrome-driver)
+      * [Web版teamsの操作](#web版teamsの操作)
+   * [Teamsの個人チャットへ自動送信する（２段階認証回避）](#teamsの個人チャットへ自動送信する２段階認証回避)
+      * [躓いたポイント](#躓いたポイント)
+      * [seleniumでby_class_nameでスペースが入った要素が取得できずエラーになる時の対処法](#seleniumでby_class_nameでスペースが入った要素が取得できずエラーになる時の対処法)
+   * [続！pyAutoGUIでリモートワークサボり隊！](#続pyautoguiでリモートワークサボり隊)
+      * [Python(pyAutoGUI)を使って操作してる風にみせる](#pythonpyautoguiを使って操作してる風にみせる)
    * [PythonでZoomミーティングに自動出席しよう](#pythonでzoomミーティングに自動出席しよう)
    * [pywinauto の使い方メモ](#pywinauto-の使い方メモ)
       * [オンライン授業にPython Seleniumで自動出席したい！](#オンライン授業にpythonseleniumで自動出席したい)
@@ -32,6 +43,138 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 # Purpose  
 Take note of Teams and Zoom Automation  
+
+# 自動でMicrosoft teamsで個人あてにチャットを送る方法 
+[自動でMicrosoft teamsで個人あてにチャットを送る方法 updated at 2021-10-16](https://qiita.com/grapefruit_0514/items/62e49d4d5cac7a323aeb)
+
+## Microsoft Teamsを操作するプログラム  
+### 1.Microsoft公式Teams app "Incoming Webhook"を使う。 
+### 2.Microsoft公式Tool ""Power Automate for desktop""を使う
+### 3.Seleniumによりブラウザを操作して、Web版teamsを操作する。  　
+
+## Chrome Driver  
+```
+今回はGoogle Chromeの自動化を紹介する。Seleniumによるブラウザ操作には各ブラウザのdriverのダウンロードが必要である。以下のリンクから適当なフォルダにダウンロードして置いておこう。
+```
+[Chrome driver](https://chromedriver.chromium.org/downloads)
+[Microsoft-edge driver](https://developer.microsoft.com/ja-jp/microsoft-edge/tools/webdriver/)
+
+## Web版teamsの操作  
+```
+今回はChrome web driverを使ってWeb版TeamsをChromeで開いて操作する。
+開くページのURLにチャットの相手のユーザーネームが書いてるので、複数送りたい相手がいる場合はその箇所を送りたい相手に変更する。
+```
+
+```
+driver_path = r'/path/chromedriver.exe'
+driver = webdriver.Chrome(executable_path = driver_path)
+
+driver.get('https://teams.microsoft.com/dl/launcher/***' + Name +'**')
+driver.maximize_window()
+```
+
+```
+デスクトップアプリ版を使うかどうかアラートが出る場合があるので、例外処理でアラートへswichして"いいえ"を押す。
+```
+
+```
+try:
+    alert = driver.switch_to.alert
+    text = alert.text
+    alert.dismiss()
+except:
+    pass
+```
+
+```
+メッセージボックスをクリックして入力可能状態にし、過去の未送信のメッセージがある場合があるのでBack Spaceで消して、送りたいメッセージを送る。
+```
+
+```
+driver.find_element_by_xpath('message boxのxpath').click()
+for i in range(30):
+    driver.find_element_by_xpath('message boxのxpath').send_keys(Keys.BACK_SPACE)
+message = """
+Hello! jon
+How are you doing?
+Would you like to go fishing with me this weekend?
+"""
+driver.find_element_by_xpath('message boxのxpath').send_keys(message)
+driver.find_element_by_id('send-message-button').click()
+```
+
+
+# Teamsの個人チャットへ自動送信する（２段階認証回避）  
+[Teamsの個人チャットへ自動送信する（２段階認証回避） updated at 2021-10-05](https://qiita.com/mimuro_syunya/items/8a75397bc9c22f1c300f)
+
+[[2] PythonのSeleniumを使って、起動済みのブラウザを操作する。](https://qiita.com/mimuro_syunya/items/2464cd2404b67ea5da56)  
+
+[ mimuro-lab /teams_sendmsg ](https://github.com/mimuro-lab/teams_sendmsg)
+
+## 躓いたポイント
+```
+xpathの取得は、chromeブラウザ上の右クリック「検証」で要素を探して（以下画像のクリックするボタン）、
+コード上で右クリック「copy」からxpathを取得できます。
+```
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F554112%2F4941fcf3-d02c-3011-2775-fc6ceec93a83.jpeg?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=76a25e50618ee5e99c236192b3bdbd58" width="600" height="200">
+
+## seleniumでby_class_nameでスペースが入った要素が取得できずエラーになる時の対処法
+[seleniumでby_class_nameでスペースが入った要素が取得できずエラーになる時の対処法](https://qiita.com/hanonaibaobabu/items/e547410865d857aa25ec)
+
+
+# 続！pyAutoGUIでリモートワークサボり隊！
+[続！pyAutoGUIでリモートワークサボり隊！ posted at 2020-10-02](https://qiita.com/pnd75/items/f0918c330ebb5b0df6ba)
+
+## Python(pyAutoGUI)を使って操作してる風にみせる 
+```
+MicrosoftTeamsでは退席中表示は放置5分だったと思う。
+しっかり仕事中でもそのぐらい放置することは多々ある。
+その際、復帰させようとして
+
+    マウス/タッチパネルでのカーソルの移動
+    キーボード(矢印キー、タブキー)でのカーソル移動
+
+と動かしてみると「退席中」のまま変わらない…ということが起きていた。
+この時の退席中表示を確実に解除する方法はキー入力操作だ。
+ということは、同じことをPythonにさせればいいんじゃないだろうか。
+```
+
+```
+sample2.py
+
+import pyautogui as pg
+import time
+try:
+    while True:
+        time.sleep(180)
+
+        # chromeを開く
+        pg.hotkey('win','r')
+        pg.typewrite('chrome.exe')
+        pg.press('enter')
+        time.sleep(5)
+
+        # 文字列testを検索
+        pg.typewrite('test')
+        pg.press('enter')
+        time.sleep(5)
+
+        # ウィンドウを閉じる
+        pg.hotkey('alt','f4')
+
+except KeyboardInterrupt:
+    print('仕事しよ')
+```
+
+```
+解説はソース内のコメントのとおり。
+前回のマウス操作を「Chromeを開いて「test」という文字列で検索して閉じる」に変更しただけだ。
+[Alt]+[F4]で別のものまで閉じないように、
+それぞれの処理に待ち時間を設定している(時間は適当なので起動しながら調整してほしい)。
+```
+
+
 
 # PythonでZoomミーティングに自動出席しよう  
 [PythonでZoomミーティングに自動出席しよう Feb 26, 2021](https://qiita.com/hima_zin331/items/97fc5c9093057bb06572)  
@@ -174,6 +317,8 @@ C:\Python37\Scripts\pip.exe install opencv_python
 - 1
 - 2
 - 3
+
+
 
 
 
