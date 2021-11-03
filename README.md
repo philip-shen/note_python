@@ -9,6 +9,15 @@ Table of Contents
    * [engineer-ability-visualizer](#engineer-ability-visualizer)
       * [Technical](#technical)
       * [Architecture](#architecture)
+   * [最初から強いやつの特徴](#最初から強いやつの特徴)
+      * [1. 読解能力が異常に高い](#1-読解能力が異常に高い)
+      * [2. 「そもそもそれいるん ？」を臆せずに言える](#2-そもそもそれいるん-を臆せずに言える)
+      * [3. タスクを適切な粒度で実行する](#3-タスクを適切な粒度で実行する)
+      * [4. 優先順位を理解している](#4-優先順位を理解している)
+      * [5. Log をちゃんと追える](#5-log-をちゃんと追える)
+      * [6. 横着な commit をしない](#6-横着な-commit-をしない)
+      * [7. 質問がまとまっていて回答しやすい](#7-質問がまとまっていて回答しやすい)
+      * [8. 新しいことに対して一切物怖じしない](#8-新しいことに対して一切物怖じしない)
    * [Installation](#installation)
       * [Step1 Install Python3.6-32bit](#step1-install-python36-32bit)
       * [Step2 Upgrade pip](#step2-upgrade-pip)
@@ -55,7 +64,6 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -137,6 +145,47 @@ Take some note of python
 ## Architecture  
 <img src="https://raw.githubusercontent.com/tocoteron/engineer-ability-visualizer/master/images/architecture.png" width="800" height="600">  
 
+# 最初から強いやつの特徴  
+[最初から強いやつの特徴 updated at 2021-10-23](https://qiita.com/zamis/items/703bfcea027a70c1cec6)
+```
+    平日の稼働時間以外も勉強 or 開発する
+    土日も勉強 or 開発する
+    公式ドキュメントをちゃんと読む
+
+以上のような当たり前のことは、最初から強い人じゃなくてもやるので特徴に入れません。
+```
+
+## 1. 読解能力が異常に高い  
+
+## 2. 「そもそもそれいるん ？」を臆せずに言える
+
+## 3. タスクを適切な粒度で実行する  
+```
+    タスクのスコープが広範囲すぎると、自分でもゴールを見失いやすく、レビュワーも「これ何をレビューすればいいの？」という大変不幸な状態になります。
+
+    また、スコープが広いので、実装に時間がかかってしまい、どうしても停滞している感が否めなくなってきます。
+    
+    最初から強い人は、何故かこのタスクの粒度設定が信じられないくらいうまいです。タスクが大きすぎたり難しすぎたりすると、細かくタスクを分割し、周りの人の協力を得ながら、着実に階段を登って行きます。
+    
+    ベテランのエンジニアと一緒にストーリーの作成をすることがあるが、抽象的なイメージでモヤモヤしている状態から、明確にストーリーが出来上がってくる様は、ある種の感動を覚えます。最初から強い人は、ベテランのエンジニアと同じ視点を持っていると思っています。
+```
+## 4. 優先順位を理解している  
+
+## 5. Log をちゃんと追える  
+
+## 6. 横着な commit をしない 
+
+## 7. 質問がまとまっていて回答しやすい  
+
+## 8. 新しいことに対して一切物怖じしない  
+```
+    羨ましい限りである。
+    どうしても私は「うわっ！」って思ってしまう。
+    強い人たちは「ちゃんと読めばわからないわけがない」というマインドもさることながら、常に何か新しいことを探していて、隙あらば使おうとしている。（個人ではすでに使用している。）
+    「もう動くから今のままでええやん..」というのは普通の人の考え方である。
+```
+
+ 
 # Installation
 ## Step1 Install Python3.6-32bit  
 * [如何在 Windows 打造 Python 開發環境設定基礎入門教學](https://happycoder.org/2017/11/17/how-to-setup-python-development-environment-in-windows/)  
@@ -837,5 +886,7 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
+
+
 
 
