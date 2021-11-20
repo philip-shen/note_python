@@ -108,6 +108,9 @@ Table of Contents
       * [wavelet変換・逆変換](#wavelet変換逆変換)
    * [ディープラーニング (Deep learning)声質変換環境構築](#ディープラーニング-deep-learning声質変換環境構築)
    * [音声を並列で再生する方法](#音声を並列で再生する方法)
+   * [combine-multiple-channels-of-audio-files](#combine-multiple-channels-of-audio-files)
+      * [Usage](#usage)
+      * [Example](#example)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -115,8 +118,6 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
-   * [Table of Contents](#table-of-contents-2)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -2272,9 +2273,29 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 うまく並列再生されず、しまいにはおそらくメモリーエラーでSegmentation Faultになりました(信号の取得等の処理を入れています)。
 ```
 
+
+
+# combine-multiple-channels-of-audio-files  
+[combine-multiple-channels-of-audio-files](https://github.com/JiachuanDENG/combine-multiple-channels-of-audio-files/blob/master/combineMultiChannels.py)
+
+## Usage  
+```
+change fns ,chns,output_fn in combineMultiChannels.py accordingly. 
+Then do python3 combineMultiChannels.py
 ```
 
-```
+## Example  
+
+If we want to get the channel 1's data of 1.wav  
+<img src="https://user-images.githubusercontent.com/20760190/70675675-b47f1980-1c3e-11ea-8dac-b56580f8e6a4.png"  width="600" height="300">  
+
+and channel 0 and channel 2's data of 2.wav  
+<img src="https://user-images.githubusercontent.com/20760190/70681236-8ce47d00-1c4f-11ea-869b-47162a54b04c.png"  width="600" height="300">
+
+We set: fns = ['1.wav','2.wav'] chns = [[1],[0,2]] output_fn = './output/out.wav' in combineMultiChannels.py, 
+it will give us the output file out.wav  
+
+<img src="https://user-images.githubusercontent.com/20760190/70681515-7db1ff00-1c50-11ea-860b-e3ec24361cc9.png"  width="600" height="300">
 
 # Troubleshooting
 
@@ -2313,6 +2334,4 @@ pythonで音声を再生する際はpyAudioを使うのが一般的ですが、�
 - 1
 - 2
 - 3
-
-
 
