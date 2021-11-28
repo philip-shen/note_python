@@ -53,6 +53,7 @@ Table of Contents
    * [【Streamlit】株価データのお手軽GUI分析](#streamlit株価データのお手軽gui分析)
    * [cdsdashboards](#cdsdashboards)
    * [Streamlit Offical API](#streamlit-offical-api)
+   * [GUI Console](#gui-console)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -60,7 +61,6 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -713,6 +713,16 @@ $ streamlit run example.py -- -m Sekai
 [Streamlit Offical API](https://share.streamlit.io/daniellewisdl/streamlit-cheat-sheet/app.py)  
 
 
+# GUI Console 
+[ Network-and-Database-Programming /week-10](https://github.com/Network-and-Database-Programming/week-10/tree/main)  
+
+```
+Simple Command Application to GUI
+Can run & generate command, also print output on the GUI output.  
+```
+
+<img src="https://camo.githubusercontent.com/facad0f1ea2391566d047df827f1b045fca25af513ba60a35a2b95beb9f858fe/68747470733a2f2f692e696d6775722e636f6d2f66556c4e3048392e706e67" width="500" height="400">  
+
 # Troubleshooting
 
 
@@ -751,7 +761,5 @@ $ streamlit run example.py -- -m Sekai
 - 1
 - 2
 - 3
-
-
 
 
