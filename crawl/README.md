@@ -1,13 +1,27 @@
+Table of Contents
+=================
+
+   * [Purpose](#purpose)
+   * [Active Selenium and Headless Chrome and Python3 on Docker](#active-selenium-and-headless-chrome-and-python3-on-docker)
+   * [Python and Selenium on Windows](#python-and-selenium-on-windows)
+   * [Watir](#watir)
+   * [Requests-HTML](#requests-html)
+      * [京急線の時刻表をスクレイピング](#京急線の時刻表をスクレイピング)
+      * [PythonでHTMLを解析してデータ収集してみる？ スクレイピングが最初からわかる『Python 2年生』](#pythonでhtmlを解析してデータ収集してみる-スクレイピングが最初からわかるpython-2年生)
+      * [requestsで取得できないWebページをスクレイピングする方法](#requestsで取得できないwebページをスクレイピングする方法)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # Purpose
 Leave some tracks of topic.
 
-# Table of Content
-[Active Selenium and Headless Chrome and Python3 on Docker](#active-selenium-and-headless-chrome-and-python3-on-docker)  
-[Python and Selenium on Windows](#python-and-selenium-on-windows)   
-
-[Watir](#watir)  
-
-[Reference](#reference)  
 
 # Active Selenium and Headless Chrome and Python3 on Docker
 * [Docker上でSeleniumとHeadless ChromeとPython3を動かす 2018-07-04](https://qiita.com/sikkim/items/447b72e6ec45849058cd)
@@ -89,6 +103,47 @@ submit name=test_button id= 12 value=Click Me alt= click src=
 The show_all_objects method does not exist. The method existed in the original Watir implementation, which is now called Watir-Classic. However, the method was removed in Aug 2012. The method was never implemented in Watir-Webdriver.
 ```
 
+# Requests-HTML  
+## 京急線の時刻表をスクレイピング 
+[京急線の時刻表をスクレイピング](https://qiita.com/zakuzakuzaki/items/a6e8b48990857de8cdc2)
+```
+
+```
+
+## PythonでHTMLを解析してデータ収集してみる？ スクレイピングが最初からわかる『Python 2年生』
+[PythonでHTMLを解析してデータ収集してみる？ スクレイピングが最初からわかる『Python 2年生』](https://codezine.jp/article/detail/12230)
+
+
+## requestsで取得できないWebページをスクレイピングする方法
+[requestsで取得できないWebページをスクレイピングする方法](https://gammasoft.jp/blog/how-to-download-web-page-created-javascript/)  
+
+```
+from requests_html import HTMLSession
+
+url = "https://search.yahoo.co.jp/realtime"
+
+# セッション開始
+session = HTMLSession()
+r = session.get(url)
+
+# ブラウザエンジンでHTMLを生成させる
+r.html.render()
+
+# スクレイピング
+ranking_rows = r.html.find("div.lst.cf")
+ranking_list = []
+if ranking_rows:
+    # 1〜5位だけを取得
+    ranking_top5 = ranking_rows[0].find("p.que_3")
+    for item in ranking_top5:
+        ranking_list.append(item.text[2:])
+
+print(ranking_list)
+```
+
+
+
+
 # Reference
 
 * [[Python] selenium 的等待 2019-01-17](http://stackoverflow.max-everyday.com/2019/01/python-selenium-wait/)
@@ -142,3 +197,4 @@ Docker 安裝完成後，開啟在左側找到倉庫伺服器，然後搜尋「g
 - 1
 - 2
 - 3
+
