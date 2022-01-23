@@ -241,6 +241,85 @@ class TestPlanisphere:
 ```
 
 
+#Playwright 瀏覽器自動化工具 
+[Playwright 瀏覽器自動化工具，應用於網路爬蟲和測試](https://blog.jiatool.com/posts/playwright/) 
+
+## 滑鼠 Mouse 
+[滑鼠 Mouse](https://playwright.dev/python/docs/api/class-mouse)
+```
+
+```
+
+## 鍵盤 Keyboard  
+[鍵盤 Keyboard](https://playwright.dev/python/docs/api/class-keyboard) 
+
+### An example of holding down Shift in order to select and delete some text: (Async) 
+```
+await page.keyboard.type("Hello World!")
+await page.keyboard.press("ArrowLeft")
+await page.keyboard.down("Shift")
+for i in range(6):
+    await page.keyboard.press("ArrowLeft")
+await page.keyboard.up("Shift")
+await page.keyboard.press("Backspace")
+```
+
+## An example of pressing uppercase (Async) 
+```
+await page.keyboard.press("Shift+KeyA")
+# or
+await page.keyboard.press("Shift+A")
+```
+
+## An example to trigger select-all with the keyboard (Async) 
+```
+# on windows and linux
+await page.keyboard.press("Control+A")
+# on mac_os
+await page.keyboard.press("Meta+A")
+```
+
+## keyboard.down(key)​ 
+```
+Dispatches a keydown event.
+
+key can specify the intended keyboardEvent.key value or a single character to generate the text for. A superset of the key values can be found here. Examples of the keys are:
+
+F1 - F12, Digit0- Digit9, KeyA- KeyZ, Backquote, Minus, Equal, Backslash, Backspace, Tab, Delete, Escape, ArrowDown, End, Enter, Home, Insert, PageDown, PageUp, ArrowRight, ArrowUp, etc.
+
+Following modification shortcuts are also supported: Shift, Control, Alt, Meta, ShiftLeft.
+
+Holding down Shift will type the text that corresponds to the key in the upper case.
+
+If key is a single character, it is case-sensitive, so the values a and A will generate different respective texts.
+
+If key is a modifier key, Shift, Meta, Control, or Alt, subsequent key presses will be sent with that modifier active. To release the modifier key, use keyboard.up(key).
+
+After the key is pressed once, subsequent calls to keyboard.down(key) will have repeat set to true. To release the key, use keyboard.up(key).
+```
+
+## keyboard.press  
+```
+page = await browser.new_page()
+await page.goto("https://keycode.info")
+await page.keyboard.press("a")
+await page.screenshot(path="a.png")
+await page.keyboard.press("ArrowLeft")
+await page.screenshot(path="arrow_left.png")
+await page.keyboard.press("Shift+O")
+await page.screenshot(path="o.png")
+await browser.close()
+```
+
+## keyboard.type  
+```
+await page.keyboard.type("Hello") # types instantly
+await page.keyboard.type("World", delay=100) # types slower, like a userawait page.keyboard.type("Hello") # types instantly
+await page.keyboard.type("World", delay=100) # types slower, like a user
+```
+
+
+
 
 * []()  
 ![alt tag]()  
