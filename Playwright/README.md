@@ -2,6 +2,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [playwright vs. puppeteer](#playwright-vs-puppeteer)
       * [対応ブラウザ](#対応ブラウザ)
@@ -16,11 +17,20 @@ Table of Contents
       * [比較一覧](#比較一覧)
    * [最新自動テストツール『Playwright for Python』さわってみた](#最新自動テストツールplaywright-for-pythonさわってみた)
       * [Playwright for Pythonでテストを書いてみる](#playwright-for-pythonでテストを書いてみる)
+      * [滑鼠 Mouse](#滑鼠-mouse)
+      * [鍵盤 Keyboard](#鍵盤-keyboard)
+         * [An example of holding down Shift in order to select and delete some text: (Async)](#an-example-of-holding-down-shift-in-order-to-select-and-delete-some-text-async)
+      * [An example of pressing uppercase (Async)](#an-example-of-pressing-uppercase-async)
+      * [An example to trigger select-all with the keyboard (Async)](#an-example-to-trigger-select-all-with-the-keyboard-async)
+      * [keyboard.down(key)​](#keyboarddownkey)
+      * [keyboard.press](#keyboardpress)
+      * [keyboard.type](#keyboardtype)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -351,3 +361,5 @@ await page.keyboard.type("World", delay=100) # types slower, like a user
 - 1
 - 2
 - 3
+
+
