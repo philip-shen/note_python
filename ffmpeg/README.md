@@ -26,6 +26,21 @@ Leave some tracks of ffmpeg.
 * [ffmpeg-pythonで動画編集する 2021-03-13](https://qiita.com/studio_haneya/items/a2a6664c155cfa90ddcf)
 
 ## ffmpegをインストールする
+公式サイトからインストーラーをダウンロードしてきて入れます
+https://ffmpeg.org/download.html
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F277233%2F4b34d399-8a3c-bb11-38b0-ccecca54f757.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=90d431c2053a48f20c78f46a5795c6d1" width="500" height="300">  
+
+落としてきた圧縮ファイルを適当なフォルダに展開して、binフォルダにPATHを通せばインストール完了です
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F277233%2F34f968b2-b473-32d4-b0a7-9ff5298d1cfc.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=978c8de88ba9f67373b36b78b1562b57" width="300" height="200">  
+
+PATHが通ってれば以下のようにterminalから呼べるようになっている筈です
+```
+> ffmpeg
+
+ffmpeg version 2021-03-07-git-a7f841718f-full_build-www.gyan.dev Copyright (c) 2000-2021 the FFmpeg developers
+  built with gcc 10.2.0 (Rev6, Built by MSYS2 project)
+```
 
 ## ffmpeg-pythonをインストールする
 ```
