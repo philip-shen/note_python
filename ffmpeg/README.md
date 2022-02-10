@@ -34,6 +34,7 @@ https://ffmpeg.org/download.html
 落としてきた圧縮ファイルを適当なフォルダに展開して、binフォルダにPATHを通せばインストール完了です
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F277233%2F34f968b2-b473-32d4-b0a7-9ff5298d1cfc.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=978c8de88ba9f67373b36b78b1562b57" width="300" height="200">  
 
+
 PATHが通ってれば以下のようにterminalから呼べるようになっている筈です
 ```
 > ffmpeg
@@ -41,6 +42,17 @@ PATHが通ってれば以下のようにterminalから呼べるようになっ�
 ffmpeg version 2021-03-07-git-a7f841718f-full_build-www.gyan.dev Copyright (c) 2000-2021 the FFmpeg developers
   built with gcc 10.2.0 (Rev6, Built by MSYS2 project)
 ```
+
+[FFmpegのダウンロードとインストール手順](https://jp.videoproc.com/edit-convert/how-to-download-and-install-ffmpeg.htm) 
+
+↓❹ ダウンロードしたzipファイルを解凍してください。解凍したフォルダ「ffmpeg-N-99880-g8fbcc546b8-win64-gpl-shared」→「bin」の順に開きます。クスプローラーのアドレスバーをクリックして「bin」のパスをコピーします。
+
+<img src="https://jp.videoproc.com/edit-convert/images/seo-img/mj-20201109-05.jpg" width="500" height="300">  
+
+
+↓❺ 「Windows」キー+「Pause Break」キーを押し、「システムの詳細設定」→「詳細設定」→「環境変数（N）...」→「ユーザー環境変数」にある「Path」を選択→「編集」→「新規」の順にクリックします。先コピーした「bin」のパスを貼り付けます。追加されたら、「OK」をクリックします。
+<img src="https://jp.videoproc.com/edit-convert/images/seo-img/mj-20201109-06.jpg" width="500" height="500">  
+
 
 ## ffmpeg-pythonをインストールする
 ```
