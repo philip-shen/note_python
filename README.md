@@ -54,7 +54,8 @@ Table of Contents
    * [<strong>call</strong> method in Class](#call-method-in-class)
    * [Understanding slice notation](#understanding-slice-notation)
    * [Environment](#environment)
-   * [Troubleshooting](#troubleshooting)
+   * [Troubleshooting](#troubleshooting)   
+      * [GH001 Large files detected](#gh001-large-files-detected)
       * [Permission denied error by installing matplotlib](#permission-denied-error-by-installing-matplotlib)
       * [Python 3 ImportError: No module named 'ConfigParser'](#python-3-importerror-no-module-named-configparser)
    * [Reference](#reference)
@@ -768,7 +769,44 @@ a[-3::-1]  # everything except the last two items, reversed
 windows 10 64bit  
 python 3.6.2  
 
+
 # Troubleshooting  
+
+## GH001 Large files detected  
+[Fixing the “GH001: Large files detected. You may want to try Git Large File Storage.” Jun 12, 2017](https://marcosantonocito.medium.com/fixing-the-gh001-large-files-detected-you-may-want-to-try-git-large-file-storage-43336b983272)
+```
+    remote: error: GH001: Large files detected. You may want to try Git Large File Storage — https://git-lfs.github.com.
+
+    remote: error: Trace: b5116d865251981c96d4b32cdf7ef464
+
+    remote: error: See http://git.io/iEPt8g for more information.
+
+    remote: error: File fixtures/11_user_answer.json is 131.37 MB; this exceeds GitHub’s file size limit of 100.00 MB
+```
+
+```
+It turned out that GitHub only allows for 100 MB file. 
+The problem is that I can’t simply remove the file because it is tracked inside the previous commits so I have to remove this file completely from my repo.
+
+The command that allow you to do it is:
+```
+
+```
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch fixtures/11_user_answer.json'
+```
+
+[Github ：git push檔案過大報錯remote: error: GH001: Large files detected.處理方法](https://iter01.com/542040.html)  
+```
+首先執行git log 檢視你之前的提交日誌（比如我的就很簡單嗯/複雜一點地久仔細看下時間進行判斷吧）
+
+然後執行git reset XXX，恢復到你沒有新增大檔案的那次commit記錄，實在是妙
+
+完了之後再按命令去git push 即可，提前恭喜成功~~~~~~
+
+報錯到解決問題全過程截圖👇
+```
+<img src="https://i.iter01.com/images/b6fbd9fc2e1f695c1fcabc75791a695e68609f1735ec03af9438731b79116aff.png" width="500" height="300">
+
 ## Permission denied error by installing matplotlib  
 * [Permission denied error by installing matplotlib 2018年4月29日](https://stackoverflow.com/questions/50087098/permission-denied-error-by-installing-matplotlib)  
 ```
