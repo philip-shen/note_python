@@ -244,6 +244,65 @@ data = data[index_start:index_end:1]  #波形切り出し
 <img src="https://watlab-blog.com/wp-content/uploads/2019/04/wav-subset.png" width="600" height="300">  
 
 
+# Pythonでゲーム音楽（チップチューン）の基本波形を生成（サイン波，矩形波，のこぎり波，三角波，白色雑音）
+[Pythonでゲーム音楽（チップチューン）の基本波形を生成（サイン波，矩形波，のこぎり波，三角波，白色雑音）  2021-09-24 ](https://www.wizard-notes.com/entry/python/basic-waveforms)
+
+この記事では，Pythonでnumpy や scipy を使って基本波形5種を生成する方法を紹介します．
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/K/Kurene/20210924/20210924061351.png" width="400" height="600">  
+
+## のこぎり波（鋸歯状） 
+```
+のこぎり波も scipy.signal.sawtooth を使うことでサイン波と同様の形式で生成できます．
+```
+
+```
+x = scipy.signal.sawtooth(2*np.pi*fo*t)
+```
+
+```
+なお，引数widthでのこぎり波の形状を変更することができます．
+
+デフォルトはwidth=1.0です．
+```
+
+```
+x = scipy.signal.sawtooth(2*np.pi*fo*t, width=width)
+```
+
+<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/K/Kurene/20210924/20210924061333.png" width="400" height="600">  
+
+## 三角波  
+
+```
+三角波は，scipy.signal.sawtooth の width=0.5に相当します．
+
+x = scipy.signal.sawtooth(2*np.pi*fo*t, width=0.5)
+```
+
+## 白色雑音 (ホワイトノイズ)
+```
+白色雑音は正規分布を発生させます．Pythonの場合は np.random.normal を使えば1行で書けます．
+
+ただし，最大／最小値が制限されていないため，用途によっては正規化や値域の制限すべき場合があります．
+
+正規化は平均パワー／RMSが所望の値になっているか，
+クリッピングする場合は波形が歪んで音質に影響していないかなどに注意が必要です．
+```
+
+```
+# -1.0 ~ 1.0 に制限
+# 方法1. 正規化
+x = 2*(x-np.min(x))/(np.max(x)-np.min(x)) - 1.0
+
+# 方法2. クリッピング
+x[x<-1.0] = -1.0
+x[x>=1.0] = 1.0
+```
+
+```
+x = np.random.normal(0.0, 1.0, len(t))
+```
+
 # Pythonでヒルベルト変換!時間波形の包絡線を求める方法  
 [Pythonでヒルベルト変換!時間波形の包絡線を求める方法 2019.10.13](https://watlab-blog.com/2019/10/13/hilbert-envelope/)
 
