@@ -47,6 +47,27 @@ Table of Contents
       * [@abstractclassmethod (version 3.2)](#abstractclassmethod-version-32)
       * [@abstractstaticmethod (version 3.2)](#abstractstaticmethod-version-32)
       * [Duck Typing（ダック・タイピング）](#duck-typingダックタイピング)
+   * [moudle improt](#moudle-improt)
+      * [python モジュールimport方法について](#python-モジュールimport方法について)
+         * [インポート方法まとめ](#インポート方法まとめ)
+      * [[Python] importの躓きどころ](#python-importの躓きどころ)
+            * [<strong>init</strong>.pyがなくてもpackageをimportできる](#initpyがなくてもpackageをimportできる)
+         * [importの順序](#importの順序)
+         * [regular packageとnamespace packageの違い](#regular-packageとnamespace-packageの違い)
+      * [Python の <strong>init</strong>.py とは何なのか](#python-の-initpy-とは何なのか)
+         * [<strong>init</strong>.py の役割](#initpy-の役割)
+            * [1. モジュール検索のためのマーカー](#1-モジュール検索のためのマーカー)
+            * [2. 名前空間の初期化](#2-名前空間の初期化)
+            * [3. ワイルドカード(wild card) import の対象の定義 (<strong>all</strong> の定義)](#3-ワイルドカードwild-card-import-の対象の定義-all-の定義)
+            * [4. 同じディレクトリにある他のモジュールの名前空間の定義](#4-同じディレクトリにある他のモジュールの名前空間の定義)
+         * [unittest についての注意事項](#unittest-についての注意事項)
+      * [Python <strong>init</strong>.pyの書き方](#python-initpyの書き方)
+         * [初心者にとって面倒な__init__.py](#初心者にとって面倒な__init__py)
+         * [<strong>init</strong>.pyの書き方](#initpyの書き方)
+      * [import雜談之一———import路徑的相對論](#import雜談之一import路徑的相對論)
+      * [import雜談之二———export機制以及namespace package](#import雜談之二export機制以及namespace-package)
+      * [import雜談之三———sys.path的洪荒之時](#import雜談之三syspath的洪荒之時)
+      * [python import雜談之四](#python-import雜談之四)
    * [break、continue、pass](#breakcontinuepass)
       * [break](#break)
       * [continue](#continue)
@@ -54,7 +75,7 @@ Table of Contents
    * [<strong>call</strong> method in Class](#call-method-in-class)
    * [Understanding slice notation](#understanding-slice-notation)
    * [Environment](#environment)
-   * [Troubleshooting](#troubleshooting)   
+   * [Troubleshooting](#troubleshooting)
       * [GH001 Large files detected](#gh001-large-files-detected)
       * [Permission denied error by installing matplotlib](#permission-denied-error-by-installing-matplotlib)
       * [Python 3 ImportError: No module named 'ConfigParser'](#python-3-importerror-no-module-named-configparser)
@@ -66,6 +87,7 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -661,6 +683,338 @@ Cat: Meow
 Dog: Bow
 AttributeError: 'Book' object has no attribute 'sound'
 ```
+# moudle improt
+
+## python モジュールimport方法について  
+[python モジュールimport方法について posted at 2020-02-06](https://qiita.com/tekondo/items/758278e49487f450e69b)
+
+### インポート方法まとめ 
+
+Left align | Right align | 
+------------------------------------ | --------------------------------------------- |
+モジュールを読み込む | import module
+モジュールからメソッド，クラスを読み込む | from module import method, class
+パッケージからモジュールを読み込む | from package import module
+パッケージの中のモジュールのメソッド，クラスを読み込む | from package.module import method, class
+
+## [Python] importの躓きどころ
+[[Python] importの躓きどころ updated at 2017-06-09](https://qiita.com/ysk24ok/items/2711295d83218c699276#import%E3%81%AE%E9%A0%86%E5%BA%8F)
+
+#### __init__.pyがなくてもpackageをimportできる  
+Python3.3以降の話。 
+```
+$ tree
+.
+├── mypackage1
+│   ├── __init__.py
+│   └── subdir1
+│       ├── __init__.py.bak
+│       └── mymodule1.py
+└── mypackage2
+    └── subdir1
+        └── mymodule2.py
+```
+
+```
+$ python3
+Python 3.5.2 (default, Aug  4 2016, 09:38:15)
+[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import mypackage1
+>>> import mypackage2
+>>> dir(mypackage1)
+['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
+>>> dir(mypackage2)
+['__doc__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
+```
+
+```
+のように、__init__.pyがなくてもimportできている。
+__init__.pyがあるmypackage1をregular package、
+__init__.pyがないmypackage2をnamespace packageと呼ぶ。
+```
+
+```
+>>> import sys
+>>> sys.path.append('./mypackage1')
+>>> sys.path.append('./mypackage2')
+>>> import subdir1
+>>> dir(subdir1)
+['__doc__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
+>>> subdir1.__path__
+_NamespacePath(['./mypackage1/subdir1', './mypackage2/subdir1'])
+```
+
+```
+として、違うパスだが同じ名前のディレクトリも同じnamespaceに属するpackageとして
+_NamespacePathオブジェクトに格納されている。
+```
+
+### importの順序 
+```
+import xxxが実行されると、
+
+    sys.pathにxxx/__init__.pyが存在する場合、regular packageとして取得できる
+    sys.pathにxxx/__init__.pyは存在しないがxxx.{py,pyc,so}が存在する場合、moduleとして取得できる
+    sys.pathにxxx/__init__.pyもxxx.{py,pyc,so}も存在しないが同名のディレクトリが存在する場合、namespace packageとして取得できる
+```
+
+### regular packageとnamespace packageの違い  
+```
+違いとして、
+
+    namespace packageには__file__属性がない
+    regular packageの__path__はリストだが、namespace packageの__path__は_NamespacePathオブジェクトである。
+
+などがある。
+
+さらに、namespace packageにする(__init__.pyをなくす)ことで、
+```
+
+## Python の __init__.py とは何なのか  
+[Python の __init__.py とは何なのか updated at 2020-03-19](https://qiita.com/msi/items/d91ea3900373ff8b09d7#%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%A8%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%81%A8%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93)
+
+python コードの例は、主に 3.6/3.5 を使用しています。
+```
+   1. 「モジュール」と「パッケージ」と「名前空間」
+   2. モジュールと階層構造
+        単一ファイルのモジュール
+        ディレクトリによる階層構造と名前空間
+        ディレクトリと名前空間のマッピング
+   3.__init__.py の役割
+        モジュール検索のためのマーカー
+        名前空間の初期化
+        ワイルドカード import の対象の定義 (__all__ の定義)
+        同じディレクトリにある他のモジュールの名前空間の定義
+    4.まとめ
+    5.unittest についての注意事項 (@methane さんからのコメントにより追記)
+```
+
+### __init__.py の役割  
+```
+    1.__init__.py は、モジュール検索のためのマーカーとなる。
+    2.__init__.py は、それが存在するディレクトリ名を名前とする名前空間の初期化を行う。
+    3.__init__.py は、同、名前空間におけるワイルドカード import の対象を定義する (__all__ の定義) 。
+    4.__init__.py は、同じディレクトリにある他のモジュールの名前空間を定義する。
+
+2. ～ 4. をひとまとめにして、「モジュールあるいはパッケージの初期化」ということもできますが、ここでは分けてみました。
+```
+
+#### 1. モジュール検索のためのマーカー
+```
+Regular packages
+
+Python defines two types of packages, regular packages and namespace packages. 
+Regular packages are traditional packages as they existed in Python 3.2 and earlier. 
+A regular package is typically implemented as a directory containing an __init__.py file. 
+```
+
+#### 2. 名前空間の初期化
+
+#### 3. ワイルドカード(wild card) import の対象の定義 (__all__ の定義)
+```
+サンプル4
+
+./
+├─ sample0040.py ... 実行ファイル
+└─ module04.py ..... モジュール
+```
+
+```
+sample0040.py
+
+from module04 import *
+
+hello1()
+hello2()
+hello3()
+```
+
+```
+module04.py
+
+__all__ = ['hello1', 'hello2']
+
+def hello1():
+    print( "Hello, this is hello1" )
+
+def hello2():
+    print( "Hello, this is hello2" )
+
+def hello3():
+    print( "Hello, this is hello3" )
+```
+
+```
+実行結果
+
+$ python sample0040.py
+Hello, this is hello1
+Hello, this is hello2
+Traceback (most recent call last):
+  File "sample0040.py", line 5, in <module>
+    hello3()
+```
+
+```
+hello3() の呼び出しは未定義として "NameError: name 'hello3' is not defined" というエラーになってしまいました。__all__ のリストに無いためです。
+
+これは、hello3() が隠蔽されているわけではなく、あくまでも import * としたときの動作です。
+
+試しに、* を使わずに import し、module04 を明示的に呼べば、hello3() も呼び出し可能です。
+```
+
+```
+sample0041.py
+
+import module04
+
+module04.hello1()
+module04.hello2()
+module04.hello3()
+```
+
+```
+実行結果
+
+$ python sample0041.py
+Hello, this is hello1
+Hello, this is hello2
+Hello, this is hello3
+```
+
+#### 4. 同じディレクトリにある他のモジュールの名前空間の定義
+```
+サンプル5
+
+./
+├─ sample0050.py ...... 実行ファイル
+└─ module05
+    ├─ __init__.py .... "module05" の初期化ファイル
+    ├─ _module05.py ... "module05" の実体
+    └─ module06.py .... "module05" の追加モジュール
+
+```
+
+```
+#./module05/_module05.py
+
+print( "in _module05.py" )
+
+def hello(caller=""):
+    print( "Hello, world! in _module05 called by {}".format(caller) )
+
+```
+
+```
+#./module05/module06.py
+
+print( "in module06.py" )
+
+def hello(caller=""):
+    print( "Hello, world! in module06 called by {}".format(caller) )
+
+```
+
+```
+#./module05/__init__.py
+
+print( "in __init__.py" )
+
+# import _module05.hello() as hello05() in the same directory
+from ._module05 import hello as hello05
+# import module06.hello() as hello06() in the same directory
+from .module06 import hello as hello06
+
+__all__ = ['hello05', 'hello06']
+
+# Do initialize something bellow
+hello05("__init__.py")
+hello06("__init__.py")
+
+```
+
+### unittest についての注意事項
+
+
+## Python __init__.pyの書き方  
+[Python __init__.pyの書き方 updated at 2019-06-18](https://qiita.com/FN_Programming/items/2dcabc93365a62397afe)
+
+
+### 初心者にとって面倒な__init__.py
+```
+_init__.pyとは
+
+__init__.pyは2つの意味がある
+
+1つはPythonディレクトリを表す役割を担う
+
+1つはモジュールをimportするときの初期化処理を行う
+```
+
+### __init__.pyの書き方  
+
+
+📁test_imt
+
+├──📄__init__.py
+
+├──📄main.py
+
+└──📄sub.py
+
+```
+#main.pyの中身
+
+import test_imt.sub as ts
+def chkprint2():
+ ts.chkprint()
+ print("You use main.py!")
+```
+
+```
+#sub.pyの中身
+
+def chkprint():
+ print("You use sub.py!")
+```
+
+```
+#__init__.py
+
+from test_imt.main import *
+```
+
+```
+#test.py
+
+import test_imt as ti
+ti.chkprint2()
+
+#結果
+#You use sub.py!
+#You use main.py!
+```
+
+## import雜談之一———import路徑的相對論  
+[import雜談之一———import路徑的相對論 2018-01-10 01:42:18](https://ithelp.ithome.com.tw/articles/10195501)
+
+## import雜談之二———export機制以及namespace package 
+[import雜談之二———export機制以及namespace package 2018-01-11 00:09:58](https://ithelp.ithome.com.tw/articles/10196775)
+
+## import雜談之三———sys.path的洪荒之時 
+[import雜談之三———sys.path的洪荒之時 2018-01-12 02:29:56](https://ithelp.ithome.com.tw/articles/10196901)
+
+先來說明一下看source code的心法，其實沒什麼，就是一個懶字而已，
+切記當一個source code牽涉到的東西比較複雜時，很多東西能忽略就忽略，能假設就假設，
+不要一次把他全看完，注意對自己重要的東西就好。
+
+與其辛苦的把他從頭讀完，一次就讀到懂，不如只看重要的東西，然後看很多次，
+發現還是有不懂的地方，就在看細一點，這樣比較不會喪失焦點，也不會太耗腦力，更能省時間。
+## python import雜談之四 
+[python import雜談之四 2018-01-13 01:07:05](https://ithelp.ithome.com.tw/articles/10196941)
+
+[10.11 通过钩子远程加载模块](https://python3-cookbook.readthedocs.io/zh_CN/latest/c10/p11_load_modules_from_remote_machine_by_hooks.html)
 
 # break、continue、pass  
 [1 分鐘搞懂 Python 迴圈控制：break、continue、pass Aug 6, 2018](https://medium.com/@chiayinchen/1-%E5%88%86%E9%90%98%E6%90%9E%E6%87%82-python-%E8%BF%B4%E5%9C%88%E6%8E%A7%E5%88%B6-break-continue-pass-be290cd1f9d8)  
@@ -948,7 +1302,5 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
-
-
 
 
