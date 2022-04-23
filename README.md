@@ -999,11 +999,195 @@ ti.chkprint2()
 ## import雜談之一———import路徑的相對論  
 [import雜談之一———import路徑的相對論 2018-01-10 01:42:18](https://ithelp.ithome.com.tw/articles/10195501)
 
+議題一：當我們在建構一個package會出現一個議題，
+那就是當sub_module1裡的ex1_1.py想要去import位在sub_module2裡的ex2_1.py，
+我們要用絕對路徑去import還是用相對路徑呢？
+
+如果我們是用絕對路徑去import會出現一個維護性的問題：
+
+所以python有提供一個相對路徑import(relative import)，其方法如下：
+
+```
+In ex1_1.py：
+
+import ..sub_module2.ex2_1 # ..回溯到上一層路徑，也就是main_module/
+from .. import sub_module2.ex2_1 # 這句與上一句同義
+```
+
+如果這個想要回溯上兩層路徑的話，比如說sub_module2_1裡的ex2_1_1.py想要去import位於sub_module3的ex3_1.py：
+
+```
+In ex2_1_1.py：
+
+import ...sub_module3.ex3_1.py
+```
+
+議題二：既然import可以支援相對路徑，而我們直覺上也希望python可以正確讀取相對路徑字串，像是'.'代表的是這個py檔目前所在目錄，
+但實際上這是行不通的，比如說位於main_module的ex0_1.py希望讀取位於同一個資料夾的some_data.data，
+但沒辦法用像是open('./some_data.data','r').read()這種相對路徑的方式去open他，這看起來不合我們的直覺，這是為什麼呢？
+
+在思考這個原因之前，先來觀察python實際上的行為：
+
+```
+In ex0_1.py:
+
+import os
+import os.path
+
+print(os.path.abspath('.')) # 用os.path模組來查看這個相對路經的起始目錄是否是我們所預期的
+data = open('./some_data.data','r').read()
+
+In main_module/../test.py(想要使用main_module裏面的ex0_1的外部檔案): 
+
+from main_module import ex0_1
+
+In bash(位於main_module/../):
+
+$ python3 test.py
+/home/shnovaj30101/note/python/contest # 這個路徑是位於"main_module/../"，正好是執行檔所在目錄
+Traceback (most recent call last):
+  File "test.py", line 1, in <module>
+    from main_module import ex0_1
+  File "/home/shnovaj30101/note/python/contest/main_module/ex0_1", line 4, in <module>
+    data = open('./some_data.data','r').read()
+FileNotFoundError: [Errno 2] No such file or directory: './some_data.data'
+```
+
+雖然python的'.'是被設定在執行檔的工作目錄，
+但python還是有一些內置變數紀錄了module檔案本身(比如說ex0_1.py)或是最上層的整體package(比如說main_module)的資訊：
+(1) __package__：這變數紀錄了整體package的資訊
+(2) __file__：這變數紀錄了module檔案本身的資訊
+
+如果想要獲取當下所在的目錄或是整體package的路徑只要使用os.path.abspath()就行了：
+```
+In ex0_1.py:
+
+import os
+import os.path as path
+print(os.path.abspath('.'))
+print(os.path.abspath(__file__))
+print(os.path.abspath(__package__))
+data = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'foo.py'),'r').read() # 阿...似乎挺長
+
+In main_module/../test.py(想要使用main_module裏面的ex0_1的外部檔案): 
+
+from main_module import ex0_1
+
+In bash(位於main_module/../):
+
+$ python3 test.py # 沒有出error代表open成功
+/home/shnovaj30101/note/python/contest # 執行檔位置
+/home/shnovaj30101/note/python/contest/main_module/ex0_1.py # 檔案本身位置
+/home/shnovaj30101/note/python/contest/main_module # package的位置
+```
+
 ## import雜談之二———export機制以及namespace package 
 [import雜談之二———export機制以及namespace package 2018-01-11 00:09:58](https://ithelp.ithome.com.tw/articles/10196775)
 
+議題三：當寫好了一個module，還會有一個設計上的考量是我只希望提供module中的特定對象給使用者使用，
+對於一些只用於內部操作的變數、函數或是類別我不想要直接開放給使用者取用，
+所以應該要有一個限制使用者的機制，那實際上python有沒有這機制呢？
+
+是有，但python似乎沒有很嚴格的限制使用者使用一些module內的對象，相對寬鬆的方法只要在變數名稱前面加一個'_'，比如說：
+```
+In module.py:
+pub_var = 'I\'m public variance.'
+_pri_var = 'I\'m private variance.'
+
+def pub_func():
+    return 'I\'m public func.'
+def _pri_func():
+    return 'I\'m private func.'
+
+class pub_obj():
+    def __init__():
+        self.str = 'I\'m public obj.'
+class _pri_obj():
+    def __init__():
+        self.str = 'I\'m private obj.'
+
+In python3 shell:
+>>> from module import *
+>>> dir() # 可以輸出目前可以使用的對象，可以看出_pri開頭的對象無法直接被使用
+['__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'pub_func', 'pub_obj', 'pub_var']
+>>> _pri_var
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name '_pri_var' is not defined
+>>> module._pri_var # 還是可以用這種方式取得pri資料
+"I'm private variance."
+```
+
+另外除了'_'符號，也可以在module定義一個list對象__all__，
+當使用者利用"from [module_name] import *"這種語法時，__all__可以決定只對使用者提供某些對象：
+```
+In module.py:
+pub_var = 'I\'m public variance.'
+_pri_var = 'I\'m private variance.'
+
+def pub_func():
+    return 'I\'m public func.'
+def _pri_func():
+    return 'I\'m private func.'
+
+class pub_obj():
+    def __init__():
+        self.str = 'I\'m public obj.'
+class _pri_obj():
+    def __init__():
+        self.str = 'I\'m private obj.'
+
+__all__ = [pub_var, pub_func, _pri_var]
+
+In python3 shell:
+>>> from module import *
+>>> dir() # pub_obj不見了，但是多了_pri_var
+['__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', '_pri_var', 'pub_func', 'pub_var']
+```
+
+議題四：在開發大型模組時，通常不是一個人單打獨鬥，而是一個團隊在進行，
+但當很多人想要共同開發模組時，我們想要在不同的路徑做開發，卻希望最後能直接整合在一起，
+甚至希望最後連合併的時間都沒有那就更好了，可以直接上線使用！這話聽起來頗神奇，但確實能夠辦到，
+實際上，這個需求只是要把不同路徑開發的模組歸到一個共同的命名空間霸了，
+python其實有不只一種方法能辦到這件事。(最近時間不多，只好先稍微抄一下cookbook範例，不要見怪嗚嗚)
+
+當我們想要去import命名空間lalala裏面的模組A和模組B，我們可以先在sys.path來導入A碼農和B碼農耕作目錄：
+```
+In python3 shell:
+>>> import sys
+>>> sys.path.extend(['A碼農的耕作目錄/', 'B碼農的耕作目錄'])
+>>> import lalala.A
+>>> import lalala.B
+```
+
 ## import雜談之三———sys.path的洪荒之時 
 [import雜談之三———sys.path的洪荒之時 2018-01-12 02:29:56](https://ithelp.ithome.com.tw/articles/10196901)
+
+議題一：今天我想要去import別人寫好的一個module，但他不存在當下的工作目錄底下，那我應該有什麼方法可以得到這個module呢？
+
+sys.path.insert(0, 'some path')
+sys.path.append('some path')
+sys.path.extend(['some path','some path'....])
+
+但這方法的缺點在於我們會把路徑寫死在程式碼裏面，當我們把這個被引入的模組更換一下路徑，
+那所有寫死路徑的程式碼都要被叫出來改掉，萬一這個模組有剛好是很通用的模組，
+被一堆不同部份的code所import，那真的是改路徑改到人仰馬翻。
+
+既然在程式碼中加入module可能會遇到這種麻煩的問題，那只能訴諸程式碼外的解決方式了。
+
+其中一個是利用設定PYTHONPATH的方式來新增尋找module的路徑：
+```
+In bash:
+$ env PYTHONPATH='/home/shnovaj30101' python3
+Python 3.4.3 (default, Nov 17 2016, 01:08:31) 
+[GCC 4.8.4] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> sys.path
+['', '/home/shnovaj30101', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-x86_64-linux-gnu', '/usr/lib/python3.4/lib-dynload', '/usr/local/lib/python3.4/dist-packages', '/usr/lib/python3/dist-packages']
+>>> 
+```
+
 
 先來說明一下看source code的心法，其實沒什麼，就是一個懶字而已，
 切記當一個source code牽涉到的東西比較複雜時，很多東西能忽略就忽略，能假設就假設，
@@ -1013,6 +1197,22 @@ ti.chkprint2()
 發現還是有不懂的地方，就在看細一點，這樣比較不會喪失焦點，也不會太耗腦力，更能省時間。
 ## python import雜談之四 
 [python import雜談之四 2018-01-13 01:07:05](https://ithelp.ithome.com.tw/articles/10196941)
+
+
+好拉，總結一下，site.py對於sys.path的添加的順序如下：
+
+addusersitepackages(known_paths)會試著添加
+"/home/shnovaj30101/.local/lib/python3.4/site-packages"
+"/home/shnovaj30101/.local/lib/python3.4/dist-packages"
+"/home/shnovaj30101/.local/local/lib/python3.4/dist-packages"
+等等路徑，並尋找裏面的pth檔。
+
+addsitepackages(known_paths)會試著添加
+"/usr/local/lib/python3.4/dist-packages"
+"/usr/lib/python3/dist-packages"
+"/usr/lib/python3.4/dist-packages"
+"/usr/lib/dist-python"
+等等路徑，並尋找裏面的pth檔。
 
 [10.11 通过钩子远程加载模块](https://python3-cookbook.readthedocs.io/zh_CN/latest/c10/p11_load_modules_from_remote_machine_by_hooks.html)
 
