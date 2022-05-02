@@ -24,6 +24,8 @@ Table of Contents
       * [keyevent](#keyevent)
    * [pure-python-adb](#pure-python-adb)
    * [android_autoclicker](#android_autoclicker)
+   * [py-scrcpy](#py-scrcpy)
+   * [Naive Scrcpy Client](#naive-scrcpy-client)
    * [Certificate-tool-Android](#certificate-tool-android)
       * [Installation on Windows:](#installation-on-windows)
       * [Installation on Linux:](#installation-on-linux)
@@ -203,6 +205,7 @@ This is pure-python implementation of the ADB client.
 You can use it to communicate with adb server (not the adb daemon on the device/emulator).
 When you use adb command
 ```
+
 When you use adb command:
 <img src="https://raw.githubusercontent.com/Swind/pure-python-adb/master/docs/adb_cli.png" width="600" height="200">  
 
@@ -218,6 +221,58 @@ Add "screpy-server.jar" to assets/server/
 
 Add "AdbWinUsbApi.dll", "AdbWinApi.dll", "adb.exe" to assets/adb/
 ```
+
+
+# py-scrcpy
+[Allong12 / py-scrcpy](https://github.com/Allong12/py-scrcpy/blob/master/scrcpy_client.py)
+
+```
+A client implementation of the Android interfacing SCRCPY project, completely in Python!
+```
+
+
+# Naive Scrcpy Client
+[LostXine / naive-scrcpy-client](https://github.com/LostXine/naive-scrcpy-client)
+```
+Dependence
+
+   Android Debug Bridge
+   ffmpeg shared libraries
+   opencv-pythons (for GUI)
+```
+
+```
+To Start
+
+   Install OpenCV for Python. Naive Scrcpy Client use OpenCV for GUI. You can replace it with PIL or anything else easily.
+
+   pip install opencv-python
+
+   Copy/link recent ffmpeg shared libraries to ./lib, the required files were listed below. Make sure the version of libs matches to the architecture of your Python (e.g. x86->32bit).
+   
+   Windows:
+
+   avcodec-58.dll
+   avformat-58.dll
+   avutil-56.dll
+   swresample-3.dll
+
+   Linux:
+
+   libavcodec.so
+   libavformat.so
+   libavutil.so
+   libswresample.so
+
+   Get ADB ready on your PC and leave USB Debug Mode open on your phone.
+
+   Let's rock!
+
+   python run_client.py
+
+   Check config in run_client.py for more information.
+```
+
 
 # Certificate-tool-Android
 [Certificate-tool-Android](https://github.com/orilevicyber/Certificate-tool-Android-)
@@ -298,4 +353,5 @@ It uses pure-python-adb to interface with the ADB server.
 - 1
 - 2
 - 3
+
 
