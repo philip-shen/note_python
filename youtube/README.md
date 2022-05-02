@@ -86,6 +86,12 @@ youtube-dl -F https://www.youtube.com/watch?v=rkAfWfZkfyo
 [](html#%E4%B8%8B%E8%BC%89-mp4-%E6%A0%BC%E5%BC%8F%E7%9A%84%E5%BD%B1%E7%89%87)
 
 
+# YT-Downloader  
+[YT-Downloader](https://github.com/Will-Bee/YT-Downloader)
+```
+Script for downloading mp3 files from youtube
+```
+
 # Troubleshooting
 
 
