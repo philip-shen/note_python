@@ -1,8 +1,216 @@
 # note_google_spreadsheet
 Take some note of google_spreadsheet in python
 
-# Table of Content
+# Table of Contents
 
+   * [note_google_spreadsheet](#note_google_spreadsheet)
+   * [Table of Content](#table-of-content)
+   * [PythonでGoogleDriveへアクセス](#pythonでgoogledriveへアクセス)
+      * [（APIキー、OAuth2.0）について](#apiキーoauth20について)
+         * [1. APIキー](#1-apiキー)
+         * [2. OAuth2](#2-oauth2)
+   * [PythonでGoogleDriveへアクセス](#pythonでgoogledriveへアクセス-1)
+   * [PythonからOAuth2.0を利用してスプレッドシートにアクセスする](#pythonからoauth20を利用してスプレッドシートにアクセスする)
+      * [OAuth2.0での認証方法](#oauth20での認証方法)
+         * [1. Drive APIの有効化](#1-drive-apiの有効化)
+         * [2. OAuth用クライアントIDの作成](#2-oauth用クライアントidの作成)
+         * [3. スプレッドシートの共有設定](#3-スプレッドシートの共有設定)
+         * [4. ソースコード](#4-ソースコード)
+      * [遭遇したエラー](#遭遇したエラー)
+         * [PKCS12 format is not supported by the PyCrypto library.](#pkcs12-format-is-not-supported-by-the-pycrypto-library)
+         * [対応](#対応)
+   * [Python で Google Spreadsheets (など)の無人操作](#python-で-google-spreadsheets-などの無人操作)
+      * [プロジェクトとサービスアカウント](#プロジェクトとサービスアカウント)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+# PythonでGoogleDriveへアクセス 
+[PythonでGoogleDriveへアクセス 2022-03-26](https://qiita.com/yo16/items/2824bacf144c6c190e57)
+
+## （APIキー、OAuth2.0）について  
+### 1. APIキー
+```
+APIキーは、Google Driveでは使えないようです。
+ログインせずに誰でも使えるサービス用の簡単なアクセス制御用なので。
+使う場面は例えば Google Map とかでは使えるようです。
+
+とはいえ、Google Driveのフォルダを「リンクを知っている人は編集可能」な状態でシェアすれば使えるかなーと思ってみたりしたのですが、ダメでした。
+
+なおGoogle DriveのAPIの認証のところで、OAuth2かサービスアカウントが使えますよーとしっかり丁寧に書いてあるんですが、それは後からわかった話ということで。。
+```
+
+### 2. OAuth2
+```
+OAuth2は、使用するユーザーが、例えば「このサービスをyo16が使いますよ」と名乗ってその人なりの権限で操作する、
+というものです。つまり広くログインせず使うサービスの場合は適さないです。
+
+技術的には、OAuth2認証してGoogle Driveへのアクセスをする実装をすると、
+認証が必要な場面になると Googleのどのアカウントでこのサービスを使いますか？ という確認ダイアログが出ました。
+```
+
+
+# PythonでGoogleDriveへアクセス
+[PythonでGoogleDriveへアクセス posted at 2020-01-06](https://qiita.com/user0/items/c4a4846b66421e7408ed)
+
+client_secrets.jsonファイルが必要
+```
+{
+  "installed": {
+    "client_id": "ここにclient_IDを記述する",
+    "project_id": "mapapp-1350",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "ここにclient_secretを記述する",
+    "redirect_uris": [
+      "urn:ietf:wg:oauth:2.0:oob",
+      "http://localhost"
+    ]
+  }
+}
+```
+
+
+# PythonからOAuth2.0を利用してスプレッドシートにアクセスする
+[PythonからOAuth2.0を利用してスプレッドシートにアクセスする updated at 2015-06-06](https://qiita.com/koyopro/items/d8d56f69f863f07e9378)
+
+## OAuth2.0での認証方法
+### 1. Drive APIの有効化
+
+### 2. OAuth用クライアントIDの作成
+同じくDevelopers Consoleでプロジェクトを開いた画面で、左側のメニューから「認証情報」を選択。
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2F0d207395-6a00-87bc-8683-4045fa1ec07e.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=7d5f031f71505b791db4124153a8f58c" width="400" height="300">  
+
+「新しいクライアントIDを作成」
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fd2ca1675-0059-d1eb-fed3-dc36603d1d7f.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=f17f70a1bdbb8e8ed896c1bfd1ec465d" width="500" height="300">  
+
+
+「サービス アカウント」を選んで「クライアントIDを作成」
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fd2ca1675-0059-d1eb-fed3-dc36603d1d7f.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=f17f70a1bdbb8e8ed896c1bfd1ec465d" width="600" height="300">  
+
+ローカルにjsonファイルがダウンロードされ、完了のダイアログが表示される。
+(今回の手順ではこのjsonファイルは利用しない)
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fd9649b58-d78c-db75-596a-538a334af0f0.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=1106d9a1ed735d3890609cdaa8e5acfe" width="300" height="400">  
+
+クライアントIDが発行されたことを確認。
+「新しいP12キーを生成」を選び、秘密鍵(.p12)をダウンロードする。
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fdb733fc6-ba67-9e96-afef-d04215b80438.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=0239d9c1b60447a65c425590c0e6a4b8" width="500" height="200">  
+
+
+秘密鍵がローカルに保存された。(保存された秘密鍵を「MyProject.p12」とする)
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2F1fdd9b71-97ae-f0cc-09a2-578e4131519d.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=e7a9686516621e4ed376b1ceb985cd4d" width="300" height="400">  
+
+### 3. スプレッドシートの共有設定
+
+### 4. ソースコード
+```
+oauth2.py
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from oauth2client.client import SignedJwtAssertionCredentials
+import gdata.spreadsheets.client
+
+# 認証に必要な情報
+client_email = "123456789000-abc123def456@developer.gserviceaccount.com" # 手順2で発行されたメールアドレス
+with open("MyProject.p12") as f: private_key = f.read() # 手順2で発行された秘密鍵
+
+# 認証情報の作成
+scope = ["https://spreadsheets.google.com/feeds"]
+credentials = SignedJwtAssertionCredentials(client_email, private_key,
+    scope=scope)
+
+# スプレッドシート用クライアントの準備
+client = gdata.spreadsheets.client.SpreadsheetsClient()
+
+# OAuth2.0での認証設定
+auth_token = gdata.gauth.OAuth2TokenFromCredentials(credentials)
+auth_token.authorize(client)
+
+# ---- これでライブラリを利用してスプレッドシートにアクセスできる ---- #
+
+# ワークシートの取得
+sheets = client.get_worksheets("1TAVVsyhCM_nprkpa0-LGWBheaXt_ipX84fIIhJw2fa0") # スプレッドシートIDを指定
+for sheet in sheets.entry:
+    print sheet.get_worksheet_id(), sheet.title
+
+```
+
+
+## 遭遇したエラー
+### PKCS12 format is not supported by the PyCrypto library.
+
+```
+PKCS12 format is not supported by the PyCrypto library.
+Try converting to a "PEM" (openssl pkcs12 -in xxxxx.p12 -nodes -nocerts > privatekey.pem) or using PyOpenSSL if native code is an option.
+```
+
+```
+with open("MyProject.p12") as f
+```
+
+### 対応
+
+エラー文に載っているようにして秘密鍵の形式を変更すればよい。
+
+```
+$ openssl pkcs12 -in MyProject.p12 -nodes -nocerts > MyProject.pem
+Enter Import Password: #「notasecret」と入力
+```
+
+それからコード中で読み込むファイルを変える。
+```
+with open("MyProject.p12") as f
+```
+
+
+# Python で Google Spreadsheets (など)の無人操作
+[Python で Google Spreadsheets (など)の無人操作 updated at 2020-03-28](https://qiita.com/yagshi/items/3ab2a03b5e55181ec300)
+
+```
+    Google Spreadsheets の表を Python プログラムを使って無人操作する方法を書きました。
+
+    公式 Quick Start は人間が介在する OAuth2 のやり方だけど、ようはこれの無人版です。
+
+    サービスアカウントというものを作って、それに必要な権限を与え、そのアカウントの秘密鍵を使ってアクセスします。
+```
+
+## プロジェクトとサービスアカウント
+
+```
+各種ドキュメントを操作するには当然権限が必要です。プログラムから操作する場合は、大雑把に行って2とおりの権限獲得の手法があります。
+
+    一時的に人間の許可を得て、その人間のアカウントで操作
+    権限を与えられた 機械ようのアカウント で操作
+
+ざっくり言うと前者はインタラクティヴなソフトで使う方法で、後者は自動化システムで使う方法です。
+今回は後者の方法を使います。ここで「機械ようのアカウント」を サービスアカウントと言います。
+つまり、まずはサービスアカウントを作り、必要な権限を与える必要がります。だいたい以下の手順です。
+```
+
+```
+   1. GCPのコンソール に行って、プロジェクトを作ります。
+   
+   2. GCPの左上のハンバーガーメニュー > IAMと管理 > サービスアカウント > サービスアカウントを作成
+   
+   3. 入力は必須項目だけで良いと思います。name@project.iam.gserviceaccount.com というアカウントができます。
+   
+   4. アカウントを作ると秘密鍵 (private key) をダウンロードできると思います。JSON形式でダウンロードしてください。
+   
+   5. このアカウントに対して、操作したいファイル(スプレッドシート)の操作権限を与えてください(=共有してください)。
+        与え方は通常の人間向けの権限操作といっしょです。
+   
+   6. ハンバーガーメニュー > APIとサービス > ダッシュボード > +APIとサービスを有効化 と進み、
+        Google Sheets API を有効化してください。
+```
 
 # Reference
 * [【Google Drive upload 教學】使用Python上傳檔案，其實不難！2020 年 5 月 27 日](https://markteaching.com/google-drive-upload/?fbclid=IwAR3YjpRc70evRU5ScLWr0qQuTrq0USP-iqt2fDDxuXoR-UaDv5MGEWk_jE0)  
@@ -84,3 +292,4 @@ https://github.com/Countants-Team/download-google-spreadsheet-using-python
 - 1
 - 2
 - 3
+
