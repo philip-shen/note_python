@@ -89,23 +89,28 @@ client_secrets.jsonファイルが必要
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2F0d207395-6a00-87bc-8683-4045fa1ec07e.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=7d5f031f71505b791db4124153a8f58c" width="400" height="300">  
 
 「新しいクライアントIDを作成」
+
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fd2ca1675-0059-d1eb-fed3-dc36603d1d7f.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=f17f70a1bdbb8e8ed896c1bfd1ec465d" width="500" height="300">  
 
 
 「サービス アカウント」を選んで「クライアントIDを作成」
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fd2ca1675-0059-d1eb-fed3-dc36603d1d7f.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=f17f70a1bdbb8e8ed896c1bfd1ec465d" width="600" height="300">  
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2F696728e8-e191-994b-a45f-0e4d2aa308d7.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=75377e25d5639e8546441cd800bec906" width="600" height="300">  
 
 ローカルにjsonファイルがダウンロードされ、完了のダイアログが表示される。
 (今回の手順ではこのjsonファイルは利用しない)
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fd9649b58-d78c-db75-596a-538a334af0f0.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=1106d9a1ed735d3890609cdaa8e5acfe" width="300" height="400">  
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fd9649b58-d78c-db75-596a-538a334af0f0.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=1106d9a1ed735d3890609cdaa8e5acfe" width="300" height="300">  
 
 クライアントIDが発行されたことを確認。
 「新しいP12キーを生成」を選び、秘密鍵(.p12)をダウンロードする。
+
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2Fdb733fc6-ba67-9e96-afef-d04215b80438.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=0239d9c1b60447a65c425590c0e6a4b8" width="500" height="200">  
 
 
 秘密鍵がローカルに保存された。(保存された秘密鍵を「MyProject.p12」とする)
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2F1fdd9b71-97ae-f0cc-09a2-578e4131519d.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=e7a9686516621e4ed376b1ceb985cd4d" width="300" height="400">  
+
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.amazonaws.com%2F0%2F62874%2F1fdd9b71-97ae-f0cc-09a2-578e4131519d.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=e7a9686516621e4ed376b1ceb985cd4d" width="200" height="300">  
 
 ### 3. スプレッドシートの共有設定
 
