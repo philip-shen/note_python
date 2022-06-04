@@ -14,6 +14,9 @@ Table of Contents
    * [PySimpleGuiで入力に応じてグラフを表示・更新する](#pysimpleguiで入力に応じてグラフを表示更新する)
    * [Python画像処理のためのGUI入門（PySimpleGUI解説）](#python画像処理のためのgui入門pysimplegui解説)
    * [「PyWebIO」があればPython 100\xでWebアプリ作れるってマジ！？](#pywebioがあればpython-100でwebアプリ作れるってマジ)
+   * [Python PySimpleGUIで作るPDFリーダー](#python-pysimpleguiで作るpdfリーダー)
+      * [PySimpleGUI/DemoPrograms/Demo_PDF_Viewer.py](#pysimpleguidemoprogramsdemo_pdf_viewerpy)
+      * [How do I resolve "No module named 'frontend'" error message?](#how-do-i-resolve-no-module-named-frontend-error-message)
    * [WebSocket Client](#websocket-client)
       * [websocket-client](#websocket-client-1)
          * [Long-lived Connection](#long-lived-connection)
@@ -144,6 +147,30 @@ Take note of Webscreenshoot
 
 <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F81851%2F12aa82b7-e50f-67d4-42ab-004a0cf092ce.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=5e45055760710a4ffdd3aa9c442fbbea" width="500" height="400">
 
+# Python PySimpleGUIで作るPDFリーダー
+[Python PySimpleGUIで作るPDFリーダー 2022.01.25](https://qlitre-weblog.com/pysimplegui-pdf-reader/)
+
+
+起動すると、以下のようにGUIが立ち上がります。
+<img src="https://images.microcms-assets.io/assets/4d9da4ddd0c2424e9dcb766ded76ca61/bb901785544647cb969a2cce3bbba7fe/image.png" width="500" height="400">
+
+
+Browseボタンを押してPDFファイルを指定しますと、以下のように表示されます。
+<img src="https://images.microcms-assets.io/assets/4d9da4ddd0c2424e9dcb766ded76ca61/9611eeff8f89494bbbd4525ddeb6afd9/image.png" width="500" height="400">
+
+
+後は必要に応じてページ送りをしたり、簡単なズームができるという感じです。
+<img src="https://images.microcms-assets.io/assets/4d9da4ddd0c2424e9dcb766ded76ca61/0f9ca3c7ae5d4951894bd0e909524a12/Animation_.gif" width="500" height="400">
+
+## PySimpleGUI/DemoPrograms/Demo_PDF_Viewer.py  
+[PySimpleGUI/DemoPrograms/Demo_PDF_Viewer.py](https://github.com/PySimpleGUI/PySimpleGUI/blob/master/DemoPrograms/Demo_PDF_Viewer.py)
+
+## How do I resolve "No module named 'frontend'" error message?
+[How do I resolve "No module named 'frontend'" error message?](https://stackoverflow.com/questions/56467667/how-do-i-resolve-no-module-named-frontend-error-message)
+
+```
+pip install PyMuPDF
+```
 
 # WebSocket Client  
 [[Python]WebSocket Client實作  2020-03-25](https://ithelp.ithome.com.tw/articles/10230592)  

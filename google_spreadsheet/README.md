@@ -176,6 +176,9 @@ Enter Import Password: #「notasecret」と入力
 with open("MyProject.p12") as f
 ```
 
+[python - Using Spreadsheet API OAuth2 with Certificate Authentication - Stack Overflow](http://stackoverflow.com/questions/20209178/using-spreadsheet-api-oauth2-with-certificate-authentication/20211057#20211057)
+
+[]()
 
 # Python で Google Spreadsheets (など)の無人操作
 [Python で Google Spreadsheets (など)の無人操作 updated at 2020-03-28](https://qiita.com/yagshi/items/3ab2a03b5e55181ec300)
