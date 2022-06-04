@@ -17,6 +17,7 @@ Table of Contents
    * [Python PySimpleGUIで作るPDFリーダー](#python-pysimpleguiで作るpdfリーダー)
       * [PySimpleGUI/DemoPrograms/Demo_PDF_Viewer.py](#pysimpleguidemoprogramsdemo_pdf_viewerpy)
       * [How do I resolve "No module named 'frontend'" error message?](#how-do-i-resolve-no-module-named-frontend-error-message)
+   * [PySimpleGuiでTrelloを操作する](#pysimpleguiでtrelloを操作する)
    * [WebSocket Client](#websocket-client)
       * [websocket-client](#websocket-client-1)
          * [Long-lived Connection](#long-lived-connection)
@@ -171,6 +172,13 @@ Browseボタンを押してPDFファイルを指定しますと、以下のよ�
 ```
 pip install PyMuPDF
 ```
+
+
+# PySimpleGuiでTrelloを操作する 
+[PySimpleGuiでTrelloを操作する 2021.09.05](https://qlitre-weblog.com/pysimplegui-trello-app)
+
+[qlitre /pysimplegui-trello](https://github.com/qlitre/pysimplegui-trello)
+
 
 # WebSocket Client  
 [[Python]WebSocket Client實作  2020-03-25](https://ithelp.ithome.com.tw/articles/10230592)  
@@ -788,5 +796,6 @@ Can run & generate command, also print output on the GUI output.
 - 1
 - 2
 - 3
+
 
 
