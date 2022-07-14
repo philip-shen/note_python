@@ -1300,23 +1300,231 @@ B call
 [Understanding slice notation](https://stackoverflow.com/questions/509211/understanding-slice-notation)
 
 > a[start:stop]  # items start through stop-1
+```
 a[start:]      # items start through the rest of the array
 a[:stop]       # items from the beginning through stop-1
 a[:]           # a copy of the whole array
 a[start:stop:step] # start through not past stop, by step
+```
 
 The other feature is that start or stop may be a negative number, which means it counts from the end of the array instead of the beginning. So:
 
 > a[-1]    # last item in the array
+```
 a[-2:]   # last two items in the array
 a[:-2]   # everything except the last two items
+```
 
 Similarly, step may be a negative number:
 
 > a[::-1]    # all items in the array, reversed
+```
 a[1::-1]   # the first two items, reversed
 a[:-3:-1]  # the last two items, reversed
 a[-3::-1]  # everything except the last two items, reversed
+```
+
+
+# a[[0], 0, 0:1] in NumPy 
+[Python♪NumPyのa[[0], 0, 0:1]は何次元の配列になる？](https://snowtree-injune.com/2020/03/12/numpy-array-z004/)
+
+## １．要素を整数で指定する場合
+
+```
+#コード01
+import numpy as np
+a = np.arange(24).reshape(2, 3, 4)
+'''
+a =
+[[[ 0  1  2  3]
+  [ 4  5  6  7]
+  [ 8  9 10 11]]
+
+ [[12 13 14 15]
+  [16 17 18 19]
+  [20 21 22 23]]]
+'''
+
+print(a)  #3次元配列を出力
+print(a[:, :, :])  #3次元配列を出力
+print(a[0, :, :])  #2次元配列を出力
+print(a[:, 1, :])  #2次元配列を出力
+print(a[:, :, 2])  #2次元配列を出力
+print(a[:, 1, 2])  #1次元配列を出力
+print(a[0, :, 2])  #1次元配列を出力 
+print(a[0, 1, :])  #1次元配列を出力 
+print(a[0, 1, 2])  #値（スカラー）を出力
+```
+
+```
+#出力01
+※読みやすいように実際の出力にコメント文を追加しています。
+# a =
+[[[ 0  1  2  3]
+  [ 4  5  6  7]
+  [ 8  9 10 11]]
+
+ [[12 13 14 15]
+  [16 17 18 19]
+  [20 21 22 23]]]
+# a[:, :, :] =
+[[[ 0  1  2  3]
+  [ 4  5  6  7]
+  [ 8  9 10 11]]
+
+ [[12 13 14 15]
+  [16 17 18 19]
+  [20 21 22 23]]]
+# a[0, :, :] =
+[[ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]]
+# a[:, 1, :] =
+[[ 4  5  6  7]
+ [16 17 18 19]]
+# a[:, :, 2] =
+[[ 2  6 10]
+ [14 18 22]]
+# a[:, 1, 2] =
+[ 6 18]
+# a[0, :, 2] =
+[ 2  6 10]
+# a[0, 1, :] =
+[4 5 6 7]
+# a[0, 1, 2] =
+6
+```
+
+## ２．スライスで要素を部分的に指定する場合 
+```
+#コード03
+import numpy as np
+a = np.arange(24).reshape(2, 3, 4)
+
+print(a[:, :, :])  #3次元配列を出力
+print(a[:, 0:2, :])  #3次元配列を出力
+print(a[:, 0:1, :])  #3次元配列を出力
+print(a[0:1, :, 0:1])  #3次元配列を出力
+print(a[0:1, 0:1, 0:1])  #3次元配列を出力
+```
+
+```
+#出力03
+# a[:, :, :] =
+[[[ 0  1  2  3]
+  [ 4  5  6  7]
+  [ 8  9 10 11]]
+
+ [[12 13 14 15]
+  [16 17 18 19]
+  [20 21 22 23]]]
+# a[:, 0:2, :] =
+[[[ 0  1  2  3]
+  [ 4  5  6  7]]
+
+ [[12 13 14 15]
+  [16 17 18 19]]]
+# a[:, 0:1, :] =
+[[[ 0  1  2  3]]
+
+ [[12 13 14 15]]]
+# a[0:1, :, 0:1] =
+[[[0]
+  [4]
+  [8]]]
+# a[0:1, 0:1, 0:1]) =
+[[[0]]]
+```
+
+## ３．listやNumPy配列で要素を指定する場合
+[NumPy♪ファンシーインデックスが苦手だと感じたら](https://snowtree-injune.com/2020/06/21/fancy-index-z008/)
+
+## ４．配列とスライスで指定する場合の配列部の扱い
+```
+#コード05
+import numpy as np
+d3 = np.array([[[  0.,   1.,   2.,   3.],
+                [ 10.,  11.,  12.,  13.],
+                [ 20.,  21.,  22.,  23.]],
+               [[100., 101., 102., 103.],
+                [110., 111., 112., 113.],
+                [120., 121., 122., 123.]]])
+print(d3.shape)  #(2, 3, 4)
+print(d3)
+print(d3[:, [0, 1, 0], 0].shape)  #(2, 3)
+print(d3[:, [0, 1, 0], 0])
+print(d3[:, [0, 1, 0], [0]].shape)  #(2, 3)
+print(d3[:, [0, 1, 0], [0]])
+print(d3[:, [0, 1, 0], [0, 0, 0]].shape)  #(2, 3)
+print(d3[:, [0, 1, 0], [0, 0, 0]])
+```
+
+```
+#コード05
+(2, 3, 4)
+[[[  0.   1.   2.   3.]
+  [ 10.  11.  12.  13.]
+  [ 20.  21.  22.  23.]]
+
+ [[100. 101. 102. 103.]
+  [110. 111. 112. 113.]
+  [120. 121. 122. 123.]]]
+(2, 3)
+[[  0.  10.   0.]
+ [100. 110. 100.]]
+(2, 3)
+[[  0.  10.   0.]
+ [100. 110. 100.]]
+(2, 3)
+[[  0.  10.   0.]
+ [100. 110. 100.]]
+```
+
+```
+#コード06
+import numpy as np
+d3 = np.array([[[  0.,   1.,   2.,   3.],
+                [ 10.,  11.,  12.,  13.],
+                [ 20.,  21.,  22.,  23.]],
+               [[100., 101., 102., 103.],
+                [110., 111., 112., 113.],
+                [120., 121., 122., 123.]]])
+print(d3[:, [0], [0]].shape)  #(2, 1)
+print(d3[:, [0], [0]])
+print(d3[:, [[0, 1, 0]], [0, 0, 0]].shape)  #(2, 1, 3)
+print(d3[:, [[0, 1, 0]], [0, 0, 0]])
+```
+
+```
+#出力06
+(2, 1)
+[[  0.]
+ [100.]]
+(2, 1, 3)
+[[[  0.  10.   0.]]
+
+ [[100. 110. 100.]]]
+```
+
+このようにスライス以外の部分は、ブロードキャストによって形状がそろえられるということを覚えておいてください。従って、コード07では出力07のようにbroadcastのエラーが発生します。
+
+```
+#コード07
+import numpy as np
+d3 = np.array([[[  0.,   1.,   2.,   3.],
+                [ 10.,  11.,  12.,  13.],
+                [ 20.,  21.,  22.,  23.]],
+               [[100., 101., 102., 103.],
+                [110., 111., 112., 113.],
+                [120., 121., 122., 123.]]])
+
+print(d3[:, [0, 1, 0], [0, 0, 0, 0]].shape)
+```
+
+```
+#出力07
+IndexError: shape mismatch: indexing arrays could not be broadcast together with shapes (3,) (4,) 
+```
 
 
 # Environment  
