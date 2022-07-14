@@ -74,6 +74,11 @@ Table of Contents
       * [pass](#pass)
    * [<strong>call</strong> method in Class](#call-method-in-class)
    * [Understanding slice notation](#understanding-slice-notation)
+   * [a[[0], 0, 0:1] in NumPy](#a0-0-01-in-numpy)
+      * [１．要素を整数で指定する場合](#１要素を整数で指定する場合)
+      * [２．スライスで要素を部分的に指定する場合](#２スライスで要素を部分的に指定する場合)
+      * [３．listやNumPy配列で要素を指定する場合](#３listやnumpy配列で要素を指定する場合)
+      * [４．配列とスライスで指定する場合の配列部の扱い](#４配列とスライスで指定する場合の配列部の扱い)
    * [Environment](#environment)
    * [Troubleshooting](#troubleshooting)
       * [GH001 Large files detected](#gh001-large-files-detected)
@@ -87,7 +92,6 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -1710,5 +1714,6 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
+
 
 
