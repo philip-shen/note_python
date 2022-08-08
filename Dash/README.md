@@ -1,27 +1,40 @@
+Table of Contents
+=================
+
+   * [Table of Contents](#table-of-contents)
+   * [Purpose](#purpose)
+   * [Plotly](#plotly)
+   * [Cufflinks](#cufflinks)
+   * [plotnine, altair, seaborn, pixiedust](#plotnine-altair-seaborn-pixiedust)
+      * [plotnine](#plotnine)
+      * [altair](#altair)
+      * [seaborn](#seaborn)
+      * [pixiedust](#pixiedust)
+   * [Data Visualization-Dash Tutorial](#data-visualization-dash-tutorial)
+   * [Data Visualization-Dash Python Libray](#data-visualization-dash-python-libray)
+   * [Data Visualization-Dash](#data-visualization-dash)
+      * [Html Elements](#html-elements)
+      * [Graphs](#graphs)
+      * [Table](#table)
+      * [Callback](#callback)
+      * [UIパーツをが必要不可欠](#uiパーツをが必要不可欠)
+      * [Outputは1つだけの法則](#outputは1つだけの法則)
+      * [ButtonのCallback](#buttonのcallback)
+   * [Stock Analysis Dashboard](#stock-analysis-dashboard)
+   * [Stock Price Predictor](#stock-price-predictor)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # Purpose  
 Take note of Dash  
 
-# Table of Contents  
-[Plotly](#plotly)  
-
-[Cufflinks](#cufflinks)  
-
-[plotnine, altair, seaborn, pixiedust](#plotnine-altair-seaborn-pixiedust)  
-
-[Data Visualization-Dash Tutorial](#data-visualization-dash-tutorial)  
-
-[Data Visualization-Dash Python Libray](#data-visualization-dash-python-libray)  
-
-[Data Visualization- Dash](#data-visualization-dash)  
-[Html Elements](#html-elements)  
-[Graphs](#graphs)  
-[Table](#table)  
-[Callback](#callback)  
-[UIパーツをが必要不可欠]()  
-[Outputは1つだけの法則]()  
-[ButtonのCallback]()  
-
-[]()  
 
 # Plotly  
 [[Python] Plotlyでぐりぐり動かせるグラフを作る Mar 16, 2019](https://qiita.com/inoory/items/12028af62018bf367722)  
@@ -242,6 +255,38 @@ def click(n_clicks_timestamp):
             return something
 ```
 
+#  Stock Analysis Dashboard 
+[Create a Stock Analysis Dashboard With Python May 20](https://medium.com/python-in-plain-english/stock-analysis-dashboard-with-python-366d431c8721)
+
+```
+The project's code can be divided into four major sections, which are in order:
+
+1. Data Collection & Cleaning
+2. Data Importing & Default Charts
+3. Application’s Layout
+4. Interactivity
+```
+
+[felipesveiga/Stock-Analysis-Dashboard](https://github.com/felipesveiga/Stock-Analysis-Dashboard)
+
+>  Dash ImportError: cannot import name 'get_current_traceback' from 'werkzeug.debug.tbtools'
+[cannot import name 'get_current_traceback' from 'werkzeug.debug.tbtools'](https://stackoverflow.com/questions/71654590/dash-importerror-cannot-import-name-get-current-traceback-from-werkzeug-debu)
+
+<img src="https://i.stack.imgur.com/OFM7a.png" width="400" height="100">  
+
+```
+I've been in the same problem.
+
+Uninstall the wrong version with:
+pip uninstall werkzeug
+
+Install the right one with:
+pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.tar.gz
+```
+
+# Stock Price Predictor
+
+[stock-price-predictor](https://github.com/felipesveiga/stock-price-predictor)
 
 
 #  

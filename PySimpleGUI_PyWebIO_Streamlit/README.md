@@ -762,39 +762,6 @@ Can run & generate command, also print output on the GUI output.
 <img src="https://camo.githubusercontent.com/facad0f1ea2391566d047df827f1b045fca25af513ba60a35a2b95beb9f858fe/68747470733a2f2f692e696d6775722e636f6d2f66556c4e3048392e706e67" width="500" height="400">  
 
 
-#  Stock Analysis Dashboard 
-[Create a Stock Analysis Dashboard With Python May 20](https://medium.com/python-in-plain-english/stock-analysis-dashboard-with-python-366d431c8721)
-
-```
-The project's code can be divided into four major sections, which are in order:
-
-1. Data Collection & Cleaning
-2. Data Importing & Default Charts
-3. Application’s Layout
-4. Interactivity
-```
-
-[felipesveiga/Stock-Analysis-Dashboard](https://github.com/felipesveiga/Stock-Analysis-Dashboard)
-
->  Dash ImportError: cannot import name 'get_current_traceback' from 'werkzeug.debug.tbtools'
-[cannot import name 'get_current_traceback' from 'werkzeug.debug.tbtools'](https://stackoverflow.com/questions/71654590/dash-importerror-cannot-import-name-get-current-traceback-from-werkzeug-debu)
-
-<img src="https://i.stack.imgur.com/OFM7a.png" width="400" height="100">  
-
-```
-I've been in the same problem.
-
-Uninstall the wrong version with:
-pip uninstall werkzeug
-
-Install the right one with:
-pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.tar.gz
-```
-
-# Stock Price Predictor
-
-[stock-price-predictor](https://github.com/felipesveiga/stock-price-predictor)
-
 
 # Troubleshooting
 
