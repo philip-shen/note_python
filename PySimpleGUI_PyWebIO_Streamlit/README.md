@@ -58,6 +58,8 @@ Table of Contents
    * [cdsdashboards](#cdsdashboards)
    * [Streamlit Offical API](#streamlit-offical-api)
    * [GUI Console](#gui-console)
+   * [Stock Analysis Dashboard](#stock-analysis-dashboard)
+   * [Stock Price Predictor](#stock-price-predictor)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -67,6 +69,7 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 
 # Purpose
@@ -758,6 +761,27 @@ Can run & generate command, also print output on the GUI output.
 
 <img src="https://camo.githubusercontent.com/facad0f1ea2391566d047df827f1b045fca25af513ba60a35a2b95beb9f858fe/68747470733a2f2f692e696d6775722e636f6d2f66556c4e3048392e706e67" width="500" height="400">  
 
+
+#  Stock Analysis Dashboard 
+[Create a Stock Analysis Dashboard With Python May 20](https://medium.com/python-in-plain-english/stock-analysis-dashboard-with-python-366d431c8721)
+
+```
+The project's code can be divided into four major sections, which are in order:
+
+1. Data Collection & Cleaning
+2. Data Importing & Default Charts
+3. Application’s Layout
+4. Interactivity
+```
+
+[felipesveiga/Stock-Analysis-Dashboard](https://github.com/felipesveiga/Stock-Analysis-Dashboard)
+
+
+# Stock Price Predictor
+
+[stock-price-predictor](https://github.com/felipesveiga/stock-price-predictor)
+
+
 # Troubleshooting
 
 
@@ -796,6 +820,4 @@ Can run & generate command, also print output on the GUI output.
 - 1
 - 2
 - 3
-
-
 
