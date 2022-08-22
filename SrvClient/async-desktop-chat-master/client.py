@@ -43,14 +43,14 @@ def ui():
 
     T_css = dict(font=("Helvetica", 12))
 
-    users         = sg.Listbox([], size=(30-5, 16), enable_events=True, key='users')
+    users         = sg.Listbox([], size=(50-5, 16), enable_events=True, key='users')
     message_board = sg.ML(         size=(50-5, 15), key='messages_board')
-    pm_board      = sg.ML(         size=(30-5, 16), key='pm_board')
+    pm_board      = sg.ML(         size=(50-5, 16), key='pm_board')
 
     users_column = sg.Col([ [sg.T('Users:', **T_css)], [users]])
     message_board_column = sg.Col([
             [sg.T('Message board', **T_css)], [message_board]
-           ,[sg.I(key='message', size=(15, 1)), sg.B('▲ Public', key='public-msg'), sg.B('▲ User', disabled=True, key='private-msg')]
+           ,[sg.I(key='message', size=(20, 1)), sg.B('▲ Public', key='public-msg'), sg.B('▲ User', disabled=True, key='private-msg')]
     ])
     pm_column = sg.Col([[sg.T('PM messages', **T_css)], [pm_board] ])
 

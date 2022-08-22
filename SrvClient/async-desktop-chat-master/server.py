@@ -51,14 +51,18 @@ def state_event():
         return 
     return json.dumps({"type": "new_public_messages", 'messages_board' : STATE['messages_board']})
 
-def get_available_name():
+def get_available_name(websocket):
     global USERS
     names = [user.name for user in USERS]
+    remote_address= websocket.remote_address[0]
+    logging.info('\n remote_address: {}; remote_port: {}'.format(\
+                    remote_address,  websocket.remote_address[1]) )
     
-    myname = f'user#{str(len(USERS)+0)}'
+    #myname = f'user#{str(len(USERS)+0)}'
+    myname = 'user#{}_{}'.format(str(len(USERS)+0), remote_address)
     for i in range(10_000_000):
         if myname not in names: break
-        myname = f'user#{str(len(USERS)+i)}'
+        myname = 'user#{}_{}'.format(str(len(USERS)+i), remote_address )
     return myname
 
 async def notify_state():
@@ -138,7 +142,8 @@ async def on_ws_connected(websocket, path):
     # register(websocket) sends user_event() to websocket
 
     # add user to a list
-    curr_user = User(get_available_name(), websocket, mk_uuid4())
+    curr_user = User(get_available_name(websocket), websocket, mk_uuid4())
+    
     logging.info('\n \'type\' : \'get-your-name\', \'name\' : {}'.format(curr_user.name ) )
     await websocket.send(json.dumps({'type' : 'get-your-name', 'name' : curr_user.name}))
     await register(curr_user)
