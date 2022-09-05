@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from datetime import datetime
+import pickle
 
 from logger_setup import *
 
@@ -61,6 +62,14 @@ https://stackoverflow.com/questions/17071871/how-do-i-select-rows-from-a-datafra
 How to convert a dataframe to a dictionary
 https://stackoverflow.com/questions/18695605/how-to-convert-a-dataframe-to-a-dictionary
 """
+"""
+Save Python Dictionary to a Pickle File
+https://datascienceparichay.com/article/save-python-dictionary-to-a-pickle-file/
+"""
+"""
+How to Convert Pandas Index to a List (With Examples)
+https://www.statology.org/pandas-index-to-list/
+"""
 
 def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_id, opt_verbose= 'OFF'):
     
@@ -85,10 +94,17 @@ def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_i
     data_temp.loc[data_temp['市場別'] == '上櫃', 'code']= data_temp['code']+'.TWO'
     data_temp.to_excel(path_xlsx_stock_id, sheet_name='twse_otc_id', index=False, header=True)
     dict_data= dict(zip(data_temp.code, data_temp.name))
-    
+    list_data= data_temp['code'].values.tolist()
+
     if opt_verbose.lower() == 'on':
-        for key, value in dict_data.iteritems() :
-            print key, value
+        for key, value in dict_data.items():
+            logger.info('\n key: {}; value: {}'.format(key, value) )
+    
+    # save dictionary to pickle file
+    with open(path_pickle_stock_id, 'wb') as file:
+        #pickle.dump(dict_data, file, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(list_data, file, protocol=pickle.HIGHEST_PROTOCOL)
+    
     #data_temp.to_pickle(path_pickle_stock_id)
 
     HTML(data.head().to_html())

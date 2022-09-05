@@ -16,7 +16,8 @@ import pickle
 import pandas as pd
 
 # Global Variable: Ticker List
-with open("data/tickers.pickle", "rb") as f:
+#with open("data/tickers.pickle", "rb") as f:
+with open("data/twse_otc_id.pickle", "rb") as f:
     TICKER_LIST = pickle.load(f)
 
 

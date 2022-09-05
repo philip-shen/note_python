@@ -73,22 +73,34 @@ if __name__ == '__main__':
     str_tpex_url = 'http://isin.twse.com.tw/isin/C_public.jsp?strMode=4'
     path_xlsx_stock_id= os.path.join(dirnamelog, 'twse_otc_id.xlsx')
     path_pickle_stock_id= os.path.join(dirnamelog, 'twse_otc_id.pickle')
-    #lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], \
-    #                            path_xlsx_stock_id, path_pickle_stock_id, opt_verbose)
+    path_pickle_tickers= os.path.join(dirnamelog, 'tickers.pickle')
+    lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], \
+                                path_xlsx_stock_id, path_pickle_stock_id, opt_verbose='OFF')
     
-    df_from_pkl = pd.read_pickle(path_pickle_stock_id)
-    print(df_from_pkl)
-
-    """
-    asset = Asset(ticker='4755.TW', period='1y', interval='1d')
-    asset_info = asset.get_info() 
-    asset_info = asset.get_info()  # Information about the Company
-    asset_df = asset.get_data()    # Historical price data
     
-    # Check in terminal for n_clicks and status
-    print('asset_df: {}'.format(asset_df))
     """
+    with open(path_pickle_stock_id, "rb") as f:
+        TICKER_LIST = pickle.load(f)
+    
+    for key, value in TICKER_LIST.items():
+        asset = Asset(ticker=key, period='1y', interval='1d')
+        asset_info = asset.get_info() 
+        asset_info = asset.get_info()  # Information about the Company
+        asset_df = asset.get_data()    # Historical price data
+    
+        # Check in terminal for n_clicks and status
+        #print('asset_df: {}'.format(asset_df))
+        logger.info( '\n{}; {}'.format(key, value) )
+        logger.info( 'asset_df: \n {}'.format(asset_df) )
+    """
+    with open(path_pickle_stock_id, "rb") as f:
+        TICKER_LIST = pickle.load(f)
 
+    print(TICKER_LIST)
+
+    #for ticker in TICKER_LIST:
+        #print( '\"label\": {}; \"value\": {}'.format( str(TICKER_LIST[i]), str(TICKER_LIST[i]) )) 
+    #    print('{}'.format(ticker))
 
     #for i, j in asset_info.items():
     #    print( 'Metric: {}, Value: {}'.format( i, j)) 
