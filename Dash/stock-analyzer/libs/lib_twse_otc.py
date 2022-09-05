@@ -57,6 +57,11 @@ columns = ['dtype', 'code', 'name', '國際證券辨識號碼', '上市日', '�
 How do I select rows from a DataFrame based on column values?
 https://stackoverflow.com/questions/17071871/how-do-i-select-rows-from-a-dataframe-based-on-column-values
 """
+"""
+How to convert a dataframe to a dictionary
+https://stackoverflow.com/questions/18695605/how-to-convert-a-dataframe-to-a-dictionary
+"""
+
 def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_id, opt_verbose= 'OFF'):
     
     items = []
@@ -70,6 +75,7 @@ def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_i
                 code, name = row[0].split('\u3000')
                 items.append(dict(zip(columns, [dtype, code, name, *row[1: -1]])))
 
+    dict_data=  {}
     data_temp= pd.DataFrame()
     data= pd.DataFrame(items)
     #data.to_excel(path_xlsx_stock_id, sheet_name='twse_otc_id', index=False, header=True)
@@ -78,8 +84,12 @@ def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_i
     data_temp.loc[data_temp['市場別'] == '上市', 'code']= data_temp['code']+'.TW'
     data_temp.loc[data_temp['市場別'] == '上櫃', 'code']= data_temp['code']+'.TWO'
     data_temp.to_excel(path_xlsx_stock_id, sheet_name='twse_otc_id', index=False, header=True)
-    data_temp= data_temp[['code', 'name']].copy()
-    data_temp.to_pickle(path_pickle_stock_id)
+    dict_data= dict(zip(data_temp.code, data_temp.name))
+    
+    if opt_verbose.lower() == 'on':
+        for key, value in dict_data.iteritems() :
+            print key, value
+    #data_temp.to_pickle(path_pickle_stock_id)
 
     HTML(data.head().to_html())
 
