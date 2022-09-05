@@ -57,7 +57,7 @@ columns = ['dtype', 'code', 'name', '國際證券辨識號碼', '上市日', '�
 How do I select rows from a DataFrame based on column values?
 https://stackoverflow.com/questions/17071871/how-do-i-select-rows-from-a-dataframe-based-on-column-values
 """
-def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, opt_verbose= 'OFF'):
+def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_id, opt_verbose= 'OFF'):
     
     items = []
     for url in list_str_url:
@@ -75,7 +75,11 @@ def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, opt_verbose= 'OFF')
     #data.to_excel(path_xlsx_stock_id, sheet_name='twse_otc_id', index=False, header=True)
     data_temp= data.loc[data['dtype'] == '股票'].copy()
     data_temp= data_temp[['code', 'name', '國際證券辨識號碼', '市場別']].copy()
-    #.to_excel(path_xlsx_stock_id, sheet_name='twse_otc_id', index=False, header=True)
+    data_temp.loc[data_temp['市場別'] == '上市', 'code']= data_temp['code']+'.TW'
+    data_temp.loc[data_temp['市場別'] == '上櫃', 'code']= data_temp['code']+'.TWO'
+    data_temp.to_excel(path_xlsx_stock_id, sheet_name='twse_otc_id', index=False, header=True)
+    data_temp= data_temp[['code', 'name']].copy()
+    data_temp.to_pickle(path_pickle_stock_id)
 
     HTML(data.head().to_html())
 

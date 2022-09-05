@@ -72,7 +72,9 @@ if __name__ == '__main__':
     str_twse_url= 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=2'
     str_tpex_url = 'http://isin.twse.com.tw/isin/C_public.jsp?strMode=4'
     path_xlsx_stock_id= os.path.join(dirnamelog, 'twse_otc_id.xlsx')
-    lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], path_xlsx_stock_id ,opt_verbose)
+    path_pickle_stock_id= os.path.join(dirnamelog, 'twse_otc_id.pickle')
+    lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], \
+                                path_xlsx_stock_id, path_pickle_stock_id, opt_verbose)
     
     """
     asset = Asset(ticker='4755.TW', period='1y', interval='1d')
