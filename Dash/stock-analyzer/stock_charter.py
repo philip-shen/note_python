@@ -12,7 +12,7 @@ from plotly.subplots import make_subplots
 
 # Data Source
 import yfinance as yf
-import pickle
+import pickle5 as pickle #import pickle
 import pandas as pd
 
 # Global Variable: Ticker List
