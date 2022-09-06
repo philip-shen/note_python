@@ -104,6 +104,14 @@ class Indicator:
         self.data['RSI'] = (100 - (100 / (1 + RS)))
         return self.data
 
+"""
+Custom Candlestick Colors
+https://plotly.com/python/candlestick-charts/
+"""
+"""
+設定顏色
+https://waynestalk.com/python-candlesticks/
+"""
 
 class Plotter:
     """Plotter class that takes in a Pandas dataframe object
@@ -117,6 +125,7 @@ class Plotter:
             x=list(self.data.index), open=list(self.data['Open']),
             high=list(self.data['High']), low=list(self.data['Low']),
             close=list(self.data['Close']), name="Candlestick",
+            increasing_line_color= 'red', decreasing_line_color= 'green',
             visible=True)
         return chart
 
@@ -337,7 +346,8 @@ class Engine:
                 figure.append_trace(volume, 4, 1)         # Plot in row 3
 
                 figure.update_xaxes(rangeslider_visible=False)
-                figure.update_yaxes(title_text="Price (USD)", row=1, col=1)
+                #figure.update_yaxes(title_text="Price (USD)", row=1, col=1)
+                figure.update_yaxes(title_text="Price (NTD)", row=1, col=1)
                 figure.update_yaxes(title_text="RSI", row=3, col=1)
                 figure.update_yaxes(title_text="Volume", row=4, col=1)
 
