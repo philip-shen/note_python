@@ -13,6 +13,10 @@ Table of Contents
       * [波形の情報取得](#波形の情報取得)
       * [波形情報の図解](#波形情報の図解)
       * [配列から要素を抽出するコード](#配列から要素を抽出するコード)
+   * [Pythonでゲーム音楽（チップチューン）の基本波形を生成（サイン波，矩形波，のこぎり波，三角波，白色雑音）](#pythonでゲーム音楽チップチューンの基本波形を生成サイン波矩形波のこぎり波三角波白色雑音)
+      * [のこぎり波（鋸歯状）](#のこぎり波鋸歯状)
+      * [三角波](#三角波)
+      * [白色雑音 (ホワイトノイズ)](#白色雑音-ホワイトノイズ)
    * [Pythonでヒルベルト変換!時間波形の包絡線を求める方法](#pythonでヒルベルト変換時間波形の包絡線を求める方法)
    * [Pythonで学ぶ信号処理!振幅変調のサイドバンドを観察してみる](#pythonで学ぶ信号処理振幅変調のサイドバンドを観察してみる)
       * [参考の記事は以下にリンクしておきますので、是非ご覧下さい。](#参考の記事は以下にリンクしておきますので是非ご覧下さい)
@@ -111,6 +115,29 @@ Table of Contents
    * [combine-multiple-channels-of-audio-files](#combine-multiple-channels-of-audio-files)
       * [Usage](#usage)
       * [Example](#example)
+   * [pydiogment](#pydiogment)
+      * [Amplitude related augmentation](#amplitude-related-augmentation)
+         * [Apply a fade in and fade out effect](#apply-a-fade-in-and-fade-out-effect)
+         * [Apply gain to file](#apply-gain-to-file)
+         * [Add Random Gaussian Noise based on SNR to file](#add-random-gaussian-noise-based-on-snr-to-file)
+      * [Frequency related augmentation](#frequency-related-augmentation)
+         * [Change file tone](#change-file-tone)
+      * [Time related augmentation](#time-related-augmentation)
+         * [Slow-down/ speed-up file](#slow-down-speed-up-file)
+         * [Apply random cropping to the file](#apply-random-cropping-to-the-file)
+         * [Change shift data on the time axis in a certain direction](#change-shift-data-on-the-time-axis-in-a-certain-direction)
+   * [Spafe](#spafe)
+      * [Structure](#structure)
+      * [Filter banks](#filter-banks)
+      * [Spectrograms](#spectrograms)
+      * [Features](#features)
+         * [The theory behind features computed using spafe can be summmarized in the following graph:](#the-theory-behind-features-computed-using-spafe-can-be-summmarized-in-the-following-graph)
+      * [Frequencies](#frequencies)
+   * [Voice-based-gender-recognition](#voice-based-gender-recognition)
+      * [Theory](#theory)
+         * [Voice features extraction](#voice-features-extraction)
+         * [Gaussian Mixture Model](#gaussian-mixture-model)
+      * [Code &amp; scripts](#code--scripts)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -120,7 +147,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose
 Take note of Acoustic Process by Python  
@@ -2356,6 +2382,162 @@ it will give us the output file out.wav
 
 <img src="https://user-images.githubusercontent.com/20760190/70681515-7db1ff00-1c50-11ea-860b-e3ec24361cc9.png"  width="600" height="300">
 
+
+# pydiogment
+[ SuperKogito/pydiogment](https://github.com/SuperKogito/pydiogment)
+
+Pydiogment aims to simplify audio augmentation. 
+It generates multiple audio files based on a starting mono audio file. 
+The library can generates files with higher speed, slower, and different tones etc.
+
+## Amplitude related augmentation
+
+### Apply a fade in and fade out effect
+```
+from pydiogment.auga import fade_in_and_out
+
+test_file = "path/test.wav"
+fade_in_and_out(test_file)
+```
+
+### Apply gain to file
+```
+from pydiogment.auga import apply_gain
+
+test_file = "path/test.wav"
+apply_gain(test_file, -100)
+apply_gain(test_file, -50)
+```
+
+### Add Random Gaussian Noise based on SNR to file
+```
+from pydiogment.auga import add_noise
+
+test_file = "path/test.wav"
+add_noise(test_file, 10)
+```
+
+## Frequency related augmentation  
+### Change file tone 
+```
+from pydiogment.augf import change_tone
+
+test_file = "path/test.wav"
+change_tone(test_file, 0.9)
+change_tone(test_file, 1.1)
+```
+
+## Time related augmentation  
+### Slow-down/ speed-up file
+```
+from pydiogment.augt import slowdown, speed
+
+test_file = "path/test.wav"
+slowdown(test_file, 0.8)
+speed(test_file, 1.2)
+```
+
+### Apply random cropping to the file
+```
+from pydiogment.augt import random_cropping
+
+test_file = "path/test.wav"
+random_cropping(test_file, 1)
+```
+
+### Change shift data on the time axis in a certain direction  
+```
+from pydiogment.augt import shift_time
+
+test_file = "path/test.wav"
+shift_time(test_file, 1, "right")
+shift_time(test_file, 1, "left")
+```
+
+
+# Spafe
+[SuperKogito /spafe](https://github.com/SuperKogito/spafe)
+
+Simplified Python Audio Features Extraction
+
+## Structure
+spafe aims to simplify feature extractions from mono audio files. 
+Spafe includes various computations related to filter banks, spectrograms, frequencies and cepstral features . 
+The library has the following structure: 
+
+<img src="https://github.com/SuperKogito/spafe/raw/master/media/spafe-structure.png"  width="600" height="500">
+
+##  Filter banks
+* Bark filter banks
+* Gammatone filter banks
+* Linear filter banks
+* Mel filter banks
+
+## Spectrograms
+* Bark spectrogram
+* CQT spectrogram
+* Erb spectrogram
+* Mel spectrogram
+
+## Features  
+* Bark Frequency Cepstral Coefﬁcients (BFCCs)
+* Constant Q-transform Cepstral Coeﬃcients (CQCCs)
+* Gammatone Frequency Cepstral Coefﬁcients (GFCCs)
+* Linear Frequency Cepstral Coefﬁcients (LFCCs)
+* Linear Prediction Components (LPCs)
+* Mel Frequency Cepstral Coefﬁcients (MFCCs)
+* Inverse Mel Frequency Cepstral Coefﬁcients (IMFCCs)
+* Magnitude based Spectral Root Cepstral Coefficients (MSRCCs)
+* Normalized Gammachirp Cepstral Coefficients (NGCCs)
+* Power-Normalized Cepstral Coefficients (PNCCs)
+* Phase based Spectral Root Cepstral Coefficients (PSRCCs)
+* Perceptual Linear Prediction Coefficents (PLPs)
+* Rasta Perceptual Linear Prediction Coefficents (RPLPs)
+
+### The theory behind features computed using spafe can be summmarized in the following graph: 
+<img src="https://github.com/SuperKogito/spafe/raw/master/media/features-extraction-algorithms.png?raw=true"  width="900" height="1100">
+
+## Frequencies
+* Dominant frequencies
+* Fundamental frequencies
+
+
+# Voice-based-gender-recognition
+[ SuperKogito /Voice-based-gender-recognition](https://github.com/SuperKogito/Voice-based-gender-recognition)
+
+Voice based gender recognition using:
+
+* The Free ST American English Corpus dataset (SLR45)
+* Mel-frequency cepstrum coefficients (MFCC)
+* Gaussian mixture models (GMM)
+
+## Theory 
+
+### Voice features extraction
+The Mel-Frequency Cepstrum Coefficients (MFCC) are used here, 
+since they deliver the best results in speaker verification. MFCCs are commonly derived as follows:
+
+* 1 Take the Fourier transform of (a windowed excerpt of) a signal.
+* 2 Map the powers of the spectrum obtained above onto the mel scale, using triangular overlapping windows.
+* 3 Take the logs of the powers at each of the mel frequencies.
+* 4 Take the discrete cosine transform of the list of mel log powers, as if it were a signal.
+* 5 The MFCCs are the amplitudes of the resulting spectrum.
+
+### Gaussian Mixture Model
+According to D. Reynolds in [Gaussian_Mixture_Models](https://pdfs.semanticscholar.org/734b/07b53c23f74a3b004d7fe341ae4fce462fc6.pdf): A Gaussian Mixture Model (GMM) is a parametric probability density function represented as a weighted sum of Gaussian component densities. 
+GMMs are commonly used as a parametric model of the probability distribution of continuous measurements or features in a biometric system, such as vocal-tract related spectral features in a speaker recognition system. 
+GMM parameters are estimated from training data using the iterative Expectation-Maximization (EM) algorithm or Maximum A Posteriori(MAP) estimation from a well-trained prior model.
+
+## Code & scripts
+
+* [Run.py](https://github.com/SuperKogito/Voice-based-gender-recognition/blob/master/Run.py) : This is the main script and it will run the whole cycle (Data management > Models training > Genders identification)
+* [DataManager.py](https://github.com/SuperKogito/Voice-based-gender-recognition/blob/master/Code/DataManager.py): This script is responsible for the extracting and strcturing the data.
+* [ModelsTrainer.py](https://github.com/SuperKogito/Voice-based-gender-recognition/blob/master/Code/ModelsTrainer.py):This script is responsible for training the Gaussian Mixture Models (GMM).
+* [GenderIdentifier.py](https://github.com/SuperKogito/Voice-based-gender-recognition/blob/master/Code/GenderIdentifier.py):This script is responsible for Testing the system by identifying the genders of the testing set.
+* [FeaturesExtractor.py](https://github.com/SuperKogito/Voice-based-gender-recognition/blob/master/Code/FeaturesExtractor.py):This script is responsible for extracting the MFCC features from the .wav files.
+
+
+
 # Troubleshooting
 
 
@@ -2393,4 +2575,6 @@ it will give us the output file out.wav
 - 1
 - 2
 - 3
+
+
 
