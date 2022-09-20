@@ -129,10 +129,24 @@ Table of Contents
    * [Spafe](#spafe)
       * [Structure](#structure)
       * [Filter banks](#filter-banks)
+         * [Mel filter banks](#mel-filter-banks)
+         * [inverse Mel-filter banks](#inverse-mel-filter-banks)
       * [Spectrograms](#spectrograms)
       * [Features](#features)
+         * [mel_spectrogram](#mel_spectrogram)
+         * [mfcc.mfcc](#mfccmfcc)
+         * [Spectral and frequency stats and features extraction algorithms](#spectral-and-frequency-stats-and-features-extraction-algorithms)
+            * [spectral_centroid](#spectral_centroid)
+            * [spectral_kurtosis](#spectral_kurtosis)
+            * [spectral_entropy](#spectral_entropy)
+            * [spectral_spread](#spectral_spread)
+            * [spectral_flatness](#spectral_flatness)
+            * [spectral_rolloff](#spectral_rolloff)
+            * [spectral_flux](#spectral_flux)
+            * [extract_feats](#extract_feats)
          * [The theory behind features computed using spafe can be summmarized in the following graph:](#the-theory-behind-features-computed-using-spafe-can-be-summmarized-in-the-following-graph)
       * [Frequencies](#frequencies)
+         * [Fundamental frequencies, Dominant frequencies, and Harmonics](#fundamental-frequencies-dominant-frequencies-and-harmonics)
    * [Voice-based-gender-recognition](#voice-based-gender-recognition)
       * [Theory](#theory)
          * [Voice features extraction](#voice-features-extraction)
@@ -2473,6 +2487,21 @@ The library has the following structure:
 * Linear filter banks
 * Mel filter banks
 
+### Mel filter banks
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mel_fbanks-1_00.png"  width="600" height="300">
+
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mel_fbanks-1_01.png"  width="600" height="300">
+
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mel_fbanks-1_02.png"  width="600" height="300">
+
+### inverse Mel-filter banks
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mel_fbanks-2_00.png"  width="600" height="300">
+
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mel_fbanks-2_01.png"  width="600" height="300">
+
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mel_fbanks-2_02.png"  width="600" height="300">
+
+
 ## Spectrograms
 * Bark spectrogram
 * CQT spectrogram
@@ -2485,14 +2514,58 @@ The library has the following structure:
 * Gammatone Frequency Cepstral Coefﬁcients (GFCCs)
 * Linear Frequency Cepstral Coefﬁcients (LFCCs)
 * Linear Prediction Components (LPCs)
+
 * Mel Frequency Cepstral Coefﬁcients (MFCCs)
+### mel_spectrogram
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mel_spectrogram.png"  width="600" height="100">
+
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mfcc-1.png"  width="600" height="300">
+
+### mfcc.mfcc
+Compute MFCC features (Mel-frequency cepstral coefficients) from an audio signal. This function offers multiple approaches to features extraction depending on the input parameters. Implemenation is using FFT and based on [FFT](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.63.8029&rep=rep1&type=pdf)
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mfccs.png"  width="600" height="100">
+
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mfcc-2.png"  width="600" height="300">
+
 * Inverse Mel Frequency Cepstral Coefﬁcients (IMFCCs)
+Compute Inverse MFCC features from an audio signal.
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/imfccs.png"  width="600" height="100">
+
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/mfcc-3.png"  width="600" height="300">
+
 * Magnitude based Spectral Root Cepstral Coefficients (MSRCCs)
 * Normalized Gammachirp Cepstral Coefficients (NGCCs)
 * Power-Normalized Cepstral Coefficients (PNCCs)
 * Phase based Spectral Root Cepstral Coefficients (PSRCCs)
 * Perceptual Linear Prediction Coefficents (PLPs)
 * Rasta Perceptual Linear Prediction Coefficents (RPLPs)
+* Spectral and frequency stats and features extraction algorithms
+
+### Spectral and frequency stats and features extraction algorithms
+#### spectral_centroid
+Compute the spectral centroid (which is the barycenter of the spectrum) as described in [Peeters](https://superkogito.github.io/spafe/v0.2.0/features/spfeats.html#peeters).
+
+#### spectral_kurtosis
+Compute the spectral kurtosis (which is a measure of the flatness of a distribution around its mean) as described in [Peeters](https://superkogito.github.io/spafe/v0.2.0/features/spfeats.html#peeters).
+
+#### spectral_entropy
+Compute the spectral entropy as described in [Misra](https://superkogito.github.io/spafe/v0.2.0/features/spfeats.html#misra).
+
+#### spectral_spread
+Compute the spectral spread (basically a variance of the spectrum around the spectral centroid) as described in [Peeters](https://superkogito.github.io/spafe/v0.2.0/features/spfeats.html#peeters).
+
+#### spectral_flatness
+Compute spectral flatness.
+
+#### spectral_rolloff
+Compute the spectral roll-off point which measures the bandwidth of the audio signal by determining the frequency bin under which a specified k percentage of the total spectral energy is contained below. see [Scheirer](https://superkogito.github.io/spafe/v0.2.0/features/spfeats.html#scheirer).
+
+#### spectral_flux
+Compute the spectral flux, which measures how quickly the power spectrum of a signal is changing. This implementation computes the spectral flux using the L2-norm per default i.e. the square root of the sum of absolute differences squared [Scheirer](https://superkogito.github.io/spafe/v0.2.0/features/spfeats.html#scheirer).
+
+#### extract_feats
+Compute various spectral features [Peeters](https://superkogito.github.io/spafe/v0.2.0/features/spfeats.html#peeters).
+
 
 ### The theory behind features computed using spafe can be summmarized in the following graph: 
 <img src="https://github.com/SuperKogito/spafe/raw/master/media/features-extraction-algorithms.png"  width="900" height="1100">
@@ -2501,6 +2574,9 @@ The library has the following structure:
 * Dominant frequencies
 * Fundamental frequencies
 <img src="https://github.com/SuperKogito/spafe/raw/master/media/dominant_frequencies.png?raw=true"  width="900" height="300">
+
+### Fundamental frequencies, Dominant frequencies, and Harmonics
+<img src="https://i.stack.imgur.com/oQN5P.png"  width="600" height="700">
 
 # Voice-based-gender-recognition
 [ SuperKogito /Voice-based-gender-recognition](https://github.com/SuperKogito/Voice-based-gender-recognition)
@@ -2575,6 +2651,8 @@ GMM parameters are estimated from training data using the iterative Expectation-
 - 1
 - 2
 - 3
+
+
 
 
 
