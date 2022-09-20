@@ -2495,12 +2495,12 @@ The library has the following structure:
 * Rasta Perceptual Linear Prediction Coefficents (RPLPs)
 
 ### The theory behind features computed using spafe can be summmarized in the following graph: 
-<img src="https://github.com/SuperKogito/spafe/raw/master/media/features-extraction-algorithms.png?raw=true"  width="900" height="1100">
+<img src="https://github.com/SuperKogito/spafe/raw/master/media/features-extraction-algorithms.png"  width="900" height="1100">
 
 ## Frequencies
 * Dominant frequencies
 * Fundamental frequencies
-
+<img src="https://github.com/SuperKogito/spafe/raw/master/media/dominant_frequencies.png?raw=true"  width="900" height="300">
 
 # Voice-based-gender-recognition
 [ SuperKogito /Voice-based-gender-recognition](https://github.com/SuperKogito/Voice-based-gender-recognition)
