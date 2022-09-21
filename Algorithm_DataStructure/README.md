@@ -1,23 +1,28 @@
+
+Table of Contents
+=================
+
+   * [note_python_Algorithm_DataStructure](#note_python_algorithm_datastructure)
+   * [Top Interview Questions - Problems](#top-interview-questions---problems)
+   * [Table List](#table-list)
+   * [001 Two Sum](#001-two-sum)
+   * [009 Palindrome Number](#009-palindrome-number)
+   * [013 Roman to Integer](#013-roman-to-integer)
+   * [014 Longest Common Prefix](#014-longest-common-prefix)
+   * [020 Valid Parentheses](#020-valid-parentheses)
+   * [021 Merge Two Sorted Lists](#021-merge-two-sorted-lists)
+   * [PathFindingVisualizer](#pathfindingvisualizer)
+   * [Reference](#reference)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # note_python_Algorithm_DataStructure
 Take some note of python
-
-# Table of Content
-[Top Interview Questions - Problems](top-interview-questions-problems)
-
-[Table List](#table-list)  
-[001 Two Sum](#001-two-sum)  
-[009 Palindrome Number](#009-palindrome-number)  
-[013 Roman to Integer](#013-roman-to-integer)  
-[014 Longest Common Prefix](#014-longest-common-prefix)  
-[020 Valid Parentheses](#020-valid-parentheses)  
-[021 Merge Two Sorted Lists](#021-merge-two-sorted-lists)  
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
-
 
 
 # Top Interview Questions - Problems   
@@ -233,6 +238,13 @@ No. | Test Name
 
 ```
 
+# PathFindingVisualizer 
+[rams1996 /PathFindingVisualizer](https://github.com/rams1996/PathFindingVisualizer)
+
+Path Finding Visualizer -An Application of Dijkstra's, BFS, DFS and Bidirectional search Algorithms which finds the Shortest Possible Path between two points. The visualization of this is used by Tech giants such as GOOGLE Maps and Uber. 
+
+<img src="test/PathFindingVisualizer.jpg"  width="800" height="800">
+
 # Reference
 * [30天學演算法和資料結構 2018-10-16](https://ithelp.ithome.com.tw/users/20111557/ironman/2110?page=1)  
 * [從LeetCode學演算法 - 0 你應該知道的面試基礎和解題技巧 Jun 26 2019](https://medium.com/@desolution/%E5%BE%9Eleetcode%E5%AD%B8%E6%BC%94%E7%AE%97%E6%B3%95-0-6c121bd8b579)  
@@ -280,3 +292,4 @@ No. | Test Name
 - 1
 - 2
 - 3
+
