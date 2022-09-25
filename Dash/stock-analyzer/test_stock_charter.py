@@ -6,56 +6,26 @@ import requests
 import numpy as np
 import os, sys, time
 
-
 strabspath=os.path.abspath(sys.argv[0])
 strdirname=os.path.dirname(strabspath)
 str_split=os.path.split(strdirname)
 prevdirname=str_split[0]
 dirnamelog=os.path.join(strdirname,"logs")
-dirname_test_wav= os.path.join(strdirname,"test_wav")
+dirnamedata= os.path.join(strdirname,"data")
 dirnametest= os.path.join(strdirname,"test")
 
 sys.path.append('libs')
 
 from logger_setup import *
-import audio
+import lib_time
 import lib_twse_otc
 
 # Global Variable: Ticker List
 with open("data/tickers.pickle", "rb") as f:
     TICKER_LIST = pickle.load(f)
 
-class Asset:
-    """Class to initialize the stock, given a ticker, period and interval"""
-    def __init__(self, ticker, period='1y', interval='1d'):
-        self.ticker = ticker.upper()
-        self.period = period
-        self.interval = interval
 
-    def __repr__(self):
-        return f"Ticker: {self.ticker}, Period: {self.period}, Interval: {self.interval}"
 
-    def get_info(self):
-        """Uses yfinance to get information about the ticker
-        returns a dictionary filled with at-point information about the ticker"""
-        ticker_info = yf.Ticker(self.ticker).info
-        return ticker_info
-
-    def get_data(self):
-        """Uses yfinance to get data, returns a Pandas DataFrame object
-        Index: Date
-        Columns: Open, High, Low, Close, Adj Close, Volume
-        """
-        try:
-            self.data = yf.download(
-                tickers=self.ticker,
-                period=self.period,
-                interval=self.interval)
-            return self.data
-        except Exception as e:
-            return e
-
-    
 if __name__ == '__main__':
     logger_set(strdirname)
     
@@ -71,44 +41,38 @@ if __name__ == '__main__':
     
     str_twse_url= 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=2'
     str_tpex_url = 'http://isin.twse.com.tw/isin/C_public.jsp?strMode=4'
-    path_xlsx_stock_id= os.path.join(dirnamelog, 'twse_otc_id.xlsx')
-    path_pickle_stock_id= os.path.join(dirnamelog, 'twse_otc_id.pickle')
-    path_pickle_tickers= os.path.join(dirnamelog, 'tickers.pickle')
-    lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], \
-                                path_xlsx_stock_id, path_pickle_stock_id, opt_verbose='OFF')
-    
-    
-    """
-    with open(path_pickle_stock_id, "rb") as f:
-        TICKER_LIST = pickle.load(f)
-    
-    for key, value in TICKER_LIST.items():
-        asset = Asset(ticker=key, period='1y', interval='1d')
-        asset_info = asset.get_info() 
-        asset_info = asset.get_info()  # Information about the Company
-        asset_df = asset.get_data()    # Historical price data
-    
-        # Check in terminal for n_clicks and status
-        #print('asset_df: {}'.format(asset_df))
-        logger.info( '\n{}; {}'.format(key, value) )
-        logger.info( 'asset_df: \n {}'.format(asset_df) )
-    """
-    with open(path_pickle_stock_id, "rb") as f:
-        TICKER_LIST = pickle.load(f)
+    path_xlsx_stock_id= os.path.join(dirnamedata, 'twse_otc_id.xlsx')
+    path_pickle_stock_id= os.path.join(dirnamedata, 'twse_otc_id.pickle')
+    path_pickle_tickers= os.path.join(dirnamedata, 'tickers.pickle')
+    path_xlsx_band_op= os.path.join(dirnamedata, 'band_op.xlsx')
+    path_pickle_band_op= os.path.join(dirnamedata, 'band_op.pickle')
+    path_xlsx_business_cycle= os.path.join(dirnamedata, 'business_cycle.xlsx')
+    path_pickle_business_cycle= os.path.join(dirnamedata, 'business_cycle.pickle')
+    path_xlsx_steady_growth= os.path.join(dirnamedata, 'steady_growth.xlsx')
+    path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth.pickle')
 
-    print(TICKER_LIST)
-
-    #for ticker in TICKER_LIST:
-        #print( '\"label\": {}; \"value\": {}'.format( str(TICKER_LIST[i]), str(TICKER_LIST[i]) )) 
-    #    print('{}'.format(ticker))
-
-    #for i, j in asset_info.items():
-    #    print( 'Metric: {}, Value: {}'.format( i, j)) 
-
-    #for i in range(len(TICKER_LIST)):
-    #    print( '\"label\": {}; \"value\": {}'.format( str(TICKER_LIST[i]), str(TICKER_LIST[i]) )) 
+    """lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], path_xlsx_stock_id, \
+                                         path_pickle_stock_id, opt_verbose='OFF')"""
     
-                                        
-    time_consumption, h, m, s= audio.format_time(time.time() - t0)         
+    """lib_twse_otc.query_twse_otc_info('4755.TW', period='2y')"""
+
+    """lib_twse_otc.query_twse_otc_info_by_pickle(path_pickle_stock_id)"""
+    
+
+    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_band_op, path_pickle_stock_id)
+    """for key, value in dict_twse_otc_idx.items():
+        print('{}: {}'.format(key, value))           
+
+    for twse_otc_ticker in list_twse_otc_ticker:
+        print('twse_otc_ticker: {}'.format(twse_otc_ticker))"""
+    lib_twse_otc.dump_pickle(path_pickle_band_op, list_twse_otc_ticker,opt_verbose)
+
+    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_steady_growth, path_pickle_stock_id)
+    lib_twse_otc.dump_pickle(path_pickle_steady_growth, list_twse_otc_ticker,opt_verbose)
+
+    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_business_cycle, path_pickle_stock_id)
+    lib_twse_otc.dump_pickle(path_pickle_business_cycle, list_twse_otc_ticker,opt_verbose)
+
+    time_consumption, h, m, s= lib_time.format_time(time.time() - t0)         
     msg = 'Time Consumption: {} seconds.'#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg.format( time_consumption))                                             

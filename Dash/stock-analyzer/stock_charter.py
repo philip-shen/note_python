@@ -12,12 +12,14 @@ from plotly.subplots import make_subplots
 
 # Data Source
 import yfinance as yf
-import pickle5 as pickle #import pickle
+#import pickle5 as pickle 
+import pickle
 import pandas as pd
 
 # Global Variable: Ticker List
 #with open("data/tickers.pickle", "rb") as f:
-with open("data/twse_otc_id.pickle", "rb") as f:
+#with open("data/twse_otc_id.pickle", "rb") as f:
+with open("data/steady_growth.pickle", "rb") as f:
     TICKER_LIST = pickle.load(f)
 
 
@@ -226,10 +228,10 @@ class Layout:
                                 # Credits
                                 html.Br(), html.Br(), html.Br(), html.Br(),
                                 html.Br(), html.Br(), html.Br(), html.Br(),
-                                html.P('Created by Jericho Villareal',
+                                html.P('Frok from Jericho Villareal',
                                        style={'font-size': '17px'}
                                        ),
-                                html.P('MIDS W200: Introduction to Data Science'),
+                                html.P('MIDS W200: '),
                                 html.P('~ to the moon! ~',
                                        style={'font-size': '12px'}),
                                 html.P('#HODL #DiamondHands #StonksOnlyGoUp',

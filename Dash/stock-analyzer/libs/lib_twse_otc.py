@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from datetime import datetime
 import pickle
+import openpyxl, difflib
 
 from logger_setup import *
 
@@ -22,7 +23,10 @@ __all__ = [
     'query_twse_otc_code_00',
     'StockCodeSpider',
     'query_twse_otc_code_01',
-    
+    'query_twse_otc_info',
+    'query_twse_otc_info_by_pickle',
+    'query_twse_otc_idx',
+    'dump_pickle',
 ]
 """
 [Python] 抓取證券編碼一覽表
@@ -166,3 +170,109 @@ def twse_otc_idx(str_url, opt_verbose='OFF'):
     df["etl_date"] = datetime.now()
 
     return df
+
+class Asset:
+    """Class to initialize the stock, given a ticker, period and interval"""
+    def __init__(self, ticker, period='1y', interval='1d'):
+        self.ticker = ticker.upper()
+        self.period = period
+        self.interval = interval
+
+    def __repr__(self):
+        return f"Ticker: {self.ticker}, Period: {self.period}, Interval: {self.interval}"
+
+    def get_info(self):
+        """Uses yfinance to get information about the ticker
+        returns a dictionary filled with at-point information about the ticker"""
+        ticker_info = yf.Ticker(self.ticker).info
+        return ticker_info
+
+    def get_data(self):
+        """Uses yfinance to get data, returns a Pandas DataFrame object
+        Index: Date
+        Columns: Open, High, Low, Close, Adj Close, Volume
+        """
+        try:
+            self.data = yf.download(
+                tickers=self.ticker,
+                period=self.period,
+                interval=self.interval)
+            return self.data
+        except Exception as e:
+            return e
+
+def query_twse_otc_info(ticker, period='1y', interval='1d', opt_verbose='OFF'):
+    asset = Asset(ticker, period, interval)
+    asset_info = asset.get_info()  # Information about the Company
+    asset_df = asset.get_data()    # Historical price data
+    
+    # Check in terminal for n_clicks and status
+    print('asset_df: {}'.format(asset_df))
+
+def query_twse_otc_info_by_pickle(path_pickle_tickers, period='1y', interval='1d', opt_verbose='OFF'):
+    with open(path_pickle_tickers, "rb") as f:
+        list_ticker= pickle.load(f)
+    
+    for ticker in list_ticker:
+        asset = Asset(ticker, period, interval)
+        asset_info = asset.get_info()  # Information about the Company
+        asset_df = asset.get_data()    # Historical price data
+    
+        # Check in terminal for n_clicks and status
+        #print('asset_df: {}'.format(asset_df))
+        logger.info( '\n ticker: {}'.format(ticker) )
+        logger.info( 'asset_df: \n {}'.format(asset_df) )
+"""
+PythonでExcel操作（読み込み編）
+https://qiita.com/adgjmptw0/items/e21bef0e773fc0e3e47f
+
+PythonでExcel操作（読み書き編集編）
+https://qiita.com/adgjmptw0/items/afbf2a0c26e993249ae2
+"""
+"""
+Python - difference between two strings
+https://stackoverflow.com/questions/17904097/python-difference-between-two-strings
+"""
+def query_twse_otc_idx(path_xlsx, path_pickle, opt_verbose='OFF'):
+    wb = openpyxl.load_workbook(path_xlsx)
+
+    ws= wb["Sheet1"]
+    list_value= []
+    dict_value_ticker, list_twse_otc_ticker= {}, []
+
+    for row in ws.iter_rows(min_row=2, min_col=2, max_row=130, max_col=2):        
+        for c in row:
+            if str(c.value).lower() != 'none':list_value.append(c.value) 
+        
+    with open(path_pickle, "rb") as f:
+        list_ticker = pickle.load(f)
+
+    for value in list_value:
+        for ticker in list_ticker:
+            output_list = [li for li in difflib.ndiff(str(value), str(ticker)) if li[0] != ' ']
+            if output_list== ['+ .', '+ T', '+ W'] or output_list== ['+ .', '+ T', '+ W', '+ O']:
+                
+                if opt_verbose.lower() == 'on':
+                    logger.info('value: {}; ticker: {}'.format(value, ticker) )
+                
+                dict_value_ticker.update( {'{}'.format(value): '{}'.format(ticker)} )
+                list_twse_otc_ticker.append(ticker)
+
+    if opt_verbose.lower() == 'on':
+        logger.info('list_value: {}'.format(list_value) )
+        
+        for ticker in list_ticker:
+            logger.info('ticker: {}'.format(ticker))
+    
+    return dict_value_ticker, list_twse_otc_ticker
+
+def dump_pickle(path_pickle, out_pickle_cont, opt_verbose='OFF'):
+    with open(path_pickle, 'wb') as f:
+        pickle.dump(out_pickle_cont, f)
+
+    with open(path_pickle, 'rb') as f:
+        new_pickle_cont = pickle.load(f)
+
+    if opt_verbose.lower() == 'on':
+        logger.info('\n output_pickle: {}'.format(path_pickle) )
+        logger.info('\n new_pickle_cont: {}'.format(new_pickle_cont) )
