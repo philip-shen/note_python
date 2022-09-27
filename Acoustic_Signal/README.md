@@ -2531,9 +2531,12 @@ Compute MFCC features (Mel-frequency cepstral coefficients) from an audio signal
 
 * Inverse Mel Frequency Cepstral Coefﬁcients (IMFCCs)
 Compute Inverse MFCC features from an audio signal.
-<img src="https://superkogito.github.io/spafe/v0.2.0/_images/imfccs.png"  width="600" height="100">
+<img src="https://superkogito.github.io/spafe/v0.2.0/_images/imf    ccs.png"  width="600" height="100">
 
 <img src="https://superkogito.github.io/spafe/v0.2.0/_images/mfcc-3.png"  width="600" height="300">
+
+[Mel Frequency Cepstral Coefficient (MFCC) tutorial](http://www.practicalcryptography.com/miscellaneous/machine-learning/guide-mel-frequency-cepstral-coefficients-mfccs/)
+[A Tutorial on Cepstrum and LPCCs](http://www.practicalcryptography.com/miscellaneous/machine-learning/tutorial-cepstrum-and-lpccs/)
 
 * Magnitude based Spectral Root Cepstral Coefficients (MSRCCs)
 * Normalized Gammachirp Cepstral Coefficients (NGCCs)
