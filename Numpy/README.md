@@ -21,6 +21,7 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 Take note of NumPy 
 
 # ndim, shape, size, axis
+[Python♪用語集：NumPyの配列に関する日本語表現](https://snowtree-injune.com/2020/06/13/shape-a0101/)
 
 ① i番目の次元、
 　　※2次元配列の場合は行、列
