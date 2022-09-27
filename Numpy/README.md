@@ -25,18 +25,26 @@ Take note of NumPy
 
 ① i番目の次元、
 　　※2次元配列の場合は行、列
+
 ② i番目の次元の長さ　（x.shape[i]）　
 　　※2次元配列の場合は行数、列数
+
 ③ i軸　（axis = i）
+
 ④ 次元数　（x.ndim）
+
 ⑤ 形状（各次元の長さ）　（x.shape)
+
 ⑥ 全要素数　（x.size）
 
 ## Illustration 
 まず、一目でわかるように用語の定義を図示したいと思います。なお、
 ①「 i番目の次元」
+
 ②「 i番目の次元の長さ」については、必要に応じて、
+
 ① 「0から始まるi番目の次元」
+
 ② 「0から始まるi番目の次元の長さ」と表記し、iがインデックスであることを明記したほうがよいと思います。
 
 <img src="https://snowtree-injune.com/wp-content/uploads/2020/06/2745ffeffebdbdbecf394fde5a3cd635-722x1024.png"  width="400" height="600">
@@ -44,11 +52,13 @@ Take note of NumPy
 
 なお、2次元配列の場合には、
 ①「0番目の次元」→「行」、「1番目の次元」→「列」とし、
+
 ②「0番目の次元の長さ」→「行数」、「1番目の次元の長さ」→「列数」とします。
 
 <img src="https://snowtree-injune.com/wp-content/uploads/2020/06/05ff01164e5a20c963ad4469e9852165-768x860.png"  width="300" height="450">
 
 ## smaple code
+```
 import numpy as np
 
 x = np.arange(24)
@@ -66,6 +76,7 @@ print('x[0, 0, 0].size =', x[0, 0, 0].size)
 print('len(x) =', len(x))
 print('len(x[0]) =', len(x[0]))
 print('len(x[0, 0]) =', len(x[0, 0]))  
+```
 
 
 * * * * * * * * 
@@ -80,6 +91,7 @@ print('len(x[0, 0]) =', len(x[0, 0]))
   [20 21 22 23]]]
 ```
 
+```
 x.ndim = 3
 x.shape = (2, 3, 4)
 x.shape[0] = 2
@@ -92,6 +104,7 @@ x[0, 0, 0].size = 1
 len(x) = 2
 len(x[0]) = 3
 len(x[0, 0]) = 4  
+```
 
 
 # Reference
