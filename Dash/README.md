@@ -20,6 +20,7 @@ Table of Contents
       * [UIパーツをが必要不可欠](#uiパーツをが必要不可欠)
       * [Outputは1つだけの法則](#outputは1つだけの法則)
       * [ButtonのCallback](#buttonのcallback)
+   * [auto_report_using_dash_python](#auto_report_using_dash_python)
    * [Stock Analysis Dashboard](#stock-analysis-dashboard)
    * [Stock Price Predictor](#stock-price-predictor)
    * [Troubleshooting](#troubleshooting)
@@ -255,6 +256,15 @@ def click(n_clicks_timestamp):
             return something
 ```
 
+
+# auto_report_using_dash_python 
+[Python Dash 實踐（上）——草圖設計與CSS｜教學 已更新：2021年12月29日](https://www.bianalyst-gt.com/post/python-dash-%E5%AF%A6%E8%B8%90%EF%BC%88%E4%B8%8A%EF%BC%89-%E8%8D%89%E5%9C%96%E8%A8%AD%E8%A8%88%E8%88%87css-%E6%95%99%E5%AD%B8)
+
+[python-dash-實踐（下）-callback與實際案例-教學](https://www.bianalyst-gt.com/post/python-dash-%E5%AF%A6%E8%B8%90%EF%BC%88%E4%B8%8A%EF%BC%89-%E8%8D%89%E5%9C%96%E8%A8%AD%E8%A8%88%E8%88%87css-%E6%95%99%E5%AD%B8)
+
+[ChunTingChang /auto_report_using_dash_python](https://github.com/ChunTingChang/auto_report_using_dash_python)
+
+
 #  Stock Analysis Dashboard 
 [Create a Stock Analysis Dashboard With Python May 20](https://medium.com/python-in-plain-english/stock-analysis-dashboard-with-python-366d431c8721)
 
@@ -333,3 +343,5 @@ pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.tar.g
 - 1
 - 2
 - 3
+
+
