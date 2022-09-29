@@ -1,7 +1,9 @@
 # In[]:
 # Import required libraries
-import os
+import os, sys
 import datetime as dt
+import pickle
+import yfinance as yf
 
 import quantmod as qm
 import pandas_datareader.data as web
@@ -13,7 +15,12 @@ import dash_core_components as dcc
 import dash_html_components as html
 from flask_caching import Cache
 
-
+strabspath=os.path.abspath(sys.argv[0])
+strdirname=os.path.dirname(strabspath)
+str_split=os.path.split(strdirname)
+prevdirname=str_split[0]
+dirnamelog=os.path.join(strdirname,"logs")
+dirnamedata= os.path.join(strdirname,"data")
 # In[]:
 # Setup the app
 server = flask.Flask(__name__)
@@ -22,6 +29,35 @@ app = dash.Dash(__name__)
 app.scripts.config.serve_locally = False
 dcc._js_dist[0]['external_url'] = 'https://cdn.plot.ly/plotly-finance-1.28.0.min.js'
 
+class Asset:
+    """Class to initialize the stock, given a ticker, period and interval"""
+    def __init__(self, ticker, period='1y', interval='1d'):
+        self.ticker = ticker.upper()
+        self.period = period
+        self.interval = interval
+
+    def __repr__(self):
+        return f"Ticker: {self.ticker}, Period: {self.period}, Interval: {self.interval}"
+
+    def get_info(self):
+        """Uses yfinance to get information about the ticker
+        returns a dictionary filled with at-point information about the ticker"""
+        ticker_info = yf.Ticker(self.ticker).info
+        return ticker_info
+
+    def get_data(self):
+        """Uses yfinance to get data, returns a Pandas DataFrame object
+        Index: Date
+        Columns: Open, High, Low, Close, Adj Close, Volume
+        """
+        try:
+            self.data = yf.download(
+                tickers=self.ticker,
+                period=self.period,
+                interval=self.interval)
+            return self.data
+        except Exception as e:
+            return e
 
 # In[]:
 # Put your Dash code here
@@ -88,8 +124,21 @@ sp500 = ['2330.TW','AAPL', 'ABT', 'ABBV', 'ACN', 'ACE', 'ADBE', 'ADT', 'AAP', 'A
          'XRX', 'XLNX', 'XL', 'XYL', 'YHOO', 'YUM', 'ZBH', 'ZION', 'ZTS']
 
 etf = ['SPY', 'XLF', 'GDX', 'EEM', 'VXX', 'IWM', 'UVXY', 'UXO', 'GDXJ', 'QQQ']
+#tickers = sp500 + etf
 
-tickers = sp500 + etf
+tickers= []
+path_pickle_band_op= os.path.join(dirnamedata, 'band_op.pickle')
+path_pickle_business_cycle= os.path.join(dirnamedata, 'business_cycle.pickle')
+path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth_202209.pickle')
+
+with open(path_pickle_band_op, "rb") as f:
+    list_band_op = pickle.load(f)
+with open(path_pickle_business_cycle, "rb") as f:
+    list_business_cycle = pickle.load(f)
+with open(path_pickle_steady_growth, "rb") as f:
+    list_steady_growth = pickle.load(f)
+tickers= list_band_op + list_steady_growth + list_business_cycle
+
 tickers = [dict(label=str(ticker), value=str(ticker))
            for ticker in tickers]
 
@@ -116,7 +165,7 @@ app.layout = html.Div(
                     ),
                 ],
                 style={
-                    'width': '510', 'display': 'inline-block',
+                    'width': '910', 'display': 'inline-block',
                     'padding-left': '40', 'margin-bottom': '20'}
             ),
             html.Div(
@@ -174,7 +223,20 @@ def update_graph_from_dropdown(dropdown, multi, arglist):
     # Get Quantmod Chart
     try:
         df = web.DataReader(dropdown, 'yahoo', dt.datetime(2016, 1, 1), dt.datetime.now())
-        print('Loading')
+        
+        print('ticker: {}'.format(dropdown))
+
+        metric_ls = ["longName", "sector", "industry",
+                        "marketCap", "previousClose", "dayHigh", "dayLow"]
+
+        asset = Asset(dropdown, period='1y', interval='1d')
+        asset_info = asset.get_info() 
+
+        list_data = [{'Metric': i, 'Value': j}
+                    for i, j in asset_info.items() if i in metric_ls]
+        for data in list_data:
+            print('{}: {}'.format(data['Metric'], data['Value']))
+
         ch = qm.Chart(df)
     except:
         pass

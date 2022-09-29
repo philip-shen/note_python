@@ -376,7 +376,7 @@ class Engine:
         def update_table(n_clicks, ticker):
             """Updates the metrics found on asset info"""
 
-            if ticker not in    :
+            if ticker not in TICKER_LIST:
                 raise Exception("Invalid Ticker!")
             else:
                 pass

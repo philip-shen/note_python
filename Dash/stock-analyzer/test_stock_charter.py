@@ -49,7 +49,7 @@ if __name__ == '__main__':
     path_xlsx_business_cycle= os.path.join(dirnamedata, 'business_cycle.xlsx')
     path_pickle_business_cycle= os.path.join(dirnamedata, 'business_cycle.pickle')
     path_xlsx_steady_growth= os.path.join(dirnamedata, 'steady_growth.xlsx')
-    path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth.pickle')
+    path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth_202209.pickle')
 
     """lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], path_xlsx_stock_id, \
                                          path_pickle_stock_id, opt_verbose='OFF')"""
@@ -59,20 +59,22 @@ if __name__ == '__main__':
     """lib_twse_otc.query_twse_otc_info_by_pickle(path_pickle_stock_id)"""
     
 
-    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_band_op, path_pickle_stock_id)
     """for key, value in dict_twse_otc_idx.items():
         print('{}: {}'.format(key, value))           
 
     for twse_otc_ticker in list_twse_otc_ticker:
         print('twse_otc_ticker: {}'.format(twse_otc_ticker))"""
+    
+    """_, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_band_op, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_band_op, list_twse_otc_ticker,opt_verbose)
+
+    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_business_cycle, path_pickle_stock_id)
+    lib_twse_otc.dump_pickle(path_pickle_business_cycle, list_twse_otc_ticker,opt_verbose)"""
 
     _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_steady_growth, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_steady_growth, list_twse_otc_ticker,opt_verbose)
 
-    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_business_cycle, path_pickle_stock_id)
-    lib_twse_otc.dump_pickle(path_pickle_business_cycle, list_twse_otc_ticker,opt_verbose)
-
+    
     time_consumption, h, m, s= lib_time.format_time(time.time() - t0)         
     msg = 'Time Consumption: {} seconds.'#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg.format( time_consumption))                                             

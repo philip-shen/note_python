@@ -304,6 +304,10 @@ pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.tar.g
 [plotly /dash-sample-apps ](https://github.com/plotly/dash-sample-apps/tree/master/apps/dash-web-trader)   
 
 
+# Dash Technical Charting App
+[plotly / dash-technical-charting](https://github.com/plotly/dash-technical-charting/tree/master/quantmod)
+
+
 # Troubleshooting
 
 
