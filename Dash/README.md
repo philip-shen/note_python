@@ -23,6 +23,8 @@ Table of Contents
    * [auto_report_using_dash_python](#auto_report_using_dash_python)
    * [Stock Analysis Dashboard](#stock-analysis-dashboard)
    * [Stock Price Predictor](#stock-price-predictor)
+   * [Dash Technical Charting App](#dash-technical-charting-app)
+   * [Dash Collection](#dash-collection)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
