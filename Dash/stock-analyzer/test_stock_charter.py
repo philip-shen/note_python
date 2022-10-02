@@ -45,11 +45,11 @@ if __name__ == '__main__':
     path_pickle_stock_id= os.path.join(dirnamedata, 'twse_otc_id.pickle')
     path_pickle_tickers= os.path.join(dirnamedata, 'tickers.pickle')
     path_xlsx_band_op= os.path.join(dirnamedata, 'band_op.xlsx')
-    path_pickle_band_op= os.path.join(dirnamedata, 'band_op.pickle')
+    path_pickle_band_op= os.path.join(dirnamedata, 'band_op_202210.pickle')
     path_xlsx_business_cycle= os.path.join(dirnamedata, 'business_cycle.xlsx')
     path_pickle_business_cycle= os.path.join(dirnamedata, 'business_cycle.pickle')
     path_xlsx_steady_growth= os.path.join(dirnamedata, 'steady_growth.xlsx')
-    path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth_202209.pickle')
+    path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth_202210.pickle')
 
     """lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], path_xlsx_stock_id, \
                                          path_pickle_stock_id, opt_verbose='OFF')"""
@@ -65,12 +65,12 @@ if __name__ == '__main__':
     for twse_otc_ticker in list_twse_otc_ticker:
         print('twse_otc_ticker: {}'.format(twse_otc_ticker))"""
     
-    """_, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_band_op, path_pickle_stock_id)
-    lib_twse_otc.dump_pickle(path_pickle_band_op, list_twse_otc_ticker,opt_verbose)
-
-    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_business_cycle, path_pickle_stock_id)
+    """_, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_business_cycle, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_business_cycle, list_twse_otc_ticker,opt_verbose)"""
 
+    _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_band_op, path_pickle_stock_id)
+    lib_twse_otc.dump_pickle(path_pickle_band_op, list_twse_otc_ticker,opt_verbose)
+    
     _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_steady_growth, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_steady_growth, list_twse_otc_ticker,opt_verbose)
 

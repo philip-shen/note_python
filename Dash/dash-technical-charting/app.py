@@ -127,9 +127,9 @@ etf = ['SPY', 'XLF', 'GDX', 'EEM', 'VXX', 'IWM', 'UVXY', 'UXO', 'GDXJ', 'QQQ']
 #tickers = sp500 + etf
 
 tickers= []
-path_pickle_band_op= os.path.join(dirnamedata, 'band_op.pickle')
+path_pickle_band_op= os.path.join(dirnamedata, 'band_op_202210.pickle')
 path_pickle_business_cycle= os.path.join(dirnamedata, 'business_cycle.pickle')
-path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth_202209.pickle')
+path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth_202210.pickle')
 
 with open(path_pickle_band_op, "rb") as f:
     list_band_op = pickle.load(f)
