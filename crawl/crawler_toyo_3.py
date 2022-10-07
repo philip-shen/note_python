@@ -183,12 +183,19 @@ def filter_jobelement(in_info, opt_verbose= 'OFF'):
     return iOutputDf                              
 
 if __name__ == "__main__":
+    logger_set(strdirname)
+
+    t0 = time.time()
+    local_time = time.localtime(t0)
+    msg = 'Start Time is {}/{}/{} {}:{}:{}'
+    logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
+                            local_time.tm_hour,local_time.tm_min,local_time.tm_sec))
 
     # 爬蟲參數設定
     # 搜尋關鍵詞
-    keyword = 'python QA'
+    keyword = 'python '
     # 搜尋最大頁數
-    maxPage = 10
+    maxPage = 20
 
     filter_params = {
         'area': '6001006000',  # (地區) 6001001000, 台北市,新竹縣市
@@ -204,10 +211,8 @@ if __name__ == "__main__":
         # 'remoteWork': '1',  # (上班型態) 1:完全遠端 2:部分遠端
         # 'excludeJobKeyword': '科技',  # 排除關鍵字
         # 'kwop': '1',  # 只搜尋職務名稱
-        'jobcat': '2009003000' #"des":"品保／品管類人員"
+        'jobcat': '2009003000,2007000000' #"des":"品保／品管類人員" "des":"軟體／工程類人員"
     }
-
-    logger_set(strdirname)
 
     # 迴圈搜尋結果頁數
     outputDf = pd.DataFrame()
@@ -261,3 +266,6 @@ if __name__ == "__main__":
     #fileName = now.strftime('%Y%m%d%H%M%S') + '104人力銀行_' + keyword + '_爬蟲搜尋結果.csv'
     fileName = '104人力銀行_' + keyword + '_爬蟲搜尋結果'+ now.strftime('%Y%m%d')+'.csv'
     outputDf.to_csv(fileName, encoding='utf-8-sig')
+
+    msg = 'Time duration: {:.2f} seconds.'
+    logger.info(msg.format( time.time() - t0))
