@@ -21,13 +21,13 @@ def mongodb_conn(json_data, opt_verbose='OFF'):
         logger.info(msg.format(conn_url))
     
     try:
-        client=MongoClient(conn_url)
+        client=MongoClient(conn_url, connectTimeoutMS=5000, socketTimeoutMS=5000)
         db=client[json_data["db"]]
         coll=db[json_data["collection"]]
         #db = client.test
         print("connected successfully!!")
 
-        return db, coll
+        return client, db, coll
     except:
         print("Sorry!connection failed!!")    
 ''' 

@@ -209,7 +209,7 @@ if __name__ == "__main__":
 
     opt_verbose='ON'
 
-    db, collection= lib_mongo_atlas.mongodb_conn(json_data, opt_verbose)
+    client, db, collection= lib_mongo_atlas.mongodb_conn(json_data, opt_verbose)
 
     # 爬蟲參數設定
     # 搜尋關鍵詞
@@ -304,7 +304,6 @@ if __name__ == "__main__":
     """
 
     lib_mongo_atlas.mongodb_insert_many(db, collection, outputDf.to_dict('records'), ordered=False, opt_verbose='OFF')
-
     """if opt_verbose.lower() == 'on':
         #msg = 'outputDf: {}'
         #logger.info(msg.format( outputDf))
@@ -312,6 +311,7 @@ if __name__ == "__main__":
         msg = 'outputDf.to_dict(\'records\'): {}'
         logger.info(msg.format( outputDf.to_dict('records')))
     """
-
+    client.close()
+    
     msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg.format( time.time() - t0))
