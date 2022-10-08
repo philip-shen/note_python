@@ -12,8 +12,10 @@ import requests
 import re
 import pandas as pd
 from bs4 import BeautifulSoup
+import json
 
 from logger_setup import *
+import lib_mongo_atlas
 
 strabspath=os.path.abspath(sys.argv[0])
 strdirname=os.path.dirname(strabspath)
@@ -190,12 +192,30 @@ if __name__ == "__main__":
     msg = 'Start Time is {}/{}/{} {}:{}:{}'
     logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
                             local_time.tm_hour,local_time.tm_min,local_time.tm_sec))
+    if len(sys.argv) != 2:
+        msg = 'Please input config json file!!! '
+        logger.info(msg)
+        sys.exit()
+
+    json_file= sys.argv[1]
+
+    if (not os.path.isfile(json_file))  :
+        msg = 'Please check json file:{}  if exist!!! '
+        logger.info(msg.format(json_file) )
+        sys.exit()
+    
+    with open(json_file, encoding="utf-8") as f:
+        json_data = json.load(f)  
+
+    opt_verbose='ON'
+
+    db, collection= lib_mongo_atlas.mongodb_conn(json_data, opt_verbose)
 
     # 爬蟲參數設定
     # 搜尋關鍵詞
     keyword = 'python '
     # 搜尋最大頁數
-    maxPage = 20
+    maxPage = 1
 
     filter_params = {
         'area': '6001006000',  # (地區) 6001001000, 台北市,新竹縣市
@@ -265,7 +285,33 @@ if __name__ == "__main__":
     # 輸出csv檔案
     #fileName = now.strftime('%Y%m%d%H%M%S') + '104人力銀行_' + keyword + '_爬蟲搜尋結果.csv'
     fileName = '104人力銀行_' + keyword + '_爬蟲搜尋結果'+ now.strftime('%Y%m%d')+'.csv'
-    outputDf.to_csv(fileName, encoding='utf-8-sig')
+    #outputDf.to_csv(fileName, encoding='utf-8-sig')
+    """
+    Convert a Pandas DataFrame to a dictionary
+    https://stackoverflow.com/questions/26716616/convert-a-pandas-dataframe-to-a-dictionary
+
+    >>> df = pd.DataFrame({'a': ['red', 'yellow', 'blue'], 'b': [0.5, 0.25, 0.125]})
+    >>> df
+            a      b
+    0     red  0.500
+    1  yellow  0.250
+    2    blue  0.125
+
+    >>> df.to_dict('records')
+    [{'a': 'red', 'b': 0.5}, 
+    {'a': 'yellow', 'b': 0.25}, 
+    {'a': 'blue', 'b': 0.125}]
+    """
+
+    lib_mongo_atlas.mongodb_inser_tmany(db, collection, outputDf.to_dict('records'), ordered=False, opt_verbose=opt_verbose)
+
+    """if opt_verbose.lower() == 'on':
+        #msg = 'outputDf: {}'
+        #logger.info(msg.format( outputDf))
+
+        msg = 'outputDf.to_dict(\'records\'): {}'
+        logger.info(msg.format( outputDf.to_dict('records')))
+    """
 
     msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg.format( time.time() - t0))
