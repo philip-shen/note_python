@@ -9,7 +9,7 @@ import logging
 
 logger = logging.getLogger()
 # 设置总日志级别, 也可以给不同的handler设置不同的日志级别
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 ###
 # 2. 创建Handler, 输出日志到控制台和文件
