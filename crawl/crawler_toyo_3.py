@@ -215,7 +215,7 @@ if __name__ == "__main__":
     # 搜尋關鍵詞
     keyword = 'python '
     # 搜尋最大頁數
-    maxPage = 1
+    maxPage = json_data["maxPage"]
 
     filter_params = {
         'area': '6001006000',  # (地區) 6001001000, 台北市,新竹縣市
