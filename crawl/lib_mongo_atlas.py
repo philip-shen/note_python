@@ -35,6 +35,8 @@ MongoDB insertMany and skip duplicates
 https://stackoverflow.com/questions/61480444/mongodb-insertmany-and-skip-duplicates
 ''' 
 def mongodb_insert_many(db, coll, list_collections, ordered= True, opt_verbose='OFF'):
+    msg = '\n insert collections: {} to DB'
+    logger.info(msg.format(len(list_collections) ))
 
     if opt_verbose.lower() == 'on':
         msg = '\n list_collections: {}'

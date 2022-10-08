@@ -303,7 +303,7 @@ if __name__ == "__main__":
     {'a': 'blue', 'b': 0.125}]
     """
 
-    lib_mongo_atlas.mongodb_insert_many(db, collection, outputDf.to_dict('records'), ordered=False, opt_verbose=opt_verbose)
+    lib_mongo_atlas.mongodb_insert_many(db, collection, outputDf.to_dict('records'), ordered=False, opt_verbose='OFF')
 
     """if opt_verbose.lower() == 'on':
         #msg = 'outputDf: {}'
