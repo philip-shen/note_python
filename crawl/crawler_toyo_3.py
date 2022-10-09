@@ -213,12 +213,12 @@ if __name__ == "__main__":
 
     # 爬蟲參數設定
     # 搜尋關鍵詞
-    keyword = 'python '
+    keyword = json_data["opt_keyword"];#'python '
     # 搜尋最大頁數
     maxPage = json_data["maxPage"]
 
     filter_params = {
-        'area': '6001006000',  # (地區) 6001001000, 台北市,新竹縣市
+        'area': json_data["opt_area"],  # (地區) 6001001000, 台北市,6001002000,新北市,6001005000,桃園市, 6001006000,新竹縣市
         's9': '1', #'1,2,4,8',  # (上班時段) 日班,夜班,大夜班,假日班
         # 's5': '0',  # 0:不需輪班 256:輪班
         # 'wktm': '1',  # (休假制度) 週休二日
@@ -231,7 +231,7 @@ if __name__ == "__main__":
         # 'remoteWork': '1',  # (上班型態) 1:完全遠端 2:部分遠端
         # 'excludeJobKeyword': '科技',  # 排除關鍵字
         # 'kwop': '1',  # 只搜尋職務名稱
-        'jobcat': '2009003000,2007000000' #"des":"品保／品管類人員" "des":"軟體／工程類人員"
+        'jobcat': json_data["opt_jobcat"] # '2009003000,2007000000'"des":"品保／品管類人員" "des":"軟體／工程類人員"
     }
 
     # 迴圈搜尋結果頁數
@@ -283,9 +283,11 @@ if __name__ == "__main__":
     outputDf = outputDf[outputDf.jobAnnounceDate != '']
 
     # 輸出csv檔案
-    #fileName = now.strftime('%Y%m%d%H%M%S') + '104人力銀行_' + keyword + '_爬蟲搜尋結果.csv'
-    fileName = '104人力銀行_' + keyword + '_爬蟲搜尋結果'+ now.strftime('%Y%m%d')+'.csv'
-    #outputDf.to_csv(fileName, encoding='utf-8-sig')
+    fileName = now.strftime('%Y%m%d_%H%M%S') + '104人力銀行_'+ keyword+ json_data["opt_area"]+ '_爬蟲搜尋結果.csv'
+    #fileName = '104人力銀行_' + keyword + '_爬蟲搜尋結果'+ now.strftime('%Y%m%d')+'.csv'
+    if json_data["opt_out_csv"].lower() == 'on':
+        outputDf.to_csv(fileName, encoding='utf-8-sig')
+    
     """
     Convert a Pandas DataFrame to a dictionary
     https://stackoverflow.com/questions/26716616/convert-a-pandas-dataframe-to-a-dictionary
@@ -303,7 +305,9 @@ if __name__ == "__main__":
     {'a': 'blue', 'b': 0.125}]
     """
 
-    lib_mongo_atlas.mongodb_insert_many(db, collection, outputDf.to_dict('records'), ordered=False, opt_verbose='OFF')
+    if json_data["opt_out_mongodb"].lower() == 'on':
+        lib_mongo_atlas.mongodb_insert_many(db, collection, outputDf.to_dict('records'), ordered=False, opt_verbose='OFF')
+
     """if opt_verbose.lower() == 'on':
         #msg = 'outputDf: {}'
         #logger.info(msg.format( outputDf))
