@@ -21,13 +21,13 @@ def mongodb_conn(json_data, opt_verbose='OFF'):
         logger.info(msg.format(conn_url))
     
     try:
-        client=MongoClient(conn_url, connectTimeoutMS=5000, socketTimeoutMS=5000)
+        client=MongoClient(conn_url)
         db=client[json_data["db"]]
         coll=db[json_data["collection"]]
         #db = client.test
         print("connected successfully!!")
 
-        return client, db, coll
+        return db, coll
     except:
         print("Sorry!connection failed!!")    
 ''' 
@@ -35,8 +35,6 @@ MongoDB insertMany and skip duplicates
 https://stackoverflow.com/questions/61480444/mongodb-insertmany-and-skip-duplicates
 ''' 
 def mongodb_insert_many(db, coll, list_collections, ordered= True, opt_verbose='OFF'):
-    msg = '\n insert collections: {} to DB'
-    logger.info(msg.format(len(list_collections) ))
 
     if opt_verbose.lower() == 'on':
         msg = '\n list_collections: {}'
