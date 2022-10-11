@@ -42,24 +42,20 @@ def mongodb_insert_many(db, coll, list_collections, ordered= True, opt_verbose='
 
     coll.insert_many(list_collections, ordered=ordered )
 
-def mongodb_search(db, coll, list_search_dicts, opt_verbose='OFF'):
+def mongodb_search(db, coll, dict_search, opt_verbose='OFF'):
     list_targets= []
     dict_targets= {}
 
-    if len(list_search_dicts) == 0:
+    if len(dict_search) == 0:
        return list_targets    
 
     if opt_verbose.lower() == 'on':
-        msg = '\n list_search_dicts: {}'
-        logger.info(msg.format(list_search_dicts))
+        msg = '\n dict_search: {}'
+        logger.info(msg.format(dict_search))
 
-    for search_dict in list_search_dicts:
-        for key, value in search_dict.items():
-            # Query the json dcoument based on equality condition 
-            for i in coll.find({key: value}):
-                #print(i)
-                list_targets.append( {key: value} )
-                dict_targets.update({key: value})
+    for dic in coll.find(dict_search):
+        list_targets.append(dic)
+        dict_targets.update(dic)
 
     return list_targets, dict_targets
 ''' 
