@@ -18,7 +18,7 @@ import lib_mongo_atlas
 
 strabspath=os.path.abspath(sys.argv[0])
 strdirname=os.path.dirname(strabspath)
-opt_verbose='ON'
+opt_verbose='On'
 
 json_file= 'secret.json'
     
