@@ -21,6 +21,10 @@ Table of Contents
    * [Back-calculating Bollinger Bands with python and pandas (How t0 calculate next value to hit Upper Band or Lower Band)](#back-calculating-bollinger-bands-with-python-and-pandas-how-t0-calculate-next-value-to-hit-upper-band-or-lower-band)
    * [bollinger-bands-trading-analysis](#bollinger-bands-trading-analysis)
    * [Pandas Cheat Sheet](#pandas-cheat-sheet)
+   * [如何使用Python計算還原股價](#如何使用python計算還原股價)
+      * [一. 取得股票各年股利分配情況](#一-取得股票各年股利分配情況)
+      * [二. 取得股票的股價資料](#二-取得股票的股價資料)
+      * [三. 股利資料欄位介紹以及計算調整股價](#三-股利資料欄位介紹以及計算調整股價)
    * [Reference](#reference)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
@@ -389,6 +393,36 @@ print(f'value to hit bbl: {lastvalue} -> check new bbl: {new_bbl}')
 [Pandas cheat sheet](http://datacamp-community-prod.s3.amazonaws.com/dbed353d-2757-4617-8206-8767ab379ab3)
 
 
+# 如何使用Python計算還原股價
+[如何使用Python計算還原股價 Mar 20, 2021](https://rgib37190.github.io/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Python%E8%A8%88%E7%AE%97%E9%82%84%E5%8E%9F%E8%82%A1%E5%83%B9/)
+
+## 一. 取得股票各年股利分配情況  
+
+## 二. 取得股票的股價資料 
+
+## 三. 股利資料欄位介紹以及計算調整股價  
+
+首先我們計算還原股價會用到的是以下四個欄位:
+
+* 1. CashExDividendTradingDate : 除息交易日
+* 2. StockExDividendTradingDate : 除權交易日
+* 3. CashEarningsDistribution : 現金股利
+* 4. StockEarningsDistribution + StockStatutorySurplus : 股票股利
+
+計算調整股價公式:
+
+主要分成兩部分:
+
+a. 計算除權因子: 在發放股票股利那天以前(包含當天)的股價都要乘上除權因子去調整股價。
+
+
+b. 計算除息因子:
+
+這裡有人可能會直接用收盤價扣現金股利，但這樣會導致股價調整前和調整後日收益率改變，
+但用下面的方法就可以讓日收益率不變， 因為我們是去計算發放現金股利後與原本股價的改變比例，
+而這裡t-1代表的是昨日的價格，在發放現金股利那天以前的股價 都要乘上除息因子去調整股價。
+除息因子收盤價現金股利收盤價
+
 # Reference  
 
 [pythonのアルゴリズムトレードライブラリ 2019-07-15](https://qiita.com/shiro-kuma/items/334a567d13f8a0c34ece)  
@@ -447,3 +481,4 @@ This is the same as calling df.iloc[-3:], for instance (iloc internally delegate
 - 1
 - 2
 - 3
+
