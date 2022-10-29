@@ -1,22 +1,39 @@
+
+Table of Contents
+=================
+
+   * [Note of Python on Ubuntu](#note-of-python-on-ubuntu)
+   * [Table of Content](#table-of-content)
+   * [ubuntu安裝python3.7，並更新python默認指向爲python3.7](#ubuntu安裝python37並更新python默認指向爲python37)
+      * [改爲手動安裝](#改爲手動安裝)
+      * [更新python默認指向爲python3.7](#更新python默認指向爲python37)
+   * [Python3 Virtual Environment](#python3-virtual-environment)
+      * [Ubuntu](#ubuntu)
+      * [Windows 10](#windows-10)
+   * [Creating a Virtual Environment for Python on Ubuntu 16.04](#creating-a-virtual-environment-for-python-on-ubuntu-1604)
+      * [Step 1: Install Virtualenv](#step-1-install-virtualenv)
+         * [below is wrong](#below-is-wrong)
+      * [Step 2: Create a Virtual Environment &amp; Install Python 3](#step-2-create-a-virtual-environment--install-python-3)
+      * [Step 3: Activate Your Virtual Environment](#step-3-activate-your-virtual-environment)
+   * [Install Python 2.7](#install-python-27)
+   * [Update Python 3.5 to 3.6 via terminal after installed Python3.6](#update-python-35-to-36-via-terminal-after-installed-python36)
+   * [Troubleshooting](#troubleshooting)
+   * [Reference](#reference)
+      * [Method 1: Manually Installing Python](#method-1-manually-installing-python)
+      * [Method 2: Installing Python via PPA](#method-2-installing-python-via-ppa)
+   * [h1 size](#h1-size)
+      * [h2 size](#h2-size)
+         * [h3 size](#h3-size)
+            * [h4 size](#h4-size)
+               * [h5 size](#h5-size)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # Note of Python on Ubuntu
 Take some note of Python on Ubuntu
 
-# Table of Content
-[01. ubuntu安裝python3.7，並更新python默認指向爲python3.7](#01-ubuntu%E5%AE%89%E8%A3%9Dpython37%E4%B8%A6%E6%9B%B4%E6%96%B0python%E9%BB%98%E8%AA%8D%E6%8C%87%E5%90%91%E7%88%B2python37)  
-[02. Creating a Virtual Environment for Python on Ubuntu 16.04](#02-creating-a-virtual-environment-for-python-on-ubuntu-1604)  
-[03. Install Python 2.7](#03-install-python-27)  
-[04. Update Python 3.5 to 3.6 via terminal after installed Python3.6](#04-update-python-35-to-36-via-terminal-after-installed-python36)  
 
-[Troubleshooting](#troubleshooting)  
-
-[Reference](#reference)  
-
-[Installing the Latest Python 3.7 on Ubuntu 16.04 / 18.04 Jan 13, 2019](https://websiteforstudents.com/installing-the-latest-python-3-7-on-ubuntu-16-04-18-04/)  
-[Method 1: Manually Installing Python](#method-1-manually-installing-python)  
-[Method 2: Installing Python via PPA](#method-2-installing-python-via-ppa)  
-
-
-# 01. ubuntu安裝python3.7，並更新python默認指向爲python3.7
+# ubuntu安裝python3.7，並更新python默認指向爲python3.7
 [ubuntu安裝python3.7，並更新python默認指向爲python3.7 2018-12-25](https://www.twblogs.net/a/5c2245eabd9eee16b3dafa25)  
 ## 改爲手動安裝  
 Step0: sudo apt update; sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
@@ -71,7 +88,37 @@ You should consider upgrading via the 'pip install --upgrade pip' command.
 
 ```
 
-# 02. Creating a Virtual Environment for Python on Ubuntu 16.04  
+# Python3 Virtual Environment 
+[Python - Python3 虛擬環境參考筆記 2021-09-17](https://ithelp.ithome.com.tw/articles/10265702)
+
+## Ubuntu
+
+```
+sudo pip3 install virtualenvwrapper
+```
+
+下文字添加到 shell 啟動文件的末尾（這是家目錄中的隱藏文件名： .bashrc）。
+```
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=' -p /usr/bin/python3 '
+export PROJECT_HOME=$HOME/Devel
+source /usr/local/bin/virtualenvwrapper.sh
+```
+*注意： VIRTUALENVWRAPPER_PYTHON 和 VIRTUALENVWRAPPER_VIRTUALENV_ARGS 變數是指向 Python3 的正常安裝位置，source /usr/local/bin/virtualenvwrapper.sh指向 virtualenvwrapper.sh 腳本的正常位置。*
+*如果 virtualenv 在測試時不起作用，那麼要檢查的地方就是 Python 和 .sh 腳本是否位於預期的位置（然後適當地更改啟動文件）。*
+
+*您可以使用 which virtualenvwrapper.sh 和 which python3. 的指令找到系統的正確位置。*
+
+```
+source ~/.bashrc
+```
+
+*完成之後，就可以使用 mkvirtualenv 指令來建立新的虛擬環境。*
+
+## Windows 10
+
+# Creating a Virtual Environment for Python on Ubuntu 16.04  
 [Creating a Virtual Environment for Python on Ubuntu 16.04 Updated: January 11, 2019](https://www.liquidweb.com/kb/creating-virtual-environment-ubuntu-16-04/)  
 
 ## Step 1: Install Virtualenv  
@@ -134,7 +181,7 @@ wheel      0.33.4
 philshen@DESKTOP-7EDV2HB:~$
 ```
 
-# 03. Install Python 2.7  
+# Install Python 2.7  
 [How to Install Python 2.7.16 on Ubuntu & LinuxMint May 13, 2019](https://tecadmin.net/install-python-2-7-on-ubuntu-and-linuxmint/)  
 ```
 Step 1 – Prerequsiteis
@@ -164,7 +211,7 @@ You can switch between different versions using
 sudo update-alternatives --config python
 ```
 
-# 04. Update Python 3.5 to 3.6 via terminal after installed Python3.6  
+# Update Python 3.5 to 3.6 via terminal after installed Python3.6  
 [Update Python 3.5 to 3.6 via terminal ](https://askubuntu.com/questions/922853/update-python-3-5-to-3-6-via-terminal)  
 ```
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 1
