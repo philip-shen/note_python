@@ -21,9 +21,20 @@ Take some note of Telegram Bot python
 [Telegram用の人工無能を作ってみた 2019-01-06](https://qiita.com/Ovismeme/items/cc59a2de1cf537c977cf)
 [ovismeme /telegram_autoreply_bot](https://github.com/ovismeme/telegram_autoreply_bot)
 
+# Activate Telegram Bot  
+[Telegram聊天機器人超詳細懶人包，商管人都看得懂【附Python程式碼】2 4 月,2021](https://marketingliveincode.com/?p=172)
+
+<img src="https://miro.medium.com/max/945/1*rnD4_EMcxwFmeDelnMsdEg.png " width="350" height="300">  
+
+## Get Telegram ID  
+```
+https://api.telegram.org/bot你的token】/getUpdates
+```
+<img src="https://miro.medium.com/max/15730/1*dtZF_vCysAHRLbsBkLoNXA.png" width="900" height="70">  
 
 
 # Troubleshooting
+
 
 # Reference
 * [從零開始的Telegram Bot May 18, 2017](https://blog.sean.taipei/2017/05/telegram-bot)  
@@ -41,6 +52,7 @@ Take some note of Telegram Bot python
 
 * []()  
 ![alt tag]()
+<img src="" width="400" height="500">  
 
 # h1 size
 
