@@ -1,16 +1,30 @@
 import time
 import configparser
 import telegram, requests
-import datetime
+from datetime import datetime
 import threading
 import lib_msgbot
+import logger_generate
 
 if __name__ == '__main__':
+    logger_config = {
+    "logging_level": 'INFO',
+    "log_file_path": './logs/{0:%Y%m%d_%H%M%S}.log'.format(datetime.now()),
+    "log_format": '%(asctime)s - %(levelname)s : %(message)s',
+    "backupCount": 7,
+    "when": 'D',
+    "encoding": 'utf-8',
+    }
+    
     t0 = time.time()
     local_time = time.localtime(t0)
-    msg = 'Start Time is {}/{}/{} {}:{}:{}'
-    print(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
-                            local_time.tm_hour,local_time.tm_min,local_time.tm_sec))    
+    #msg = 'Start Time is {}/{}/{} {}:{}:{}'
+    #print(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
+    #                        local_time.tm_hour,local_time.tm_min,local_time.tm_sec))    
+
+    msg= 'Start Test!'
+    logger = logger_generate.generate(logger_config, "")
+    logger.info(msg)
 
     config_file = './config.ini'
     
@@ -42,4 +56,5 @@ if __name__ == '__main__':
     #bot_token.send_message(chat_id = chat_id, text =str_msg)
     time_consumption= time.time() - t0
     msg = 'Time Consumption: {:.1f} seconds.'.format( time_consumption)
-    print(msg)
+    #print(msg)
+    logger.info(msg)
