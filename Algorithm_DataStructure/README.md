@@ -2,6 +2,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [note_python_Algorithm_DataStructure](#note_python_algorithm_datastructure)
    * [Top Interview Questions - Problems](#top-interview-questions---problems)
    * [Table List](#table-list)
@@ -11,6 +12,17 @@ Table of Contents
    * [014 Longest Common Prefix](#014-longest-common-prefix)
    * [020 Valid Parentheses](#020-valid-parentheses)
    * [021 Merge Two Sorted Lists](#021-merge-two-sorted-lists)
+   * [Sorting Algorithm](#sorting-algorithm)
+      * [Bubble Sort](#bubble-sort)
+      * [選擇排序](#選擇排序)
+      * [插入排序](#插入排序)
+      * [Shell Sort](#shell-sort)
+      * [Merge sort](#merge-sort)
+      * [快速排序](#快速排序)
+      * [Heap sort](#heap-sort)
+      * [Counting Sort](#counting-sort)
+      * [Bucket Sort](#bucket-sort)
+   * [Radix Sort](#radix-sort)
    * [PathFindingVisualizer](#pathfindingvisualizer)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -18,9 +30,9 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 # note_python_Algorithm_DataStructure
 Take some note of python
 
@@ -238,6 +250,59 @@ No. | Test Name
 
 ```
 
+
+# Sorting Algorithm 
+[Python實現10大排序演算法！ Nov 2 2022](https://allaboutdataanalysis.medium.com/python%E5%AF%A6%E7%8F%BE10%E5%A4%A7%E6%8E%92%E5%BA%8F%E6%BC%94%E7%AE%97%E6%B3%95-a93d223de35b)
+[ hustcc /JS-Sorting-Algorithm Public](https://github.com/hustcc/JS-Sorting-Algorithm/blob/master/1.bubbleSort.md)
+
+## Bubble Sort 
+* 1、比較相鄰的元素。如果第一個比第二個大，就交換他們兩個。
+* 2、對每一對相鄰元素作同樣的工作，從開始第一對到結尾的最後一對。這步做完後，最後的元素會是最大的數。
+* 3、針對所有的元素重複以上的步驟，除了最後一個。
+* 4、持續每次對越來越少的元素重複上面的步驟，直到沒有任何一對數字需要比較。
+
+
+## 選擇排序 
+* 1、首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置
+* 2、再從剩餘未排序元素中繼續尋找最小（大）元素，然後放到已排序序列的末尾。
+* 3、重複第二步，直到所有元素均排序完畢。
+
+## 插入排序  
+* 1、將第一待排序序列第一個元素看做一個有序序列，把第二個元素到最後一個元素當成是未排序序列。
+* 2、從頭到尾依次掃描未排序序列，將掃描到的每個元素插入有序序列的適當位置。（如果待插入的元素與有序序列中的某個元素相等，則將待插入元素插入到相等元素的後面。）
+
+## Shell Sort 
+* 1、選擇一個增量序列 t1，t2，……，tk，其中 ti > tj, tk = 1；
+* 2、按增量序列個數 k，對序列進行 k 趟排序；
+* 3、每趟排序，根據對應的增量 ti，將待排序列分割成若干長度為 m 的子序列，分別對各子表進行直接插入排序。僅增量因子為 1 時，整個序列作為一個表來處理，表長度即為整個序列的長度。
+
+## Merge sort 
+* 1、申請空間，使其大小為兩個已經排序序列之和，該空間用來存放合併後的序列；
+* 2、設定兩個指標，最初位置分別為兩個已經排序序列的起始位置；
+* 3、比較兩個指標所指向的元素，選擇相對小的元素放入到合併空間，並移動指標到下一位置；
+* 4、重複步驟 3 直到某一指標達到序列尾；
+* 5、將另一序列剩下的所有元素直接複製到合併序列尾。
+
+## 快速排序  
+* 1、從數列中挑出一個元素，稱為 “基準”（pivot）; 
+* 2、重新排序數列，所有元素比基準值小的擺放在基準前面，所有元素比基準值大的擺在基準的後面（相同的數可以到任一邊）。在這個分割槽退出之後，該基準就處於數列的中間位置。這個稱為分割槽（partition）操作； 
+* 3、遞迴地（recursive）把小於基準值元素的子數列和大於基準值元素的子數列排序；
+
+遞迴的最底部情形，是數列的大小是零或一，也就是永遠都已經被排序好了。
+雖然一直遞迴下去，但是這個演算法總會退出，因為在每次的迭代（iteration）中，它至少會把一個元素擺到它最後的位置去。
+
+## Heap sort 
+* 1、建立一個堆 H[0……n-1]；
+* 2、把堆首（最大值）和堆尾互換；
+* 3、把堆的尺寸縮小 1，並呼叫 shift_down(0)，目的是把新的陣列頂端資料調整到相應位置；
+* 4、重複步驟 2，直到堆的尺寸為 1。
+
+## Counting Sort 
+
+## Bucket Sort
+
+# Radix Sort 
+
 # PathFindingVisualizer 
 [rams1996 /PathFindingVisualizer](https://github.com/rams1996/PathFindingVisualizer)
 
@@ -292,4 +357,6 @@ Path Finding Visualizer -An Application of Dijkstra's, BFS, DFS and Bidirectiona
 - 1
 - 2
 - 3
+
+
 
