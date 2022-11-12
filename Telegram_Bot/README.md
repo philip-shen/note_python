@@ -1,8 +1,15 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [note_Telegram_Bot](#note_telegram_bot)
    * [Telegram Bot](#telegram-bot)
+   * [Activate Telegram Bot](#activate-telegram-bot)
+      * [Get Telegram ID](#get-telegram-id)
+   * [TradingView-Webhook-Bot](#tradingview-webhook-bot)
+   * [flask-telegram-bot](#flask-telegram-bot)
+   * [IP-Details](#ip-details)
+   * [teleflask](#teleflask)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -12,7 +19,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 # note_Telegram_Bot
 Take some note of Telegram Bot python
 
@@ -31,6 +37,29 @@ Take some note of Telegram Bot python
 https://api.telegram.org/bot你的token】/getUpdates
 ```
 <img src="https://miro.medium.com/max/15730/1*dtZF_vCysAHRLbsBkLoNXA.png" width="900" height="70">  
+
+
+# TradingView-Webhook-Bot 
+[fabston / TradingView-Webhook-Bot]()https://github.com/fabston/TradingView-Webhook-Bot
+
+The TradingView Webhook Bot gear listens to TradingView alerts via webhooks using flask. 
+All alerts can be instantly sent to Telegram, Discord, Twitter and/or Email.
+
+# flask-telegram-bot
+[gwvsol / flask-telegram-bot](https://github.com/gwvsol/flask-telegram-bot)
+
+Flask, pyTelegramBotAPI and RethinkDB. 
+
+
+# IP-Details  
+[jainamoswal / IP-Details](https://github.com/jainamoswal/IP-Details) 
+
+An Flask app made with Python for getting user IP address right to your inbox in Telegram.
+This is proven very useful to me slightly_smiling_face to track approx location of anyone.
+
+
+# teleflask
+[luckydonald / teleflask](https://github.com/luckydonald/teleflask)
 
 
 # Troubleshooting
