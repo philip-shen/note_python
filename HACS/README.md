@@ -55,6 +55,15 @@ HTTP is used for every other request after the initial pairing process
 # plugp100
 [petretiandrea / plugp100](https://github.com/petretiandrea/plugp100)
 
+## edit config_example.json 
+```
+$ python test_tapo_p105.py -o "mac_add" -c config_example.json
+```
+
+```
+$ python test_tapo_p105.py -o "ip_add" -c config_example.json
+```
+
 ```
 3b392c8477d65f98de2b7ae4b9c0ac1149c02421
 {'device_id': '802299B35734CC793845219AF4DCCC7E2035A21F', 'fw_ver': '1.3.2 Build 20210122 Rel. 57063', 'hw_ver': '1.0.0', 'type': 'SMART.TAPOPLUG', 'model': 'P105', 'mac': '34-60-F9-9C-6A-38', 
