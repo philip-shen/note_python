@@ -31,6 +31,7 @@ Table of Contents
       * [Installation on Linux:](#installation-on-linux)
    * [python-devices](#python-devices)
    * [frida-android-helper](#frida-android-helper)
+   * [daemon not running 5037](#daemon-not-running-5037)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -321,6 +322,13 @@ This is a modified version of Frida Android Helper to compatible with LDPlayer.
 
 It uses pure-python-adb to interface with the ADB server.
 ```
+
+# daemon not running 5037 
+[Android Stduio4.1.1中一次性解决不能识别真机的问题 2021-01-20](https://baijiahao.baidu.com/s?id=1686877409865440541&wfr=spider&for=pc)
+
+## Add Environment Variable  
+<img src="https://pics0.baidu.com/feed/78310a55b319ebc4af3e3652011123fb1f171671.png@f_auto?token=60e4dca1440f381d0cf5468ab97bfa66&s=5498CC328D6A4520044831DA0300C0B2" width="600" height="200">  
+
 
 
 * []()  
