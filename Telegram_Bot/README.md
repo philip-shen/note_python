@@ -1,3 +1,4 @@
+
 Table of Contents
 =================
 
@@ -7,6 +8,12 @@ Table of Contents
    * [Activate Telegram Bot](#activate-telegram-bot)
       * [Get Telegram ID](#get-telegram-id)
    * [TradingView-Webhook-Bot](#tradingview-webhook-bot)
+   * [Delete telegram bot queue](#delete-telegram-bot-queue)
+      * [1. Call getUpdates() to get the update_id of the latest message](#1-call-getupdates-to-get-the-update_id-of-the-latest-message)
+      * [2. Increment the update_id by 1](#2-increment-the-update_id-by-1)
+      * [3. On the next getUpdates() call, set the offset parameter to the id:](#3-on-the-next-getupdates-call-set-the-offset-parameter-to-the-id)
+      * [GET UPDATES](#get-updates)
+      * [DELETE MESSAGE (UPDATE)](#delete-message-update)
    * [flask-telegram-bot](#flask-telegram-bot)
    * [IP-Details](#ip-details)
    * [teleflask](#teleflask)
@@ -19,6 +26,8 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+
 # note_Telegram_Bot
 Take some note of Telegram Bot python
 
@@ -34,7 +43,7 @@ Take some note of Telegram Bot python
 
 ## Get Telegram ID  
 ```
-https://api.telegram.org/bot你的token】/getUpdates
+https://api.telegram.org/bot【你的token】/getUpdates
 ```
 <img src="https://miro.medium.com/max/15730/1*dtZF_vCysAHRLbsBkLoNXA.png" width="900" height="70">  
 
@@ -44,6 +53,32 @@ https://api.telegram.org/bot你的token】/getUpdates
 
 The TradingView Webhook Bot gear listens to TradingView alerts via webhooks using flask. 
 All alerts can be instantly sent to Telegram, Discord, Twitter and/or Email.
+
+# Delete telegram bot queue
+[How to delete queue updates in telegram api? 2020/05/23](https://stackoverflow.com/questions/61976560/how-to-delete-queue-updates-in-telegram-api)
+
+## 1. Call getUpdates() to get the update_id of the latest message
+```
+https://api.telegram.org/<MY-TOKEN>/getUpdates
+```
+## 2. Increment the update_id by 1
+
+## 3. On the next getUpdates() call, set the offset parameter to the id:
+```
+https://api.telegram.org/<MY-TOKEN>/getUpdates?offset=343126594
+```
+
+[How to delete all queue updates in telegram api? 2022/03/07](https://stackoverflow.com/questions/71384308/how-to-delete-all-queue-updates-in-telegram-api)
+
+## GET UPDATES
+```
+https://api.telegram.org/bot{BOT_ID}/getUpdates
+```
+
+## DELETE MESSAGE (UPDATE)
+```
+https://api.telegram.org/bot{BOT_ID}/getUpdates?offset={UPDATE_ID}}
+```
 
 # flask-telegram-bot
 [gwvsol / flask-telegram-bot](https://github.com/gwvsol/flask-telegram-bot)
@@ -109,4 +144,5 @@ This is proven very useful to me slightly_smiling_face to track approx location 
 - 1
 - 2
 - 3
+
 
