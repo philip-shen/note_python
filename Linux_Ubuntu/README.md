@@ -2,13 +2,14 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Note of Python on Ubuntu](#note-of-python-on-ubuntu)
-   * [Table of Content](#table-of-content)
    * [ubuntu安裝python3.7，並更新python默認指向爲python3.7](#ubuntu安裝python37並更新python默認指向爲python37)
       * [改爲手動安裝](#改爲手動安裝)
       * [更新python默認指向爲python3.7](#更新python默認指向爲python37)
    * [Python3 Virtual Environment](#python3-virtual-environment)
-      * [Ubuntu](#ubuntu)
+      * [Ubuntu_01](#ubuntu_01)
+      * [Ubuntu_02](#ubuntu_02)
       * [Windows 10](#windows-10)
    * [Creating a Virtual Environment for Python on Ubuntu 16.04](#creating-a-virtual-environment-for-python-on-ubuntu-1604)
       * [Step 1: Install Virtualenv](#step-1-install-virtualenv)
@@ -89,9 +90,126 @@ You should consider upgrading via the 'pip install --upgrade pip' command.
 ```
 
 # Python3 Virtual Environment 
-[Python - Python3 虛擬環境參考筆記 2021-09-17](https://ithelp.ithome.com.tw/articles/10265702)
 
-## Ubuntu
+## Ubuntu_01
+[建立 Python 的虛擬環境 2022-12-30](https://cynthiachuang.github.io/Create-a-Virtual-Environment-for-Python/)
+
+```
+$ sudo apt-get install python3-venv
+```
+
+```
+$ python3 -m venv ~/virtual/pytorch
+```
+
+```
+$ ls -al ~/virtualenv/
+```
+
+```
+$ source ~/virtualenv/pytorch/bin/activate
+```
+
+```
+(pytorch)$ pip list -l
+Package                Version      
+---------------------- -------------
+appdirs                1.4.3        
+apturl                 0.5.2        
+bcrypt                 3.1.7        
+blinker                1.4          
+Brlapi                 0.7.0        
+certifi                2019.11.28   
+chardet                3.0.4        
+Click                  7.0          
+colorama               0.4.3        
+command-not-found      0.3          
+cryptography           2.8          
+cupshelpers            1.0          
+dbus-python            1.2.16       
+defer                  1.0.6        
+distlib                0.3.6        
+distro                 1.4.0        
+distro-info            0.23ubuntu1  
+duplicity              0.8.12.0     
+entrypoints            0.3          
+fasteners              0.14.1       
+filelock               3.9.0        
+future                 0.18.2       
+httplib2               0.14.0       
+idna                   2.8          
+importlib-metadata     1.5.0        
+keyring                18.0.1       
+language-selector      0.1          
+launchpadlib           1.10.13      
+lazr.restfulclient     0.14.2       
+lazr.uri               1.0.3        
+lockfile               0.12.2       
+louis                  3.12.0       
+macaroonbakery         1.3.1        
+Mako                   1.1.0        
+MarkupSafe             1.1.0        
+monotonic              1.5          
+more-itertools         4.2.0        
+netifaces              0.10.4       
+oauthlib               3.1.0        
+olefile                0.46         
+paramiko               2.6.0        
+pexpect                4.6.0        
+Pillow                 7.0.0        
+pip                    20.0.2       
+platformdirs           2.6.2        
+protobuf               3.6.1        
+pycairo                1.16.2       
+pycups                 1.9.73       
+PyGObject              3.36.0       
+PyJWT                  1.7.1        
+pymacaroons            0.13.0       
+PyNaCl                 1.3.0        
+pyRFC3339              1.1          
+python-apt             2.0.1        
+python-dateutil        2.7.3        
+python-debian          0.1.36ubuntu1
+pytz                   2019.3       
+pyxdg                  0.26         
+PyYAML                 5.3.1        
+reportlab              3.5.34       
+requests               2.22.0       
+requests-unixsocket    0.2.0        
+SecretStorage          2.3.1        
+setuptools             45.2.0       
+simplejson             3.16.0       
+six                    1.14.0       
+systemd-python         234          
+ubuntu-advantage-tools 27.10        
+ubuntu-drivers-common  0.0.0        
+ufw                    0.36         
+unattended-upgrades    0.1          
+urllib3                1.25.8       
+usb-creator            0.3.7        
+virtualenv             20.17.1      
+wadllib                1.3.3        
+wheel                  0.34.2       
+xkit                   0.0.0        
+zipp                   1.0.0        
+```
+
+```
+$ deactivate
+```
+
+```
+$ pip list -l
+Package      Version
+------------ -------
+distlib      0.3.6  
+filelock     3.9.0  
+platformdirs 2.6.2  
+virtualenv   20.17.1
+```
+
+## Ubuntu_02
+[Python - Python3 虛擬環境參考筆記 2021-09-17](https://ithelp.ithome.com.tw/articles/10265702)
 
 ```
 sudo pip3 install virtualenvwrapper
@@ -378,3 +496,4 @@ git --version
 - 1
 - 2
 - 3
+
