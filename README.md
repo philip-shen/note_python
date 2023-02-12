@@ -51,11 +51,9 @@ Table of Contents
       * [python モジュールimport方法について](#python-モジュールimport方法について)
          * [インポート方法まとめ](#インポート方法まとめ)
       * [[Python] importの躓きどころ](#python-importの躓きどころ)
-            * [<strong>init</strong>.pyがなくてもpackageをimportできる](#initpyがなくてもpackageをimportできる)
          * [importの順序](#importの順序)
          * [regular packageとnamespace packageの違い](#regular-packageとnamespace-packageの違い)
       * [Python の <strong>init</strong>.py とは何なのか](#python-の-initpy-とは何なのか)
-         * [<strong>init</strong>.py の役割](#initpy-の役割)
             * [1. モジュール検索のためのマーカー](#1-モジュール検索のためのマーカー)
             * [2. 名前空間の初期化](#2-名前空間の初期化)
             * [3. ワイルドカード(wild card) import の対象の定義 (<strong>all</strong> の定義)](#3-ワイルドカードwild-card-import-の対象の定義-all-の定義)
@@ -63,7 +61,6 @@ Table of Contents
          * [unittest についての注意事項](#unittest-についての注意事項)
       * [Python <strong>init</strong>.pyの書き方](#python-initpyの書き方)
          * [初心者にとって面倒な__init__.py](#初心者にとって面倒な__init__py)
-         * [<strong>init</strong>.pyの書き方](#initpyの書き方)
       * [import雜談之一———import路徑的相對論](#import雜談之一import路徑的相對論)
       * [import雜談之二———export機制以及namespace package](#import雜談之二export機制以及namespace-package)
       * [import雜談之三———sys.path的洪荒之時](#import雜談之三syspath的洪荒之時)
@@ -72,13 +69,13 @@ Table of Contents
       * [break](#break)
       * [continue](#continue)
       * [pass](#pass)
-   * [<strong>call</strong> method in Class](#call-method-in-class)
    * [Understanding slice notation](#understanding-slice-notation)
    * [a[[0], 0, 0:1] in NumPy](#a0-0-01-in-numpy)
       * [１．要素を整数で指定する場合](#１要素を整数で指定する場合)
       * [２．スライスで要素を部分的に指定する場合](#２スライスで要素を部分的に指定する場合)
       * [３．listやNumPy配列で要素を指定する場合](#３listやnumpy配列で要素を指定する場合)
       * [４．配列とスライスで指定する場合の配列部の扱い](#４配列とスライスで指定する場合の配列部の扱い)
+      * [５．What does -1 mean in numpy reshape?](#５what-does--1-mean-in-numpy-reshape)
    * [Environment](#environment)
    * [Troubleshooting](#troubleshooting)
       * [GH001 Large files detected](#gh001-large-files-detected)
@@ -1515,7 +1512,9 @@ print(d3[:, [[0, 1, 0]], [0, 0, 0]])
 ```
 #コード07
 import numpy as np
-d3 = np.array([[[  0.,   1.,   2.,   3.],
+d3 = np.array([[[  0.,   1.,  Table of Contents
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc) 2.,   3.],
                 [ 10.,  11.,  12.,  13.],
                 [ 20.,  21.,  22.,  23.]],
                [[100., 101., 102., 103.],
@@ -1530,6 +1529,15 @@ print(d3[:, [0, 1, 0], [0, 0, 0, 0]].shape)
 IndexError: shape mismatch: indexing arrays could not be broadcast together with shapes (3,) (4,) 
 ```
 
+## ５．What does -1 mean in numpy reshape? 
+[What does -1 mean in numpy reshape? edited Jun 13, 2022](https://stackoverflow.com/questions/18691084/what-does-1-mean-in-numpy-reshape)
+
+*Reshape your data using array.reshape(-1, 1) if your data has a single feature i.e. single column*
+
+*Reshape your data using array.reshape(1, -1) if it contains a single sample i.e. single row*
+
+*both dimension as unknown i.e new shape as (-1,-1)*
+*array.reshape(-1, -1) ValueError: can only specify one unknown dimension*
 
 # Environment  
 windows 10 64bit  
@@ -1714,6 +1722,4 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
-
-
 
