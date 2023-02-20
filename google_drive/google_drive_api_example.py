@@ -1,6 +1,7 @@
 import os
 import pickle
-from pprint import pprint
+#from pprint import pprint
+import pprint
 import google.oauth2.credentials
  
 from googleapiclient.discovery import build
@@ -14,7 +15,8 @@ USER_CREDENTIALS_FILE = os.environ['USERNAME'] + '.credentials' #ユーザ毎の
 SCOPES = ['https://www.googleapis.com/auth/drive']
 API_SERVICE_NAME = 'drive'
 API_VERSION = 'v3'
- 
+
+pp = pprint.PrettyPrinter(indent=2) 
 '''
 def get_authenticated_service():
     flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
@@ -40,7 +42,7 @@ def get_authenticated_service():
  
     if credentials is None or not credentials.valid:
         flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
-        credentials = flow.run_console()
+        credentials = flow.run_local_server(port=0)#flow.run_console()
  
     with open(USER_CREDENTIALS_FILE, 'wb') as fo:  # 認証情報をファイルに保存
         pickle.dump(credentials, fo)
@@ -122,17 +124,20 @@ if __name__ == '__main__':
     # running in production *do not* leave this option enabled.
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     service = get_authenticated_service()
-    list_drive_files(service)
+    #list_drive_files(service)
 
-    #result = list_drive_files(service, pageSize=50)
+    result = list_drive_files(service, pageSize=50)
 
     # マイドライブ(トップフォルダ)にあるファイル一覧の取得
-    result = list_drive_files(service, q="'root' in parents")
+    #result = list_drive_files(service, q="'root' in parents")
 
     # 指定のフォルダにあるファイル一覧を取得
-    folder_id = get_drive_folder_id(service, ['tmp'])
+    folder_id = get_drive_folder_id(service, ['food-11'])
     result = list_drive_files(service, fields='*', q=f"'{folder_id}' in parents")
 
+    pp.pprint('folder_id: {}'.format(folder_id))
+    pp.pprint(result)
+    '''
     # 作成日時を取得
     result = get_drive_file(service, fields='name,createdTime',
                           fileId='1voasdfjlsIJTvasABdfJPIasfda2V5h4jEhcn0oPkQ')
@@ -148,4 +153,4 @@ if __name__ == '__main__':
     # フォルダの作成
     parent_folder_id = get_drive_folder_id(service, ['tmp'])
     drive_mkdir(service, 'hoge', parent_folder_id)
-
+    '''
