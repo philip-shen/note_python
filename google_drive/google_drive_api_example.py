@@ -1,6 +1,6 @@
-import os
+import os, time, sys
 import pickle
-#from pprint import pprint
+import json
 import pprint
 import google.oauth2.credentials
  
@@ -10,11 +10,16 @@ from google.auth.transport.requests import Request
 from googleapiclient.http import MediaIoBaseDownload
 from googleapiclient.http import MediaFileUpload
 
-CLIENT_SECRETS_FILE = 'client_secret_ubuntu.json' # 各自のclient_secret.jsonファイルへのパスを設定
-USER_CREDENTIALS_FILE = os.environ['USERNAME'] + '.credentials' #ユーザ毎の認証データ保存
-SCOPES = ['https://www.googleapis.com/auth/drive']
-API_SERVICE_NAME = 'drive'
-API_VERSION = 'v3'
+strabspath=os.path.abspath(sys.argv[0])
+strdirname=os.path.dirname(strabspath)
+str_split=os.path.split(strdirname)
+prevdirname=str_split[0]
+dirnamelog=os.path.join(strdirname,"logs")
+
+sys.path.append('./_libs')
+
+from logger_setup import *
+import lib_misc
 
 pp = pprint.PrettyPrinter(indent=2) 
 '''
@@ -22,52 +27,73 @@ def get_authenticated_service():
     flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
     credentials = flow.run_console()
     return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
-'''
 
 def list_drive_files(service, **kwargs):
   results = service.files().list(**kwargs).execute()
   pprint.pprint(results)
- 
-def get_authenticated_service():
-    credentials = None
-    if os.path.exists(USER_CREDENTIALS_FILE):  #保存したファイルがある場合はロード
-        try:
-            with open(USER_CREDENTIALS_FILE, 'rb') as fi:
-                credentials = pickle.load(fi)
- 
-            if credentials.expired and credentials.refresh_token:
-                credentials.refresh(Request())  # 期限の更新を試みる
-        except EOFError as e:
-            pass
- 
-    if credentials is None or not credentials.valid:
-        flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
-        credentials = flow.run_local_server(port=0)#flow.run_console()
- 
-    with open(USER_CREDENTIALS_FILE, 'wb') as fo:  # 認証情報をファイルに保存
-        pickle.dump(credentials, fo)
- 
-    return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
+'''
 
-def list_drive_files(service, **kwargs):
-    results = service.files().list(**kwargs).execute()
-    return results
+class GDrive_google_api:
+    def __init__(self,conf_json, opt_verbose='OFF'):
+        self.conf_json= conf_json
+        self.opt_verbose= opt_verbose
+        
+        if (not os.path.isfile(self.conf_json))  :
+            msg = 'Please check json file:{}  if exist!!! '
+            logger.info(msg.format(self.conf_json) )
+            sys.exit()
+    
+        with open(self.conf_json, encoding="utf-8") as f:
+            json_data = json.load(f) 
+
+        self.CLIENT_SECRETS_FILE = json_data["Client_Secrets_File"]#'client_secret_ubuntu.json' # 各自のclient_secret.jsonファイルへのパスを設定
+        self.USER_CREDENTIALS_FILE = os.environ['USERNAME'] + '.credentials' #ユーザ毎の認証データ保存
+        self.SCOPES = ['https://www.googleapis.com/auth/drive']
+        self.API_SERVICE_NAME = 'drive'
+        self.API_VERSION = 'v3'
+
+    def get_authenticated_service(self):
+        credentials = None
+        if os.path.exists(self.USER_CREDENTIALS_FILE):  #保存したファイルがある場合はロード
+            try:
+                with open(self.USER_CREDENTIALS_FILE, 'rb') as fi:
+                    credentials = pickle.load(fi)
+ 
+                if credentials.expired and credentials.refresh_token:
+                    credentials.refresh(Request())  # 期限の更新を試みる
+            except EOFError as e:
+                pass
+ 
+        if credentials is None or not credentials.valid:
+            flow = InstalledAppFlow.from_client_secrets_file(self.CLIENT_SECRETS_FILE, self.SCOPES)
+            credentials = flow.run_local_server(port=0)#flow.run_console()
+ 
+        with open(self.USER_CREDENTIALS_FILE, 'wb') as fo:  # 認証情報をファイルに保存
+            pickle.dump(credentials, fo)
+ 
+        #return build(self.API_SERVICE_NAME, self.API_VERSION, credentials = credentials)
+        self.service= build(self.API_SERVICE_NAME, self.API_VERSION, credentials = credentials)
+
+        return self.service
+
+    def list_drive_files(self, **kwargs):
+        results = self.service.files().list(**kwargs).execute()
+        return results
  
 # すべてのファイルの一覧を取得 (1ページ分)
 
-def get_drive_folder_id(service, folder_path):
-    """指定パスフォルダのfileIdを取得"""
-    parent_id = 'root'
-    for name in folder_path:
-        res = list_drive_files(service,
-                               q=f"'{parent_id}' in parents and "
-                               "mimeType = 'application/vnd.google-apps.folder' and "
-                               f"name = '{name}'")
-        if 'files' not in res or len(res['files']) < 1:
-            return None
-        parent_id = res['files'][0]['id']
+    def get_drive_folder_id(self, folder_path):
+        """指定パスフォルダのfileIdを取得"""
+        parent_id = 'root'
+        for name in folder_path:
+            res = self.list_drive_files(q=f"'{parent_id}' in parents and "
+                                   "mimeType = 'application/vnd.google-apps.folder' and "
+                                   f"name = '{name}'")
+            if 'files' not in res or len(res['files']) < 1:
+                return None
+            parent_id = res['files'][0]['id']
  
-    return parent_id    
+        return parent_id    
  
 def get_drive_file(service, **kwargs):
     results = service.files().get(**kwargs).execute()
@@ -120,23 +146,46 @@ def drive_mkdir(service, name, parent_id):
  
 if __name__ == '__main__':
 
+    logger_set(strdirname)
+    
+    # Get present time
+    t0 = time.time()
+    local_time = time.localtime(t0)
+    msg = 'Start Time is {}/{}/{} {}:{}:{}'
+    logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
+                            local_time.tm_hour,local_time.tm_min,local_time.tm_sec))         
+
+    if len(sys.argv) != 2:
+        msg = 'Please input config json file!!! '
+        logger.info(msg)
+        sys.exit()
+
+    json_file= sys.argv[1]
+
+    opt_verbose='ON'
+
     # When running locally, disable OAuthlib's HTTPs verification. When
     # running in production *do not* leave this option enabled.
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-    service = get_authenticated_service()
+    local_GDrive_google_api= GDrive_google_api(json_file, opt_verbose)
+    local_GDrive_google_api.get_authenticated_service()
     #list_drive_files(service)
 
-    result = list_drive_files(service, pageSize=50)
+    result = local_GDrive_google_api.list_drive_files(pageSize=50)
+    #pp.pprint(result)
 
     # マイドライブ(トップフォルダ)にあるファイル一覧の取得
     #result = list_drive_files(service, q="'root' in parents")
 
     # 指定のフォルダにあるファイル一覧を取得
-    folder_id = get_drive_folder_id(service, ['food-11'])
-    result = list_drive_files(service, fields='*', q=f"'{folder_id}' in parents")
+    folder_id = local_GDrive_google_api.get_drive_folder_id( ['food-11', 'food-11_testing'])
+    msg = 'folder_id: {}'.format(folder_id)
+    logger.info(msg)
 
-    pp.pprint('folder_id: {}'.format(folder_id))
-    pp.pprint(result)
+    result = local_GDrive_google_api.list_drive_files( fields='*', q=f"'{folder_id}' in parents")
+
+    msg = 'result: {}'.format( result)
+    logger.info(msg)   
     '''
     # 作成日時を取得
     result = get_drive_file(service, fields='name,createdTime',
@@ -154,3 +203,6 @@ if __name__ == '__main__':
     parent_folder_id = get_drive_folder_id(service, ['tmp'])
     drive_mkdir(service, 'hoge', parent_folder_id)
     '''
+    time_consumption, h, m, s= lib_misc.format_time(time.time() - t0)         
+    msg = 'Time Consumption: {} seconds.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
+    logger.info(msg)
