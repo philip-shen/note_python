@@ -20,18 +20,7 @@ sys.path.append('./_libs')
 
 from logger_setup import *
 import lib_misc
-
 pp = pprint.PrettyPrinter(indent=2) 
-'''
-def get_authenticated_service():
-    flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
-    credentials = flow.run_console()
-    return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
-
-def list_drive_files(service, **kwargs):
-  results = service.files().list(**kwargs).execute()
-  pprint.pprint(results)
-'''
 
 class GDrive_google_api:
     def __init__(self,conf_json, opt_verbose='OFF'):
@@ -78,9 +67,13 @@ class GDrive_google_api:
 
     def list_drive_files(self, **kwargs):
         results = self.service.files().list(**kwargs).execute()
+        
+        if self.opt_verbose.lower() == 'on':
+            for key, value in kwargs.items():
+             msg = "\n key: {} \n value: {}".format(key, value)
+             logger.info(msg)   
+        
         return results
- 
-# すべてのファイルの一覧を取得 (1ページ分)
 
     def get_drive_folder_id(self, folder_path):
         """指定パスフォルダのfileIdを取得"""
@@ -95,60 +88,137 @@ class GDrive_google_api:
  
         return parent_id    
  
-def get_drive_file(service, **kwargs):
-    results = service.files().get(**kwargs).execute()
-    return results
+    def get_drive_file(self, **kwargs):
+        results = self.service.files().get(**kwargs).execute()
+        return results
  
-def get_drive_file_info(service, path):
-    """指定パスのファイル情報を取得"""
-    parent_id = 'root'
-    path_depth = len(path)
-    info = None
-    for depth, name in enumerate(path):
-        if depth < (path_depth - 1):
-            mimeType = "mimeType = 'application/vnd.google-apps.folder' and "
-        else:
-            mimeType = ""
-        res = list_drive_files(service,
-                               q=f"'{parent_id}' in parents and "
-                               f"{mimeType} "
-                               f"name = '{name}'")
-        if 'files' not in res or len(res['files']) < 1:
-            return None
-        info = res['files'][0]
-        parent_id = res['files'][0]['id']
+    def get_drive_file_info(self, path):
+        """指定パスのファイル情報を取得"""
+        parent_id = 'root'
+        path_depth = len(path)
+        info = None
+        for depth, name in enumerate(path):
+            if depth < (path_depth - 1):
+                mimeType = "mimeType = 'application/vnd.google-apps.folder' and "
+            else:
+                mimeType = ""
+            res = list_drive_files(self.service,
+                                   q=f"'{parent_id}' in parents and "
+                                   f"{mimeType} "
+                                   f"name = '{name}'")
+            if 'files' not in res or len(res['files']) < 1:
+                return None
+            info = res['files'][0]
+            parent_id = res['files'][0]['id']
+    
+        return info
  
-    return info
+    def download_file(self, file_info, output_dir):
+        """指定ファイルのダウンロード"""
+        req = self.service.files().get_media(fileId=file_info['id'])
+        with open(os.path.join(output_dir, file_info['name']), 'wb') as f:
+            downloader = MediaIoBaseDownload(f, req)
+            done = False
+            while not done:
+                status, done = downloader.next_chunk()
+                print(f"Download {status.progress() * 100}%")
  
-def download_file(service, file_info, output_dir):
-    """指定ファイルのダウンロード"""
-    req = service.files().get_media(fileId=file_info['id'])
-    with open(os.path.join(output_dir, file_info['name']), 'wb') as f:
-        downloader = MediaIoBaseDownload(f, req)
-        done = False
-        while not done:
-            status, done = downloader.next_chunk()
-            print(f"Download {status.progress() * 100}%")
+    def upload_file(self, local_file, remote_folder_id='root', mimetype='text/plain'):
+        media = MediaFileUpload(local_file, mimetype=mimetype)
+        file = self.service.files().create(body={'name': os.path.basename(local_file),
+                                            'parents': [remote_folder_id]},
+                                      media_body=media,
+                                      fields='id').execute()
+        print(f'File ID: {file.get("id")}')
  
-def upload_file(service, local_file, remote_folder_id='root', mimetype='text/plain'):
-    media = MediaFileUpload(local_file, mimetype=mimetype)
-    file = service.files().create(body={'name': os.path.basename(local_file),
-                                        'parents': [remote_folder_id]},
-                                  media_body=media,
-                                  fields='id').execute()
-    print(f'File ID: {file.get("id")}')
- 
-def drive_mkdir(service, name, parent_id):
-    res = service.files().create(body={'name': name,
-                                       'parents': [parent_id],
-                                       'mimeType': 'application/vnd.google-apps.folder'}
-                                 ).execute()
- 
+    def drive_mkdir(self, name, parent_id):
+        res = self.service.files().create(body={'name': name,
+                                           'parents': [parent_id],
+                                           'mimeType': 'application/vnd.google-apps.folder'}
+                                     ).execute()
+
+def get_all_files_on_drive(service, opt_verbose= 'OFF'):
+    # すべてのファイルの一覧を取得 (全ページ)
+    nextPageToken = None
+    while True:
+        result = service.list_drive_files( pageSize=100, pageToken=nextPageToken)
+        msg = '\n nextPageToken: {}'.format(nextPageToken)
+        logger.info(msg)
+        msg = '\n result: {}'.format(result)
+        logger.info(msg)
+
+        if 'nextPageToken' not in result:
+            break
+        nextPageToken = result['nextPageToken']
+'''
+Using Google Colab how to drive.files().list more than 1000 files from google drive
+https://stackoverflow.com/questions/74717409/using-google-colab-how-to-drive-files-list-more-than-1000-files-from-google-dr
+
+    page_token = ""
+    filelist = {}
+    while True:
+        response = drive_service.files().list(q=query,
+                                    corpora='drive',
+                                    supportsAllDrives='true',
+                                    includeItemsFromAllDrives='true',
+                                    driveId=data_drive_id,
+                                    pageSize=1000,
+                                    fields='nextPageToken, files(id, name, webViewLink)',
+                                    pageToken=page_token).execute()
+
+        page_token = response.get('nextPageToken', None)
+        filelist.setdefault("files",[]).extend(response.get('files'))
+
+        if (not page_token):
+            break
+
+    response = filelist
+'''
+
+def get_all_files_under_specific_folder_id(service, list_folders, page_Size=1000, opt_verbose= 'OFF'):
+    list_files_info= []
+    # 指定のフォルダにあるファイル一覧を取得
+    folder_id = service.get_drive_folder_id(list_folders)
+    msg = 'folder_id: {}'.format(folder_id)
+    logger.info(msg)
+
+    nextPageToken = None
+    while True:
+        result = service.list_drive_files( pageSize=page_Size, pageToken=nextPageToken, \
+                                           fields='nextPageToken, files(id, name)', q=f"'{folder_id}' in parents")
+        if opt_verbose.lower() == 'on':
+            msg = '\n nextPageToken: {}'.format(nextPageToken)
+            logger.info(msg)
+            
+            for key, list_values in result.items():
+                for dict_values in list_values:
+                    for key, value in dict_values.items():
+                        msg = "\n key: {}; \n value: {}".format(key, value)
+                        logger.info(msg)
+
+        list_files_info.append(result)
+        if 'nextPageToken' not in result:
+            break
+        nextPageToken = result['nextPageToken']
+
+    return list_files_info
+
+def get_files_under_specific_folder_id(service, list_folders, opt_verbose= 'OFF'):
+    # 指定のフォルダにあるファイル一覧を取得
+    folder_id = service.get_drive_folder_id(list_folders)
+    msg = 'folder_id: {}'.format(folder_id)
+    logger.info(msg)
+
+    result = service.list_drive_files( fields='*', q=f"'{folder_id}' in parents")
+
+    msg = 'result: {}'.format( result)
+    logger.info(msg)   
+
 if __name__ == '__main__':
 
     logger_set(strdirname)
     
-    # Get present time
+    # Get present ti    me
     t0 = time.time()
     local_time = time.localtime(t0)
     msg = 'Start Time is {}/{}/{} {}:{}:{}'
@@ -171,26 +241,43 @@ if __name__ == '__main__':
     local_GDrive_google_api.get_authenticated_service()
     #list_drive_files(service)
 
-    result = local_GDrive_google_api.list_drive_files(pageSize=50)
-    #pp.pprint(result)
-
+    # すべてのファイルの一覧を取得 (1ページ分)
+    #result = local_GDrive_google_api.list_drive_files(pageSize=50)
+    
     # マイドライブ(トップフォルダ)にあるファイル一覧の取得
     #result = list_drive_files(service, q="'root' in parents")
 
     # 指定のフォルダにあるファイル一覧を取得
-    folder_id = local_GDrive_google_api.get_drive_folder_id( ['food-11', 'food-11_testing'])
-    msg = 'folder_id: {}'.format(folder_id)
+    #get_files_under_specific_folder_id(local_GDrive_google_api, ['food-11', 'food-11_testing'])
+    list_all_files_infos= get_all_files_under_specific_folder_id(local_GDrive_google_api, ['food-11', 'food-11_testing'], opt_verbose='off')
+    msg = '\n len of list_all_files_infos: {}'.format( len(list_all_files_infos))
     logger.info(msg)
-
-    result = local_GDrive_google_api.list_drive_files( fields='*', q=f"'{folder_id}' in parents")
-
-    msg = 'result: {}'.format( result)
-    logger.info(msg)   
+    
+    '''msg = '\n list_all_files_infos: \n {}'.format(list_all_files_infos)
+    logger.info(msg)
     '''
-    # 作成日時を取得
-    result = get_drive_file(service, fields='name,createdTime',
-                          fileId='1voasdfjlsIJTvasABdfJPIasfda2V5h4jEhcn0oPkQ')
+    
+    '''
+    {'id': '1LKxQuVerYnILvOvRH2JPX2IzqUi8OhRQ', 'name': '0217.jpg'}
+    {'id': '1BuHQot_ktH_m07ctD_8Q4ouYI6GKIkzi', 'name': '0216.jpg'}
+    '''
+    for dict_all_files_info in list_all_files_infos:
+        for key, list_values in dict_all_files_info.items():
+            #msg = "\n key: {} \n value: {}".format(key, value)
+            #logger.info(msg)   
+            for dict_values in list_values:
+                msg = "\n{}".format(dict_values)
+                logger.info(msg)   
 
+            
+    # すべてのファイルの一覧を取得 (全ページ)
+    #get_all_files_on_drive(local_GDrive_google_api, opt_verbose= 'OFF')
+
+    # 作成日時を取得
+    result = local_GDrive_google_api.get_drive_file(fields='name,createdTime',
+                                        fileId='1voasdfjlsIJTvasABdfJPIasfda2V5h4jEhcn0oPkQ')
+
+    '''
     # 指定パスのファイルをダウンロード
     file_info = get_drive_file_info(service, ['tmp', 'hoge.txt'])
     download_file(service, file_info, '.')
