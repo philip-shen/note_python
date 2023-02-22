@@ -102,7 +102,7 @@ class GDrive_google_api:
                 mimeType = "mimeType = 'application/vnd.google-apps.folder' and "
             else:
                 mimeType = ""
-            res = list_drive_files(self.service,
+            res = self.list_drive_files(
                                    q=f"'{parent_id}' in parents and "
                                    f"{mimeType} "
                                    f"name = '{name}'")
@@ -263,25 +263,43 @@ if __name__ == '__main__':
     '''
     for dict_all_files_info in list_all_files_infos:
         for key, list_values in dict_all_files_info.items():
-            #msg = "\n key: {} \n value: {}".format(key, value)
-            #logger.info(msg)   
-            for dict_values in list_values:
-                msg = "\n{}".format(dict_values)
-                logger.info(msg)   
-
+            #if key == 'id' or key == 'name':
+            #    msg = "\n key: {} \n value: {}".format(key, value)
+            #    logger.info(msg)   
             
+            t_download = time.time()
+            local_time = time.localtime(t_download)
+            msg = 'Start Download Time is {}/{}/{} {}:{}:{}'
+            logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
+                                local_time.tm_hour,local_time.tm_min,local_time.tm_sec))   
+
+            for dict_values in list_values:
+                msg = "\n'id':{}; 'name': {}".format(dict_values['id'], dict_values['name'])
+                '''logger.info(msg)   
+                '''
+                # 作成日時を取得
+                '''result = local_GDrive_google_api.get_drive_file(\
+                                    fields='name,createdTime, webViewLink, imageMediaMetadata',
+                                    fileId=dict_values['id'])
+                msg = "\n result: {}".format( result)
+                logger.info(msg)''' 
+
+                '''
+                INFO: 538 Files Download Time Consumption: 17m20s sequentially.
+                '''            
+                # 指定パスのファイルをダウンロード
+                file_info = local_GDrive_google_api.get_drive_file_info( ['food-11', 'food-11_testing', dict_values['name']])
+                local_GDrive_google_api.download_file(file_info, './logs')
+
+            time_consumption, h, m, s= lib_misc.format_time(time.time() - t_download)         
+            msg = 'File Download Time Consumption: {}.'.format( time_consumption)
+            logger.info(msg)
+
     # すべてのファイルの一覧を取得 (全ページ)
     #get_all_files_on_drive(local_GDrive_google_api, opt_verbose= 'OFF')
 
-    # 作成日時を取得
-    result = local_GDrive_google_api.get_drive_file(fields='name,createdTime',
-                                        fileId='1voasdfjlsIJTvasABdfJPIasfda2V5h4jEhcn0oPkQ')
 
-    '''
-    # 指定パスのファイルをダウンロード
-    file_info = get_drive_file_info(service, ['tmp', 'hoge.txt'])
-    download_file(service, file_info, '.')
-                        
+    '''  
     # 指定フォルダにファイルをアップロード
     upload_folder_id = get_drive_folder_id(service, ['tmp'])
     upload_file(service, './hoge.txt', upload_folder_id)
@@ -291,5 +309,5 @@ if __name__ == '__main__':
     drive_mkdir(service, 'hoge', parent_folder_id)
     '''
     time_consumption, h, m, s= lib_misc.format_time(time.time() - t0)         
-    msg = 'Time Consumption: {} seconds.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
+    msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg)
