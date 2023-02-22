@@ -284,12 +284,15 @@ if __name__ == '__main__':
                 msg = "\n result: {}".format( result)
                 logger.info(msg)''' 
 
+                '''
+                INFO: 538 Files Download Time Consumption: 17m20s sequentially.
+                '''            
                 # 指定パスのファイルをダウンロード
                 file_info = local_GDrive_google_api.get_drive_file_info( ['food-11', 'food-11_testing', dict_values['name']])
                 local_GDrive_google_api.download_file(file_info, './logs')
 
             time_consumption, h, m, s= lib_misc.format_time(time.time() - t_download)         
-            msg = 'File Download Time Consumption: {} seconds.'.format( time_consumption)
+            msg = 'File Download Time Consumption: {}.'.format( time_consumption)
             logger.info(msg)
 
     # すべてのファイルの一覧を取得 (全ページ)
@@ -306,5 +309,5 @@ if __name__ == '__main__':
     drive_mkdir(service, 'hoge', parent_folder_id)
     '''
     time_consumption, h, m, s= lib_misc.format_time(time.time() - t0)         
-    msg = 'Time Consumption: {} seconds.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
+    msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg)
