@@ -1,0 +1,13 @@
+{   
+    "path_dataset":[        
+        {
+            "path_data_training": "projects/xxx",
+            "path_data_validation": "projects/xxx",
+            "path_data_testing": "projects/xxx"
+        }
+    ],
+
+    "webdav_url": "https://xxx",
+    "auth_username": "xxxx",
+    "auth_api_key": "xxxx"
+}       
