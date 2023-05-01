@@ -9,5 +9,6 @@
 
     "webdav_url": "https://xxx",
     "auth_username": "xxxx",
-    "auth_api_key": "xxxx"
+    "auth_api_key": "xxxx",
+    "webdav_timeout": 30
 }       

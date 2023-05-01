@@ -371,6 +371,64 @@ def chk_remote_images_num(remote_path, suffix='.jpg', opt_verbose='OFF'):
 
     return len(files), files
 
+class remote_server_backup():
+    def __init__(self, webdav_client, remote_path, local_path, 
+                 remote_file_suffix, opt_verbose='OFF') -> None:
+        self.webdav_client = webdav_client
+        self.remote_path = remote_path
+        self.local_path = local_path
+        self.remote_file_suffix = remote_file_suffix
+        self.opt_verbose = opt_verbose
+
+    def chk_remote_images_num(self):    
+        files = []        
+        try:
+            files4 = self.webdav_client.list(self.remote_path)
+            files = [file for file in files4 if file.lower().endswith(self.remote_file_suffix) ]
+
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'files4: {files4}')    
+                logger.info(f'len of files: {len(files)}')
+
+        except RemoteResourceNotFound:
+            if not self.webdav_client.check(remote_path=self.remote_path):
+                self.webdav_client.mkdir(remote_path=self.remote_path)
+
+        return len(files), files
+    
+    def query_remote_path_file(self):
+        logger.info(f'query remote path : {self.remote_path} file(s)....')
+        self.num_remote_files, self.list_remote_files = \
+            self.chk_remote_images_num()
+        
+    def query_local_path_file(self):
+        logger.info(f'query local path: {self.local_path} file(s)....')
+        rec_file_type = '*.*'
+        local_query_all_files= lib_misc.Query_all_files_in_dir(self.local_path, rec_file_type, opt_verbose='off')
+        list_folder_wav_files= local_query_all_files.walk_in_dir()    
+        self.list_local_wav_files = [wav_file.split('/')[-1]  for wav_file in list_folder_wav_files ]
+
+    def backup_async(self):
+        self.query_remote_path_file()
+        self.query_local_path_file()
+
+        logger.info(f'len of list_local_wav_files: { len(self.list_local_wav_files) }; len of list_remote_files: {self.num_remote_files}')
+
+        list_diff_local_remote_files = lib_misc.Diff_List(self.list_local_wav_files, self.list_remote_files) 
+        logger.info(f'len of list_diff_local_remote_files: {len(list_diff_local_remote_files)}')
+
+        for diff_local_remote_file in list_diff_local_remote_files:
+            logger.info(f'\nremote_file: {self.remote_path}/{diff_local_remote_file};\nlocal_file: {self.local_path}/{diff_local_remote_file}')
+            
+            upload_async(webdav_client= self.webdav_client, 
+                     remote_path= f'{self.remote_path}/{diff_local_remote_file}' , 
+                    local_path= f'{self.local_path}/{diff_local_remote_file}' 
+                     )
+            sleep(0.5)
+
+        if len(list_diff_local_remote_files) > 0:
+            self.query_remote_path_file()
+            logger.info(f'len of list_local_wav_files: { len(self.list_local_wav_files) }; len of list_remote_files: {self.num_remote_files}')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='test WebDAV for fsspec module')
@@ -418,13 +476,14 @@ if __name__ == '__main__':
 
     webdav_url = json_data["webdav_url"]
     auth_username = json_data["auth_username"]
-    auth_api_key =json_data["auth_api_key"]
+    auth_api_key = json_data["auth_api_key"]
+    webdav_timeout = json_data["webdav_timeout"]
 
     options = {
         'webdav_hostname': webdav_url,
         'webdav_login':    auth_username,
         'webdav_password': auth_api_key,
-        'webdav_timeout': 30
+        'webdav_timeout': webdav_timeout
     }
     client = Client(options)
 
@@ -445,37 +504,26 @@ if __name__ == '__main__':
 
     #upload_async(json_data["path_dataset"][1]["path_janke_choki"], dir_janke_choki)
     #chk_images_num(json_data["path_dataset"][1]["path_janke_choki"])
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][0]["path_data_training"],
+                                                    local_path = dir_data_training, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    local_remote_server_backup.backup_async()
 
-    num_remote_files, list_remote_files = chk_remote_images_num(json_data["path_dataset"][0]["path_data_training"], suffix='.jpg')
-    
-    wav_path=dir_data_training
-    rec_file_type = '*.*'
-    local_query_all_files= lib_misc.Query_all_files_in_dir(wav_path, rec_file_type, opt_verbose='OFF')
-    list_folder_wav_files= local_query_all_files.walk_in_dir()    
-    list_local_wav_files = [wav_file.split('/')[-1]  for wav_file in list_folder_wav_files ]
-    
-    logger.info(f'len of list_local_wav_files: { len(list_local_wav_files) }; len of list_remote_files: {num_remote_files}')
-    
-    list_diff_local_remote_files = lib_misc.Diff_List(list_local_wav_files, list_remote_files) 
-    
-    #logger.info(f'list_diff_local_remote_files: {list_diff_local_remote_files}')
-    logger.info(f'len of list_diff_local_remote_files: {len(list_diff_local_remote_files)}')
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][0]["path_data_testing"],
+                                                    local_path = dir_data_testing, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    local_remote_server_backup.backup_async()
 
-    for diff_local_remote_file in list_diff_local_remote_files:
-        logger.info(f'\nremote_file: {json_data["path_dataset"][0]["path_data_training"]}/{diff_local_remote_file};\nlocal_file: {dir_data_training}/{diff_local_remote_file}')
-        #logger.info(f'\nlocal_file: {dir_data_training}/{diff_local_remote_file}')
-        upload_async(webdav_client= client, 
-                 remote_path= f'{json_data["path_dataset"][0]["path_data_training"]}/{diff_local_remote_file}' , 
-                 local_path= f'{dir_data_training}/{diff_local_remote_file}' 
-                 )
-        sleep(0.5)
-
-    num_remote_files, list_remote_files = chk_remote_images_num(json_data["path_dataset"][0]["path_data_training"], suffix='.jpg')
-    logger.info(f'len of list_local_wav_files: { len(list_local_wav_files) }; len of list_remote_files: {num_remote_files}')
-    
-    #upload_async(client,json_data["path_dataset"][0]["path_data_training"], dir_data_training)
-    #chk_remote_images_num(json_data["path_dataset"][0]["path_data_training"])
-
-    #chk_images_num(json_data["path_dataset"][0]["path_data_testing"], suffix='.jpg')
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][0]["path_data_validation"],
+                                                    local_path = dir_data_validation, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    local_remote_server_backup.backup_async()
 
     #est_timer()
