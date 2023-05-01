@@ -30,6 +30,11 @@ Take some note of python filesystem spec
 
 Package webdavclient3 based on https://github.com/designerror/webdav-client-python but uses requests instead of PyCURL. It provides easy way to work with WebDAV-servers. 
 
+[test_webdav3_client_it.py](test_webdav3_client_it.py)  
+```
+python test_webdav3_client_it.py --conf config.json
+```
+
 
 # python filesystem spec 
 [python filesystem spec ](https://github.com/orgs/fsspec/repositories?type=all)
@@ -70,6 +75,10 @@ fs.exists("Documents/Readme.md")
 fs.ls("Photos", detail=False)
 ```
 
+[test_fsspec.py][test_fsspec.py]
+```
+python test_fsspec.py --conf config.json
+```
 
 # CloudPolis/webdav-client-python 
 [CloudPolis/webdav-client-python](https://github.com/CloudPolis/webdav-client-python)    

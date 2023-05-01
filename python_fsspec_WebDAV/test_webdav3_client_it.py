@@ -2,7 +2,7 @@
 import shutil
 import unittest
 from io import BytesIO, StringIO
-#from os import path
+from os import path
 from time import sleep
 
 from webdav3_base_client_it import BaseClientTestCase
@@ -344,6 +344,34 @@ def est_timer():
     msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg)
 
+def progress(c, t):
+    logger.info(f"RX: {c} bytes / TX: {t} bytes")
+
+def upload_async(webdav_client, remote_path, local_path):
+    # Exception handling    
+    try:
+        # Upload resource async
+        kwargs = {'remote_path': remote_path,
+                  'local_path':  local_path,
+                  'progress': progress
+                }
+        rtu_upload_status = webdav_client.upload_async(**kwargs)
+        logger.info(f'rtu_upload_status: {rtu_upload_status}')      
+
+    except WebDavException as exception:
+        logger.info(f'exception: {exception}')
+
+def chk_remote_images_num(remote_path, suffix='.jpg', opt_verbose='OFF'):    
+    files4 = client.list(remote_path)
+    files = [file for file in files4 if file.lower().endswith(suffix) ]
+    
+    if opt_verbose.lower() == 'on':
+        logger.info(f'files4: {files4}')    
+        logger.info(f'len of files: {len(files)}')
+
+    return len(files), files
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='test WebDAV for fsspec module')
     parser.add_argument('--conf', type=str, default='config.json', help='Config json')
@@ -404,52 +432,50 @@ if __name__ == '__main__':
     #rtu_status = client.check(json_data["path_dataset"][0]["path_data_testing"])
     #logger.info(f'rtu_status: {rtu_status}')
 
-    rtu_info = client.info(json_data["path_dataset"][0]["path_data_testing"])
-    logger.info(f'rtu_info: {rtu_info}')
+    #rtu_info = client.info(json_data["path_dataset"][0]["path_data_testing"])
+    #logger.info(f'rtu_info: {rtu_info}')
 
-    files1 = client.list()
-    logger.info(f'files1: {files1}')
+    #files1 = client.list()
+    #logger.info(f'files1: {files1}')
+    
     #files2 = client.list(json_data["path_dataset"][0]["path_data_testing"])
     #logger.info(f'files2: {files2}')
     #files3 = client.list(json_data["path_dataset"][0]["path_data_training"])
     #logger.info(f'files3: {files3}')
 
-    files4 = client.list(json_data["path_dataset"][1]["path_janke_choki"])
-    logger.info(f'files4: {files4}')
+    #upload_async(json_data["path_dataset"][1]["path_janke_choki"], dir_janke_choki)
+    #chk_images_num(json_data["path_dataset"][1]["path_janke_choki"])
 
-    """"
-    # Exception handling    
-    try:
-        # Send missing files
-        rtu_push_status = client.push(remote_directory = json_data["path_dataset"][0]["path_data_testing"], 
-                                 local_directory = dir_data_testing)
-        logger.info(f'rtu_push_status: {rtu_push_status}')
+    num_remote_files, list_remote_files = chk_remote_images_num(json_data["path_dataset"][0]["path_data_training"], suffix='.jpg')
+    
+    wav_path=dir_data_training
+    rec_file_type = '*.*'
+    local_query_all_files= lib_misc.Query_all_files_in_dir(wav_path, rec_file_type, opt_verbose='OFF')
+    list_folder_wav_files= local_query_all_files.walk_in_dir()    
+    list_local_wav_files = [wav_file.split('/')[-1]  for wav_file in list_folder_wav_files ]
+    
+    logger.info(f'len of list_local_wav_files: { len(list_local_wav_files) }; len of list_remote_files: {num_remote_files}')
+    
+    list_diff_local_remote_files = lib_misc.Diff_List(list_local_wav_files, list_remote_files) 
+    
+    #logger.info(f'list_diff_local_remote_files: {list_diff_local_remote_files}')
+    logger.info(f'len of list_diff_local_remote_files: {len(list_diff_local_remote_files)}')
 
-    except WebDavException as exception:
-        logger.info(f'exception: {exception}')
-    """
+    for diff_local_remote_file in list_diff_local_remote_files:
+        logger.info(f'\nremote_file: {json_data["path_dataset"][0]["path_data_training"]}/{diff_local_remote_file};\nlocal_file: {dir_data_training}/{diff_local_remote_file}')
+        #logger.info(f'\nlocal_file: {dir_data_training}/{diff_local_remote_file}')
+        upload_async(webdav_client= client, 
+                 remote_path= f'{json_data["path_dataset"][0]["path_data_training"]}/{diff_local_remote_file}' , 
+                 local_path= f'{dir_data_training}/{diff_local_remote_file}' 
+                 )
+        sleep(0.5)
 
-    # Exception handling    
-    try:
-        # Upload resource async
-        kwargs = {'remote_path': json_data["path_dataset"][1]["path_janke_gu"],
-                  'local_path':  dir_janke_gu,
-                }
-        rtu_upload_status = client.upload_async(**kwargs)
-        logger.info(f'rtu_upload_status: {rtu_upload_status}')      
+    num_remote_files, list_remote_files = chk_remote_images_num(json_data["path_dataset"][0]["path_data_training"], suffix='.jpg')
+    logger.info(f'len of list_local_wav_files: { len(list_local_wav_files) }; len of list_remote_files: {num_remote_files}')
+    
+    #upload_async(client,json_data["path_dataset"][0]["path_data_training"], dir_data_training)
+    #chk_remote_images_num(json_data["path_dataset"][0]["path_data_training"])
 
-    except WebDavException as exception:
-        logger.info(f'exception: {exception}')
+    #chk_images_num(json_data["path_dataset"][0]["path_data_testing"], suffix='.jpg')
 
-    try:
-        # Upload resource async
-        kwargs = {'remote_path': json_data["path_dataset"][1]["path_janke_pa"],
-                  'local_path':  dir_janke_pa,
-                }
-        rtu_upload_status = client.upload_async(**kwargs)
-        logger.info(f'rtu_upload_status: {rtu_upload_status}')
-
-    except WebDavException as exception:
-        logger.info(f'exception: {exception}')
-
-    est_timer()
+    #est_timer()
