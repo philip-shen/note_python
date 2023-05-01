@@ -361,13 +361,19 @@ def upload_async(webdav_client, remote_path, local_path):
     except WebDavException as exception:
         logger.info(f'exception: {exception}')
 
-def chk_remote_images_num(remote_path, suffix='.jpg', opt_verbose='OFF'):    
-    files4 = client.list(remote_path)
-    files = [file for file in files4 if file.lower().endswith(suffix) ]
+def chk_remote_images_num(remote_path, suffix='.jpg', opt_verbose='OFF'):  
+    files = []        
+    try:
+        files4 = client.list(remote_path)
+        files = [file for file in files4 if file.lower().endswith(suffix) ]
     
-    if opt_verbose.lower() == 'on':
-        logger.info(f'files4: {files4}')    
-        logger.info(f'len of files: {len(files)}')
+        if opt_verbose.lower() == 'on':
+            logger.info(f'files4: {files4}')    
+            logger.info(f'len of files: {len(files)}')
+    
+    except RemoteResourceNotFound:
+            if not client.check(remote_path):
+                client.mkdir(remote_path)
 
     return len(files), files
 
