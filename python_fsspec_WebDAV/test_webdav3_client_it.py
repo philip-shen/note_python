@@ -13,6 +13,7 @@ import os, time, sys
 import argparse
 import json
 import pathlib
+import concurrent.futures
 
 strabspath=os.path.abspath(sys.argv[0])
 strdirname=os.path.dirname(strabspath)
@@ -358,6 +359,7 @@ def upload_async(webdav_client, remote_path, local_path):
         rtu_upload_status = webdav_client.upload_async(**kwargs)
         logger.info(f'rtu_upload_status: {rtu_upload_status}')      
 
+        sleep(1)
     except WebDavException as exception:
         logger.info(f'exception: {exception}')
 
@@ -436,6 +438,33 @@ class remote_server_backup():
             self.query_remote_path_file()
             logger.info(f'len of list_local_wav_files: { len(self.list_local_wav_files) }; len of list_remote_files: {self.num_remote_files}')
 
+    def backup_async_concurrent(self):
+        self.query_remote_path_file()
+        self.query_local_path_file()
+
+        logger.info(f'len of list_local_wav_files: { len(self.list_local_wav_files) }; len of list_remote_files: {self.num_remote_files}')
+
+        list_diff_local_remote_files = lib_misc.Diff_List(self.list_local_wav_files, self.list_remote_files) 
+        logger.info(f'len of list_diff_local_remote_files: {len(list_diff_local_remote_files)}')
+
+        list_remote_path_fname = [f'{self.remote_path}/{diff_local_remote_file}' for diff_local_remote_file in list_diff_local_remote_files]
+        list_local_path_fname = [f'{self.local_path}/{diff_local_remote_file}' for diff_local_remote_file in list_diff_local_remote_files]
+
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'len of list_remote_path_fname: {len(list_remote_path_fname)}')
+            logger.info(f'len of list_local_path_fname: {len(list_local_path_fname)}')
+
+        # concurrent run segmentation (multi-process method)
+        with concurrent.futures.ProcessPoolExecutor(max_workers=40) as executor:
+            futures = executor.map(upload_async,
+                                   [self.webdav_client]*len(list_diff_local_remote_files),
+                                   list_remote_path_fname, 
+                                   list_local_path_fname )
+        
+        if len(list_diff_local_remote_files) > 0:
+            self.query_remote_path_file()
+            logger.info(f'len of list_local_wav_files: { len(self.list_local_wav_files) }; len of list_remote_files: {self.num_remote_files}')
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='test WebDAV for fsspec module')
     parser.add_argument('--conf', type=str, default='config.json', help='Config json')
@@ -480,6 +509,8 @@ if __name__ == '__main__':
     dir_janke_gu = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][1]["path_janke_gu"]
     dir_janke_pa = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][1]["path_janke_pa"]
 
+    dir_faces = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][2]["path_faces"]
+
     webdav_url = json_data["webdav_url"]
     auth_username = json_data["auth_username"]
     auth_api_key = json_data["auth_api_key"]
@@ -510,7 +541,7 @@ if __name__ == '__main__':
 
     #upload_async(json_data["path_dataset"][1]["path_janke_choki"], dir_janke_choki)
     #chk_images_num(json_data["path_dataset"][1]["path_janke_choki"])
-    
+    """
     local_remote_server_backup = remote_server_backup(webdav_client= client, 
                                                     remote_path = json_data["path_dataset"][0]["path_data_training"],
                                                     local_path = dir_data_training, 
@@ -531,5 +562,14 @@ if __name__ == '__main__':
                                                     remote_file_suffix = '.jpg', 
                                                     opt_verbose=opt_verbose )    
     local_remote_server_backup.backup_async()
-
+    """
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][2]["path_faces"],
+                                                    local_path = dir_faces, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup.backup_async_concurrent()
+    
     #est_timer()
