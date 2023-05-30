@@ -455,7 +455,7 @@ class remote_server_backup():
             logger.info(f'len of list_local_path_fname: {len(list_local_path_fname)}')
 
         # concurrent run segmentation (multi-process method)
-        with concurrent.futures.ProcessPoolExecutor(max_workers=40) as executor:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=30) as executor:
             futures = executor.map(upload_async,
                                    [self.webdav_client]*len(list_diff_local_remote_files),
                                    list_remote_path_fname, 
@@ -511,6 +511,10 @@ if __name__ == '__main__':
 
     dir_faces = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][2]["path_faces"]
 
+    dir_smallbdd_img = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][3]["path_smallbdd_img"]
+    dir_smallbdd_xml = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][3]["path_smallbdd_xml"]
+    dir_smallbdd_test = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][3]["path_smallbdd_test"] 
+
     webdav_url = json_data["webdav_url"]
     auth_username = json_data["auth_username"]
     auth_api_key = json_data["auth_api_key"]
@@ -562,7 +566,7 @@ if __name__ == '__main__':
                                                     remote_file_suffix = '.jpg', 
                                                     opt_verbose=opt_verbose )    
     local_remote_server_backup.backup_async()
-    """
+    
     
     local_remote_server_backup = remote_server_backup(webdav_client= client, 
                                                     remote_path = json_data["path_dataset"][2]["path_faces"],
@@ -570,6 +574,25 @@ if __name__ == '__main__':
                                                     remote_file_suffix = '.jpg', 
                                                     opt_verbose=opt_verbose )    
     
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][3]["path_smallbdd_img"],
+                                                    local_path = dir_smallbdd_img, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][3]["path_smallbdd_test"],
+                                                    local_path = dir_smallbdd_test, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    """
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][3]["path_smallbdd_xml"],
+                                                    local_path = dir_smallbdd_xml, 
+                                                    remote_file_suffix = '.xml', 
+                                                    opt_verbose=opt_verbose )    
+        
     local_remote_server_backup.backup_async_concurrent()
     
-    #est_timer()
+    est_timer()
