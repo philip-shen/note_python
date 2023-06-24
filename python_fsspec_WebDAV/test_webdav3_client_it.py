@@ -455,7 +455,7 @@ class remote_server_backup():
             logger.info(f'len of list_local_path_fname: {len(list_local_path_fname)}')
 
         # concurrent run segmentation (multi-process method)
-        with concurrent.futures.ProcessPoolExecutor(max_workers=30) as executor:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
             futures = executor.map(upload_async,
                                    [self.webdav_client]*len(list_diff_local_remote_files),
                                    list_remote_path_fname, 
@@ -514,6 +514,20 @@ if __name__ == '__main__':
     dir_smallbdd_img = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][3]["path_smallbdd_img"]
     dir_smallbdd_xml = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][3]["path_smallbdd_xml"]
     dir_smallbdd_test = pathlib.Path(f'{home}/projects')/json_data["path_dataset"][3]["path_smallbdd_test"] 
+
+    dir_bdd10k_train = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_train"]
+    dir_bdd10k_test = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_test"]
+    dir_bdd10k_testA = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_testA"]
+    dir_bdd10k_testB = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_testB"]
+    dir_bdd10k_trainA = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_trainA"]
+    dir_bdd10k_trainB = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_trainB"]    
+    dir_bdd10k_val = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_val"]
+    dir_bdd100k_labels = pathlib.Path(f'{home}/projects/bdd100k/bdd100k_labels_release')/json_data["path_dataset"][4]["path_bdd100k_labels"]
+
+    json_data_voc2012_trainval = json_data["path_dataset"][5]["path_voc2012_trainval_annon"]
+    
+    str_dir_local = '/'.join(json_data_voc2012_trainval.split('/')[1:])
+    dir_voc2012_trainval_annon = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
 
     webdav_url = json_data["webdav_url"]
     auth_username = json_data["auth_username"]
@@ -578,21 +592,79 @@ if __name__ == '__main__':
                                                     remote_path = json_data["path_dataset"][3]["path_smallbdd_img"],
                                                     local_path = dir_smallbdd_img, 
                                                     remote_file_suffix = '.jpg', 
-                                                    opt_verbose=opt_verbose )    
+                                                    opt_verbose=opt_verbose )    images/10k/val
     
     local_remote_server_backup = remote_server_backup(webdav_client= client, 
                                                     remote_path = json_data["path_dataset"][3]["path_smallbdd_test"],
                                                     local_path = dir_smallbdd_test, 
                                                     remote_file_suffix = '.jpg', 
                                                     opt_verbose=opt_verbose )    
-    """
     
     local_remote_server_backup = remote_server_backup(webdav_client= client, 
                                                     remote_path = json_data["path_dataset"][3]["path_smallbdd_xml"],
                                                     local_path = dir_smallbdd_xml, 
                                                     remote_file_suffix = '.xml', 
                                                     opt_verbose=opt_verbose )    
-        
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd10k_train"],
+                                                    local_path = dir_bdd10k_train, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd10k_val"],
+                                                    local_path = dir_bdd10k_val, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd10k_test"],
+                                                    local_path = dir_bdd10k_test, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd100k_labels"],
+                                                    local_path = dir_bdd100k_labels, 
+                                                    remote_file_suffix = '.json', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd10k_trainA"],
+                                                    local_path = dir_bdd10k_trainA, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd10k_testA"],
+                                                    local_path = dir_bdd10k_testA, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd10k_trainB"],
+                                                    local_path = dir_bdd10k_trainB, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][4]["path_bdd10k_testB"],
+                                                    local_path = dir_bdd10k_testB, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    """
+    """
+    INFO: query remote path : 2012_trainval/VOCdevkit/VOC2012/Annotations file(s)....
+    INFO: len of list_local_wav_files: 17125; len of list_remote_files: 17125
+    INFO: Time Consumption: 29m17s.
+    """
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_annon"],
+                                                    local_path = dir_voc2012_trainval_annon, 
+                                                    remote_file_suffix = '.xml', 
+                                                    opt_verbose=opt_verbose )    
+                                                    
     local_remote_server_backup.backup_async_concurrent()
     
     est_timer()
