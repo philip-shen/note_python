@@ -76,6 +76,7 @@ Table of Contents
       * [３．listやNumPy配列で要素を指定する場合](#３listやnumpy配列で要素を指定する場合)
       * [４．配列とスライスで指定する場合の配列部の扱い](#４配列とスライスで指定する場合の配列部の扱い)
       * [５．What does -1 mean in numpy reshape?](#５what-does--1-mean-in-numpy-reshape)
+   * [Closure and Decorator](#closure-and-decorator)
    * [Environment](#environment)
    * [Troubleshooting](#troubleshooting)
       * [GH001 Large files detected](#gh001-large-files-detected)
@@ -1539,6 +1540,15 @@ IndexError: shape mismatch: indexing arrays could not be broadcast together with
 *both dimension as unknown i.e new shape as (-1,-1)*
 *array.reshape(-1, -1) ValueError: can only specify one unknown dimension*
 
+
+# Closure and Decorator  
+[python中的閉包&裝飾器 提高程式碼品質的神器 2023-03-23](https://ithelp.ithome.com.tw/articles/10311658)    
+[python中的裝飾器小補充 2023-03-24](https://ithelp.ithome.com.tw/articles/10311668)  
+
+[DAY09-搞懂Python的裝飾器 2018-10-10](https://ithelp.ithome.com.tw/articles/10200763)  
+[DAY10-搞懂Python裝飾器的進階內容 2018-10-11](https://ithelp.ithome.com.tw/articles/10200945)
+
+
 # Environment  
 windows 10 64bit  
 python 3.6.2  
@@ -1722,4 +1732,3 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 - 1
 - 2
 - 3
-
