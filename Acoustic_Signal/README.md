@@ -153,6 +153,7 @@ Table of Contents
          * [Gaussian Mixture Model](#gaussian-mixture-model)
       * [Code &amp; scripts](#code--scripts)
    * [User-Authentication-using-Voice-Recognition](#user-authentication-using-voice-recognition)
+   * [Cross-correlation for audio delay estimation](#cross-correlation-for-audio-delay-estimation)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -162,7 +163,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose
 Take note of Acoustic Process by Python  
@@ -2700,7 +2700,3 @@ Calculate the cut needed at start to sync two media files
 - 1
 - 2
 - 3
-
-
-
-
