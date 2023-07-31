@@ -31,7 +31,7 @@ ffmpegnormalize = ('ffmpeg -y -nostdin -i "{}" -filter_complex ' +
 '-c:a:0 pcm_s16le -c:s copy "{}"')
 ffmpegdenoise = 'ffmpeg -i "{}" -af'+" 'afftdn=nf=-25' "+'"{}"'
 ffmpeglow = 'ffmpeg -i "{}" -af'+" 'lowpass=f=%s' "+'"{}"'
-ffmpegmp3 = 'ffmpeg -i "{}" -b:a 192k -vn "{}"'
+ffmpegmp3 = 'ffmpeg -i "{}" -b:a 192k -vn -y "{}"'
 
 o = lambda x: '%s%s'%(x,'.wav')
 o_mp3 = lambda x: '%s%s'%(x,'.mp3')
@@ -82,6 +82,7 @@ def progress(chunk,file_handle,bytes_remaining):
             ' '*(20-int(size*20/contentSize)), float(size/contentSize*100)), end='')
         
 def download(url, itag):
+    
     dl_fname = YouTube(url).streams.get_by_itag(int(itag)).download()
     print(f'dl_fname:{ dl_fname }')
     out_fname = f"{os.path.splitext(os.path.basename(dl_fname))[0]}"
@@ -89,29 +90,49 @@ def download(url, itag):
     
     normalize_denoise_mp4tomp3(dl_fname, out_fname)
 
+    return dl_fname
     #global video
     #yt=YouTube(url,on_progress_callback=progress)
     #video=yt.streams.first()
     #video.get_by_itag(int(itag)).download()
 
-def set(url):
+def set(url, itag):
     #url = input("urlを指定してください")
     for y in YouTube(url).streams:
         print(y)
-    itag = input("itagを入力してください")
+    if itag == '':
+       itag = input("itagを入力してください")
+
     return url, itag
 
 def startdownload(url, itag):
+    
     try:
-        download(url, itag)
+        dl_video_fname = download(url, itag)
         print("ダウンロードが終了しました")
+
+        return dl_video_fname
     except TimeoutError:
         print("タイムアウトしました")
 
+def remove_dl_video_file(fname):
+   # Try to delete the file.
+  try:  
+    os.remove(fname)
+  except OSError as e:
+    # If it fails, inform the user.
+    print("Error: %s - %s." % (e.filename, e.strerror))
+
 def main(in_urls):
+    list_dl_fnames = []
+
     for in_url in in_urls:
-        url, itag = set(in_url)
-        startdownload(url, itag)
+        url, itag = set(in_url, itag='139')
+        list_dl_fnames.append(startdownload(url, itag))
+
+    for dl_fname in list_dl_fnames:
+       #print(f'list_dl_fname: {list_dl_fname}')
+       remove_dl_video_file(dl_fname)
 
 if __name__ == '__main__':
     video_url =[

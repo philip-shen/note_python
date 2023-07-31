@@ -20,6 +20,7 @@ Table of Contents
       * [下載 mp3 檔](#下載-mp3-檔)
       * [下載不同畫質與格式](#下載不同畫質與格式)
    * [YT-Downloader](#yt-downloader)
+   * [pytube](#pytube)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
    * [h1 size](#h1-size)
@@ -236,6 +237,11 @@ youtube-dl -F https://www.youtube.com/watch?v=rkAfWfZkfyo
 ```
 Script for downloading mp3 files from youtube
 ```
+
+
+# pytube 
+[pytube/pytube](https://github.com/pytube/pytube)  
+
 
 # Troubleshooting
 
