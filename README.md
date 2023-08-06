@@ -1513,9 +1513,7 @@ print(d3[:, [[0, 1, 0]], [0, 0, 0]])
 ```
 #コード07
 import numpy as np
-d3 = np.array([[[  0.,   1.,  Table of Contents
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc) 2.,   3.],
+d3 = np.array([[[  0.,   1.,   2.,   3.],
                 [ 10.,  11.,  12.,  13.],
                 [ 20.,  21.,  22.,  23.]],
                [[100., 101., 102., 103.],
