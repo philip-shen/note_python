@@ -523,11 +523,42 @@ if __name__ == '__main__':
     dir_bdd10k_trainB = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_trainB"]    
     dir_bdd10k_val = pathlib.Path(f'{home}/projects/bdd100k/bdd100k')/json_data["path_dataset"][4]["path_bdd10k_val"]
     dir_bdd100k_labels = pathlib.Path(f'{home}/projects/bdd100k/bdd100k_labels_release')/json_data["path_dataset"][4]["path_bdd100k_labels"]
-
-    json_data_voc2012_trainval = json_data["path_dataset"][5]["path_voc2012_trainval_annon"]
-    
-    str_dir_local = '/'.join(json_data_voc2012_trainval.split('/')[1:])
+    '''
     dir_voc2012_trainval_annon = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    dir_voc2012_trainval_imagesets_action = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    dir_voc2012_trainval_imagesets_layout = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    dir_voc2012_trainval_imagesets_main = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    dir_voc2012_trainval_imagesets_segmentation = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    dir_voc2012_trainval_jpegimages = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    dir_voc2012_trainval_segmentationClass = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    dir_voc2012_trainval_segmentationObject = pathlib.Path(f'{home}/projects/VOCDetection/2012/trainval')/str_dir_local
+    
+    dir_voc2012_test_annon = pathlib.Path(f'{home}/projects/VOCDetection/2012/test')/str_dir_local
+    dir_voc2012_test_imagesets_action = pathlib.Path(f'{home}/projects/VOCDetection/2012/test')/str_dir_local
+    dir_voc2012_test_imagesets_layout = pathlib.Path(f'{home}/projects/VOCDetection/2012/test')/str_dir_local
+    dir_voc2012_test_imagesets_main = pathlib.Path(f'{home}/projects/VOCDetection/2012/test')/str_dir_local
+    dir_voc2012_test_imagesets_segmentation = pathlib.Path(f'{home}/projects/VOCDetection/2012/test')/str_dir_local
+    dir_voc2012_test_jpegimages = pathlib.Path(f'{home}/projects/VOCDetection/2012/test')/str_dir_local
+    
+    dir_voc2007_trainval_annon = pathlib.Path(f'{home}/projects/VOCDetection/2007/trainval')/str_dir_local
+    dir_voc2007_trainval_imagesets_layout = pathlib.Path(f'{home}/projects/VOCDetection/2007/trainval')/str_dir_local
+    dir_voc2007_trainval_imagesets_main = pathlib.Path(f'{home}/projects/VOCDetection/2007/trainval')/str_dir_local
+    dir_voc2007_trainval_imagesets_segmentation = pathlib.Path(f'{home}/projects/VOCDetection/2007/trainval')/str_dir_local
+    dir_voc2007_trainval_jpegimages = pathlib.Path(f'{home}/projects/VOCDetection/2007/trainval')/str_dir_local
+    dir_voc2007_trainval_segmentationClass = pathlib.Path(f'{home}/projects/VOCDetection/2007/trainval')/str_dir_local
+    dir_voc2007_trainval_segmentationObject = pathlib.Path(f'{home}/projects/VOCDetection/2007/trainval')/str_dir_local
+    '''
+
+    json_data_voc2007_test = json_data["path_dataset"][8]["path_voc2007_test_segmentationObject"]
+    str_dir_local = '/'.join(json_data_voc2007_test.split('/')[1:])
+    
+    dir_voc2007_test_annon = pathlib.Path(f'{home}/projects/VOCDetection/2007/test')/str_dir_local
+    dir_voc2007_test_imagesets_layout = pathlib.Path(f'{home}/projects/VOCDetection/2007/test')/str_dir_local
+    dir_voc2007_test_imagesets_main = pathlib.Path(f'{home}/projects/VOCDetection/2007/test')/str_dir_local
+    dir_voc2007_test_imagesets_segmentation = pathlib.Path(f'{home}/projects/VOCDetection/2007/test')/str_dir_local
+    dir_voc2007_test_jpegimages = pathlib.Path(f'{home}/projects/VOCDetection/2007/test')/str_dir_local
+    dir_voc2007_test_segmentationClass = pathlib.Path(f'{home}/projects/VOCDetection/2007/test')/str_dir_local
+    dir_voc2007_test_segmentationObject = pathlib.Path(f'{home}/projects/VOCDetection/2007/test')/str_dir_local
 
     webdav_url = json_data["webdav_url"]
     auth_username = json_data["auth_username"]
@@ -659,12 +690,176 @@ if __name__ == '__main__':
     INFO: len of list_local_wav_files: 17125; len of list_remote_files: 17125
     INFO: Time Consumption: 29m17s.
     """
+    """
     local_remote_server_backup = remote_server_backup(webdav_client= client, 
                                                     remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_annon"],
                                                     local_path = dir_voc2012_trainval_annon, 
                                                     remote_file_suffix = '.xml', 
                                                     opt_verbose=opt_verbose )    
                                                     
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_imagesets_action"],
+                                                    local_path = dir_voc2012_trainval_imagesets_action, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_imagesets_layout"],
+                                                    local_path = dir_voc2012_trainval_imagesets_layout, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_imagesets_main"],
+                                                    local_path = dir_voc2012_trainval_imagesets_main, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_imagesets_segmentation"],
+                                                    local_path = dir_voc2012_trainval_imagesets_segmentation, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_jpegimages"],
+                                                    local_path = dir_voc2012_trainval_jpegimages, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_segmentationClass"],
+                                                    local_path = dir_voc2012_trainval_segmentationClass, 
+                                                    remote_file_suffix = '.png', 
+                                                    opt_verbose=opt_verbose ) 
+
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][5]["path_voc2012_trainval_segmentationObject"],
+                                                    local_path = dir_voc2012_trainval_segmentationObject, 
+                                                    remote_file_suffix = '.png', 
+                                                    opt_verbose=opt_verbose )    
+                                                    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][6]["path_voc2012_test_annon"],
+                                                    local_path = dir_voc2012_test_annon, 
+                                                    remote_file_suffix = '.xml', 
+                                                    opt_verbose=opt_verbose )    
+                                                    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][6]["path_voc2012_test_imagesets_action"],
+                                                    local_path = dir_voc2012_test_imagesets_action, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][6]["path_voc2012_test_imagesets_layout"],
+                                                    local_path = dir_voc2012_test_imagesets_layout, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][6]["path_voc2012_test_imagesets_main"],
+                                                    local_path = dir_voc2012_test_imagesets_main, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose ) 
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][6]["path_voc2012_test_imagesets_segmentation"],
+                                                    local_path = dir_voc2012_test_imagesets_segmentation, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose ) 
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][6]["path_voc2012_test_jpegimages"],
+                                                    local_path = dir_voc2012_test_jpegimages, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose ) 
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][7]["path_voc2007_trainval_annon"],
+                                                    local_path = dir_voc2007_trainval_annon, 
+                                                    remote_file_suffix = '.xml', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][7]["path_voc2007_trainval_imagesets_layout"],
+                                                    local_path = dir_voc2007_trainval_imagesets_layout, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+12
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][7]["path_voc2007_trainval_imagesets_main"],
+                                                    local_path = dir_voc2007_trainval_imagesets_main, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][7]["path_voc2007_trainval_imagesets_segmentation"],
+                                                    local_path = dir_voc2007_trainval_imagesets_segmentation, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][7]["path_voc2007_trainval_jpegimages"],
+                                                    local_path = dir_voc2007_trainval_jpegimages, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose ) 
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][7]["path_voc2007_trainval_segmentationClass"],
+                                                    local_path = dir_voc2007_trainval_segmentationClass, 
+                                                    remote_file_suffix = '.png', 
+                                                    opt_verbose=opt_verbose ) 
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][7]["path_voc2007_trainval_segmentationObject"],
+                                                    local_path = dir_voc2007_trainval_segmentationObject, 
+                                                    remote_file_suffix = '.png', 
+                                                    opt_verbose=opt_verbose )  
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][8]["path_voc2007_test_annon"],
+                                                    local_path = dir_voc2007_test_annon, 
+                                                    remote_file_suffix = '.xml', 
+                                                    opt_verbose=opt_verbose )    
+
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][8]["path_voc2007_test_imagesets_layout"],
+                                                    local_path = dir_voc2007_test_imagesets_layout, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose )    
+
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][8]["path_voc2007_test_imagesets_main"],
+                                                    local_path = dir_voc2007_test_imagesets_main, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose ) 
+
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][8]["path_voc2007_test_imagesets_segmentation"],
+                                                    local_path = dir_voc2007_test_imagesets_segmentation, 
+                                                    remote_file_suffix = '.txt', 
+                                                    opt_verbose=opt_verbose ) 
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][8]["path_voc2007_test_jpegimages"],
+                                                    local_path = dir_voc2007_test_jpegimages, 
+                                                    remote_file_suffix = '.jpg', 
+                                                    opt_verbose=opt_verbose ) 
+    
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][8]["path_voc2007_test_segmentationClass"],
+                                                    local_path = dir_voc2007_test_segmentationClass, 
+                                                    remote_file_suffix = '.png', 
+                                                    opt_verbose=opt_verbose ) 
+
+    """
+    local_remote_server_backup = remote_server_backup(webdav_client= client, 
+                                                    remote_path = json_data["path_dataset"][8]["path_voc2007_test_segmentationObject"],
+                                                    local_path = dir_voc2007_test_segmentationObject, 
+                                                    remote_file_suffix = '.png', 
+                                                    opt_verbose=opt_verbose )
+                      
     local_remote_server_backup.backup_async_concurrent()
     
     est_timer()
