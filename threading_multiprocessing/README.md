@@ -43,6 +43,8 @@ Table of Contents
          * [Queues](#queues)
          * [Pipe](#pipe)
       * [shared memory 共享記憶體](#shared-memory-共享記憶體)
+   * [Pythonにおけるthreading実践](#Pythonにおけるthreading実践)
+
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -948,6 +950,21 @@ Pipe 具有雙向溝通的能力，當我們呼叫 Pipe() 時會回傳 2 個 Con
 * []()  
 ![alt tag]()
 <img src="" width="" height="">  
+
+# Pythonにおけるthreading実践 
+[Pythonにおけるthreading実践 Posted at 2023-06-17](https://qiita.com/bd8z/items/1bbe7b225b9cdbe2f71a)  
+[ bd8z/threading ](https://github.com/bd8z/threading)  
+
+# Pythonでの並行処理(multi processing)と並列処理(multi threading)  
+[Pythonでの並行処理と並列処理 Last updated at 2018-01-05](https://qiita.com/ogihara/items/1b7f002b7d14a2710bce)    
+
+```
+環境
+    Ubuntu17.04
+    Python3.6.1
+    Intel core-i7 7500U
+```
+
 
 # h1 size
 
