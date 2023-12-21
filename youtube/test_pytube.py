@@ -44,7 +44,7 @@ ffmpegnormalize = ('ffmpeg -y -nostdin -i "{}" -filter_complex ' +
 ffmpegdenoise = 'ffmpeg -i "{}" -af'+" 'afftdn=nf=-25' "+'"{}"'
 ffmpeglow = 'ffmpeg -i "{}" -af'+" 'lowpass=f=%s' "+'"{}"'
 ffmpegmp3 = 'ffmpeg -i "{}" -b:a 192k -vn -y "{}"'
-ffmpegwav_48k_mono = 'ffmpeg.exe  -i "{}" -af "pan=mono|c0=c0|c1=c1"  -sample_fmt s16 -ar 48000 -f "{}"'
+ffmpegwav_48k_mono = 'ffmpeg.exe  -i "{}" -af pan=mono  -sample_fmt s16 -ar 48000 -y "{}"'
 
 o = lambda x: '%s%s'%(x,'.wav')
 o_mp3 = lambda x: '%s%s'%(x,'.mp3')
@@ -77,9 +77,13 @@ def normalize_denoise_mp4tomp3(infile,outname):
       in_out(ffmpeglow%lowpass,infile,outfile)
     if mp4tomp3:
       infile, outfile = infile, o_mp3(pathlib.Path('mp3')/outname)
+      print(f'infile:{ infile }')
+      print(f'outfile:{ outfile }')
       in_out(ffmpegmp3, infile,outfile)
     if mp4towav_48k_mono:
       infile, outfile = infile, o(pathlib.Path('mp3')/outname)
+      print(f'infile:{ infile }')
+      print(f'outfile:{ outfile }')
       in_out(ffmpegwav_48k_mono, infile, outfile)
         
     #r,s = wavfile.read(outfile)
@@ -161,9 +165,9 @@ if __name__ == '__main__':
       #  'https://youtu.be/ZgLFuJyeUTg?si=sa_HH3ETrzimTpX0',
       #  'https://www.youtube.com/live/eA-fP8jBlZA?si=qdzsh4ohXpd9elnS',
       #  'https://www.youtube.com/live/5agP0JjMl-w?si=BvFpnv7wRfqVvA9_'
-          'https://www.youtube.com/live/yjEE3lHhQ6o?si=spFDVRlPtJaYlj46',
-          'https://www.youtube.com/live/yjEE3lHhQ6o?si=UJ0OomAXY8Oh34te',
-          'https://www.youtube.com/live/yjEE3lHhQ6o?si=od8yEg-3c2KPB928',
+      #    'https://www.youtube.com/live/yjEE3lHhQ6o?si=spFDVRlPtJaYlj46',
+      #    'https://www.youtube.com/live/yjEE3lHhQ6o?si=UJ0OomAXY8Oh34te',
+      #    'https://www.youtube.com/live/yjEE3lHhQ6o?si=od8yEg-3c2KPB928',
           'https://www.youtube.com/live/Rqme2qJ3lXI?si=Xz8EGAF02VRAI3_f',
           'https://www.youtube.com/live/wTnTfGMqF00?si=sDB0aPpFFOPzSQcQ',
     ]
