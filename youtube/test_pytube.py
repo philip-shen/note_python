@@ -136,7 +136,18 @@ def main(in_urls):
 
 if __name__ == '__main__':
     video_url =[
-        'https://www.youtube.com/watch?v=hN5MBlGv2Ac',
-        'https://www.youtube.com/watch?v=vdAUcGGDKNM'
+      #  'https://youtu.be/gr67C2vRIxg?si=k4grk5lUt5BIBooU',
+      #  'https://www.youtube.com/live/G7jwsT3V2oY?si=ivZEOiGfg8EWNy59',
+      #  'https://youtu.be/j9EOoxPHBp8',
+      #  'https://www.youtube.com/watch?v=hN5MBlGv2Ac',
+      #  'https://www.youtube.com/watch?v=vdAUcGGDKNM',
+      #  'https://youtu.be/ZgLFuJyeUTg?si=sa_HH3ETrzimTpX0',
+      #  'https://www.youtube.com/live/eA-fP8jBlZA?si=qdzsh4ohXpd9elnS',
+      #  'https://www.youtube.com/live/5agP0JjMl-w?si=BvFpnv7wRfqVvA9_'
+          'https://www.youtube.com/live/yjEE3lHhQ6o?si=spFDVRlPtJaYlj46',
+          'https://www.youtube.com/live/yjEE3lHhQ6o?si=UJ0OomAXY8Oh34te',
+          'https://www.youtube.com/live/yjEE3lHhQ6o?si=od8yEg-3c2KPB928',
+          'https://www.youtube.com/live/Rqme2qJ3lXI?si=Xz8EGAF02VRAI3_f',
+          'https://www.youtube.com/live/wTnTfGMqF00?si=sDB0aPpFFOPzSQcQ',
     ]
     main(video_url)
