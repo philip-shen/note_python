@@ -9,6 +9,17 @@ https://superuser.com/questions/332347/how-can-i-convert-mp4-video-to-mp3-audio-
 
 ffmpeg -i video.mp4 -b:a 192K -vn music.mp3
 """
+"""
+Convert mp4 to WAV with ffmpeg 
+https://gist.github.com/Bonno/73873ed4ac523adc9611
+
+ffmpeg -i <infile> -af "pan=stereo|c0=c0|c1=c1" -f wav <outfile>
+"""
+"""
+Manipulating audio channels 
+https://trac.ffmpeg.org/wiki/AudioChannelManipulation#:~:text=ffmpeg%20integrates%20a%20default%20down,you%20have%20very%20specific%20needs.
+"""
+
 import os,sys
 import tempfile
 import pathlib
@@ -22,7 +33,8 @@ take = 20
 normalize = False
 denoise = False
 lowpass = 0
-mp4tomp3 = True
+mp4tomp3 = False
+mp4towav_48k_mono = True
 
 ffmpegwav = 'ffmpeg -i "{}" -t %s -c:a pcm_s16le -map 0:a "{}"'
 ffmpegnormalize = ('ffmpeg -y -nostdin -i "{}" -filter_complex ' +
@@ -32,6 +44,7 @@ ffmpegnormalize = ('ffmpeg -y -nostdin -i "{}" -filter_complex ' +
 ffmpegdenoise = 'ffmpeg -i "{}" -af'+" 'afftdn=nf=-25' "+'"{}"'
 ffmpeglow = 'ffmpeg -i "{}" -af'+" 'lowpass=f=%s' "+'"{}"'
 ffmpegmp3 = 'ffmpeg -i "{}" -b:a 192k -vn -y "{}"'
+ffmpegwav_48k_mono = 'ffmpeg.exe  -i "{}" -af "pan=mono|c0=c0|c1=c1"  -sample_fmt s16 -ar 48000 -f "{}"'
 
 o = lambda x: '%s%s'%(x,'.wav')
 o_mp3 = lambda x: '%s%s'%(x,'.mp3')
@@ -65,6 +78,10 @@ def normalize_denoise_mp4tomp3(infile,outname):
     if mp4tomp3:
       infile, outfile = infile, o_mp3(pathlib.Path('mp3')/outname)
       in_out(ffmpegmp3, infile,outfile)
+    if mp4towav_48k_mono:
+      infile, outfile = infile, o(pathlib.Path('mp3')/outname)
+      in_out(ffmpegwav_48k_mono, infile, outfile)
+        
     #r,s = wavfile.read(outfile)
     #if len(s.shape)>1: #stereo
     #  s = s[:,0]
