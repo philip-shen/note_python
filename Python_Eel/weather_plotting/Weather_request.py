@@ -1,8 +1,15 @@
 import requests
-import os, json
+import os, sys, json
 import pandas as pd
 import eel
-eel.init('web')
+
+strabspath=os.path.abspath(sys.argv[0])
+strdirname=os.path.dirname(strabspath)
+str_split=os.path.split(strdirname)
+dirnamelog=os.path.join(strdirname,"logs")
+
+from logger_setup import *
+
 @eel.expose
 def weather_element(location, District , element = 'T'):
     # the data is a list [time, value]
@@ -39,37 +46,52 @@ def weather_element(location, District , element = 'T'):
     text = requests.get(url).text
     #print(text)
     result = json.loads(requests.get(url).text)
-    
+    '''
     if not os.path.exists(".\\config_01.json"):
         with open('config_01.json', 'w', encoding='utf8') as f:
             json.dump(result, f)
-    
+    '''
     # take out part of information we want
     result = result["records"]["locations"][0]["location"][0]['weatherElement'][0]['time']
+    '''
     if not os.path.exists(".\\config_02.json"):
         with open('config_02.json', 'w', encoding='utf8') as f:
             json.dump(result, f)
-    
+    '''
     # Transfer it into DF
     result = pd.DataFrame(result)
-    print(result)
+    logger.info(f"\n{result}")
             
     # take out the element value of it
     result['value'] = result['elementValue'].apply(lambda x: x[0]['value'])
-    result.drop('elementValue', axis=1)
-
+    #logger.info(result['value'])
+    
+    temp_result = result.drop('elementValue', axis=1)
+    logger.info(f"\n{temp_result}")
+    
     if 'startTime' in result.columns:
         result_part1 = result[['startTime','value']]
         result_part2 = result[['endTime','value']].rename(columns={'endTime':'startTime'})
-        result = result_part1.append(result_part2,ignore_index=True).sort_values(by=['startTime'])
-        result.drop_duplicates(subset='startTime',inplace=True)
+        
+        #result = result_part1.append(result_part2,ignore_index=True).sort_values(by=['startTime'])
+        result = pd.concat([result_part1, result_part2],ignore_index=True).sort_values(by=['startTime'])
+        
+        temp_result = result.drop_duplicates(subset='startTime',inplace=True)
         time = result['startTime'].tolist()
-     
+        
+        logger.info(f"\n{temp_result}")
+        logger.info(f"\n{time}")     
 
     elif 'dataTime' in result.columns:
         time = result['dataTime'].tolist()
     value = result['value'].tolist()
     
+    logger.info(f"\n{time}; \n len 0f time: {len(time)}")     
+    logger.info(f"\n{value}; \n len of len: {len(value)}")
+        
     return ([time,value])
 
-eel.start('main.html',size = (1000,800))
+if __name__ == '__main__':
+    logger_set(strdirname)    
+    eel.init('web')
+    eel.start('main.html',size = (1000,800))

@@ -22,9 +22,19 @@ Take note of Python-Eel library related stuff
 
 #  Python_weather_plotting
 
+## Installation  
+1. cd weather_plotting
+1. /python.exe -m venv c:\Users\xxxxx\Envs\Eel
+1. pip install -r requirement.txt
+
+## Usage  
+1. python Weather_request.py
+
+<img src="images/weather_plotting.jpg" width="700" height="500">  
 
 ## Reference  
 [neutron0916/Python_weather_plotting](https://github.com/neutron0916/Python_weather_plotting)  
+
 
 # Troubleshooting
 
