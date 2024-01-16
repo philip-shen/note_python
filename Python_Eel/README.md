@@ -4,15 +4,18 @@ Table of Contents
    * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [Python_weather_plotting](#python_weather_plotting)
+      * [Installation](#installation)
+      * [Usage](#usage)
       * [Reference](#reference)
+   * [Chat-Bot](#chat-bot)
+      * [Reference](#reference-1)
    * [Troubleshooting](#troubleshooting)
-   * [Reference](#reference-1)
+   * [Reference](#reference-2)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
-   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -36,6 +39,12 @@ Take note of Python-Eel library related stuff
 [neutron0916/Python_weather_plotting](https://github.com/neutron0916/Python_weather_plotting)  
 
 
+# Chat-Bot  
+
+## Reference  
+[Mahmoud-Hashad/Chat-App](https://github.com/Mahmoud-Hashad/Chat-App)    
+[AaronDcunha/ChatAppPythonTemplate ](https://github.com/AaronDcunha/ChatAppPythonTemplate)
+
 # Troubleshooting
 
 
@@ -45,6 +54,7 @@ Take note of Python-Eel library related stuff
 A little Python library for making simple Electron-like HTML/JS GUI apps 
 ```
 
+[MrPowerUp82/Eel-MusicPlayer-Python ](https://github.com/MrPowerUp82/Eel-MusicPlayer-Python)
 
 * []()  
 ![alt tag]()
@@ -80,6 +90,3 @@ A little Python library for making simple Electron-like HTML/JS GUI apps
 No. | Test Name 
 ------------------------------------ | --------------------------------------------- | 
 001 | Two Sum
-
-
-
