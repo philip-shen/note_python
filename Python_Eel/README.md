@@ -8,6 +8,8 @@ Table of Contents
       * [Usage](#usage)
       * [Reference](#reference)
    * [Chat-Bot](#chat-bot)
+      * [Installation](#installation-1)
+      * [Usage](#usage-1)
       * [Reference](#reference-1)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference-2)
@@ -16,6 +18,7 @@ Table of Contents
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -41,9 +44,22 @@ Take note of Python-Eel library related stuff
 
 # Chat-Bot  
 
+## Installation  
+1. cd ChatApp_Template
+1. /python.exe -m venv c:\Users\xxxxx\Envs\Eel
+1. pip install -r requirement.txt
+
+## Usage  
+1. cd ChatApp_Template\Server
+1. python Server.py
+1. cd ChatApp_Template\Client
+1. python Client.py
+
+<img src="images/chat_app.gif" width="1000" height="300">  
+
 ## Reference  
+[AaronDcunha/ChatAppPythonTemplate ](https://github.com/AaronDcunha/ChatAppPythonTemplate)  
 [Mahmoud-Hashad/Chat-App](https://github.com/Mahmoud-Hashad/Chat-App)    
-[AaronDcunha/ChatAppPythonTemplate ](https://github.com/AaronDcunha/ChatAppPythonTemplate)
 
 # Troubleshooting
 
@@ -90,3 +106,4 @@ A little Python library for making simple Electron-like HTML/JS GUI apps
 No. | Test Name 
 ------------------------------------ | --------------------------------------------- | 
 001 | Two Sum
+
