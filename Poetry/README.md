@@ -3,10 +3,14 @@ Table of Contents
 
    * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
-   * [Installation](#installation)
+      * [Installation](#installation)
       * [Example](#example)
+   * [Use poetry for Hugging Face](#use-poetry-for-hugging-face)
+      * [Installation](#installation-1)
+      * [Example](#example-1)
    * [Reference](#reference)
    * [Troubleshooting](#troubleshooting)
+      * [<a href="https://github.com/python-poetry/install.python-poetry.org/issues/112#issuecomment-1611536856">https://github.com/python-poetry/install.python-poetry.org/issues/112#issuecomment-1611536856</a>](#httpsgithubcompython-poetryinstallpython-poetryorgissues112issuecomment-1611536856)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -14,6 +18,7 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 
 
 # Purpose
@@ -57,6 +62,43 @@ $ poetry publish (-r <Repository name>)
 
 
 <img src="images/poetry_installation_02.jpg" width="500" height="700">  
+
+# Use poetry for Hugging Face  
+
+## Installation  
+```
+poetry new huggingface_intro
+cd huggingface_intro
+```
+
+```
+poetry add transformers
+```
+
+```
+poetry add torch torchvision
+```
+
+## Example  
+```
+poetry run python huggingface_intro/intro.py
+```
+
+```
+tensor([[0.3915, 0.1245, 0.4840],
+        [0.6033, 0.1590, 0.2377]], grad_fn=<SoftmaxBackward0>)
+```
+
+```
+poetry run python huggingface_intro/hf_pipeline.py
+```
+
+```
+d:\projects\note_python\Poetry\huggingface_tutorial\.venv\lib\site-packages\transformers\pipelines\text_classification.py:104: UserWarning: `return_all_scores` is now deprecated,  if want a similar functionality use `top_k=None` instead of `return_all_scores=True` or `top_k=1` instead of `return_all_scores=False`.
+
+  warnings.warn(
+[[{'label': 'positive', 'score': 0.3915075659751892}, {'label': 'neutral', 'score': 0.12451174110174179}, {'label': 'negative', 'score': 0.4839806854724884}], [{'label': 'positive', 'score': 0.6033188700675964}, {'label': 'neutral', 'score': 0.15902899205684662}, {'label': 'negative', 'score': 0.23765207827091217}]]
+```
 
 
 # Reference
