@@ -18,8 +18,9 @@ import pandas as pd
 
 # Global Variable: Ticker List
 #with open("data/tickers.pickle", "rb") as f:
-#with open("data/twse_otc_id.pickle", "rb") as f:
-with open("data/steady_growth.pickle", "rb") as f:
+with open("data/twse_otc_id.pickle", "rb") as f:
+#with open("data/steady_growth.pickle", "rb") as f:
+#with open("data/ETF.pickle", "rb") as f:    
     TICKER_LIST = pickle.load(f)
 
 
@@ -301,7 +302,8 @@ class Engine:
         def update_graph(n_clicks, ticker):
 
             if ticker not in TICKER_LIST:
-                raise Exception("Invalid Ticker!")
+                print(f'ticker: {ticker}')
+                #raise Exception("Invalid Ticker!")
             else:
                 pass
 
@@ -373,11 +375,12 @@ class Engine:
             # State
             [State("ticker", "value")]
         )
-        def update_table(n_clicks, ticker):
+        def update_table(n_clicks,  ticker):
             """Updates the metrics found on asset info"""
 
             if ticker not in TICKER_LIST:
-                raise Exception("Invalid Ticker!")
+                print(f'ticker: {ticker}')
+                #raise Exception("Invalid Ticker!")
             else:
                 pass
 
@@ -386,6 +389,8 @@ class Engine:
             if n_clicks >= 1:
                 asset = Asset(ticker, period='1y', interval='1d')
                 asset_info = asset.get_info() 
+                print(f'asset_info: {asset_info}')
+                #print(f'asset_info.items: {asset_info.items()}')
 
                 data = [{'Metric': i, 'Value': j}
                         for i, j in asset_info.items() if i in metric_ls]

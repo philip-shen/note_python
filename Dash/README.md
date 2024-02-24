@@ -22,6 +22,7 @@ Table of Contents
       * [ButtonのCallback](#buttonのcallback)
    * [auto_report_using_dash_python](#auto_report_using_dash_python)
    * [Stock Analysis Dashboard](#stock-analysis-dashboard)
+      * [Stock Charter](#stock-charter)
    * [Stock Price Predictor](#stock-price-predictor)
    * [Dash Technical Charting App](#dash-technical-charting-app)
    * [Dash Collection](#dash-collection)
@@ -34,7 +35,6 @@ Table of Contents
                * [h5 size](#h5-size)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 # Purpose  
 Take note of Dash  
 
@@ -279,6 +279,10 @@ The project's code can be divided into four major sections, which are in order:
 4. Interactivity
 ```
 
+## Stock Charter  
+[stock_charter.py](stock-analyzer/stock_charter.py)  
+<img src="images/2330.TW.jpg" width="800" height="400">  
+
 [felipesveiga/Stock-Analysis-Dashboard](https://github.com/felipesveiga/Stock-Analysis-Dashboard)
 
 >  Dash ImportError: cannot import name 'get_current_traceback' from 'werkzeug.debug.tbtools'
@@ -450,6 +454,7 @@ pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.tar.g
 
 * []()  
 ![alt tag]()
+<img src="" width="400" height="500">  
 
 # h1 size
 
@@ -477,5 +482,3 @@ pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.tar.g
 - 1
 - 2
 - 3
-
-

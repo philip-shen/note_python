@@ -50,6 +50,8 @@ if __name__ == '__main__':
     path_pickle_business_cycle= os.path.join(dirnamedata, 'business_cycle.pickle')
     path_xlsx_steady_growth= os.path.join(dirnamedata, 'steady_growth.xlsx')
     path_pickle_steady_growth= os.path.join(dirnamedata, 'steady_growth_202210.pickle')
+    path_xlsx_ETF= os.path.join(dirnamedata, 'ETF.xlsx')
+    path_pickle_ETF= os.path.join(dirnamedata, 'ETF.pickle')
 
     """lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], path_xlsx_stock_id, \
                                          path_pickle_stock_id, opt_verbose='OFF')"""
@@ -67,13 +69,15 @@ if __name__ == '__main__':
     
     """_, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_business_cycle, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_business_cycle, list_twse_otc_ticker,opt_verbose)"""
-
+    '''
     _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_band_op, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_band_op, list_twse_otc_ticker,opt_verbose)
     
     _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_steady_growth, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_steady_growth, list_twse_otc_ticker,opt_verbose)
-
+    '''
+    _, list_etf_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_ETF, path_pickle_stock_id)
+    lib_twse_otc.dump_pickle(path_pickle_ETF, list_etf_ticker, opt_verbose)
     
     time_consumption, h, m, s= lib_time.format_time(time.time() - t0)         
     msg = 'Time Consumption: {} seconds.'#msg = 'Time duration: {:.2f} seconds.'
