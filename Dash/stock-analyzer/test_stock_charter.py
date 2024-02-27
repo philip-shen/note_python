@@ -40,7 +40,7 @@ if __name__ == '__main__':
     #opt_verbose='OFF'
     
     str_twse_url= 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=2'
-    str_tpex_url = 'http://isin.twse.com.tw/isin/C_public.jsp?strMode=4'
+    str_tpex_url = 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=4'
     path_xlsx_stock_id= os.path.join(dirnamedata, 'twse_otc_id.xlsx')
     path_pickle_stock_id= os.path.join(dirnamedata, 'twse_otc_id.pickle')
     path_pickle_tickers= os.path.join(dirnamedata, 'tickers.pickle')
@@ -53,8 +53,12 @@ if __name__ == '__main__':
     path_xlsx_ETF= os.path.join(dirnamedata, 'ETF.xlsx')
     path_pickle_ETF= os.path.join(dirnamedata, 'ETF.pickle')
 
-    """lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], path_xlsx_stock_id, \
-                                         path_pickle_stock_id, opt_verbose='OFF')"""
+    path_txt_stock_id= os.path.join(dirnamedata, 'twse_otc_id.txt')
+    path_cvs_stock_id= os.path.join(dirnamedata, 'twse_otc_id.csv')
+    '''
+    lib_twse_otc.query_twse_otc_code_00([str_twse_url, str_tpex_url], path_xlsx_stock_id, \
+                                         path_pickle_stock_id, opt_verbose='OFF')
+    '''
     
     """lib_twse_otc.query_twse_otc_info('4755.TW', period='2y')"""
 
@@ -69,15 +73,19 @@ if __name__ == '__main__':
     
     """_, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_business_cycle, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_business_cycle, list_twse_otc_ticker,opt_verbose)"""
+    
     '''
     _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_band_op, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_band_op, list_twse_otc_ticker,opt_verbose)
     
     _, list_twse_otc_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_steady_growth, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_steady_growth, list_twse_otc_ticker,opt_verbose)
-    '''
+    
     _, list_etf_ticker= lib_twse_otc.query_twse_otc_idx(path_xlsx_ETF, path_pickle_stock_id)
     lib_twse_otc.dump_pickle(path_pickle_ETF, list_etf_ticker, opt_verbose)
+    '''
+    
+    lib_twse_otc.query_twse_otc_code_02([str_twse_url, str_tpex_url], path_pickle_stock_id)
     
     time_consumption, h, m, s= lib_time.format_time(time.time() - t0)         
     msg = 'Time Consumption: {} seconds.'#msg = 'Time duration: {:.2f} seconds.'

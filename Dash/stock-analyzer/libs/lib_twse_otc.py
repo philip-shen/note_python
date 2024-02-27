@@ -27,6 +27,9 @@ __all__ = [
     'query_twse_otc_info_by_pickle',
     'query_twse_otc_idx',
     'dump_pickle',
+    'getTWSE',
+    'query_twse_otc_code_02',
+    
 ]
 """
 [Python] 抓取證券編碼一覽表
@@ -36,6 +39,7 @@ def query_twse_otc_code_01(str_url, opt_verbose= 'OFF'):
     #url = "http://isin.twse.com.tw/isin/C_public.jsp?strMode=2"
     res = requests.get(str_url, verify = False)
     soup = BeautifulSoup(res.text, 'html.parser')
+    logger.info(soup)
     
     table = soup.find("table", {"class" : "h4"})
     c = 0
@@ -52,12 +56,91 @@ def query_twse_otc_code_01(str_url, opt_verbose= 'OFF'):
             if opt_verbose.lower() == 'on':
                 logger.info(data )
 
+"""
+實際數據串接 2023-09-28 
+https://ithelp.ithome.com.tw/articles/10329919?sc=rss.iron
+"""
+"""
+         code    name      國際證券辨識號碼         上市日 市場別   產業別     CFI
+0        1102      亞泥  TW0001102002  1962/06/08  上市  水泥工業  ESVUFR
+1        1103      嘉泥  TW0001103000  1969/11/14  上市  水泥工業  ESVUFR
+2        1104      環泥  TW0001104008  1971/02/01  上市  水泥工業  ESVUFR
+3        1108      幸福  TW0001108009  1990/06/06  上市  水泥工業  ESVUFR
+4        1109      信大  TW0001109007  1991/12/05  上市  水泥工業  ESVUFR
+...       ...     ...           ...         ...  ..   ...     ...
+36154  01002T  土銀國泰R1  TW00001002T6  2005/10/03  上市        CBCIXU
+36155  01004T  土銀富邦R2  TW00001004T2  2006/04/13  上市        CBCIXU
+36156  01007T  兆豐國泰R2  TW00001007T5  2006/10/13  上市        CBCIXU
+36157  01009T  王道圓滿R1  TW00001009T1  2018/06/21  上市        CBCIXU
+36158  01010T  京城樂富R1  TW00001010T9  2018/12/05  上市        CBCIXU
+
+[36159 rows x 7 columns]
+"""
+"""
+6526　達發	TW0006526007	2023/10/19	上市	半導體業	ESVUFR	
+
+6757　台灣虎航-創	TW0006757008	2023/08/15	上市臺灣創新板	航運業	ESVUFR	
+
+0056　元大高股息	TW0000056001	2007/12/26	上市		CEOGEU	
+00730　富邦臺灣優質高息	TW0000073006	2018/02/08	上市		CEOIEU
+00878　國泰永續高股息	TW0000087808	2020/07/20	上市		CEOJEU	
+00919　群益台灣精選高息	TW0000091909	2022/10/20	上市		CEOIEU
+"""
+"""
+Pandas: How to Select Rows Based on Column Values
+https://www.statology.org/pandas-select-rows-based-on-column-values/
+
+Method 2: Select Rows where Column Value is in List of Values
+df.loc[df['col1'].isin([value1, value2, value3, ...])]
+"""
+
+def query_twse_otc_code_02(list_str_url, path_pickle_stock_id, path_csv_stock_id= '', opt_verbose= 'OFF'):
+    columns = ['code', 'name', '國際證券辨識號碼', '上市日', '市場別', '產業別', 'CFI']
+    
+    tds = []        
+    for str_url in list_str_url:
+        res = requests.get(str_url)
+        soup = BeautifulSoup(res.text, "lxml") 
+        tr = soup.findAll('tr')
+
+        for raw in tr:
+            table = [td.get_text() for td in raw.findAll("td")]
+            if len(table) == 7:
+                #tds.append(table)
+                if "有價證券代號及名稱" not in table[0]:
+                    #logger.info(f'table[0]: {table[0]}')        
+                    code, name = table[0].split('\u3000')
+                    tds.append(dict(zip(columns, [code, name, *table[1: -1]])))
+
+    dict_data=  {}
+    data_temp= pd.DataFrame()
+    data = pd.DataFrame(tds[1:],columns=tds[0])
+    data_temp= data.loc[data['CFI'].isin(['ESVUFR', 'CEOGEU', 'CEOIEU', 'CEOJEU'])].copy()
+    data_temp.loc[data_temp['市場別'] == '上市', 'code']= data_temp['code']+'.TW'
+    data_temp.loc[data_temp['市場別'] == '上櫃', 'code']= data_temp['code']+'.TWO'
+    
+    if path_csv_stock_id != "":
+        data_temp.to_csv(path_csv_stock_id, index=False) 
+    
+    dict_data= dict(zip(data_temp.code, data_temp.name))
+    list_data= data_temp['code'].values.tolist()
+    
+    if opt_verbose.lower() == 'on':
+        for key, value in dict_data.items():
+            logger.info('\n key: {}; value: {}'.format(key, value) )
+    
+    # save dictionary to pickle file
+    with open(path_pickle_stock_id, 'wb') as file:
+        #pickle.dump(dict_data, file, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(list_data, file, protocol=pickle.HIGHEST_PROTOCOL)
+    
+    logger.info(f'data_temp: \n{data_temp}')
 
 """
 07.爬股票代號、產業別 
 https://ithelp.ithome.com.tw/articles/10203803
 """
-columns = ['dtype', 'code', 'name', '國際證券辨識號碼', '上市日', '市場別', '產業別', 'CFI']
+
 """
 How do I select rows from a DataFrame based on column values?
 https://stackoverflow.com/questions/17071871/how-do-i-select-rows-from-a-dataframe-based-on-column-values
@@ -74,12 +157,15 @@ https://datascienceparichay.com/article/save-python-dictionary-to-a-pickle-file/
 How to Convert Pandas Index to a List (With Examples)
 https://www.statology.org/pandas-index-to-list/
 """
-
+"""
+20240227 query_twse_otc_code_00 can't work
+"""
 def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_id, opt_verbose= 'OFF'):
+    columns = ['dtype', 'code', 'name', '國際證券辨識號碼', '上市日', '市場別', '產業別', 'CFI']
     
     items = []
-    for url in list_str_url:
-        response_dom = pq(url)
+    for str_url in list_str_url:
+        response_dom = pq(str_url)
         for tr in response_dom('.h4 tr:eq(0)').next_all().items():
             if tr('b'):
                 dtype = tr.text()
@@ -87,7 +173,7 @@ def query_twse_otc_code_00(list_str_url, path_xlsx_stock_id, path_pickle_stock_i
                 row = [td.text() for td in tr('td').items()]
                 code, name = row[0].split('\u3000')
                 items.append(dict(zip(columns, [dtype, code, name, *row[1: -1]])))
-
+    
     dict_data=  {}
     data_temp= pd.DataFrame()
     data= pd.DataFrame(items)
@@ -135,6 +221,31 @@ class StockCodeSpider(scrapy.Spider):
                 row = [td.text() for td in tr('td').items()]
                 code, name = row[0].split('\u3000')
                 yield dict(zip(columns, [dtype, code, name, *row[1: -1]]))
+
+    
+"""
+Python 擷取上市櫃公司名稱與代號及股利資訊
+Apr 22, 2020
+https://medium.com/phelps-laboratory/%E6%93%B7%E5%8F%96%E4%B8%8A%E5%B8%82%E6%AB%83%E5%85%AC%E5%8F%B8%E5%90%8D%E7%A8%B1%E8%88%87%E4%BB%A3%E8%99%9F%E5%8F%8A%E8%82%A1%E5%88%A9%E8%B3%87%E8%A8%8A-afe6b31f9c46
+"""
+
+def getTWSE(str_url, path_stock_id):
+    # read_html
+    twsedf = pd.read_html(str_url, encoding="Big5")
+    logger.info(f"twsedf: {twsedf}")   
+    # open file
+    fp = open(path_stock_id, "a")
+
+    for str in twsedf[0][0]:
+        encodeStr = str.encode('utf-8')
+        strArray = encodeStr.split(' ')
+        if len(strArray) == 2:
+            print(strArray[0], strArray[1])
+            # write to output file
+            if len(strArray[0]) == 4:
+                fp.writelines(strArray[0] + " " + strArray[1] + "\n")
+
+    fp.close()
 
 """
 Python — 透過Yahoo Finance API抓取台股歷史

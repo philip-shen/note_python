@@ -210,7 +210,7 @@ class Layout:
                                     id='plot_button',
                                     n_clicks=1
                                 ),
-                                html.Br(), html.Br(),
+                                html.Br(), #html.Br(),
 
                                 # Table info
                                 html.P('Summary Statistics:',
