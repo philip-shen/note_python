@@ -141,19 +141,19 @@ class Plotter:
     def plotSMA(self, period=50):
         chart = go.Scatter(
             x=list(self.data.index), y=list(self.data[f'MA{period}']),
-            line=dict(color='orange', width=1.3), name=f'SMA{period}')
+            line=dict(color='yellow', width=1.3), name=f'SMA{period}')
         return chart
 
     def plotBBUpper(self):
         chart = go.Scatter(
             x=list(self.data.index), y=list(self.data['BB Upper']),
-            line=dict(color='white', width=1.0), name="Bollinger Upper Band")
+            line=dict(color='darkorange', width=1.5), name="Bollinger Upper Band")
         return chart
 
     def plotBBLower(self):
         chart = go.Scatter(
             x=list(self.data.index), y=list(self.data['BB Lower']),
-            line=dict(color='white', width=1.0), name="Bollinger Lower Band")
+            line=dict(color='gray', width=1.5), name="Bollinger Lower Band")
         return chart
 
     def plotVolume(self):
