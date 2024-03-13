@@ -153,7 +153,7 @@ class Plotter:
     def plotBBLower(self):
         chart = go.Scatter(
             x=list(self.data.index), y=list(self.data['BB Lower']),
-            line=dict(color='gray', width=1.5), name="Bollinger Lower Band")
+            line=dict(color='blue', width=1.5), name="Bollinger Lower Band")
         return chart
 
     def plotVolume(self):
