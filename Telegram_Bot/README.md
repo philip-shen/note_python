@@ -113,6 +113,7 @@ This is proven very useful to me slightly_smiling_face to track approx location 
 [ganessaa/lambda-cloud-api-python](https://github.com/ganessaa/lambda-cloud-api-python)  
 [Lambda Cloud API](https://cloud.lambdalabs.com/api/v1/docs)  
 
+[ULTRA-VAGUE/Tensordock-GPU-Alert](https://github.com/ULTRA-VAGUE/Tensordock-GPU-Alert)
 
 # Troubleshooting
 
