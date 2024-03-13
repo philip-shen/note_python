@@ -17,8 +17,10 @@ Table of Contents
    * [IP-Details](#ip-details)
    * [teleflask](#teleflask)
    * [Python-ChatGPT-TelegramBot-Docker](#python-chatgpt-telegrambot-docker)
+   * [Lambda Cloud TelegramBot](#lambda-cloud-telegrambot)
+      * [Reference](#reference)
    * [Troubleshooting](#troubleshooting)
-   * [Reference](#reference)
+   * [Reference](#reference-1)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -100,6 +102,18 @@ This is proven very useful to me slightly_smiling_face to track approx location 
 [ pyfbsdk59 / Python-ChatGPT-TelegramBot-Docker ](https://github.com/pyfbsdk59/Python-ChatGPT-TelegramBot-Docker)
 一個Python ChatGPT TelegramBot快速建置平台。
 
+
+# Lambda Cloud TelegramBot  
+
+## Reference  
+[eternnoir/pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBotAPI?tab=readme-ov-file#asynctelebot)
+[コスパ良いGPU Cloudを使いたい：Lambda Labs 2023/04/17](https://zenn.dev/fusic/articles/c81710b83dfedb)  
+[Lambda Cloud (GPU Cloud) の使い方 2023/02/08](https://zenn.dev/ainellc/articles/f28eb8ea276ddd)  
+[Lambda Cloud (GPU Cloud) API の使い方 2023/02/23](https://zenn.dev/ainellc/articles/e7749e5509840d)  
+[ganessaa/lambda-cloud-api-python](https://github.com/ganessaa/lambda-cloud-api-python)  
+[Lambda Cloud API](https://cloud.lambdalabs.com/api/v1/docs)  
+
+
 # Troubleshooting
 
 
@@ -147,3 +161,10 @@ This is proven very useful to me slightly_smiling_face to track approx location 
 - 1
 - 2
 - 3
+
+Table of Contents
+=================
+
+
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
