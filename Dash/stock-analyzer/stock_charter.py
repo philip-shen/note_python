@@ -141,7 +141,7 @@ class Plotter:
     def plotSMA(self, period=50):
         chart = go.Scatter(
             x=list(self.data.index), y=list(self.data[f'MA{period}']),
-            line=dict(color='yellow', width=1.3), name=f'SMA{period}')
+            line=dict(color='lightblue', width=1.3), name=f'SMA{period}')
         return chart
 
     def plotBBUpper(self):
@@ -153,7 +153,7 @@ class Plotter:
     def plotBBLower(self):
         chart = go.Scatter(
             x=list(self.data.index), y=list(self.data['BB Lower']),
-            line=dict(color='blue', width=1.5), name="Bollinger Lower Band")
+            line=dict(color='yellow', width=1.5), name="Bollinger Lower Band")
         return chart
 
     def plotVolume(self):
@@ -197,7 +197,7 @@ class Layout:
                                         for i in range(len(TICKER_LIST))
                                     ],
                                     searchable=True,
-                                    value="TSLA",
+                                    value="2330.TW",
                                     placeholder="Enter Stock Ticker",
                                     style={'color': '#FFFFFF'}
                                 ),
