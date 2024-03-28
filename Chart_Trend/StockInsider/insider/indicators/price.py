@@ -3,6 +3,7 @@ import numpy as np
 from insider.indicators.base import BaseMixin
 from insider.constants import MOVING_COLS, HIGH_LOW_COLS, ADTM_COLS
 
+from insider.logger_setup import *
 
 class PriceIndicatorMixin(BaseMixin):
     """Moving Indicator Mixin (移动指标混合)"""
@@ -211,6 +212,7 @@ class PriceIndicatorMixin(BaseMixin):
         DWN = BBIBOLL - M * BBIBOLL的N日估算标准差
         参数N=11，M=6
         """
+        
         df_bbiboll = self._df.loc[:, MOVING_COLS]
         df_bbiboll.loc[:, "bbiboll"] = (
             self._ma(col="close", n=3)

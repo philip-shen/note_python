@@ -93,8 +93,7 @@ def local_func_trial(json_data):
         # initialize Asset object 
         asset = Asset(ticker, period='1y', interval='1d')
         asset_info = asset.get_info()  # Information about the Company
-        asset_df = asset.get_data()    # Historical price data
-    
+        asset_df = asset.get_data()    # Historical price data    
         #logger.info(f"asset_df: \n{asset_df}")
 
 def lib_stock_trial(json_data):
@@ -135,8 +134,21 @@ if __name__ == '__main__':
     #local_func_trial(json_data)
     #lib_stock_trial(json_data)
     
-    si = StockInsider(stock_idx = '2330', code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
-    df_stock_data= si.show_data()
-    si.plot_bbiboll(head= df_stock_data.__len__(), n=11, m=9, verbose=True)
+    for stk_idx in json_data["stock_indexes"]:
+        si = StockInsider(stock_idx = stk_idx, code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
+        df_stock_data= si.show_data()
+        df_stock_data.reset_index(inplace=True)
+        si.plot_bbiboll(head= df_stock_data.__len__(), n=11, m=9, verbose=True)
     
+    '''
+    # Renaming columns using a dictionary
+    df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)
+    '''    
+    '''
+    df_stock_data.rename(columns={"Date": "day", "Open": "open", "High": "high", 
+                                  "Low": "low", "Close": "close", "Adj Close": "adj close", 
+                                  "Volume":"volume"}, inplace=True)    
+    logger.info(f" {df_stock_data.keys()}" )
+    logger.info(f"df_stock_data: \n{df_stock_data}")
+    ''' 
     est_timer(t0)    

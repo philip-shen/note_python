@@ -52,6 +52,18 @@ class Stock:
         
             self._df = self.get_yfinance_stock_data()
 
+            self._df.reset_index(inplace=True)
+            '''
+            # Renaming columns using a dictionary
+            df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)
+            '''
+            self._df.rename(columns={"Date": "day", "Open": "open", "High": "high", 
+                                  "Low": "low", "Close": "close", "Adj Close": "adj close", 
+                                  "Volume":"volume"}, inplace=True)
+            logger.info(f"self._df.keys(): \n{self._df.keys()}")
+            
+            self._df["day"]= self._df["day"].apply(lambda x: x.strftime('%Y-%m-%d'))
+            
     def gen_ticker_dict(self):
         with open(self.fname_twse_otc_id_pickle, "rb") as f:
             TICKER_LIST = pickle.load(f)       
@@ -74,12 +86,14 @@ class Stock:
             if self.stock_idx+'.TW' in option["label"]:
                 #logger.info(f"option['label']: {option['label']} == ticker: {ticker}") 
                 self.ticker= option["label"]
+                return
             elif self.stock_idx+'.TWO' in option["label"]:
                 #logger.info(f"option['label']: {option['label']} == ticker: {ticker}")     
                 self.ticker=  option["label"]
-
+                return
+            
         raise ValueError(
-            f"{self.ticker} cannot map yfinance ticker index ."
+            f"{self.stock_idx} cannot map yfinance ticker index ."
         )
         
     def get_yfinance_stock_data(self):
@@ -91,7 +105,7 @@ class Stock:
             self.data = yf.download(
                 tickers=self.ticker,
                 period=self.period,
-                interval=self.interval)
+                interval=self.interval)            
             return self.data
         except Exception as e:
              raise ValueError(
@@ -212,8 +226,8 @@ class Stock:
     def _plot_stock_data(self, df: pd.DataFrame, head: int):
         if head:
             df = df.tail(head)
-            #logger.info(f" {df.keys()}" )
-            #logger.info(f" {df.index}" )
+            logger.info(f" {df.keys()}" )
+            logger.info(f" {df.index}" )
             
         if self.code != None:            
             stock_data = go.Candlestick(
@@ -228,17 +242,15 @@ class Stock:
             )
             
         elif self.code == None:
-            df.reset_index(inplace=True)
+            #df.reset_index(inplace=True)
             logger.info(f" {df.keys()}" )
             
             stock_data = go.Candlestick(
-                #x=df["Date"],
-                #x=pd.to_datetime(df["Date"]),
-                x=df["Date"].apply(lambda x: x.strftime('%Y-%m-%d')),
-                open=df["Open"],
-                high=df["High"],
-                low=df["Low"],
-                close=df["Close"],
+                x=df["day"],
+                open=df["open"],
+                high=df["high"],
+                low=df["low"],
+                close=df["close"],
                 increasing_line_color="red",
                 decreasing_line_color="green",
                 name=self.ticker,
@@ -253,12 +265,7 @@ class Stock:
 
         ma_data = []
         for col, color in zip(MA_COLS, MA_COLORS):
-            if self.code != None:
-                data = go.Scatter(x=df["day"], y=df[col], name=col, marker_color=color)
-            elif self.code == None:
-                df.reset_index(inplace=True)
-                logger.info(f" {df.keys()}" )
-                data = go.Scatter(x=df["Date"], y=df[col], name=col, marker_color=color)
+            data = go.Scatter(x=df["day"], y=df[col], name=col, marker_color=color)
                     
             ma_data.append(data)
 

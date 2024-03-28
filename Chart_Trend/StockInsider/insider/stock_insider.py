@@ -34,7 +34,7 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             ktype: Data frequency, valid input is `D`, `W`, or `M`. 股票数据的频率
         """
         if df is not None and isinstance(df, pd.DataFrame):
-            self._df = df
+            
             if code != None:
                 self.stock_code = code
             if code == None:
@@ -47,7 +47,7 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             if code != None:
                 super().__init__(code, ktype)
             if code == None:
-                super().__init__(code, stock_idx, fname_twse_otc_id_pickle, period, interval)
+                super().__init__(code, stock_idx, fname_twse_otc_id_pickle, ktype, period, interval)
 
     @classmethod
     def from_external_csv_data(cls, fpath: str, code=None):
@@ -121,10 +121,12 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             fig.add_trace(self._plot_line(df, head=head, y=n, line_name=n.upper()))
 
         if verbose:
-            fig.add_trace(self._plot_stock_data(self._df, head))
-
+            #fig.add_trace(self._plot_stock_data(self._df, head))
+            fig.add_trace(self._plot_stock_data(self, self._df, head))
+            
         fig.update_layout(
-            title_text=f"{title} Chart ({self.stock_code})",
+            #title_text=f"{title} Chart ({self.stock_code})",
+            title_text=f"{title} Chart ({self.stock_idx})",    
             xaxis_rangeslider_visible=False,
         )
         fig.show()
@@ -604,6 +606,8 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             选择是否将股票价格曲线一起绘出，默认是False，将会只绘出指标曲线。
         """
         df_boll = self.bbiboll(n=n, m=m)
+        logger.info(f"df_boll: \n{df_boll}")
+        
         self._plot(
             df=df_boll,
             head=head,

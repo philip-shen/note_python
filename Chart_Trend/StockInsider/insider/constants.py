@@ -29,6 +29,7 @@ NUMERIC_COLUMNS = [
 
 # Constants used in Mixins
 MOVING_COLS = ["day", "close"]  # cols used for Moving indicator mixin for `close`
+#MOVING_COLS = ["Date", "Close"] # for yfinance library
 MOVING_VOLUMN_COLS = ["day", "volumn"]  # cols used for Moving indicator mixin for `volumn`
 HIGH_LOW_COLS = ["day", "close", "high", "low"]  # cols used for KDJ indicator mixin
 VOLUMN_VOLS = ["day", "close", "volumn"]  # cols used for RSI & VRSI & OBV indicator mixin
