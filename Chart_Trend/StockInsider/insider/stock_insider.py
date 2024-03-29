@@ -1,6 +1,7 @@
 from typing import Callable, List, Optional
 
 import plotly.graph_objects as go
+import plotly.io as pio
 import pandas as pd
 import numpy as np
 
@@ -107,7 +108,17 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             fig.update_layout(xaxis_rangeslider_visible=False)
         fig.update_layout(title_text=f"{name.upper()} Chart ({self.stock_code})")
         fig.show()
-
+    '''
+    How can I save the plotly graphs as image(png,jpg etc.) offline in python?
+    https://community.plotly.com/t/how-can-i-save-the-plotly-graphs-as-image-png-jpg-etc-offline-in-python/24998
+    
+    Static Image Export in Python
+    https://plotly.com/python/static-image-export/
+    '''    
+    def _export_image(self, figure, path_fname_img):
+        
+        figure.write_image(path_fname_img)
+        
     def _plot(self, df, head, title, lines, verbose: bool = False):
         """General plot functions shared across the class."""
         fig = go.Figure(layout=set_layout())
@@ -125,12 +136,14 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             fig.add_trace(self._plot_stock_data(self, self._df, head))
             
         fig.update_layout(
-            #title_text=f"{title} Chart ({self.stock_code})",
-            title_text=f"{title} Chart ({self.stock_idx})",    
+            #title_text=f'{title} Chart ({self.stock_code})',
+            title_text=f'{title} Chart ({self.stock_idx} {self.ticker_info["longName"]}) ',    
             xaxis_rangeslider_visible=False,
         )
         fig.show()
 
+        return fig
+    
     def plot_ma(
         self, head: int = 90, ns: Optional[List[int]] = None, verbose: bool = False
     ):
@@ -608,14 +621,16 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
         df_boll = self.bbiboll(n=n, m=m)
         logger.info(f"df_boll: \n{df_boll}")
         
-        self._plot(
-            df=df_boll,
-            head=head,
-            title="BBIBOLL",
-            lines=["upr", "bbiboll", "dwn"],
-            verbose=verbose,
-        )
-
+        chart_fig= self._plot(            
+                    df=df_boll,
+                    head=head,
+                    title="BBIBOLL",
+                    lines=["upr", "bbiboll", "dwn"],
+                    verbose=verbose,
+                    )
+        
+        return chart_fig
+        
     def plot_atr(self, head: int = 90, n: int = 14):
         """Plot Average True Ranger indicator. 绘出真实变化率曲线
 

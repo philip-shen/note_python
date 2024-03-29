@@ -49,6 +49,7 @@ class Stock:
             self.fname_twse_otc_id_pickle= fname_twse_otc_id_pickle
             self.gen_ticker_dict()
             self.get_ticker_from_stock_idx()
+            self.ticker_info= self.get_yfinance_stock_info()
         
             self._df = self.get_yfinance_stock_data()
 
@@ -112,6 +113,18 @@ class Stock:
                 e
              )
     
+    def get_yfinance_stock_info(self):
+        """Uses yfinance to get information about the ticker
+        returns a dictionary filled with at-point information about the ticker"""
+        try:
+            
+            ticker_info = yf.Ticker(self.ticker).info
+            return ticker_info
+        except Exception as e:
+             raise ValueError(
+                e
+             )
+             
     def _check_code(self, code: str) -> str:
         if not code.startswith("sz") and not code.startswith("sh"):
             raise ValueError("Stock code needs to be either sz or sh.")

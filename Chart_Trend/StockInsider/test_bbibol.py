@@ -5,6 +5,7 @@ import argparse
 from insider import StockInsider
 import yfinance as yf
 import difflib
+from sys import platform
 
 from insider.stock import Stock
 
@@ -105,6 +106,16 @@ def lib_stock_trial(json_data):
         #logger.info(f"df_stock_data: \n{df_stock_data}")
         local_stock.plot(head = df_stock_data.__len__(), verbose = False)
     
+def image_save_path(json_data):
+    if platform == "linux" or platform == "linux2":
+        home = os.path.expanduser("~")
+        images_path= pathlib.Path(f'{home}/{json_data["images_folder"]}')
+    elif platform == "darwin":
+        pass
+    elif platform == "win32":
+        images_path= pathlib.Path(f'{json_data["images_folder"]}')
+    
+    return images_path    
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='describe image content with Claude 3')
@@ -134,12 +145,21 @@ if __name__ == '__main__':
     #local_func_trial(json_data)
     #lib_stock_trial(json_data)
     
+    
     for stk_idx in json_data["stock_indexes"]:
+        t0 = time.time()
+        image_fname_path= f"{image_save_path(json_data)}/{stk_idx}.jpg"
+        logger.info(f'export image to {image_save_path(json_data)}/{stk_idx}.jpg')
+        
         si = StockInsider(stock_idx = stk_idx, code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
         df_stock_data= si.show_data()
         df_stock_data.reset_index(inplace=True)
-        si.plot_bbiboll(head= df_stock_data.__len__(), n=11, m=9, verbose=True)
-    
+        #si.plot_boll(head= df_stock_data.__len__(), n=6, verbose=True)
+        chart_figure= si.plot_bbiboll(head= df_stock_data.__len__(), n=6, m=6, verbose=True)
+
+        si._export_image(chart_figure, image_fname_path)
+        
+        est_timer(t0)    
     '''
     # Renaming columns using a dictionary
     df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)
