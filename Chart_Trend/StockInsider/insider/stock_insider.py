@@ -115,9 +115,9 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
     Static Image Export in Python
     https://plotly.com/python/static-image-export/
     '''    
-    def _export_image(self, figure, path_fname_img):
+    def _export_image(self, figure, path_fname_img, scale=1, width=800, height=600):
         
-        figure.write_image(path_fname_img)
+        figure.write_image(path_fname_img,  scale= scale, width= width, height= height)
         
     def _plot(self, df, head, title, lines, verbose: bool = False):
         """General plot functions shared across the class."""
@@ -619,7 +619,7 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             选择是否将股票价格曲线一起绘出，默认是False，将会只绘出指标曲线。
         """
         df_boll = self.bbiboll(n=n, m=m)
-        logger.info(f"df_boll: \n{df_boll}")
+        #logger.info(f"df_boll: \n{df_boll}")
         
         chart_fig= self._plot(            
                     df=df_boll,

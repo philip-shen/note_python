@@ -147,7 +147,7 @@ if __name__ == '__main__':
     
     
     for stk_idx in json_data["stock_indexes"]:
-        t0 = time.time()
+        t1 = time.time()
         image_fname_path= f"{image_save_path(json_data)}/{stk_idx}.jpg"
         logger.info(f'export image to {image_save_path(json_data)}/{stk_idx}.jpg')
         
@@ -157,9 +157,10 @@ if __name__ == '__main__':
         #si.plot_boll(head= df_stock_data.__len__(), n=6, verbose=True)
         chart_figure= si.plot_bbiboll(head= df_stock_data.__len__(), n=6, m=6, verbose=True)
 
-        si._export_image(chart_figure, image_fname_path)
+        si._export_image(chart_figure, image_fname_path, scale= 1, 
+                         width= json_data["width_height"][0], height= json_data["width_height"][1])
         
-        est_timer(t0)    
+        est_timer(t1)    
     '''
     # Renaming columns using a dictionary
     df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)

@@ -2,6 +2,7 @@
     "stock_indexes": ["2303",
                        "2330" 
     ], 
+    "width_height":[900, 700],
     "images_folder":"xxxxx",    
     "twse_otc_id_pickle":"xxxxx.pickle"
 }
