@@ -84,7 +84,7 @@ def gen_ticker_dict(json_data):
 
     return options
 
-def local_func_trial(json_data):
+def local_func_trial(json_data, period='1y', interval='1d'):
     options = gen_ticker_dict(json_data)
     
     for stock_id in json_data["stock_indexes"]:
@@ -92,10 +92,12 @@ def local_func_trial(json_data):
         logger.info(f"stock_id: {stock_id} == ticker: {ticker}")     
     
         # initialize Asset object 
-        asset = Asset(ticker, period='1y', interval='1d')
+        asset = Asset(ticker, period=period, interval=interval)
         asset_info = asset.get_info()  # Information about the Company
         asset_df = asset.get_data()    # Historical price data    
-        #logger.info(f"asset_df: \n{asset_df}")
+        logger.info(f"asset_df: \n{asset_df}")
+        asset_df.reset_index(inplace=True)
+        logger.info(f"asset_df['Close']: {asset_df['Close']}")
 
 def lib_stock_trial(json_data):
     
@@ -142,9 +144,8 @@ if __name__ == '__main__':
 
     json_data = json.load(json_path_file.open())
     
-    #local_func_trial(json_data)
+    #local_func_trial(json_data, period='1d')
     #lib_stock_trial(json_data)
-    
     
     for stk_idx in json_data["stock_indexes"]:
         t1 = time.time()
@@ -161,6 +162,7 @@ if __name__ == '__main__':
                          width= json_data["width_height"][0], height= json_data["width_height"][1])
         
         est_timer(t1)    
+    
     '''
     # Renaming columns using a dictionary
     df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)
