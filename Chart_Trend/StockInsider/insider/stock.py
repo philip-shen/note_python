@@ -239,7 +239,6 @@ class Stock:
     def _plot_stock_data(self, df: pd.DataFrame, head: int):
         if head:
             df = df.tail(head)
-            logger.info(f" {df.keys()}" )
             logger.info(f" {df.index}" )
             
         if self.code != None:            
@@ -268,6 +267,7 @@ class Stock:
                 decreasing_line_color="green",
                 name=self.ticker,
             )
+            logger.info(f" {df['close'].iloc[-1]},{df['open'].iloc[-1]},{df['high'].iloc[-1]},{df['low'].iloc[-1]}" )
             
         return stock_data
 
