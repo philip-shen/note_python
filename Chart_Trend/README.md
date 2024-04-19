@@ -22,9 +22,16 @@ Table of Contents
       * [2330](#2330)
       * [Reference](#reference-1)
       * [Troubleshooting](#troubleshooting-1)
-
-   * [Reference](#reference-2)
-   * [Troubleshooting](#troubleshooting-2)
+   * [TW_Stocker](#tw_stocker)   
+      * [Usage](#usage-2)
+         * [1. Create Virtual Environment](#1-create-virtual-environment-2)
+         * [2. Active Virtual Environment](#2-active-virtual-environment-2)
+         * [3. Install packages](#3-install-packages-2)
+         * [4. Excute Python Sample Code](#4-excute-python-sample-code) 
+      * [Reference](#reference-2)
+      * [Troubleshooting](#troubleshooting-2)
+   * [Reference](#reference-3)
+   * [Troubleshooting](#troubleshooting-3)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -95,6 +102,7 @@ pip install kaleido-0.1.0.post1-py2.py3-none-win_amd64.whl
 
 
 # trendet  
+
 ## Usage  
 ### 1. Create Virtual Environment  
 ```
@@ -134,6 +142,38 @@ python test_identify_chart_trends.py --conf config.json
 
 ## Troubleshooting  
 
+# TW_Stocker    
+
+## Usage  
+### 1. Create Virtual Environment  
+```
+python3.10 -m venv ~/virtualenv/moneyhunter
+```
+
+### 2. Active Virtual Environment
+```
+source ~/virtualenv/moneyhunter/bin/activate
+```
+
+### 3. Install packages
+```
+pip install -r requirements.txt
+```
+
+### 4. Excute Python Sample Code
+```
+python test_backtest.py
+```
+
+## Reference
+[polakowo/vectorbt](https://github.com/polakowo/vectorbt)  
+[voidful/FTA](https://github.com/voidful/FTA)  
+[voidful/tw_stocker](https://github.com/voidful/tw_stocker)  
+[psemdel/py-trading-bot](https://github.com/psemdel/py-trading-bot)
+
+## Troubleshooting  
+[TW_Stocker/requirements_vectorbt.txt](TW_Stocker/requirements_vectorbt.txt)
+[TW_Stocker/install_tulip.sh](TW_Stocker/install_tulip.sh)  
 
 # Reference
 
