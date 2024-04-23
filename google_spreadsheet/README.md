@@ -20,8 +20,20 @@ Take some note of google_spreadsheet in python
          * [PKCS12 format is not supported by the PyCrypto library.](#pkcs12-format-is-not-supported-by-the-pycrypto-library)
          * [対応](#対応)
    * [Python で Google Spreadsheets (など)の無人操作](#python-で-google-spreadsheets-などの無人操作)
-      * [プロジェクトとサービスアカウント](#プロジェクトとサービスアカウント)
-   * [Reference](#reference)
+      * [プロジェクトとサービスアカウント](#プロジェクトとサービスアカウント) 
+   * [Google Spread Sheet by gspread library](#google-spread-sheet-by-gspread-library)   
+      * [Google Spread Sheets prepation for Python](#google-spread-sheets-prepation-for-python)
+         * [1. New project steup](#1-new-project-steup)
+         * [2. Google Drive API activation](#2-google-drive-api-activation)
+         * [3. Google Spread Sheets API activation](#3-google-spread-sheets-api-activation)
+         * [4. Credentilas setup](#4-credentilas-setup)
+         * [5. Private Key setup (json format)](#5-private-key-setup-json-format)
+      * [Google Spread Sheets setup for Python access](#google-spread-sheets-setup-for-python-access)
+         * [1. Google Spread Sheet share setup](#1-google-spread-sheet-share-setup)
+         * [2. Google Spread Sheet key acquire](#2-google-spread-sheet-key-acquire)
+         * [3. Python coding](#3-python-coding)
+      * [Reference](#reference)
+   * [Reference](#reference-1)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -219,6 +231,39 @@ with open("MyProject.p12") as f
    6. ハンバーガーメニュー > APIとサービス > ダッシュボード > +APIとサービスを有効化 と進み、
         Google Sheets API を有効化してください。
 ```
+
+
+# Google Spread Sheet by gspread library 
+
+## Google Spread Sheets prepation for Python  
+### 1. New project steup
+### 2. Google Drive API activation  
+### 3. Google Spread Sheets API activation  
+### 4. Credentilas setup  
+### 5. Private Key setup (json format)  
+
+## 
+## Google Spread Sheets setup for Python access  
+### 1. Google Spread Sheet share setup  
+### 2. Google Spread Sheet key acquire  
+```
+https://docs.google.com/spreadsheets/d/aaaaaaaaaaaaaa/edit#gid=0
+```
+### 3. Python coding  
+[gspread_simple.py](gspread/gspread_simple.py) 
+
+## Reference  
+[Google Spread Sheets に Pythonを用いてアクセスしてみた 2020-08-02](https://qiita.com/164kondo/items/eec4d1d8fd7648217935)
+[【もう迷わない】Pythonでスプレッドシートに読み書きする初期設定まとめ](https://tanuhack.com/operate-spreadsheet/)
+[gspreadライブラリの使い方まとめ！Pythonでスプレッドシートを操作する](https://tanuhack.com/library-gspread/#i-9)
+[For Bots: Using Service Account](https://docs.gspread.org/en/latest/oauth2.html#for-bots-using-service-account)  
+[For End Users: Using OAuth Client ID](https://docs.gspread.org/en/latest/oauth2.html#for-end-users-using-oauth-client-id)  
+
+[pythonでGoogle Spread Sheetをいじる(OAuth)](https://qiita.com/AAkira/items/22719cbbd41b26dbd0d1)
+[Google スプレッドシートを curl で読む  2023-08-04](https://qiita.com/ekzemplaro/items/83f225b08bc4ee9739aa)
+[Pythonで多めのデータをGoogleスプレッドシートに書く時の注意点 2019-07-16](https://qiita.com/satsukiya/items/9495fd7e9549197bd327)
+[gspread_asyncio](https://gspread-asyncio.readthedocs.io/en/latest/)
+
 
 # Reference
 * [【Google Drive upload 教學】使用Python上傳檔案，其實不難！2020 年 5 月 27 日](https://markteaching.com/google-drive-upload/?fbclid=IwAR3YjpRc70evRU5ScLWr0qQuTrq0USP-iqt2fDDxuXoR-UaDv5MGEWk_jE0)  
