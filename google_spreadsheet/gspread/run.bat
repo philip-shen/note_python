@@ -1,0 +1,1 @@
+python gspread_update.py --conf_json %1 --gspred_json %2

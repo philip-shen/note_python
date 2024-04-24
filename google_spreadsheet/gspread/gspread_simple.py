@@ -10,8 +10,8 @@ str_split=os.path.split(strdirname)
 prevdirname=str_split[0]
 dirnamelog=os.path.join(strdirname,"logs")
 
-import lib_misc
-from logger_setup import *
+import _libs.lib_misc
+from _libs.logger_setup import *
 
 # (1) Google Spread Sheetsにアクセス
 def connect_gspread(jsonf, url, key):
@@ -28,12 +28,51 @@ def connect_gspread(jsonf, url, key):
     return gc, worksheet
 
 def est_timer(start_time):
-    time_consumption, h, m, s= lib_misc.format_time(time.time() - start_time)         
+    time_consumption, h, m, s= _libs.lib_misc.format_time(time.time() - start_time)         
     msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg)
 
+def demo_01(gworksheet):
+    #(2) Google Spread Sheets上の値を更新
+    #(２−１)あるセルの値を更新（行と列を指定）
+    logger.info(f"update cell")
+    gworksheet.update_cell(1,1,"test1")
+    gworksheet.update_cell(2,1,1)
+    gworksheet.update_cell(3,1,2)
+
+    #(２−２)あるセルの値を更新（ラベルを指定）
+    gworksheet.update_acell('C1','test2')
+    gworksheet.update_acell('C2',1)
+    gworksheet.update_acell('C3',2)
+
+    #(2-3)ある範囲のセルの値を更新
+    logger.info(f"update range 'E1:G3'")
+    ds= gworksheet.range('E1:G3')
+    ds[0].value = 1
+    ds[1].value = 2
+    ds[2].value = 3
+    ds[3].value = 4
+    ds[4].value = 5
+    ds[5].value = 6
+    ds[6].value = 7
+    ds[7].value = 8
+    ds[8].value = 9
+    ws.update_cells(ds)
+
+    #Selecting a Worksheet
+    # Most common case: Sheet1
+    #worksheet = sh.sheet1
+    
+    # With label
+    val = gworksheet.get('c1').first()
+    logger.info(f"label C1: {val}")
+    
+    # With coords
+    val = gworksheet.cell(1, 3).value
+    logger.info(f"cell (1,3): {val}")
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='describe image content with Claude 3')
+    parser = argparse.ArgumentParser(description='demo simple Google Sheet function')
     parser.add_argument('--conf', type=str, default='config.json', help='Config json')
     args = parser.parse_args()
     
@@ -60,42 +99,6 @@ if __name__ == '__main__':
     spread_sheet_url = "https://docs.google.com/spreadsheets/d/1wObUaahWG-vgb72xya_6SLEC8XHTiVBOZlTDnC7efc4/edit#gid=0"
     sh, ws = connect_gspread(json_path_file, spread_sheet_url, spread_sheet_key)
 
-    #(2) Google Spread Sheets上の値を更新
-    #(２−１)あるセルの値を更新（行と列を指定）
-    logger.info(f"update cell")
-    ws.update_cell(1,1,"test1")
-    ws.update_cell(2,1,1)
-    ws.update_cell(3,1,2)
-
-    #(２−２)あるセルの値を更新（ラベルを指定）
-    ws.update_acell('C1','test2')
-    ws.update_acell('C2',1)
-    ws.update_acell('C3',2)
-
-    #(2-3)ある範囲のセルの値を更新
-    logger.info(f"update range 'E1:G3'")
-    ds= ws.range('E1:G3')
-    ds[0].value = 1
-    ds[1].value = 2
-    ds[2].value = 3
-    ds[3].value = 4
-    ds[4].value = 5
-    ds[5].value = 6
-    ds[6].value = 7
-    ds[7].value = 8
-    ds[8].value = 9
-    ws.update_cells(ds)
-
-    #Selecting a Worksheet
-    # Most common case: Sheet1
-    #worksheet = sh.sheet1
-    
-    # With label
-    val = ws.get('c1').first()
-    logger.info(f"label C1: {val}")
-    
-    # With coords
-    val = ws.cell(1, 3).value
-    logger.info(f"cell (1,3): {val}")
+    #demo_01(ws)
     
     est_timer(t0)    

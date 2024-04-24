@@ -1,0 +1,9 @@
+{
+    "gSpredSheet": "xxxxx", 
+
+    "str_delay_sec": "1",
+    "str_year_month_day": "2024,03,08",
+    "worksheet_gSpredSheet": ["broker_a", "broker_b"],
+    
+    "twse_otc_id_pickle":"xxxx.pickle"
+}
