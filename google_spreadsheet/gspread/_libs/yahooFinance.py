@@ -92,6 +92,22 @@ def get_asset_from_yfinance_ticker(json_file, tw_tse_otc_stk_idx, period='1y', i
             
     asset_df["day"]= asset_df["day"].apply(lambda x: x.strftime('%Y-%m-%d'))
             
-    logger.info(f"asset_df['close']:\n {asset_df['close']}")
-    asset_df.reset_index(inplace=True)
-    logger.info(f"lastest value of asset_df['close']: {asset_df['close'].iloc[-1]}")        
+    #logger.info(f"asset_df['close']:\n {asset_df['close']}")
+    
+    ## Check 4 stock prices: 1.final, 2.open, 3.high, 4.low
+    stock_price_final = asset_df['close'].iloc[-1]
+    stock_price_open = asset_df['open'].iloc[-1]
+    stock_price_high = asset_df['high'].iloc[-1]
+    stock_price_low = asset_df['low'].iloc[-1]
+            
+    logger.info("lastest value of close: {:.2f}, open: {:.2f}, high: {:.2f}, low: {:.2f}".\
+                    format(stock_price_final, stock_price_open, stock_price_high, stock_price_low))        
+    
+    dict_stock_price_OHLC ={
+        "close": stock_price_final,
+        "open": stock_price_open,
+        "high": stock_price_high,
+        "low": stock_price_low 
+    }
+    
+    return dict_stock_price_OHLC
