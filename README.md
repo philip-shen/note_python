@@ -77,12 +77,14 @@ Table of Contents
       * [４．配列とスライスで指定する場合の配列部の扱い](#４配列とスライスで指定する場合の配列部の扱い)
       * [５．What does -1 mean in numpy reshape?](#５what-does--1-mean-in-numpy-reshape)
    * [Closure and Decorator](#closure-and-decorator)
-   * [Environment](#environment)
+   * [Rye](#rye)
+      * [Reference](#reference)
+   * [Environment](#environment)      
    * [Troubleshooting](#troubleshooting)
       * [GH001 Large files detected](#gh001-large-files-detected)
       * [Permission denied error by installing matplotlib](#permission-denied-error-by-installing-matplotlib)
       * [Python 3 ImportError: No module named 'ConfigParser'](#python-3-importerror-no-module-named-configparser)
-   * [Reference](#reference)
+   * [Reference](#reference-1)
       * [如何在 Windows 打造 Python 開發環境設定基礎入門教學](#如何在-windows-打造-python-開發環境設定基礎入門教學)
       * [How can I download Anaconda for python 3.6](#how-can-i-download-anaconda-for-python-36)
    * [h1 size](#h1-size)
@@ -1546,6 +1548,16 @@ IndexError: shape mismatch: indexing arrays could not be broadcast together with
 [DAY09-搞懂Python的裝飾器 2018-10-10](https://ithelp.ithome.com.tw/articles/10200763)  
 [DAY10-搞懂Python裝飾器的進階內容 2018-10-11](https://ithelp.ithome.com.tw/articles/10200945)
 
+
+# Rye  
+
+## Reference  
+[Rye](https://zenn.dev/topics/rye)  
+[久しぶりのPython環境をRyeで整える 2023/05/27](https://zenn.dev/watany/articles/f69db9e33d4427)  
+[Rye uv おっかけ 202403 2024/03/13](https://zenn.dev/tkm/articles/rye-uv-202403)  
+
+[Pythonのパッケージ管理は「rye」が使いやすい！ 2024-04-19](https://qiita.com/ku_a_i/items/2cbcc576f44ff759b588)  
+[Rye！就决定是你了！Python 环境及包管理工具 2024/4/12日](https://www.fournoas.com/posts/rye-python-environment-and-package-management-tool/)  
 
 # Environment  
 windows 10 64bit  
