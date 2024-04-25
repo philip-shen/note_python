@@ -50,8 +50,9 @@ def get_ticker_from_stock_id(options, ticker, opt_verbose='OFF'):
         f"{ticker} cannot map yfinance ticker index ."
     )
     
-def gen_ticker_dict(json_data):
-    logger.info(f'json_data["twse_otc_id_pickle"]: {json_data["twse_otc_id_pickle"]}')
+def gen_ticker_dict(json_data, opt_verbose='off'):
+    if opt_verbose.lower() == 'on':
+        logger.info(f'json_data["twse_otc_id_pickle"]: {json_data["twse_otc_id_pickle"]}')
     
     with open(json_data["twse_otc_id_pickle"], "rb") as f:
         TICKER_LIST = pickle.load(f)       
@@ -65,12 +66,12 @@ def gen_ticker_dict(json_data):
 
     return options
 
-def get_asset_from_yfinance_ticker(json_file, tw_tse_otc_stk_idx, period='1y', interval='1d'):
+def get_asset_from_yfinance_ticker(json_file, tw_tse_otc_stk_idx, opt_verbose='off', period='1y', interval='1d'):
     
     with open(json_file, encoding="utf-8") as f:
         json_data = json.load(f)  
         
-    options = gen_ticker_dict(json_data)
+    options = gen_ticker_dict(json_data, opt_verbose)
     
     ticker= get_ticker_from_stock_id(options, tw_tse_otc_stk_idx)
     logger.info(f"stock_id: {tw_tse_otc_stk_idx} == ticker: {ticker}")     
@@ -88,7 +89,9 @@ def get_asset_from_yfinance_ticker(json_file, tw_tse_otc_stk_idx, period='1y', i
     asset_df.rename(columns={"Date": "day", "Open": "open", "High": "high", 
                                   "Low": "low", "Close": "close", "Adj Close": "adj close", 
                                   "Volume":"volume"}, inplace=True)
-    logger.info(f"\nasset_df.keys(): {asset_df.keys()}")
+    
+    if opt_verbose.lower() == 'on':
+        logger.info(f"\nasset_df.keys(): {asset_df.keys()}")
             
     asset_df["day"]= asset_df["day"].apply(lambda x: x.strftime('%Y-%m-%d'))
             
@@ -99,8 +102,9 @@ def get_asset_from_yfinance_ticker(json_file, tw_tse_otc_stk_idx, period='1y', i
     stock_price_open = asset_df['open'].iloc[-1]
     stock_price_high = asset_df['high'].iloc[-1]
     stock_price_low = asset_df['low'].iloc[-1]
-            
-    logger.info("lastest value of close: {:.2f}, open: {:.2f}, high: {:.2f}, low: {:.2f}".\
+    
+    if opt_verbose.lower() == 'on':
+        logger.info("lastest value of close: {:.2f}, open: {:.2f}, high: {:.2f}, low: {:.2f}".\
                     format(stock_price_final, stock_price_open, stock_price_high, stock_price_low))        
     
     dict_stock_price_OHLC ={

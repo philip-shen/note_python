@@ -22,6 +22,9 @@ Take some note of google_spreadsheet in python
    * [Python で Google Spreadsheets (など)の無人操作](#python-で-google-spreadsheets-などの無人操作)
       * [プロジェクトとサービスアカウント](#プロジェクトとサービスアカウント) 
    * [Google Spread Sheet by gspread library](#google-spread-sheet-by-gspread-library)   
+      * [PreRequirement](#prerequirement)
+         * [default python version 3.10](#default-python-version-3.10)
+         * [Execute setup.bat to setup virtualenv](#execute-setup.bat-to-setup-virtualenv)
       * [Google Spread Sheets prepation for Python](#google-spread-sheets-prepation-for-python)
          * [1. New project steup](#1-new-project-steup)
          * [2. Google Drive API activation](#2-google-drive-api-activation)
@@ -235,6 +238,10 @@ with open("MyProject.p12") as f
 
 # Google Spread Sheet by gspread library 
 
+## PreRequirement  
+### default python version 3.10  
+### Execute setup.bat to setup virtualenv  
+
 ## Google Spread Sheets prepation for Python  
 ### 1. New project steup
 ### 2. Google Drive API activation  
@@ -251,6 +258,7 @@ https://docs.google.com/spreadsheets/d/aaaaaaaaaaaaaa/edit#gid=0
 ```
 ### 3. Python coding  
 [gspread_simple.py](gspread/gspread_simple.py) 
+[gspread_update.py](gspread/gspread_update.py)
 
 ## Reference  
 [Google Spread Sheets に Pythonを用いてアクセスしてみた 2020-08-02](https://qiita.com/164kondo/items/eec4d1d8fd7648217935)

@@ -15,7 +15,7 @@ import _libs.googleSS as googleSS
 
 def est_timer(start_time):
     time_consumption, h, m, s= lib_misc.format_time(time.time() - start_time)         
-    msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
+    msg = 'Time Consumption: {}.\n'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg)
 
 if __name__=='__main__':
@@ -53,8 +53,9 @@ if __name__=='__main__':
     
     logger.info(f'Read row data from {gspreadsheet}')
     
+    opt_verbose = 'OFF'
     # Declare GoogleSS() from googleSS.py
-    localGoogleSS=googleSS.GoogleSS(json_gsheet, json_file)
+    localGoogleSS=googleSS.GoogleSS(json_gsheet, json_file, opt_verbose)
     
     for worksheet_spread in list_worksheet_spread:
         t1 = time.time()
