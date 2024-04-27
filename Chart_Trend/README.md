@@ -73,8 +73,14 @@ pip install -r requirements.txt
 ```
 
 ### 5. Excute Python Sample Code
+[test_bbibol.py](StockInsider/test_bbibol.py)
 ```
 python test_bbibol.py --conf conf.json
+```
+
+[test_bbibol_fromGsheet.py](StockInsider/test_bbibol_fromGsheet.py)
+```
+run_fromGsheet.bat config_xxxxx.json GSheet_xxxxx.json
 ```
 
 ## 2330 BBIBOLL  

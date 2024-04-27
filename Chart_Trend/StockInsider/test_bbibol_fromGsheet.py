@@ -10,6 +10,7 @@ from sys import platform
 from insider.stock import Stock
 import insider.lib_misc as lib_misc
 from insider.logger_setup import *
+import insider.googleSS as googleSS
 
 strabspath=os.path.abspath(sys.argv[0])
 strdirname=os.path.dirname(strabspath)
@@ -118,8 +119,10 @@ def image_save_path(json_data):
     return images_path    
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='describe image content with Claude 3')
-    parser.add_argument('--conf', type=str, default='config.json', help='Config json')
+    parser = argparse.ArgumentParser(description='plot stock chart trend')
+    parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
+    parser.add_argument('--gspred_json', type=str, default='xxxx.json', help='Google Sheet Certi json')
+    
     args = parser.parse_args()
     
     logger_set(strdirname)
@@ -131,45 +134,54 @@ if __name__ == '__main__':
     logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
                             local_time.tm_hour,local_time.tm_min,local_time.tm_sec))
     
-    json_file= args.conf
-    json_path_file = pathlib.Path(strdirname)/json_file
+    json_file= args.conf_json
+    json_gsheet= args.gspred_json
     
+    json_path_file = pathlib.Path(strdirname)/json_file
+        
     if (not os.path.isfile(json_file))  :
         msg = 'Please check json file:{}  if exist!!! '
         logger.info(msg.format(json_file) )    
         est_timer(t0)
         sys.exit()
 
-    json_data = json.load(json_path_file.open())
+    with open(json_file, encoding="utf-8") as f:
+        json_data = json.load(f)  
+        
+    gspreadsheet = json_data["gSpredSheet"]
+    list_worksheet_spread = json_data["worksheet_gSpredSheet"]
+    str_delay_sec = json_data["str_delay_sec"]     
     
-    #local_func_trial(json_data, period='1d')
-    #lib_stock_trial(json_data)
+    logger.info(f'Read stock ticker from {gspreadsheet}')
     
-    for stk_idx in json_data["stock_indexes"]:
+    opt_verbose = 'ON'
+    # Declare GoogleSS() from googleSS.py
+    localGoogleSS=googleSS.GoogleSS(json_gsheet, json_file, opt_verbose)
+    
+    for worksheet_spread in list_worksheet_spread:
         t1 = time.time()
-        image_fname_path= f"{image_save_path(json_data)}/{stk_idx}.jpg"
-        logger.info(f'export image to {image_save_path(json_data)}/{stk_idx}.jpg')
+        localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
         
-        si = StockInsider(stock_idx = stk_idx, code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
-        df_stock_data= si.show_data()
-        df_stock_data.reset_index(inplace=True)
-        #si.plot_boll(head= df_stock_data.__len__(), n=6, verbose=True)
-        chart_figure= si.plot_bbiboll(head= df_stock_data.__len__(), n=6, m=6, verbose=True)
+        logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+        #inital row count value 2
+        inital_row_num = 2
+        
+        localGoogleSS.get_stkidx_cnpname(inital_row_num, str_delay_sec)
+        
+        for dict_stkidx_cnpname in localGoogleSS.list_stkidx_cnpname_dicts:
+            #logger.info(f'stock index: {dict_stkidx_cnpname["stkidx"]}; company name: {dict_stkidx_cnpname["cnpname"]}')
+            image_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg'
+            logger.info(f'export image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg')
 
-        si._export_image(chart_figure, image_fname_path, scale= 1, 
-                         width= json_data["width_height"][0], height= json_data["width_height"][1])
+            si = StockInsider(stock_idx = dict_stkidx_cnpname["stkidx"], code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
+            df_stock_data= si.show_data()
+            df_stock_data.reset_index(inplace=True)
+            #si.plot_boll(head= df_stock_data.__len__(), n=6, verbose=True)
+            chart_figure= si.plot_bbiboll(head= df_stock_data.__len__(), n=6, m=6, verbose=True)
+
+            si._export_image(chart_figure, image_fname_path, scale= 1, 
+                             width= json_data["width_height"][0], height= json_data["width_height"][1])
         
-        est_timer(t1)    
+            est_timer(t1)    
     
-    '''
-    # Renaming columns using a dictionary
-    df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)
-    '''    
-    '''
-    df_stock_data.rename(columns={"Date": "day", "Open": "open", "High": "high", 
-                                  "Low": "low", "Close": "close", "Adj Close": "adj close", 
-                                  "Volume":"volume"}, inplace=True)    
-    logger.info(f" {df_stock_data.keys()}" )
-    logger.info(f"df_stock_data: \n{df_stock_data}")
-    ''' 
     est_timer(t0)    
