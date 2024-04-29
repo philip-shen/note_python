@@ -52,7 +52,7 @@ class GoogleSS:
             # delay delay_sec secs
             # 2018/8/13 prevent ErrorCode:429, Exhaust Resoure
             #print ("Delay ", str_delay_sec, "secs to prevent Google Error Code:429, Exhaust Resoure")
-            time.sleep(int(str_delay_sec))
+            #time.sleep(float(str_delay_sec))
 
             dict_stock_OHLC= get_asset_from_yfinance_ticker(self.config_json, stkidx, self.opt_verbose)
             stock_price_final = str(dict_stock_OHLC['close'])
@@ -75,7 +75,7 @@ class GoogleSS:
                 self.update_sheet_celllist(row_count, str_range, list_cellvalue)
             
             # delay delay_sec secs
-            time.sleep(int(str_delay_sec))
+            time.sleep(float(str_delay_sec))
             
             row_count += 1
             list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
