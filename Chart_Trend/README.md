@@ -30,8 +30,19 @@ Table of Contents
          * [4. Excute Python Sample Code](#4-excute-python-sample-code) 
       * [Reference](#reference-2)
       * [Troubleshooting](#troubleshooting-2)
-   * [Reference](#reference-3)
-   * [Troubleshooting](#troubleshooting-3)
+   * [Trade_Strategy](#trade_strategy)   
+      * [Turtle Trading](#turtle-trading)
+         * [Usage](#usage-3)
+            * [1. Create Virtual Environment](#1-create-virtual-environment-3)
+            * [2. Active Virtual Environment](#2-active-virtual-environment-3)
+            * [3. Install packages](#3-install-packages-3)
+            * [4. Excute Python Sample Code](#4-excute-python-sample-code-1) 
+         * [Reference](#reference-3)
+         * [Troubleshooting](#troubleshooting-3)
+   * [Stock_Selection](#stock_selection)            
+      * [Reference](#reference-4)         
+   * [Reference](#reference-5)
+   * [Troubleshooting](#troubleshooting-5)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
@@ -178,8 +189,114 @@ python test_backtest.py
 [psemdel/py-trading-bot](https://github.com/psemdel/py-trading-bot)
 
 ## Troubleshooting  
-[TW_Stocker/requirements_vectorbt.txt](TW_Stocker/requirements_vectorbt.txt)
+[TW_Stocker/requirements_vectorbt.txt](TW_Stocker/requirements_vectorbt.txt)  
 [TW_Stocker/install_tulip.sh](TW_Stocker/install_tulip.sh)  
+
+
+# Trade_Strategy    
+
+## Turtle Trading 
+
+### Usage  
+
+#### 1. Create Virtual Environment  
+```
+c:/Python310/python.exe -m venv c:\Users\xxxx\Envs\moneyhunter
+```
+
+#### 2. Active Virtual Environment
+```
+c:\Users\XXXXX\Envs\moneyhunter\Scripts\activate.bat
+```
+
+#### 3. Install packages
+```
+pip install -r requirements.txt
+```
+
+#### 4. Excute Python Sample Code
+```
+python test_trade.py
+```
+
+```
+(moneyhunter) λ python test_trade.py
+2024-05-01 13:20:18,826 - test_trade.py[line:31]- INFO: Start Time is 2024/5/1 13:20:18
+2024-05-01 13:20:19,042 - test_trade.py[line:38]- INFO: Price of 2024-04-30: 790.0
+2024-05-01 13:20:19,042 - test_trade.py[line:44]- INFO: N_value: 0.6
+2024-05-01 13:20:19,042 - test_trade.py[line:45]- INFO: position_sizes: 21.097
+2024-05-01 13:20:19,059 - test_trade.py[line:48]- INFO: None
+2024-05-01 13:20:19,074 - test_trade.py[line:49]- INFO: None
+2024-05-01 13:20:19,074 - test_trade.py[line:51]- INFO: [310, 311.25, 312.5, 313.75]
+2024-05-01 13:20:19,074 - test_trade.py[line:52]- INFO: [310, 311.25, 312.5, 313.75, 315.0, 316.25]
+2024-05-01 13:20:19,074 - test_trade.py[line:22]- INFO: Time Consumption: 00s.
+```
+
+### Reference
+[The Original Turtle Trading Rules](https://oxfordstrat.com/coasdfASD32/uploads/2016/01/turtle-rules.pdf)  
+[gabekutner/turtle-trading](https://github.com/gabekutner/turtle-trading)  
+
+[shawn-guiqin/turtleTrader](https://github.com/shawn-guiqin/turtleTrader)  
+[wpicon/gui](https://github.com/wpicon/gui)  
+[pplonski/turtle-trading-python](https://github.com/pplonski/turtle-trading-python)  
+
+### Troubleshooting  
+[Warning - Certain functionality requires requests_html, which is not installed](https://stackoverflow.com/questions/76783292/warning-certain-functionality-requires-requests-html-which-is-not-installed)  
+
+```
+Warning - Certain functionality
+             requires requests_html, which is not installed.
+
+             Install using:
+             pip install requests_html
+
+             After installation, you may have to restart your Python session.
+```
+
+```
+(moneyhunter) λ python test_req_html.py
+Traceback (most recent call last):
+  File "d:\projects\turtle-trading\src\test_req_html.py", line 1, in <module>
+    from requests_html import HTMLSession
+  File "c:\Users\amyfa\Envs\moneyhunter\lib\site-packages\requests_html.py", line 14, in <module>
+    from lxml.html.clean import Cleaner
+  File "c:\Users\amyfa\Envs\moneyhunter\lib\site-packages\lxml\html\clean.py", line 18, in <module>
+    raise ImportError(
+ImportError: lxml.html.clean module is now a separate project lxml_html_clean.
+Install lxml[html_clean] or lxml_html_clean directly.
+```
+
+```
+(moneyhunter) λ python test_req_html.py
+<Response [200]>
+```
+
+
+# Stock_Selection      
+
+
+## Reference
+[tkfy920/PythonQuantitativeFinance](https://github.com/tkfy920/PythonQuantitativeFinance/tree/master)  
+```
+专注于分享Python在金融领域的应用，欢迎关注微信公众号: Python金融量化 （id：tkfy920）
+```
+[myhhub/stock](https://github.com/myhhub/stock?tab=readme-ov-file)  
+```
+stock股票.获取股票数据,计算股票指标,识别股票形态,内置选股策略,股票验证回测,股票自动交易,支持PC及移动设备。 
+```
+[sngyai / Sequoia](https://github.com/sngyai/Sequoia?tab=readme-ov-file)  
+```
+A股自动选股程序，实现了海龟交易法则、缠中说禅牛市买点，以及其他若干种技术形态 
+```
+[zhouyantao / PythonStock](https://github.com/zhouyantao/PythonStock)  
+```
+使用python的tushare库编写的股票相关的应用
+```
+[ricequant / rqalpha](https://github.com/ricequant/rqalpha?tab=readme-ov-file)  
+```
+RQAlpha 从数据获取、算法交易、回测引擎，实盘模拟，实盘交易到数据分析，为程序化交易者提供了全套解决方案。
+```
+
 
 # Reference
 
