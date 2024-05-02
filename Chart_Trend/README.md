@@ -276,6 +276,7 @@ Install lxml[html_clean] or lxml_html_clean directly.
 
 
 ## Reference
+[ta-lib-python: Function API Examples](https://github.com/TA-Lib/ta-lib-python/blob/master/docs/func.md)  
 [tkfy920/PythonQuantitativeFinance](https://github.com/tkfy920/PythonQuantitativeFinance/tree/master)  
 ```
 专注于分享Python在金融领域的应用，欢迎关注微信公众号: Python金融量化 （id：tkfy920）
@@ -296,6 +297,13 @@ A股自动选股程序，实现了海龟交易法则、缠中说禅牛市买点�
 ```
 RQAlpha 从数据获取、算法交易、回测引擎，实盘模拟，实盘交易到数据分析，为程序化交易者提供了全套解决方案。
 ```
+
+[如何使用Python取得歷史股價，簡介yfinance、ffn、FinMind 2021年11月7日](https://havocfuture.tw/blog/python-stock-history)  
+[如何使用Python產生技術指標？TA-Lib簡易教學 2022年10月30日](https://havocfuture.tw/blog/python-indicators-talib)  
+[Python 交易回測工具 Backtesting.py 簡易教學 2023年2月25日](https://havocfuture.tw/blog/python-backtesting-py)  
+[0050-k20-backtesting-py.ipynb](https://colab.research.google.com/drive/13lan-S9uWLrmCU47iwX_j_4uskp2PbSi?usp=sharing)  
+[用AI預測股價？實測 Facebook Prophet 預言家 2022年9月4日](https://havocfuture.tw/blog/ai-fb-prophet)  
+[如何破解網站驗證碼，實測證交所買賣日報表 2022年1月11日](https://havocfuture.tw/blog/captcha-bsr#%E5%AF%A6%E6%B8%AC%E8%A8%98%E9%8C%84)  
 
 
 # Reference
