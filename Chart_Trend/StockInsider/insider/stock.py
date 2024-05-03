@@ -92,6 +92,9 @@ class Stock:
                 #logger.info(f"option['label']: {option['label']} == ticker: {ticker}")     
                 self.ticker=  option["label"]
                 return
+            elif self.stock_idx.lower() == "^twii":
+                self.ticker=  "^TWII"
+                return
             
         raise ValueError(
             f"{self.stock_idx} cannot map yfinance ticker index ."
