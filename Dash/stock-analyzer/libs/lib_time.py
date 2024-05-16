@@ -1,4 +1,4 @@
-from logger_setup import *
+from .logger_setup import *
 
 __all__ = [
     'format_time',

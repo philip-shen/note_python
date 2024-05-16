@@ -9,7 +9,7 @@ from datetime import datetime
 import pickle
 import openpyxl, difflib
 
-from logger_setup import *
+from .logger_setup import *
 
 """
 本國上市證券國際證券辨識號碼一覽表

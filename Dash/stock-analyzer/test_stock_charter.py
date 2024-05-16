@@ -14,11 +14,11 @@ dirnamelog=os.path.join(strdirname,"logs")
 dirnamedata= os.path.join(strdirname,"data")
 dirnametest= os.path.join(strdirname,"test")
 
-sys.path.append('libs')
+#sys.path.append('libs')
 
-from logger_setup import *
-import lib_time
-import lib_twse_otc
+from libs.logger_setup import *
+import libs.lib_time
+import libs.lib_twse_otc
 
 # Global Variable: Ticker List
 with open("data/tickers.pickle", "rb") as f:
@@ -85,8 +85,8 @@ if __name__ == '__main__':
     lib_twse_otc.dump_pickle(path_pickle_ETF, list_etf_ticker, opt_verbose)
     '''
     
-    lib_twse_otc.query_twse_otc_code_02([str_twse_url, str_tpex_url], path_pickle_stock_id)
+    libs.lib_twse_otc.query_twse_otc_code_02([str_twse_url, str_tpex_url], path_pickle_stock_id)
     
-    time_consumption, h, m, s= lib_time.format_time(time.time() - t0)         
+    time_consumption, h, m, s= libs.lib_time.format_time(time.time() - t0)         
     msg = 'Time Consumption: {} seconds.'#msg = 'Time duration: {:.2f} seconds.'
     logger.info(msg.format( time_consumption))                                             

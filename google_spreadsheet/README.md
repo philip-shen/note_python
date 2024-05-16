@@ -261,15 +261,15 @@ https://docs.google.com/spreadsheets/d/aaaaaaaaaaaaaa/edit#gid=0
 [gspread_update.py](gspread/gspread_update.py)
 
 ## Reference  
-[Google Spread Sheets に Pythonを用いてアクセスしてみた 2020-08-02](https://qiita.com/164kondo/items/eec4d1d8fd7648217935)
-[【もう迷わない】Pythonでスプレッドシートに読み書きする初期設定まとめ](https://tanuhack.com/operate-spreadsheet/)
-[gspreadライブラリの使い方まとめ！Pythonでスプレッドシートを操作する](https://tanuhack.com/library-gspread/#i-9)
+[Google Spread Sheets に Pythonを用いてアクセスしてみた 2020-08-02](https://qiita.com/164kondo/items/eec4d1d8fd7648217935)  
+[【もう迷わない】Pythonでスプレッドシートに読み書きする初期設定まとめ](https://tanuhack.com/operate-spreadsheet/)  
+[gspreadライブラリの使い方まとめ！Pythonでスプレッドシートを操作する](https://tanuhack.com/library-gspread/#i-9)  
 [For Bots: Using Service Account](https://docs.gspread.org/en/latest/oauth2.html#for-bots-using-service-account)  
 [For End Users: Using OAuth Client ID](https://docs.gspread.org/en/latest/oauth2.html#for-end-users-using-oauth-client-id)  
 
-[pythonでGoogle Spread Sheetをいじる(OAuth)](https://qiita.com/AAkira/items/22719cbbd41b26dbd0d1)
-[Google スプレッドシートを curl で読む  2023-08-04](https://qiita.com/ekzemplaro/items/83f225b08bc4ee9739aa)
-[Pythonで多めのデータをGoogleスプレッドシートに書く時の注意点 2019-07-16](https://qiita.com/satsukiya/items/9495fd7e9549197bd327)
+[pythonでGoogle Spread Sheetをいじる(OAuth)](https://qiita.com/AAkira/items/22719cbbd41b26dbd0d1)  
+[Google スプレッドシートを curl で読む  2023-08-04](https://qiita.com/ekzemplaro/items/83f225b08bc4ee9739aa)  
+[Pythonで多めのデータをGoogleスプレッドシートに書く時の注意点 2019-07-16](https://qiita.com/satsukiya/items/9495fd7e9549197bd327)  
 [gspread_asyncio](https://gspread-asyncio.readthedocs.io/en/latest/)
 
 
