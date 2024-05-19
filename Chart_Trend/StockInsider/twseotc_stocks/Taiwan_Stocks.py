@@ -10,12 +10,12 @@ import pandas as pd
 
 class Taiwan_Stocks(SD.Stocks_Draw):
 
-    def __init__(self, **kwargs):
-
+    #def __init__(self, **kwargs):
+    def __init__(self, stock_name = "", stock_num = "", **kwargs):
         
         # Get all the settings done 
-        self.stock_name = ""
-        self.stock_num = ""
+        self.stock_name = stock_name
+        self.stock_num = stock_num
         self.table_name = ""
         self.dates = []
         self.Stocks_settings()
@@ -50,23 +50,22 @@ class Taiwan_Stocks(SD.Stocks_Draw):
 
         # print("----請輸入想要抓取的股票名稱或股票代碼，擇一即可----")
         # print("\n----Enter the stock name or the stock number----")
-        print("\n  {}".format("(1) Enter the stock name or number"))
-        print("----------------------------------------")
-
-
+        
         # stock_name = input("請輸入股票名稱:")
-        self.stock_name = input("\nEnter the stock name: ")
+        #self.stock_name = input("\nEnter the stock name: ")
 
-        if self.stock_name == '':
+        if self.stock_num == '':
+            print("\n  {}".format("(1) Enter the stock name or number"))
+            print("----------------------------------------")
             # stock_num = input("請輸入股票代碼:")
             self.stock_num = input("Enter the stock number: ")
             if self.stock_num == '':
                 # print("沒有輸入任何股票名稱或代碼!\n")
                 assert self.stock_name != "" or self.stock_num != '' , "Please enter the stock name or number!!"
 
-        logger.info(f'self.stock_name: {self.stock_name}')
-        # 時間抓取設定
-        
+            logger.info(f'self.stock_num: {self.stock_num}')
+            
+        # 時間抓取設定        
         # print("""請輸入想要抓取的時間區間，輸入格式為\n20210102 -> 起始時間\n20210228 -> 結束時間""")
         # start_time = input("請輸入起始時間:")
         # end_time = input("請輸入結束時間:")
@@ -147,7 +146,8 @@ class Taiwan_Stocks(SD.Stocks_Draw):
         
         self.Flag_tsw_stocks = self.Check_stocks(df, check_name="證券名稱", check_num="證券代號")
         
-        logger.info(f'\ndf: {df}')
+        if self.Flag_tpe_stocks:
+            logger.info(f'\ndf: {df}')
         logger.info(f'self.Flag_tsw_stocks: {self.Flag_tsw_stocks}')
 
         ##### 上櫃公司
@@ -160,7 +160,8 @@ class Taiwan_Stocks(SD.Stocks_Draw):
             df = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
             self.Flag_tpe_stocks = self.Check_stocks(df, check_name="名稱", check_num="代號")
         
-        logger.info(f'\ndf: {df}')
+        if self.Flag_tpe_stocks:
+            logger.info(f'\ndf: {df}')
         logger.info(f'self.Flag_tpe_stocks: {self.Flag_tpe_stocks}')
         
         # Set the table_name
@@ -168,5 +169,3 @@ class Taiwan_Stocks(SD.Stocks_Draw):
         
         # assert Flag_tpe_stocks or Flag_tsw_stocks, "非上市上櫃公司!"
         assert self.Flag_tpe_stocks or self.Flag_tsw_stocks, "Not Listed company!"
-        
-

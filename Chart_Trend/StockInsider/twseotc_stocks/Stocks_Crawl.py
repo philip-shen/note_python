@@ -1,4 +1,6 @@
 import twseotc_stocks.MySQL_Database as MD
+from twseotc_stocks.logger_setup import *
+
 import requests
 from io import StringIO
 import pandas as pd
@@ -54,7 +56,7 @@ class Stocks_Crawl(MD.MySQL_Database):
         
         ################# 上市公司法人買賣資料
         
-        self.url_institutional_investors = 'http://www.tse.com.tw/fund/T86?response=csv&date='
+        self.url_institutional_investors = 'http://www.twse.com.tw/fund/T86?response=csv&date='
         self.df_institutional_investors = pd.DataFrame( data = [], 
                                                         columns = ['證券代號', '證券名稱', 
                                                                     '外陸資買進股數(不含外資自營商)', 
@@ -81,7 +83,7 @@ class Stocks_Crawl(MD.MySQL_Database):
         elif self.Fetch_stock_statistics_flag:
             self.Fetch_stock_statistics()
         else:
-            print("The program is useless...END")
+            logger.info("The program is useless...END")
 
         # 爬蟲完要不要存進MySQL資料庫
         if self.MySQL_flag:
@@ -114,8 +116,8 @@ class Stocks_Crawl(MD.MySQL_Database):
         # Start crawling data
         for date in self.dates:
 
-            print(date + " starts crawling")
-
+            #print(date + " starts crawling")
+            logger.info(f'{date} starts crawling')
             try:
 
                 ################ 爬上櫃公司 ################
@@ -179,15 +181,16 @@ class Stocks_Crawl(MD.MySQL_Database):
             except Exception as err:
                 
                 if type(err) == ValueError:
-                    # print(err)
-                    print(date +" is holiday")
+                    logger.info(str(err))
+                    #print(date +" is holiday")
 
                 elif type(err) == KeyError:
-                    # print(err)
-                    print(date +" is holiday")
+                    logger.info(str(err))
+                    #print(date +" is holiday")
                 else:
                     
-                    print("Error happens!! -> " + str(err))
+                    #print("Error happens!! -> " + str(err))
+                    logger.info(f"Error happens!! -> {str(err)}")
                     break
 
                                         
@@ -273,7 +276,7 @@ class Stocks_Crawl(MD.MySQL_Database):
         
         if not Flag_tpex_stocks and not Flag_tpex_insti_inv and not Flag_stocks and not Flag_insti_inv:
             
-            print("Error...Crawling nothing, please set the flags right")
+            logger.info("Error...Crawling nothing, please set the flags right")
             return 0
 
 
@@ -284,20 +287,30 @@ class Stocks_Crawl(MD.MySQL_Database):
             df = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
 
             df = df.iloc[:, :11]
-
+            #logger.info(f'df:\n{df}')
+            
             df = self.Rename_df_columns(df, Flag_tpex_stocks = True, Flag_tpex_insti_inv = False)
-
+            #logger.info(f'df:\n{df}')
+            
             df = self.Get_specific_stock(df)
+            logger.info(f'Get_specific_stock df:\n{df}')
 
             df.insert(0, "Date", Date)
-
+            #logger.info(f'df:\n{df}')
+            
             df.drop("均價 ", axis = "columns", inplace = True)
             
             df["漲跌(+/-)"] = df["漲跌價差"].values[0][0] if df["漲跌價差"].values[0][0] != "0" else "X"
-
-            self.df_stocks = self.df_stocks.append(df, ignore_index=True)
-
-        
+            #logger.info(f'df:\n{df}')
+            
+            '''
+            DataFrame' object has no attribute 'append'
+            #self.df_stocks = self.df_stocks.append(df, ignore_index=True)
+            '''
+            # Correct way to append a new row to a DataFrame in pandas 2.0+
+            self.df_stocks = pd.concat([self.df_stocks, df], ignore_index=True)
+            logger.info(f'self.df_stocks:\n{self.df_stocks}')
+            
         if Flag_tpex_insti_inv:
 
             df = pd.read_csv(StringIO(r.text.replace("=", "")), header = 1 ).dropna(how='all', axis=1).dropna(how='any')
@@ -313,37 +326,51 @@ class Stocks_Crawl(MD.MySQL_Database):
             df = self.Rename_df_columns(df, Flag_tpex_stocks = False, Flag_tpex_insti_inv = True)
 
             df = self.Get_specific_stock(df)
+            logger.info(f'Get_specific_stock df:\n{df}')
             
-            self.df_institutional_investors = self.df_institutional_investors.append(df, ignore_index = True)
-
-
+            '''
+            DataFrame' object has no attribute 'append'
+            #self.df_institutional_investors = self.df_institutional_investors.append(df, ignore_index = True)
+            '''
+            self.df_institutional_investors = pd.concat([self.df_institutional_investors, df], ignore_index = True)
+            logger.info(f'self.df_institutional_investors:\n {self.df_institutional_investors}')
+            
         ######### 爬上市公司 #########
 
         if Flag_stocks:
 
             df = pd.read_csv(StringIO(r.text.replace("=", "")), 
                              header = ["證券代號" in l for l in r.text.split("\n")].index(True)-1 )
-
+            
+            logger.info(f'df:\n{df}')
             df.insert(0, "Date", date)
 
             df = df.iloc[:, :12]
 
             df = self.Get_specific_stock(df)
-
-            self.df_stocks = self.df_stocks.append(df, ignore_index=True)
-
-        
+            logger.info(f'Get_specific_stock df:\n{df}')
+            
+            #self.df_stocks = self.df_stocks.append(df, ignore_index=True)
+            self.df_stocks = pd.concat([self.df_stocks, df], ignore_index=True)
+            logger.info(f'self.df_stocks:\n{self.df_stocks}')
+            
         if Flag_insti_inv:
-
+            '''
+            Error happens!! -> Error tokenizing data. C error: Expected 1 fields in line 5, saw 5
+            '''
+            logger.info(f'r.text:\n{r.text}')                
             df = pd.read_csv(StringIO(r.text.replace("=", "")),
                              header = 1 ).dropna(how='all', axis=1).dropna(how='any')
-
+            logger.info(f'df:\n{df}')
+            
             df.insert(0, "Date", date)
 
             df = self.Get_specific_stock(df)
+            logger.info(f'Get_specific_stock df:\n{df}')
             
-            self.df_institutional_investors = self.df_institutional_investors.append(df, ignore_index = True)
-
+            #self.df_institutional_investors = self.df_institutional_investors.append(df, ignore_index = True)
+            self.df_institutional_investors = pd.concat([self.df_institutional_investors, df], ignore_index = True)
+            logger.info(f'self.df_institutional_investors:\n {self.df_institutional_investors}')
 
     # 合併Date
     #############################################
@@ -354,11 +381,16 @@ class Stocks_Crawl(MD.MySQL_Database):
         self.df_stocks.reset_index(drop=True, inplace=True)
         self.df_institutional_investors.reset_index(drop=True, inplace=True)
         self.df_statistics.reset_index(drop=True, inplace=True)
+        
+        #logger.info(f'self.df_stocks:\n{self.df_stocks}')
+        #logger.info(f'self.df_institutional_investors:\n{self.df_institutional_investors}')
+        #logger.info(f'self.df_statistics:\n{self.df_statistics}')
 
         self.df_stocks = pd.concat([self.df_stocks, self.df_institutional_investors.drop(columns=["Date", "證券代號", "證券名稱"]), 
                         self.df_statistics.drop(columns=["證券代號", "證券名稱"])], axis = 1)
 
-
+        logger.info(f'self.df_stocks:\n{self.df_stocks}')
+        
     # 將Date存進資料庫
     #############################################
 
@@ -373,7 +405,7 @@ class Stocks_Crawl(MD.MySQL_Database):
 
             try:
                 sql = "INSERT INTO `{}` (`".format(self.table_name) +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
-                
+                logger.info(f'sql:\n{sql}')
                 self.cursor.execute(sql, tuple(row))
 
                 # the connection is not autocommitted by default, so we must commit to save our changes
@@ -381,8 +413,8 @@ class Stocks_Crawl(MD.MySQL_Database):
                 
             except Exception as err:
                 
-                # print(err)
-                print("This data already exists in this table, jumping...")
+                logger.info(str(err))
+                #print("This data already exists in this table, jumping...")
                 continue
     
 
@@ -411,14 +443,44 @@ class Stocks_Crawl(MD.MySQL_Database):
             columns_title = ["股票代號", "名稱", "本益比", "股價淨值比", "殖利率(%)", "股利年度" ]
 
             df = df[columns_title]
-
+            logger.info(f'df:\n{df}')
+            
             df.rename(columns = {"殖利率(%)":"殖利率", "股票代號":"證券代號", "名稱":"證券名稱"}, inplace = True)
+            logger.info(f'df:\n{df}')
+            
+            '''
+            'int' object has no attribute 'replace'
+            
+            # Convert column 'A' to string
+            df['A'] = df['A'].astype(str)
+            '''
+            '''
+                 證券代號  證券名稱    本益比  股價淨值比   殖利率  股利年度
+            0    1240  茂生農經  12.60   1.51  5.20   112
+            1    1259    安心  14.35   1.02  2.43   112
+            2    1264    德麥  16.45   3.53  4.67   112
+            3    1268  漢來美食  20.63   3.08  4.46   112
+            4    1336    台翰  14.17   0.88  2.08   112
+            ..    ...   ...    ...    ...   ...   ...
+            813  9949    琉園   0.00   2.84  0.00   112
+            814  9950   萬國通   2.65   2.03  0.00   112
+            815  9951    皇田  12.41   1.49  4.75   112
+            816  9960   邁達康  10.73   1.44  6.28   112
+            817  9962    有益  13.41   1.32  6.51   112
 
+            [818 rows x 6 columns]
+            '''
+            df["證券代號"] = df["證券代號"].astype(str)
+            
             df = self.Get_specific_stock(df)
-
-            self.df_statistics = self.df_statistics.append(df, ignore_index=True)
-
-
+            logger.info(f'Get_specific_stock df:\n{df}')
+            '''
+            DataFrame' object has no attribute 'append'
+            '''        
+            #self.df_statistics = self.df_statistics.append(df, ignore_index=True)
+            self.df_statistics = pd.concat([self.df_statistics, df], ignore_index=True)
+            logger.info(f'self.df_statistics:\n{self.df_statistics}')
+            
         # 上市公司
 
         if self.Flag_tsw_stocks:
@@ -437,8 +499,12 @@ class Stocks_Crawl(MD.MySQL_Database):
 
             df.rename(columns = {"殖利率(%)":"殖利率"}, inplace = True)
 
+            df["證券代號"] = df["證券代號"].astype(str)            
             df = self.Get_specific_stock(df)
-
-            self.df_statistics = self.df_statistics.append(df, ignore_index=True)
+            logger.info(f'Get_specific_stock df:\n{df}')
+            
+            #self.df_statistics = self.df_statistics.append(df, ignore_index=True)
+            self.df_statistics = pd.concat([self.df_statistics, df], ignore_index=True)
+            logger.info(f'self.df_statistics:\n{self.df_statistics}')
 
         
