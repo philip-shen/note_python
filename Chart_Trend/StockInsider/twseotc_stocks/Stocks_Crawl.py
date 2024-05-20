@@ -55,8 +55,14 @@ class Stocks_Crawl(MD.MySQL_Database):
                                                  '漲跌價差' ])
         
         ################# 上市公司法人買賣資料
+        '''
+        https://raw.githubusercontent.com/litefunc/tse/master/%E4%B8%89%E5%A4%A7%E6%B3%95%E4%BA%BA/%E4%B8%89%E5%A4%A7%E6%B3%95%E4%BA%BA%E8%B2%B7%E8%B3%A3%E8%B6%85%E6%97%A5%E5%A0%B1.py
         
-        self.url_institutional_investors = 'http://www.twse.com.tw/fund/T86?response=csv&date='
+        def gen_url(type: str, input_date: str) -> str:
+            return 'https://www.twse.com.tw/rwd/zh/fund/T86?response=json&date={}&selectType={}'.format(input_date, type)
+        '''
+        #'http://www.twse.com.tw/fund/T86?response=csv&date='
+        self.url_institutional_investors = 'https://www.twse.com.tw/rwd/zh/fund/T86?response=csv&date='
         self.df_institutional_investors = pd.DataFrame( data = [], 
                                                         columns = ['證券代號', '證券名稱', 
                                                                     '外陸資買進股數(不含外資自營商)', 
@@ -342,13 +348,13 @@ class Stocks_Crawl(MD.MySQL_Database):
             df = pd.read_csv(StringIO(r.text.replace("=", "")), 
                              header = ["證券代號" in l for l in r.text.split("\n")].index(True)-1 )
             
-            logger.info(f'df:\n{df}')
+            #logger.info(f'df:\n{df}')
             df.insert(0, "Date", date)
 
             df = df.iloc[:, :12]
 
             df = self.Get_specific_stock(df)
-            logger.info(f'Get_specific_stock df:\n{df}')
+            #logger.info(f'Get_specific_stock df:\n{df}')
             
             #self.df_stocks = self.df_stocks.append(df, ignore_index=True)
             self.df_stocks = pd.concat([self.df_stocks, df], ignore_index=True)
@@ -358,15 +364,21 @@ class Stocks_Crawl(MD.MySQL_Database):
             '''
             Error happens!! -> Error tokenizing data. C error: Expected 1 fields in line 5, saw 5
             '''
-            logger.info(f'r.text:\n{r.text}')                
+            '''
+            "113年05月02日 三大法人買賣超日報"
+            "證券代號","證券名稱","外陸資買進股數(不含外資自營商)","外陸資賣出股數(不含外資自營商)","外陸資買賣超股數(不含外資自營商)","外資自營商買進股數","外資自營商賣出股數","外資自營商買賣超股數","投信買進股數","投信賣出股數","投信買賣超股數","自營商買賣超股數","自營商買進股數(自行買賣)","自營商賣出股數(自行買賣)","自營商買賣超股數(自行買賣)","自營商買進股數(避險)","自營商賣出股數(避險)","自營商買賣超股數(避險)","三大法人買賣超股數",
+            "2618","長榮航          ","92,956,462","56,177,844","36,778,618","0","0","0","10,717,000","2,000","10,715,000","9,487,649","4,677,995","2,505,345","2,172,650","8,616,999","1,302,000","7,314,999","56,981,267",
+            "3231","緯創            ","24,083,608","12,878,200","11,205,408","0","0","0","538,000","2,588,612","-2,050,612","-89,409","318,000","430,000","-112,000","458,645","436,054","22,591","9,065,387",
+            '''
+            #logger.info(f'r.text:\n{r.text}')                
             df = pd.read_csv(StringIO(r.text.replace("=", "")),
                              header = 1 ).dropna(how='all', axis=1).dropna(how='any')
-            logger.info(f'df:\n{df}')
+            #logger.info(f'df:\n{df}')
             
             df.insert(0, "Date", date)
 
             df = self.Get_specific_stock(df)
-            logger.info(f'Get_specific_stock df:\n{df}')
+            #logger.info(f'Get_specific_stock df:\n{df}')
             
             #self.df_institutional_investors = self.df_institutional_investors.append(df, ignore_index = True)
             self.df_institutional_investors = pd.concat([self.df_institutional_investors, df], ignore_index = True)
@@ -443,10 +455,10 @@ class Stocks_Crawl(MD.MySQL_Database):
             columns_title = ["股票代號", "名稱", "本益比", "股價淨值比", "殖利率(%)", "股利年度" ]
 
             df = df[columns_title]
-            logger.info(f'df:\n{df}')
+            #logger.info(f'df:\n{df}')
             
             df.rename(columns = {"殖利率(%)":"殖利率", "股票代號":"證券代號", "名稱":"證券名稱"}, inplace = True)
-            logger.info(f'df:\n{df}')
+            #logger.info(f'df:\n{df}')
             
             '''
             'int' object has no attribute 'replace'
@@ -473,7 +485,7 @@ class Stocks_Crawl(MD.MySQL_Database):
             df["證券代號"] = df["證券代號"].astype(str)
             
             df = self.Get_specific_stock(df)
-            logger.info(f'Get_specific_stock df:\n{df}')
+            #logger.info(f'Get_specific_stock df:\n{df}')
             '''
             DataFrame' object has no attribute 'append'
             '''        
@@ -501,7 +513,7 @@ class Stocks_Crawl(MD.MySQL_Database):
 
             df["證券代號"] = df["證券代號"].astype(str)            
             df = self.Get_specific_stock(df)
-            logger.info(f'Get_specific_stock df:\n{df}')
+            #logger.info(f'Get_specific_stock df:\n{df}')
             
             #self.df_statistics = self.df_statistics.append(df, ignore_index=True)
             self.df_statistics = pd.concat([self.df_statistics, df], ignore_index=True)

@@ -102,8 +102,8 @@ run_fromGsheet.bat config_xxxxx.json GSheet_xxxxx.json
 
 ## Reference
 [charlesdong1991/StockInsider](https://github.com/charlesdong1991/StockInsider)  
-[smalldan1022 /Taiwan-Stocks](
-https://github.com/smalldan1022/Taiwan-Stocks)  
+[smalldan1022 /Taiwan-Stocks](https://github.com/smalldan1022/Taiwan-Stocks)  
+[litefunc /tse ](https://github.com/litefunc/tse)  
 
 ## Troubleshooting  
 [Plotly fig.to_image is stucking on windows 11. #126](https://github.com/plotly/Kaleido/issues/126)  

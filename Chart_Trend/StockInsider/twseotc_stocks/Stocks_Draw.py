@@ -1,4 +1,6 @@
 import twseotc_stocks.Stocks_Analasis as SA
+from twseotc_stocks.logger_setup import *
+
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
@@ -93,7 +95,7 @@ class Stocks_Draw(SA.Stocks_Analasis):
         self.fig.add_trace(figure_volume , self.row, 1, secondary_y = False )
 
         self.row += 1
-
+        '''
         # Set y-axes titles
         # Max_Volume = pd.to_numeric(self.df_stocks['成交股數'].apply(lambda x: x.replace(',',''))).max()
         # Max_Stock_Price = self.df_stocks['最高價'].apply(lambda x:x.replace(",", "").replace("-","0")).astype(float).max()
@@ -101,8 +103,8 @@ class Stocks_Draw(SA.Stocks_Analasis):
                               
         # self.fig.update_layout(yaxis=dict(title="<b>成交量</b>", range=[0, Max_Volume*7]) )
         # self.fig.update_layout(yaxis2=dict(title="<b>股價</b>", range = [Min_Stock_Price//1.2, Max_Stock_Price*1.02]))
-
-        
+        '''
+                
         if D_5MA:
             self.MA5 = self.draw_MA(day_interval=5, marker = dict(color = '#FF9224'))
         if D_10MA:
@@ -120,7 +122,8 @@ class Stocks_Draw(SA.Stocks_Analasis):
             self.Draw_Bar(buying_number = self.DL_num, marker = dict(color = '#7373B9'), name = "自營商")
 
         if save_fig and fig_name != "" and save_path != "":
-            self.fig.write_image(save_path + fig_name + ".png", format='png')
+            logger.info(f'{save_path}/{fig_name}')
+            self.fig.write_image(save_path +'/'+ fig_name + ".png", format='png')
             # self.fig.write_html(save_path + fig_name + ".html", include_plotlyjs="cdn")
         
         self.fig.show()

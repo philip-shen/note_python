@@ -100,8 +100,7 @@ if __name__ == '__main__':
         
         for dict_stkidx_cnpname in localGoogleSS.list_stkidx_cnpname_dicts:
             #logger.info(f'stock index: {dict_stkidx_cnpname["stkidx"]}; company name: {dict_stkidx_cnpname["cnpname"]}')
-            image_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MAs.jpg'
-            logger.info(f'export image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MAs.jpg')
+            
 
             if dict_stkidx_cnpname["stkidx"] is None:
                 pass#twse_two_idx = "^TWII"
@@ -110,22 +109,27 @@ if __name__ == '__main__':
                 
     
             # Crawl stock data, save data into MySQL, fetch data from MySQL
-            stocks = TS.Taiwan_Stocks( stock_name = "", stock_num = twse_two_idx, \
-                                    db_settings = db_settings, Crawl_flag = True, MySQL_flag = MySQL_flag, 
+            stocks = TS.Taiwan_Stocks( stock_name = dict_stkidx_cnpname["cnpname"], 
+                                        stock_num = twse_two_idx, \
+                                        db_settings = db_settings, Crawl_flag = True, MySQL_flag = MySQL_flag, 
                                     Fetch_stock_statistics_flag = Fetch_stock_statistics_flag, timesleep = 5)
 
+            image_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MAs.png'
+            logger.info(f'export image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MAs.png')
             # Draw plots
             stocks.draw_plots( D_5MA=True, D_10MA = True, D_20MA = True, D_60MA=True, D_IT=True, D_FI=True, D_DL=True, 
-                       save_fig=False, fig_name="", save_path="")
+                       save_fig=True, fig_name=dict_stkidx_cnpname["cnpname"]+'_MAs', save_path=image_save_path(json_data))
 
             # Calculate the stock's dependency
-            #stocks.Dependency( IT_flag = True, IT_stocks_number = 50, FI_flag = True, FI_stocks_number = 100, 
-            #           DL_flag = True, DL_stocks_number = 4, date_interval = 3, value_date_interval = 2)
+            stocks.Dependency( IT_flag = True, IT_stocks_number = 50, FI_flag = True, FI_stocks_number = 100, 
+                       DL_flag = True, DL_stocks_number = 4, date_interval = 3, value_date_interval = 2)
 
-            #stocks.Stand_Up_On_MAs()
+            stocks.Stand_Up_On_MAs()
 
             logger.info("  {}".format("(6) Closing the program")) 
             logger.info("----------------------------------------")   
             logger.info("Program Finished...\n") 
-    
+            
+            est_timer(t1)    
+     
     est_timer(t0)    

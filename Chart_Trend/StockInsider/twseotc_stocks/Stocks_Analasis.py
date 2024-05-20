@@ -1,4 +1,6 @@
 import twseotc_stocks.Stocks_Crawl as SC
+from twseotc_stocks.logger_setup import *
+
 import pandas as pd
 import numpy as np
 
@@ -18,8 +20,8 @@ class Stocks_Analasis(SC.Stocks_Crawl):
         self.Cal_Foreign_Investor()
         self.Cal_Dealer()
 
-        print( "\n  {}".format("(5) Analyzing the stocks") )
-        print("----------------------------------------")
+        logger.info("{}".format("(5) Analyzing the stocks") )
+        logger.info("----------------------------------------")
         
     
     # CALCULATING
@@ -85,13 +87,13 @@ class Stocks_Analasis(SC.Stocks_Crawl):
     def Dependency(self, IT_flag = False, IT_stocks_number = 50, FI_flag = False, FI_stocks_number = 100, 
                          DL_flag = False, DL_stocks_number = 10, date_interval = 3, value_date_interval = 2):
 
-        print("Dependency:")
-        print("This feature is currently not available !!")
+        logger.info("Dependency:")
+        logger.info("This feature is currently not available !!")
   
     
     def Stand_Up_On_MAs(self):
         
-        print("\n{}".format("Stand_Up_On_MAs (針對你Fetch data區間的最後一天做分析):"))
+        logger.info("{}".format("Stand_Up_On_MAs (針對你Fetch data區間的最後一天做分析):"))
 
         # 抓出所需data
         stock_price = self.df_stocks['收盤價'].astype(float).iloc[-1]
@@ -108,15 +110,15 @@ class Stocks_Analasis(SC.Stocks_Crawl):
 
         # 判斷data值
         if four_flag:
-            print("股價已站上5日、10日、20日、60日均線均線，為四海遊龍型股票!!")
+            logger.info("股價已站上5日、10日、20日、60日均線均線，為四海遊龍型股票!!")
         elif three_flag:
-            print("股價已站上5日、10日、20日均線，為三陽開泰型股票!!")
+            logger.info("股價已站上5日、10日、20日均線，為三陽開泰型股票!!")
         elif not four_MAs:
-            print("目前的data數量不足以畫出四條均線，請補足後再用此演算法!!")
+            logger.info("目前的data數量不足以畫出四條均線，請補足後再用此演算法!!")
         elif not three_MAs:
-            print("目前的data數量不足以畫出三條均線，請補足後再用此演算法!!")
+            logger.info("目前的data數量不足以畫出三條均線，請補足後再用此演算法!!")
         else:
-            print("目前股價尚未成三陽開泰型、四海遊龍型股票!!")
+            logger.info("目前股價尚未成三陽開泰型、四海遊龍型股票!!")
 
     # UTILITIES
     #############################################

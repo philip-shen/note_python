@@ -114,7 +114,7 @@ class Taiwan_Stocks(SD.Stocks_Draw):
         '''
         
         if self.stock_name != "" and self.stock_num != '':
-            # assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "股票名稱與股票代號不符!! 請重新輸入!!"
+            # assert df[df[check_name] == self.stock_name][check_nu m].values[0] == self.stock_num, "股票名稱與股票代號不符!! 請重新輸入!!"
             assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "The stock name is inconsistent with the stock number!! Please enter again!!"
                 
         if df[check_name].isin([self.stock_name]).any():

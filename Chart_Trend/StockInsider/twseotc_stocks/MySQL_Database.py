@@ -2,7 +2,7 @@ import pandas as pd
 import traceback
 import pymysql
 
-
+from twseotc_stocks.logger_setup import *
 
 
 class MySQL_Database:
@@ -52,8 +52,8 @@ class MySQL_Database:
         self.db = None
         self.cursor = None
 
-        print( "\n  {}".format("(4) Manipulating the data") )
-        print("----------------------------------------\n")
+        logger.info( "{}".format("(4) Manipulating the data") )
+        logger.info("----------------------------------------\n")
 
         if self.db_settings != None:
 
@@ -71,10 +71,10 @@ class MySQL_Database:
         try:
             # 建立Connection物件
             self.db = pymysql.connect(**self.db_settings)
-            print("MySQL Connected...")
+            logger.info("MySQL Connected...")
         except Exception as err:
-            print("Error:")
-            print(err)
+            logger.info("Error:")
+            logger.info(err)
             
     def Cursor(self):
         
@@ -84,7 +84,7 @@ class MySQL_Database:
     def Create_table(self):
         
         self.cursor.execute(self.table_sql)
-        print("MySQL table created Successfully...")
+        logger.info("MySQL table created Successfully...")
         
         
     def Check(self):
@@ -98,10 +98,10 @@ class MySQL_Database:
         results_list = [item[0] for item in results]
 
         if self.table_name in results_list:
-            print("This table already exists...")
+            logger.info("This table already exists...")
             return False
         else:
-            print("This table does not exist, creating table...")
+            logger.info("This table does not exist, creating table...")
             return True
     
     def Insert(self, insert_sql):
@@ -109,7 +109,7 @@ class MySQL_Database:
         try:
             self.cursor.execute(insert_sql)
             self.db.commit()
-            print("Insert successfully.")
+            logger.info("Insert successfully.")
 
         except:
             self.db.rollback()
@@ -122,7 +122,7 @@ class MySQL_Database:
             self.cursor.execute(delete_sql)
             # Commit your changes in the database
             self.db.commit()
-            print("Delete successfully.")
+            logger.info("Delete successfully.")
             
         except:
             self.db.rollback()
@@ -148,13 +148,13 @@ class MySQL_Database:
                 sex = row[4]
                 income = row[5]
                 # Now print fetched result
-                print("name = {} {}, age = {}, sex = {}, income = {}".format(fname, lname, age, sex, income ))
+                logger.info("name = {} {}, age = {}, sex = {}, income = {}".format(fname, lname, age, sex, income ))
         except:
             traceback.print_exc()
 
     def Fetch_stock_statistics(self):
 
-        print("Fetching stocks statistics...")
+        logger.info("Fetching stocks statistics...")
         # 使用者有可能原本用完後關掉db connect，然後再次使用Fetch功能，因此要先連結
         self.Connect()
         self.Cursor()
@@ -173,13 +173,13 @@ class MySQL_Database:
 
         if int(self.dates[0]) <= int(self.df_stocks.Date.min()) or int(self.dates[-1]) >= int(self.df_stocks.Date.max()):
             
-            print("Fetching the maximum data...")
+            logger.info("Fetching the maximum data...")
 
             Min_date = max(self.df_stocks.Date.min(), self.dates[0])
             Max_date = min(self.df_stocks.Date.max(), self.dates[-1])
 
-            print("The maximum data in MySQL: {} - {}".format( Min_date, Max_date ))
-            print("Fetching the data...")
+            logger.info("The maximum data in MySQL: {} - {}".format( Min_date, Max_date ))
+            logger.info("Fetching the data...")
 
             # print("資料庫資料不足，只取用最大限度資料...")
             # print("目前資料庫擁有資料: {} - {}".format( self.df_stocks.Date.min(), self.df_stocks.Date.max() ) )
