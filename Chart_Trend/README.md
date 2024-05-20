@@ -94,6 +94,11 @@ python test_bbibol.py --conf conf.json
 run_fromGsheet.bat config_xxxxx.json GSheet_xxxxx.json
 ```
 
+[test_twseotc_stocks.py](StockInsider/test_twseotc_stocks.py)  
+```
+run_twseotc_stocks.bat config_xxxxx.json GSheet_xxxxx.json
+```
+
 ## 2330 BBIBOLL  
 <img src="images/2330_BBIBOLL.png" width="600" height="400">   
 
