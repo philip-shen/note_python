@@ -169,10 +169,7 @@ if __name__ == '__main__':
         localGoogleSS.get_stkidx_cnpname(inital_row_num, str_delay_sec)
         
         for dict_stkidx_cnpname in localGoogleSS.list_stkidx_cnpname_dicts:
-            #logger.info(f'stock index: {dict_stkidx_cnpname["stkidx"]}; company name: {dict_stkidx_cnpname["cnpname"]}')
-            image_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg'
-            logger.info(f'export image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg')
-
+            
             if dict_stkidx_cnpname["stkidx"] is None:
                 twse_two_idx = "^TWII"
             else:
@@ -180,29 +177,30 @@ if __name__ == '__main__':
             si = StockInsider(stock_idx = twse_two_idx, code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
             df_stock_data= si.show_data()
             df_stock_data.reset_index(inplace=True)
+            '''
+            image_ma_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MA.jpg'
+            logger.info(f'export MA image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MA.jpg')
+            chart_ma_figure= si.plot_ma(head= df_stock_data.__len__(), ns=None, verbose=True)
+            si._export_image(chart_ma_figure, image_ma_fname_path, scale= 2, 
+                             width= json_data["width_height"][0], height= json_data["width_height"][1])
+            '''
+            
+            image_ema_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_EMA.jpg'
+            logger.info(f'export EMA image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_EMA.jpg')
+            
+            chart_ema_figure= si.plot_ema(head= df_stock_data.__len__(), ns=None, verbose=True)
+            si._export_image(chart_ema_figure, image_ema_fname_path, scale= 2, 
+                             width= json_data["width_height"][0], height= json_data["width_height"][1])
+            
+            #logger.info(f'stock index: {dict_stkidx_cnpname["stkidx"]}; company name: {dict_stkidx_cnpname["cnpname"]}')
+            image_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg'
+            logger.info(f'export image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg')
             #si.plot_boll(head= df_stock_data.__len__(), n=6, verbose=True)
             chart_figure= si.plot_bbiboll(head= df_stock_data.__len__(), n=6, m=6, verbose=True)
 
-            si._export_image(chart_figure, image_fname_path, scale= 1, 
+            si._export_image(chart_figure, image_fname_path, scale= 2, 
                              width= json_data["width_height"][0], height= json_data["width_height"][1])
-        
-            est_timer(t1)    
-        
-    '''
-    for stk_idx in json_data["stock_indexes"]:
-        t1 = time.time()
-        image_fname_path= f"{image_save_path(json_data)}/{stk_idx}.jpg"
-        logger.info(f'export image to {image_save_path(json_data)}/{stk_idx}.jpg')
-        
-        si = StockInsider(stock_idx = stk_idx, code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
-        df_stock_data= si.show_data()
-        df_stock_data.reset_index(inplace=True)
-        #si.plot_boll(head= df_stock_data.__len__(), n=6, verbose=True)
-        chart_figure= si.plot_bbiboll(head= df_stock_data.__len__(), n=6, m=6, verbose=True)
 
-        si._export_image(chart_figure, image_fname_path, scale= 1, 
-                         width= json_data["width_height"][0], height= json_data["width_height"][1])
-        
-        est_timer(t1)    
-    '''    
+            est_timer(t1)    
+    
     est_timer(t0)    

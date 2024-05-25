@@ -99,15 +99,25 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
 
         if verbose:
             df = self._df.copy()
+            '''
+            stock_insider.py, line 102, in _plot_moving_lines
             verbose_data = verbose_func(df, head)
+            TypeError: 'Candlestick' object is not callable
+            '''
+            #verbose_data = verbose_func(df, head)
+            verbose_data = verbose_func
             plot_data.append(verbose_data)
 
         layout = set_layout()
         fig = go.Figure(data=plot_data, layout=layout)
         if verbose:
             fig.update_layout(xaxis_rangeslider_visible=False)
-        fig.update_layout(title_text=f"{name.upper()} Chart ({self.stock_code})")
+        #title_text=f"{name.upper()} Chart ({self.stock_code})"
+        fig.update_layout(title_text=f'{name.upper()} Chart ({self.stock_idx} {self.ticker_info["longName"]})',
+                          xaxis_rangeslider_visible=False,)
         fig.show()
+        
+        return fig
     '''
     How can I save the plotly graphs as image(png,jpg etc.) offline in python?
     https://community.plotly.com/t/how-can-i-save-the-plotly-graphs-as-image-png-jpg-etc-offline-in-python/24998
@@ -161,15 +171,23 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             ns = MA_N
 
         func = self.ma
-        verbose_func = self._plot_stock_data
-        self._plot_moving_lines(
-            func=func,
-            verbose_func=verbose_func,
-            name="ma",
-            head=head,
-            ns=ns,
-            verbose=verbose,
-        )
+        '''
+        \stock_insider.py", line 102, in _plot_moving_lines
+        verbose_data = verbose_func(df, head)
+        TypeError: Stock._plot_stock_data() missing 1 required positional argument: 'head'
+        '''
+        # verbose_func = self._plot_stock_data
+        verbose_func = self._plot_stock_data(self, self._df, head)
+        chart_fig= self._plot_moving_lines(
+                            func=func,
+                            verbose_func=verbose_func,
+                            name="ma",
+                            head=head,
+                            ns=ns,
+                            verbose=verbose,
+                        )
+        
+        return chart_fig
 
     def plot_md(
         self, head: int = 90, ns: Optional[List[int]] = None, verbose: bool = False
@@ -215,15 +233,23 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
             ns = EXPMA_N
 
         func = self.ema
-        verbose_func = self._plot_stock_data
-        self._plot_moving_lines(
-            func=func,
-            verbose_func=verbose_func,
-            name="ema",
-            head=head,
-            ns=ns,
-            verbose=verbose,
-        )
+        '''
+        \stock_insider.py", line 102, in _plot_moving_lines
+        verbose_data = verbose_func(df, head)
+        TypeError: Stock._plot_stock_data() missing 1 required positional argument: 'head'
+        '''
+        # verbose_func = self._plot_stock_data
+        verbose_func = self._plot_stock_data(self, self._df, head)
+        chart_fig= self._plot_moving_lines(
+                    func=func,
+                    verbose_func=verbose_func,
+                    name="ema",
+                    head=head,
+                    ns=ns,
+                    verbose=verbose,
+                )
+        
+        return chart_fig
 
     def plot_macd(self, head: int = 90):
         """Plot MACD (Moving Average Convergence and Divergence) Indicator. 绘出MACD曲线
