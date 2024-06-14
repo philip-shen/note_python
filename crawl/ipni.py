@@ -163,6 +163,7 @@ def botanical_names(list_txt_urls, filters, opt_verbose= 'OFF'):
             
         temp_dict={
             "url": txt_url,
+            "zh-tw_name": txt_url.split('/')[-2].strip(),                     
             "eng_names": table_value_eng_names.replace("\xa0", "").replace("\r", "").replace("\n", ""),
             "botanical_names": table_value_botanical_names.replace("\r", "").replace("\n", "")
         }
@@ -170,12 +171,17 @@ def botanical_names(list_txt_urls, filters, opt_verbose= 'OFF'):
         list_url_botanical_names.append(temp_dict)
         
     return list_url_botanical_names
+'''
+Python 輸出中文亂碼問題 Sep 1, 2020
+https://medium.com/@kk_huang/python-%E8%BC%B8%E5%87%BA%E4%B8%AD%E6%96%87%E4%BA%82%E7%A2%BC%E5%95%8F%E9%A1%8C-c4a540b8401d
 
+'''
 def dict_to_csv(csv_file, in_list_dict, opt_verbose= 'OFF'):
     # Specify the field names (headers)
     csv_columns = in_list_dict[0].keys()
     try:
         with open(csv_file, 'w', encoding='utf-8') as csvfile:
+            csvfile.write('\ufeff')
             writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
             writer.writeheader()
             for data in in_list_dict:
@@ -217,6 +223,8 @@ if __name__ == '__main__':
     filter_params = {
         'eng_names': '英文名稱',
         'botanical_names': '學名',
+        'species_names': '科別',
+        'species_names01': '科名',
         'family_names': '別名'
      }
     for url in list_urls:

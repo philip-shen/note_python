@@ -168,6 +168,12 @@ An important thing to mention is that Socks5 is popular among users who don’t 
 Docker 安裝完成後，開啟在左側找到倉庫伺服器，然後搜尋「gists-shadowsocks」這名稱可能有時搜了找不到內容，可以自己增減文字搜看看，反正最後要安裝的是「gists/shadowsocks-libev」這個套件。
 ```
 
+* [給自己的Python小筆記 — 強大的數據處理工具 — 正則表達式 — Regular Expression — regex詳細教學 Nov 24, 2020](https://chwang12341.medium.com/%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84python%E5%B0%8F%E7%AD%86%E8%A8%98-%E5%BC%B7%E5%A4%A7%E7%9A%84%E6%95%B8%E6%93%9A%E8%99%95%E7%90%86%E5%B7%A5%E5%85%B7-%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F-regular-expression-regex%E8%A9%B3%E7%B4%B0%E6%95%99%E5%AD%B8-a5d20341a0b2)  
+* [Python爬蟲學習筆記(一) - Requests, BeautifulSoup, 正規表達式,API Dec 20, 2018](https://yanwei-liu.medium.com/python%E7%88%AC%E8%9F%B2%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-%E4%B8%80-beautifulsoup-1ee011df8768)  
+* [【資料處理】Python Regex 的使用筆記 Oct 30, 2022](https://medium.com/@NeroHin/%E8%B3%87%E6%96%99%E8%99%95%E7%90%86-python-regex-%E7%9A%84%E4%BD%BF%E7%94%A8%E7%AD%86%E8%A8%98-c358ead21208)  
+* [Python 輸出中文亂碼問題 Sep 1, 2020](https://medium.com/@kk_huang/python-%E8%BC%B8%E5%87%BA%E4%B8%AD%E6%96%87%E4%BA%82%E7%A2%BC%E5%95%8F%E9%A1%8C-c4a540b8401d)  
+
+
 * []()  
 ![alt tag]()
 
