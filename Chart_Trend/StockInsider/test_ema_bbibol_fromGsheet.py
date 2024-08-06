@@ -171,7 +171,8 @@ if __name__ == '__main__':
         for dict_stkidx_cnpname in localGoogleSS.list_stkidx_cnpname_dicts:
             
             if dict_stkidx_cnpname["stkidx"] is None:
-                twse_two_idx = "^TWII"
+                #twse_two_idx = "^TWII"
+                twse_two_idx = dict_stkidx_cnpname["stkidx"]     
             else:
                 twse_two_idx = dict_stkidx_cnpname["stkidx"]     
             si = StockInsider(stock_idx = twse_two_idx, code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])

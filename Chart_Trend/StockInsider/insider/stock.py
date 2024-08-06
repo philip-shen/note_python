@@ -92,8 +92,8 @@ class Stock:
                 #logger.info(f"option['label']: {option['label']} == ticker: {ticker}")     
                 self.ticker=  option["label"]
                 return
-            elif self.stock_idx.lower() == "^twii":
-                self.ticker=  "^TWII"
+            elif "^" in self.stock_idx.lower():
+                self.ticker=  self.stock_idx
                 return
             
         raise ValueError(
