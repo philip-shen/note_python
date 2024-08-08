@@ -95,6 +95,9 @@ class Stock:
             elif "^" in self.stock_idx.lower():
                 self.ticker=  self.stock_idx
                 return
+            elif bool(re.match('^[a-zA-Z]+$', self.stock_idx)):
+                self.ticker=  self.stock_idx
+                return
             
         raise ValueError(
             f"{self.stock_idx} cannot map yfinance ticker index ."
