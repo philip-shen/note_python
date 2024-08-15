@@ -7,6 +7,7 @@ from requests.exceptions import Timeout
 import pandas as pd
 import plotly.graph_objects as go
 import yfinance as yf
+from io import StringIO
 
 from insider.logger_setup import *
 
@@ -47,8 +48,17 @@ class Stock:
             self.period = period
             self.interval = interval
             self.fname_twse_otc_id_pickle= fname_twse_otc_id_pickle
-            self.gen_ticker_dict()
-            self.get_ticker_from_stock_idx()
+            #self.gen_ticker_dict() #fase out
+            #self.get_ticker_from_stock_idx() #fase out
+            
+            self.stock_name = ""
+            self.stock_num = stock_idx
+            
+            # Check whether it is a TWSE or TPEX stock
+            self.Flag_tpex_stocks = False
+            self.Flag_twse_stocks = False
+            self.check_twse_tpex_us_stocks()
+            
             self.ticker_info= self.get_yfinance_stock_info()
         
             self._df = self.get_yfinance_stock_data()
@@ -97,6 +107,69 @@ class Stock:
                 return
             elif bool(re.match('^[a-zA-Z]+$', self.stock_idx)):
                 self.ticker=  self.stock_idx
+                return
+            
+        raise ValueError(
+            f"{self.stock_idx} cannot map yfinance ticker index ."
+        )
+    
+    def check_stocks(self, df, check_name, check_num):
+    
+        if df[df[check_name]==self.stock_name].empty and df[df[check_num]==self.stock_num].empty:
+            return False
+
+        else:
+            if self.stock_name != "" and self.stock_num != '':
+                # assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "股票名稱與股票代號不符!! 請重新輸入!!"
+                assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "The stock name is inconsistent with the stock number!! Please enter again!!"
+                
+            if not self.stock_name:
+                self.stock_name = df[df[check_num] == self.stock_num][check_name].values[0]
+            if not self.stock_num:
+                self.stock_num = df[df[check_name] == self.stock_name][check_num].values[0]
+            
+            logger.info("Pass checking... Starts analyzing stocks..")
+
+            return True
+            
+    def check_twse_tpex_us_stocks(self):
+        ##### 上市公司
+        datestr = '20240801'
+        r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
+        # 整理資料，變成表格
+        df = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
+
+        self.Flag_twse_stocks = self.check_stocks(df, check_name="證券名稱", check_num="證券代號")
+        
+        if self.Flag_twse_stocks:
+            self.ticker = self.stock_idx+'.TW' 
+            logger.info(f"ticker: {self.ticker}")
+            return
+        
+        ##### 上櫃公司
+        if not self.Flag_twse_stocks:
+
+            datestr = '113/08/01'
+            r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
+            # 整理資料，變成表格
+            df = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
+            self.Flag_tpex_stocks = self.check_stocks(df, check_name="名稱", check_num="代號")
+            
+            if self.Flag_tpex_stocks:
+                self.ticker = self.stock_idx+'.TWO' 
+                logger.info(f"ticker: {self.ticker}")
+                return
+            
+        # assert Flag_tpex_stocks or Flag_tsw_stocks, "非上市上櫃公司!"
+        #assert self.Flag_tpex_stocks or self.Flag_twse_stocks, "Not Listed company!"
+        if "^" in self.stock_idx.lower():
+                self.ticker=  self.stock_idx
+                logger.info(f"ticker: {self.ticker}")
+                return
+            
+        if bool(re.match('^[a-zA-Z]+$', self.stock_idx)):
+                self.ticker=  self.stock_idx
+                logger.info(f"ticker: {self.ticker}")
                 return
             
         raise ValueError(
