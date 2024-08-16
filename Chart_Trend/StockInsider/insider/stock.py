@@ -57,6 +57,9 @@ class Stock:
             # Check whether it is a TWSE or TPEX stock
             self.Flag_tpex_stocks = False
             self.Flag_twse_stocks = False
+            self.df_twse_website_info = None
+            self.df_tpex_website_info = None
+            self.requests_twse_tpex_stock_idx()
             self.check_twse_tpex_us_stocks()
             
             self.ticker_info= self.get_yfinance_stock_info()
@@ -131,15 +134,25 @@ class Stock:
             logger.info("Pass checking... Starts analyzing stocks..")
 
             return True
-            
-    def check_twse_tpex_us_stocks(self):
+    
+    def requests_twse_tpex_stock_idx(self):
         ##### 上市公司
         datestr = '20240801'
         r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
         # 整理資料，變成表格
-        df = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
-
-        self.Flag_twse_stocks = self.check_stocks(df, check_name="證券名稱", check_num="證券代號")
+        self.df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
+        
+        ##### 上櫃公司
+        datestr = '113/08/01'
+        r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
+        # 整理資料，變成表格
+        self.df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
+        
+        logger.info("Request TWSE and TPEX Stock index..")
+                    
+    def check_twse_tpex_us_stocks(self):
+        ##### 上市公司
+        self.Flag_twse_stocks = self.check_stocks(self.df_twse_website_info, check_name="證券名稱", check_num="證券代號")
         
         if self.Flag_twse_stocks:
             self.ticker = self.stock_idx+'.TW' 
@@ -148,12 +161,7 @@ class Stock:
         
         ##### 上櫃公司
         if not self.Flag_twse_stocks:
-
-            datestr = '113/08/01'
-            r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
-            # 整理資料，變成表格
-            df = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
-            self.Flag_tpex_stocks = self.check_stocks(df, check_name="名稱", check_num="代號")
+            self.Flag_tpex_stocks = self.check_stocks(self.df_tpex_website_info, check_name="名稱", check_num="代號")
             
             if self.Flag_tpex_stocks:
                 self.ticker = self.stock_idx+'.TWO' 

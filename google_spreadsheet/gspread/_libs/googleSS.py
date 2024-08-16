@@ -41,20 +41,24 @@ class GoogleSS:
         
         logger.info(f'Update Company: {str_cmp_name}, Close: {list_cellvalue[0]}, Open: {list_cellvalue[1]}, High: {list_cellvalue[2]}, Low: {list_cellvalue[3]}')
         
-    def update_GSpreadworksheet_from_yfiances(self, row_count, str_delay_sec):
+    def update_GSpreadworksheet_from_yfiances(self, row_count, str_delay_sec, local_pt_stock):
         list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
+        
         
         while len(list_Gworksheet_rowvalue) > 0:
             stkidx = str(list_Gworksheet_rowvalue[1])
             if self.opt_verbose.lower() == 'on':
                 logger.info(f'stock index from Google sheet: {stkidx}')
             
+            local_pt_stock.check_twse_tpex_us_stocks(stkidx)            
+            logger.info(f"stock_id: {stkidx} == ticker: {local_pt_stock.ticker}")     
+    
             # delay delay_sec secs
             # 2018/8/13 prevent ErrorCode:429, Exhaust Resoure
             #print ("Delay ", str_delay_sec, "secs to prevent Google Error Code:429, Exhaust Resoure")
             #time.sleep(float(str_delay_sec))
 
-            dict_stock_OHLC= get_asset_from_yfinance_ticker(self.config_json, stkidx, self.opt_verbose)
+            dict_stock_OHLC= get_asset_from_yfinance_ticker(local_pt_stock.ticker, self.opt_verbose)
             stock_price_final = str(dict_stock_OHLC['close'])
             stock_price_open = str(dict_stock_OHLC['open'])
             stock_price_high = str(dict_stock_OHLC['high'])

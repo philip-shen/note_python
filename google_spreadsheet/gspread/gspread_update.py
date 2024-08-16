@@ -12,6 +12,7 @@ dirnamelog=os.path.join(strdirname,"logs")
 import _libs.lib_misc as lib_misc
 from _libs.logger_setup import *
 import _libs.googleSS as googleSS
+import _libs.yahooFinance as yahooFinance
 
 def est_timer(start_time):
     time_consumption, h, m, s= lib_misc.format_time(time.time() - start_time)         
@@ -57,6 +58,9 @@ if __name__=='__main__':
     # Declare GoogleSS() from googleSS.py
     localGoogleSS=googleSS.GoogleSS(json_gsheet, json_file, opt_verbose)
     
+    # for accelerate get twse tpex idx purpose   
+    local_stock= yahooFinance.Stock(json_data)        
+        
     for worksheet_spread in list_worksheet_spread:
         t1 = time.time()
         localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
@@ -65,7 +69,11 @@ if __name__=='__main__':
         #inital row count value 2
         inital_row_num = 2
         
-        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, str_delay_sec)
+        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, str_delay_sec, 
+                                                                                   local_pt_stock= local_stock)
+        
+        # delay delay_sec secs
+        time.sleep(float('3'))
         
         est_timer(t1)
 
