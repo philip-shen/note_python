@@ -1,0 +1,1 @@
+gspread_update.exe --conf_json %1 --gspred_json %2
