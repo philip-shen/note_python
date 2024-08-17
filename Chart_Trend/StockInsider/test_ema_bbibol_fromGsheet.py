@@ -7,6 +7,11 @@ import yfinance as yf
 import difflib
 from sys import platform
 
+import requests
+from requests.exceptions import Timeout
+import pandas as pd
+from io import StringIO
+
 from insider.stock import Stock
 import insider.lib_misc as lib_misc
 from insider.logger_setup import *
@@ -118,6 +123,24 @@ def image_save_path(json_data):
     
     return images_path    
 
+### waste 3~4 sec to request so move main routine
+def requests_twse_tpex_stock_idx(json_data):
+    ##### 上市公司
+    datestr = json_data["lastest_datastr_twse_tpex"][0]#'20240801'
+    r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
+    # 整理資料，變成表格
+    df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
+        
+    ##### 上櫃公司
+    datestr = json_data["lastest_datastr_twse_tpex"][1]#'113/08/01'
+    r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
+    # 整理資料，變成表格
+    df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
+        
+    logger.info("Request TWSE and TPEX Stock index..")
+    
+    return [df_twse_website_info, df_tpex_website_info]
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='plot stock chart trend')
     parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
@@ -167,7 +190,8 @@ if __name__ == '__main__':
         inital_row_num = 2
         
         localGoogleSS.get_stkidx_cnpname(inital_row_num, str_delay_sec)
-        
+        list_df_twse_tpex_stock_idx = requests_twse_tpex_stock_idx(json_data)
+            
         for dict_stkidx_cnpname in localGoogleSS.list_stkidx_cnpname_dicts:
             
             if dict_stkidx_cnpname["stkidx"] is None:
@@ -175,16 +199,11 @@ if __name__ == '__main__':
                 twse_two_idx = dict_stkidx_cnpname["stkidx"]     
             else:
                 twse_two_idx = dict_stkidx_cnpname["stkidx"]     
-            si = StockInsider(stock_idx = twse_two_idx, code= None, fname_twse_otc_id_pickle = json_data["twse_otc_id_pickle"])
+            
+            si = StockInsider( code= None, \
+                                stock_idx= twse_two_idx, list_df_twse_tpex_stock_info= list_df_twse_tpex_stock_idx, json_data = json_data)            
             df_stock_data= si.show_data()
             df_stock_data.reset_index(inplace=True)
-            '''
-            image_ma_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MA.jpg'
-            logger.info(f'export MA image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_MA.jpg')
-            chart_ma_figure= si.plot_ma(head= df_stock_data.__len__(), ns=None, verbose=True)
-            si._export_image(chart_ma_figure, image_ma_fname_path, scale= 2, 
-                             width= json_data["width_height"][0], height= json_data["width_height"][1])
-            '''
             
             image_ema_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_EMA.jpg'
             logger.info(f'export EMA image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}_EMA.jpg')

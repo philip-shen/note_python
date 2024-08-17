@@ -7,7 +7,6 @@ from requests.exceptions import Timeout
 import pandas as pd
 import plotly.graph_objects as go
 import yfinance as yf
-from io import StringIO
 
 from insider.logger_setup import *
 
@@ -29,7 +28,7 @@ class Stock:
     stock price and k-lines
     """
 
-    def __init__(self, code: str, stock_idx: str, fname_twse_otc_id_pickle: str, \
+    def __init__(self, code: str, stock_idx: str, list_df_twse_tpex_stock_info: list, json_data: dict, \
                     ktype: str = "D", period='1y', interval='1d'):
         """
         code: Full stock code，(e.g. 'sz002156')，股票完整代码
@@ -45,9 +44,10 @@ class Stock:
         if code == None:
             self.code = None
             self.stock_idx = stock_idx
+            self.json_data = json_data
             self.period = period
             self.interval = interval
-            self.fname_twse_otc_id_pickle= fname_twse_otc_id_pickle
+            self.fname_twse_otc_id_pickle= self.json_data["twse_otc_id_pickle"]
             #self.gen_ticker_dict() #fase out
             #self.get_ticker_from_stock_idx() #fase out
             
@@ -57,15 +57,12 @@ class Stock:
             # Check whether it is a TWSE or TPEX stock
             self.Flag_tpex_stocks = False
             self.Flag_twse_stocks = False
-            self.df_twse_website_info = None
-            self.df_tpex_website_info = None
-            self.requests_twse_tpex_stock_idx()
-            self.check_twse_tpex_us_stocks()
-            
-            self.ticker_info= self.get_yfinance_stock_info()
-        
+            self.df_twse_website_info = list_df_twse_tpex_stock_info[0]
+            self.df_tpex_website_info = list_df_twse_tpex_stock_info[1]            
+            self.check_twse_tpex_us_stocks() 
+                       
+            self.ticker_info= self.get_yfinance_stock_info()        
             self._df = self.get_yfinance_stock_data()
-
             self._df.reset_index(inplace=True)
             '''
             # Renaming columns using a dictionary
@@ -91,33 +88,33 @@ class Stock:
 
         self.options= options
         
-    def get_ticker_from_stock_idx( self, opt_verbose='OFF'):    
+    def get_ticker_from_stock_idx( self, stock_idx: str, opt_verbose='OFF'):    
         
         if opt_verbose.lower() == 'on':
             logger.info(f"options: {self.options}") 
     
         for option in self.options:
-            if self.stock_idx+'.TW' in option["label"]:
+            if stock_idx+'.TW' in option["label"]:
                 #logger.info(f"option['label']: {option['label']} == ticker: {ticker}") 
                 self.ticker= option["label"]
                 return
-            elif self.stock_idx+'.TWO' in option["label"]:
+            elif stock_idx+'.TWO' in option["label"]:
                 #logger.info(f"option['label']: {option['label']} == ticker: {ticker}")     
                 self.ticker=  option["label"]
                 return
-            elif "^" in self.stock_idx.lower():
-                self.ticker=  self.stock_idx
+            elif "^" in stock_idx.lower():
+                self.ticker=  stock_idx
                 return
-            elif bool(re.match('^[a-zA-Z]+$', self.stock_idx)):
-                self.ticker=  self.stock_idx
+            elif bool(re.match('^[a-zA-Z]+$', stock_idx)):
+                self.ticker=  stock_idx
                 return
             
         raise ValueError(
-            f"{self.stock_idx} cannot map yfinance ticker index ."
+            f"{stock_idx} cannot map yfinance ticker index ."
         )
     
     def check_stocks(self, df, check_name, check_num):
-    
+        
         if df[df[check_name]==self.stock_name].empty and df[df[check_num]==self.stock_num].empty:
             return False
 
@@ -134,23 +131,24 @@ class Stock:
             logger.info("Pass checking... Starts analyzing stocks..")
 
             return True
-    
+    ''' waste 3~4 sec to request so move main routine
     def requests_twse_tpex_stock_idx(self):
         ##### 上市公司
-        datestr = '20240801'
+        datestr = self.json_data["lastest_datastr_twse_tpex"][0]#'20240801'
         r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
         # 整理資料，變成表格
         self.df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
         
         ##### 上櫃公司
-        datestr = '113/08/01'
+        datestr = self.json_data["lastest_datastr_twse_tpex"][1]#'113/08/01'
         r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
         # 整理資料，變成表格
         self.df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
         
         logger.info("Request TWSE and TPEX Stock index..")
-                    
+    '''                
     def check_twse_tpex_us_stocks(self):
+        
         ##### 上市公司
         self.Flag_twse_stocks = self.check_stocks(self.df_twse_website_info, check_name="證券名稱", check_num="證券代號")
         
@@ -179,7 +177,12 @@ class Stock:
                 self.ticker=  self.stock_idx
                 logger.info(f"ticker: {self.ticker}")
                 return
-            
+        #DE000SL0EC48.SG
+        if bool(re.match('^[a-zA-Z]+(\d{1,3}.)?.+', self.stock_idx)):
+                self.ticker=  self.stock_idx
+                logger.info(f"ticker: {self.ticker}")
+                return
+                
         raise ValueError(
             f"{self.stock_idx} cannot map yfinance ticker index ."
         )
