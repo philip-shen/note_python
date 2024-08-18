@@ -8,6 +8,11 @@ import json
 import pathlib
 import argparse
 
+import requests
+from requests.exceptions import Timeout
+import pandas as pd
+from io import StringIO
+
 import twseotc_stocks.Taiwan_Stocks as TS
 import twseotc_stocks.lib_misc as lib_misc
 from twseotc_stocks.logger_setup import *
@@ -35,6 +40,24 @@ def image_save_path(json_data):
         images_path= pathlib.Path(f'{json_data["images_folder"]}')
     
     return images_path    
+
+### waste 3~4 sec to request so move main routine
+def requests_twse_tpex_stock_idx(json_data):
+    ##### 上市公司
+    datestr = json_data["lastest_datastr_twse_tpex"][0]#'20240801'
+    r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
+    # 整理資料，變成表格
+    df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
+        
+    ##### 上櫃公司
+    datestr = json_data["lastest_datastr_twse_tpex"][1]#'113/08/01'
+    r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
+    # 整理資料，變成表格
+    df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
+        
+    logger.info("Request TWSE and TPEX Stock index..")
+    
+    return [df_twse_website_info, df_tpex_website_info]
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='plot stock chart volume trend')
@@ -97,6 +120,7 @@ if __name__ == '__main__':
         inital_row_num = 2
         
         localGoogleSS.get_stkidx_cnpname(inital_row_num, str_delay_sec)
+        list_df_twse_tpex_stock_idx = requests_twse_tpex_stock_idx(json_data)
         
         for dict_stkidx_cnpname in localGoogleSS.list_stkidx_cnpname_dicts:
             #logger.info(f'stock index: {dict_stkidx_cnpname["stkidx"]}; company name: {dict_stkidx_cnpname["cnpname"]}')
@@ -109,8 +133,8 @@ if __name__ == '__main__':
                 
     
             # Crawl stock data, save data into MySQL, fetch data from MySQL
-            stocks = TS.Taiwan_Stocks( stock_name = dict_stkidx_cnpname["cnpname"], 
-                                        stock_num = twse_two_idx, \
+            stocks = TS.Taiwan_Stocks( stock_name = "", stock_num = twse_two_idx, json_data = json_data,\
+                                        list_df_twse_tpex_stock_info = list_df_twse_tpex_stock_idx, \
                                         db_settings = db_settings, Crawl_flag = True, MySQL_flag = MySQL_flag, 
                                     Fetch_stock_statistics_flag = Fetch_stock_statistics_flag, timesleep = 5)
 

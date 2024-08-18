@@ -1,7 +1,7 @@
 import twseotc_stocks.Stocks_Draw as SD
 from twseotc_stocks.logger_setup import *
 
-import requests
+import re
 from io import StringIO
 from datetime import date
 from dateutil.rrule import rrule, DAILY
@@ -11,18 +11,20 @@ import pandas as pd
 class Taiwan_Stocks(SD.Stocks_Draw):
 
     #def __init__(self, **kwargs):
-    def __init__(self, stock_name = "", stock_num = "", **kwargs):
+    def __init__(self, stock_name: str, stock_num: str, json_data: dict, list_df_twse_tpex_stock_info: list, **kwargs):
         
         # Get all the settings done 
         self.stock_name = stock_name
         self.stock_num = stock_num
         self.table_name = ""
         self.dates = []
-        self.Stocks_settings()
+        self.time_calculate(json_data["start_end_date"][0], json_data["start_end_date"][1])
 
         # Check whether it is a tpe or tsw stock
         self.Flag_tpe_stocks = False
         self.Flag_tsw_stocks = False
+        self.df_twse_website_info = list_df_twse_tpex_stock_info[0]
+        self.df_tpex_website_info = list_df_twse_tpex_stock_info[1]            
         self.Control_Check_stocks()
         
         super().__init__(**kwargs)
@@ -89,45 +91,22 @@ class Taiwan_Stocks(SD.Stocks_Draw):
     ##############################################
     
     def Check_stocks(self, df, check_name, check_num):
-        '''        
         if df[df[check_name]==self.stock_name].empty and df[df[check_num]==self.stock_num].empty:
-
             return False
 
         else:
-
             if self.stock_name != "" and self.stock_num != '':
                 # assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "股票名稱與股票代號不符!! 請重新輸入!!"
                 assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "The stock name is inconsistent with the stock number!! Please enter again!!"
                 
             if not self.stock_name:
-                logger.info(f"Pass checking {self.stock_name}... Starts analyzing stocks..")            
                 self.stock_name = df[df[check_num] == self.stock_num][check_name].values[0]
             if not self.stock_num:
-                logger.info(f"Pass checking {self.stock_num}... Starts analyzing stocks..")            
                 self.stock_num = df[df[check_name] == self.stock_name][check_num].values[0]
             
-            print("Pass checking... Starts analyzing stocks..")
+            logger.info("Pass checking... Starts analyzing stocks..")
 
             return True
-        
-        '''
-        
-        if self.stock_name != "" and self.stock_num != '':
-            # assert df[df[check_name] == self.stock_name][check_nu m].values[0] == self.stock_num, "股票名稱與股票代號不符!! 請重新輸入!!"
-            assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "The stock name is inconsistent with the stock number!! Please enter again!!"
-                
-        if df[check_name].isin([self.stock_name]).any():
-            logger.info(f"Pass checking {self.stock_name}... Starts analyzing stocks..")
-            return True
-        
-        #logger.info(f'\n df[check_num]:\n{df[check_num]}')
-        #logger.info(f'[self.stock_num]: {[self.stock_num]}')
-        if df[check_num].isin([self.stock_num]).any():
-            logger.info(f"Pass checking {self.stock_num}... Starts analyzing stocks..")            
-            return True
-        
-        return False
         
     def Control_Check_stocks(self):
 
@@ -138,34 +117,47 @@ class Taiwan_Stocks(SD.Stocks_Draw):
 
 
         ##### 上市公司
-
-        datestr = '20210104'
-        r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
-        # 整理資料，變成表格
-        df = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)      
+        self.Flag_tsw_stocks = self.Check_stocks(self.df_twse_website_info, check_name="證券名稱", check_num="證券代號")
         
-        self.Flag_tsw_stocks = self.Check_stocks(df, check_name="證券名稱", check_num="證券代號")
+        if self.Flag_tsw_stocks:
+            self.ticker = self.stock_num+'.TW' 
+            logger.info(f"ticker: {self.ticker}")
+            return
         
-        if self.Flag_tpe_stocks:
-            logger.info(f'\ndf: {df}')
-        logger.info(f'self.Flag_tsw_stocks: {self.Flag_tsw_stocks}')
-
         ##### 上櫃公司
-
         if not self.Flag_tsw_stocks:
-
-            datestr = '110/01/04'
-            r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
-            # 整理資料，變成表格
-            df = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
-            self.Flag_tpe_stocks = self.Check_stocks(df, check_name="名稱", check_num="代號")
+            self.Flag_tpe_stocks = self.Check_stocks(self.df_tpex_website_info, check_name="名稱", check_num="代號")
+            
+            if self.Flag_tpe_stocks:
+                self.ticker = self.stock_num+'.TWO' 
+                logger.info(f"ticker: {self.ticker}")
+                return
+            
+        # assert Flag_tpex_stocks or Flag_tsw_stocks, "非上市上櫃公司!"
+        #assert self.Flag_tpex_stocks or self.Flag_twse_stocks, "Not Listed company!"
+        if "^" in self.stock_num.lower():
+                self.ticker=  self.stock_num
+                logger.info(f"ticker: {self.ticker}")
+                return
+            
+        if bool(re.match('^[a-zA-Z]+$', self.stock_num)):
+                self.ticker=  self.stock_num
+                logger.info(f"ticker: {self.ticker}")
+                return
+        #DE000SL0EC48.SG
+        if bool(re.match('^[a-zA-Z]+(\d{1,3}.)?.+', self.stock_num)):
+                self.ticker=  self.stock_num
+                logger.info(f"ticker: {self.ticker}")
+                return
+                
+        raise ValueError(
+            f"{self.stock_num} cannot map yfinance ticker index ."
+        )
         
-        if self.Flag_tpe_stocks:
-            logger.info(f'\ndf: {df}')
-        logger.info(f'self.Flag_tpe_stocks: {self.Flag_tpe_stocks}')
-        
+        '''
         # Set the table_name
         self.table_name = self.stock_name 
         
         # assert Flag_tpe_stocks or Flag_tsw_stocks, "非上市上櫃公司!"
         assert self.Flag_tpe_stocks or self.Flag_tsw_stocks, "Not Listed company!"
+        '''
