@@ -77,7 +77,7 @@ class Stock:
         # Check whether it is a TWSE or TPEX stock
         self.Flag_tpex_stocks = False
         self.Flag_twse_stocks = False
-        self.list_datastr_twse_tpex = json_data["lastest_datastr_twse_tpex"]
+        self.str_datastr_twse_tpex = json_data["lastest_datastr_twse_tpex"]
         self.df_twse_website_info = None
         self.df_tpex_website_info = None
         self.requests_twse_tpex_stock_idx()
@@ -100,16 +100,28 @@ class Stock:
             logger.info("Pass checking... Starts analyzing stocks..")
 
             return True
+    
+    # Change the date
+    #############################################
+    def date_changer(self, date):
+
+        year = date[:4]
+        year = str(int(year)-1911)
+        month = date[4:6]
+        day = date[6:]
+        #logger.info(f'{year}+"/"+{month}+"/"+{day}')
+        
+        return year+"/"+month+"/"+day
         
     def requests_twse_tpex_stock_idx(self):
         ##### 上市公司
-        datestr = self.list_datastr_twse_tpex[0]#'20240801'
+        datestr = self.str_datastr_twse_tpex#'20240801'
         r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
         # 整理資料，變成表格
         self.df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
         
         ##### 上櫃公司
-        datestr = self.list_datastr_twse_tpex[1]#'113/08/01'
+        datestr = self.date_changer(self.str_datastr_twse_tpex)#'113/08/01'
         r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
         # 整理資料，變成表格
         self.df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')

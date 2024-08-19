@@ -73,7 +73,7 @@ if __name__=='__main__':
                                                                                    local_pt_stock= local_stock)
         
         # delay delay_sec secs
-        time.sleep(float('3'))
+        time.sleep(float('5'))
         
         est_timer(t1)
 
