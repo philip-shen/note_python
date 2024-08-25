@@ -222,7 +222,7 @@ if __name__ == '__main__':
             chart_ema_figure= si.plot_ema(head= df_stock_data.__len__(), ns=None, verbose=True)
             si._export_image(chart_ema_figure, image_ema_fname_path, scale= 2, 
                              width= json_data["width_height"][0], height= json_data["width_height"][1])
-            
+            '''
             #logger.info(f'stock index: {dict_stkidx_cnpname["stkidx"]}; company name: {dict_stkidx_cnpname["cnpname"]}')
             image_fname_path= f'{image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg'
             logger.info(f'export image to {image_save_path(json_data)}/{dict_stkidx_cnpname["cnpname"]}.jpg')
@@ -231,7 +231,7 @@ if __name__ == '__main__':
 
             si._export_image(chart_figure, image_fname_path, scale= 2, 
                              width= json_data["width_height"][0], height= json_data["width_height"][1])
-
+            '''
             est_timer(t1)    
     
     est_timer(t0)    

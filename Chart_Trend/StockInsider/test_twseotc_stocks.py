@@ -41,16 +41,27 @@ def image_save_path(json_data):
     
     return images_path    
 
+# Change the date
+#############################################
+def date_changer( date):
+    
+    year = date[:4]
+    year = str(int(year)-1911)
+    month = date[4:6]
+    day = date[6:]
+        
+    return year+"/"+month+"/"+day
+
 ### waste 3~4 sec to request so move main routine
 def requests_twse_tpex_stock_idx(json_data):
     ##### 上市公司
-    datestr = json_data["lastest_datastr_twse_tpex"][0]#'20240801'
+    datestr = json_data["lastest_datastr_twse_tpex"]#'20240801'
     r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
     # 整理資料，變成表格
     df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
         
     ##### 上櫃公司
-    datestr = json_data["lastest_datastr_twse_tpex"][1]#'113/08/01'
+    datestr = date_changer(json_data["lastest_datastr_twse_tpex"])#'113/08/01'
     r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
     # 整理資料，變成表格
     df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
@@ -133,7 +144,7 @@ if __name__ == '__main__':
                 
     
             # Crawl stock data, save data into MySQL, fetch data from MySQL
-            stocks = TS.Taiwan_Stocks( stock_name = "", stock_num = twse_two_idx, json_data = json_data,\
+            stocks = TS.Taiwan_Stocks( stock_name = dict_stkidx_cnpname["cnpname"].split(' ')[-1], stock_num = twse_two_idx, json_data = json_data,\
                                         list_df_twse_tpex_stock_info = list_df_twse_tpex_stock_idx, \
                                         db_settings = db_settings, Crawl_flag = True, MySQL_flag = MySQL_flag, 
                                     Fetch_stock_statistics_flag = Fetch_stock_statistics_flag, timesleep = 5)

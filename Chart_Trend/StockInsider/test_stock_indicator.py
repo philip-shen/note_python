@@ -1,0 +1,302 @@
+'''
+ChatGPTに教わりながら株式投資の指標を作ってみた
+株価    投資    株式投資    ChatGPT
+Last updated at 2024-06-26Posted at 2024-06-26
+https://qiita.com/takurot/items/03b03de1c81f4e231da6
+'''
+'''
+財務指標フィルタリング条件
+    PBRが0.6〜1.0くらいでいい感じに成長余地があるもの
+    増収増益している
+    営業キャッシュフローがプラス
+
+ひとまずこの辺で銘柄を絞ってから時系列のグラフを作成して
+    半年間の株価が右肩上がり
+    RSIが0.3近傍
+'''
+import os, sys, time
+import pandas as pd
+import yfinance as yf
+import warnings
+# Suppress FutureWarning messages
+warnings.simplefilter(action='ignore', category=FutureWarning)
+import numpy as np
+import matplotlib.pyplot as plt
+from arch import arch_model
+
+import twseotc_stocks.lib_misc as lib_misc
+from insider.logger_setup import *
+
+strabspath=os.path.abspath(sys.argv[0])
+strdirname=os.path.dirname(strabspath)
+str_split=os.path.split(strdirname)
+prevdirname=str_split[0]
+dirnamelog=os.path.join(strdirname,"logs")
+
+def est_timer(start_time):
+    time_consumption, h, m, s= lib_misc.format_time(time.time() - start_time)         
+    msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
+    logger.info(msg)
+
+# データフレームを初期化
+columns = ['Ticker', 'PBR', 'Revenue Growth', 'Profit Growth', 'ROE', 'PER', 'Volume', 'Operating Cash Flow']
+data = []
+
+def Indicators(tickers, opt_verbose='OFF'):
+    
+    # 各ティッカーについてデータを取得
+    for ticker in tickers:
+        stock = yf.Ticker(ticker)
+        info = stock.info
+        financials = stock.financials
+        cashflow = stock.cashflow
+        history = stock.history(period="1y")  # 過去1年間のデータを取得
+
+        # PBR、ROE、PERを取得
+        pbr = info.get('priceToBook', None)
+        roe = info.get('returnOnEquity', None)
+        per = info.get('forwardPE', None)
+            
+        # 売上高と利益の成長率を計算
+        try:
+            revenue_growth = (financials.loc['Total Revenue'][0] - financials.loc['Total Revenue'][1]) / financials.loc['Total Revenue'][1]
+            profit_growth = (financials.loc['Net Income'][0] - financials.loc['Net Income'][1]) / financials.loc['Net Income'][1]
+            operating_cash_flow = cashflow.loc['Operating Cash Flow'][0]            
+            average_volume = history['Volume'].mean()
+        except:
+            print(f'Error: {ticker}')
+            continue
+        
+        if opt_verbose.lower() == 'on':
+            logger.info(f'ticker: {ticker}')
+            logger.info(f'pbr: {pbr}')
+            logger.info(f'roe: {roe}')
+            logger.info(f'per: {per}')
+            logger.info(f'revenue_growth: {revenue_growth}')
+            logger.info(f'profit_growth: {profit_growth}')
+            logger.info(f'operating_cash_flow: {operating_cash_flow}')
+            logger.info(f'average_volume: {average_volume}\n')
+                
+        # PBRが1以下で、増収増益している企業をフィルタリング
+        if pbr is not None and pbr < 1.0 and pbr > 0.6 \
+            and revenue_growth > 0 and profit_growth > 0 \
+            and per is not None and per > 0 and operating_cash_flow > 0:
+            data.append([ticker, pbr, revenue_growth, profit_growth, roe, per, average_volume, operating_cash_flow])
+
+    # データフレームに変換
+    df = pd.DataFrame(data, columns=columns)
+
+    # フィルタリングされたティッカーのみを配列として抽出
+    tickers = df['Ticker'].tolist()
+    # 営業キャッシュフローの大きい順にソート
+    df = df.sort_values(by='Operating Cash Flow', ascending=False)
+    
+    return df
+
+'''
+Beginning Indicators for charting
+https://www.reddit.com/r/RobinHood/comments/p4huvr/beginning_indicators_for_charting/
+
+RSI (Relative Strength Index): 
+Relative Strength Index measures whether a stock is being overbought or oversold. 
+Lower RSI indicates people have sold more and that you could be looking for an increase in buying. 
+Two points to watch are when RSI is close to 70, meaning it’s moving towards overbought, and 30, meaning it’s oversold.
+
+MACD (Moving Average Convergence/Divergence): 
+MACD helps show the price movement, moving average on a shorter period versus a longer period. 
+Tradingview shows a shorter exponential moving average as blue with the signal line, the longer exponential moving average, as red. 
+The short EMA will always meet the long EMA but it helps determine possible uptrends or downtrends when the blue line crosses the red line. 
+Crossing downward is bearish and upward is the opposite. MACD can contain gold and death crosses. 
+Gold Cross has the blue line shoot up through the red line, creating a cross and a bullish indicator. Death Cross has the blue line drop through the red line, a bearish signal.
+
+MFI (Money Flow Index): 
+Money Flow Index is similar to RSI in that it can also help determine overbought or oversold areas with usual indicators at 80 and 20, similar indications to RSI. 
+Using MFI with RSI can help spot divergences. If RSI and the stock go up, but MFI is down, this can signal a reversal in price.
+
+ADL (Advance/Decline Line): 
+ADL helps determine the amount of shares being bought or sold, a positive number showing more bullish indication and negative showing bearish. 
+Spikes in ADL can show possible artificial breakout without justification in price movement. 
+A great example below, we see a spike in ADL but not much of an increase in price, so shows possible fake breakout and artificial increase in truly advancing stocks.
+
+Bollinger Bands: 
+Bollinger Bands help identify when a stock might be trading outside their price range. 
+Bollinger Bands are usually set at 2 standard deviations away from the price, as statistically, 2stdev is considered an outlier. 
+This can help identify a breakout from its trading range or retest the Bollinger Bands and come back inside it’s range.
+
+VWAP (Volume Weighted Average Price): 
+“If Volume is king, VWAP is queen” VWAP, recommended by shorter time frames, is the average price the stock is trading at, taking volume into account. 
+If a stock is trading above VWAP, you can most likely expect it to come down to the average price, tending towards equilibrium as economics rule #1. 
+Overall, it’s important to use multiple indicators as they can tell different stories, and using them on multiple timelines can also help you determine what the short term and long term prospects.
+'''    
+# RSIを計算する関数
+def calculate_RSI(data, window=14):
+    delta = data['Close'].diff()
+    gain = (delta.where(delta > 0, 0)).fillna(0)
+    loss = (-delta.where(delta < 0, 0)).fillna(0)
+
+    avg_gain = gain.rolling(window=window, min_periods=1).mean()
+    avg_loss = loss.rolling(window=window, min_periods=1).mean()
+
+    rs = avg_gain / avg_loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
+
+# MFIを計算する関数
+def calculate_MFI(data, window=14):
+    typical_price = (data['High'] + data['Low'] + data['Close']) / 3
+    money_flow = typical_price * data['Volume']
+
+    positive_flow = money_flow.where(typical_price > typical_price.shift(1), 0)
+    negative_flow = money_flow.where(typical_price < typical_price.shift(1), 0)
+
+    positive_mf = positive_flow.rolling(window=window, min_periods=1).sum()
+    negative_mf = negative_flow.rolling(window=window, min_periods=1).sum()
+
+    mfi = 100 - (100 / (1 + (positive_mf / negative_mf)))
+    return mfi
+
+# ボリンジャーバンドを計算する関数
+def calculate_bollinger_bands(data, window=20):
+    sma = data['Close'].rolling(window=window).mean()
+    std = data['Close'].rolling(window=window).std()
+    data['Bollinger Middle'] = sma
+    data['Bollinger Upper'] = sma + (std * 2)
+    data['Bollinger Lower'] = sma - (std * 2)
+    return data
+
+# 移動平均線を計算する関数
+def calculate_moving_averages(data, weekly_window=5, Dweekly_window=10, \
+                                monthly_window=20, quarterly_window=60):
+    data['MA_5'] = data['Close'].rolling(window=weekly_window).mean()
+    data['MA_10'] = data['Close'].rolling(window=Dweekly_window).mean()
+    data['MA_20'] = data['Close'].rolling(window=monthly_window).mean()
+    data['MA_60'] = data['Close'].rolling(window=quarterly_window).mean()
+    return data
+
+def calculate_volume_weighted_average_price(data):
+    data['cum_volume'] = data['Volume'].cumsum()
+    data['cum_volume_price'] = (data['Close'] * data['Volume']).cumsum()
+    data = data['cum_volume_price'] / data['cum_volume']
+    return data
+        
+def stock_price_graph(tickers: list, start_date: str, end_date: str):
+    # グラフのサイズを小さくして複数表示
+    plt.figure(figsize=(tickers.__len__(), 60))
+    plt.subplots_adjust(hspace=0.5)
+    
+    for i, ticker in enumerate(tickers):
+        data = yf.download(ticker, start=start_date, end=end_date, interval="1d")
+
+        if data.empty:
+            continue
+
+        # 必要な列を抽出
+        data = data[['Close', 'Volume', 'High', 'Low']].copy()
+
+        # VWAPを計算        
+        data['VWAP'] = calculate_volume_weighted_average_price(data)
+
+        # RSIを計算
+        data['RSI'] = calculate_RSI(data)
+
+        # MFIを計算
+        data['MFI'] = calculate_MFI(data)
+
+        # ボリンジャーバンドを計算
+        data = calculate_bollinger_bands(data)
+
+        # 移動平均線を計算
+        data = calculate_moving_averages(data)
+
+        # 日次リターンの計算
+        returns = 100 * data['Close'].pct_change().dropna()
+
+        # GARCHモデルの適用
+        model = arch_model(returns, vol='Garch', p=1, q=1)
+        model_fitted = model.fit(disp='off')
+
+        # サブプロットを設定
+        ax1 = plt.subplot(len(tickers), 2, i * 2 + 1)
+        ax2 = plt.subplot(len(tickers), 2, i * 2 + 2)
+
+        # 終値、VWAP、ボリンジャーバンド、移動平均線のプロット
+        ax1.plot(data.index, data['Close'], label='Close Price')
+        ax1.plot(data.index, data['VWAP'], label='VWAP', linestyle='--')
+        #ax1.plot(data.index, data['Bollinger Middle'], label='Bollinger Middle', linestyle='--')
+        #ax1.plot(data.index, data['Bollinger Upper'], label='Bollinger Upper', linestyle='--')
+        #ax1.plot(data.index, data['Bollinger Lower'], label='Bollinger Lower', linestyle='--')
+        #ax1.set_title(f'{ticker} - Close Price, VWAP, Bollinger Bands & Moving Averages')
+        
+        ax1.plot(data.index, data['MA_5'], label='5-Day MA', linestyle='-', color='blue')
+        ax1.plot(data.index, data['MA_20'], label='20-Day MA', linestyle='-', color='red')
+        #ax1.plot(data.index, data['MA_10'], label='10-Day MA', linestyle='-', color='yellow')
+        ax1.plot(data.index, data['MA_60'], label='60-Day MA', linestyle='-', color='brown')
+        ax1.set_title(f'{ticker} - Close Price, VWAP, Moving Averages')
+        ax1.set_xlabel('Date')
+        ax1.set_ylabel('Price')
+        ax1.legend()
+        ax1.tick_params(axis='x', rotation=45)
+
+        # ゴールデンクロスのプロット
+        golden_cross = data[(data['MA_5'] > data['MA_20']) & (data['MA_5'].shift(1) <= data['MA_20'].shift(1))]
+        ax1.plot(golden_cross.index, data.loc[golden_cross.index, 'MA_5'], '*', markersize=10, label='Golden Cross', color='gold')
+
+        # RSIとMFIのプロット
+        ax2.plot(data.index, data['RSI'], label='RSI', color='orange')
+        ax2.plot(data.index, data['MFI'], label='MFI', color='purple')
+        ax2.axhline(70, color='red', linestyle='--')
+        ax2.axhline(30, color='green', linestyle='--')
+        ax2.set_title(f'{ticker} - RSI & MFI')
+        ax2.set_xlabel('Date')
+        ax2.set_ylabel('Indicator Value')
+        ax2.legend()
+        ax2.tick_params(axis='x', rotation=45)
+
+        #data.to_csv(f'{dirnamelog}/{ticker}_indicators.csv', index=False)
+
+    plt.show()
+    
+if __name__ == '__main__':
+    logger_set(strdirname)
+    
+    # Get present time
+    t0 = time.time()
+    local_time = time.localtime(t0)
+    msg = 'Start Time is {}/{}/{} {}:{}:{}'
+    logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
+                            local_time.tm_hour,local_time.tm_min,local_time.tm_sec))
+    
+    opt_verbose= 'OFF'
+    # 銘柄リスト
+    tickers_JP = [
+    '1332.T',  # 日本水産
+    '1333.T',  # マルハニチロ
+    '1605.T',  # 国際石油開発帝石
+    '1721.T',  # コムシスホールディングス
+    '1801.T',  # 大成建設
+    '1802.T',  # 大林組
+    '1803.T',  # 清水建設
+    ### 中略 好きな銘柄をいれる ###
+    '9532.T',  # 大阪ガス
+    '9601.T',  # 松竹
+    '9602.T',  # 東宝
+    '9613.T',  # NTTデータ
+    '9735.T',  # セコム
+    '9843.T',  # ニトリホールディングス
+    '9983.T',  # ファーストリテイリング
+    '9984.T',  # ソフトバンクグループ
+    ]
+   
+    tickers_TW = [
+        '2330.TW',  
+        '2303.TW',  
+    ]
+    df = Indicators(tickers_TW, opt_verbose)    
+
+    # 結果を表示
+    print(df)
+    
+    stock_price_graph(tickers=tickers_TW, start_date="2024-01-01", end_date="2024-08-25")
+    
+    
+    est_timer(t0)    
