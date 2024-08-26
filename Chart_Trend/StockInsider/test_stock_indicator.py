@@ -28,7 +28,7 @@ import pathlib
 import requests
 from requests.exceptions import Timeout
 from io import StringIO
-import json
+import json, re
 
 import twseotc_stocks.lib_misc as lib_misc
 from insider.logger_setup import *
@@ -215,7 +215,7 @@ def calculate_volume_weighted_average_price(data):
     return data
 
 def stand_Up_On_MAs(data):
-    logger.info("{}".format("Stand_Up_On_MAs (針對你Fetch data區間的最後一天做分析):"))
+    #logger.info("{}".format("Stand_Up_On_MAs (針對你Fetch data區間的最後一天做分析):"))
 
     # 抓出所需data
     stock_price = data['Close'].astype(float).iloc[-1]
@@ -314,12 +314,102 @@ def stock_price_graph(tickers: list, start_date: str, end_date: str):
 def date_changer_twse( date):
     
     year = date[:4]
-    year = str(int(year)-1911)
+    year = str(int(year))
     month = date[4:6]
     day = date[6:]
         
     return year+"-"+month+"-"+day
+
+def check_MAs_status(data, opt_verbose='OFF'):
+    # 必要な列を抽出
+    data = data[['Close', 'Volume', 'High', 'Low']].copy()
+        
+    # 移動平均線を計算
+    data = calculate_moving_averages(data)
+    #logger.info(f'data_moving_averages:\n {data}' )    
+        
+    four_flag, three_flag, four_MAs, three_MAs = stand_Up_On_MAs(data) 
     
+    if opt_verbose.lower() == 'on':
+        # 判斷data值
+        if four_flag:
+            logger.info("股價已站上5日、10日、20日、60日均線均線，為四海遊龍型股票!!")
+        elif three_flag:
+            logger.info("股價已站上5日、10日、20日均線，為三陽開泰型股票!!")
+        #elif not four_MAs:
+        #    logger.info("目前的data數量不足以畫出四條均線，請補足後再用此演算法!!")
+        #elif not three_MAs:
+        #    logger.info("目前的data數量不足以畫出三條均線，請補足後再用此演算法!!")
+        else:
+            logger.info("目前股價尚未成三陽開泰型、四海遊龍型股票!!")
+    
+    close_price = data['Close'].astype(float).iloc[-1]
+        
+    return four_flag, three_flag, four_MAs, three_MAs, close_price
+
+def store_TWSE_MAs_status(json_data: dict, twse_ticker: pd, twse_stock_data: pd, opt_verbose='OFF'):
+    list_twse_MAs_status = []
+    start_date = date_changer_twse(json_data["start_end_date"][0])
+    end_date = date_changer_twse(json_data["start_end_date"][1])
+
+    for i, ticker in enumerate(twse_ticker.to_list()):
+        
+        ##### 上市公司 or ETF or 正2 ETF
+        if bool(re.match('^[0-9][0-9][0-9][0-9].TW$', ticker)) or \
+            bool(re.match('^00[0-9][0-9][0-9].TW$', ticker)) or bool(re.match('^00[0-9][0-9][0-9]L.TW$', ticker))  :
+            target_ticker = ticker
+        else:
+            target_ticker = None
+        
+        if target_ticker != None:
+            if opt_verbose.lower() == 'on':
+                logger.info(f"ticker: {target_ticker}; stock name: {twse_stock_data['證券名稱'][i]}")    
+                
+            yf_data = yf.download(ticker, start=start_date, end=end_date, interval="1d")
+                
+            four_flag, three_flag, four_MAs, three_MAs, close = check_MAs_status(yf_data, opt_verbose='OFF')            
+            dict_temp = {
+                "ticker" : target_ticker,
+                "stock_name": twse_stock_data['證券名稱'][i],
+                "4_flag": four_flag,
+                "3_flag": three_flag,
+                "close": close,
+            }
+            list_twse_MAs_status.append(dict_temp)
+    
+    return list_twse_MAs_status
+
+def store_TPEX_MAs_status(json_data: dict, tpex_ticker: pd, tpex_stock_data: pd, opt_verbose='OFF'):
+    list_tpex_MAs_status = []
+    start_date = date_changer_twse(json_data["start_end_date"][0])
+    end_date = date_changer_twse(json_data["start_end_date"][1])
+
+    for i, ticker in enumerate(tpex_ticker.to_list()):
+        
+        ##### 上櫃公司
+        if bool(re.match('^[0-9][0-9][0-9][0-9].TWO$', ticker)):
+            target_ticker = ticker
+        else:
+            target_ticker = None
+
+        if target_ticker != None:
+            if opt_verbose.lower() == 'on':
+                logger.info(f"ticker: {target_ticker}; stock name: {tpex_stock_data['名稱'][i]}")    
+                
+            yf_data = yf.download(ticker, start=start_date, end=end_date, interval="1d")
+                
+            four_flag, three_flag, four_MAs, three_MAs, close = check_MAs_status(yf_data, opt_verbose='OFF')            
+            dict_temp = {
+                "ticker" : target_ticker,
+                "stock_name": tpex_stock_data['名稱'][i],
+                "4_flag": four_flag,
+                "3_flag": three_flag,
+                "close": close,
+            }
+            list_tpex_MAs_status.append(dict_temp)
+            
+    return list_tpex_MAs_status
+        
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='plot stock chart trend')
     parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
@@ -364,58 +454,36 @@ if __name__ == '__main__':
         logger.info(f'df_twse_ticker:\n {df_twse_ticker}' )    
         logger.info(f'df_tpex_ticker:\n {df_tpex_ticker}' )    
     
-    start_date = date_changer_twse(json_data["start_end_date"][0])
-    end_date = date_changer_twse(json_data["start_end_date"][1])
-    for i, ticker in enumerate(df_twse_ticker.to_list()):
-        data = yf.download(ticker, start=start_date, end=end_date, interval="1d")
+    list_twse_ticker_MAs =store_TWSE_MAs_status(json_data, df_twse_ticker, df_twse_stock_idx, opt_verbose='on')
+    four_start = 1; three_start = 1
+    
+    for dict_twse_ticker_MAs in list_twse_ticker_MAs:
+        if dict_twse_ticker_MAs["4_flag"] and dict_twse_ticker_MAs["3_flag"] and (dict_twse_ticker_MAs["close"] >= 50.0):
+            logger.info(f'{dict_twse_ticker_MAs["ticker"]} {dict_twse_ticker_MAs["stock_name"]}: 為四海遊龍型股票!!')
+            four_start += 1
         
-        logger.info(f"ticker: {ticker}; stock name: {df_twse_stock_idx['證券名稱'][i]}")        
+        if not dict_twse_ticker_MAs["4_flag"] and dict_twse_ticker_MAs["3_flag"] and (dict_twse_ticker_MAs["close"] >= 50.0):
+            logger.info(f'{dict_twse_ticker_MAs["ticker"]} {dict_twse_ticker_MAs["stock_name"]}: 為三陽開泰型股票!!')    
+            three_start += 1
+            
+    logger.info(f'TWSE股票家數: {list_twse_ticker_MAs.__len__()}' )    
+    logger.info(f'四海遊龍型股票家數: {four_start} %:{four_start/list_twse_ticker_MAs.__len__()}; 三陽開泰型股票家數: {three_start} %:{three_start/list_twse_ticker_MAs.__len__()}' )    
         
-        if data.empty:
-            continue
-
-        # 必要な列を抽出
-        data = data[['Close', 'Volume', 'High', 'Low']].copy()
+    list_tpex_ticker_MAs = store_TPEX_MAs_status(json_data, df_tpex_ticker, df_tpex_stock_idx, opt_verbose='on')
+    four_start = 1; three_start = 1
+    
+    for dict_tpex_ticker_MAs in list_tpex_ticker_MAs:
+        if dict_tpex_ticker_MAs["4_flag"] and dict_tpex_ticker_MAs["3_flag"] and (dict_tpex_ticker_MAs["close"] >= 50.0):
+            logger.info(f'{dict_tpex_ticker_MAs["ticker"]} {dict_tpex_ticker_MAs["stock_name"]}: 為四海遊龍型股票!!')
+            four_start += 1
         
-        # 移動平均線を計算
-        data = calculate_moving_averages(data)
-        
-        #logger.info(f'data_moving_averages:\n {data}' )    
-        
-        four_flag, three_flag, four_MAs, three_MAs = stand_Up_On_MAs(data) 
-        
-        # 判斷data值
-        if four_flag:
-            logger.info("股價已站上5日、10日、20日、60日均線均線，為四海遊龍型股票!!")
-        elif three_flag:
-            logger.info("股價已站上5日、10日、20日均線，為三陽開泰型股票!!")
-        #elif not four_MAs:
-        #    logger.info("目前的data數量不足以畫出四條均線，請補足後再用此演算法!!")
-        #elif not three_MAs:
-        #    logger.info("目前的data數量不足以畫出三條均線，請補足後再用此演算法!!")
-        else:
-            logger.info("目前股價尚未成三陽開泰型、四海遊龍型股票!!")
+        if not dict_tpex_ticker_MAs["4_flag"] and dict_tpex_ticker_MAs["3_flag"] and (dict_tpex_ticker_MAs["close"] >= 50.0):
+            logger.info(f'{dict_tpex_ticker_MAs["ticker"]} {dict_tpex_ticker_MAs["stock_name"]}: 為三陽開泰型股票!!')    
+            three_start += 1
+            
+    logger.info(f'OTC股票家數: {list_tpex_ticker_MAs.__len__()}' )    
+    logger.info(f'四海遊龍型股票家數: {four_start} %: {four_start/list_tpex_ticker_MAs.__len__()}; 三陽開泰型股票家數: {three_start} %: {three_start/list_tpex_ticker_MAs.__len__()}' )    
     '''
-    # 銘柄リスト
-    tickers_JP = [
-    '1332.T',  # 日本水産
-    '1333.T',  # マルハニチロ
-    '1605.T',  # 国際石油開発帝石
-    '1721.T',  # コムシスホールディングス
-    '1801.T',  # 大成建設
-    '1802.T',  # 大林組
-    '1803.T',  # 清水建設
-    ### 中略 好きな銘柄をいれる ###
-    '9532.T',  # 大阪ガス
-    '9601.T',  # 松竹
-    '9602.T',  # 東宝
-    '9613.T',  # NTTデータ
-    '9735.T',  # セコム
-    '9843.T',  # ニトリホールディングス
-    '9983.T',  # ファーストリテイリング
-    '9984.T',  # ソフトバンクグループ
-    ]
-   
     tickers_TW = [
         '4755.TW',
         '2330.TW',  
