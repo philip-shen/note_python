@@ -170,12 +170,17 @@ def botanical_names(list_txt_urls, filters, opt_verbose= 'OFF'):
         list_url_botanical_names.append(temp_dict)
         
     return list_url_botanical_names
+'''
+Python 輸出中文亂碼問題 Sep 1, 2020
+https://medium.com/@kk_huang/python-%E8%BC%B8%E5%87%BA%E4%B8%AD%E6%96%87%E4%BA%82%E7%A2%BC%E5%95%8F%E9%A1%8C-c4a540b8401d
 
+'''
 def dict_to_csv(csv_file, in_list_dict, opt_verbose= 'OFF'):
     # Specify the field names (headers)
     csv_columns = in_list_dict[0].keys()
     try:
         with open(csv_file, 'w', encoding='utf-8') as csvfile:
+            csvfile.write('\ufeff')
             writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
             writer.writeheader()
             for data in in_list_dict:
