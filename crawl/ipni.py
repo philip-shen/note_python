@@ -163,6 +163,7 @@ def botanical_names(list_txt_urls, filters, opt_verbose= 'OFF'):
             
         temp_dict={
             "url": txt_url,
+            "zh-tw_name": txt_url.split('/')[-2].strip(),                     
             "eng_names": table_value_eng_names.replace("\xa0", "").replace("\r", "").replace("\n", ""),
             "botanical_names": table_value_botanical_names.replace("\r", "").replace("\n", "")
         }
@@ -222,6 +223,8 @@ if __name__ == '__main__':
     filter_params = {
         'eng_names': '英文名稱',
         'botanical_names': '學名',
+        'species_names': '科別',
+        'species_names01': '科名',
         'family_names': '別名'
      }
     for url in list_urls:

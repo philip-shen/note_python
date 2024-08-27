@@ -27,7 +27,7 @@ class Stocks_Crawl(MD.MySQL_Database):
         #                                                '最高價', '最低價', 
         #                                                '收盤價', '漲跌(+/-)', 
         #                                                '漲跌價差' ])
-
+        
         ################# 上櫃公司法人買賣資料
         self.url_tpex_df_institutional_investors = "https://www.tpex.org.tw/web/stock/3insti/daily_trade/3itrade_hedge_result.php?l=zh-tw&o=csv&se=EW&t=D&d="
         # self.tpex_df_institutional_investors = pd.DataFrame( data = [], 
@@ -42,7 +42,7 @@ class Stocks_Crawl(MD.MySQL_Database):
         #                                                                 '自營商買賣超股數(自行買賣)', '自營商買進股數(避險)',
         #                                                                 '自營商賣出股數(避險)', '自營商買賣超股數(避險)',
         #                                                                 '三大法人買賣超股數' ])
-
+        
         ################# 上市公司價格資料
         
         self.url_stock = 'https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date='
@@ -111,7 +111,8 @@ class Stocks_Crawl(MD.MySQL_Database):
         year = str(int(year)-1911)
         month = date[4:6]
         day = date[6:]
-
+        #logger.info(f'{year}+"/"+{month}+"/"+{day}')
+        
         return year+"/"+month+"/"+day
 
     # CRAWLING
@@ -277,7 +278,8 @@ class Stocks_Crawl(MD.MySQL_Database):
         
         # 下載股價
         r = requests.post( url + date + url_suffix)
-
+        #logger.info("Request: {r}")
+        
         # 整理資料，變成表格
         
         if not Flag_tpex_stocks and not Flag_tpex_insti_inv and not Flag_stocks and not Flag_insti_inv:
@@ -299,7 +301,7 @@ class Stocks_Crawl(MD.MySQL_Database):
             #logger.info(f'df:\n{df}')
             
             df = self.Get_specific_stock(df)
-            logger.info(f'Get_specific_stock df:\n{df}')
+            #logger.info(f'Get_specific_stock df:\n{df}')
 
             df.insert(0, "Date", Date)
             #logger.info(f'df:\n{df}')
@@ -315,7 +317,7 @@ class Stocks_Crawl(MD.MySQL_Database):
             '''
             # Correct way to append a new row to a DataFrame in pandas 2.0+
             self.df_stocks = pd.concat([self.df_stocks, df], ignore_index=True)
-            logger.info(f'self.df_stocks:\n{self.df_stocks}')
+            #logger.info(f'self.df_stocks:\n{self.df_stocks}')
             
         if Flag_tpex_insti_inv:
 
@@ -332,14 +334,14 @@ class Stocks_Crawl(MD.MySQL_Database):
             df = self.Rename_df_columns(df, Flag_tpex_stocks = False, Flag_tpex_insti_inv = True)
 
             df = self.Get_specific_stock(df)
-            logger.info(f'Get_specific_stock df:\n{df}')
+            #logger.info(f'Get_specific_stock df:\n{df}')
             
             '''
             DataFrame' object has no attribute 'append'
             #self.df_institutional_investors = self.df_institutional_investors.append(df, ignore_index = True)
             '''
             self.df_institutional_investors = pd.concat([self.df_institutional_investors, df], ignore_index = True)
-            logger.info(f'self.df_institutional_investors:\n {self.df_institutional_investors}')
+            #logger.info(f'self.df_institutional_investors:\n {self.df_institutional_investors}')
             
         ######### 爬上市公司 #########
 
@@ -348,7 +350,7 @@ class Stocks_Crawl(MD.MySQL_Database):
             df = pd.read_csv(StringIO(r.text.replace("=", "")), 
                              header = ["證券代號" in l for l in r.text.split("\n")].index(True)-1 )
             
-            #logger.info(f'df:\n{df}')
+            logger.info(f'df:\n{df}')
             df.insert(0, "Date", date)
 
             df = df.iloc[:, :12]
@@ -358,7 +360,7 @@ class Stocks_Crawl(MD.MySQL_Database):
             
             #self.df_stocks = self.df_stocks.append(df, ignore_index=True)
             self.df_stocks = pd.concat([self.df_stocks, df], ignore_index=True)
-            logger.info(f'self.df_stocks:\n{self.df_stocks}')
+            #logger.info(f'self.df_stocks:\n{self.df_stocks}')
             
         if Flag_insti_inv:
             '''
@@ -382,7 +384,7 @@ class Stocks_Crawl(MD.MySQL_Database):
             
             #self.df_institutional_investors = self.df_institutional_investors.append(df, ignore_index = True)
             self.df_institutional_investors = pd.concat([self.df_institutional_investors, df], ignore_index = True)
-            logger.info(f'self.df_institutional_investors:\n {self.df_institutional_investors}')
+            #logger.info(f'self.df_institutional_investors:\n {self.df_institutional_investors}')
 
     # 合併Date
     #############################################
@@ -491,7 +493,7 @@ class Stocks_Crawl(MD.MySQL_Database):
             '''        
             #self.df_statistics = self.df_statistics.append(df, ignore_index=True)
             self.df_statistics = pd.concat([self.df_statistics, df], ignore_index=True)
-            logger.info(f'self.df_statistics:\n{self.df_statistics}')
+            #logger.info(f'self.df_statistics:\n{self.df_statistics}')
             
         # 上市公司
 
@@ -517,6 +519,6 @@ class Stocks_Crawl(MD.MySQL_Database):
             
             #self.df_statistics = self.df_statistics.append(df, ignore_index=True)
             self.df_statistics = pd.concat([self.df_statistics, df], ignore_index=True)
-            logger.info(f'self.df_statistics:\n{self.df_statistics}')
+            #logger.info(f'self.df_statistics:\n{self.df_statistics}')
 
         

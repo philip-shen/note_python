@@ -27,7 +27,7 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
     """Plot daily trading indicators."""
 
     #def __init__(self, code, ktype="D", df=None):
-    def __init__(self, code: str, stock_idx: str, fname_twse_otc_id_pickle: str,\
+    def __init__(self, code: str, stock_idx: str, list_df_twse_tpex_stock_info: list, json_data: dict,\
                     ktype: str = "D", period='1y', interval='1d', df=None):
         """
         Parameters:
@@ -40,15 +40,15 @@ class StockInsider(Stock, PriceIndicatorMixin, VolumnIndicatorMixin, SARIndicato
                 self.stock_code = code
             if code == None:
                 self.code = None
-                self.stock_idx = stock_idx
+                #self.stock_idx = stock_idx
                 self.period = period
                 self.interval = interval
-                self.fname_twse_otc_id_pickle= fname_twse_otc_id_pickle    
+                self.json_data= json_data    
         else:
             if code != None:
                 super().__init__(code, ktype)
             if code == None:
-                super().__init__(code, stock_idx, fname_twse_otc_id_pickle, ktype, period, interval)
+                super().__init__(code, stock_idx, list_df_twse_tpex_stock_info, json_data, ktype, period, interval)
 
     @classmethod
     def from_external_csv_data(cls, fpath: str, code=None):
