@@ -5,5 +5,6 @@
     "width_height":[900, 700],
     "images_folder":"xxxxx",    
     "lastest_datastr_twse_tpex": "20240801",
+    "start_end_date":["20231001","20240827"],
     "twse_otc_id_pickle":"xxxxx.pickle"
 }
