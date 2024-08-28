@@ -100,13 +100,15 @@ def store_twse_tpex_ticker(json_data, path_pickle_stock_id: list, path_csv_stock
     # Rename multiple columns
     df_twse_ticker = df_twse_ticker.rename(columns={
                                     '證券代號': 'ticker',
-                                    '證券名稱': 'cpn_name'})
+                                    '證券名稱': 'cpn_name',
+                                    })
     
     df_tpex_ticker = df_tpex_stock_idx[['代號', '名稱' ]]
     df_tpex_ticker['代號'] = df_tpex_stock_idx['代號'].copy()+'.TWO'
     df_tpex_ticker = df_tpex_ticker.rename(columns={
                                     '代號': 'ticker',
-                                    '名稱': 'cpn_name'})
+                                    '名稱': 'cpn_name',
+                                    })
     
     df_twse_tpex_ticker = pd.concat([df_twse_ticker, df_tpex_ticker], ignore_index=True)    
     
@@ -529,6 +531,68 @@ def store_TWSE_TPEX_MAs_status(json_data: dict, twse_tpex_ticker_cpn_name: dict,
 
     return list_MAs_status
 
+def calculate_TWSE_TPEX_MAs_status(json_data: dict, list_path_pickle_ticker: list,  opt_verbose='OFF'):
+    dict_twse_tpex_ticker_cpn_name = query_twse_tpex_ticker(list_path_pickle_ticker[-1])
+    
+    #for key, value in dict_twse_tpex_ticker_cpn_name.items():
+    #        logger.info('\n ticker: {}; cpn_name: {}'.format(key, value) )
+    
+    list_twse_tpex_ticker_MAs =store_TWSE_TPEX_MAs_status(json_data, dict_twse_tpex_ticker_cpn_name, opt_verbose='on')
+    num_twse_cpn = 0; num_tpex_cpn = 0
+    four_start_twse_cpn = 0; four_start_tpex_cpn = 0; three_start_twse_cpn = 0; three_start_tpex_cpn = 0
+    four_dog_twse_cpn = 0; four_dog_tpex_cpn = 0; three_dog_twse_cpn = 0; three_dog_tpex_cpn = 0
+    
+    for dict_twse_tpex_ticker_MAs in list_twse_tpex_ticker_MAs:
+        if dict_twse_tpex_ticker_MAs["4_flag"] and dict_twse_tpex_ticker_MAs["3_flag"] and (dict_twse_tpex_ticker_MAs["close"] >= 20.0):
+            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}:為四海遊龍型股票!!')
+            if bool(re.search('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
+                four_start_twse_cpn += 1                     
+            elif bool(re.search('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
+                four_start_tpex_cpn += 1 
+        
+        if not dict_twse_tpex_ticker_MAs["4_flag"] and dict_twse_tpex_ticker_MAs["3_flag"] and (dict_twse_tpex_ticker_MAs["close"] >= 20.0):
+            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}: 為三陽開泰型股票!!')
+            if bool(re.search('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
+                three_start_twse_cpn += 1 
+            elif bool(re.search('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
+                three_start_tpex_cpn += 1 
+        
+        if dict_twse_tpex_ticker_MAs["4_dog"] and dict_twse_tpex_ticker_MAs["3_dog"] and (dict_twse_tpex_ticker_MAs["close"] >= 20.0):
+            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}: 為四腳朝天型股票!!')
+            if bool(re.search('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
+                four_dog_twse_cpn += 1 
+            elif bool(re.search('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
+                four_dog_tpex_cpn += 1 
+        
+        if not dict_twse_tpex_ticker_MAs["4_dog"] and dict_twse_tpex_ticker_MAs["3_dog"] and (dict_twse_tpex_ticker_MAs["close"] >= 20.0):
+            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}: 為三笑杯型股票!!')    
+            if bool(re.search('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
+                three_dog_twse_cpn += 1 
+            elif bool(re.search('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
+                three_dog_tpex_cpn += 1 
+                    
+        if bool(re.search('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
+            num_twse_cpn += 1 
+        elif bool(re.search('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
+            num_tpex_cpn += 1         
+        
+    if opt_verbose.lower() == 'on':
+        logger.info(f'four_start_twse_cpn: {four_start_twse_cpn}')
+        logger.info(f'four_start_tpex_cpn: {four_start_tpex_cpn}')
+        logger.info(f'three_dog_twse_cpn: {three_dog_twse_cpn}')
+        logger.info(f'three_dog_tpex_cpn: {three_dog_tpex_cpn}')
+                                
+    logger.info(f'TWSE 股票家數: {num_twse_cpn}' )    
+    logger.info('TWSE 四海遊龍型股票家數: {} %:{:.2f}; TWSE 三陽開泰型股票家數: {} %:{:.2f}'.format(\
+                four_start_twse_cpn, four_start_twse_cpn/num_twse_cpn, three_start_twse_cpn, three_start_twse_cpn/num_twse_cpn) )
+    logger.info('TWSE 四腳朝天型股票家數: {} %:{:.2f}; TWSE 三笑杯型股票家數: {} %:{:.2f}'.format(\
+                four_dog_twse_cpn, four_dog_twse_cpn/num_twse_cpn, three_dog_twse_cpn, three_dog_twse_cpn/num_twse_cpn) )
+    logger.info(f'TPEX 股票家數: {num_tpex_cpn}' )    
+    logger.info('TPEX 四海遊龍型股票家數: {} %:{:.2f}; TWSE 三陽開泰型股票家數: {} %:{:.2f}'.format(\
+                four_start_tpex_cpn, four_start_tpex_cpn/num_tpex_cpn, three_start_tpex_cpn, three_start_tpex_cpn/num_tpex_cpn) )
+    logger.info('TPEX 四腳朝天型股票家數: {} %:{:.2f}; TWSE 三笑杯型股票家數: {} %:{:.2f}'.format(\
+                four_dog_tpex_cpn, four_dog_tpex_cpn/num_tpex_cpn, three_dog_tpex_cpn, three_dog_tpex_cpn/num_tpex_cpn) )
+        
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='plot stock chart trend')
     parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
@@ -566,61 +630,10 @@ if __name__ == '__main__':
     if json_data["lastest_datastr_twse_tpex"][0].lower() == "request":
         store_twse_tpex_ticker(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
     
-    dict_twse_tpex_ticker_cpn_name = query_twse_tpex_ticker(list_path_pickle_ticker[-1])
+    else:
+        calculate_TWSE_TPEX_MAs_status(json_data, list_path_pickle_ticker, opt_verbose)
     
-    #for key, value in dict_twse_tpex_ticker_cpn_name.items():
-    #        logger.info('\n ticker: {}; cpn_name: {}'.format(key, value) )
-    
-    list_twse_tpex_ticker_MAs =store_TWSE_TPEX_MAs_status(json_data, dict_twse_tpex_ticker_cpn_name, opt_verbose='on')
-    four_start = 1; three_start = 1; four_dog = 1; three_dog = 1; 
-    four_start_twse_cpn = 1; four_start_tpex_cpn = 1; three_start_twse_cpn = 1; three_start_tpex_cpn = 1
-    four_dog_twse_cpn = 1; four_dog_tpex_cpn = 1; three_dog_twse_cpn = 1; three_dog_tpex_cpn = 1
-    
-    for dict_twse_tpex_ticker_MAs in list_twse_tpex_ticker_MAs:
-        if dict_twse_tpex_ticker_MAs["4_flag"] and dict_twse_tpex_ticker_MAs["3_flag"] and (dict_twse_tpex_ticker_MAs["close"] >= 50.0):
-            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}:為四海遊龍型股票!!')
-            if bool(re.match('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
-                four_start_twse_cpn += 1 
-            elif bool(re.match('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
-                four_start_tpex_cpn += 1 
-        
-        if not dict_twse_tpex_ticker_MAs["4_flag"] and dict_twse_tpex_ticker_MAs["3_flag"] and (dict_twse_tpex_ticker_MAs["close"] >= 50.0):
-            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}: 為三陽開泰型股票!!')
-            if bool(re.match('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
-                three_start_twse_cpn += 1 
-            elif bool(re.match('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
-                three_start_tpex_cpn += 1 
-        
-        if dict_twse_tpex_ticker_MAs["4_dog"] and dict_twse_tpex_ticker_MAs["3_dog"] and (dict_twse_tpex_ticker_MAs["close"] >= 50.0):
-            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}: 為四腳朝天型股票!!')
-            if bool(re.match('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
-                four_dog_twse_cpn += 1 
-            elif bool(re.match('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
-                four_dog_tpex_cpn += 1 
-        
-        if not dict_twse_tpex_ticker_MAs["4_dog"] and dict_twse_tpex_ticker_MAs["3_dog"] and (dict_twse_tpex_ticker_MAs["close"] >= 50.0):
-            logger.info(f'{dict_twse_tpex_ticker_MAs["ticker"]} {dict_twse_tpex_ticker_MAs["stock_name"]}: 為三笑杯型股票!!')    
-            if bool(re.match('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
-                three_dog_twse_cpn += 1 
-            elif bool(re.match('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
-                three_dog_tpex_cpn += 1 
-                    
-    logger.info(f'TWSE and TPEX 股票家數: {list_twse_tpex_ticker_MAs.__len__()}' )    
-    logger.info(f'TWSE 四海遊龍型股票家數: {four_start_twse_cpn} %:{four_start_twse_cpn/list_twse_tpex_ticker_MAs.__len__()}; TWSE 三陽開泰型股票家數: {three_start_twse_cpn} %:{three_start_twse_cpn/list_twse_tpex_ticker_MAs.__len__()}' )
-    logger.info(f'TWSE 四腳朝天型股票家數: {four_dog_twse_cpn} %:{four_dog_twse_cpn/list_twse_tpex_ticker_MAs.__len__()}; TWSE 三笑杯型股票家數: {three_dog_twse_cpn} %:{three_dog_twse_cpn/list_twse_tpex_ticker_MAs.__len__()}' )
-    
-    '''
-    tickers_TW = [
-        '4755.TW',
-        '2330.TW',  
-        '2303.TW',  
-    ]
-    df = Indicators(tickers_TW, opt_verbose)    
-
-    # 結果を表示
-    print(df)
-    
+    '''    
     stock_price_graph(tickers=tickers_TW, start_date="2023-10-01", end_date="2024-08-25")
-    '''
-    
+    '''    
     est_timer(t0)    

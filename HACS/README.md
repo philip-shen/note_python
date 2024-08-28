@@ -6,9 +6,11 @@ Table of Contents
       * [Install Home Assistant Container](#install-home-assistant-container)
    * [Home Assistant Community Store (HACS) Installaion](#home-assistant-community-store-hacs-installaion)
       * [HACS' GitHub](#hacs-github)
+   * [mihai-dinculescu/tapo](#mihai-dinculescutapo)   
    * [tapo-p100-python](#tapo-p100-python)
       * [Reverse engineering TP-Link TAPO](#reverse-engineering-tp-link-tapo)
    * [plugp100](#plugp100)
+   * [TapoP100](#tapop100)
    * [home-assistant-tapo-p100](#home-assistant-tapo-p100)
    * [Troubleshooting](#troubleshooting)
    * [Reference](#reference)
@@ -36,6 +38,12 @@ Take some note of Home Assistant Community Store
 
 ## HACS' GitHub
 [HACS Prerequisites](https://hacs.xyz/docs/setup/prerequisites)  
+
+
+# mihai-dinculescu/tapo  
+[mihai-dinculescu/tapo](https://github.com/mihai-dinculescu/tapo)   
+[/tapo-py/examples](https://github.com/mihai-dinculescu/tapo/tree/main/tapo-py/examples)
+[tapo/tapo-py/examples/tapo_p100.py](https://raw.githubusercontent.com/mihai-dinculescu/tapo/main/tapo-py/examples/tapo_p100.py)
 
 
 # tapo-p100-python
@@ -77,6 +85,10 @@ $ python test_tapo_p105.py -o "ip_add" -c config_example.json
 ```
 
 
+# TapoP100  
+[fishbigger / TapoP100 ](https://github.com/fishbigger/TapoP100)
+
+
 # home-assistant-tapo-p100 
 [home-assistant-tapo-p100](https://github.com/petretiandrea/home-assistant-tapo-p100)
 
@@ -84,6 +96,7 @@ $ python test_tapo_p105.py -o "ip_add" -c config_example.json
 
 This is a custom integration to control Tapo devices from home assistant.
 The core of the integration is provied by plugp100 python library based on work of @K4CZP3R.
+
 
 # Troubleshooting
 
