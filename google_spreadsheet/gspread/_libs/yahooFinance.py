@@ -1,4 +1,4 @@
-from .logger_setup import *
+from _libs.logger_setup import *
 
 import re
 import pickle, json
@@ -216,3 +216,156 @@ def get_asset_from_yfinance_ticker(stock_ticker, opt_verbose='off', period='1y',
     }
     
     return dict_stock_price_OHLC
+
+'''
+Beginning Indicators for charting
+https://www.reddit.com/r/RobinHood/comments/p4huvr/beginning_indicators_for_charting/
+
+RSI (Relative Strength Index): 
+Relative Strength Index measures whether a stock is being overbought or oversold. 
+Lower RSI indicates people have sold more and that you could be looking for an increase in buying. 
+Two points to watch are when RSI is close to 70, meaning it’s moving towards overbought, and 30, meaning it’s oversold.
+
+MACD (Moving Average Convergence/Divergence): 
+MACD helps show the price movement, moving average on a shorter period versus a longer period. 
+Tradingview shows a shorter exponential moving average as blue with the signal line, the longer exponential moving average, as red. 
+The short EMA will always meet the long EMA but it helps determine possible uptrends or downtrends when the blue line crosses the red line. 
+Crossing downward is bearish and upward is the opposite. MACD can contain gold and death crosses. 
+Gold Cross has the blue line shoot up through the red line, creating a cross and a bullish indicator. Death Cross has the blue line drop through the red line, a bearish signal.
+
+MFI (Money Flow Index): 
+Money Flow Index is similar to RSI in that it can also help determine overbought or oversold areas with usual indicators at 80 and 20, similar indications to RSI. 
+Using MFI with RSI can help spot divergences. If RSI and the stock go up, but MFI is down, this can signal a reversal in price.
+
+ADL (Advance/Decline Line): 
+ADL helps determine the amount of shares being bought or sold, a positive number showing more bullish indication and negative showing bearish. 
+Spikes in ADL can show possible artificial breakout without justification in price movement. 
+A great example below, we see a spike in ADL but not much of an increase in price, so shows possible fake breakout and artificial increase in truly advancing stocks.
+
+Bollinger Bands: 
+Bollinger Bands help identify when a stock might be trading outside their price range. 
+Bollinger Bands are usually set at 2 standard deviations away from the price, as statistically, 2stdev is considered an outlier. 
+This can help identify a breakout from its trading range or retest the Bollinger Bands and come back inside it’s range.
+
+VWAP (Volume Weighted Average Price): 
+“If Volume is king, VWAP is queen” VWAP, recommended by shorter time frames, is the average price the stock is trading at, taking volume into account. 
+If a stock is trading above VWAP, you can most likely expect it to come down to the average price, tending towards equilibrium as economics rule #1. 
+Overall, it’s important to use multiple indicators as they can tell different stories, and using them on multiple timelines can also help you determine what the short term and long term prospects.
+'''   
+class stock_indicator:
+    def __init__(self, ticker, period='1y', interval='1d', opt_verbose='OFF'):
+        self.stock_ticker = ticker.upper()
+        self.opt_verbose = opt_verbose
+        
+        # initialize Asset object 
+        asset = Asset( self.stock_ticker, period=period, interval=interval)
+        asset_info = asset.get_info()  # Information about the Company
+        asset_df = asset.get_data()    # Historical price data    
+
+        asset_df.reset_index(inplace=True)
+        '''
+        # Renaming columns using a dictionary
+        df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)
+        '''
+        #asset_df.rename(columns={"Date": "day", "Open": "open", "High": "high", 
+        #                          "Low": "low", "Close": "close", "Adj Close": "adj close", 
+        #                          "Volume":"volume"}, inplace=True)
+    
+        self.stock_data = asset_df
+        
+    # RSIを計算する関数
+    def calculate_RSI(self, window=14):
+        delta = self.stock_data['Close'].diff()
+        gain = (delta.where(delta > 0, 0)).fillna(0)
+        loss = (-delta.where(delta < 0, 0)).fillna(0)
+
+        avg_gain = gain.rolling(window=window, min_periods=1).mean()
+        avg_loss = loss.rolling(window=window, min_periods=1).mean()
+
+        rs = avg_gain / avg_loss
+        self.rsi = 100 - (100 / (1 + rs))
+        #return rsi
+
+    # MFIを計算する関数
+    def calculate_MFI(self, window=14):
+        typical_price = (self.stock_data['High'] + self.stock_data['Low'] + self.stock_data['Close']) / 3
+        money_flow = typical_price * self.stock_data['Volume']
+
+        positive_flow = money_flow.where(typical_price > typical_price.shift(1), 0)
+        negative_flow = money_flow.where(typical_price < typical_price.shift(1), 0)
+
+        positive_mf = positive_flow.rolling(window=window, min_periods=1).sum()
+        negative_mf = negative_flow.rolling(window=window, min_periods=1).sum()
+
+        self.mfi = 100 - (100 / (1 + (positive_mf / negative_mf)))
+        #return mfi
+
+    # ボリンジャーバンドを計算する関数
+    def calculate_bollinger_bands(self, window=20):
+        sma = self.stock_data['Close'].rolling(window=window).mean()
+        std = self.stock_data['Close'].rolling(window=window).std()
+        self.stock_data['Bollinger Middle'] = sma
+        self.stock_data['Bollinger Upper'] = sma + (std * 2)
+        self.stock_data['Bollinger Lower'] = sma - (std * 2)
+        #return data
+
+    # 移動平均線を計算する関数
+    def calculate_moving_averages(self, weekly_window=5, Dweekly_window=10, \
+                                    monthly_window=20, quarterly_window=60):
+        self.stock_data['MA_5'] = self.stock_data['Close'].rolling(window=weekly_window).mean()
+        self.stock_data['MA_10'] = self.stock_data['Close'].rolling(window=Dweekly_window).mean()
+        self.stock_data['MA_20'] = self.stock_data['Close'].rolling(window=monthly_window).mean()
+        self.stock_data['MA_60'] = self.stock_data['Close'].rolling(window=quarterly_window).mean()
+        #return data
+
+    def calculate_volume_weighted_average_price(self):
+        self.stock_data['cum_volume'] = self.stock_data['Volume'].cumsum()
+        self.stock_data['cum_volume_price'] = (self.stock_data['Close'] * self.stock_data['Volume']).cumsum()
+        data = self.stock_data['cum_volume_price'] / self.stock_data['cum_volume']
+        return data
+    
+    def stand_Up_On_fall_Down_MAs(self):
+        #logger.info("{}".format("Stand_Up_On_MAs (針對你Fetch data區間的最後一天做分析):"))
+
+        # 抓出所需data
+        stock_price = self.stock_data['Close'].astype(float).iloc[-1]
+        MA5 = self.stock_data['MA_5'].iloc[-1] if not self.stock_data['MA_5'].isnull().values.all() else 0
+        MA10 = self.stock_data['MA_10'].iloc[-1] if not self.stock_data['MA_10'].isnull().values.all() else 0
+        MA20 = self.stock_data['MA_20'].iloc[-1] if not self.stock_data['MA_20'].isnull().values.all() else 0
+        MA60 = self.stock_data['MA_60'].iloc[-1] if not self.stock_data['MA_60'].isnull().values.all() else 0
+
+        four_MAs = MA5 and MA10 and MA20 and MA60
+        three_MAs = MA5 and MA10 and MA20
+        
+        self.four_flag = True if four_MAs and max(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
+        self.three_flag = True if three_MAs and max(stock_price, MA5, MA10, MA20) == stock_price else False
+        self.four_dog = True if four_MAs and min(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
+        self.three_dog = True if three_MAs and min(stock_price, MA5, MA10, MA20) == stock_price else False 
+
+    def check_MAs_status(self):
+        # 必要な列を抽出
+        #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
+        
+        # 移動平均線を計算
+        self.calculate_moving_averages()
+        
+        self.stand_Up_On_fall_Down_MAs() 
+        #logger.info(f'self.stock_data:\n {self.stock_data}' )    
+        
+        if self.opt_verbose.lower() == 'on':
+            # 判斷data值
+            if self.four_flag:
+                logger.info("股價已站上5日、10日、20日、60日均線均線，為四海遊龍型股票!!")
+            elif self.three_flag:
+                logger.info("股價已站上5日、10日、20日均線，為三陽開泰型股票!!")
+            #elif not self.four_MAs:
+            #   logger.info("目前的data數量不足以畫出四條均線，請補足後再用此演算法!!")
+            #elif not self.three_MAs:
+            #    logger.info("目前的data數量不足以畫出三條均線，請補足後再用此演算法!!")
+            else:
+                logger.info("目前股價尚未成三陽開泰型、四海遊龍型股票!!")
+    
+        self.close = self.stock_data['Close'].astype(float).iloc[-1]
+        self.open = self.stock_data['Open'].astype(float).iloc[-1]
+        self.high = self.stock_data['High'].astype(float).iloc[-1]
+        self.low = self.stock_data['Low'].astype(float).iloc[-1]

@@ -41,7 +41,7 @@ dirnamelog=os.path.join(strdirname,"logs")
 
 def est_timer(start_time):
     time_consumption, h, m, s= lib_misc.format_time(time.time() - start_time)         
-    msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.2f} seconds.'
+    msg = 'Time Consumption: {}.'.format( time_consumption)#msg = 'Time duration: {:.3f} seconds.'
     logger.info(msg)
 
 # Change the date
@@ -583,14 +583,14 @@ def calculate_TWSE_TPEX_MAs_status(json_data: dict, list_path_pickle_ticker: lis
         logger.info(f'three_dog_tpex_cpn: {three_dog_tpex_cpn}')
                                 
     logger.info(f'TWSE 股票家數: {num_twse_cpn}' )    
-    logger.info('TWSE 四海遊龍型股票家數: {} %:{:.2f}; TWSE 三陽開泰型股票家數: {} %:{:.2f}'.format(\
+    logger.info('TWSE 四海遊龍型股票家數: {} %:{:.3f}; TWSE 三陽開泰型股票家數: {} %:{:.3f}'.format(\
                 four_start_twse_cpn, four_start_twse_cpn/num_twse_cpn, three_start_twse_cpn, three_start_twse_cpn/num_twse_cpn) )
-    logger.info('TWSE 四腳朝天型股票家數: {} %:{:.2f}; TWSE 三笑杯型股票家數: {} %:{:.2f}'.format(\
+    logger.info('TWSE 四腳朝天型股票家數: {} %:{:.3f}; TWSE 三笑杯型股票家數: {} %:{:.3f}'.format(\
                 four_dog_twse_cpn, four_dog_twse_cpn/num_twse_cpn, three_dog_twse_cpn, three_dog_twse_cpn/num_twse_cpn) )
     logger.info(f'TPEX 股票家數: {num_tpex_cpn}' )    
-    logger.info('TPEX 四海遊龍型股票家數: {} %:{:.2f}; TWSE 三陽開泰型股票家數: {} %:{:.2f}'.format(\
+    logger.info('TPEX 四海遊龍型股票家數: {} %:{:.3f}; TPEX 三陽開泰型股票家數: {} %:{:.3f}'.format(\
                 four_start_tpex_cpn, four_start_tpex_cpn/num_tpex_cpn, three_start_tpex_cpn, three_start_tpex_cpn/num_tpex_cpn) )
-    logger.info('TPEX 四腳朝天型股票家數: {} %:{:.2f}; TWSE 三笑杯型股票家數: {} %:{:.2f}'.format(\
+    logger.info('TPEX 四腳朝天型股票家數: {} %:{:.3f}; TPEX 三笑杯型股票家數: {} %:{:.3f}'.format(\
                 four_dog_tpex_cpn, four_dog_tpex_cpn/num_tpex_cpn, three_dog_tpex_cpn, three_dog_tpex_cpn/num_tpex_cpn) )
         
 if __name__ == '__main__':

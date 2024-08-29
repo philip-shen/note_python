@@ -1,5 +1,5 @@
-from .logger_setup import *
-from .yahooFinance import *
+from _libs.logger_setup import *
+from _libs.yahooFinance import *
 
 import time,re
 import gspread
@@ -39,12 +39,12 @@ class GoogleSS:
         str_cmp_name = self.gss_client_worksheet.get('a{}'.format(row_count)).first()
         #logger.info(f"label C1: {val}")
         
-        logger.info(f'Update Company: {str_cmp_name}, Close: {list_cellvalue[0]}, Open: {list_cellvalue[1]}, High: {list_cellvalue[2]}, Low: {list_cellvalue[3]}')
+        logger.info(f'Update Company: {str_cmp_name}, MA_Status: {list_cellvalue[0]},Close: {list_cellvalue[1]}, Open: {list_cellvalue[2]}, High: {list_cellvalue[3]}, Low: {list_cellvalue[4]}')
         
     def update_GSpreadworksheet_from_yfiances(self, row_count, str_delay_sec, local_pt_stock):
         list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
-        
-        
+        stock_MA_status = ''
+            
         while len(list_Gworksheet_rowvalue) > 0:
             stkidx = str(list_Gworksheet_rowvalue[1])
             if self.opt_verbose.lower() == 'on':
@@ -57,21 +57,40 @@ class GoogleSS:
             # 2018/8/13 prevent ErrorCode:429, Exhaust Resoure
             #print ("Delay ", str_delay_sec, "secs to prevent Google Error Code:429, Exhaust Resoure")
             #time.sleep(float(str_delay_sec))
-
+            local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker)
+            local_stock_indicator.check_MAs_status()
+            
+            if local_stock_indicator.four_flag and local_stock_indicator.three_flag:
+                stock_MA_status = 'four_star'
+            if not local_stock_indicator.four_flag and local_stock_indicator.three_flag:
+                stock_MA_status = 'three_star'
+            if local_stock_indicator.four_dog and local_stock_indicator.three_dog:
+                stock_MA_status = 'four_dog'
+            if not local_stock_indicator.four_dog and local_stock_indicator.three_dog:
+                stock_MA_status = 'three_dog'
+                
+            ''' reduce yahoo finance request
             dict_stock_OHLC= get_asset_from_yfinance_ticker(local_pt_stock.ticker, self.opt_verbose)
             stock_price_final = str(dict_stock_OHLC['close'])
             stock_price_open = str(dict_stock_OHLC['open'])
             stock_price_high = str(dict_stock_OHLC['high'])
             stock_price_low = str(dict_stock_OHLC['low'])
+            '''
+            stock_price_final = str(local_stock_indicator.close)
             
             # update by Cell Range
-            str_range = 'D' + str(row_count) + ":" + 'G' + str(row_count)
+            #str_range = 'D' + str(row_count) + ":" + 'G' + str(row_count)
+            str_range = 'C' + str(row_count) + ":" + 'G' + str(row_count)
 
             ## update cell content
             #2018/08/22 if final price doesn't exist    
             if bool(re.match(r'^-+-$',stock_price_final)) == False:
-                list_cellvalue = ['{:.2f}'.format(float(stock_price_final)) , '{:.2f}'.format(float(stock_price_open)),
-                                  '{:.2f}'.format(float(stock_price_high)), '{:.2f}'.format(float(stock_price_low)) ]
+                #list_cellvalue = ['{:.2f}'.format(float(stock_price_final)) , '{:.2f}'.format(float(stock_price_open)),
+                #                  '{:.2f}'.format(float(stock_price_high)), '{:.2f}'.format(float(stock_price_low)) ]
+                # add stock MA status
+                list_cellvalue = [stock_MA_status,
+                                  '{:.2f}'.format(float(local_stock_indicator.close)) , '{:.2f}'.format(float(local_stock_indicator.open)),
+                                  '{:.2f}'.format(float(local_stock_indicator.high)), '{:.2f}'.format(float(local_stock_indicator.low)) ]
                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'list_cellvalue: {list_cellvalue}')
