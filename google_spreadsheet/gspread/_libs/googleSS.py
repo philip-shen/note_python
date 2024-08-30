@@ -43,7 +43,6 @@ class GoogleSS:
         
     def update_GSpreadworksheet_from_yfiances(self, row_count, str_delay_sec, local_pt_stock):
         list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
-        stock_MA_status = ''
             
         while len(list_Gworksheet_rowvalue) > 0:
             stkidx = str(list_Gworksheet_rowvalue[1])
@@ -62,13 +61,14 @@ class GoogleSS:
             
             if local_stock_indicator.four_flag and local_stock_indicator.three_flag:
                 stock_MA_status = 'four_star'
-            if not local_stock_indicator.four_flag and local_stock_indicator.three_flag:
+            elif not local_stock_indicator.four_flag and local_stock_indicator.three_flag:
                 stock_MA_status = 'three_star'
-            if local_stock_indicator.four_dog and local_stock_indicator.three_dog:
+            elif local_stock_indicator.four_dog and local_stock_indicator.three_dog:
                 stock_MA_status = 'four_dog'
-            if not local_stock_indicator.four_dog and local_stock_indicator.three_dog:
+            elif not local_stock_indicator.four_dog and local_stock_indicator.three_dog:
                 stock_MA_status = 'three_dog'
-                
+            else:
+                stock_MA_status = 'NA'    
             ''' reduce yahoo finance request
             dict_stock_OHLC= get_asset_from_yfinance_ticker(local_pt_stock.ticker, self.opt_verbose)
             stock_price_final = str(dict_stock_OHLC['close'])
