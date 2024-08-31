@@ -32,6 +32,7 @@ class GoogleSS:
         cell_list[1].value = list_cellvalue[1]
         cell_list[2].value = list_cellvalue[2]
         cell_list[3].value = list_cellvalue[3]
+        cell_list[4].value = list_cellvalue[4]
         # print("cell_list:", cell_list)
         self.gss_client_worksheet.update_cells(cell_list)
         
