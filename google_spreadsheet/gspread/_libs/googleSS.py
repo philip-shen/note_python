@@ -23,11 +23,7 @@ class GoogleSS:
         cell_list = self.gss_client_worksheet.range(str_cellrange)
 
         # 2018/8/12 Solve by issue:483; https://github.com/burnash/gspread/issues/483
-        # cell_list[0].value = stock_price_final
-        # cell_list[1].value = stock_price_open
-        # cell_list[2].value = stock_price_high
-        # cell_list[3].value = stock_price_low
-
+        
         cell_list[0].value = list_cellvalue[0]
         cell_list[1].value = list_cellvalue[1]
         cell_list[2].value = list_cellvalue[2]
@@ -58,18 +54,9 @@ class GoogleSS:
             #print ("Delay ", str_delay_sec, "secs to prevent Google Error Code:429, Exhaust Resoure")
             #time.sleep(float(str_delay_sec))
             local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker)
-            local_stock_indicator.check_MAs_status()
+            local_stock_indicator.check_MAs_status()            
+            local_stock_indicator.filter_MAs_status()
             
-            if local_stock_indicator.four_flag and local_stock_indicator.three_flag:
-                stock_MA_status = 'four_star'
-            elif not local_stock_indicator.four_flag and local_stock_indicator.three_flag:
-                stock_MA_status = 'three_star'
-            elif local_stock_indicator.four_dog and local_stock_indicator.three_dog:
-                stock_MA_status = 'four_dog'
-            elif not local_stock_indicator.four_dog and local_stock_indicator.three_dog:
-                stock_MA_status = 'three_dog'
-            else:
-                stock_MA_status = 'NA'    
             ''' reduce yahoo finance request
             dict_stock_OHLC= get_asset_from_yfinance_ticker(local_pt_stock.ticker, self.opt_verbose)
             stock_price_final = str(dict_stock_OHLC['close'])
@@ -86,10 +73,8 @@ class GoogleSS:
             ## update cell content
             #2018/08/22 if final price doesn't exist    
             if bool(re.match(r'^-+-$',stock_price_final)) == False:
-                #list_cellvalue = ['{:.2f}'.format(float(stock_price_final)) , '{:.2f}'.format(float(stock_price_open)),
-                #                  '{:.2f}'.format(float(stock_price_high)), '{:.2f}'.format(float(stock_price_low)) ]
                 # add stock MA status
-                list_cellvalue = [stock_MA_status,
+                list_cellvalue = [local_stock_indicator.stock_MA_status,
                                   '{:.2f}'.format(float(local_stock_indicator.close)) , '{:.2f}'.format(float(local_stock_indicator.open)),
                                   '{:.2f}'.format(float(local_stock_indicator.high)), '{:.2f}'.format(float(local_stock_indicator.low)) ]
                 

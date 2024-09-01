@@ -318,6 +318,13 @@ class stock_indicator:
         self.stock_data['MA_60'] = self.stock_data['Close'].rolling(window=quarterly_window).mean()
         #return data
 
+    def calculate_exponential_moving_averages(self, weekly_window=5, Dweekly_window=10, \
+                                    monthly_window=20, quarterly_window=60):
+        self.stock_data['EMA_5'] = self.stock_data['Close'].ewm(ignore_na=False, span=weekly_window, min_periods=0, adjust=False).mean()
+        self.stock_data['EMA_10'] = self.stock_data['Close'].ewm(ignore_na=False, span=Dweekly_window, min_periods=0, adjust=False).mean()
+        self.stock_data['EMA_20'] = self.stock_data['Close'].ewm(ignore_na=False, span=monthly_window, min_periods=0, adjust=False).mean()
+        self.stock_data['EMA_60'] = self.stock_data['Close'].ewm(ignore_na=False, span=quarterly_window, min_periods=0, adjust=False).mean()
+        
     def calculate_volume_weighted_average_price(self):
         self.stock_data['cum_volume'] = self.stock_data['Volume'].cumsum()
         self.stock_data['cum_volume_price'] = (self.stock_data['Close'] * self.stock_data['Volume']).cumsum()
@@ -336,18 +343,41 @@ class stock_indicator:
 
         four_MAs = MA5 and MA10 and MA20 and MA60
         three_MAs = MA5 and MA10 and MA20
+        two_MAs = MA5 and MA10
+        one_MAs = MA5
         
         self.four_flag = True if four_MAs and max(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
         self.three_flag = True if three_MAs and max(stock_price, MA5, MA10, MA20) == stock_price else False
+        self.two_flag = True if two_MAs and max(stock_price, MA5, MA10) == stock_price else False
+        self.one_flag = True if one_MAs and max(stock_price, MA5) == stock_price else False
+        
         self.four_dog = True if four_MAs and min(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
         self.three_dog = True if three_MAs and min(stock_price, MA5, MA10, MA20) == stock_price else False 
-
+        self.two_dog = True if three_MAs and min(stock_price, MA5, MA10) == stock_price else False 
+        
+        # Exponential_moving_averages
+        EMA5 = self.stock_data['EMA_5'].iloc[-1] if not self.stock_data['EMA_5'].isnull().values.all() else 0
+        EMA10 = self.stock_data['EMA_10'].iloc[-1] if not self.stock_data['EMA_10'].isnull().values.all() else 0
+        EMA20 = self.stock_data['EMA_20'].iloc[-1] if not self.stock_data['EMA_20'].isnull().values.all() else 0
+        EMA60 = self.stock_data['EMA_60'].iloc[-1] if not self.stock_data['EMA_60'].isnull().values.all() else 0
+        
+        four_Expon_MAs = EMA5 and EMA10 and EMA20 and EMA60
+        three_Expon_MAs = EMA5 and EMA10 and EMA20
+        two_Expon_MAs = EMA5 and EMA10
+        one_Expon_MAs = EMA5
+        
+        self.four_E_flag = True if four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price else False
+        self.three_E_flag = True if three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price else False
+        self.two_E_flag = True if two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price else False
+        self.one_E_flag = True if one_Expon_MAs and max(stock_price, EMA5) == stock_price else False
+        
     def check_MAs_status(self):
         # 必要な列を抽出
         #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
         
         # 移動平均線を計算
         self.calculate_moving_averages()
+        self.calculate_exponential_moving_averages()
         
         self.stand_Up_On_fall_Down_MAs() 
         #logger.info(f'self.stock_data:\n {self.stock_data}' )    
@@ -369,3 +399,40 @@ class stock_indicator:
         self.open = self.stock_data['Open'].astype(float).iloc[-1]
         self.high = self.stock_data['High'].astype(float).iloc[-1]
         self.low = self.stock_data['Low'].astype(float).iloc[-1]
+        
+    def filter_MAs_status(self):
+        
+        if self.four_flag:
+            self.stock_MA_status = 'four_star'
+            return
+        elif not self.four_flag and self.three_flag:
+            self.stock_MA_status = 'three_star'
+            return
+        elif not (self.four_flag and self.three_flag) and self.two_flag:
+            self.stock_MA_status = 'two_star'    
+            return
+        elif not (self.four_flag and self.three_flag and self.two_flag)  and self.one_flag:
+            self.stock_MA_status = 'one_star'    
+            return
+                    
+        elif self.four_dog and self.three_dog:
+            self.stock_MA_status = 'four_dog'
+            return
+        elif not self.four_dog and self.three_dog:
+            self.stock_MA_status = 'three_dog'
+            return
+        
+        elif self.four_E_flag:
+            self.stock_MA_status = 'Expo_four_star'
+            return
+        elif not self.four_E_flag and self.three_E_flag:
+            self.stock_MA_status = 'Expo_three_star'
+            return    
+        elif not (self.four_E_flag and self.three_E_flag) and self.two_E_flag:
+            self.stock_MA_status = 'Expo_two_star'    
+            return
+        elif not (self.four_E_flag and self.three_E_flag and self.two_E_flag)  and self.one_E_flag:
+            self.stock_MA_status = 'Expo_one_star'    
+            return
+        else:
+            self.stock_MA_status = 'NA'    
