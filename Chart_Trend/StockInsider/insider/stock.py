@@ -608,13 +608,13 @@ class stock_indicator:
         two_Expon_MAs = EMA5 and EMA10
         one_Expon_MAs = EMA5
         
-        self.four_E_flag = True if not four_MAs and \
+        self.four_E_flag = True if not self.four_flag and \
                             (four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
-        self.three_E_flag = True if not three_MAs and \
+        self.three_E_flag = True if not self.three_flag and \
                             (three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price) else False
-        self.two_E_flag = True if not two_MAs and \
+        self.two_E_flag = True if not self.two_flag and \
                             (two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price) else False
-        self.one_E_flag = True if not one_MAs and \
+        self.one_E_flag = True if not self.one_flag and \
                             (one_Expon_MAs and max(stock_price, EMA5) == stock_price) else False
         
     def check_MAs_status(self):

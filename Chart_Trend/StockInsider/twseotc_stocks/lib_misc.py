@@ -6,6 +6,7 @@ __all__ = [
     'format_time',
     'Query_all_files_in_dir',
     'Diff_List',
+    'list_out_file',    
 ]
 
 def format_time(timesec):
@@ -102,3 +103,11 @@ class Query_all_files_in_dir:
 def Diff_List(li1, li2):
     li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
     return li_dif
+
+def list_out_file(path_filename: str, content: list, opt_verbose='OFF'):
+    if opt_verbose.lower() == 'on':
+        logger.info(f'output file name: {path_filename}')        
+    
+    with open(path_filename, 'w') as f:
+        for line in content:
+            f.write(f"{line}\n")

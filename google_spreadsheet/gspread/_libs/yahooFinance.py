@@ -365,12 +365,21 @@ class stock_indicator:
         three_Expon_MAs = EMA5 and EMA10 and EMA20
         two_Expon_MAs = EMA5 and EMA10
         one_Expon_MAs = EMA5
-        
+        '''
         self.four_E_flag = True if four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price else False
         self.three_E_flag = True if three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price else False
         self.two_E_flag = True if two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price else False
         self.one_E_flag = True if one_Expon_MAs and max(stock_price, EMA5) == stock_price else False
-        
+        '''
+        self.four_E_flag = True if not self.four_flag and \
+                            (four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
+        self.three_E_flag = True if not self.three_flag and \
+                            (three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price) else False
+        self.two_E_flag = True if not self.two_flag and \
+                            (two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price) else False
+        self.one_E_flag = True if not self.one_flag and \
+                            (one_Expon_MAs and max(stock_price, EMA5) == stock_price) else False
+                            
     def check_MAs_status(self):
         # 必要な列を抽出
         #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
@@ -401,7 +410,7 @@ class stock_indicator:
         self.low = self.stock_data['Low'].astype(float).iloc[-1]
         
     def filter_MAs_status(self):
-        
+        '''
         if self.four_flag:
             self.stock_MA_status = 'four_star'
             return
@@ -436,3 +445,42 @@ class stock_indicator:
             return
         else:
             self.stock_MA_status = 'NA'    
+        '''    
+        if self.four_flag:
+            self.stock_MA_status = 'four_star'
+            return
+        elif self.three_flag:
+            self.stock_MA_status = 'three_star'
+            return
+        elif self.two_flag:
+            self.stock_MA_status = 'two_star'    
+            return
+        elif self.one_flag:
+            self.stock_MA_status = 'one_star'    
+            return
+        
+        elif self.four_dog:
+            self.stock_MA_status = 'four_dog'
+            return
+        elif self.three_dog:
+            self.stock_MA_status = 'three_dog'
+            return
+        
+        #elif not self.four_flag and self.four_E_flag:
+        elif self.four_E_flag:
+            self.stock_MA_status = 'Expo_four_star'
+            return
+        #elif not self.three_flag and self.three_E_flag:
+        elif self.three_E_flag:
+            self.stock_MA_status = 'Expo_three_star'
+            return  
+        #elif not self.two_flag and self.two_E_flag:
+        elif self.two_E_flag:
+            self.stock_MA_status = 'Expo_two_star'    
+            return  
+        #elif not self.two_flag and self.one_E_flag:
+        elif self.one_E_flag:
+            self.stock_MA_status = 'Expo_one_star'    
+            return
+        else:
+            self.stock_MA_status = 'NA'
