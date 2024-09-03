@@ -596,6 +596,7 @@ class stock_indicator:
         self.four_dog = True if four_MAs and min(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
         self.three_dog = True if three_MAs and min(stock_price, MA5, MA10, MA20) == stock_price else False 
         self.two_dog = True if three_MAs and min(stock_price, MA5, MA10) == stock_price else False 
+        self.one_dog = True if three_MAs and min(stock_price, MA5) == stock_price else False 
         
         # Exponential_moving_averages
         EMA5 = self.stock_data['EMA_5'].iloc[-1] if not self.stock_data['EMA_5'].isnull().values.all() else 0
@@ -608,15 +609,16 @@ class stock_indicator:
         two_Expon_MAs = EMA5 and EMA10
         one_Expon_MAs = EMA5
         
-        self.four_E_flag = True if not self.four_flag and \
-                            (four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
-        self.three_E_flag = True if not self.three_flag and \
-                            (three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price) else False
-        self.two_E_flag = True if not self.two_flag and \
-                            (two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price) else False
-        self.one_E_flag = True if not self.one_flag and \
-                            (one_Expon_MAs and max(stock_price, EMA5) == stock_price) else False
+        self.four_E_flag = True if four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price else False
+        self.three_E_flag = True if three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price else False
+        self.two_E_flag = True if two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price else False
+        self.one_E_flag = True if one_Expon_MAs and max(stock_price, EMA5) == stock_price else False
         
+        self.four_E_dog = True if four_Expon_MAs and min(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price else False
+        self.three_E_dog = True if not self.three_dog and three_Expon_MAs and min(stock_price, EMA5, EMA10, EMA20) == stock_price else False
+        self.two_E_dog = True if not self.two_dog and two_Expon_MAs and min(stock_price, EMA5, EMA10) == stock_price else False
+        self.one_E_dog = True if not self.one_dog and one_Expon_MAs and min(stock_price, EMA5) == stock_price else False                                                            
+                            
     def check_MAs_status(self):
         # 必要な列を抽出
         #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
@@ -667,22 +669,36 @@ class stock_indicator:
         elif self.three_dog:
             self.stock_MA_status = 'three_dog'
             return
+        elif self.two_dog:
+            self.stock_MA_status = 'two_dog'
+            return
+        elif self.one_dog:
+            self.stock_MA_status = 'one_dog'
+            return
         
-        #elif not self.four_flag and self.four_E_flag:
         elif self.four_E_flag:
             self.stock_MA_status = 'Expo_four_star'
             return
-        #elif not self.three_flag and self.three_E_flag:
         elif self.three_E_flag:
             self.stock_MA_status = 'Expo_three_star'
             return  
-        #elif not self.two_flag and self.two_E_flag:
         elif self.two_E_flag:
             self.stock_MA_status = 'Expo_two_star'    
             return  
-        #elif not self.two_flag and self.one_E_flag:
         elif self.one_E_flag:
             self.stock_MA_status = 'Expo_one_star'    
+            return
+        elif self.four_E_dog:
+            self.stock_MA_status = 'Expo_four_dog'
+            return
+        elif self.three_E_dog:
+            self.stock_MA_status = 'Expo_three_dog'
+            return
+        elif self.two_E_dog:
+            self.stock_MA_status = 'Expo_two_dog'
+            return
+        elif self.one_E_dog:
+            self.stock_MA_status = 'Expo_one_dog'
             return
         else:
             self.stock_MA_status = 'NA'
