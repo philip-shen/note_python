@@ -6,7 +6,8 @@ __all__ = [
     'format_time',
     'Query_all_files_in_dir',
     'Diff_List',
-    'list_out_file',    
+    'list_out_file',
+    'list_out_ML_file',    
 ]
 
 def format_time(timesec):
@@ -111,3 +112,11 @@ def list_out_file(path_filename: str, content: list, opt_verbose='OFF'):
     with open(path_filename, 'w') as f:
         for line in content:
             f.write(f"{line}\n")
+
+def list_out_ML_file(path_filename: str, content: list, opt_verbose='OFF'):
+    if opt_verbose.lower() == 'on':
+        logger.info(f'output file name: {path_filename}')        
+    
+    with open(path_filename, 'w') as f:
+        for line in content:
+            f.write(f"{line},")            

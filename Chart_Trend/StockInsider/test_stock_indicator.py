@@ -870,7 +870,10 @@ class TWSE_TPEX_MAs_status():
                     ]
         
         lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
-    
+        
+        path_fname = pathlib.Path(dirnamelog)/(json_data["start_end_date"][-1]+'_ML_TWS_MA.txt')
+        lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
+        
     def calculate_TPEX_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_twse_tpex_ticker(self.list_path_pickle_ticker[1])
     
@@ -920,6 +923,9 @@ class TWSE_TPEX_MAs_status():
                     ]
         
         lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
+        
+        path_fname = pathlib.Path(dirnamelog)/(json_data["start_end_date"][-1]+'_ML_OTC_MA.txt')
+        lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
         
         logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
                     format(self.num_twse_cpn,                    
