@@ -353,7 +353,8 @@ class stock_indicator:
         
         self.four_dog = True if four_MAs and min(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
         self.three_dog = True if three_MAs and min(stock_price, MA5, MA10, MA20) == stock_price else False 
-        self.two_dog = True if three_MAs and min(stock_price, MA5, MA10) == stock_price else False 
+        self.two_dog = True if two_MAs and min(stock_price, MA5, MA10) == stock_price else False 
+        self.one_dog = True if one_MAs and min(stock_price, MA5, MA10) == stock_price else False 
         
         # Exponential_moving_averages
         EMA5 = self.stock_data['EMA_5'].iloc[-1] if not self.stock_data['EMA_5'].isnull().values.all() else 0
