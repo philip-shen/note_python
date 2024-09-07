@@ -522,7 +522,7 @@ class TWSE_TPEX_MAs_status():
         self.json_data = json_data
         self.list_path_pickle_ticker = list_path_pickle_ticker
         self.opt_verbose = opt_verbose
-
+        '''
         self.num_twse_cpn = 0; self.num_tpex_cpn = 0
         
         self.four_star_twse_cpn = 0; self.four_star_tpex_cpn = 0; 
@@ -544,12 +544,10 @@ class TWSE_TPEX_MAs_status():
         self.expo_three_dog_twse_cpn = 0; self.expo_three_dog_tpex_cpn = 0; 
         self.expo_two_dog_twse_cpn = 0; self.expo_two_dog_tpex_cpn = 0; 
         self.expo_one_dog_twse_cpn = 0; self.expo_one_dog_tpex_cpn = 0; 
-        
-    def store_TWSE_TPEX_MAs_status(self):
+        '''
+    def store_TWSE_TPEX_MAs_status(self, start_date, end_date):
         list_MAs_status = []
-        start_date = date_changer_twse(json_data["start_end_date"][0])
-        end_date = date_changer_twse(json_data["start_end_date"][1])
-
+        
         for ticker, cpn_name in self.dict_twse_tpex_ticker_cpn_name.items():
             #logger.info('\n ticker: {}; cpn_name: {}'.format(key, value) )    
             ##### 上市公司 or ETF or 正2 ETF
@@ -824,122 +822,160 @@ class TWSE_TPEX_MAs_status():
     
     def calculate_TWSE_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_twse_tpex_ticker(self.list_path_pickle_ticker[0])
-    
-        self.store_TWSE_TPEX_MAs_status()    
-        self.check_TWSE_TPEX_MAs_status()
+        
+        for idx, list_start_end_date in enumerate(self.json_data["start_end_date"]):
+            startdate = date_changer_twse(list_start_end_date[0])
+            enddate = date_changer_twse(list_start_end_date[-1])
+
+            logger.info(f'start_date: {startdate}; end_date: {enddate}') 
+
+            self.num_twse_cpn = 0        
+            self.four_star_twse_cpn = 0; self.three_star_twse_cpn = 0; 
+            self.two_star_twse_cpn = 0; self.one_star_twse_cpn = 0; 
+        
+            self.expo_four_star_twse_cpn = 0; self.expo_three_star_twse_cpn = 0; 
+            self.expo_two_star_twse_cpn = 0; self.expo_one_star_twse_cpn = 0; 
+        
+            self.four_dog_twse_cpn = 0; self.three_dog_twse_cpn = 0; 
+            self.two_dog_twse_cpn = 0; self.one_dog_twse_cpn = 0; 
+        
+            self.expo_four_dog_twse_cpn = 0; self.expo_three_dog_twse_cpn = 0; 
+            self.expo_two_dog_twse_cpn = 0; self.expo_one_dog_twse_cpn = 0; 
+        
+            self.store_TWSE_TPEX_MAs_status(start_date=startdate, end_date=enddate)    
+            self.check_TWSE_TPEX_MAs_status()
                                 
-        logger.info(f'TWSE 股票家數: {self.num_twse_cpn}' )    
-        logger.info('TWSE 四海遊龍型股票家數: {} %:{:.3f}; TWSE 三陽開泰型股票家數: {} %:{:.3f}'.format(\
-                self.four_star_twse_cpn, self.four_star_twse_cpn/self.num_twse_cpn, 
-                self.three_star_twse_cpn, self.three_star_twse_cpn/self.num_twse_cpn) )
-        logger.info('TWSE 雙囍臨門型股票家數: {} %:{:.3f}; TWSE 一星報喜型股票家數: {} %:{:.3f}'.format(\
-                self.two_star_twse_cpn, self.two_star_twse_cpn/self.num_twse_cpn, 
-                self.one_star_twse_cpn, self.one_star_twse_cpn/self.num_twse_cpn) )
+            logger.info(f'TWSE 股票家數: {self.num_twse_cpn}' )    
+            logger.info('TWSE 四海遊龍型股票家數: {} %:{:.3f}; TWSE 三陽開泰型股票家數: {} %:{:.3f}'.format(\
+                    self.four_star_twse_cpn, self.four_star_twse_cpn/self.num_twse_cpn, 
+                    self.three_star_twse_cpn, self.three_star_twse_cpn/self.num_twse_cpn) )
+            logger.info('TWSE 雙囍臨門型股票家數: {} %:{:.3f}; TWSE 一星報喜型股票家數: {} %:{:.3f}'.format(\
+                    self.two_star_twse_cpn, self.two_star_twse_cpn/self.num_twse_cpn, 
+                    self.one_star_twse_cpn, self.one_star_twse_cpn/self.num_twse_cpn) )
         
-        logger.info('TWSE 指數_四海遊龍型股票家數: {} %:{:.3f}; TWSE 指數_三陽開泰型股票家數: {} %:{:.3f}'.format(\
-                self.expo_four_star_twse_cpn, self.expo_four_star_twse_cpn/self.num_twse_cpn, 
-                self.expo_three_star_twse_cpn, self.expo_three_star_twse_cpn/self.num_twse_cpn) )
+            logger.info('TWSE 指數_四海遊龍型股票家數: {} %:{:.3f}; TWSE 指數_三陽開泰型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_four_star_twse_cpn, self.expo_four_star_twse_cpn/self.num_twse_cpn, 
+                    self.expo_three_star_twse_cpn, self.expo_three_star_twse_cpn/self.num_twse_cpn) )
         
-        logger.info('TWSE 指數_雙囍臨門型股票家數: {} %:{:.3f}; TWSE 指數_一星報喜型股票家數: {} %:{:.3f}'.format(\
-                self.expo_two_star_twse_cpn, self.expo_two_star_twse_cpn/self.num_twse_cpn, 
-                self.expo_one_star_twse_cpn, self.expo_one_star_twse_cpn/self.num_twse_cpn) )
+            logger.info('TWSE 指數_雙囍臨門型股票家數: {} %:{:.3f}; TWSE 指數_一星報喜型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_two_star_twse_cpn, self.expo_two_star_twse_cpn/self.num_twse_cpn, 
+                    self.expo_one_star_twse_cpn, self.expo_one_star_twse_cpn/self.num_twse_cpn) )
         
-        logger.info('TWSE 四腳朝天型股票家數: {} %:{:.3f}; TWSE 三人成虎型股票家數: {} %:{:.3f}'.format(\
-                self.four_dog_twse_cpn, self.four_dog_twse_cpn/self.num_twse_cpn, 
-                self.three_dog_twse_cpn, self.three_dog_twse_cpn/self.num_twse_cpn) )
+            logger.info('TWSE 四腳朝天型股票家數: {} %:{:.3f}; TWSE 三人成虎型股票家數: {} %:{:.3f}'.format(\
+                    self.four_dog_twse_cpn, self.four_dog_twse_cpn/self.num_twse_cpn, 
+                    self.three_dog_twse_cpn, self.three_dog_twse_cpn/self.num_twse_cpn) )
         
-        logger.info('TWSE 二竪作惡型股票家數: {} %:{:.3f}; TWSE 一敗塗地型股票家數: {} %:{:.3f}'.format(\
-                self.two_dog_twse_cpn, self.one_dog_twse_cpn/self.num_twse_cpn, 
-                self.two_dog_twse_cpn, self.one_dog_twse_cpn/self.num_twse_cpn) )
+            logger.info('TWSE 二竪作惡型股票家數: {} %:{:.3f}; TWSE 一敗塗地型股票家數: {} %:{:.3f}'.format(\
+                    self.two_dog_twse_cpn, self.one_dog_twse_cpn/self.num_twse_cpn, 
+                    self.two_dog_twse_cpn, self.one_dog_twse_cpn/self.num_twse_cpn) )
         
-        logger.info('TWSE 指數_四腳朝天型股票家數: {} %:{:.3f}; TWSE 指數_三人成虎型股票家數: {} %:{:.3f}'.format(\
-                self.expo_four_dog_twse_cpn, self.expo_four_dog_twse_cpn/self.num_twse_cpn, 
-                self.expo_three_dog_twse_cpn, self.expo_three_dog_twse_cpn/self.num_twse_cpn) )
+            logger.info('TWSE 指數_四腳朝天型股票家數: {} %:{:.3f}; TWSE 指數_三人成虎型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_four_dog_twse_cpn, self.expo_four_dog_twse_cpn/self.num_twse_cpn, 
+                    self.expo_three_dog_twse_cpn, self.expo_three_dog_twse_cpn/self.num_twse_cpn) )
         
-        logger.info('TWSE 指數_二竪作惡型股票家數: {} %:{:.3f}; TWSE 指數_一敗塗地型股票家數: {} %:{:.3f}'.format(\
-                self.expo_two_star_twse_cpn, self.expo_two_star_twse_cpn/self.num_twse_cpn, 
-                self.expo_one_star_twse_cpn, self.expo_one_star_twse_cpn/self.num_twse_cpn) )
+            logger.info('TWSE 指數_二竪作惡型股票家數: {} %:{:.3f}; TWSE 指數_一敗塗地型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_two_star_twse_cpn, self.expo_two_star_twse_cpn/self.num_twse_cpn, 
+                    self.expo_one_star_twse_cpn, self.expo_one_star_twse_cpn/self.num_twse_cpn) )
         
-        path_fname = pathlib.Path(dirnamelog)/(json_data["start_end_date"][-1]+'_TWS_MA.txt')
-        list_cnt = [self.num_twse_cpn,
-                    self.four_star_twse_cpn, self.three_star_twse_cpn, self.two_star_twse_cpn, self.one_star_twse_cpn, 
-                    self.expo_four_star_twse_cpn, self.expo_three_star_twse_cpn, self.expo_two_star_twse_cpn, self.expo_one_star_twse_cpn,
-                    
-                    self.four_dog_twse_cpn, self.three_dog_twse_cpn, self.two_dog_twse_cpn, self.one_dog_twse_cpn,
-                    self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn
-                    ]
+            path_fname = pathlib.Path(dirnamelog)/(enddate+'_TWS_MA.txt')
+            list_cnt = [self.num_twse_cpn,
+                        self.four_star_twse_cpn, self.three_star_twse_cpn, self.two_star_twse_cpn, self.one_star_twse_cpn, 
+                        self.expo_four_star_twse_cpn, self.expo_three_star_twse_cpn, self.expo_two_star_twse_cpn, self.expo_one_star_twse_cpn,
+
+                        self.four_dog_twse_cpn, self.three_dog_twse_cpn, self.two_dog_twse_cpn, self.one_dog_twse_cpn,
+                        self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn
+                        ]
         
-        lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
+            lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
         
-        path_fname = pathlib.Path(dirnamelog)/(json_data["start_end_date"][-1]+'_ML_TWS_MA.txt')
-        lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
-        
+            path_fname = pathlib.Path(dirnamelog)/(enddate+'_ML_TWS_MA.txt')
+            lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
+
+            logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
+                        format(self.num_twse_cpn,                    
+                                self.four_star_twse_cpn, self.three_star_twse_cpn, self.three_star_twse_cpn, self.one_star_twse_cpn,\
+                                self.expo_four_star_twse_cpn, self.expo_three_star_twse_cpn, self.expo_two_star_twse_cpn, self.expo_one_star_twse_cpn,\
+                                self.four_dog_twse_cpn, self.three_dog_twse_cpn, self.two_dog_twse_cpn, self.one_dog_twse_cpn,\
+                                self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn)) 
+            
     def calculate_TPEX_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_twse_tpex_ticker(self.list_path_pickle_ticker[1])
-    
-        self.store_TWSE_TPEX_MAs_status()    
-        self.check_TWSE_TPEX_MAs_status()
+
+        for idx, list_start_end_date in enumerate(self.json_data["start_end_date"]):
+            startdate = date_changer_twse(list_start_end_date[0])
+            enddate = date_changer_twse(list_start_end_date[-1])
+            
+            logger.info(f'start_date: {startdate}; end_date: {enddate}') 
+            
+            self.num_tpex_cpn = 0
+            self.four_star_tpex_cpn = 0; self.three_star_tpex_cpn = 0; 
+            self.two_star_tpex_cpn = 0;  self.one_star_tpex_cpn = 0; 
+            
+            self.expo_four_star_tpex_cpn = 0; self.expo_three_star_tpex_cpn = 0; 
+            self.expo_two_star_tpex_cpn = 0; self.expo_one_star_tpex_cpn = 0; 
+            
+            self.four_dog_tpex_cpn = 0; self.three_dog_tpex_cpn = 0;   
+            self.two_dog_tpex_cpn = 0; self.one_dog_tpex_cpn = 0      
+            
+            self.expo_four_dog_tpex_cpn = 0; self.expo_three_dog_tpex_cpn = 0;  
+            self.expo_two_dog_tpex_cpn = 0; self.expo_one_dog_tpex_cpn = 0; 
+                         
+            self.store_TWSE_TPEX_MAs_status(start_date=startdate, end_date=enddate)    
+            self.check_TWSE_TPEX_MAs_status()
         
-        logger.info(f'TPEX 股票家數: {self.num_tpex_cpn}' )    
-        logger.info('TPEX 四海遊龍型股票家數: {} %:{:.3f}; TPEX 三陽開泰型股票家數: {} %:{:.3f}'.format(\
-                self.four_star_tpex_cpn, self.four_star_tpex_cpn/self.num_tpex_cpn, 
-                self.three_star_tpex_cpn, self.three_star_tpex_cpn/self.num_tpex_cpn) )
+            logger.info(f'TPEX 股票家數: {self.num_tpex_cpn}' )    
+            logger.info('TPEX 四海遊龍型股票家數: {} %:{:.3f}; TPEX 三陽開泰型股票家數: {} %:{:.3f}'.format(\
+                    self.four_star_tpex_cpn, self.four_star_tpex_cpn/self.num_tpex_cpn, 
+                    self.three_star_tpex_cpn, self.three_star_tpex_cpn/self.num_tpex_cpn) )
         
-        logger.info('TPEX 雙囍臨門型股票家數: {} %:{:.3f}; TPEX 一星報喜型股票家數: {} %:{:.3f}'.format(\
-                self.two_star_tpex_cpn, self.two_star_tpex_cpn/self.num_tpex_cpn, 
-                self.one_star_tpex_cpn, self.one_star_tpex_cpn/self.num_tpex_cpn) )
+            logger.info('TPEX 雙囍臨門型股票家數: {} %:{:.3f}; TPEX 一星報喜型股票家數: {} %:{:.3f}'.format(\
+                    self.two_star_tpex_cpn, self.two_star_tpex_cpn/self.num_tpex_cpn, 
+                    self.one_star_tpex_cpn, self.one_star_tpex_cpn/self.num_tpex_cpn) )
         
-        logger.info('TPEX 指數_四海遊龍型股票家數: {} %:{:.3f}; TPEX 指數_三陽開泰型股票家數: {} %:{:.3f}'.format(\
-                self.expo_four_star_tpex_cpn, self.expo_four_star_tpex_cpn/self.num_tpex_cpn, 
-                self.expo_three_star_tpex_cpn, self.expo_three_star_tpex_cpn/self.num_tpex_cpn) )
+            logger.info('TPEX 指數_四海遊龍型股票家數: {} %:{:.3f}; TPEX 指數_三陽開泰型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_four_star_tpex_cpn, self.expo_four_star_tpex_cpn/self.num_tpex_cpn, 
+                    self.expo_three_star_tpex_cpn, self.expo_three_star_tpex_cpn/self.num_tpex_cpn) )
         
-        logger.info('TPEX 指數_雙囍臨門型股票家數: {} %:{:.3f}; TPEX 指數_一星型股票家數: {} %:{:.3f}'.format(\
-                self.expo_two_star_tpex_cpn, self.expo_two_star_tpex_cpn/self.num_tpex_cpn, 
-                self.expo_one_star_tpex_cpn, self.expo_one_star_tpex_cpn/self.num_tpex_cpn) )
+            logger.info('TPEX 指數_雙囍臨門型股票家數: {} %:{:.3f}; TPEX 指數_一星型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_two_star_tpex_cpn, self.expo_two_star_tpex_cpn/self.num_tpex_cpn, 
+                    self.expo_one_star_tpex_cpn, self.expo_one_star_tpex_cpn/self.num_tpex_cpn) )
         
-        logger.info('TPEX 四腳朝天型股票家數: {} %:{:.3f}; TPEX 三笑杯型股票家數: {} %:{:.3f}'.format(\
-                self.four_dog_tpex_cpn, self.four_dog_tpex_cpn/self.num_tpex_cpn, 
-                self.three_dog_tpex_cpn, self.three_dog_tpex_cpn/self.num_tpex_cpn) ) 
+            logger.info('TPEX 四腳朝天型股票家數: {} %:{:.3f}; TPEX 三笑杯型股票家數: {} %:{:.3f}'.format(\
+                    self.four_dog_tpex_cpn, self.four_dog_tpex_cpn/self.num_tpex_cpn, 
+                    self.three_dog_tpex_cpn, self.three_dog_tpex_cpn/self.num_tpex_cpn) ) 
         
-        logger.info('TPEX 二竪作惡型股票家數: {} %:{:.3f}; TPEX 一敗塗地型股票家數: {} %:{:.3f}'.format(\
-                self.two_dog_tpex_cpn, self.one_dog_tpex_cpn/self.num_tpex_cpn, 
-                self.two_dog_tpex_cpn, self.one_dog_tpex_cpn/self.num_tpex_cpn) )
+            logger.info('TPEX 二竪作惡型股票家數: {} %:{:.3f}; TPEX 一敗塗地型股票家數: {} %:{:.3f}'.format(\
+                    self.two_dog_tpex_cpn, self.one_dog_tpex_cpn/self.num_tpex_cpn, 
+                    self.two_dog_tpex_cpn, self.one_dog_tpex_cpn/self.num_tpex_cpn) )
         
-        logger.info('TPEX 指數_四腳朝天型股票家數: {} %:{:.3f}; TPEX 指數_三人成虎型股票家數: {} %:{:.3f}'.format(\
-                self.expo_four_dog_tpex_cpn, self.expo_four_dog_tpex_cpn/self.num_tpex_cpn, 
-                self.expo_three_dog_tpex_cpn, self.expo_three_dog_tpex_cpn/self.num_tpex_cpn) )
+            logger.info('TPEX 指數_四腳朝天型股票家數: {} %:{:.3f}; TPEX 指數_三人成虎型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_four_dog_tpex_cpn, self.expo_four_dog_tpex_cpn/self.num_tpex_cpn, 
+                    self.expo_three_dog_tpex_cpn, self.expo_three_dog_tpex_cpn/self.num_tpex_cpn) )
         
-        logger.info('TPEX 指數_二竪作惡型股票家數: {} %:{:.3f}; TPEX 指數_一敗塗地型股票家數: {} %:{:.3f}'.format(\
-                self.expo_two_dog_tpex_cpn, self.expo_two_dog_tpex_cpn/self.num_tpex_cpn, 
-                self.expo_one_dog_tpex_cpn, self.expo_one_dog_tpex_cpn/self.num_tpex_cpn) )
+            logger.info('TPEX 指數_二竪作惡型股票家數: {} %:{:.3f}; TPEX 指數_一敗塗地型股票家數: {} %:{:.3f}'.format(\
+                    self.expo_two_dog_tpex_cpn, self.expo_two_dog_tpex_cpn/self.num_tpex_cpn, 
+                    self.expo_one_dog_tpex_cpn, self.expo_one_dog_tpex_cpn/self.num_tpex_cpn) )
         
-        path_fname = pathlib.Path(dirnamelog)/(json_data["start_end_date"][-1]+'_OTC_MA.txt')
-        list_cnt = [self.num_tpex_cpn,
-                    self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn, 
-                    self.expo_four_star_tpex_cpn, self.expo_three_star_tpex_cpn, self.expo_two_star_tpex_cpn, self.expo_one_star_tpex_cpn, 
+            path_fname = pathlib.Path(dirnamelog)/(enddate+'_OTC_MA.txt')
+            list_cnt = [self.num_tpex_cpn,
+                        self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn, 
+                        self.expo_four_star_tpex_cpn, self.expo_three_star_tpex_cpn, self.expo_two_star_tpex_cpn, self.expo_one_star_tpex_cpn, 
                     
-                    self.four_dog_tpex_cpn, self.three_dog_tpex_cpn, self.two_dog_tpex_cpn, self.one_dog_tpex_cpn, 
-                    self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn
-                    ]
+                        self.four_dog_tpex_cpn, self.three_dog_tpex_cpn, self.two_dog_tpex_cpn, self.one_dog_tpex_cpn, 
+                        self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn
+                        ]
         
-        lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
+            lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
         
-        path_fname = pathlib.Path(dirnamelog)/(json_data["start_end_date"][-1]+'_ML_OTC_MA.txt')
-        lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
+            path_fname = pathlib.Path(dirnamelog)/(enddate+'_ML_OTC_MA.txt')
+            lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
         
-        logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
-                    format(self.num_twse_cpn,                    
-                            self.four_star_twse_cpn, self.three_star_twse_cpn, self.three_star_twse_cpn, self.one_star_twse_cpn,\
-                            self.expo_four_star_twse_cpn, self.expo_three_star_twse_cpn, self.expo_two_star_twse_cpn, self.expo_one_star_twse_cpn,\
-                            self.four_dog_twse_cpn, self.three_dog_twse_cpn, self.two_dog_twse_cpn, self.one_dog_twse_cpn,\
-                            self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn)) 
-        
-        logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
-                    format(self.num_tpex_cpn,                    
-                            self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn,\
-                            self.expo_four_star_tpex_cpn, self.expo_three_star_tpex_cpn, self.expo_two_star_tpex_cpn, self.expo_one_star_tpex_cpn,\
-                            self.four_dog_tpex_cpn, self.three_dog_tpex_cpn, self.two_dog_tpex_cpn, self.one_dog_tpex_cpn,\
-                            self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn)) 
+            logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
+                        format(self.num_tpex_cpn,                    
+                                self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn,\
+                                self.expo_four_star_tpex_cpn, self.expo_three_star_tpex_cpn, self.expo_two_star_tpex_cpn, self.expo_one_star_tpex_cpn,\
+                                self.four_dog_tpex_cpn, self.three_dog_tpex_cpn, self.two_dog_tpex_cpn, self.one_dog_tpex_cpn,\
+                                self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn)) 
             
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='plot stock chart trend')
@@ -978,10 +1014,7 @@ if __name__ == '__main__':
     if json_data["lastest_datastr_twse_tpex"][0].lower() == "request":
         store_twse_tpex_ticker(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
     
-    else:
-        start_date = date_changer_twse(json_data["start_end_date"][0])
-        end_date = date_changer_twse(json_data["start_end_date"][1])
-        logger.info(f'start_date: {start_date}; end_date: {end_date}') 
+    else:        
         local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, list_path_pickle_ticker, opt_verbose)
         local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
         local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
