@@ -568,8 +568,14 @@ class TWSE_TPEX_MAs_status():
                 '''
                 ERROR: ['1457.TW']: Exception('%ticker%: No price data found, symbol may be delisted (1d 2024-01-01 -> 2024-07-26)')
                 ERROR: ['2442.TW']: Exception('%ticker%: No price data found, symbol may be delisted (1d 2024-01-01 -> 2024-07-26)')
+                ERROR: ['5383.TWO']: Exception('%ticker%: No timezone found, symbol may be delisted')
+                ERROR: ['00940.TW']: Exception("%ticker%: Data doesn't exist for startDate = 1701360000, endDate = 1711900800")       
+                ERROR: ['3536.TW']: Exception('%ticker%: No timezone found, symbol may be delisted')    
+                ERROR: ['3682.TW']: Exception('%ticker%: No timezone found, symbol may be delisted')    
+                ERROR: ['8480.TW']: Exception('%ticker%: No timezone found, symbol may be delisted') 
                 '''
-                if bool(re.match('^00951.TW$', ticker) ):
+                if bool(re.match('^5383.TWO$', ticker) or re.match('^00940.TW$', ticker) or re.match('^3536.TW$', ticker) or \
+                        re.match('^3682.TW$', ticker) or re.match('^8480.TW$', ticker)):
                     continue 
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
@@ -1016,8 +1022,13 @@ if __name__ == '__main__':
     
     else:        
         local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, list_path_pickle_ticker, opt_verbose)
-        local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
-        local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
+        if json_data["lastest_datastr_twse_tpex"][1].lower() == "all":
+            local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
+            local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
+        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse":
+            local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
+        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "tpex":
+            local_twse_tpex_ma_status.calculate_TPEX_MAs_status()        
     
     '''    
     stock_price_graph(tickers=tickers_TW, start_date="2023-10-01", end_date="2024-08-25")
