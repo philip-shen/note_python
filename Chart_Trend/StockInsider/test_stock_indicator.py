@@ -29,6 +29,9 @@ import requests
 from requests.exceptions import Timeout
 from io import StringIO
 import json, re, pickle
+#from datetime import datetime, date, timedelta
+
+from insider import StockInsider
 
 import twseotc_stocks.lib_misc as lib_misc
 from insider.logger_setup import *
@@ -388,7 +391,7 @@ def stock_price_graph(tickers: list, start_date: str, end_date: str):
         stand_Up_On_fall_Down_MAs(data)
         
     plt.show()
-
+'''
 def date_changer_twse( date):
     
     year = date[:4]
@@ -397,7 +400,40 @@ def date_changer_twse( date):
     day = date[6:]
         
     return year+"-"+month+"-"+day
+'''    
+'''
+http://yhhuang1966.blogspot.com/2022/09/python-yfinance.html
 
+download() 參數	 說明
+ symbol	 股票代號 (字串), 美股例如  'AMD' (超微), 台股後面要加 '.tw', 例如 '0050.tw'
+ start	 起始日期 YYYY-MM-DD (字串), 例如 '2022-08-22'
+ end	 結束日期 YYYY-MM-DD (字串), 例如 '2022-09-06', 注意, 不包含此日資料
+ period	 期間, 可用 d (日), mo(月), y(年), ytd, max(全部), 例如 5d (5 天), 3mo(三個月) 
+ interval	 頻率, 可用 m(分), h(小時), d(日), wk(周), mo(月), 例如 1m(一分線)
+'''
+'''
+def date_changer_twse_yfinance_end_date( date):
+    
+    curr_date_temp = datetime.strptime(date, '%Y%m%d')
+    next_date = curr_date_temp + timedelta(days=1)
+    next_date = str(next_date)
+    
+    #20240909, 
+    #2024-09-10 00:00:00
+    
+    #logger.info(f'{date}, {next_date}')
+    
+    year = next_date[:4]
+    #year = str(int(year))
+    month = next_date[5:7]
+    next_day = next_date[8:10]
+    
+    #2024-09-10 00:00:00, 2024, 09, 10
+    
+    #logger.info(f'{next_date}, {year}, {month}, {next_day}')
+    
+    return year+"-"+month+"-"+next_day
+'''
 def check_MAs_status(data, opt_verbose='OFF'):
     # 必要な列を抽出
     data = data[['Close', 'Volume', 'High', 'Low']].copy()
@@ -428,7 +464,7 @@ def check_MAs_status(data, opt_verbose='OFF'):
 def store_TWSE_MAs_status(json_data: dict, twse_ticker: pd, twse_stock_data: pd, opt_verbose='OFF'):
     list_twse_MAs_status = []
     start_date = date_changer_twse(json_data["start_end_date"][0])
-    end_date = date_changer_twse(json_data["start_end_date"][1])
+    end_date = date_changer_twse_yfinance_end_date(json_data["start_end_date"][1])
 
     for i, ticker in enumerate(twse_ticker.to_list()):
         
@@ -474,7 +510,7 @@ def store_TWSE_MAs_status(json_data: dict, twse_ticker: pd, twse_stock_data: pd,
 def store_TPEX_MAs_status(json_data: dict, tpex_ticker: pd, tpex_stock_data: pd, opt_verbose='OFF'):
     list_tpex_MAs_status = []
     start_date = date_changer_twse(json_data["start_end_date"][0])
-    end_date = date_changer_twse(json_data["start_end_date"][1])
+    end_date = date_changer_twse_yfinance_end_date(json_data["start_end_date"][1])
 
     for i, ticker in enumerate(tpex_ticker.to_list()):
         
@@ -584,6 +620,10 @@ class TWSE_TPEX_MAs_status():
                 #four_flag, three_flag, four_MAs, three_MAs, close, four_dog, three_dog = check_MAs_status(yf_data, opt_verbose='OFF')            
             
                 local_stock_indicator = stock_indicator(ticker=target_ticker, startdate= start_date, enddate= end_date)
+                
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
+                
                 local_stock_indicator.check_MAs_status()            
                 local_stock_indicator.filter_MAs_status()
             
@@ -826,14 +866,52 @@ class TWSE_TPEX_MAs_status():
         #logger.info(f'\n{self.expo_four_star_tpex_cpn}\n{self.expo_three_star_tpex_cpn}\n{self.expo_two_star_tpex_cpn}\n{self.expo_one_star_tpex_cpn}') 
         #logger.info(f'\n{self.four_dog_tpex_cpn}\n{self.three_dog_tpex_cpn}')
     
+    def yfinance_StockInsider(self, stock_idx):
+        si = StockInsider( code= None, stock_idx= stock_idx, \
+                            list_df_twse_tpex_stock_info= requests_twse_tpex_stock_idx(self.json_data), 
+                            json_data = self.json_data)
+        df_stockdata= si.show_data()
+        df_stockdata.reset_index(inplace=True)
+        
+        return  df_stockdata
+    
+    def calculate_TWSE_index_info(self, start_date, end_date):
+        str_TWSE_ticker = '^TWII'
+        
+        twse_stock_indicator = stock_indicator(ticker=str_TWSE_ticker, startdate= start_date, enddate= end_date)
+        
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'twse_stock_indicator.stock_data: \n{twse_stock_indicator.stock_data}')
+        
+        #df_stock_data = self.yfinance_StockInsider(str_TWSE_ticker)
+        self.twse_close = twse_stock_indicator.stock_data['Close'].astype(float).iloc[-1]
+        self.twse_open = twse_stock_indicator.stock_data['Open'].astype(float).iloc[-1]
+        self.twse_high = twse_stock_indicator.stock_data['High'].astype(float).iloc[-1]
+        self.twse_low = twse_stock_indicator.stock_data['Low'].astype(float).iloc[-1]
+        self.twse_volume = twse_stock_indicator.stock_data['Volume'].astype(float).iloc[-1]
+    
+    def calculate_TPEX_index_info(self, start_date, end_date):
+        str_TPEX_ticker = '^TWOII'
+        tpex_stock_indicator = stock_indicator(ticker=str_TPEX_ticker, startdate= start_date, enddate= end_date)
+        
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'tpex_stock_indicator.stock_data: \n{tpex_stock_indicator.stock_data}')
+            
+        self.tpex_close = tpex_stock_indicator.stock_data['Close'].astype(float).iloc[-1]
+        self.tpex_open = tpex_stock_indicator.stock_data['Open'].astype(float).iloc[-1]
+        self.tpex_high = tpex_stock_indicator.stock_data['High'].astype(float).iloc[-1]
+        self.tpex_low = tpex_stock_indicator.stock_data['Low'].astype(float).iloc[-1]
+        self.tpex_volume = tpex_stock_indicator.stock_data['Volume'].astype(float).iloc[-1]
+        
     def calculate_TWSE_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_twse_tpex_ticker(self.list_path_pickle_ticker[0])
         
         for idx, list_start_end_date in enumerate(self.json_data["start_end_date"]):
             startdate = date_changer_twse(list_start_end_date[0])
-            enddate = date_changer_twse(list_start_end_date[-1])
+            #for yfinance purpose
+            enddate = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
 
-            logger.info(f'start_date: {startdate}; end_date: {enddate}') 
+            logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}') 
 
             self.num_twse_cpn = 0        
             self.four_star_twse_cpn = 0; self.three_star_twse_cpn = 0; 
@@ -847,7 +925,7 @@ class TWSE_TPEX_MAs_status():
         
             self.expo_four_dog_twse_cpn = 0; self.expo_three_dog_twse_cpn = 0; 
             self.expo_two_dog_twse_cpn = 0; self.expo_one_dog_twse_cpn = 0; 
-        
+
             self.store_TWSE_TPEX_MAs_status(start_date=startdate, end_date=enddate)    
             self.check_TWSE_TPEX_MAs_status()
                                 
@@ -882,21 +960,23 @@ class TWSE_TPEX_MAs_status():
             logger.info('TWSE 指數_二竪作惡型股票家數: {} %:{:.3f}; TWSE 指數_一敗塗地型股票家數: {} %:{:.3f}'.format(\
                     self.expo_two_star_twse_cpn, self.expo_two_star_twse_cpn/self.num_twse_cpn, 
                     self.expo_one_star_twse_cpn, self.expo_one_star_twse_cpn/self.num_twse_cpn) )
-        
-            path_fname = pathlib.Path(dirnamelog)/(enddate+'_TWS_MA.txt')
-            list_cnt = [self.num_twse_cpn,
+
+            self.calculate_TWSE_index_info(start_date=startdate, end_date=enddate)    
+
+            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_TWS_MA.txt')
+            list_cnt = [date_changer_twse(list_start_end_date[-1]), self.num_twse_cpn,
                         self.four_star_twse_cpn, self.three_star_twse_cpn, self.two_star_twse_cpn, self.one_star_twse_cpn, 
                         self.expo_four_star_twse_cpn, self.expo_three_star_twse_cpn, self.expo_two_star_twse_cpn, self.expo_one_star_twse_cpn,
-
                         self.four_dog_twse_cpn, self.three_dog_twse_cpn, self.two_dog_twse_cpn, self.one_dog_twse_cpn,
-                        self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn
-                        ]
+                        self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn,\
+                        self.twse_open, self.twse_high, self.twse_low, self.twse_close, self.twse_volume]
         
             lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
         
-            path_fname = pathlib.Path(dirnamelog)/(enddate+'_ML_TWS_MA.txt')
+            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_ML_TWS_MA.txt')
             lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
-
+            
+            
             logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
                         format(self.num_twse_cpn,                    
                                 self.four_star_twse_cpn, self.three_star_twse_cpn, self.three_star_twse_cpn, self.one_star_twse_cpn,\
@@ -909,9 +989,10 @@ class TWSE_TPEX_MAs_status():
 
         for idx, list_start_end_date in enumerate(self.json_data["start_end_date"]):
             startdate = date_changer_twse(list_start_end_date[0])
-            enddate = date_changer_twse(list_start_end_date[-1])
+            #for yfinance purpose
+            enddate = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
             
-            logger.info(f'start_date: {startdate}; end_date: {enddate}') 
+            logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}') 
             
             self.num_tpex_cpn = 0
             self.four_star_tpex_cpn = 0; self.three_star_tpex_cpn = 0; 
@@ -925,7 +1006,9 @@ class TWSE_TPEX_MAs_status():
             
             self.expo_four_dog_tpex_cpn = 0; self.expo_three_dog_tpex_cpn = 0;  
             self.expo_two_dog_tpex_cpn = 0; self.expo_one_dog_tpex_cpn = 0; 
-                         
+            
+            self.calculate_TPEX_index_info(start_date=startdate, end_date=enddate)    
+            
             self.store_TWSE_TPEX_MAs_status(start_date=startdate, end_date=enddate)    
             self.check_TWSE_TPEX_MAs_status()
         
@@ -961,21 +1044,23 @@ class TWSE_TPEX_MAs_status():
             logger.info('TPEX 指數_二竪作惡型股票家數: {} %:{:.3f}; TPEX 指數_一敗塗地型股票家數: {} %:{:.3f}'.format(\
                     self.expo_two_dog_tpex_cpn, self.expo_two_dog_tpex_cpn/self.num_tpex_cpn, 
                     self.expo_one_dog_tpex_cpn, self.expo_one_dog_tpex_cpn/self.num_tpex_cpn) )
-        
-            path_fname = pathlib.Path(dirnamelog)/(enddate+'_OTC_MA.txt')
-            list_cnt = [self.num_tpex_cpn,
+
+            #self.calculate_TPEX_index_info(start_date=startdate, end_date=enddate)    
+                
+            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_OTC_MA.txt')
+            list_cnt = [date_changer_twse(list_start_end_date[-1]), self.num_tpex_cpn,
                         self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn, 
                         self.expo_four_star_tpex_cpn, self.expo_three_star_tpex_cpn, self.expo_two_star_tpex_cpn, self.expo_one_star_tpex_cpn, 
                     
                         self.four_dog_tpex_cpn, self.three_dog_tpex_cpn, self.two_dog_tpex_cpn, self.one_dog_tpex_cpn, 
-                        self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn
-                        ]
+                        self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn,
+                        self.tpex_open, self.tpex_high, self.tpex_low, self.tpex_close, self.tpex_volume]
         
             lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
         
-            path_fname = pathlib.Path(dirnamelog)/(enddate+'_ML_OTC_MA.txt')
+            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_ML_OTC_MA.txt')
             lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
-        
+                        
             logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
                         format(self.num_tpex_cpn,                    
                                 self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn,\

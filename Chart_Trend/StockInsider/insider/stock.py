@@ -1,6 +1,7 @@
 from typing import Optional
 import re
 import pickle
+from datetime import datetime, date, timedelta
 
 import requests
 from requests.exceptions import Timeout
@@ -702,3 +703,45 @@ class stock_indicator:
             return
         else:
             self.stock_MA_status = 'NA'
+
+
+def date_changer_twse( date):
+    
+    year = date[:4]
+    year = str(int(year))
+    month = date[4:6]
+    day = date[6:]
+        
+    return year+"-"+month+"-"+day
+'''
+http://yhhuang1966.blogspot.com/2022/09/python-yfinance.html
+
+download() 參數	 說明
+ symbol	 股票代號 (字串), 美股例如  'AMD' (超微), 台股後面要加 '.tw', 例如 '0050.tw'
+ start	 起始日期 YYYY-MM-DD (字串), 例如 '2022-08-22'
+ end	 結束日期 YYYY-MM-DD (字串), 例如 '2022-09-06', 注意, 不包含此日資料
+ period	 期間, 可用 d (日), mo(月), y(年), ytd, max(全部), 例如 5d (5 天), 3mo(三個月) 
+ interval	 頻率, 可用 m(分), h(小時), d(日), wk(周), mo(月), 例如 1m(一分線)
+'''
+def date_changer_twse_yfinance_end_date( date):
+    
+    curr_date_temp = datetime.strptime(date, '%Y%m%d')
+    next_date = curr_date_temp + timedelta(days=1)
+    next_date = str(next_date)
+    '''
+    20240909, 
+    2024-09-10 00:00:00
+    '''    
+    #logger.info(f'{date}, {next_date}')
+    
+    year = next_date[:4]
+    #year = str(int(year))
+    month = next_date[5:7]
+    next_day = next_date[8:10]
+    '''
+    2024-09-10 00:00:00, 2024, 09, 10
+    '''
+    #logger.info(f'{next_date}, {year}, {month}, {next_day}')
+    
+    return year+"-"+month+"-"+next_day
+            
