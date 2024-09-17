@@ -309,8 +309,22 @@ RQAlpha 从数据获取、算法交易、回测引擎，实盘模拟，实盘交
 [如何使用Python產生技術指標？TA-Lib簡易教學 2022年10月30日](https://havocfuture.tw/blog/python-indicators-talib)  
 [Python 交易回測工具 Backtesting.py 簡易教學 2023年2月25日](https://havocfuture.tw/blog/python-backtesting-py)  
 [0050-k20-backtesting-py.ipynb](https://colab.research.google.com/drive/13lan-S9uWLrmCU47iwX_j_4uskp2PbSi?usp=sharing)  
+
 [用AI預測股價？實測 Facebook Prophet 預言家 2022年9月4日](https://havocfuture.tw/blog/ai-fb-prophet)  
 [如何破解網站驗證碼，實測證交所買賣日報表 2022年1月11日](https://havocfuture.tw/blog/captcha-bsr#%E5%AF%A6%E6%B8%AC%E8%A8%98%E9%8C%84)  
+[股票市場多少是合理的投資報酬率？實測美股大盤28年 2021年11月9日](https://havocfuture.tw/blog/reasonable-stock-return-spy)  
+[高股息ETF是好的投資標的嗎？完整回測高股息ETF 0056 過去16年歷史股價報酬表現 2024年4月26日](https://havocfuture.tw/blog/backtesting-0056)    
+```
+結論
+    回測十六年績效，採用股息全部再投入，不計算稅金和交易手續費，0056 的年報酬率(CAGR)為 6.37%，對比同時間的 0050 為 8.07%，兩者是有差距的
+    這一、兩年 0056 的績效明顯比 0050 好，這個報酬率是例外，請不要當成常態來看待
+    不同高股息 ETF 的報酬率有一定差異，想要投資還是需要去比較一下持股的成份
+```
+
+[louisnw01 / lightweight-charts-python](https://github.com/louisnw01/lightweight-charts-python?tab=readme-ov-file)  
+
+[ファイナンス分野でInfluxDB+Grafanaを使う（株価をローソク足表示） 2022-08-27](https://qiita.com/ixtlan001/items/268dfab0d1ee21887602)   
+<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2781605%2F6b4e35e6-6da5-0b1d-22b0-cd2b5c12b22a.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=13b6e612a7f3aab1659d2488a48331c0" width="900" height="500">  
 
 
 # Reference

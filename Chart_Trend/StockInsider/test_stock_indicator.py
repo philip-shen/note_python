@@ -391,49 +391,7 @@ def stock_price_graph(tickers: list, start_date: str, end_date: str):
         stand_Up_On_fall_Down_MAs(data)
         
     plt.show()
-'''
-def date_changer_twse( date):
-    
-    year = date[:4]
-    year = str(int(year))
-    month = date[4:6]
-    day = date[6:]
-        
-    return year+"-"+month+"-"+day
-'''    
-'''
-http://yhhuang1966.blogspot.com/2022/09/python-yfinance.html
 
-download() 參數	 說明
- symbol	 股票代號 (字串), 美股例如  'AMD' (超微), 台股後面要加 '.tw', 例如 '0050.tw'
- start	 起始日期 YYYY-MM-DD (字串), 例如 '2022-08-22'
- end	 結束日期 YYYY-MM-DD (字串), 例如 '2022-09-06', 注意, 不包含此日資料
- period	 期間, 可用 d (日), mo(月), y(年), ytd, max(全部), 例如 5d (5 天), 3mo(三個月) 
- interval	 頻率, 可用 m(分), h(小時), d(日), wk(周), mo(月), 例如 1m(一分線)
-'''
-'''
-def date_changer_twse_yfinance_end_date( date):
-    
-    curr_date_temp = datetime.strptime(date, '%Y%m%d')
-    next_date = curr_date_temp + timedelta(days=1)
-    next_date = str(next_date)
-    
-    #20240909, 
-    #2024-09-10 00:00:00
-    
-    #logger.info(f'{date}, {next_date}')
-    
-    year = next_date[:4]
-    #year = str(int(year))
-    month = next_date[5:7]
-    next_day = next_date[8:10]
-    
-    #2024-09-10 00:00:00, 2024, 09, 10
-    
-    #logger.info(f'{next_date}, {year}, {month}, {next_day}')
-    
-    return year+"-"+month+"-"+next_day
-'''
 def check_MAs_status(data, opt_verbose='OFF'):
     # 必要な列を抽出
     data = data[['Close', 'Volume', 'High', 'Low']].copy()
@@ -610,8 +568,17 @@ class TWSE_TPEX_MAs_status():
                 ERROR: ['3682.TW']: Exception('%ticker%: No timezone found, symbol may be delisted')    
                 ERROR: ['8480.TW']: Exception('%ticker%: No timezone found, symbol may be delisted') 
                 '''
-                if bool(re.match('^5383.TWO$', ticker) or re.match('^00940.TW$', ticker) or re.match('^3536.TW$', ticker) or \
-                        re.match('^3682.TW$', ticker) or re.match('^8480.TW$', ticker)):
+                if bool(re.match('^3682.TW$', ticker) or re.match('^5383.TWO$', ticker) or re.match('^00940.TW$', ticker) or \
+                        re.match('^00934.TW$', ticker) or re.match('^00935.TW$', ticker) or re.match('^8480.TW$', ticker) or \
+                        re.match('^3536.TW$', ticker) or re.match('^3383.TW$', ticker) or re.match('^6251.TW$', ticker) or \
+                        re.match('^6289.TW$', ticker) or re.match('^1507.TW$', ticker) or re.match('^2841.TW$', ticker) or \
+                        re.match('^2936.TW$', ticker) or re.match('^4141.TW$', ticker)  or re.match('^8427.TW$', ticker) or \
+                        re.match('^9188.TW$', ticker) or re.match('^1724.TW$', ticker) or re.match('^2456.TW$', ticker) or \
+                        re.match('^2823.TW$', ticker) or re.match('^6172.TW$', ticker) or re.match('^1592.TW$', ticker) or \
+                        re.match('^4725.TW$', ticker) or re.match('^5264.TW$', ticker) or re.match('^00766L.TW$', ticker) or \
+                        re.match('^2448.TW$', ticker) or re.match('^3698.TW$', ticker) or re.match('^4144.TW$', ticker) or \
+                        re.match('^5305.TW$', ticker) or re.match('^6131.TW$', ticker) or re.match('^8497.TW$', ticker) or \
+                        re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  ):
                     continue 
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
@@ -1069,7 +1036,7 @@ class TWSE_TPEX_MAs_status():
                                 self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn)) 
             
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='plot stock chart trend')
+    parser = argparse.ArgumentParser(description='stock indicator')
     parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
     parser.add_argument('--gspred_json', type=str, default='xxxx.json', help='Google Sheet Certi json')
     
