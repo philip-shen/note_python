@@ -73,13 +73,13 @@ INFO: df_tpex_stock_idx:
 ### waste 3~4 sec to request so move main routine
 def requests_twse_tpex_stock_idx(json_data):
     ##### 上市公司
-    datestr = json_data["lastest_datastr_twse_tpex"][-1]#'20240801'
+    datestr = json_data["lastest_datastr_twse_tpex"][2]#'20240801'
     r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
     # 整理資料，變成表格
     df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
         
     ##### 上櫃公司
-    datestr = date_changer(json_data["lastest_datastr_twse_tpex"][-1])#'113/08/01'
+    datestr = date_changer(json_data["lastest_datastr_twse_tpex"][2])#'113/08/01'
     r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
     # 整理資料，變成表格    
     df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
@@ -143,6 +143,44 @@ def store_twse_tpex_ticker(json_data, path_pickle_stock_id: list, path_csv_stock
     with open(path_pickle_stock_id[-1], 'wb') as file:
         pickle.dump(dict_data, file, protocol=pickle.HIGHEST_PROTOCOL)
     
+def store_twse_tpex_ticker_fromCSV(json_data, path_pickle_stock_id: list, path_csv_stock_id= '', opt_verbose= 'OFF'):
+    
+    df_twse_tpex_stock_idx = pd.read_csv(json_data["lastest_datastr_twse_tpex"][3], sep='\t', lineterminator='\r')
+    df_twse_stock_idx = pd; df_tpex_stock_idx = pd
+    #if opt_verbose.lower() == 'on':
+    #        logger.info(f'df_twse_tpex_stock_idx:\n {df_twse_tpex_stock_idx}' )    
+        
+    if bool(re.match('^twse', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        df_twse_stock_idx = df_twse_tpex_stock_idx
+            
+        df_twse_ticker = df_twse_stock_idx[['stk_idx', 'cpn_name' ]]
+        df_twse_ticker['ticker'] = df_twse_stock_idx['stk_idx'].astype(str).copy()+'.TW'
+        
+        if opt_verbose.lower() == 'on':
+            logger.info(f'df_twse_stock_idx:\n {df_twse_stock_idx}' )    
+        
+        dict_data= dict(zip(df_twse_ticker.ticker, df_twse_ticker.cpn_name))
+    
+        if opt_verbose.lower() == 'on':
+            for key, value in dict_data.items():
+                logger.info('\n key: {}; value: {}'.format(key, value) )
+    
+        # save dictionary to pickle file
+        with open(path_pickle_stock_id[0], 'wb') as file:
+            pickle.dump(dict_data, file, protocol=pickle.HIGHEST_PROTOCOL)
+        
+    elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        df_tpex_stock_idx = df_twse_tpex_stock_idx
+
+        df_tpex_ticker = df_tpex_stock_idx[['stk_idx', 'cpn_name' ]]
+        df_tpex_ticker['ticker'] = df_tpex_stock_idx['stk_idx'].astype(str).copy()+'.TWO'
+        
+        if opt_verbose.lower() == 'on':
+            logger.info(f'df_tpex_stock_idx:\n {df_tpex_stock_idx}' )
+            
+        dict_data= dict(zip(df_tpex_ticker.ticker, df_tpex_ticker.cpn_name))
+        with open(path_pickle_stock_id[1], 'wb') as file:
+            pickle.dump(dict_data, file, protocol=pickle.HIGHEST_PROTOCOL)
 
 def query_twse_tpex_ticker(path_pickle_stock_id, opt_verbose= 'OFF'):
     with open(path_pickle_stock_id, "rb") as f:
@@ -578,7 +616,8 @@ class TWSE_TPEX_MAs_status():
                         re.match('^4725.TW$', ticker) or re.match('^5264.TW$', ticker) or re.match('^00766L.TW$', ticker) or \
                         re.match('^2448.TW$', ticker) or re.match('^3698.TW$', ticker) or re.match('^4144.TW$', ticker) or \
                         re.match('^5305.TW$', ticker) or re.match('^6131.TW$', ticker) or re.match('^8497.TW$', ticker) or \
-                        re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  ):
+                        re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  or \
+                        re.match('^00658L.TW$', ticker)  ):
                     continue 
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
@@ -929,8 +968,10 @@ class TWSE_TPEX_MAs_status():
                     self.expo_one_star_twse_cpn, self.expo_one_star_twse_cpn/self.num_twse_cpn) )
 
             self.calculate_TWSE_index_info(start_date=startdate, end_date=enddate)    
-
-            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_TWS_MA.txt')
+            
+            path_ma_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_TWS_{self.num_twse_cpn}_MA.txt')
+            path_ml_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_ML_TWS_{self.num_twse_cpn}_MA.txt')    
+            
             list_cnt = [date_changer_twse(list_start_end_date[-1]), self.num_twse_cpn,
                         self.four_star_twse_cpn, self.three_star_twse_cpn, self.two_star_twse_cpn, self.one_star_twse_cpn, 
                         self.expo_four_star_twse_cpn, self.expo_three_star_twse_cpn, self.expo_two_star_twse_cpn, self.expo_one_star_twse_cpn,
@@ -938,10 +979,8 @@ class TWSE_TPEX_MAs_status():
                         self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn,\
                         self.twse_open, self.twse_high, self.twse_low, self.twse_close, self.twse_volume]
         
-            lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
-        
-            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_ML_TWS_MA.txt')
-            lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
+            lib_misc.list_out_file(path_ma_fname, list_cnt, opt_verbose='on')
+            lib_misc.list_out_ML_file(path_ml_fname, list_cnt, opt_verbose='on')
             
             
             logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
@@ -1013,8 +1052,10 @@ class TWSE_TPEX_MAs_status():
                     self.expo_one_dog_tpex_cpn, self.expo_one_dog_tpex_cpn/self.num_tpex_cpn) )
 
             #self.calculate_TPEX_index_info(start_date=startdate, end_date=enddate)    
-                
-            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_OTC_MA.txt')
+            
+            path_ma_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_OTC_{self.num_tpex_cpn}_MA.txt')
+            path_ml_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_ML_OTC_{self.num_tpex_cpn}_MA.txt')
+            
             list_cnt = [date_changer_twse(list_start_end_date[-1]), self.num_tpex_cpn,
                         self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn, 
                         self.expo_four_star_tpex_cpn, self.expo_three_star_tpex_cpn, self.expo_two_star_tpex_cpn, self.expo_one_star_tpex_cpn, 
@@ -1023,10 +1064,8 @@ class TWSE_TPEX_MAs_status():
                         self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn,
                         self.tpex_open, self.tpex_high, self.tpex_low, self.tpex_close, self.tpex_volume]
         
-            lib_misc.list_out_file(path_fname, list_cnt, opt_verbose='on')
-        
-            path_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+'_ML_OTC_MA.txt')
-            lib_misc.list_out_ML_file(path_fname, list_cnt, opt_verbose='on')
+            lib_misc.list_out_file(path_ma_fname, list_cnt, opt_verbose='on')        
+            lib_misc.list_out_ML_file(path_ml_fname, list_cnt, opt_verbose='on')
                         
             logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
                         format(self.num_tpex_cpn,                    
@@ -1071,6 +1110,8 @@ if __name__ == '__main__':
     
     if json_data["lastest_datastr_twse_tpex"][0].lower() == "request":
         store_twse_tpex_ticker(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
+    elif json_data["lastest_datastr_twse_tpex"][0].lower() == "csv":
+        store_twse_tpex_ticker_fromCSV(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
     
     else:        
         local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, list_path_pickle_ticker, opt_verbose)
