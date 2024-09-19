@@ -68,3 +68,9 @@ zope.event==5.0
 zope.interface==6.1
 gspread
 oauth2client
+aiohttp==3.9.5
+aiodns
+asyncer
+httpx
+pendulum
+pydantic==1.10.19

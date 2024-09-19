@@ -283,6 +283,21 @@ Install lxml[html_clean] or lxml_html_clean directly.
 
 
 ## Reference
+[obendidi/pstock](https://github.com/obendidi/pstock)   
+```
+Async yahoo-finance python api with pydantic models.
+```
+
+[ttamg/yahoo-finance-async](https://github.com/ttamg/yahoo-finance-async?tab=readme-ov-file)  
+```
+Python library that accesses the deprecated Yahoo Finance API for OHLC data using asyncio 
+```
+
+[pstocky/pstocky](https://github.com/pstocky/pstocky)
+```
+股票小数据
+```
+
 [ta-lib-python: Function API Examples](https://github.com/TA-Lib/ta-lib-python/blob/master/docs/func.md)  
 [tkfy920/PythonQuantitativeFinance](https://github.com/tkfy920/PythonQuantitativeFinance/tree/master)  
 ```

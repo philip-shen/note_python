@@ -605,7 +605,8 @@ class TWSE_TPEX_MAs_status():
                 #yf_data = yf.download(ticker, start=start_date, end=end_date, interval="1d")
                 #four_flag, three_flag, four_MAs, three_MAs, close, four_dog, three_dog = check_MAs_status(yf_data, opt_verbose='OFF')            
             
-                local_stock_indicator = stock_indicator(ticker=target_ticker, startdate= start_date, enddate= end_date)
+                local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="1d", interval="1m", \
+                                                                startdate= start_date, enddate= end_date)
                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
