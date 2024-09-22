@@ -781,16 +781,31 @@ class stock_indicator_pstock:
     def __init__(self, ticker, startdate, enddate, period='1y', interval='1d', opt_verbose='OFF'):
         self.stock_ticker = ticker.upper()
         self.opt_verbose = opt_verbose
-        
+        self.interval = interval
+        self.period = period
+        self.startdate = startdate
+        self.enddate = enddate
+            
+    def pstock_interval_period(self):
         # initialize Asset object 
-        bars = asyncio.run(Bars.get(self.stock_ticker, period=period, interval=interval))
-        
-        #asset = Asset( self.stock_ticker, start=startdate, end=enddate, period=period, interval=interval)
-        #asset_info = asset.get_info()  # Information about the Company
-        #asset_df = asset.get_data()    # Historical price data    
-        self.stock_data = bars.df.copy()
-        self.stock_data.reset_index(inplace=True)
-        
+        try:
+            bars = asyncio.run(Bars.get(self.stock_ticker, period=self.period, interval=self.interval))
+            self.stock_data = bars.df.copy()
+            self.stock_data.reset_index(inplace=True)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            exit(0)
+    
+    def pstock_interval_startdate_enddate(self):
+        # initialize Asset object 
+        try:
+            bars = asyncio.run(Bars.get(self.stock_ticker, start=self.startdate, end=self.enddate, interval=self.interval))
+            self.stock_data = bars.df.copy()
+            self.stock_data.reset_index(inplace=True)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            exit(0)
+                    
     # 移動平均線を計算する関数
     def calculate_moving_averages(self, weekly_window=5, Dweekly_window=10, \
                                     monthly_window=20, quarterly_window=60):

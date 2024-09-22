@@ -30,6 +30,7 @@ from requests.exceptions import Timeout
 from io import StringIO
 import json, re, pickle
 #from datetime import datetime, date, timedelta
+from random import randint
 
 from insider import StockInsider
 
@@ -554,11 +555,21 @@ class TWSE_TPEX_MAs_status():
         self.json_data = json_data
         self.list_path_pickle_ticker = list_path_pickle_ticker
         self.opt_verbose = opt_verbose
-        
+    
+    # Checking if a number is prime
+    def is_prime(self, n):
+        if n <= 1:
+            return False
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                return False            
+        return True
+    
     def store_TWSE_TPEX_MAs_status(self, start_date, end_date):
         list_MAs_status = []
         
         for ticker, cpn_name in self.dict_twse_tpex_ticker_cpn_name.items():
+            
             #logger.info('\n ticker: {}; cpn_name: {}'.format(key, value) )    
             ##### 上市公司 or ETF or 正2 ETF
             #if bool(re.match('^[0-9][0-9][0-9][0-9].TW$', ticker)) or \
@@ -576,7 +587,7 @@ class TWSE_TPEX_MAs_status():
                 target_ticker = None 
         
             if target_ticker != None:
-                
+                    
                 '''
                 ERROR: ['1457.TW']: Exception('%ticker%: No price data found, symbol may be delisted (1d 2024-01-01 -> 2024-07-26)')
                 ERROR: ['2442.TW']: Exception('%ticker%: No price data found, symbol may be delisted (1d 2024-01-01 -> 2024-07-26)')
@@ -587,25 +598,35 @@ class TWSE_TPEX_MAs_status():
                 ERROR: ['8480.TW']: Exception('%ticker%: No timezone found, symbol may be delisted') 
                 '''
                 if bool(re.match('^3682.TW$', ticker) or re.match('^5383.TWO$', ticker) or re.match('^00940.TW$', ticker) or \
-                        re.match('^00934.TW$', ticker) or re.match('^00935.TW$', ticker) or re.match('^8480.TW$', ticker) or \
-                        re.match('^3536.TW$', ticker) or re.match('^3383.TW$', ticker) or re.match('^6251.TW$', ticker) or \
-                        re.match('^6289.TW$', ticker) or re.match('^1507.TW$', ticker) or re.match('^2841.TW$', ticker) or \
-                        re.match('^2936.TW$', ticker) or re.match('^4141.TW$', ticker)  or re.match('^8427.TW$', ticker) or \
-                        re.match('^9188.TW$', ticker) or re.match('^1724.TW$', ticker) or re.match('^2456.TW$', ticker) or \
-                        re.match('^2823.TW$', ticker) or re.match('^6172.TW$', ticker) or re.match('^1592.TW$', ticker) or \
-                        re.match('^4725.TW$', ticker) or re.match('^5264.TW$', ticker) or re.match('^00766L.TW$', ticker) or \
-                        re.match('^2448.TW$', ticker) or re.match('^3698.TW$', ticker) or re.match('^4144.TW$', ticker) or \
-                        re.match('^5305.TW$', ticker) or re.match('^6131.TW$', ticker) or re.match('^8497.TW$', ticker) or \
-                        re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  or \
-                        re.match('^00658L.TW$', ticker)  ):
+                            re.match('^00934.TW$', ticker) or re.match('^00935.TW$', ticker) or re.match('^8480.TW$', ticker) or \
+                            re.match('^3536.TW$', ticker) or re.match('^3383.TW$', ticker) or re.match('^6251.TW$', ticker) or \
+                            re.match('^6289.TW$', ticker) or re.match('^1507.TW$', ticker) or re.match('^2841.TW$', ticker) or \
+                            re.match('^2936.TW$', ticker) or re.match('^4141.TW$', ticker)  or re.match('^8427.TW$', ticker) or \
+                            re.match('^9188.TW$', ticker) or re.match('^1724.TW$', ticker) or re.match('^2456.TW$', ticker) or \
+                            re.match('^2823.TW$', ticker) or re.match('^6172.TW$', ticker) or re.match('^1592.TW$', ticker) or \
+                            re.match('^4725.TW$', ticker) or re.match('^5264.TW$', ticker) or re.match('^00766L.TW$', ticker) or \
+                            re.match('^2448.TW$', ticker) or re.match('^3698.TW$', ticker) or re.match('^4144.TW$', ticker) or \
+                            re.match('^5305.TW$', ticker) or re.match('^6131.TW$', ticker) or re.match('^8497.TW$', ticker) or \
+                            re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  or \
+                            re.match('^00658L.TW$', ticker) or re.match('^1701.TW$', ticker) ):
                     continue 
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
-                                 
+                
+                # for random timer purpose
+                if bool(re.match('[1-9][0-9][0-9][0-9].T(W|WO)$', ticker)):
+                    
+                    if self.is_prime(int(target_ticker.split('.')[0])):
+                        lib_misc.random_timer(0, 3)
+                        #logger.info(f'prime: {int(target_ticker.split(".")[0])}')                
+                                             
                 #yf_data = yf.download(ticker, start=start_date, end=end_date, interval="1d")
-                #four_flag, three_flag, four_MAs, three_MAs, close, four_dog, three_dog = check_MAs_status(yf_data, opt_verbose='OFF')            
-            
-                local_stock_indicator = stock_indicator(ticker=target_ticker, startdate= start_date, enddate= end_date)
+                #four_flag, three_flag, four_MAs, three_MAs, close, four_dog, three_dog = check_MAs_status(yf_data, opt_verbose='OFF')
+                #local_stock_indicator = stock_indicator(ticker=target_ticker, startdate= start_date, enddate= end_date)
+                
+                local_stock_indicator = stock_indicator_pstock(ticker=target_ticker, interval="1d", \
+                                                                startdate= start_date, enddate= end_date)
+                local_stock_indicator.pstock_interval_startdate_enddate()
                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
@@ -643,7 +664,7 @@ class TWSE_TPEX_MAs_status():
                 
                 #logger.info(f'dict_temp: {dict_temp}')
 
-        self.TWSE_TPEX_MAs_status = list_MAs_status
+            self.TWSE_TPEX_MAs_status = list_MAs_status
 
     def count_4_star_num(self, twse_tpex_ticker_MAs_info):
         if twse_tpex_ticker_MAs_info["MAs_status"] == 'four_star' and (twse_tpex_ticker_MAs_info["close"] >= 20.0):
@@ -1097,6 +1118,8 @@ if __name__ == '__main__':
         local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, list_path_pickle_ticker, opt_verbose)
         if json_data["lastest_datastr_twse_tpex"][1].lower() == "all":
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
+            est_timer(t0)
+            lib_misc.random_timer(10, 20)
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse":
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()

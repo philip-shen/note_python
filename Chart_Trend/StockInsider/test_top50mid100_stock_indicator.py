@@ -607,6 +607,7 @@ class TWSE_TPEX_MAs_status():
             
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="1d", interval="1m", \
                                                                 startdate= start_date, enddate= end_date)
+                local_stock_indicator.pstock_interval_period()
                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')

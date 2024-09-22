@@ -8,6 +8,7 @@ from fake_useragent import UserAgent
 from datetime import datetime
 import pickle
 import openpyxl, difflib
+import yfinance as yf
 
 from .logger_setup import *
 

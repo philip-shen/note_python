@@ -6,6 +6,7 @@ __all__ = [
     'format_time',
     'Query_all_files_in_dir',
     'Diff_List',
+
 ]
 
 def format_time(timesec):
@@ -24,6 +25,7 @@ def format_time(timesec):
         #return "%dh%02dm%02ds" % (h, m, s)
 
     return str_format_time, h, m, s
+
 
 def walk_in_dir(dir_path,file_type,opt_verbose='OFF'):
     ret_listOfFileNames = []
