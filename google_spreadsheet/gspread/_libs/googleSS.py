@@ -38,7 +38,7 @@ class GoogleSS:
         
         logger.info(f'Update Company: {str_cmp_name}, MA_Status: {list_cellvalue[0]},Close: {list_cellvalue[1]}, Open: {list_cellvalue[2]}, High: {list_cellvalue[3]}, Low: {list_cellvalue[4]}')
         
-    def update_GSpreadworksheet_from_yfiances(self, row_count, str_delay_sec, local_pt_stock):
+    def update_GSpreadworksheet_from_yfiances(self, row_count, local_pt_stock):
         list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
             
         while len(list_Gworksheet_rowvalue) > 0:

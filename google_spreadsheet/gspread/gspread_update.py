@@ -69,7 +69,7 @@ if __name__=='__main__':
         #inital row count value 2
         inital_row_num = 2
         
-        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, str_delay_sec, 
+        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num,
                                                                                    local_pt_stock= local_stock)
         
         # delay delay_sec secs
