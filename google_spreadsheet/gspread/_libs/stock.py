@@ -136,3 +136,140 @@ class stock_indicator_pstock:
         self.stock_data['EMA_10'] = self.stock_data['close'].ewm(ignore_na=False, span=Dweekly_window, min_periods=0, adjust=False).mean()
         self.stock_data['EMA_20'] = self.stock_data['close'].ewm(ignore_na=False, span=monthly_window, min_periods=0, adjust=False).mean()
         self.stock_data['EMA_60'] = self.stock_data['close'].ewm(ignore_na=False, span=quarterly_window, min_periods=0, adjust=False).mean()    
+    
+    def stand_Up_On_fall_Down_MAs(self):
+        #logger.info("{}".format("Stand_Up_On_MAs (針對你Fetch data區間的最後一天做分析):"))
+
+        # 抓出所需data
+        stock_price = self.stock_data['close'].astype(float).iloc[-1]
+        MA5 = self.stock_data['MA_5'].iloc[-1] if not self.stock_data['MA_5'].isnull().values.all() else 0
+        MA10 = self.stock_data['MA_10'].iloc[-1] if not self.stock_data['MA_10'].isnull().values.all() else 0
+        MA20 = self.stock_data['MA_20'].iloc[-1] if not self.stock_data['MA_20'].isnull().values.all() else 0
+        MA60 = self.stock_data['MA_60'].iloc[-1] if not self.stock_data['MA_60'].isnull().values.all() else 0
+
+        four_MAs = MA5 and MA10 and MA20 and MA60
+        three_MAs = MA5 and MA10 and MA20
+        two_MAs = MA5 and MA10
+        one_MAs = MA5
+        
+        self.four_flag = True if four_MAs and max(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
+        self.three_flag = True if three_MAs and max(stock_price, MA5, MA10, MA20) == stock_price else False
+        self.two_flag = True if two_MAs and max(stock_price, MA5, MA10) == stock_price else False
+        self.one_flag = True if one_MAs and max(stock_price, MA5) == stock_price else False
+        
+        self.four_dog = True if four_MAs and min(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
+        self.three_dog = True if three_MAs and min(stock_price, MA5, MA10, MA20) == stock_price else False 
+        self.two_dog = True if two_MAs and min(stock_price, MA5, MA10) == stock_price else False 
+        self.one_dog = True if one_MAs and min(stock_price, MA5, MA10) == stock_price else False 
+        
+        # Exponential_moving_averages
+        EMA5 = self.stock_data['EMA_5'].iloc[-1] if not self.stock_data['EMA_5'].isnull().values.all() else 0
+        EMA10 = self.stock_data['EMA_10'].iloc[-1] if not self.stock_data['EMA_10'].isnull().values.all() else 0
+        EMA20 = self.stock_data['EMA_20'].iloc[-1] if not self.stock_data['EMA_20'].isnull().values.all() else 0
+        EMA60 = self.stock_data['EMA_60'].iloc[-1] if not self.stock_data['EMA_60'].isnull().values.all() else 0
+        
+        four_Expon_MAs = EMA5 and EMA10 and EMA20 and EMA60
+        three_Expon_MAs = EMA5 and EMA10 and EMA20
+        two_Expon_MAs = EMA5 and EMA10
+        one_Expon_MAs = EMA5
+        '''
+        self.four_E_flag = True if four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price else False
+        self.three_E_flag = True if three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price else False
+        self.two_E_flag = True if two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price else False
+        self.one_E_flag = True if one_Expon_MAs and max(stock_price, EMA5) == stock_price else False
+        '''
+        self.four_E_flag = True if not self.four_flag and \
+                            (four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
+        self.three_E_flag = True if not self.three_flag and \
+                            (three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price) else False
+        self.two_E_flag = True if not self.two_flag and \
+                            (two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price) else False
+        self.one_E_flag = True if not self.one_flag and \
+                            (one_Expon_MAs and max(stock_price, EMA5) == stock_price) else False
+        
+        
+        self.four_E_dog = True if not self.four_dog and \
+                            (four_Expon_MAs and min(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
+        self.three_E_dog = True if not self.three_dog and \
+                            (three_Expon_MAs and min(stock_price, EMA5, EMA10, EMA20) == stock_price) else False
+        self.two_E_dog = True if not self.two_dog and \
+                            (two_Expon_MAs and min(stock_price, EMA5, EMA10) == stock_price) else False
+        self.one_E_dog = True if not self.one_dog and \
+                            (one_Expon_MAs and min(stock_price, EMA5) == stock_price) else False
+                                
+    def check_MAs_status(self):
+        # 必要な列を抽出
+        #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
+        
+        # 移動平均線を計算
+        self.calculate_moving_averages()
+        self.calculate_exponential_moving_averages()
+        
+        self.stand_Up_On_fall_Down_MAs() 
+        #logger.info(f'self.stock_data:\n {self.stock_data}' )    
+        
+        if self.opt_verbose.lower() == 'on':
+            # 判斷data值
+            if self.four_flag:
+                logger.info("股價已站上5日、10日、20日、60日均線均線，為四海遊龍型股票!!")
+            elif self.three_flag:
+                logger.info("股價已站上5日、10日、20日均線，為三陽開泰型股票!!")
+            #elif not self.four_MAs:
+            #   logger.info("目前的data數量不足以畫出四條均線，請補足後再用此演算法!!")
+            #elif not self.three_MAs:
+            #    logger.info("目前的data數量不足以畫出三條均線，請補足後再用此演算法!!")
+            else:
+                logger.info("目前股價尚未成三陽開泰型、四海遊龍型股票!!")
+    
+        self.close = self.stock_data['close'].astype(float).iloc[-1]
+        self.open = self.stock_data['open'].astype(float).iloc[-1]
+        self.high = self.stock_data['high'].astype(float).iloc[-1]
+        self.low = self.stock_data['low'].astype(float).iloc[-1]
+        
+    def filter_MAs_status(self):
+        if self.four_flag:
+            self.stock_MA_status = 'four_star'
+            return
+        elif self.three_flag:
+            self.stock_MA_status = 'three_star'
+            return
+        elif self.two_flag:
+            self.stock_MA_status = 'two_star'    
+            return
+        elif self.one_flag:
+            self.stock_MA_status = 'one_star'    
+            return
+        
+        elif self.four_dog:
+            self.stock_MA_status = 'four_dog'
+            return
+        elif self.three_dog:
+            self.stock_MA_status = 'three_dog'
+            return
+        
+        elif self.four_E_flag:
+            self.stock_MA_status = 'Expo_four_star'
+            return
+        elif self.three_E_flag:
+            self.stock_MA_status = 'Expo_three_star'
+            return  
+        elif self.two_E_flag:
+            self.stock_MA_status = 'Expo_two_star'    
+            return  
+        elif self.one_E_flag:
+            self.stock_MA_status = 'Expo_one_star'    
+            return
+        elif self.four_E_dog:
+            self.stock_MA_status = 'Expo_four_dog'
+            return
+        elif self.three_E_dog:
+            self.stock_MA_status = 'Expo_three_dog'
+            return
+        elif self.two_E_dog:
+            self.stock_MA_status = 'Expo_two_dog'
+            return
+        elif self.one_E_dog:
+            self.stock_MA_status = 'Expo_one_dog'
+            return
+        else:
+            self.stock_MA_status = 'NA'    
