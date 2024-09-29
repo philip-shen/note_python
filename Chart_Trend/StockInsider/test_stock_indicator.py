@@ -1,4 +1,10 @@
 '''
+解决json解析报错：Expecting value: line 1 column 1 (char 0)
+https://blog.csdn.net/weixin_44011294/article/details/115439034
+'''
+#--coding:utf-8--
+
+'''
 ChatGPTに教わりながら株式投資の指標を作ってみた
 株価    投資    株式投資    ChatGPT
 Last updated at 2024-06-26Posted at 2024-06-26

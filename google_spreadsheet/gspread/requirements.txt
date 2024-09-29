@@ -23,7 +23,12 @@
 #urllib3==2.2.1
 
 coloredlogs
-gspread
+gspread==6.1.2
 oauth2client
-yfinance
+yfinance==0.2.40
 pyinstaller
+
+asyncer
+httpx
+pendulum==1.10.9
+pydantic

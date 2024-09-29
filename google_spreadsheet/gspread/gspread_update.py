@@ -1,18 +1,23 @@
+'''
+解决json解析报错：Expecting value: line 1 column 1 (char 0)
+https://blog.csdn.net/weixin_44011294/article/details/115439034
+'''
+#--coding:utf-8--
 import gspread
 import os, sys, time
 import json
 import argparse, pathlib
+
+import _libs.lib_misc as lib_misc
+from _libs.logger_setup import *
+import _libs.googleSS as googleSS
+import _libs.yahooFinance as yahooFinance
 
 strabspath=os.path.abspath(sys.argv[0])
 strdirname=os.path.dirname(strabspath)
 str_split=os.path.split(strdirname)
 prevdirname=str_split[0]
 dirnamelog=os.path.join(strdirname,"logs")
-
-import _libs.lib_misc as lib_misc
-from _libs.logger_setup import *
-import _libs.googleSS as googleSS
-import _libs.yahooFinance as yahooFinance
 
 def est_timer(start_time):
     time_consumption, h, m, s= lib_misc.format_time(time.time() - start_time)         
@@ -69,7 +74,7 @@ if __name__=='__main__':
         #inital row count value 2
         inital_row_num = 2
         
-        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num,
+        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, str_delay_sec,
                                                                                    local_pt_stock= local_stock)
         
         # delay delay_sec secs
