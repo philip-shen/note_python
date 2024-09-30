@@ -22,8 +22,12 @@ class GoogleSS:
 
     def update_sheet_celllist(self, row_count, str_cellrange, list_cellvalue):
         # print("Cell Range string:", str_cellrange)
-        cell_list = self.gss_client_worksheet.range(str_cellrange)
-
+        try:                
+            cell_list = self.gss_client_worksheet.range(str_cellrange)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            exit(0)
+        
         '''
         update_cells throwing AttributeError for simple update #483 
         https://github.com/burnash/gspread/issues/483 
@@ -42,14 +46,21 @@ class GoogleSS:
         cell_list[3].value = list_cellvalue[3]
         cell_list[4].value = list_cellvalue[4]
         # print("cell_list:", cell_list)
-        self.gss_client_worksheet.update_cells(cell_list)
+        try:
+            self.gss_client_worksheet.update_cells(cell_list)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            exit(0)
         
         # With label
-        str_cmp_name = self.gss_client_worksheet.get('a{}'.format(row_count)).first()
-        #logger.info(f"label C1: {val}")
+        try:
+            str_cmp_name = self.gss_client_worksheet.get('a{}'.format(row_count)).first()
+            #logger.info(f"label C1: {val}")
+            logger.info(f'Update Company: {str_cmp_name}, MA_Status: {list_cellvalue[0]},Close: {list_cellvalue[1]}, Open: {list_cellvalue[2]}, High: {list_cellvalue[3]}, Low: {list_cellvalue[4]}')
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            exit(0)
         
-        logger.info(f'Update Company: {str_cmp_name}, MA_Status: {list_cellvalue[0]},Close: {list_cellvalue[1]}, Open: {list_cellvalue[2]}, High: {list_cellvalue[3]}, Low: {list_cellvalue[4]}')
-    
     # Checking if a number is prime
     def is_prime(self, n):
         if n <= 1:
@@ -59,7 +70,7 @@ class GoogleSS:
                 return False            
         return True
         
-    def update_GSpreadworksheet_from_yfiances(self, row_count, str_delay_sec, local_pt_stock):
+    def update_GSpreadworksheet_from_yfiances(self, row_count, list_delay_sec, local_pt_stock):
         list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
             
         while len(list_Gworksheet_rowvalue) > 0:
@@ -76,10 +87,10 @@ class GoogleSS:
             #time.sleep(float(str_delay_sec))
             local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker)
             
-            if bool(re.match('[1-9][0-9][0-9][0-9].T(W|WO)$', local_pt_stock.ticker)):
-                if self.is_prime(int(stkidx)):
-                    random_timer(0, int(str_delay_sec))
-                    logger.info(f'prime: {int(stkidx)}')                 
+            #if bool(re.match('[1-9][0-9][0-9][0-9].T(W|WO)$', local_pt_stock.ticker)):
+                #if self.is_prime(int(stkidx)):
+                #    random_timer(0, list_delay_sec[-1])
+                #    logger.info(f'prime: {int(stkidx)}')                 
                 
             local_stock_indicator.check_MAs_status()            
             local_stock_indicator.filter_MAs_status()
@@ -111,10 +122,15 @@ class GoogleSS:
                 self.update_sheet_celllist(row_count, str_range, list_cellvalue)
             
             # delay delay_sec secs
-            random_timer(1, 2)
-                        
-            row_count += 1
-            list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
+            random_timer(list_delay_sec[0], list_delay_sec[-1])
+            logger.info(f'row_count: {row_count}')
+            
+            row_count += 1                
+            try:                
+                list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
+            except Exception as e:
+                logger.info(f'Error: {e}')
+                exit(0)
     
     '''
     http://yhhuang1966.blogspot.com/2022/09/python-yfinance.html
@@ -150,7 +166,7 @@ class GoogleSS:
     
         return [year+month+prev_date, year+month+next_day] 
         
-    def update_GSpreadworksheet_from_pstock(self, row_count, str_delay_sec, local_pt_stock):
+    def update_GSpreadworksheet_from_pstock(self, row_count, list_delay_sec, local_pt_stock):
         list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
         
         end_date = time.strftime('%Y%m%d', time.localtime(time.time()))
@@ -170,10 +186,9 @@ class GoogleSS:
             
             # for random timer purpose
             if bool(re.match('[1-9][0-9][0-9][0-9].T(W|WO)$', target_ticker)):                
-                if self.is_prime(int(stkidx)):
-                    random_timer(0, int(str_delay_sec))
-                    logger.info(f'prime: {int(stkidx)}') 
-                    #logger.info(f'prime: {int(tkidx)}')
+                #if self.is_prime(int(stkidx)):
+                #    random_timer(0, list_delay_sec[-1])
+                #    logger.info(f'prime: {int(stkidx)}') 
                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator_pstock.stock_data}')
@@ -202,7 +217,7 @@ class GoogleSS:
             
             # delay delay_sec secs
             #time.sleep(float('5'))
-            random_timer(1, 2)
-                    
+            random_timer(list_delay_sec[0], list_delay_sec[-1])        
+            
             row_count += 1
             list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)    

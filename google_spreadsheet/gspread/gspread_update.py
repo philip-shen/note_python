@@ -55,7 +55,7 @@ if __name__=='__main__':
         
     gspreadsheet = json_data["gSpredSheet"]
     list_worksheet_spread = json_data["worksheet_gSpredSheet"]
-    str_delay_sec = json_data["str_delay_sec"]     
+    list_delay_sec = json_data["int_delay_sec"]     
     
     logger.info(f'Read row data from {gspreadsheet}')
     
@@ -76,11 +76,13 @@ if __name__=='__main__':
         
         # 20240929 remark
         # Cause Erro: Expecting value: line 1 column 1 (char 0)
-        #dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, str_delay_sec,
+        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, list_delay_sec,
+                                                                                   local_pt_stock= local_stock)
+        
+        #dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_pstock(inital_row_num, list_delay_sec,
         #                                                                           local_pt_stock= local_stock)
         
-        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_pstock(inital_row_num, str_delay_sec,
-                                                                                   local_pt_stock= local_stock)
+        
         est_timer(t1)
 
     est_timer(t0)        
