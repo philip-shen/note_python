@@ -3,7 +3,7 @@ from _libs.yahooFinance import *
 from _libs.lib_misc import *
 from _libs.stock import *
 
-import time,re
+import sys, time, re
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -20,13 +20,45 @@ class GoogleSS:
         gss_client_worksheet = self.gc.open(gspread_sheet).worksheet(work_sheet)
         self.gss_client_worksheet=gss_client_worksheet    
 
+    def get_stkidx_cnpname(self, row_count, list_delay_sec):
+        list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
+        list_stkidx_cnpname = []
+        
+        while len(list_Gworksheet_rowvalue) > 0:
+            cnpname = str(list_Gworksheet_rowvalue[0])
+            stkidx = str(list_Gworksheet_rowvalue[1])
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'company name: {cnpname} stock index: {stkidx} from Google sheet')
+
+            temp_dict = {
+                'stkidx': stkidx,
+                'cnpname': cnpname
+            }
+            list_stkidx_cnpname.append(temp_dict)
+            # delay delay_sec secs
+            # 2018/8/13 prevent ErrorCode:429, Exhaust Resoure
+            #print ("Delay ", str_delay_sec, "secs to prevent Google Error Code:429, Exhaust Resoure")
+            #time.sleep(int(str_delay_sec))
+            # delay delay_sec secs
+            #random_timer(0, 0)
+            
+            row_count += 1
+            try:
+                list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
+            except Exception as e:
+                logger.info(f'Error: {e}')
+                sys.exit(0)
+            
+        
+        self.list_stkidx_cnpname_dicts = list_stkidx_cnpname
+        
     def update_sheet_celllist(self, row_count, str_cellrange, list_cellvalue):
         # print("Cell Range string:", str_cellrange)
         try:                
             cell_list = self.gss_client_worksheet.range(str_cellrange)
         except Exception as e:
             logger.info(f'Error: {e}')
-            exit(0)
+            sys.exit(0)
         
         '''
         update_cells throwing AttributeError for simple update #483 
@@ -50,7 +82,7 @@ class GoogleSS:
             self.gss_client_worksheet.update_cells(cell_list)
         except Exception as e:
             logger.info(f'Error: {e}')
-            exit(0)
+            sys.exit(0)
         
         # With label
         try:
@@ -59,7 +91,7 @@ class GoogleSS:
             logger.info(f'Update Company: {str_cmp_name}, MA_Status: {list_cellvalue[0]},Close: {list_cellvalue[1]}, Open: {list_cellvalue[2]}, High: {list_cellvalue[3]}, Low: {list_cellvalue[4]}')
         except Exception as e:
             logger.info(f'Error: {e}')
-            exit(0)
+            sys.exit(0)
         
     # Checking if a number is prime
     def is_prime(self, n):
@@ -130,8 +162,80 @@ class GoogleSS:
                 list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
             except Exception as e:
                 logger.info(f'Error: {e}')
-                exit(0)
+                sys.exit(0)
     
+    def update_GSpreadworksheet_yfiances_batch_update(self, inital_row_num, list_delay_sec, local_pt_stock):
+        try:                
+            self.get_stkidx_cnpname(inital_row_num, list_delay_sec)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            sys.exit(0)
+            
+        twse_tpex_idx = ''
+        list_all_stkidx_row_value = []
+        
+        for dict_stkidx_cnpname in self.list_stkidx_cnpname_dicts:     
+                       
+            if dict_stkidx_cnpname["stkidx"] is None:
+                #twse_two_idx = "^TWII"
+                twse_tpex_idx = dict_stkidx_cnpname["stkidx"]     
+            else:
+                twse_tpex_idx = dict_stkidx_cnpname["stkidx"]  
+            
+            if bool(re.match('^2464', dict_stkidx_cnpname["stkidx"]) ):
+                    continue 
+                
+            local_pt_stock.check_twse_tpex_us_stocks(twse_tpex_idx)            
+            logger.info(f"stock_id: {twse_tpex_idx} == ticker: {local_pt_stock.ticker}; cnp_name:{dict_stkidx_cnpname['cnpname']}")         
+            
+            local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker)
+            local_stock_indicator.check_MAs_status()            
+            local_stock_indicator.filter_MAs_status()
+            
+            stock_price_final = str(local_stock_indicator.close)
+            
+            ## get each stkidx row value 
+            if bool(re.match(r'^-+-$',stock_price_final)) == False:
+                # add stock MA status
+                list_cellvalue = [local_stock_indicator.stock_MA_status,
+                                  '{:.2f}'.format(float(local_stock_indicator.close)) , '{:.2f}'.format(float(local_stock_indicator.open)),
+                                  '{:.2f}'.format(float(local_stock_indicator.high)), '{:.2f}'.format(float(local_stock_indicator.low)) ]
+                
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'list_cellvalue: {list_cellvalue}')
+
+                list_all_stkidx_row_value.append(list_cellvalue)
+        
+        logger.info(f'len of list_all_stkidx_row_value: {list_all_stkidx_row_value.__len__()}')        
+        
+        # update by Cell Range
+        str_gspread_range = 'C' + str(inital_row_num) + ":" + \
+                            'G' + str(inital_row_num + self.list_stkidx_cnpname_dicts.__len__()-1)
+        
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'list_all_stkidx_row_value: {list_all_stkidx_row_value}')
+            logger.info(f'str_gspread_range: {str_gspread_range}')
+        
+        '''
+        # Update multiple ranges at once
+        worksheet.batch_update([{
+                'range': 'A1:B2',
+                'values': [['A1', 'B1'], ['A2', 'B2']],
+        }, {
+                'range': 'J42:K43',
+                'values': [[1, 2], [3, 4]],
+        }])
+        '''
+        try:                
+            self.gss_client_worksheet.batch_update([
+                                        {'range': str_gspread_range,
+                                            'values': list_all_stkidx_row_value,
+                                        },
+                                    ])
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            sys.exit(0)
+            
     '''
     http://yhhuang1966.blogspot.com/2022/09/python-yfinance.html
 

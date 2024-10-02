@@ -66,9 +66,13 @@ if __name__=='__main__':
     # for accelerate get twse tpex idx purpose   
     local_stock= yahooFinance.Stock(json_data)        
         
-    for worksheet_spread in list_worksheet_spread:
+    for count, worksheet_spread in enumerate(list_worksheet_spread):    
         t1 = time.time()
-        localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+        try:
+            localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            sys.exit(0)
         
         logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
         #inital row count value 2
@@ -76,13 +80,18 @@ if __name__=='__main__':
         
         # 20240929 remark
         # Cause Erro: Expecting value: line 1 column 1 (char 0)
-        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, list_delay_sec,
+        #dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_yfiances(inital_row_num, list_delay_sec,
+        #                                                                           local_pt_stock= local_stock)
+        
+        dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_yfiances_batch_update(inital_row_num, list_delay_sec,
                                                                                    local_pt_stock= local_stock)
         
         #dict_stock_price_OHLC= localGoogleSS.update_GSpreadworksheet_from_pstock(inital_row_num, list_delay_sec,
-        #                                                                           local_pt_stock= local_stock)
-        
+        #                                                                           local_pt_stock= local_stock)        
         
         est_timer(t1)
+        # delay delay_sec secs
+        if count < len(list_worksheet_spread)-1:
+            lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
 
     est_timer(t0)        
