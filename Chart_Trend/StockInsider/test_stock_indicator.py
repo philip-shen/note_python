@@ -653,7 +653,6 @@ class TWSE_TPEX_MAs_status():
                     "Expo_2_flag": local_stock_indicator.two_E_flag,
                     "Expo_1_flag": local_stock_indicator.one_E_flag,
                 
-                    "close": local_stock_indicator.close,
                     "4_dog": local_stock_indicator.four_dog,
                     "3_dog": local_stock_indicator.three_dog,
                     "2_dog": local_stock_indicator.two_dog,
@@ -664,6 +663,10 @@ class TWSE_TPEX_MAs_status():
                     "Expo_2_dog": local_stock_indicator.two_E_dog,
                     "Expo_1_dog": local_stock_indicator.one_E_dog,
                     
+                    "open": local_stock_indicator.open,
+                    "close": local_stock_indicator.close,
+                    "high": local_stock_indicator.high,
+                    "low": local_stock_indicator.low,
                     "MAs_status": local_stock_indicator.stock_MA_status,
                 }
                 list_MAs_status.append(dict_temp)

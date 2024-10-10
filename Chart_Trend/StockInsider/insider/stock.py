@@ -897,6 +897,8 @@ class stock_indicator_pstock:
         self.high = self.stock_data['high'].astype(float).iloc[-1]
         self.low = self.stock_data['low'].astype(float).iloc[-1]
         
+        self.prev_day_close = self.stock_data['close'].astype(float).iloc[-2]
+        
     def filter_MAs_status(self):
         
         if self.four_flag:

@@ -182,8 +182,8 @@ class GoogleSS:
             else:
                 twse_tpex_idx = dict_stkidx_cnpname["stkidx"]  
             
-            if bool(re.match('^2464', dict_stkidx_cnpname["stkidx"]) ):
-                    continue 
+            #if bool(re.match('^2464', dict_stkidx_cnpname["stkidx"]) ):
+            #        continue 
                 
             local_pt_stock.check_twse_tpex_us_stocks(twse_tpex_idx)            
             logger.info(f"stock_id: {twse_tpex_idx} == ticker: {local_pt_stock.ticker}; cnp_name:{dict_stkidx_cnpname['cnpname']}")         
