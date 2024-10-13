@@ -640,7 +640,11 @@ class TWSE_TPEX_MAs_status():
             
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
                                                                 startdate= start_date, enddate= end_date)
-                local_stock_indicator.pstock_interval_period()
+                
+                if self.json_data["lastest_datastr_twse_tpex"][0].lower() == "start_end_date":                    
+                    local_stock_indicator.pstock_interval_startdate_enddate()
+                else:
+                    local_stock_indicator.pstock_interval_period()
                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
@@ -1017,46 +1021,55 @@ class TWSE_TPEX_MAs_status():
         self.tpex_low = tpex_stock_indicator.stock_data['Low'].astype(float).iloc[-1]
         self.tpex_volume = tpex_stock_indicator.stock_data['Volume'].astype(float).iloc[-1]
         
+    def init_count_TWSE_variables(self):
+        self.num_twse_cpn = 0        
+        self.volatility_stock_weighted_indicator = 0
+        self.volatility_twse_weighted_indicator = 0
+        self.four_star_twse_cpn = 0; self.three_star_twse_cpn = 0; 
+        self.two_star_twse_cpn = 0; self.one_star_twse_cpn = 0; 
+        
+        self.four_star_twse_weight_ratio = 0; self.three_star_twse_weight_ratio = 0; 
+        self.two_star_twse_weight_ratio = 0; self.one_star_twse_weight_ratio = 0; 
+        
+        self.expo_four_star_twse_cpn = 0; self.expo_three_star_twse_cpn = 0; 
+        self.expo_two_star_twse_cpn = 0; self.expo_one_star_twse_cpn = 0; 
+        
+        self.expo_four_star_twse_weight_ratio = 0; self.expo_three_star_twse_weight_ratio = 0; 
+        self.expo_two_star_twse_weight_ratio = 0; self.expo_one_star_twse_weight_ratio = 0; 
+            
+        self.four_dog_twse_cpn = 0; self.three_dog_twse_cpn = 0; 
+        self.two_dog_twse_cpn = 0; self.one_dog_twse_cpn = 0; 
+
+        self.four_dog_twse_weight_ratio = 0; self.three_dog_twse_weight_ratio = 0; 
+        self.two_dog_twse_weight_ratio = 0; self.one_dog_twse_weight_ratio = 0; 
+            
+        self.expo_four_dog_twse_cpn = 0; self.expo_three_dog_twse_cpn = 0; 
+        self.expo_two_dog_twse_cpn = 0; self.expo_one_dog_twse_cpn = 0; 
+
+        self.expo_four_dog_twse_weight_ratio = 0; self.expo_three_dog_twse_weight_ratio = 0; 
+        self.expo_two_dog_twse_weight_ratio = 0; self.expo_one_dog_twse_weight_ratio = 0; 
+            
     def calculate_TWSE_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_dic_from_pickle(self.list_path_pickle_ticker[0])
         self.dict_twse_tpex_ticker_weight_ration = query_dic_from_pickle(self.list_path_pickle_ticker[-1][0])
         
         if self.opt_verbose.lower() == 'on':
             logger.info(f'pickle fname of twse_tpex_ticker_weight_ration: \n{self.list_path_pickle_ticker[-1][0]}')
+        
+        list_delay_sec = self.json_data["int_delay_sec"]
             
         for idx, list_start_end_date in enumerate(self.json_data["start_end_date"]):
-            startdate = date_changer_twse(list_start_end_date[0])
+            str_temp = date_changer_twse(list_start_end_date[0])
+            list_str_temp =str_temp.split('-')
+            startdate = datetime(int(list_str_temp[0]), int(list_str_temp[1]), int(list_str_temp[2]))
             #for yfinance purpose
-            enddate = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
+            str_temp = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
+            list_str_temp =str_temp.split('-')
+            enddate = datetime(int(list_str_temp[0]), int(list_str_temp[1]), int(list_str_temp[2]))
 
             logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}') 
 
-            self.num_twse_cpn = 0        
-            self.volatility_stock_weighted_indicator = 0
-            self.volatility_twse_weighted_indicator = 0
-            self.four_star_twse_cpn = 0; self.three_star_twse_cpn = 0; 
-            self.two_star_twse_cpn = 0; self.one_star_twse_cpn = 0; 
-        
-            self.four_star_twse_weight_ratio = 0; self.three_star_twse_weight_ratio = 0; 
-            self.two_star_twse_weight_ratio = 0; self.one_star_twse_weight_ratio = 0; 
-        
-            self.expo_four_star_twse_cpn = 0; self.expo_three_star_twse_cpn = 0; 
-            self.expo_two_star_twse_cpn = 0; self.expo_one_star_twse_cpn = 0; 
-        
-            self.expo_four_star_twse_weight_ratio = 0; self.expo_three_star_twse_weight_ratio = 0; 
-            self.expo_two_star_twse_weight_ratio = 0; self.expo_one_star_twse_weight_ratio = 0; 
-            
-            self.four_dog_twse_cpn = 0; self.three_dog_twse_cpn = 0; 
-            self.two_dog_twse_cpn = 0; self.one_dog_twse_cpn = 0; 
-
-            self.four_dog_twse_weight_ratio = 0; self.three_dog_twse_weight_ratio = 0; 
-            self.two_dog_twse_weight_ratio = 0; self.one_dog_twse_weight_ratio = 0; 
-            
-            self.expo_four_dog_twse_cpn = 0; self.expo_three_dog_twse_cpn = 0; 
-            self.expo_two_dog_twse_cpn = 0; self.expo_one_dog_twse_cpn = 0; 
-
-            self.expo_four_dog_twse_weight_ratio = 0; self.expo_three_dog_twse_weight_ratio = 0; 
-            self.expo_two_dog_twse_weight_ratio = 0; self.expo_one_dog_twse_weight_ratio = 0; 
+            self.init_count_TWSE_variables()
 
             self.store_TWSE_TPEX_MAs_status(start_date=startdate, end_date=enddate)    
             self.check_TWSE_TPEX_MAs_status()
@@ -1104,43 +1117,53 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(self.expo_two_dog_twse_weight_ratio), '{:.5f}'.format(self.expo_one_dog_twse_weight_ratio),
                                 '{:.5f}'.format(self.volatility_twse_weighted_indicator))) 
             '''
+            if idx < len(self.json_data["start_end_date"])-1:
+                lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
             
+    def init_count_TPEX_variables(self):
+        self.num_tpex_cpn = 0
+        self.volatility_TPEX_weighted_indicator = 0
+        self.four_star_tpex_cpn = 0; self.three_star_tpex_cpn = 0; 
+        self.two_star_tpex_cpn = 0;  self.one_star_tpex_cpn = 0; 
+            
+        self.four_star_tpex_weight_ratio = 0; self.three_star_tpex_weight_ratio = 0; 
+        self.two_star_tpex_weight_ratio = 0; self.one_star_tpex_weight_ratio = 0; 
+            
+        self.expo_four_star_tpex_cpn = 0; self.expo_three_star_tpex_cpn = 0; 
+        self.expo_two_star_tpex_cpn = 0; self.expo_one_star_tpex_cpn = 0; 
+            
+        self.expo_four_star_tpex_weight_ratio = 0; self.expo_three_star_tpex_weight_ratio = 0; 
+        self.expo_two_star_tpex_weight_ratio = 0; self.expo_one_star_tpex_weight_ratio = 0; 
+            
+        self.four_dog_tpex_cpn = 0; self.three_dog_tpex_cpn = 0;   
+        self.two_dog_tpex_cpn = 0; self.one_dog_tpex_cpn = 0      
+            
+        self.four_dog_tpex_weight_ratio = 0; self.three_dog_tpex_weight_ratio = 0;   
+        self.two_dog_tpex_weight_ratio = 0; self.one_dog_tpex_weight_ratio = 0      
+            
+        self.expo_four_dog_tpex_cpn = 0; self.expo_three_dog_tpex_cpn = 0;  
+        self.expo_two_dog_tpex_cpn = 0; self.expo_one_dog_tpex_cpn = 0; 
+            
+        self.expo_four_dog_tpex_weight_ratio = 0; self.expo_three_dog_tpex_weight_ratio = 0;  
+        self.expo_two_dog_tpex_weight_ratio = 0; self.expo_one_dog_tpex_weight_ratio = 0
+        
     def calculate_TPEX_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_dic_from_pickle(self.list_path_pickle_ticker[1])
         self.dict_twse_tpex_ticker_weight_ration = query_dic_from_pickle(self.list_path_pickle_ticker[-1][1])
+        list_delay_sec = self.json_data["int_delay_sec"]
         
         for idx, list_start_end_date in enumerate(self.json_data["start_end_date"]):
-            startdate = date_changer_twse(list_start_end_date[0])
+            str_temp = date_changer_twse(list_start_end_date[0])
+            list_str_temp =str_temp.split('-')
+            startdate = datetime(list_str_temp[0], list_str_temp[1], list_str_temp[2])
             #for yfinance purpose
-            enddate = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
+            str_temp = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
+            list_str_temp =str_temp.split('-')
+            enddate = datetime(list_str_temp[0], list_str_temp[1], list_str_temp[2])
             
             logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}') 
             
-            self.num_tpex_cpn = 0
-            self.volatility_TPEX_weighted_indicator = 0
-            self.four_star_tpex_cpn = 0; self.three_star_tpex_cpn = 0; 
-            self.two_star_tpex_cpn = 0;  self.one_star_tpex_cpn = 0; 
-            
-            self.four_star_tpex_weight_ratio = 0; self.three_star_tpex_weight_ratio = 0; 
-            self.two_star_tpex_weight_ratio = 0; self.one_star_tpex_weight_ratio = 0; 
-            
-            self.expo_four_star_tpex_cpn = 0; self.expo_three_star_tpex_cpn = 0; 
-            self.expo_two_star_tpex_cpn = 0; self.expo_one_star_tpex_cpn = 0; 
-            
-            self.expo_four_star_tpex_weight_ratio = 0; self.expo_three_star_tpex_weight_ratio = 0; 
-            self.expo_two_star_tpex_weight_ratio = 0; self.expo_one_star_tpex_weight_ratio = 0; 
-            
-            self.four_dog_tpex_cpn = 0; self.three_dog_tpex_cpn = 0;   
-            self.two_dog_tpex_cpn = 0; self.one_dog_tpex_cpn = 0      
-            
-            self.four_dog_tpex_weight_ratio = 0; self.three_dog_tpex_weight_ratio = 0;   
-            self.two_dog_tpex_weight_ratio = 0; self.one_dog_tpex_weight_ratio = 0      
-            
-            self.expo_four_dog_tpex_cpn = 0; self.expo_three_dog_tpex_cpn = 0;  
-            self.expo_two_dog_tpex_cpn = 0; self.expo_one_dog_tpex_cpn = 0; 
-            
-            self.expo_four_dog_tpex_weight_ratio = 0; self.expo_three_dog_tpex_weight_ratio = 0;  
-            self.expo_two_dog_tpex_weight_ratio = 0; self.expo_one_dog_tpex_weight_ratio = 0; 
+            self.init_count_TPEX_variables()
             
             self.calculate_TPEX_index_info(start_date=startdate, end_date=enddate)    
             
@@ -1179,6 +1202,9 @@ class TWSE_TPEX_MAs_status():
                                 self.four_dog_tpex_weight_ratio, self.three_dog_tpex_weight_ratio, self.two_dog_tpex_weight_ratio, self.one_dog_tpex_weight_ratio,\
                                 self.expo_four_dog_tpex_weight_ratio, self.expo_three_dog_tpex_weight_ratio, self.expo_two_dog_tpex_weight_ratio, self.expo_one_dog_tpex_weight_ratio)) 
             '''
+            if idx < len(self.json_data["start_end_date"])-1:
+                lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
+                
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='stock indicator')
     parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
@@ -1208,7 +1234,7 @@ if __name__ == '__main__':
     with open(json_file, encoding="utf-8") as f:
         json_data = json.load(f)  
         
-    opt_verbose= 'OFF'
+    opt_verbose= 'Off'
     
     path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
     list_path_pickle_ticker= json_data["twse_otc_id_pickle"]#['twse_ticker.pickle', 'tpex_ticker.pickle', 'twse_tpex_ticker.pickle']
@@ -1217,15 +1243,17 @@ if __name__ == '__main__':
         store_twse_tpex_ticker(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
     elif json_data["lastest_datastr_twse_tpex"][0].lower() == "csv":
         pickle_ticker_weight_ration = store_twse_tpex_ticker_weight_ration_fromCSV(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
-    
+        
     else:        
         list_path_pickle_ticker.append(['twse_ticker_weight_ration.pickle', 'tpex_ticker_weight_ration.pickle'])
         local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, list_path_pickle_ticker, opt_verbose)
+        
         if json_data["lastest_datastr_twse_tpex"][1].lower() == "all":
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse":
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
+            
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "tpex":
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()        
     
