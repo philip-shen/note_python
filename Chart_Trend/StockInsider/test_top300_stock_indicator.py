@@ -639,7 +639,7 @@ class TWSE_TPEX_MAs_status():
                 #four_flag, three_flag, four_MAs, three_MAs, close, four_dog, three_dog = check_MAs_status(yf_data, opt_verbose='OFF')            
             
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
-                                                                startdate= start_date, enddate= end_date, opt_verbose='on')
+                                                                startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
                 
                 if self.json_data["lastest_datastr_twse_tpex"][0].lower() == "start_end_date":                    
                     local_stock_indicator.pstock_interval_startdate_enddate()
