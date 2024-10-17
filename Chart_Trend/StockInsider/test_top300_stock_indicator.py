@@ -639,7 +639,7 @@ class TWSE_TPEX_MAs_status():
                 #four_flag, three_flag, four_MAs, three_MAs, close, four_dog, three_dog = check_MAs_status(yf_data, opt_verbose='OFF')            
             
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
-                                                                startdate= start_date, enddate= end_date)
+                                                                startdate= start_date, enddate= end_date, opt_verbose='on')
                 
                 if self.json_data["lastest_datastr_twse_tpex"][0].lower() == "start_end_date":                    
                     local_stock_indicator.pstock_interval_startdate_enddate()
@@ -887,7 +887,9 @@ class TWSE_TPEX_MAs_status():
             
             self.count_4_dog_num(dict_twse_tpex_ticker_MAs)
             self.count_3_dog_num(dict_twse_tpex_ticker_MAs)      
-            
+            self.count_2_dog_num(dict_twse_tpex_ticker_MAs)
+            self.count_1_dog_num(dict_twse_tpex_ticker_MAs)
+
             if bool(re.search('TW$', dict_twse_tpex_ticker_MAs["ticker"])):
                 self.num_twse_cpn += 1 
             elif bool(re.search('TWO$', dict_twse_tpex_ticker_MAs["ticker"])):
@@ -1234,7 +1236,7 @@ if __name__ == '__main__':
     with open(json_file, encoding="utf-8") as f:
         json_data = json.load(f)  
         
-    opt_verbose= 'Off'
+    opt_verbose= 'OFF'
     
     path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
     list_path_pickle_ticker= json_data["twse_otc_id_pickle"]#['twse_ticker.pickle', 'tpex_ticker.pickle', 'twse_tpex_ticker.pickle']

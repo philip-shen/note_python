@@ -847,6 +847,10 @@ class stock_indicator_pstock:
         self.two_dog = True if three_MAs and min(stock_price, MA5, MA10) == stock_price else False 
         self.one_dog = True if three_MAs and min(stock_price, MA5) == stock_price else False 
         
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'four_flag: {self.four_flag}; three_flag: {self.three_flag}; two_flag: {self.two_flag}; one_flag: {self.one_flag}')
+            logger.info(f'four_dog: {self.four_dog}; three_dog: {self.three_dog}; two_dog: {self.two_dog}; one_dog: {self.one_dog}')
+
         # Exponential_moving_averages
         EMA5 = self.stock_data['EMA_5'].iloc[-1] if not self.stock_data['EMA_5'].isnull().values.all() else 0
         EMA10 = self.stock_data['EMA_10'].iloc[-1] if not self.stock_data['EMA_10'].isnull().values.all() else 0
@@ -882,9 +886,21 @@ class stock_indicator_pstock:
         if self.opt_verbose.lower() == 'on':
             # 判斷data值
             if self.four_flag:
-                logger.info("股價已站上5日、10日、20日、60日均線均線，為四海遊龍型股票!!")
+                logger.info("股價已站上5日、10日、20日、60日均線，為四海遊龍型股票!!")
             elif self.three_flag:
                 logger.info("股價已站上5日、10日、20日均線，為三陽開泰型股票!!")
+            elif self.two_flag:
+                logger.info("股價已站上5日、10日均線，為雙囍臨門型股票!!")    
+            elif self.one_flag:
+                logger.info("股價已站上5日均線，為一星報喜型股票!!")        
+            elif self.four_dog:
+                logger.info("股價已跌破5日、10日、20日、60日均線均線，為四腳朝天型股票!!")    
+            elif self.three_dog:
+                logger.info("股價已跌破5日、10日、20日均線，為三人成虎型股票!!")        
+            elif self.two_dog:
+                logger.info("股價已跌破5日、10日均線，為二竪作惡型股票!!")
+            elif self.one_dog:
+                logger.info("股價已跌破5日均線，為一敗塗地型股票!!")                            
             #elif not self.four_MAs:
             #   logger.info("目前的data數量不足以畫出四條均線，請補足後再用此演算法!!")
             #elif not self.three_MAs:
