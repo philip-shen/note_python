@@ -16,7 +16,7 @@ import pathlib
 
 from pytubefix import YouTube
 from pytubefix.cli import on_progress
-#from moviepy.editor import *
+from termcolor import colored
 
 CLIENTS = {
     1: "WEB",
@@ -44,7 +44,7 @@ def download_client(url: str, settings: dict, filetype: str):
     for _, client in CLIENTS.items():
         try:
             # Try to reach filetype and create YouTube object
-            print(f'Trying to reach {filetype} with "{client}" client', "yellow")
+            print(colored(f'Trying to reach {filetype} with "{client}" client', "yellow"))
             yt = (
                 YouTube(url=url, client=client, on_progress_callback=on_progress)
                 .streams.filter(**settings["params"])
@@ -54,14 +54,14 @@ def download_client(url: str, settings: dict, filetype: str):
             )
 
             # Download filetype (video or audio)
-            print(f'Downloading "{yt.title}" ' f'{settings["intro_message"]}')
+            print(colored(f'Downloading "{yt.title}" ' f'{settings["intro_message"]}') )
             yt.download(filename=f"{filetype}.mp3", skip_existing=False, timeout=10, max_retries=5)
             print(f'\n{settings["out_message"]}', "blue")
 
             # Return from function if success
             return
         except Exception as e:
-            print(f'Error occured while downloading via "{client}" client: {e}\n', "red")
+            print(colored(f'Error occured while downloading via "{client}" client: {e}\n', "red") )
 
     raise Exception("Failed to download asset with all available clients")
 
@@ -126,10 +126,10 @@ def normalize_denoise_mp4tomp3(infile,outname):
       in_out(ffmpegwav_48k_mono, infile, outfile)
         
       
-def download(url):
+def download(url, client_option):
     
     #dl_fname = YouTube(url).streams.get_by_itag(int(itag)).download()
-    yt = YouTube(url, client=CLIENTS[2], on_progress_callback = on_progress)
+    yt = YouTube(url, client=client_option, on_progress_callback = on_progress)
     
     # 最高品質のオーディオストリームを選択
     #audio_stream = yt.streams.filter(only_audio=True).first()
@@ -152,10 +152,10 @@ def download(url):
     
     return dl_fname
 
-def startdownload(url):
+def startdownload(url, client_option):
     
     try:
-        dl_video_fname = download(url)
+        dl_video_fname = download(url, client_option)
         print("ダウンロードが終了しました")
 
         return dl_video_fname
@@ -170,11 +170,11 @@ def remove_dl_video_file(fname):
     # If it fails, inform the user.
     print("Error: %s - %s." % (e.filename, e.strerror))
 
-def main(in_urls):
+def main(in_urls, opt_client):
     list_dl_fnames = []
 
     for in_url in in_urls:
-        list_dl_fnames.append(startdownload(in_url))
+        list_dl_fnames.append(startdownload(in_url, opt_client))
 
     #for dl_fname in list_dl_fnames:
        #print(f'list_dl_fname: {list_dl_fname}')
@@ -184,7 +184,7 @@ if __name__ == '__main__':
     video_url =[
       #  'https://www.youtube.com/watch?v=vdAUcGGDKNM',
       #  'https://youtu.be/ZgLFuJyeUTg?si=sa_HH3ETrzimTpX0',
-        'https://www.youtube.com/watch?v=j42eBLuoAfg',
+        #'https://www.youtube.com/watch?v=j42eBLuoAfg',
         
         #'https://youtu.be/V5XIFLWec-c?si=A3-p8kPCdNyzZrJl',
         #'https://youtu.be/UyuB5zA-yMM?si=Br120aSx-GJ5jZnS',
@@ -195,16 +195,19 @@ if __name__ == '__main__':
         #'https://youtu.be/FFVfh9JflOo?si=LXdib6rUT-5fnarE',
         #'https://youtu.be/Ipi7dY7ersw?si=hKf4Wc0nshiYnMiD',
         #'https://youtu.be/ERdBg6LUjSQ?si=wBbig53YvRBiINeh',
-        #'https://youtu.be/CUwW8nLSdHA?si=49OyenNMsq4HGXuM'
+        #'https://youtu.be/CUwW8nLSdHA?si=49OyenNMsq4HGXuM',
+        'https://youtu.be/mBz7nUxPsCk?si=RlyubU1B_6UpCYSW',
+        'https://youtu.be/-wb2PAx6aEs?si=q1Nz0KNrB7EZHHy3',
         ]
+    
+    main(video_url, CLIENTS[3])
     '''
     for url in video_url:
        download_client(url, 
                        {"on_progress_callback": on_progress,
                         "mp3": True},
             filetype= "audio")
-    '''    
+    '''
     
-    main(video_url)
     
     
