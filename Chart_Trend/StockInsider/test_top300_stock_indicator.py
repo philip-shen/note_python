@@ -694,7 +694,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.four_star_twse_cpn += 1
                 self.four_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nfour_star_twse_weight_ratio: {"{:.5f}".format(self.four_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nfour_star_twse_weight_ratio: {"{:.5f}".format(self.four_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.four_star_tpex_cpn += 1 
                 self.four_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -705,7 +706,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.three_star_twse_cpn += 1 
                 self.three_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nthree_star_twse_weight_ratio: {"{:.5f}".format(self.three_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nthree_star_twse_weight_ratio: {"{:.5f}".format(self.three_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.three_star_tpex_cpn += 1 
                 self.three_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -716,7 +718,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.two_star_twse_cpn += 1 
                 self.two_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\ntwo_star_twse_weight_ratio: {"{:.5f}".format(self.two_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\ntwo_star_twse_weight_ratio: {"{:.5f}".format(self.two_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.two_star_tpex_cpn += 1 
                 self.two_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -727,7 +730,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.one_star_twse_cpn += 1 
                 self.one_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\none_star_twse_weight_ratio: {"{:.5f}".format(self.one_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\none_star_twse_weight_ratio: {"{:.5f}".format(self.one_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.one_star_tpex_cpn += 1 
                 self.one_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -738,7 +742,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_four_star_twse_cpn += 1
                 self.expo_four_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nexpo_four_star_twse_weight_ratio: {"{:.5f}".format(self.expo_four_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nexpo_four_star_twse_weight_ratio: {"{:.5f}".format(self.expo_four_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_four_star_tpex_cpn += 1 
                 self.expo_four_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -749,7 +754,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_three_star_twse_cpn += 1 
                 self.expo_three_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nexpo_three_star_twse_weight_ratio: {"{:.5f}".format(self.expo_three_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nexpo_three_star_twse_weight_ratio: {"{:.5f}".format(self.expo_three_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_three_star_tpex_cpn += 1 
                 self.expo_three_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -760,7 +766,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_two_star_twse_cpn += 1 
                 self.expo_two_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nexpo_two_star_twse_weight_ratio: {"{:.5f}".format(self.expo_two_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nexpo_two_star_twse_weight_ratio: {"{:.5f}".format(self.expo_two_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_two_star_tpex_cpn += 1 
                 self.expo_two_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -772,7 +779,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_one_star_twse_cpn += 1 
                 self.expo_one_star_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nexpo_one_star_tpex_weight_ratio: {"{:.5f}".format(self.expo_one_star_tpex_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nexpo_one_star_tpex_weight_ratio: {"{:.5f}".format(self.expo_one_star_tpex_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.expo_one_star_tpex_cpn += 1
                 self.expo_one_star_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -785,7 +793,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.four_dog_twse_cpn += 1 
                 self.four_dog_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nfour_dog_twse_weight_ratio: {"{:.5f}".format(self.four_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nfour_dog_twse_weight_ratio: {"{:.5f}".format(self.four_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.four_dog_tpex_cpn += 1 
                 self.four_dog_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -796,7 +805,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.three_dog_twse_cpn += 1 
                 self.three_dog_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\nthree_dog_twse_weight_ratio: {"{:.5f}".format(self.three_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\nthree_dog_twse_weight_ratio: {"{:.5f}".format(self.three_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.three_dog_tpex_cpn += 1 
                 self.three_dog_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -807,7 +817,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.two_dog_twse_cpn += 1 
                 self.two_dog_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\ntwo_dog_twse_weight_ratio: {"{:.5f}".format(self.two_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\ntwo_dog_twse_weight_ratio: {"{:.5f}".format(self.two_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.two_dog_tpex_cpn += 1 
                 self.two_dog_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
@@ -818,7 +829,8 @@ class TWSE_TPEX_MAs_status():
             if bool(re.search('TW$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.one_dog_twse_cpn += 1 
                 self.one_dog_twse_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
-                logger.info(f'\none_dog_twse_weight_ratio: {"{:.5f}".format(self.one_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'\none_dog_twse_weight_ratio: {"{:.5f}".format(self.one_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             elif bool(re.search('TWO$', twse_tpex_ticker_MAs_info["ticker"])):
                 self.one_dog_tpex_cpn += 1 
                 self.one_dog_tpex_weight_ratio += twse_tpex_ticker_MAs_info["weight"]
