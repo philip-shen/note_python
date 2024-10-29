@@ -81,12 +81,11 @@ class Stock:
         self.df_twse_website_info = None
         self.df_tpex_website_info = None
         self.requests_twse_tpex_stock_idx()
-        
-    def check_stocks(self, df, check_name, check_num):
     
+    def check_stocks(self, df, check_name, check_num):
+        
         if df[df[check_name]==self.stock_name].empty and df[df[check_num]==self.stock_num].empty:
             return False
-
         else:
             if self.stock_name != "" and self.stock_num != '':
                 # assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "股票名稱與股票代號不符!! 請重新輸入!!"
@@ -112,19 +111,84 @@ class Stock:
         #logger.info(f'{year}+"/"+{month}+"/"+{day}')
         
         return year+"/"+month+"/"+day
+    '''
+    https://ithelp.ithome.com.tw/m/articles/10263439
+    
+    這些資料放在政府的資料開放平台上，不過我們只需要下載位置就可以了。
+    上市公司資料
+    https://mopsfin.twse.com.tw/opendata/t187ap03_L.csv
+
+    上櫃公司資料
+    https://mopsfin.twse.com.tw/opendata/t187ap03_O.csv
+
+    興櫃公司資料
+    https://mopsfin.twse.com.tw/opendata/t187ap03_R.csv
+    '''    
+    '''    
+    stockAanlysis/get_securities_lists.py
+    https://github.com/JacquesBlazor/stockAanlysis/blob/main/get_securities_lists.py
+    
+    df = df[['公司代號', '公司名稱', '公司簡稱', '外國企業註冊地國', '營利事業統一編號', '成立日期', '上市日期', '普通股每股面額', '英文簡稱', '網址']]
+    '''        
+    '''        
+    神秘金字塔資料爬取(資料更新至2020522當周)
+    [i=s] 本帖最後由 Mark陳 於 2020-5-24 11:30 編輯 [/i]
+    http://finlabcourse.imotor.com/archiver/?tid-541.html
+    '''
+    def twse_stock_list(self):
+        res = requests.get('http://mopsfin.twse.com.tw/opendata/t187ap03_L.csv')
+        res.encoding='utf-8'
+        self.df_twse_website_info = pd.read_csv(StringIO(res.text), header=0, \
+                                                dtype={'出表日期':str,'公司代號':str, '產業別':str}).dropna(how='all', axis=1).dropna(how='any')
         
+    '''
+    self.df_tpex_website_info.dtypes:
+    出表日期                  int64
+    公司代號                  int64
+    公司名稱                 object
+    公司簡稱                 object
+    外國企業註冊地國             object
+    產業別                   int64
+    住址                   object
+    '''    
+    '''
+    Changing data type
+    https://www.ritchieng.com/pandas-changing-datatype/
+
+    Method 1: Change datatype after reading the csv
+    # to change use .astype() 
+    drinks['beer_servings'] = drinks.beer_servings.astype(float)
+    
+
+    Method 2: Change datatype before reading the csv
+    drinks = pd.read_csv(url, dtype={'beer_servings':float})
+    '''
+    def otc_stock_list(self):
+        res = requests.post('http://mopsfin.twse.com.tw/opendata/t187ap03_O.csv')
+        res.encoding='utf-8'
+        self.df_tpex_website_info =  pd.read_csv(StringIO(res.text), header=0, \
+                                                dtype={'出表日期':str,'公司代號':str, '產業別':str}).dropna(how='all', axis=1).dropna(how='any')
+        #logger.info(f'self.df_tpex_website_info.dtypes:\n{self.df_tpex_website_info.dtypes}')
+    
     def requests_twse_tpex_stock_idx(self):
         ##### 上市公司
         datestr = self.str_datastr_twse_tpex#'20240801'
         r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
         # 整理資料，變成表格
         self.df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
+        #logger.info(f'self.df_twse_website_info:\n{self.df_twse_website_info}')
         
         ##### 上櫃公司
-        datestr = self.date_changer(self.str_datastr_twse_tpex)#'113/08/01'
-        r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
+        #datestr = self.date_changer(self.str_datastr_twse_tpex)#'113/08/01'
+        #本中心官網自本(113)年10月27日(星期日)全新改版
+        #舊版官網可透過網址https://wwwov.tpex.org.tw 繼續使用並將於114年05月31日停用。
+        #r = requests.post('http://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')
+        
+        #r = requests.post('http://wwwov.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_download.php?l=zh-tw&d=' + datestr + '&s=0,asc,0')        
         # 整理資料，變成表格
-        self.df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
+        #self.df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
+        
+        self.otc_stock_list()
         
         logger.info("Request TWSE and TPEX Stock index..")
                 
@@ -143,7 +207,8 @@ class Stock:
         
         ##### 上櫃公司
         if not self.Flag_twse_stocks:            
-            self.Flag_tpex_stocks = self.check_stocks(self.df_tpex_website_info, check_name="名稱", check_num="代號")
+            #self.Flag_tpex_stocks = self.check_stocks(self.df_tpex_website_info, check_name="名稱", check_num="代號")
+            self.Flag_tpex_stocks = self.check_stocks(self.df_tpex_website_info, check_name="公司簡稱", check_num="公司代號")
             
             if self.Flag_tpex_stocks:
                 self.ticker = self.stock_idx+'.TWO' 
