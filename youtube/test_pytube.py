@@ -20,12 +20,22 @@ Manipulating audio channels
 https://trac.ffmpeg.org/wiki/AudioChannelManipulation#:~:text=ffmpeg%20integrates%20a%20default%20down,you%20have%20very%20specific%20needs.
 """
 
-import os,sys
+import os,sys,time
 import tempfile
 import pathlib
 from scipy import fft
 from scipy.io import wavfile
 from pytube import YouTube
+import argparse
+
+strabspath=os.path.abspath(sys.argv[0])
+strdirname=os.path.dirname(strabspath)
+str_split=os.path.split(strdirname)
+prevdirname=str_split[0]
+dirnamelog=os.path.join(strdirname,"logs")
+
+from logger_setup import *
+from GetCsvColumn import CsvFile,EXCLUDE
 
 #global
 ax = None
@@ -77,13 +87,18 @@ def normalize_denoise_mp4tomp3(infile,outname):
       in_out(ffmpeglow%lowpass,infile,outfile)
     if mp4tomp3:
       infile, outfile = infile, o_mp3(pathlib.Path('mp3')/outname)
-      print(f'infile:{ infile }')
-      print(f'outfile:{ outfile }')
+      #print(f'infile:{ infile }')
+      #print(f'outfile:{ outfile }')
+      logger.info(f'infile:{ infile }')
+      logger.info(f'outfile:{ outfile }')
       in_out(ffmpegmp3, infile,outfile)
     if mp4towav_48k_mono:
       infile, outfile = infile, o(pathlib.Path('mp3')/outname)
-      print(f'infile:{ infile }')
-      print(f'outfile:{ outfile }')
+      #print(f'infile:{ infile }')
+      #print(f'outfile:{ outfile }')
+      
+      logger.info(f'infile:{ infile }')
+      logger.info(f'outfile:{ outfile }')
       in_out(ffmpegwav_48k_mono, infile, outfile)
         
     #r,s = wavfile.read(outfile)
@@ -105,9 +120,12 @@ def progress(chunk,file_handle,bytes_remaining):
 def download(url, itag):
     
     dl_fname = YouTube(url).streams.get_by_itag(int(itag)).download()
-    print(f'dl_fname:{ dl_fname }')
+    #print(f'dl_fname:{ dl_fname }')
+    logger.info(f'dl_fname:{ dl_fname }')
+
     out_fname = f"{os.path.splitext(os.path.basename(dl_fname))[0]}"
-    print(f'out_fname:{ out_fname }')
+    #print(f'out_fname:{ out_fname }')
+    logger.info(f'out_fname:{ out_fname }')
     
     normalize_denoise_mp4tomp3(dl_fname, out_fname)
 
@@ -127,14 +145,15 @@ def set(url, itag):
     return url, itag
 
 def startdownload(url, itag):
-    
     try:
         dl_video_fname = download(url, itag)
-        print("ダウンロードが終了しました")
+        #print("ダウンロードが終了しました")
+        logger.info('Donwload complete!')
 
         return dl_video_fname
     except TimeoutError:
-        print("タイムアウトしました")
+        #print("タイムアウトしました")
+        logger.info('Donwload time out!')
 
 def remove_dl_video_file(fname):
    # Try to delete the file.
@@ -142,8 +161,31 @@ def remove_dl_video_file(fname):
     os.remove(fname)
   except OSError as e:
     # If it fails, inform the user.
-    print("Error: %s - %s." % (e.filename, e.strerror))
+    #print("Error: %s - %s." % (e.filename, e.strerror))
+    logger.info("Error: %s - %s." % (e.filename, e.strerror))
 
+def get_url_from_csv(dir_csv_url, opt_verbose='OFF'):
+  list_yt_urls = []
+
+  csvfile = CsvFile(dir_csv_url)
+
+  list_csvfile_folders_column= csvfile.get_column('folder')
+  list_csvfile_yt_urls_column= csvfile.get_column('YT_url')
+
+  if opt_verbose.lower() == 'on':
+      logger.info(f'list_csvfile_folders_column: {list_csvfile_folders_column}\n' )
+      logger.info(f'list_csvfile_yt_urls_column: {list_csvfile_yt_urls_column}\n' )
+
+  for idx, folder in enumerate(list_csvfile_folders_column):
+     if '#' in folder:
+        continue
+     else:
+        list_yt_urls.append(list_csvfile_yt_urls_column[idx])
+  
+  logger.info(f'list_yt_urls: {list_yt_urls}\n' )
+
+  return list_yt_urls
+      
 def main(in_urls):
     list_dl_fnames = []
 
@@ -153,9 +195,23 @@ def main(in_urls):
 
     for dl_fname in list_dl_fnames:
        #print(f'list_dl_fname: {list_dl_fname}')
+       logger.info(f'dl_fname: {dl_fname}')
        remove_dl_video_file(dl_fname)
 
 if __name__ == '__main__':
+    logger_set(strdirname)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--conf', action='store', default=None, help='keyin csv url file')
+    
+    opt_verbose='OFF'
+    results = parser.parse_args()
+    csv_file  = results.conf
+    video_url = get_url_from_csv(csv_file, opt_verbose)
+    main(video_url)
+
+    
+    '''
     video_url =[
       #  'https://youtu.be/gr67C2vRIxg?si=k4grk5lUt5BIBooU',
       #  'https://www.youtube.com/live/G7jwsT3V2oY?si=ivZEOiGfg8EWNy59',
@@ -171,4 +227,4 @@ if __name__ == '__main__':
           'https://www.youtube.com/live/Rqme2qJ3lXI?si=Xz8EGAF02VRAI3_f',
           'https://www.youtube.com/live/wTnTfGMqF00?si=sDB0aPpFFOPzSQcQ',
     ]
-    main(video_url)
+    '''
