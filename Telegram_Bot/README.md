@@ -38,7 +38,7 @@ Take some note of Telegram Bot python
 [ovismeme /telegram_autoreply_bot](https://github.com/ovismeme/telegram_autoreply_bot)
 
 # Activate Telegram Bot  
-[Telegram聊天機器人超詳細懶人包，商管人都看得懂【附Python程式碼】2 4 月,2021](https://marketingliveincode.com/?p=172)
+[Telegram聊天機器人超詳細懶人包，商管人都看得懂【附Python程式碼】2 4 月,2021](https://marketingliveincode.com/classification/marketing/97)  
 
 <img src="https://miro.medium.com/max/945/1*rnD4_EMcxwFmeDelnMsdEg.png " width="350" height="300">  
 
