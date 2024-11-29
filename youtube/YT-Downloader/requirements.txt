@@ -15,7 +15,7 @@ pynput==1.7.3
 pypiwin32==223
 PyQRCode==1.2.1
 pytube==10.7.2
-pywin32==300
+pywin32==301
 requests==2.25.1
 six==1.16.0
 tqdm==4.60.0
