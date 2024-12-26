@@ -247,6 +247,44 @@ python test_trade.py
 [wpicon/gui](https://github.com/wpicon/gui)  
 [pplonski/turtle-trading-python](https://github.com/pplonski/turtle-trading-python)  
 
+[hackingthemarkets /pyalgotrade-tutorials](https://github.com/hackingthemarkets/pyalgotrade-tutorials)  
+```
+backtesting strategies using pyalgotrade 
+```
+
+[zipline 銘柄を売買する関数 2020-06-20](https://qiita.com/NT1123/items/a0b3a779f05d62096354)  
+```
+Python    zipline
+```
+
+
+[pythonのアルゴリズムトレードライブラリ](https://qiita.com/shiro-kuma/items/334a567d13f8a0c34ece)  
+```
+Python    Finance Last updated at 2019-07-15
+```
+
+[Python Backtraderで米国株/ETFのバックテストをはじめてみる 2022-05-02](https://qiita.com/digitalwrite01/items/e38f5d9566da9c1e1605)  
+```
+Python    投資    システムトレード    バックテスト    Backtrader
+```
+
+[【FXシストレ入門】初めてのバックテストをPythonで実行してみる【超初心者向け】2021-03-2](https://qiita.com/kazama1209/items/98f63b624f3987ba3322)  
+```
+Python    FX    為替    シストレ    バックテスト 
+```
+
+[PythonでFXシストレのバックテスト(1) 2016-10-11](https://qiita.com/toyolab/items/e8292d2f051a88517cb2)  
+[PythonでFXシストレのバックテスト(2) 2018-07-03](https://qiita.com/toyolab/items/8fe0f05cc28af29a9ad9)  
+```
+Python    FX    テクニカル指標    シストレ    バックテスト
+```
+
+[pipiku915 /FinMem-LLM-StockTrading](https://github.com/pipiku915/FinMem-LLM-StockTrading)  
+```
+FINMEM: A Performance-Enhanced LLM Trading Agent with Layered Memory and Character Design
+```
+
+
 ### Troubleshooting  
 [Warning - Certain functionality requires requests_html, which is not installed](https://stackoverflow.com/questions/76783292/warning-certain-functionality-requires-requests-html-which-is-not-installed)  
 
