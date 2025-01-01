@@ -1,4 +1,4 @@
-from .logger_setup import *
+from insider.logger_setup import *
 import os,glob
 from random import randint
 from time import sleep
@@ -8,9 +8,7 @@ __all__ = [
     'format_time',
     'Query_all_files_in_dir',
     'Diff_List',
-    'list_out_file',
-    'list_out_ML_file',   
-    'random_timer',      
+    'random_timer',
 ]
 
 def format_time(timesec):
@@ -29,12 +27,6 @@ def format_time(timesec):
         #return "%dh%02dm%02ds" % (h, m, s)
 
     return str_format_time, h, m, s
-
-def random_timer(start_num_sec, end_num_sec):
-    sec = randint(start_num_sec, end_num_sec)
-    logger.info(f'pause {sec} seconds.....')
-    sleep(sec)
-    return sec
 
 def walk_in_dir(dir_path,file_type,opt_verbose='OFF'):
     ret_listOfFileNames = []
@@ -114,26 +106,8 @@ def Diff_List(li1, li2):
     li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
     return li_dif
 
-def list_out_file(path_filename: str, content: list, opt_verbose='OFF'):
-    if opt_verbose.lower() == 'on':
-        logger.info(f'output file name: {path_filename}')        
-    
-    with open(path_filename, 'w') as f:
-        for line in content:
-            f.write(f"{line}\n")
-
-def list_out_ML_file(path_filename: str, content: list, opt_verbose='OFF'):
-    path_csv_fname = path_filename.with_suffix('.csv')
-    
-    if opt_verbose.lower() == 'on':
-        #logger.info(f'output file name: {path_filename}')
-        logger.info(f'output csv file name: {path_csv_fname}')
-    
-    #with open(path_filename, 'w') as f:
-    #    for line in content:
-    #        f.write(f"{line},")
-    
-    with open(path_csv_fname, 'w') as f:
-        f.write(f"###,\n")
-        for line in content:
-            f.write(f"{line},")            
+def random_timer(start_num_sec, end_num_sec):
+    sec = randint(start_num_sec, end_num_sec)
+    logger.info(f'pause {sec} seconds.....')
+    sleep(sec)
+    return sec

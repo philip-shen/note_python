@@ -36,6 +36,8 @@ from insider import StockInsider
 import twseotc_stocks.lib_misc as lib_misc
 from insider.logger_setup import *
 from insider.stock import *
+import gspreadsheet.googleSS as googleSS
+import gspreadsheet.yahooFinance as yahooFinance
 
 strabspath=os.path.abspath(sys.argv[0])
 strdirname=os.path.dirname(strabspath)
@@ -582,10 +584,12 @@ def store_TPEX_MAs_status(json_data: dict, tpex_ticker: pd, tpex_stock_data: pd,
     return list_tpex_MAs_status
 
 class TWSE_TPEX_MAs_status():
-    def __init__(self, json_data: dict, list_path_pickle_ticker: list,  opt_verbose='OFF'):
+    def __init__(self, json_data: dict, json_gsheet_cert: dict, list_path_pickle_ticker: list, pt_stock, opt_verbose='OFF'):
         
         self.json_data = json_data
+        self.json_gsheet_cert = json_gsheet_cert
         self.list_path_pickle_ticker = list_path_pickle_ticker
+        self.pt_stock = pt_stock
         self.opt_verbose = opt_verbose
         
     def store_TWSE_TPEX_MAs_status(self, start_date, end_date):
@@ -1062,6 +1066,52 @@ class TWSE_TPEX_MAs_status():
 
         self.expo_four_dog_twse_weight_ratio = 0; self.expo_three_dog_twse_weight_ratio = 0; 
         self.expo_two_dog_twse_weight_ratio = 0; self.expo_one_dog_twse_weight_ratio = 0; 
+    
+    def update_200MA_plan_on_gspreadsheet(self):
+        gspreadsheet = self.json_data["gSpredSheet"]
+        list_worksheet_spread = self.json_data["worksheet_gSpredSheet"]
+        
+        localGoogleSS=googleSS.GoogleSS(self.json_gsheet_cert, self.json_data, self.opt_verbose)
+        
+        for count, worksheet_spread in enumerate(list_worksheet_spread):    
+            t1 = time.time()
+            try:
+                localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+            except Exception as e:
+                logger.info(f'Error: {e}')
+                sys.exit(0)
+        
+            logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+            #inital row count value 2
+            inital_row_num = 5
+            
+            localGoogleSS.update_GSpreadworksheet_200MA_plan_batch_update(inital_row_num, self.pt_stock)
+            est_timer(t1)
+            
+    def update_MAs_status_on_gspreadsheet(self, list_MA_data):
+        gspreadsheet = self.json_data["gSpredSheet"]
+        list_worksheet_spread = self.json_data["worksheet_gSpredSheet"]
+    
+        # Declare GoogleSS() from googleSS.py
+        localGoogleSS=googleSS.GoogleSS(self.json_gsheet_cert, self.json_data, self.opt_verbose)
+        
+        for count, worksheet_spread in enumerate(list_worksheet_spread):    
+            t1 = time.time()
+            try:
+                localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+            except Exception as e:
+                logger.info(f'Error: {e}')
+                sys.exit(0)
+        
+            logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+            #inital row count value 2
+            inital_row_num = 2
+            
+            localGoogleSS.update_GSpreadworksheet_MA_status(inital_row_num, list_MA_data)
+            est_timer(t1)
+            # delay delay_sec secs
+            #if count < len(list_worksheet_spread)-1:
+            #    lib_misc.random_timer(self.json_data["list_delay_sec"][0], self.json_data["list_delay_sec"][-1])        
             
     def calculate_TWSE_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_dic_from_pickle(self.list_path_pickle_ticker[0])
@@ -1093,7 +1143,7 @@ class TWSE_TPEX_MAs_status():
             self.calculate_TWSE_index_info(start_date=startdate, end_date=enddate)    
             
             path_ma_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_TWS_{self.num_twse_cpn}_MA.txt')
-            path_ml_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_ML_TWS_{self.num_twse_cpn}_MA.txt')    
+            path_ml_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_ML_TWS_{self.num_twse_cpn}_MA.txt')
             
             list_cnt = [date_changer_twse(list_start_end_date[-1]), self.num_twse_cpn,
                         self.four_star_twse_cpn, self.three_star_twse_cpn, self.two_star_twse_cpn, self.one_star_twse_cpn, 
@@ -1131,6 +1181,10 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(self.expo_two_dog_twse_weight_ratio), '{:.5f}'.format(self.expo_one_dog_twse_weight_ratio),
                                 '{:.5f}'.format(self.volatility_twse_weighted_indicator))) 
             '''
+            
+            self.update_MAs_status_on_gspreadsheet(list_MA_data=list_cnt)
+            self.update_200MA_plan_on_gspreadsheet()
+            
             if idx < len(self.json_data["start_end_date"])-1:
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
             
@@ -1236,6 +1290,7 @@ if __name__ == '__main__':
                             local_time.tm_hour,local_time.tm_min,local_time.tm_sec))
     
     json_file= args.conf_json
+    json_gsheet= args.gspred_json
     
     json_path_file = pathlib.Path(strdirname)/json_file
     
@@ -1253,6 +1308,9 @@ if __name__ == '__main__':
     path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
     list_path_pickle_ticker= json_data["twse_otc_id_pickle"]#['twse_ticker.pickle', 'tpex_ticker.pickle', 'twse_tpex_ticker.pickle']
     
+    # for accelerate get twse tpex idx purpose   
+    local_stock= yahooFinance.Stock(json_data)        
+    
     if json_data["lastest_datastr_twse_tpex"][0].lower() == "request":
         store_twse_tpex_ticker(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
     elif json_data["lastest_datastr_twse_tpex"][0].lower() == "csv":
@@ -1260,7 +1318,7 @@ if __name__ == '__main__':
         
     else:        
         list_path_pickle_ticker.append(['twse_ticker_weight_ration.pickle', 'tpex_ticker_weight_ration.pickle'])
-        local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, list_path_pickle_ticker, opt_verbose)
+        local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, json_gsheet, list_path_pickle_ticker, local_stock, opt_verbose)
         
         if json_data["lastest_datastr_twse_tpex"][1].lower() == "all":
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()

@@ -7,5 +7,8 @@
     "int_delay_sec": [8, 10],        
     "lastest_datastr_twse_tpex": ["unrequest", "all", "20240827", "TSE_xxx_xxx.csv"],
     "start_end_date":[["20231001","20240827"], ["20231001","20240828"]],
-    "twse_otc_id_pickle":["xxxx_ticker.pickle", "xxxx_ticker.pickle", "xxxx_ticker.pickle"]
+    "twse_otc_id_pickle":["xxxx_ticker.pickle", "xxxx_ticker.pickle", "xxxx_ticker.pickle"],
+
+    "gSpredSheet": "xxxxx",
+    "worksheet_gSpredSheet": [ "xxxxx"]
 }
