@@ -350,7 +350,9 @@ class GoogleSS:
             
             row_count += 1
             list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)    
-    
+    '''
+    not from star_date to end_date
+    '''
     def update_GSpreadworksheet_200MA_plan_batch_update(self, inital_row_num, local_pt_stock):
         list_delay_sec= self.json_data["int_delay_sec"]
         
@@ -429,3 +431,90 @@ class GoogleSS:
         except Exception as e:
             logger.info(f'Error: {e}')
             sys.exit(0)
+    
+    def update_GSpreadworksheet_200MA_plan_from_pstock(self, inital_row_num, local_pt_stock):
+        list_delay_sec= self.json_data["int_delay_sec"]        
+        
+        str_start_date = self.json_data["start_end_date"][0][0]
+        str_end_date = self.json_data["start_end_date"][0][-1]
+        logger.info(f"start_date: {str_start_date}; end_date: {str_end_date}")
+        str_end_date = self.prev_next_date(str_end_date)[-1]#casue available end_date = end_data+1 
+        
+        start_date = datetime(int(str_start_date[:4]), int(str_start_date[4:6]), int(str_start_date[6:]))
+        end_date =  datetime(int(str_end_date[:4]), int(str_end_date[4:6]), int(str_end_date[6:]))
+        
+        try:                
+            self.get_stkidx_cnpname(inital_row_num, list_delay_sec)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            sys.exit(0)
+            
+        twse_tpex_idx = ''
+        list_all_stkidx_row_value = []    
+        
+        for dict_stkidx_cnpname in self.list_stkidx_cnpname_dicts:     
+                       
+            if dict_stkidx_cnpname["stkidx"] is None:
+                #twse_two_idx = "^TWII"
+                twse_tpex_idx = dict_stkidx_cnpname["stkidx"]     
+            else:
+                twse_tpex_idx = dict_stkidx_cnpname["stkidx"]  
+                
+            local_pt_stock.check_twse_tpex_us_stocks(twse_tpex_idx)            
+            logger.info(f"stock_id: {twse_tpex_idx} == ticker: {local_pt_stock.ticker}")             
+            target_ticker = local_pt_stock.ticker
+            local_stock_indicator_pstock = stock_indicator_pstock(ticker=target_ticker, interval='1d', \
+                                                                startdate= start_date, enddate= end_date)
+            local_stock_indicator_pstock.pstock_interval_startdate_enddate()
+            
+            # for random timer purpose
+            if bool(re.match('[1-9][0-9][0-9][0-9].T(W|WO)$', target_ticker)):                
+                #if self.is_prime(int(stkidx)):
+                #    random_timer(0, list_delay_sec[-1])
+                #    logger.info(f'prime: {int(stkidx)}') 
+                
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator_pstock.stock_data}')
+                
+            local_stock_indicator_pstock.check_MAs_status()            
+            local_stock_indicator_pstock.filter_MAs_status()    
+                             
+            stock_price_final = str(local_stock_indicator_pstock.close)
+            
+            ## update cell content
+            #2018/08/22 if final price doesn't exist    
+            if bool(re.match(r'^-+-$',stock_price_final)) == False:
+                # add stock MA status
+                list_cellvalue = [local_stock_indicator_pstock.stock_MA_status,
+                                  '{:.2f}'.format(local_stock_indicator_pstock.close) , '{:.2f}'.format(local_stock_indicator_pstock.open),
+                                  '{:.2f}'.format(local_stock_indicator_pstock.high), '{:.2f}'.format(local_stock_indicator_pstock.low),
+                                  '{:.2f}'.format(local_stock_indicator_pstock.MA_5),
+                                  '{:.2f}'.format(local_stock_indicator_pstock.MA_10),
+                                  '{:.2f}'.format(local_stock_indicator_pstock.MA_20),
+                                  '{:.2f}'.format(local_stock_indicator_pstock.MA_60),
+                                  '{:.2f}'.format(local_stock_indicator_pstock.MA_200), ]
+                
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'list_cellvalue: {list_cellvalue}')
+                
+                list_all_stkidx_row_value.append(list_cellvalue)
+        
+        logger.info(f'len of list_all_stkidx_row_value: {list_all_stkidx_row_value.__len__()}')        
+        
+        # update by Cell Range
+        str_gspread_range = 'C' + str(inital_row_num) + ":" + \
+                            'L' + str(inital_row_num + self.list_stkidx_cnpname_dicts.__len__()-1)
+        
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')
+            #logger.info(f'str_gspread_range: {str_gspread_range}')
+            
+        try:                
+            self.gss_client_worksheet.batch_update([
+                                        {'range': str_gspread_range,
+                                            'values': list_all_stkidx_row_value,
+                                        },
+                                    ])
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            sys.exit(0)    

@@ -226,6 +226,11 @@ class stock_indicator_pstock:
         self.open = self.stock_data['open'].astype(float).iloc[-1]
         self.high = self.stock_data['high'].astype(float).iloc[-1]
         self.low = self.stock_data['low'].astype(float).iloc[-1]
+        self.MA_5 = self.stock_data['MA_5'].astype(float).iloc[-1]
+        self.MA_10 = self.stock_data['MA_10'].astype(float).iloc[-1]
+        self.MA_20 = self.stock_data['MA_20'].astype(float).iloc[-1]
+        self.MA_60 = self.stock_data['MA_60'].astype(float).iloc[-1]
+        self.MA_200 = self.stock_data['MA_200'].astype(float).iloc[-1]
         
     def filter_MAs_status(self):
         if self.four_flag:

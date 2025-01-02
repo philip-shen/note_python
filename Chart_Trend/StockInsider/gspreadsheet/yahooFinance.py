@@ -77,7 +77,7 @@ class Stock:
         # Check whether it is a TWSE or TPEX stock
         self.Flag_tpex_stocks = False
         self.Flag_twse_stocks = False
-        self.str_datastr_twse_tpex = json_data["start_end_date"][-1][-1]
+        self.str_datastr_twse_tpex = json_data["start_end_date"][0][-1]
         self.df_twse_website_info = None
         self.df_tpex_website_info = None
         self.requests_twse_tpex_stock_idx()
