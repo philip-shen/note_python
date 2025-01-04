@@ -7,6 +7,7 @@ import requests
 from requests.exceptions import Timeout
 from io import StringIO
 import pandas as pd
+import pathlib
 
 class Asset:
     """Class to initialize the stock, given a ticker, period and interval"""
@@ -174,10 +175,18 @@ class Stock:
         ##### 上市公司
         datestr = self.str_datastr_twse_tpex#'20240801'
         r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
-        # 整理資料，變成表格
-        self.df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
-        #logger.info(f'self.df_twse_website_info:\n{self.df_twse_website_info}')
         
+        if r.text.__len__() > 10:# after trade day 14:00
+            # 整理資料，變成表格
+            self.df_twse_website_info = pd.read_csv(StringIO(r.text.replace("=", "")), header=["證券代號" in l for l in r.text.split("\n")].index(True)-1)
+            #logger.info(f'self.df_twse_website_info:\n{self.df_twse_website_info}')    
+        else:# before trade day 14:00 no data to get            
+            csv_log = 'MI_INDEX_ALL_202501.csv'
+            usecols = ["證券代號", "證券名稱"]
+            self.df_twse_website_info = pd.read_csv(csv_log,usecols=usecols).dropna(how='all', axis=1).dropna(how='any')
+            logger.info(f'**** TWSE Server before trade day 14:00 no data to get from 202501 ****')    
+            #logger.info(f'self.df_twse_website_info:\n{self.df_twse_website_info}')    
+            
         ##### 上櫃公司
         #datestr = self.date_changer(self.str_datastr_twse_tpex)#'113/08/01'
         #本中心官網自本(113)年10月27日(星期日)全新改版
