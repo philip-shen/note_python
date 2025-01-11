@@ -83,12 +83,6 @@ https://api.telegram.org/bot{BOT_ID}/getUpdates?offset={UPDATE_ID}}
 ```
 
 ## Reference  
-[Apache Airflow ile Telegram’a Bildirim Mesajı Gönderme Jun 18, 2024](https://kayademirs.medium.com/apache-airflow-ile-telegrama-bildirim-mesaj%C4%B1-g%C3%B6nderme-bf5fd99f65f2) 
-[kayademirs /airflow-telegram-notifications](https://github.com/kayademirs/airflow-telegram-notifications)  
-
-[Apache Airflow: ETL を容易にする](https://prohoster.info/ja/blog/administrirovanie/apache-airflow-delaem-etl-proshhe)  
-[dmlogv/airflow-tutorial](https://github.com/dm-logv/airflow-tutorial)  
-
 
 # flask-telegram-bot
 [gwvsol / flask-telegram-bot](https://github.com/gwvsol/flask-telegram-bot)
