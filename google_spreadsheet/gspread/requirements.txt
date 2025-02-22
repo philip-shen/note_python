@@ -25,7 +25,8 @@
 coloredlogs
 gspread==6.1.2
 oauth2client
-yfinance==0.2.40
+#0.2.54 fixed a breaking change that caused the YFRateLimitError to be raised: https://github.com/ranaroussi/yfinance/pull/2277
+yfinance==0.2.54
 pyinstaller
 
 asyncer

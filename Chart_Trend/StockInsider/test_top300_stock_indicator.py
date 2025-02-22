@@ -634,7 +634,7 @@ class TWSE_TPEX_MAs_status():
                         re.match('^2448.TW$', ticker) or re.match('^3698.TW$', ticker) or re.match('^4144.TW$', ticker) or \
                         re.match('^5305.TW$', ticker) or re.match('^6131.TW$', ticker) or re.match('^8497.TW$', ticker) or \
                         re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  or \
-                        re.match('^00658L.TW$', ticker) ):
+                        re.match('^00658L.TW$', ticker) or re.match('^1609.TW$', ticker) or re.match('^2439.TW$', ticker)):
                     continue 
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
@@ -1010,22 +1010,46 @@ class TWSE_TPEX_MAs_status():
         df_stockdata.reset_index(inplace=True)
         
         return  df_stockdata
-    
+    '''
+    yfinance==0.2.54
+    Price        Date         Close          High           Low          Open   Volume
+    Ticker                    ^TWII         ^TWII         ^TWII         ^TWII    ^TWII
+    0      2024-10-25  23348.449219  23388.529297  23222.769531  23255.070312  2744200
+    ..            ...           ...           ...           ...           ...      ...
+    74     2025-02-19  23604.080078  23683.460938  23550.990234  23589.439453        0
+    '''
     def calculate_TWSE_index_info(self, start_date, end_date):
         str_TWSE_ticker = '^TWII'
         
-        twse_stock_indicator = stock_indicator(ticker=str_TWSE_ticker, startdate= start_date, enddate= end_date)
+        #twse_stock_indicator = stock_indicator(ticker=str_TWSE_ticker, startdate= start_date, enddate= end_date)
         
-        if self.opt_verbose.lower() == 'on':
-            logger.info(f'twse_stock_indicator.stock_data: \n{twse_stock_indicator.stock_data}')
+        #if self.opt_verbose.lower() == 'on':
+        #    logger.info(f'twse_stock_indicator.stock_data: \n{twse_stock_indicator.stock_data}')
         
         #df_stock_data = self.yfinance_StockInsider(str_TWSE_ticker)
-        self.twse_close = twse_stock_indicator.stock_data['Close'].astype(float).iloc[-1]
-        self.twse_open = twse_stock_indicator.stock_data['Open'].astype(float).iloc[-1]
-        self.twse_high = twse_stock_indicator.stock_data['High'].astype(float).iloc[-1]
-        self.twse_low = twse_stock_indicator.stock_data['Low'].astype(float).iloc[-1]
-        self.twse_volume = twse_stock_indicator.stock_data['Volume'].astype(float).iloc[-1]
-    
+        #self.twse_close = twse_stock_indicator.stock_data['Close'].astype(str).iloc[-1]
+        #self.twse_open = twse_stock_indicator.stock_data['Open'].astype(str).iloc[-1]
+        #self.twse_high = twse_stock_indicator.stock_data['High'].astype(str).iloc[-1]
+        #self.twse_low = twse_stock_indicator.stock_data['Low'].astype(str).iloc[-1]
+        #self.twse_volume = twse_stock_indicator.stock_data['Volume'].astype(str).iloc[-1]
+
+        twse_stock_indicator_pstock = stock_indicator_pstock(ticker=str_TWSE_ticker,  period="3mo", interval="1d", \
+                                                            startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
+                
+        if self.json_data["lastest_datastr_twse_tpex"][0].lower() == "start_end_date":                    
+            twse_stock_indicator_pstock.pstock_interval_startdate_enddate()
+        else:
+            twse_stock_indicator_pstock.pstock_interval_period()
+                
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'twse_stock_indicator_pstock.stock_data: \n{twse_stock_indicator_pstock.stock_data}')
+                            
+        self.twse_close = twse_stock_indicator_pstock.stock_data['close'].astype(float).iloc[-1]
+        self.twse_open = twse_stock_indicator_pstock.stock_data['open'].astype(float).iloc[-1]
+        self.twse_high = twse_stock_indicator_pstock.stock_data['high'].astype(float).iloc[-1]
+        self.twse_low = twse_stock_indicator_pstock.stock_data['low'].astype(float).iloc[-1]
+        self.twse_volume = twse_stock_indicator_pstock.stock_data['volume'].astype(float).iloc[-1]
+        
     def calculate_TPEX_index_info(self, start_date, end_date):
         str_TPEX_ticker = '^TWOII'
         tpex_stock_indicator = stock_indicator(ticker=str_TPEX_ticker, startdate= start_date, enddate= end_date)

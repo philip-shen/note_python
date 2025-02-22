@@ -25,15 +25,39 @@ class Asset:
         return ticker_info
 
     def get_data(self):
-        """Uses yfinance to get data, returns a Pandas DataFrame object
-        Index: Date
-        Columns: Open, High, Low, Close, Adj Close, Volume
-        """
+        '''
+        yfinance 0.2.54 ** can not work**
+        How to deal with multi-level column names downloaded with yfinance 
+        https://stackoverflow.com/questions/63107594/how-to-deal-with-multi-level-column-names-downloaded-with-yfinance/63107801#63107801
+        
+        Ticker         8081.TW                                                ticker
+        Price             Open        High         Low       Close   Volume         
+        Date                                                                        
+        2024-02-21  249.793682  255.037443  249.316977  252.653915  1025610  8081.TW
+        ...                ...         ...         ...         ...      ...      ...
+        2025-02-21  246.500000  251.000000  246.000000  246.500000   895100  8081.TW
+        '''
+        '''
+        2024年12月9日 星期一
+        [Python] 使用 Yahoo Finance API 的 yfinance 函式庫進行各種金融數據查詢 
+        
+        https://cheng-min-i-taiwan.blogspot.com/2024/12/python-yahoo-finance-api-yfinance.html
+        '''
+        '''
+        Drop the ticker row of yfinance dataframe Dec 18, 2024 
+        https://stackoverflow.com/questions/79291334/drop-the-ticker-row-of-yfinance-dataframe        
+        
+        '''
         try:
             self.data = yf.download(
-                tickers=self.ticker,
-                period=self.period,
-                interval=self.interval)
+                            tickers=self.ticker,
+                            period=self.period,
+                            interval=self.interval,
+                            multi_level_index=False)            
+            #self.data = pd.concat([yf.download(self.ticker, 
+            #                                period=self.period,
+            #                                interval=self.interval).assign(ticker=ticker) for ticker in [self.ticker]], ignore_index=True)
+            
             return self.data
         except Exception as e:
             return e
@@ -327,17 +351,13 @@ class stock_indicator:
         asset_info = asset.get_info()  # Information about the Company
         asset_df = asset.get_data()    # Historical price data    
 
-        asset_df.reset_index(inplace=True)
-        '''
-        # Renaming columns using a dictionary
-        df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'}, inplace=True)
-        '''
-        #asset_df.rename(columns={"Date": "day", "Open": "open", "High": "high", 
-        #                          "Low": "low", "Close": "close", "Adj Close": "adj close", 
-        #                          "Volume":"volume"}, inplace=True)
-    
+        #asset_df.reset_index(inplace=True)
+        
         self.stock_data = asset_df
         
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'self.stock_data:\n{self.stock_data}')
+            
     # RSIを計算する関数
     def calculate_RSI(self, window=14):
         delta = self.stock_data['Close'].diff()
@@ -410,6 +430,10 @@ class stock_indicator:
         three_MAs = MA5 and MA10 and MA20
         two_MAs = MA5 and MA10
         one_MAs = MA5
+        
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'stock_price: {stock_price}')
+            logger.info(f'MA5: {MA5}; MA10: {MA10}; MA20: {MA20}; MA60: {MA60}')    
         
         self.four_flag = True if four_MAs and max(stock_price, MA5, MA10, MA20, MA60) == stock_price else False
         self.three_flag = True if three_MAs and max(stock_price, MA5, MA10, MA20) == stock_price else False

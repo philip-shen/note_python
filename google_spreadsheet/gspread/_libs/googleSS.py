@@ -188,7 +188,7 @@ class GoogleSS:
             local_pt_stock.check_twse_tpex_us_stocks(twse_tpex_idx)            
             logger.info(f"stock_id: {twse_tpex_idx} == ticker: {local_pt_stock.ticker}; cnp_name:{dict_stkidx_cnpname['cnpname']}")         
             
-            local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker)
+            local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker, opt_verbose=self.opt_verbose)
             local_stock_indicator.check_MAs_status()            
             local_stock_indicator.filter_MAs_status()
             
