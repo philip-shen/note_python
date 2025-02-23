@@ -10,6 +10,8 @@ from pstock.base import BaseModel
 from pstock.types import ReadableResponse
 from pstock.utils.utils import httpx_client_manager, rdm_user_agent_value
 
+from insider.logger_setup import *
+
 T = tp.TypeVar("T", bound="QuoteSummary")
 
 
@@ -95,14 +97,21 @@ class QuoteSummary(BaseModel):
     ) -> T:
         async with httpx_client_manager(client=client) as _client:
             async with asyncer.create_task_group() as tg:
+                header={"user-agent": rdm_user_agent_value()}
+                logger.info(f'header: {header}')
                 soon_quote = tg.soonify(_client.get)(
-                    cls.uri(symbol), headers={"user-agent": rdm_user_agent_value()}
+                    cls.uri(symbol), headers=header                   
+                    
                 )
+                
+                header={"user-agent": rdm_user_agent_value()}
+                logger.info(f'header: {header}')
                 soon_financials = tg.soonify(_client.get)(
                     cls.financials_uri(symbol),
-                    headers={"user-agent": rdm_user_agent_value()},
+                    headers=header
                 )
-
+                
+                        
         return cls.load(
             response=soon_quote.value, financials_response=soon_financials.value
         )

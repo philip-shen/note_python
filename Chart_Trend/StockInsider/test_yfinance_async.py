@@ -5,6 +5,12 @@ https://github.com/nathom/streamrip/issues/729
 Had the same issue on a new install. I found out that aiohttp 3.10.0 on Windows is the issue. Downgrade it to 3.9.5
 pip3 install aiohttp==3.9.5
 '''
+'''
+ttamg/yahoo-finance-async
+https://github.com/ttamg/yahoo-finance-async/tree/master
+2025/2/23 can't work because yahoo finance API behavior changed
+'''
+
 import asyncio
 import os, sys, time
 import argparse

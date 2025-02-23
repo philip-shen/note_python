@@ -16,6 +16,8 @@ from pstock.types import ReadableResponse, Timestamp
 from pstock.utils.chart import get_ohlc_from_chart
 from pstock.utils.utils import httpx_client_manager, parse_datetime, parse_duration
 
+from insider.logger_setup import *
+
 IntervalParam = tp.Literal[
     "1m", "2m", "5m", "15m", "30m", "1h", "1d", "5d", "1mo", "3mo"
 ]
@@ -80,7 +82,8 @@ class Bar(BaseModel):
 class _BarMixin:
     @staticmethod
     def base_uri(symbol: str) -> str:
-        return f"https://query2.finance.yahoo.com/v8/finance/chart/{symbol.upper()}"
+        #return f"https://query2.finance.yahoo.com/v8/finance/chart/{symbol.upper()}"
+        return f"https://query2.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/{symbol.upper()}"
 
     @staticmethod
     @validate_arguments
@@ -193,9 +196,14 @@ class Bars(BaseModelSequence[Bar], _BarMixin):
         async with httpx_client_manager(client=client) as _client:
             response = await _client.get(url, params=params)
 
+        logger.info(f'url: {url}')
+        logger.info(f'params: {params}')
+        logger.info(f'response: {response}')
+        logger.info(f'cls: {cls}')
+                        
         return cls.load(response=response)
 
-
+    
 class BarsMulti(BaseModelMapping[Bars], _BarMixin):
     __root__: tp.Dict[str, Bars]
 

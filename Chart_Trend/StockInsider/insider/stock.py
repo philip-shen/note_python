@@ -435,30 +435,73 @@ class Asset:
         return ticker_info
 
     def get_data(self):
-        """Uses yfinance to get data, returns a Pandas DataFrame object
-        Index: Date
-        Columns: Open, High, Low, Close, Adj Close, Volume
-        """
+        '''
+        yfinance 0.2.54 ** can not work**
+        How to deal with multi-level column names downloaded with yfinance 
+        https://stackoverflow.com/questions/63107594/how-to-deal-with-multi-level-column-names-downloaded-with-yfinance/63107801#63107801
+        
+        Ticker         8081.TW                                                ticker
+        Price             Open        High         Low       Close   Volume         
+        Date                                                                        
+        2024-02-21  249.793682  255.037443  249.316977  252.653915  1025610  8081.TW
+        ...                ...         ...         ...         ...      ...      ...
+        2025-02-21  246.500000  251.000000  246.000000  246.500000   895100  8081.TW
+        '''
+        '''
+        2024年12月9日 星期一
+        [Python] 使用 Yahoo Finance API 的 yfinance 函式庫進行各種金融數據查詢 
+        
+        https://cheng-min-i-taiwan.blogspot.com/2024/12/python-yahoo-finance-api-yfinance.html
+        '''
+        '''
+        Drop the ticker row of yfinance dataframe Dec 18, 2024 
+        https://stackoverflow.com/questions/79291334/drop-the-ticker-row-of-yfinance-dataframe                
+        '''        
         try:
             self.data = yf.download(
-                tickers=self.ticker,
-                period=self.period,
-                interval=self.interval)
+                            tickers=self.ticker,
+                            period=self.period,
+                            interval=self.interval,
+                            multi_level_index=False)            
+            #self.data = pd.concat([yf.download(self.ticker, 
+            #                                period=self.period,
+            #                                interval=self.interval).assign(ticker=ticker) for ticker in [self.ticker]], ignore_index=True)
+            
             return self.data
         except Exception as e:
             return e
 
     def get_start_end_date_data(self):
-        """Uses yfinance to get data, returns a Pandas DataFrame object
-        Index: Date
-        Columns: Open, High, Low, Close, Adj Close, Volume
-        """
+        '''
+        yfinance 0.2.54 ** can not work**
+        How to deal with multi-level column names downloaded with yfinance 
+        https://stackoverflow.com/questions/63107594/how-to-deal-with-multi-level-column-names-downloaded-with-yfinance/63107801#63107801
+        
+        Ticker         8081.TW                                                ticker
+        Price             Open        High         Low       Close   Volume         
+        Date                                                                        
+        2024-02-21  249.793682  255.037443  249.316977  252.653915  1025610  8081.TW
+        ...                ...         ...         ...         ...      ...      ...
+        2025-02-21  246.500000  251.000000  246.000000  246.500000   895100  8081.TW
+        '''
+        '''
+        2024年12月9日 星期一
+        [Python] 使用 Yahoo Finance API 的 yfinance 函式庫進行各種金融數據查詢 
+        
+        https://cheng-min-i-taiwan.blogspot.com/2024/12/python-yahoo-finance-api-yfinance.html
+        '''
+        '''
+        Drop the ticker row of yfinance dataframe Dec 18, 2024 
+        https://stackoverflow.com/questions/79291334/drop-the-ticker-row-of-yfinance-dataframe                
+        '''
         try:
             self.data = yf.download(
                 tickers=self.ticker,
                 start=self.start_date, 
                 end=self.end_date,
-                interval=self.interval)
+                interval=self.interval,
+                multi_level_index=False)
+            
             return self.data
         except Exception as e:
             return e
@@ -777,6 +820,27 @@ INFO: bars.df:
 375 2024-09-19 05:30:00+00:00  960.0  960.0  960.0  960.0      960.0        0.0 0 days 01:00:00
 '''
 
+async def yfinance_fetch(ticker, startdate, enddate, opt_verbose='OFF'):    
+    data = yf.download(tickers=ticker, start=startdate, end=enddate,
+                        interval='1d', multi_level_index=False)
+    
+    data.rename(columns={"Date": "day", "Open": "open", "High": "high", 
+                        "Low": "low", "Close": "close", "Volume":"volume"}, inplace=True)
+    
+    if opt_verbose.lower() == 'low':
+        logger.info(f'data: {data}')
+        
+    return {"meta": data}
+
+async def yfinance_asyncio(ticker, startdate, enddate, opt_verbose='OFF'):
+    yfData = await yfinance_fetch(ticker, startdate, enddate, opt_verbose=opt_verbose)
+    yf_df = yfData['meta'].copy()
+                
+    if opt_verbose.lower() == 'on':
+         logger.info(f'yf_df:\n{yf_df}')                
+
+    return yf_df
+
 class stock_indicator_pstock:
     def __init__(self, ticker, startdate, enddate, period='1y', interval='1d', opt_verbose='OFF'):
         self.stock_ticker = ticker.upper()
@@ -784,7 +848,7 @@ class stock_indicator_pstock:
         self.interval = interval
         self.period = period
         self.startdate = startdate
-        self.enddate = enddate
+        self.enddate = enddate    
             
     def pstock_interval_period(self):
         # initialize Asset object 
@@ -805,7 +869,20 @@ class stock_indicator_pstock:
         except Exception as e:
             logger.info(f'Error: {e}')
             exit(0)
-                    
+    
+    def yfinance_asyncio_interval_startdate_enddate(self):
+        # initialize Asset object 
+        try:
+            bars = asyncio.run(yfinance_asyncio(ticker= self.stock_ticker, 
+                                                startdate= self.startdate, 
+                                                enddate= self.enddate, 
+                                                opt_verbose= self.opt_verbose))
+            self.stock_data = bars.copy()
+            self.stock_data.reset_index(inplace=True)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            exit(0)
+                            
     # 移動平均線を計算する関数
     def calculate_moving_averages(self, weekly_window=5, Dweekly_window=10, \
                                     monthly_window=20, quarterly_window=60):

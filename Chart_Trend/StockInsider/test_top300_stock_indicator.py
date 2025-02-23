@@ -646,7 +646,9 @@ class TWSE_TPEX_MAs_status():
                                                                 startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
                 
                 if self.json_data["lastest_datastr_twse_tpex"][0].lower() == "start_end_date":                    
-                    local_stock_indicator.pstock_interval_startdate_enddate()
+                    #2025/2/24 remark cause Error 429 too many request
+                    #local_stock_indicator.pstock_interval_startdate_enddate()
+                    local_stock_indicator.yfinance_asyncio_interval_startdate_enddate()
                 else:
                     local_stock_indicator.pstock_interval_period()
                 
@@ -1021,18 +1023,21 @@ class TWSE_TPEX_MAs_status():
     def calculate_TWSE_index_info(self, start_date, end_date):
         str_TWSE_ticker = '^TWII'
         
-        #twse_stock_indicator = stock_indicator(ticker=str_TWSE_ticker, startdate= start_date, enddate= end_date)
+        #by yfinance 
+        twse_stock_indicator = stock_indicator(ticker=str_TWSE_ticker, startdate= start_date, enddate= end_date)
         
-        #if self.opt_verbose.lower() == 'on':
-        #    logger.info(f'twse_stock_indicator.stock_data: \n{twse_stock_indicator.stock_data}')
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'twse_stock_indicator.stock_data: \n{twse_stock_indicator.stock_data}')
         
         #df_stock_data = self.yfinance_StockInsider(str_TWSE_ticker)
-        #self.twse_close = twse_stock_indicator.stock_data['Close'].astype(str).iloc[-1]
-        #self.twse_open = twse_stock_indicator.stock_data['Open'].astype(str).iloc[-1]
-        #self.twse_high = twse_stock_indicator.stock_data['High'].astype(str).iloc[-1]
-        #self.twse_low = twse_stock_indicator.stock_data['Low'].astype(str).iloc[-1]
-        #self.twse_volume = twse_stock_indicator.stock_data['Volume'].astype(str).iloc[-1]
-
+        self.twse_close = twse_stock_indicator.stock_data['Close'].astype(str).iloc[-1]
+        self.twse_open = twse_stock_indicator.stock_data['Open'].astype(str).iloc[-1]
+        self.twse_high = twse_stock_indicator.stock_data['High'].astype(str).iloc[-1]
+        self.twse_low = twse_stock_indicator.stock_data['Low'].astype(str).iloc[-1]
+        self.twse_volume = twse_stock_indicator.stock_data['Volume'].astype(str).iloc[-1]
+            
+        #by pstock(asyncio mode)
+        '''
         twse_stock_indicator_pstock = stock_indicator_pstock(ticker=str_TWSE_ticker,  period="3mo", interval="1d", \
                                                             startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
                 
@@ -1049,6 +1054,7 @@ class TWSE_TPEX_MAs_status():
         self.twse_high = twse_stock_indicator_pstock.stock_data['high'].astype(float).iloc[-1]
         self.twse_low = twse_stock_indicator_pstock.stock_data['low'].astype(float).iloc[-1]
         self.twse_volume = twse_stock_indicator_pstock.stock_data['volume'].astype(float).iloc[-1]
+        '''
         
     def calculate_TPEX_index_info(self, start_date, end_date):
         str_TPEX_ticker = '^TWOII'
@@ -1157,15 +1163,17 @@ class TWSE_TPEX_MAs_status():
 
             logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}') 
 
+            # by pstock(asyncio mode)
             self.init_count_TWSE_variables()
 
             self.store_TWSE_TPEX_MAs_status(start_date=startdate, end_date=enddate)    
-            self.check_TWSE_TPEX_MAs_status()
-                                
+            self.check_TWSE_TPEX_MAs_status()                                
             self.log_info_TWSE_MAs_status()
-
+            
+            # by yfinance or pstock(asyncio mode)
             self.calculate_TWSE_index_info(start_date=startdate, end_date=enddate)    
             
+            #self.num_twse_cpn = 'nn'
             path_ma_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_TWS_{self.num_twse_cpn}_MA.txt')
             path_ml_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_ML_TWS_{self.num_twse_cpn}_MA.txt')
             

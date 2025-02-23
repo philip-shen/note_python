@@ -24,7 +24,7 @@ import pathlib
 import json, re, pickle
 
 # Import
-from pstock import Bars, BarsMulti
+#from pstock import Bars, BarsMulti
 import twseotc_stocks.lib_misc as lib_misc
 from insider.logger_setup import *
 from insider.stock import *
@@ -91,6 +91,38 @@ def pstock_main(json_data: dict, opt_verbose='OFF'):
             if opt_verbose.lower() == 'on':
                 logger.info(f'bars.df:\n{bars.df}')
     
+def yfinance_asyncio(json_data: dict, opt_verbose='OFF'):    
+    list_path_pickle_ticker= json_data["twse_otc_id_pickle"]
+    dict_twse_tpex_ticker_cpn_name = query_twse_tpex_ticker(list_path_pickle_ticker[0])
+    
+    for idx, list_start_end_date in enumerate(json_data["start_end_date"]):
+        str_temp = date_changer_twse(list_start_end_date[0])
+        list_str_temp =str_temp.split('-')
+        startdate = datetime(int(list_str_temp[0]), int(list_str_temp[1]), int(list_str_temp[2]))
+        #for yfinance purpose
+        str_temp = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
+        list_str_temp =str_temp.split('-')
+        enddate = datetime(int(list_str_temp[0]), int(list_str_temp[1]), int(list_str_temp[2]))
+            
+        logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}') 
+            
+        for ticker, cpn_name in dict_twse_tpex_ticker_cpn_name.items():
+            logger.info('ticker: {}; cpn_name: {}'.format(ticker, cpn_name) )    
+            ##### 上市公司 or ETF or 正2 ETF
+            if bool(re.match('[0-9][0-9][0-9][0-9].TW$', ticker)) or \
+                bool(re.match('00[0-9][0-9][0-9].TW$', ticker)) or bool(re.match('00[0-9][0-9][0-9]L.TW$', ticker)):
+                    target_ticker = ticker        
+                    stock_name = cpn_name
+
+                    bars = asyncio.run(yf.download(tickers=ticker,
+                                                    start=startdate, 
+                                                    end=enddate,
+                                                    interval='1d',
+                                                    multi_level_index=False))
+                    bars.df.reset_index(inplace=True)
+            
+            if opt_verbose.lower() == 'on':
+                logger.info(f'bars.df:\n{bars.df}')        
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='stock indicator')
@@ -124,6 +156,7 @@ if __name__ == '__main__':
     opt_verbose= 'ON'
     
     # Fetch coroutine
-    pstock_main(json_data=json_data, opt_verbose=opt_verbose)
+    #pstock_main(json_data=json_data, opt_verbose=opt_verbose)
+    yfinance_asyncio(json_data, opt_verbose=opt_verbose)
     
     est_timer(t0)
