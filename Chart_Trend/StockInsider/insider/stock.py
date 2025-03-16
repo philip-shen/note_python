@@ -819,7 +819,6 @@ INFO: bars.df:
 374 2024-09-19 05:00:00+00:00  951.0  955.0  951.0  955.0      955.0  4916511.0 0 days 01:00:00
 375 2024-09-19 05:30:00+00:00  960.0  960.0  960.0  960.0      960.0        0.0 0 days 01:00:00
 '''
-
 async def yfinance_fetch(ticker, startdate, enddate, opt_verbose='OFF'):    
     data = yf.download(tickers=ticker, start=startdate, end=enddate,
                         interval='1d', multi_level_index=False)
@@ -869,6 +868,7 @@ class stock_indicator_pstock:
         except Exception as e:
             logger.info(f'Error: {e}')
             exit(0)
+    
     
     def yfinance_asyncio_interval_startdate_enddate(self):
         # initialize Asset object 

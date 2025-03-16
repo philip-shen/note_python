@@ -2,6 +2,7 @@ from insider.logger_setup import *
 from gspreadsheet.yahooFinance import *
 from gspreadsheet.lib_misc import *
 from gspreadsheet.stock import *
+#from insider.stock import stock_indicator_pstock
 
 import sys, time, re
 import gspread
@@ -15,6 +16,14 @@ class GoogleSS:
         self.gc = gspread.authorize(credentials)
         self.json_data = json_data        
         self.opt_verbose = opt_verbose
+        
+        str_start_date = self.json_data["start_end_date"][0][0]
+        str_end_date = self.json_data["start_end_date"][0][-1]
+        logger.info(f"start_date: {str_start_date}; end_date: {str_end_date}")
+        str_end_date = self.prev_next_date(str_end_date)[-1]#casue available end_date = end_data+1 
+        
+        self.start_date = datetime(int(str_start_date[:4]), int(str_start_date[4:6]), int(str_start_date[6:]))
+        self.end_date =  datetime(int(str_end_date[:4]), int(str_end_date[4:6]), int(str_end_date[6:]))
         
     def open_GSworksheet(self, gspread_sheet, work_sheet):
         gss_client_worksheet = self.gc.open(gspread_sheet).worksheet(work_sheet)
@@ -190,7 +199,7 @@ class GoogleSS:
             local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker)
             local_stock_indicator.check_MAs_status()            
             local_stock_indicator.filter_MAs_status()
-            
+                            
             stock_price_final = str(local_stock_indicator.close)
             
             ## get each stkidx row value 
@@ -379,7 +388,7 @@ class GoogleSS:
             local_pt_stock.check_twse_tpex_us_stocks(twse_tpex_idx)            
             logger.info(f"stock_id: {twse_tpex_idx} == ticker: {local_pt_stock.ticker}; cnp_name:{dict_stkidx_cnpname['cnpname']}")         
             
-            local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker)
+            local_stock_indicator = stock_indicator(ticker=local_pt_stock.ticker, startdate= self.start_date, enddate= self.end_date)
             local_stock_indicator.check_MAs_status()            
             local_stock_indicator.filter_MAs_status()
             
@@ -435,14 +444,6 @@ class GoogleSS:
     def update_GSpreadworksheet_200MA_plan_from_pstock(self, inital_row_num, local_pt_stock):
         list_delay_sec= self.json_data["int_delay_sec"]        
         
-        str_start_date = self.json_data["start_end_date"][0][0]
-        str_end_date = self.json_data["start_end_date"][0][-1]
-        logger.info(f"start_date: {str_start_date}; end_date: {str_end_date}")
-        str_end_date = self.prev_next_date(str_end_date)[-1]#casue available end_date = end_data+1 
-        
-        start_date = datetime(int(str_start_date[:4]), int(str_start_date[4:6]), int(str_start_date[6:]))
-        end_date =  datetime(int(str_end_date[:4]), int(str_end_date[4:6]), int(str_end_date[6:]))
-        
         try:                
             self.get_stkidx_cnpname(inital_row_num, list_delay_sec)
         except Exception as e:
@@ -464,7 +465,7 @@ class GoogleSS:
             logger.info(f"stock_id: {twse_tpex_idx} == ticker: {local_pt_stock.ticker}")             
             target_ticker = local_pt_stock.ticker
             local_stock_indicator_pstock = stock_indicator_pstock(ticker=target_ticker, interval='1d', \
-                                                                startdate= start_date, enddate= end_date)
+                                                                startdate= self.start_date, enddate= self.end_date)
             local_stock_indicator_pstock.pstock_interval_startdate_enddate()
             
             # for random timer purpose

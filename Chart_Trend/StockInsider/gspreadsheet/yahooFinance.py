@@ -11,10 +11,12 @@ import pathlib
 
 class Asset:
     """Class to initialize the stock, given a ticker, period and interval"""
-    def __init__(self, ticker, period='1y', interval='1d'):
+    def __init__(self, ticker, start_date, end_date, period='1y', interval='1d'):
         self.ticker = ticker.upper()
         self.period = period
         self.interval = interval
+        self.start_date = start_date
+        self.end_date = end_date    
 
     def __repr__(self):
         return f"Ticker: {self.ticker}, Period: {self.period}, Interval: {self.interval}"
@@ -51,9 +53,11 @@ class Asset:
         '''
         try:
             self.data = yf.download(
-                            tickers=self.ticker,
-                            period=self.period,
-                            interval=self.interval,
+                            tickers= self.ticker,
+                            #period=self.period,
+                            start= self.start_date, 
+                            end= self.end_date,
+                            interval= self.interval,
                             multi_level_index=False)            
             #self.data = pd.concat([yf.download(self.ticker, 
             #                                period=self.period,
@@ -351,12 +355,15 @@ If a stock is trading above VWAP, you can most likely expect it to come down to 
 Overall, it’s important to use multiple indicators as they can tell different stories, and using them on multiple timelines can also help you determine what the short term and long term prospects.
 '''   
 class stock_indicator:
-    def __init__(self, ticker, period='1y', interval='1d', opt_verbose='OFF'):
+    def __init__(self, ticker, startdate, enddate, period='1y', interval='1d', opt_verbose='OFF'):
         self.stock_ticker = ticker.upper()
         self.opt_verbose = opt_verbose
+        self.startdate = startdate
+        self.enddate = enddate    
         
         # initialize Asset object 
-        asset = Asset( self.stock_ticker, period=period, interval=interval)
+        asset = Asset( self.stock_ticker, start_date= self.startdate, end_date= self.enddate, \
+                        period=period, interval=interval)
         asset_info = asset.get_info()  # Information about the Company
         asset_df = asset.get_data()    # Historical price data    
 
