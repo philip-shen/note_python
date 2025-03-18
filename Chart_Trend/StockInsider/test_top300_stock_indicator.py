@@ -1098,54 +1098,57 @@ class TWSE_TPEX_MAs_status():
         self.expo_two_dog_twse_weight_ratio = 0; self.expo_one_dog_twse_weight_ratio = 0; 
     
     def update_200MA_plan_on_gspreadsheet(self, start_date, end_date):
-        gspreadsheet = self.json_data["gSpredSheet"]
+        dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]        
         list_worksheet_spread = self.json_data["worksheet_gSpredSheet"]
         
-        localGoogleSS=googleSS.GoogleSS(self.json_gsheet_cert, self.json_data, self.opt_verbose)
+        for gspreadsheet, cert_json in dict_gspreadsheet.items():
+            # Declare GoogleSS() from googleSS.py
+            localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
+            
+            for count, worksheet_spread in enumerate(list_worksheet_spread):    
+                t1 = time.time()
+                try:
+                    localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+                except Exception as e:
+                    logger.info(f'Error: {e}')
+                    sys.exit(0)
         
-        for count, worksheet_spread in enumerate(list_worksheet_spread):    
-            t1 = time.time()
-            try:
-                localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
-            except Exception as e:
-                logger.info(f'Error: {e}')
-                sys.exit(0)
-        
-            logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
-            #inital row count value 2
-            inital_row_num = 5
+                logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+                #inital row count value 2
+                inital_row_num = 5
             
-            localGoogleSS.update_GSpreadworksheet_200MA_plan_batch_update(inital_row_num, self.pt_stock)
+                localGoogleSS.update_GSpreadworksheet_200MA_plan_batch_update(inital_row_num, self.pt_stock)
             
-            # remark cause Response [429 Too Many Requests]
-            #localGoogleSS.update_GSpreadworksheet_200MA_plan_from_pstock(inital_row_num, self.pt_stock)
+                # remark cause Response [429 Too Many Requests]
+                #localGoogleSS.update_GSpreadworksheet_200MA_plan_from_pstock(inital_row_num, self.pt_stock)
             
-            est_timer(t1)
+                est_timer(t1)
             
     def update_MAs_status_on_gspreadsheet(self, list_MA_data):
-        gspreadsheet = self.json_data["gSpredSheet"]
+        dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]
         list_worksheet_spread = self.json_data["worksheet_gSpredSheet"]
     
-        # Declare GoogleSS() from googleSS.py
-        localGoogleSS=googleSS.GoogleSS(self.json_gsheet_cert, self.json_data, self.opt_verbose)
-        
-        for count, worksheet_spread in enumerate(list_worksheet_spread):    
-            t1 = time.time()
-            try:
-                localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
-            except Exception as e:
-                logger.info(f'Error: {e}')
-                sys.exit(0)
-        
-            logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
-            #inital row count value 2
-            inital_row_num = 2
+        for gspreadsheet, cert_json in dict_gspreadsheet.items():
+            # Declare GoogleSS() from googleSS.py
+            localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
             
-            localGoogleSS.update_GSpreadworksheet_MA_status(inital_row_num, list_MA_data)
-            est_timer(t1)
-            # delay delay_sec secs
-            #if count < len(list_worksheet_spread)-1:
-            #    lib_misc.random_timer(self.json_data["list_delay_sec"][0], self.json_data["list_delay_sec"][-1])        
+            for count, worksheet_spread in enumerate(list_worksheet_spread):    
+                t1 = time.time()
+                try:
+                    localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+                except Exception as e:
+                    logger.info(f'Error: {e}')
+                    sys.exit(0)
+        
+                logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+                #inital row count value 2
+                inital_row_num = 2
+            
+                localGoogleSS.update_GSpreadworksheet_MA_status(inital_row_num, list_MA_data)
+                est_timer(t1)
+                # delay delay_sec secs
+                #if count < len(list_worksheet_spread)-1:
+                #    lib_misc.random_timer(self.json_data["list_delay_sec"][0], self.json_data["list_delay_sec"][-1])        
             
     def calculate_TWSE_MAs_status(self):
         self.dict_twse_tpex_ticker_cpn_name = query_dic_from_pickle(self.list_path_pickle_ticker[0])
@@ -1309,7 +1312,7 @@ class TWSE_TPEX_MAs_status():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='stock indicator')
     parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
-    parser.add_argument('--gspred_json', type=str, default='xxxx.json', help='Google Sheet Certi json')
+    #parser.add_argument('--gspred_json', type=str, default='xxxx.json', help='Google Sheet Certi json')
     
     args = parser.parse_args()
     
@@ -1323,7 +1326,7 @@ if __name__ == '__main__':
                             local_time.tm_hour,local_time.tm_min,local_time.tm_sec))
     
     json_file= args.conf_json
-    json_gsheet= args.gspred_json
+    json_gsheet= None#args.gspred_json
     
     json_path_file = pathlib.Path(strdirname)/json_file
     
