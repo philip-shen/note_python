@@ -634,7 +634,7 @@ class TWSE_TPEX_MAs_status():
                         re.match('^2448.TW$', ticker) or re.match('^3698.TW$', ticker) or re.match('^4144.TW$', ticker) or \
                         re.match('^5305.TW$', ticker) or re.match('^6131.TW$', ticker) or re.match('^8497.TW$', ticker) or \
                         re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  or \
-                        re.match('^1514.TW$', ticker) or re.match('^1477.TW$', ticker) or re.match('^2845.TW$', ticker)):
+                        re.match('^0000.TW$', ticker) or re.match('^0000.TW$', ticker) or re.match('^0000.TW$', ticker)):
                     continue 
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
@@ -1169,7 +1169,10 @@ class TWSE_TPEX_MAs_status():
             enddate = datetime(int(list_str_temp[0]), int(list_str_temp[1]), int(list_str_temp[2]))
 
             logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}') 
-
+            
+            # Update 200MA before 4 stars 4 dogs
+            self.update_200MA_plan_on_gspreadsheet(start_date=startdate, end_date=enddate)
+            
             # by pstock(asyncio mode)
             self.init_count_TWSE_variables()
             self.store_TWSE_TPEX_MAs_status(start_date=startdate, end_date=enddate)    
@@ -1202,24 +1205,7 @@ class TWSE_TPEX_MAs_status():
             lib_misc.list_out_file(path_ma_fname, list_cnt, opt_verbose='on')
             lib_misc.list_out_ML_file(path_ml_fname, list_cnt, opt_verbose='on')
             
-            #logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
-            #            format(self.num_twse_cpn,                    
-            #                    self.four_star_twse_cpn, self.three_star_twse_cpn, self.three_star_twse_cpn, self.one_star_twse_cpn,\
-            #                    self.expo_four_star_twse_cpn, self.expo_three_star_twse_cpn, self.expo_two_star_twse_cpn, self.expo_one_star_twse_cpn,\
-            #                    self.four_dog_twse_cpn, self.three_dog_twse_cpn, self.two_dog_twse_cpn, self.one_dog_twse_cpn,\
-            #                    self.expo_four_dog_twse_cpn, self.expo_three_dog_twse_cpn, self.expo_two_dog_twse_cpn, self.expo_one_dog_twse_cpn,\
-            #                    '{:.5f}'.format(self.four_star_twse_weight_ratio), '{:.5f}'.format(self.three_star_twse_weight_ratio) , 
-            #                    '{:.5f}'.format(self.two_star_twse_weight_ratio) , '{:.5f}'.format(self.one_star_twse_weight_ratio),
-            #                    '{:.5f}'.format(self.expo_four_star_twse_weight_ratio), '{:.5f}'.format(self.expo_three_star_twse_weight_ratio) , 
-            #                    '{:.5f}'.format(self.expo_two_star_twse_weight_ratio), '{:.5f}'.format(self.expo_one_star_twse_weight_ratio),
-            #                    '{:.5f}'.format(self.four_dog_twse_weight_ratio), '{:.5f}'.format(self.three_dog_twse_weight_ratio), 
-            #                    '{:.5f}'.format(self.two_dog_twse_weight_ratio), '{:.5f}'.format(self.one_dog_twse_weight_ratio),
-            #                    '{:.5f}'.format(self.expo_four_dog_twse_weight_ratio), '{:.5f}'.format(self.expo_three_dog_twse_weight_ratio), 
-            #                    '{:.5f}'.format(self.expo_two_dog_twse_weight_ratio), '{:.5f}'.format(self.expo_one_dog_twse_weight_ratio),
-            #                    '{:.5f}'.format(self.volatility_twse_weighted_indicator))) 
-            
-            self.update_MAs_status_on_gspreadsheet(list_MA_data=list_cnt)
-            self.update_200MA_plan_on_gspreadsheet(start_date=startdate, end_date=enddate)
+            self.update_MAs_status_on_gspreadsheet(list_MA_data=list_cnt)            
             
             if idx < len(self.json_data["start_end_date"])-1:
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
@@ -1294,18 +1280,7 @@ class TWSE_TPEX_MAs_status():
         
             lib_misc.list_out_file(path_ma_fname, list_cnt, opt_verbose='on')        
             lib_misc.list_out_ML_file(path_ml_fname, list_cnt, opt_verbose='on')
-            '''
-            logger.info('\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.\
-                        format(self.num_tpex_cpn,                    
-                                self.four_star_tpex_cpn, self.three_star_tpex_cpn, self.two_star_tpex_cpn, self.one_star_tpex_cpn,\
-                                self.expo_four_star_tpex_cpn, self.expo_three_star_tpex_cpn, self.expo_two_star_tpex_cpn, self.expo_one_star_tpex_cpn,\
-                                self.four_dog_tpex_cpn, self.three_dog_tpex_cpn, self.two_dog_tpex_cpn, self.one_dog_tpex_cpn,\
-                                self.expo_four_dog_tpex_cpn, self.expo_three_dog_tpex_cpn, self.expo_two_dog_tpex_cpn, self.expo_one_dog_tpex_cpn,\
-                                self.four_star_tpex_weight_ratio, self.three_star_tpex_weight_ratio, self.two_star_tpex_weight_ratio, self.one_star_tpex_weight_ratio,\
-                                self.expo_four_star_tpex_weight_ratio, self.expo_three_star_tpex_weight_ratio, self.expo_two_star_tpex_weight_ratio, self.expo_one_star_tpex_weight_ratio,\
-                                self.four_dog_tpex_weight_ratio, self.three_dog_tpex_weight_ratio, self.two_dog_tpex_weight_ratio, self.one_dog_tpex_weight_ratio,\
-                                self.expo_four_dog_tpex_weight_ratio, self.expo_three_dog_tpex_weight_ratio, self.expo_two_dog_tpex_weight_ratio, self.expo_one_dog_tpex_weight_ratio)) 
-            '''
+            
             if idx < len(self.json_data["start_end_date"])-1:
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
                 
