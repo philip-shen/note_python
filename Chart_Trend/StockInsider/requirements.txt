@@ -150,7 +150,7 @@ whichcraft==0.6.1
 winloop==0.1.6
 wsproto==1.2.0
 yarl==1.11.1
-yfinance==0.2.54
+#yfinance==0.2.54
 zope.event==5.0
 zope.interface==6.1
 pyrate-limiter==2.10.0
