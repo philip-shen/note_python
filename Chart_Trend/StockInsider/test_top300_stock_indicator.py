@@ -623,17 +623,7 @@ class TWSE_TPEX_MAs_status():
                 ERROR: ['3682.TW']: Exception('%ticker%: No timezone found, symbol may be delisted')    
                 ERROR: ['8480.TW']: Exception('%ticker%: No timezone found, symbol may be delisted') 
                 '''
-                if bool(re.match('^3682.TW$', ticker) or re.match('^5383.TWO$', ticker) or re.match('^00940.TW$', ticker) or \
-                        re.match('^00934.TW$', ticker) or re.match('^00935.TW$', ticker) or re.match('^8480.TW$', ticker) or \
-                        re.match('^3536.TW$', ticker) or re.match('^3383.TW$', ticker) or re.match('^6251.TW$', ticker) or \
-                        re.match('^6289.TW$', ticker) or re.match('^1507.TW$', ticker) or re.match('^2841.TW$', ticker) or \
-                        re.match('^2936.TW$', ticker) or re.match('^4141.TW$', ticker)  or re.match('^8427.TW$', ticker) or \
-                        re.match('^9188.TW$', ticker) or re.match('^1724.TW$', ticker) or re.match('^2456.TW$', ticker) or \
-                        re.match('^2823.TW$', ticker) or re.match('^6172.TW$', ticker) or re.match('^1592.TW$', ticker) or \
-                        re.match('^4725.TW$', ticker) or re.match('^5264.TW$', ticker) or re.match('^00766L.TW$', ticker) or \
-                        re.match('^2448.TW$', ticker) or re.match('^3698.TW$', ticker) or re.match('^4144.TW$', ticker) or \
-                        re.match('^5305.TW$', ticker) or re.match('^6131.TW$', ticker) or re.match('^8497.TW$', ticker) or \
-                        re.match('^6452.TW$', ticker) or re.match('^1902.TW$', ticker) or re.match('^2499.TW$', ticker)  or \
+                if bool(re.match('^0000.TW$', ticker) or re.match('^0000.TW$', ticker) or re.match('^0000.TW$', ticker)  or \
                         re.match('^0000.TW$', ticker) or re.match('^0000.TW$', ticker) or re.match('^0000.TW$', ticker)):
                     continue 
                 
