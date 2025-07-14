@@ -163,16 +163,16 @@ INFO: 298th key: 3013.TW; value: 3013晟銘電 weight_ration_value: 0.000312
 INFO: 299th key: 9938.TW; value: 9938百和 weight_ration_value: 0.000308
 INFO: 300th key: 8028.TW; value: 8028昇陽半導體 weight_ration_value: 0.000307
 '''
-def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id: list, path_csv_stock_id= '', opt_verbose= 'OFF'):
+def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id: dict, path_csv_stock_id= '', opt_verbose= 'OFF'):
     
-    df_twse_tpex_stock_idx = pd.read_csv(json_data["lastest_datastr_twse_tpex"][3], sep=',', lineterminator='\r')
-    df_twse_stock_idx = pd; df_tpex_stock_idx = pd
+    df_twse_tpex_us_stock_idx = pd.read_csv(json_data["lastest_datastr_twse_tpex"][3], sep=',', lineterminator='\r')
+    df_twse_stock_idx = pd; df_tpex_stock_idx = pd; df_us_stock_idx = pd
     #if opt_verbose.lower() == 'on':
-    #        logger.info(f'df_twse_tpex_stock_idx:\n {df_twse_tpex_stock_idx}' )    
+    #        logger.info(f'df_twse_tpex_stock_idx:\n {df_twse_tpex_us_stock_idx}' )    
         
     if bool(re.match('^twse', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
         pickle_fname_ticker_weight_ration = 'twse_ticker_weight_ration.pickle'
-        df_twse_stock_idx = df_twse_tpex_stock_idx
+        df_twse_stock_idx = df_twse_tpex_us_stock_idx
             
         df_twse_ticker = df_twse_stock_idx[['stk_idx', 'cpn_name', 'percent_twse']]
         df_twse_ticker['ticker'] = df_twse_stock_idx['stk_idx'].astype(str).replace("'", "").copy()+'.TW'
@@ -190,7 +190,8 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
                 logger.info('{}th key: {}; value: {} weight_ration_value: {}'.format(num, key, value, dict_data_twse_ticker_weight_ration[key]) )
 
         # save dictionary to pickle file
-        with open(path_pickle_stock_id[0], 'wb') as file:
+        #with open(path_pickle_stock_id[0], 'wb') as file:
+        with open(path_pickle_stock_id["twse"], 'wb') as file:
             pickle.dump(dict_data_twse_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)
         
         with open(pickle_fname_ticker_weight_ration, 'wb') as file:
@@ -198,7 +199,7 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
                     
     elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
         pickle_fname_ticker_weight_ration = 'tpex_ticker_weight_ration.pickle'        
-        df_tpex_stock_idx = df_twse_tpex_stock_idx
+        df_tpex_stock_idx = df_twse_tpex_us_stock_idx
 
         df_tpex_ticker = df_tpex_stock_idx[['stk_idx', 'cpn_name', 'percent_tpex' ]]
         df_tpex_ticker['ticker'] = df_tpex_stock_idx['stk_idx'].astype(str).copy()+'.TWO'
@@ -209,12 +210,44 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
         dict_data_tpex_ticker_cpn_name= dict(zip(df_tpex_ticker.ticker, df_tpex_ticker.cpn_name))
         dict_data_tpex_ticker_weight_ration= dict(zip(df_tpex_ticker.ticker, df_tpex_ticker.percent_tpex))
         
-        with open(path_pickle_stock_id[1], 'wb') as file:
+        #with open(path_pickle_stock_id[1], 'wb') as file:
+        with open(path_pickle_stock_id["tpex"], 'wb') as file:
             pickle.dump(dict_data_tpex_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)
 
         with open(pickle_fname_ticker_weight_ration, 'wb') as file:
             pickle.dump(dict_data_tpex_ticker_weight_ration, file, protocol=pickle.HIGHEST_PROTOCOL)
     
+    else:
+        df_us_stock_idx = df_twse_tpex_us_stock_idx
+        
+        df_us_ticker = df_us_stock_idx[['stk_idx', 'cpn_name', 'percent_us' ]]
+        df_us_ticker['ticker'] = df_us_stock_idx['stk_idx'].astype(str).copy()
+        
+        if opt_verbose.lower() == 'on':
+            logger.info(f'df_us_stock_idx:\n {df_us_stock_idx}' )
+        
+        dict_data_us_ticker_cpn_name= dict(zip(df_us_ticker.ticker, df_us_ticker.cpn_name))
+        dict_data_us_ticker_weight_ration= dict(zip(df_us_ticker.ticker, df_us_ticker.percent_us))
+        
+        if opt_verbose.lower() == 'on':
+            num = 0
+            for key, value in dict_data_us_ticker_cpn_name.items():
+                num+=1
+                logger.info('{}th key: {}; value: {} weight_ration_value: {}'.format(num, key, value, dict_data_us_ticker_weight_ration[key]) )
+                
+        if bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["sp500"]
+            pickle_fname_ticker_weight_ration = 'sp500_ticker_weight_ration.pickle'
+                
+        elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["nasdaq"]
+            pickle_fname_ticker_weight_ration = 'nasdaq100_ticker_weight_ration.pickle'
+            
+        with open(pickle_fname_ticker, 'wb') as file:
+            pickle.dump(dict_data_us_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)    
+        with open(pickle_fname_ticker_weight_ration, 'wb') as file:
+            pickle.dump(dict_data_us_ticker_weight_ration, file, protocol=pickle.HIGHEST_PROTOCOL)
+                    
     return pickle_fname_ticker_weight_ration
 
 def query_dic_from_pickle(path_pickle_stock_id, opt_verbose= 'OFF'):
@@ -1308,6 +1341,7 @@ if __name__ == '__main__':
     
     path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
     list_path_pickle_ticker= json_data["twse_otc_id_pickle"]#['twse_ticker.pickle', 'tpex_ticker.pickle', 'twse_tpex_ticker.pickle']
+    dict_path_pickle_ticker= json_data["dict_twse_otc_us_id_pickle"]
     
     # for accelerate get twse tpex idx purpose   
     local_stock= yahooFinance.Stock(json_data)        
@@ -1315,7 +1349,7 @@ if __name__ == '__main__':
     if json_data["lastest_datastr_twse_tpex"][0].lower() == "request":
         store_twse_tpex_ticker(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
     elif json_data["lastest_datastr_twse_tpex"][0].lower() == "csv":
-        pickle_ticker_weight_ration = store_twse_tpex_ticker_weight_ration_fromCSV(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
+        pickle_ticker_weight_ration = store_twse_tpex_ticker_weight_ration_fromCSV(json_data, dict_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
         
     else:        
         list_path_pickle_ticker.append(['twse_ticker_weight_ration.pickle', 'tpex_ticker_weight_ration.pickle'])
