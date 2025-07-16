@@ -1,0 +1,30 @@
+{
+    "stock_indexes": ["2303",
+                       "2330" 
+    ], 
+    "width_height":[900, 700],
+    "images_folder":"xxxxx",
+    "int_delay_sec": [20, 25],        
+    "lastest_datastr_twse_tpex": ["start_end_date", "nasdaq", "20241231", "Nasdaq100Components_202507.csv"],
+    "start_end_date":[                       
+                    ["20240701","20250714"]],
+    "temp_twse_otc_id_pickle":["twse_ticker_20240701.pickle", "tpex_ticker_20240701.pickle", "twse_tpex_ticker_20240701.pickle"],
+    "twse_otc_id_pickle":["twse_ticker_top300.pickle", "tpex_ticker_top300.pickle", "twse_tpex_ticker_top300.pickle"],
+    
+    "dict_twse_otc_us_id_pickle":{
+        "twse": ["twse_ticker_top300.pickle","twse_ticker_weight_ration.pickle"],
+        "tpex": ["tpex_ticker_top300.pickle","tpex_ticker_weight_ration.pickle"],
+        "sp500": ["sp500_ticker.pickle","sp500_ticker_weight_ration.pickle"],
+        "nasdaq": ["nasdaq100_ticker.pickle","nasdaq100_ticker_weight_ration.pickle"]
+    },
+
+    "gSpredSheet_certificate": {"200MA_MA_Statistic": "PyGsheetUpload_200MA_statistic.json"},
+    "worksheet_gSpredSheet": ["daily_data"],
+    
+    "dict_worksheet_gSpredSheet":{
+        "twse": "daily_data",
+        "tpex": "daily_data",
+        "sp500": "daily_data_sp500",
+        "nasdaq": "daily_data_nasdaq"
+    }
+}
