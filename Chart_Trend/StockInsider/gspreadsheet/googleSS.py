@@ -31,13 +31,22 @@ class GoogleSS:
 
     def get_stkidx_cnpname(self, row_count, list_delay_sec):
         list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)
-        list_stkidx_cnpname = []
+        list_stkidx_cnpname = []        
+        dict_worksheet_spread = self.json_data["dict_worksheet_gSpredSheet"]
         
+        if bool(re.match('^twse', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            worksheet_spread = dict_worksheet_spread["twse"]
+        elif bool(re.match('^sp500', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            worksheet_spread = dict_worksheet_spread["sp500"]
+        elif bool(re.match('^nasdaq', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            worksheet_spread = dict_worksheet_spread["nasdaq"]
+            
         while len(list_Gworksheet_rowvalue) > 0:
             cnpname = str(list_Gworksheet_rowvalue[0])
             stkidx = str(list_Gworksheet_rowvalue[1])
             if self.opt_verbose.lower() == 'on':
-                logger.info(f'company name: {cnpname} stock index: {stkidx} from Google sheet: {self.json_data["gSpredSheet"]}')
+                #logger.info(f'company name: {cnpname} stock index: {stkidx} from Google sheet: {self.json_data["gSpredSheet"]}')
+                logger.info(f'company name: {cnpname} stock index: {stkidx} from Google sheet: {worksheet_spread}')
 
             temp_dict = {
                 'stkidx': stkidx,

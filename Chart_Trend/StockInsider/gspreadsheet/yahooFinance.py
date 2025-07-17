@@ -473,7 +473,6 @@ class stock_indicator:
         three_Expon_MAs = EMA5 and EMA10 and EMA20
         two_Expon_MAs = EMA5 and EMA10
         one_Expon_MAs = EMA5
-        '''
         self.four_E_flag = True if four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price else False
         self.three_E_flag = True if three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price else False
         self.two_E_flag = True if two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price else False
@@ -487,7 +486,7 @@ class stock_indicator:
                             (two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price) else False
         self.one_E_flag = True if not self.one_flag and \
                             (one_Expon_MAs and max(stock_price, EMA5) == stock_price) else False
-        
+        '''        
         
         self.four_E_dog = True if not self.four_dog and \
                             (four_Expon_MAs and min(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False

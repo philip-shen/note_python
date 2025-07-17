@@ -853,78 +853,39 @@ class TWSE_TPEX_MAs_status():
     def count_dict_4_star_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'four_star' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為四海遊龍型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.four_star_twse_cpn += 1
-                self.four_star_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nfour_star_twse_weight_ratio: {"{:.5f}".format(self.four_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.four_star_tpex_cpn += 1 
-                self.four_star_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.four_star_cpn += 1
-                self.four_star_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nfour_star_weight_ratio: {"{:.5f}".format(self.four_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-                                
+            self.four_star_cpn += 1
+            self.four_star_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\nfour_star_weight_ratio: {"{:.5f}".format(self.four_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                                        
     def count_dict_3_star_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'three_star' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為三陽開泰型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
             
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.three_star_twse_cpn += 1
-                self.three_star_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nthree_star_twse_weight_ratio: {"{:.5f}".format(self.three_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
-            
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.three_star_tpex_cpn += 1 
-                self.three_star_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.three_star_cpn += 1
-                self.three_star_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nthree_star_weight_ratio: {"{:.5f}".format(self.three_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-    
+            self.three_star_cpn += 1
+            self.three_star_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\nthree_star_weight_ratio: {"{:.5f}".format(self.three_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                         
     def count_dict_2_star_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'two_star' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為雙囍臨門型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
             
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.two_star_twse_cpn += 1
-                self.two_star_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\ntwo_star_twse_weight_ratio: {"{:.5f}".format(self.two_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
-            
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.two_star_tpex_cpn += 1 
-                self.two_star_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.two_star_cpn += 1
-                self.two_star_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\ntwo_star_weight_ratio: {"{:.5f}".format(self.two_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-    
+            self.two_star_cpn += 1
+            self.two_star_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\ntwo_star_weight_ratio: {"{:.5f}".format(self.two_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                    
     def count_dict_1_star_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'one_star' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為一星報喜型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
             
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.one_star_twse_cpn += 1
-                self.one_star_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\none_star_twse_weight_ratio: {"{:.5f}".format(self.one_star_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
-            
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.one_star_tpex_cpn += 1 
-                self.one_star_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.one_star_cpn += 1
-                self.one_star_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\none_star_weight_ratio: {"{:.5f}".format(self.one_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-    
+            self.one_star_cpn += 1
+            self.one_star_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\none_star_weight_ratio: {"{:.5f}".format(self.one_star_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                    
     def count_4_expo_star_num(self, twse_tpex_ticker_MAs_info):
         if twse_tpex_ticker_MAs_info["MAs_status"] == 'Expo_four_star' and (twse_tpex_ticker_MAs_info["close"] >= 20.0):
             logger.info(f'{twse_tpex_ticker_MAs_info["ticker"]} {twse_tpex_ticker_MAs_info["stock_name"]}:為指數_四海遊龍型股票!! weight_ratio: {twse_tpex_ticker_MAs_info["weight"]}')
@@ -1028,75 +989,39 @@ class TWSE_TPEX_MAs_status():
     def count_dict_4_dog_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'four_dog' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為四腳朝天型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.four_dog_twse_cpn += 1
-                self.four_dog_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nfour_dog_twse_weight_ratio: {"{:.5f}".format(self.four_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.four_dog_tpex_cpn += 1 
-                self.four_dog_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.four_dog_cpn += 1
-                self.four_dog_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nfour_dog_weight_ratio: {"{:.5f}".format(self.four_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-    
+            self.four_dog_cpn += 1
+            self.four_dog_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\nfour_dog_weight_ratio: {"{:.5f}".format(self.four_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                    
     def count_dict_3_dog_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'three_dog' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為三人成虎型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.three_dog_twse_cpn += 1
-                self.three_dog_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nthree_dog_twse_weight_ratio: {"{:.5f}".format(self.three_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.three_dog_tpex_cpn += 1 
-                self.three_dog_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.three_dog_cpn += 1
-                self.three_dog_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\nthree_dog_weight_ratio: {"{:.5f}".format(self.three_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-                    
+            self.three_dog_cpn += 1
+            self.three_dog_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\nthree_dog_weight_ratio: {"{:.5f}".format(self.three_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                            
     def count_dict_2_dog_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'two_dog' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為二竪作惡型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.two_dog_twse_cpn += 1
-                self.two_dog_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\ntwo_dog_twse_weight_ratio: {"{:.5f}".format(self.two_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.two_dog_tpex_cpn += 1 
-                self.two_dog_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.two_dog_cpn += 1
-                self.two_dog_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\ntwo_dog_weight_ratio: {"{:.5f}".format(self.two_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-    
+            self.two_dog_cpn += 1
+            self.two_dog_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\ntwo_dog_weight_ratio: {"{:.5f}".format(self.two_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                    
     def count_dict_1_dog_num(self, dict_ticker_MAs_info):
         if dict_ticker_MAs_info["MAs_status"] == 'one_dog' and (dict_ticker_MAs_info["close"] >= 0.1):
             logger.info(f'{dict_ticker_MAs_info["ticker"]} {dict_ticker_MAs_info["stock_name"]}:為一敗塗地型股票!! weight_ratio: {dict_ticker_MAs_info["weight"]}')
-            if bool(re.search('TW$', dict_ticker_MAs_info["ticker"])):
-                self.one_dog_twse_cpn += 1
-                self.one_dog_twse_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\none_dog_twse_weight_ratio: {"{:.5f}".format(self.one_dog_twse_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_TWSE_weighted_indicator: {"{:.5f}".format(self.volatility_twse_weighted_indicator)}')
             
-            elif bool(re.search('\.TWO$', dict_ticker_MAs_info["ticker"])):
-                self.one_dog_tpex_cpn += 1 
-                self.one_dog_tpex_weight_ratio += dict_ticker_MAs_info["weight"]
-            else:
-                self.one_dog_cpn += 1
-                self.one_dog_weight_ratio += dict_ticker_MAs_info["weight"]
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f'\none_dog_weight_ratio: {"{:.5f}".format(self.one_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
-    
+            self.one_dog_cpn += 1
+            self.one_dog_weight_ratio += dict_ticker_MAs_info["weight"]
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'\none_dog_weight_ratio: {"{:.5f}".format(self.one_dog_weight_ratio)}, volatility_stock_weighted_indicator: {"{:.5f}".format(self.volatility_stock_weighted_indicator)}, volatility_weighted_indicator: {"{:.5f}".format(self.volatility_weighted_indicator)}')
+                    
     def count_4_expo_dog_num(self, twse_tpex_ticker_MAs_info):
         if twse_tpex_ticker_MAs_info["MAs_status"] == 'Expo_four_dog' and (twse_tpex_ticker_MAs_info["close"] >= 20.0):
             logger.info(f'{twse_tpex_ticker_MAs_info["ticker"]} {twse_tpex_ticker_MAs_info["stock_name"]}:為指數_四腳朝天型股票!! weight_ratio: {twse_tpex_ticker_MAs_info["weight"]}')
@@ -1196,12 +1121,7 @@ class TWSE_TPEX_MAs_status():
             self.count_dict_2_dog_num(dict_ticker_MAs)
             self.count_dict_1_dog_num(dict_ticker_MAs)
             
-            if bool(re.search('TW$', dict_ticker_MAs["ticker"])):
-                self.num_twse_cpn += 1 
-            elif bool(re.search('\.TWO$', dict_ticker_MAs["ticker"])):
-                self.num_tpex_cpn += 1
-            else:     
-                self.num_cpn += 1
+            self.num_cpn += 1
                 
     def log_info_TWSE_MAs_status(self):
         logger.info(f'TWSE 股票家數: {self.num_twse_cpn}' )    
@@ -1460,11 +1380,12 @@ class TWSE_TPEX_MAs_status():
                 logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
                 #inital row count value 2
                 inital_row_num = 5
-            
-                localGoogleSS.update_GSpreadworksheet_200MA_plan_batch_update(inital_row_num, self.pt_stock)
+                
+                # remark 20250718           
+                #localGoogleSS.update_GSpreadworksheet_200MA_plan_batch_update(inital_row_num, self.pt_stock)
             
                 # remark cause Response [429 Too Many Requests]
-                #localGoogleSS.update_GSpreadworksheet_200MA_plan_from_pstock(inital_row_num, self.pt_stock)
+                localGoogleSS.update_GSpreadworksheet_200MA_plan_from_pstock(inital_row_num, self.pt_stock)
             
                 est_timer(t1)
     
@@ -1794,7 +1715,7 @@ if __name__ == '__main__':
     with open(json_file, encoding="utf-8") as f:
         json_data = json.load(f)  
         
-    opt_verbose= 'OFF'
+    opt_verbose= 'ON'
     
     path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
     list_path_pickle_ticker= json_data["twse_otc_id_pickle"]#['twse_ticker.pickle', 'tpex_ticker.pickle', 'twse_tpex_ticker.pickle']
@@ -1817,12 +1738,12 @@ if __name__ == '__main__':
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse":
-            local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
-            
+            #local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
+            local_twse_tpex_ma_status.calculate_dict_MAs_status()
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "tpex":
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()        
 
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "nasdaq":
-            local_twse_tpex_ma_status.calculate_dict_MAs_status()        
-            
+        else:
+            local_twse_tpex_ma_status.calculate_dict_MAs_status()
+                
     est_timer(t0)    
