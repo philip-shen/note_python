@@ -240,8 +240,8 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["sp500"][1]
                 
         elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
-            pickle_fname_ticker = path_pickle_stock_id["nasdaq"][0]
-            pickle_fname_ticker_weight_ration = path_pickle_stock_id["nasdaq"][1]
+            pickle_fname_ticker = path_pickle_stock_id["nasdaq100"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["nasdaq100"][1]
             
         with open(pickle_fname_ticker, 'wb') as file:
             pickle.dump(dict_data_us_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)    
@@ -1404,7 +1404,7 @@ class TWSE_TPEX_MAs_status():
                 worksheet_spread = dict_worksheet_spread["sp500"]
                 
             elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
-                worksheet_spread = dict_worksheet_spread["nasdaq"]
+                worksheet_spread = dict_worksheet_spread["nasdaq100"]
             
             t1 = time.time()
             try:
@@ -1458,8 +1458,8 @@ class TWSE_TPEX_MAs_status():
             worksheet_spread = dict_worksheet_spread["twse"]
         elif bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
             worksheet_spread = dict_worksheet_spread["sp500"]
-        elif bool(re.match('^nasdaq', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
-            worksheet_spread = dict_worksheet_spread["nasdaq"]
+        elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            worksheet_spread = dict_worksheet_spread["nasdaq100"]
                         
         for gspreadsheet, cert_json in dict_gspreadsheet.items():
             # Declare GoogleSS() from googleSS.py
@@ -1553,9 +1553,9 @@ class TWSE_TPEX_MAs_status():
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["sp500"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["sp500"][1]
         elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
-            str_ticker = '^IXIC'
-            fname_ticker_cpn_name = self.dict_path_pickle_ticker["nasdaq"][0]
-            fname_ticker_weight_ration = self.dict_path_pickle_ticker["nasdaq"][1]
+            str_ticker = '^NDX'
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["nasdaq100"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["nasdaq100"][1]
         
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
@@ -1715,7 +1715,7 @@ if __name__ == '__main__':
     with open(json_file, encoding="utf-8") as f:
         json_data = json.load(f)  
         
-    opt_verbose= 'ON'
+    opt_verbose= 'OFF'
     
     path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
     list_path_pickle_ticker= json_data["twse_otc_id_pickle"]#['twse_ticker.pickle', 'tpex_ticker.pickle', 'twse_tpex_ticker.pickle']

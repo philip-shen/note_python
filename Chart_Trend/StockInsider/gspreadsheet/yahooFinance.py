@@ -361,6 +361,15 @@ class stock_indicator:
         self.startdate = startdate
         self.enddate = enddate    
         
+        self.four_E_flag = False
+        self.three_E_flag = False
+        self.two_E_flag = False
+        self.one_E_flag = False
+        self.four_E_dog = False
+        self.three_E_dog = False
+        self.two_E_dog = False
+        self.one_E_dog = False
+                            
         # initialize Asset object 
         asset = Asset( self.stock_ticker, start_date= self.startdate, end_date= self.enddate, \
                         period=period, interval=interval)
@@ -477,17 +486,17 @@ class stock_indicator:
         self.three_E_flag = True if three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price else False
         self.two_E_flag = True if two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price else False
         self.one_E_flag = True if one_Expon_MAs and max(stock_price, EMA5) == stock_price else False
-        '''
-        self.four_E_flag = True if not self.four_flag and \
-                            (four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
-        self.three_E_flag = True if not self.three_flag and \
-                            (three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price) else False
-        self.two_E_flag = True if not self.two_flag and \
-                            (two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price) else False
-        self.one_E_flag = True if not self.one_flag and \
-                            (one_Expon_MAs and max(stock_price, EMA5) == stock_price) else False
-        '''        
         
+        '''
+        #self.four_E_flag = True if not self.four_flag and \
+        #                    (four_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
+        #self.three_E_flag = True if not self.three_flag and \
+        #                    (three_Expon_MAs and max(stock_price, EMA5, EMA10, EMA20) == stock_price) else False
+        #self.two_E_flag = True if not self.two_flag and \
+        #                    (two_Expon_MAs and max(stock_price, EMA5, EMA10) == stock_price) else False
+        #self.one_E_flag = True if not self.one_flag and \
+        #                    (one_Expon_MAs and max(stock_price, EMA5) == stock_price) else False
+        '''
         self.four_E_dog = True if not self.four_dog and \
                             (four_Expon_MAs and min(stock_price, EMA5, EMA10, EMA20, EMA60) == stock_price) else False
         self.three_E_dog = True if not self.three_dog and \

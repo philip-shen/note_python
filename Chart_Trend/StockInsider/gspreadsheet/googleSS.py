@@ -38,8 +38,8 @@ class GoogleSS:
             worksheet_spread = dict_worksheet_spread["twse"]
         elif bool(re.match('^sp500', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
             worksheet_spread = dict_worksheet_spread["sp500"]
-        elif bool(re.match('^nasdaq', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
-            worksheet_spread = dict_worksheet_spread["nasdaq"]
+        elif bool(re.match('^nasdaq100', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            worksheet_spread = dict_worksheet_spread["nasdaq100"]
             
         while len(list_Gworksheet_rowvalue) > 0:
             cnpname = str(list_Gworksheet_rowvalue[0])
