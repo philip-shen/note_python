@@ -259,6 +259,12 @@ class Stock:
                 #logger.info(f"ticker: {self.ticker}")
                 return
             
+        # for Bond related ETF 00864B,00679B,00719B,00953B maping to .TWO   
+        if bool(re.match('^00[0-9][0-9][0-9]b$', self.stock_idx.lower())):
+                self.ticker=  self.stock_idx+'.TWO' 
+                #logger.info(f"ticker: {self.ticker}")
+                return
+        
         if bool(re.match('^[a-zA-Z]+$', self.stock_idx)):
                 self.ticker=  self.stock_idx
                 #logger.info(f"ticker: {self.ticker}")
