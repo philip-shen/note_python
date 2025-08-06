@@ -5,7 +5,7 @@
     "width_height":[900, 700],
     "images_folder":"xxxxx",
     "int_delay_sec": [20, 25],        
-    "lastest_datastr_twse_tpex": ["start_end_date", "twse", "20241231", "twse_top300_202506.csv"],
+    "lastest_datastr_twse_tpex": ["start_end_date", "twse", "20250801", "twse_top300_202506.csv"],
     "start_end_date":[                       
                     ["20240801","20250801"]],
     "temp_twse_otc_id_pickle":["twse_ticker_20240701.pickle", "tpex_ticker_20240701.pickle", "twse_tpex_ticker_20240701.pickle"],

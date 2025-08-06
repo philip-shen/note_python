@@ -209,7 +209,9 @@ class Stock:
         #logger.info(f'self.df_twse_website_info:\n{self.df_twse_website_info}')    
         
         # before trade day 14:00 no data to get
-        csv_log = 'MI_INDEX_ALL_202501.csv'
+        # Python學習日誌-解決UnicodeDecodeError問題
+        # https://ghost831105.medium.com/python%E5%AD%B8%E7%BF%92%E6%97%A5%E8%AA%8C-%E8%A7%A3%E6%B1%BAunicodedecodeerror%E5%95%8F%E9%A1%8C-94a1d6fcb44c
+        csv_log = 'MI_INDEX_ALL_20250806.csv'
         usecols = ["證券代號", "證券名稱"]
         self.df_twse_website_info = pd.read_csv(csv_log,usecols=usecols).dropna(how='all', axis=1).dropna(how='any')
         logger.info(f'**** TWSE Server before trade day 14:00 no data to get from 202501 ****')    
