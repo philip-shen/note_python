@@ -1122,6 +1122,46 @@ class TWSE_TPEX_MAs_status():
             self.count_dict_1_dog_num(dict_ticker_MAs)
             
             self.num_cpn += 1
+    
+    def log_all_ticker_dict_MAs_cnts(self, path_all_tikcers_ma):
+        list_all_tickers_ma_cnt = []
+        default_time_format = '%Y-%m-%d %H:%M:%S'
+        
+        for dict_ticker_MAs in self.dict_MAs_status:
+            list_all_tickers_ma_cnt.append([dict_ticker_MAs["ticker"],dict_ticker_MAs["stock_name"],\
+                                '{:.2f}'.format(dict_ticker_MAs["open"]),'{:.2f}'.format(dict_ticker_MAs["close"]), \
+                                '{:.2f}'.format(dict_ticker_MAs["high"]),'{:.2f}'.format(dict_ticker_MAs["low"]),\
+                                '{:.2f}'.format(dict_ticker_MAs["prev_day_close"]),'{:.5f}'.format(dict_ticker_MAs["weight"]),\
+                                dict_ticker_MAs["MAs_status"]]
+                            )
+        
+        list_all_tickers_ma_cnt.append([f'{self.json_data["lastest_datastr_twse_tpex"][1].upper()} 股票家數: {self.num_cpn}'])
+        
+        list_all_tickers_ma_cnt.append(['{} 四海遊龍型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; TWSE 三陽開泰型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
+                self.four_star_cpn, self.four_star_cpn/self.num_cpn, self.four_star_weight_ratio,
+                self.three_star_cpn, self.three_star_cpn/self.num_cpn, self.three_star_weight_ratio)])
+        
+        list_all_tickers_ma_cnt.append(['{} 雙囍臨門型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; TWSE 一星報喜型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
+                self.two_star_cpn, self.two_star_cpn/self.num_cpn, self.two_star_weight_ratio,
+                self.one_star_cpn, self.one_star_cpn/self.num_cpn, self.one_star_weight_ratio)])
+        
+        list_all_tickers_ma_cnt.append(['{} 四腳朝天型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; TWSE 三人成虎型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
+                self.four_dog_cpn, self.four_dog_cpn/self.num_cpn, self.four_dog_weight_ratio,
+                self.three_dog_cpn, self.three_dog_cpn/self.num_cpn, self.three_dog_weight_ratio)])
+        
+        list_all_tickers_ma_cnt.append(['{} 二竪作惡型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; TWSE 一敗塗地型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
+                self.two_dog_cpn, self.two_dog_cpn/self.num_cpn, self.two_dog_weight_ratio,
+                self.one_dog_cpn, self.one_dog_cpn/self.num_cpn, self.one_dog_weight_ratio)])
+        
+        t = time.localtime()
+        list_all_tickers_ma_cnt.append([time.strftime(default_time_format, t)])
+        
+        #logger.info(f'list_all_tickers_ma_cnt: {list_all_tickers_ma_cnt}' )        
+        lib_misc.list_out_all_tickers_MA_cnts_file(path_all_tikcers_ma, list_all_tickers_ma_cnt, opt_verbose='on')
                 
     def log_info_TWSE_MAs_status(self):
         logger.info(f'TWSE 股票家數: {self.num_twse_cpn}' )    
@@ -1585,6 +1625,10 @@ class TWSE_TPEX_MAs_status():
             self.store_dict_MAs_status(start_date=startdate, end_date=enddate)    
             self.check_dict_MAs_status()                                
             self.log_info_dict_MAs_status()
+            
+            # log out all tickers start-dog MA status
+            path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_MA.txt')
+            self.log_all_ticker_dict_MAs_cnts(path_all_tickers_fname)
             
             # by yfinance or pstock(asyncio mode)
             self.calculate_dict_index_info(str_ticker= str_ticker, start_date=startdate, end_date=enddate)    

@@ -137,3 +137,16 @@ def list_out_ML_file(path_filename: str, content: list, opt_verbose='OFF'):
         f.write(f"###,\n")
         for line in content:
             f.write(f"{line},")            
+
+def list_out_all_tickers_MA_cnts_file(path_filename: str, content: list, opt_verbose='OFF'):
+    path_csv_fname = path_filename.with_suffix('.csv')
+    
+    if opt_verbose.lower() == 'on':
+        logger.info(f'output csv file name: {path_csv_fname}')
+    
+    with open(path_csv_fname, 'w', encoding='utf-8') as f:
+        f.write(f"ticker,stock_name,open,close,high,low,prev_day_close,weight,MAs_status\n")
+        for line in content:
+            #logger.info(f"line: {','.join(str(num) for num in line)}")
+            f.write(f"{','.join(str(num) for num in line)}\n")            
+            
