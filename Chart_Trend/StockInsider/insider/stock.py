@@ -908,13 +908,18 @@ class stock_indicator_pstock:
         #return data
 
     def calculate_ShortMediumTerm_moving_averages(self, three_window=3, weekly_window=5, seven_window=7, thirteen_window=13, \
-                                    twentyeight_window=28, eightyfour_window=84):
+                                    twentyeight_window=28, eightyfour_window=84, \
+                                    Dweekly_window=10, monthly_window=20, quarterly_window=60):
         self.stock_data['MA_3'] = self.stock_data['close'].rolling(window=three_window).mean()
         self.stock_data['MA_5'] = self.stock_data['close'].rolling(window=weekly_window).mean()
         self.stock_data['MA_7'] = self.stock_data['close'].rolling(window=seven_window).mean()
         self.stock_data['MA_13'] = self.stock_data['close'].rolling(window=thirteen_window).mean()
         self.stock_data['MA_28'] = self.stock_data['close'].rolling(window=twentyeight_window).mean()
         self.stock_data['MA_84'] = self.stock_data['close'].rolling(window=eightyfour_window).mean()
+        
+        self.stock_data['MA_10'] = self.stock_data['close'].rolling(window=Dweekly_window).mean()
+        self.stock_data['MA_20'] = self.stock_data['close'].rolling(window=monthly_window).mean()
+        self.stock_data['MA_60'] = self.stock_data['close'].rolling(window=quarterly_window).mean()
         
     def calculate_exponential_moving_averages(self, weekly_window=5, Dweekly_window=10, \
                                     monthly_window=20, quarterly_window=60):
@@ -1068,7 +1073,8 @@ class stock_indicator_pstock:
         self.stock_data['Bollinger Upper'] = sma + (std * 2)
         self.stock_data['Bollinger Lower'] = sma - (std * 2)
 
-        logger.info(f"calculate_bollinger_bands window={window}, BB_Middle: {self.stock_data['Bollinger Middle'].astype(float).iloc[-1]}, \
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f"calculate_bollinger_bands window={window}, BB_Middle: {self.stock_data['Bollinger Middle'].astype(float).iloc[-1]}, \
                     BB_Upper: {self.stock_data['Bollinger Upper'].astype(float).iloc[-1]},BB_Lower: {self.stock_data['Bollinger Lower'].astype(float).iloc[-1]}")
         
     # RSIを計算する関数
@@ -1083,7 +1089,8 @@ class stock_indicator_pstock:
         rs = avg_gain / avg_loss
         self.stock_data['RSI'] = 100 - (100 / (1 + rs))
 
-        logger.info(f"calculate_RSI window={window}, RSI: {self.stock_data['RSI'].astype(float).iloc[-1]}")
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f"calculate_RSI window={window}, RSI: {self.stock_data['RSI'].astype(float).iloc[-1]}")
         
     def calculate_MACD(self, period1=12, period2=26, period3=9):
         """Default is set to 12 and 26 exponential moving average for macd
@@ -1098,8 +1105,9 @@ class stock_indicator_pstock:
         self.stock_data['MACD Signal'] = macd_signal
         self.stock_data['MACD Histogram'] = macd_line - macd_signal
         
-        logger.info(f"calculate_MACD period1={period1}, period2={period2}, period3={period3}")
-        logger.info(f"MACD: {self.stock_data['MACD'].astype(float).iloc[-1]}, \
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f"calculate_MACD period1={period1}, period2={period2}, period3={period3}")        
+            logger.info(f"MACD: {self.stock_data['MACD'].astype(float).iloc[-1]}, \
                         MACD Signal={self.stock_data['MACD Signal'].astype(float).iloc[-1]}, \
                         MACD Histogram={self.stock_data['MACD Histogram'].astype(float).iloc[-1]}")
                         

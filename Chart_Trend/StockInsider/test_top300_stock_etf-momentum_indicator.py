@@ -801,7 +801,7 @@ class TWSE_TPEX_MAs_status():
                 
                 #logger.info(f'dict_temp: {dict_temp}')
         self.dict_MAs_status = list_MAs_status
-    
+        
     def store_dict_ShortMediumTerm_trend(self, start_date, end_date):
         list_ShortMediumTerm_trend = []
         target_ticker = None 
@@ -830,6 +830,7 @@ class TWSE_TPEX_MAs_status():
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
                 
+                # remark by using pointer from store_dict_MAs_status
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
                                                                 startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
                 
@@ -839,6 +840,7 @@ class TWSE_TPEX_MAs_status():
                     local_stock_indicator.yfinance_asyncio_interval_startdate_enddate()
                 else:
                     local_stock_indicator.pstock_interval_period()
+                
                 
                 #if self.opt_verbose.lower() == 'on':
                 #    logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
@@ -859,9 +861,13 @@ class TWSE_TPEX_MAs_status():
                     "MA_3days": local_stock_indicator.stock_data['MA_3'].astype(float).iloc[-1],
                     "MA_5days": local_stock_indicator.stock_data['MA_5'].astype(float).iloc[-1],
                     "MA_7days": local_stock_indicator.stock_data['MA_7'].astype(float).iloc[-1],
-                    "MA_13days": local_stock_indicator.stock_data['MA_13'].astype(float).iloc[-1],                
+                    "MA_13days": local_stock_indicator.stock_data['MA_13'].astype(float).iloc[-1],
                     "MA_28days": local_stock_indicator.stock_data['MA_28'].astype(float).iloc[-1],
-                    "MA_84days": local_stock_indicator.stock_data['MA_84'].astype(float).iloc[-1],
+                    "MA_84days": local_stock_indicator.stock_data['MA_84'].astype(float).iloc[-1],                    
+                    "MA_10days": local_stock_indicator.stock_data['MA_10'].astype(float).iloc[-1],
+                    "MA_20days": local_stock_indicator.stock_data['MA_20'].astype(float).iloc[-1],
+                    "MA_60days": local_stock_indicator.stock_data['MA_60'].astype(float).iloc[-1],
+                    
                     "BBband_Middle": local_stock_indicator.stock_data['Bollinger Middle'].astype(float).iloc[-1],
                     "BBband_Upper": local_stock_indicator.stock_data['Bollinger Upper'].astype(float).iloc[-1],
                     "BBband_Lower": local_stock_indicator.stock_data['Bollinger Lower'].astype(float).iloc[-1],
@@ -1210,7 +1216,7 @@ class TWSE_TPEX_MAs_status():
         
         for dict_ticker_MAs_momentum in dict_MAs_momentum_status:
             #logger.info(f'length of dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum.__len__()}')
-            if dict_ticker_MAs_momentum.__len__() == 24:
+            if dict_ticker_MAs_momentum.__len__() == 27:
                 list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"],dict_ticker_MAs_momentum["stock_name"],\
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]), \
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
@@ -1219,7 +1225,9 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_3days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_5days"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_7days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_13days"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_28days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_84days"]),\
-                                '{:.5f}'.format(dict_ticker_MAs_momentum["BBband_Middle"]), \
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_10days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_20days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_60days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["BBband_Middle"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["BBband_Lower"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MACD"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
@@ -1561,6 +1569,32 @@ class TWSE_TPEX_MAs_status():
             #localGoogleSS.update_GSpreadworksheet_200MA_plan_from_pstock(inital_row_num, self.pt_stock)
             
             est_timer(t1)
+    
+    def update_dict_etf_momentum_on_gspreadsheet(self):
+        dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]        
+        dict_worksheet_spread = self.json_data["dict_worksheet_gSpredSheet"]
+        if bool(re.match('^twse_etf', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["twse_etf"]
+                    
+        for gspreadsheet, cert_json in dict_gspreadsheet.items():
+            
+            if bool(re.match('^200ma$', gspreadsheet.lower())  ):
+                # Declare GoogleSS() from googleSS.py
+                localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
+            
+                t1 = time.time()
+                try:
+                    localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+                except Exception as e:
+                    logger.info(f'Error: {e}')
+                    sys.exit(0)
+        
+                logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+                inital_row_num = 2
+            
+                localGoogleSS.update_GSpreadworksheet_etf_momentum_batch_update(self.dict_ShortMediumTerm_trend, inital_row_num)
+            
+                est_timer(t1)
                 
     def update_MAs_status_on_gspreadsheet(self, list_MA_data):
         dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]
@@ -1792,7 +1826,13 @@ class TWSE_TPEX_MAs_status():
             # log out all tickers start-dog MA status
             path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_ShortMediumTerm_trend.txt')
             self.log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_ShortMediumTerm_trend)
-                                                                        
+            
+            # Update etf momentum
+            self.update_dict_etf_momentum_on_gspreadsheet()
+            
+            if idx < len(self.json_data["start_end_date"])-1:
+                lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
+                                                                            
     def init_count_TPEX_variables(self):
         self.num_tpex_cpn = 0
         self.volatility_TPEX_weighted_indicator = 0

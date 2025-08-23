@@ -40,7 +40,9 @@ class GoogleSS:
             worksheet_spread = dict_worksheet_spread["sp500"]
         elif bool(re.match('^nasdaq100', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
             worksheet_spread = dict_worksheet_spread["nasdaq100"]
-            
+        elif bool(re.match('^twse_etf', self.json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+            worksheet_spread = dict_worksheet_spread["twse_etf"]
+                
         while len(list_Gworksheet_rowvalue) > 0:
             cnpname = str(list_Gworksheet_rowvalue[0])
             stkidx = str(list_Gworksheet_rowvalue[1])
@@ -450,6 +452,67 @@ class GoogleSS:
             logger.info(f'Error: {e}')
             sys.exit(0)
     
+    def update_GSpreadworksheet_etf_momentum_batch_update(self, local_dict_MAs_momentum_status, inital_row_num):
+        list_delay_sec= self.json_data["int_delay_sec"]
+        
+        try:                
+            self.get_stkidx_cnpname(inital_row_num, list_delay_sec)
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            sys.exit(0)
+            
+        twse_tpex_idx = ''
+        list_all_stkidx_row_value = []    
+            
+        #logger.info(f'len of local_dict_MAs_momentum_status: {local_dict_MAs_momentum_status.__len__()}')
+            
+        for dict_ticker_MAs_momentum in local_dict_MAs_momentum_status:
+            stock_price_final = str(dict_ticker_MAs_momentum["close"])            
+                
+            ## get each stkidx row value 
+            if bool(re.match(r'^-+-$',stock_price_final)) == False:
+                #logger.info(f'dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum}')
+                # add stock MA status
+                list_cellvalue = [dict_ticker_MAs_momentum["ticker"],dict_ticker_MAs_momentum["stock_name"],\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]),\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.3f}'.format(dict_ticker_MAs_momentum["weight"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["volume"]), '{:.3f}'.format(dict_ticker_MAs_momentum["volume_avg_weekly"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_3days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_5days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_7days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_13days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_28days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_84days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_10days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_20days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_60days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["BBband_Middle"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["BBband_Upper"]),'{:.3f}'.format(dict_ticker_MAs_momentum["BBband_Lower"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MACD"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
+                                dict_ticker_MAs_momentum["ShortMediumTerm_trend_flag"],]
+                
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'list_cellvalue: {list_cellvalue}')
+
+                list_all_stkidx_row_value.append(list_cellvalue)
+        
+        logger.info(f'len of list_all_stkidx_row_value: {list_all_stkidx_row_value.__len__()}')      
+        
+        # update by Cell Range
+        str_gspread_range = 'A' + str(inital_row_num) + ":" + \
+                            'AA' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
+        
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')
+         
+        try:                
+            self.gss_client_worksheet.batch_update([
+                                        {'range': str_gspread_range,
+                                            'values': list_all_stkidx_row_value,
+                                        },
+                                    ])
+        except Exception as e:
+            logger.info(f'Error: {e}')
+            sys.exit(0)    
+                                        
     def update_GSpreadworksheet_200MA_plan_from_pstock(self, inital_row_num, local_pt_stock):
         list_delay_sec= self.json_data["int_delay_sec"]        
         
