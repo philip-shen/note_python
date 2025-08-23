@@ -575,6 +575,21 @@ class stock_indicator:
         self.rsi = 100 - (100 / (1 + rs))
         #return rsi
 
+    def calculate_MACD(self, period1=12, period2=26, period3=9):
+        """Default is set to 12 and 26 exponential moving average for macd
+        9 period units for signal"""
+        # ewm = exponential weighted mean from pandas
+        ema1 = self.data['Close'].ewm(span=period1, adjust=False).mean()   
+        ema2 = self.data['Close'].ewm(span=period2, adjust=False).mean()
+        macd_line = ema1 - ema2
+        macd_signal = self.data['Close'].ewm(span=period3, adjust=False).mean()
+
+        self.data['MACD'] = macd_line
+        self.data['MACD Signal'] = macd_signal
+        self.data['MACD Histogram'] = macd_line - macd_signal
+
+        #return self.data
+
     # MFIを計算する関数
     def calculate_MFI(self, window=14):
         typical_price = (self.stock_data['High'] + self.stock_data['Low'] + self.stock_data['Close']) / 3
@@ -892,6 +907,15 @@ class stock_indicator_pstock:
         self.stock_data['MA_60'] = self.stock_data['close'].rolling(window=quarterly_window).mean()
         #return data
 
+    def calculate_ShortMediumTerm_moving_averages(self, three_window=3, weekly_window=5, seven_window=7, thirteen_window=13, \
+                                    twentyeight_window=28, eightyfour_window=84):
+        self.stock_data['MA_3'] = self.stock_data['close'].rolling(window=three_window).mean()
+        self.stock_data['MA_5'] = self.stock_data['close'].rolling(window=weekly_window).mean()
+        self.stock_data['MA_7'] = self.stock_data['close'].rolling(window=seven_window).mean()
+        self.stock_data['MA_13'] = self.stock_data['close'].rolling(window=thirteen_window).mean()
+        self.stock_data['MA_28'] = self.stock_data['close'].rolling(window=twentyeight_window).mean()
+        self.stock_data['MA_84'] = self.stock_data['close'].rolling(window=eightyfour_window).mean()
+        
     def calculate_exponential_moving_averages(self, weekly_window=5, Dweekly_window=10, \
                                     monthly_window=20, quarterly_window=60):
         self.stock_data['EMA_5'] = self.stock_data['close'].ewm(ignore_na=False, span=weekly_window, min_periods=0, adjust=False).mean()
@@ -948,6 +972,25 @@ class stock_indicator_pstock:
         self.three_E_dog = True if not self.three_dog and three_Expon_MAs and min(stock_price, EMA5, EMA10, EMA20) == stock_price else False
         self.two_E_dog = True if not self.two_dog and two_Expon_MAs and min(stock_price, EMA5, EMA10) == stock_price else False
         self.one_E_dog = True if not self.one_dog and one_Expon_MAs and min(stock_price, EMA5) == stock_price else False 
+    
+    def stand_Up_ShortMediumTerm_trend(self):
+        # 抓出所需data
+        stock_price = self.stock_data['close'].astype(float).iloc[-1]
+        MA3 = self.stock_data['MA_3'].iloc[-1] if not self.stock_data['MA_3'].isnull().values.all() else 0
+        MA5 = self.stock_data['MA_5'].iloc[-1] if not self.stock_data['MA_5'].isnull().values.all() else 0
+        MA7 = self.stock_data['MA_7'].iloc[-1] if not self.stock_data['MA_7'].isnull().values.all() else 0
+        MA13 = self.stock_data['MA_13'].iloc[-1] if not self.stock_data['MA_13'].isnull().values.all() else 0
+        MA28 = self.stock_data['MA_28'].iloc[-1] if not self.stock_data['MA_28'].isnull().values.all() else 0
+        MA84 = self.stock_data['MA_84'].iloc[-1] if not self.stock_data['MA_84'].isnull().values.all() else 0
+        
+        shortTerm_trend = MA3 and MA5 and MA7 and MA13
+        mediumTerm_trend = MA7 and MA28 and MA84
+        
+        self.shortTerm_trend_flag = True if shortTerm_trend and max(stock_price, MA3, MA5, MA7, MA13) == stock_price else False
+        self.mediumTerm_trend_flag = True if mediumTerm_trend and max(stock_price, MA7, MA28, MA84) == stock_price else False
+
+        #if self.opt_verbose.lower() == 'on':
+        logger.info(f'shortTerm_trend_flag: {self.shortTerm_trend_flag}; mediumTerm_trend_flag: {self.mediumTerm_trend_flag}')
             
     def check_MAs_status(self):
         # 必要な列を抽出
@@ -991,7 +1034,75 @@ class stock_indicator_pstock:
         self.low = self.stock_data['low'].astype(float).iloc[-1]
         
         self.prev_day_close = self.stock_data['close'].astype(float).iloc[-2]
+    
+    def check_ShortMediumTerm_MAs(self, weekly_window=5):
+        # 必要な列を抽出
+        #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
         
+        # 移動平均線を計算
+        self.calculate_ShortMediumTerm_moving_averages()
+        
+        self.stand_Up_ShortMediumTerm_trend() 
+        
+        if self.opt_verbose.lower() == 'on':
+            # 判斷data值
+            if self.mediumTerm_trend_flag:
+                logger.info("股價已站上7日、28日、84日均線，為中期趨勢股票!!")
+            elif self.shortTerm_trend_flag:
+                logger.info("股價已站上3日、5日、7日、13日均線，為短期趨勢股票!!")
+        
+        self.close = self.stock_data['close'].astype(float).iloc[-1]
+        self.open = self.stock_data['open'].astype(float).iloc[-1]
+        self.high = self.stock_data['high'].astype(float).iloc[-1]
+        self.low = self.stock_data['low'].astype(float).iloc[-1]
+        self.volume = self.stock_data['volume'].astype(float).iloc[-1]
+        self.volume_avg_weekly = self.stock_data['volume'].rolling(window=weekly_window).mean().astype(float).iloc[-1]
+        
+        self.prev_day_close = self.stock_data['close'].astype(float).iloc[-2]
+    
+    # ボリンジャーバンドを計算する関数
+    def calculate_bollinger_bands(self, window=20):
+        sma = self.stock_data['close'].rolling(window=window).mean()
+        std = self.stock_data['close'].rolling(window=window).std()
+        self.stock_data['Bollinger Middle'] = sma
+        self.stock_data['Bollinger Upper'] = sma + (std * 2)
+        self.stock_data['Bollinger Lower'] = sma - (std * 2)
+
+        logger.info(f"calculate_bollinger_bands window={window}, BB_Middle: {self.stock_data['Bollinger Middle'].astype(float).iloc[-1]}, \
+                    BB_Upper: {self.stock_data['Bollinger Upper'].astype(float).iloc[-1]},BB_Lower: {self.stock_data['Bollinger Lower'].astype(float).iloc[-1]}")
+        
+    # RSIを計算する関数
+    def calculate_RSI(self, window=14):
+        delta = self.stock_data['close'].diff()
+        gain = (delta.where(delta > 0, 0)).fillna(0)
+        loss = (-delta.where(delta < 0, 0)).fillna(0)
+
+        avg_gain = gain.rolling(window=window, min_periods=1).mean()
+        avg_loss = loss.rolling(window=window, min_periods=1).mean()
+
+        rs = avg_gain / avg_loss
+        self.stock_data['RSI'] = 100 - (100 / (1 + rs))
+
+        logger.info(f"calculate_RSI window={window}, RSI: {self.stock_data['RSI'].astype(float).iloc[-1]}")
+        
+    def calculate_MACD(self, period1=12, period2=26, period3=9):
+        """Default is set to 12 and 26 exponential moving average for macd
+        9 period units for signal"""
+        # ewm = exponential weighted mean from pandas
+        ema1 = self.stock_data['close'].ewm(span=period1, adjust=False).mean()   
+        ema2 = self.stock_data['close'].ewm(span=period2, adjust=False).mean()
+        macd_line = ema1 - ema2
+        macd_signal = self.stock_data['close'].ewm(span=period3, adjust=False).mean()
+
+        self.stock_data['MACD'] = macd_line
+        self.stock_data['MACD Signal'] = macd_signal
+        self.stock_data['MACD Histogram'] = macd_line - macd_signal
+        
+        logger.info(f"calculate_MACD period1={period1}, period2={period2}, period3={period3}")
+        logger.info(f"MACD: {self.stock_data['MACD'].astype(float).iloc[-1]}, \
+                        MACD Signal={self.stock_data['MACD Signal'].astype(float).iloc[-1]}, \
+                        MACD Histogram={self.stock_data['MACD Histogram'].astype(float).iloc[-1]}")
+                        
     def filter_MAs_status(self):
         
         if self.four_flag:
@@ -1046,3 +1157,13 @@ class stock_indicator_pstock:
             return
         else:
             self.stock_MA_status = 'NA'        
+            
+    def filter_ShortMediumTerm_MAs(self):
+        if self.shortTerm_trend_flag:
+            self.shortmediumTerm_trend_MA_status = 'ShortTerm_trend'
+            return
+        elif self.mediumTerm_trend_flag:
+            self.shortmediumTerm_trend_MA_status = 'MediumTerm_trend'
+            return
+        else:
+            self.shortmediumTerm_trend_MA_status = 'NA' 
