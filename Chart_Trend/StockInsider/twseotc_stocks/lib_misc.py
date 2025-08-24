@@ -145,7 +145,7 @@ def list_out_all_tickers_MA_cnts_file(path_filename: str, content: list, opt_ver
         logger.info(f'output csv file name: {path_csv_fname}')
     
     with open(path_csv_fname, 'w', encoding='utf-8') as f:
-        f.write(f"ticker,stock_name,open,close,high,low,prev_day_close,weight,MAs_status/volume,volume_avg_weekly,MA_3days,MA_5days,MA_7days,MA_13days,MA_28days,MA_84days,MA_10days,MA_20days,MA_60days,BBband_Middle,BBband_Upper,BBband_Lower,RSI,MACD,MACD_Signal,MACD_Histogram,ShortMediumTerm_trend_flag\n")
+        f.write(f"ticker,stock_name,open,close,high,low,prev_day_close,weight,MAs_status/volume,volume_avg_weekly,MA_3days,MA_5days,MA_7days,MA_13days,MA_28days,MA_84days,MA_10days,MA_20days,MA_60days,ShortTerm_BBband_Middle,ShortTerm_BBband_Upper,ShortTerm_BBband_Lower,MediumTerm_BBband_Middle,MediumTerm_BBband_Upper,MediumTerm_BBband_Lower,RSI,MACD,MACD_Signal,MACD_Histogram,ShortMediumTerm_trend_flag,MAs_status\n")
         for line in content:
             #logger.info(f"line: {','.join(str(num) for num in line)}")
             f.write(f"{','.join(str(num) for num in line)}\n")            

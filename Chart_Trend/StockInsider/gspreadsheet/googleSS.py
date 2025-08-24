@@ -453,17 +453,20 @@ class GoogleSS:
             sys.exit(0)
     
     def update_GSpreadworksheet_etf_momentum_batch_update(self, local_dict_MAs_momentum_status, inital_row_num):
+        # remark by disable casue below error msg
+        # googleSS.py[line:69]- INFO: Error: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:568901425663'.
+        '''
         list_delay_sec= self.json_data["int_delay_sec"]
-        
         try:                
             self.get_stkidx_cnpname(inital_row_num, list_delay_sec)
         except Exception as e:
             logger.info(f'Error: {e}')
             sys.exit(0)
-            
+        
         twse_tpex_idx = ''
-        list_all_stkidx_row_value = []    
-            
+        '''    
+        
+        list_all_stkidx_row_value = []                
         #logger.info(f'len of local_dict_MAs_momentum_status: {local_dict_MAs_momentum_status.__len__()}')
             
         for dict_ticker_MAs_momentum in local_dict_MAs_momentum_status:
@@ -477,17 +480,21 @@ class GoogleSS:
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]),\
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.3f}'.format(dict_ticker_MAs_momentum["weight"]),\
-                                '{:.3f}'.format(dict_ticker_MAs_momentum["volume"]), '{:.3f}'.format(dict_ticker_MAs_momentum["volume_avg_weekly"]),\
+                                '{:.1f}'.format(dict_ticker_MAs_momentum["volume"]), '{:.1f}'.format(dict_ticker_MAs_momentum["volume_avg_weekly"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_3days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_5days"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_7days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_13days"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_28days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_84days"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_10days"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_20days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_60days"]),\
-                                '{:.3f}'.format(dict_ticker_MAs_momentum["BBband_Middle"]),\
-                                '{:.3f}'.format(dict_ticker_MAs_momentum["BBband_Upper"]),'{:.3f}'.format(dict_ticker_MAs_momentum["BBband_Lower"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Middle"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Upper"]),'{:.3f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Lower"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Middle"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Upper"]),'{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Lower"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MACD"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
-                                dict_ticker_MAs_momentum["ShortMediumTerm_trend_flag"],]
+                                dict_ticker_MAs_momentum["ShortMediumTerm_trend_flag"],\
+                                dict_ticker_MAs_momentum["MAs_status"]    
+                                ]
                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'list_cellvalue: {list_cellvalue}')
@@ -498,7 +505,7 @@ class GoogleSS:
         
         # update by Cell Range
         str_gspread_range = 'A' + str(inital_row_num) + ":" + \
-                            'AA' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
+                            'AE' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
         
         if self.opt_verbose.lower() == 'on':
             logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')

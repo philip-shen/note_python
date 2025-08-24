@@ -829,8 +829,6 @@ class TWSE_TPEX_MAs_status():
             if target_ticker != None:
                 
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
-                
-                # remark by using pointer from store_dict_MAs_status
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
                                                                 startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
                 
@@ -839,8 +837,7 @@ class TWSE_TPEX_MAs_status():
                     #local_stock_indicator.pstock_interval_startdate_enddate()
                     local_stock_indicator.yfinance_asyncio_interval_startdate_enddate()
                 else:
-                    local_stock_indicator.pstock_interval_period()
-                
+                    local_stock_indicator.pstock_interval_period()                
                 
                 #if self.opt_verbose.lower() == 'on':
                 #    logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
@@ -888,7 +885,138 @@ class TWSE_TPEX_MAs_status():
                 list_ShortMediumTerm_trend.append(dict_temp)
         
         self.dict_ShortMediumTerm_trend = list_ShortMediumTerm_trend
+    
+    def store_dict_MAs_status_ShortMediumTerm_trend(self, start_date, end_date):
+        list_MAs_status = []
+        list_ShortMediumTerm_trend = []
+        target_ticker = None 
+        
+        for ticker, cpn_name in self.dict_ticker_cpn_name.items():
+            #logger.info('\n ticker: {}; cpn_name: {}'.format(key, value) )    
+            ##### 上市公司 or ETF or 正2 ETF
+            #if bool(re.match('^[0-9][0-9][0-9][0-9].TW$', ticker)) or \
+            #    bool(re.match('^00[0-9][0-9][0-9].TW$', ticker)) or bool(re.match('^00[0-9][0-9][0-9]L.TW$', ticker)):
+            if bool(re.match('[0-9][0-9][0-9][0-9].TW$', ticker)) or \
+                bool(re.match('00[0-9][0-9][0-9].TW$', ticker)) or bool(re.match('00[0-9][0-9][0-9]L.TW$', ticker)):
+                target_ticker = ticker        
+                stock_name = cpn_name
+            
+            ##### 上櫃公司
+            elif bool(re.match('^[0-9][0-9][0-9][0-9].TWO$', ticker)):
+                target_ticker = ticker    
+                stock_name = cpn_name
+            
+            ##### US market
+            else:
+                target_ticker = ticker    
+                stock_name = cpn_name 
+        
+            if target_ticker != None:
                 
+                logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
+                local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
+                                                                startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
+                
+                if self.json_data["lastest_datastr_twse_tpex"][0].lower() == "start_end_date":                    
+                    #2025/2/24 remark cause Error 429 too many request
+                    #local_stock_indicator.pstock_interval_startdate_enddate()
+                    local_stock_indicator.yfinance_asyncio_interval_startdate_enddate()
+                else:
+                    local_stock_indicator.pstock_interval_period()
+                
+                local_stock_indicator.check_MAs_status()            
+                local_stock_indicator.filter_MAs_status()
+                
+                dict_temp = {
+                    "ticker" : target_ticker,
+                    "stock_name": stock_name,
+                    "weight": float(self.dict_ticker_weight_ration[target_ticker]),
+                    "4_flag": local_stock_indicator.four_flag,
+                    "3_flag": local_stock_indicator.three_flag,
+                    "2_flag": local_stock_indicator.two_flag,
+                    "1_flag": local_stock_indicator.one_flag,
+                
+                    "Expo_4_flag": local_stock_indicator.four_E_flag,
+                    "Expo_3_flag": local_stock_indicator.three_E_flag,
+                    "Expo_2_flag": local_stock_indicator.two_E_flag,
+                    "Expo_1_flag": local_stock_indicator.one_E_flag,
+                
+                    "4_dog": local_stock_indicator.four_dog,
+                    "3_dog": local_stock_indicator.three_dog,
+                    "2_dog": local_stock_indicator.two_dog,
+                    "1_dog": local_stock_indicator.one_dog,
+                    
+                    "Expo_4_dog": local_stock_indicator.four_E_dog,
+                    "Expo_3_dog": local_stock_indicator.three_E_dog,
+                    "Expo_2_dog": local_stock_indicator.two_E_dog,
+                    "Expo_1_dog": local_stock_indicator.one_E_dog,
+                    
+                    "open": local_stock_indicator.open,
+                    "close": local_stock_indicator.close,
+                    "high": local_stock_indicator.high,
+                    "low": local_stock_indicator.low,
+                    "prev_day_close": local_stock_indicator.prev_day_close,
+                    "MAs_status": local_stock_indicator.stock_MA_status,
+                }
+                list_MAs_status.append(dict_temp)                
+                #logger.info(f'dict_temp: {dict_temp}')
+                
+                local_stock_indicator.check_ShortMediumTerm_MAs()
+                local_stock_indicator.filter_ShortMediumTerm_MAs()                
+                local_stock_indicator.calculate_bollinger_bands()
+                local_stock_indicator.stock_data['Short Term Bollinger Middle'] = local_stock_indicator.stock_data['Bollinger Middle']
+                local_stock_indicator.stock_data['Short Term Bollinger Upper'] = local_stock_indicator.stock_data['Bollinger Upper']
+                local_stock_indicator.stock_data['Short Term Bollinger Lower'] = local_stock_indicator.stock_data['Bollinger Lower']
+                
+                local_stock_indicator.calculate_bollinger_bands(sma_window=20, std_window=20)
+                local_stock_indicator.stock_data['Medium Term Bollinger Middle'] = local_stock_indicator.stock_data['Bollinger Middle']
+                local_stock_indicator.stock_data['Medium Term Bollinger Upper'] = local_stock_indicator.stock_data['Bollinger Upper']
+                local_stock_indicator.stock_data['Medium Term Bollinger Lower'] = local_stock_indicator.stock_data['Bollinger Lower']
+                local_stock_indicator.calculate_RSI()
+                local_stock_indicator.calculate_MACD()
+                
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
+                
+                dict_temp = {
+                    "ticker" : target_ticker,
+                    "stock_name": stock_name,
+                    "weight": float(self.dict_ticker_weight_ration[target_ticker]),
+                    "MA_3days": local_stock_indicator.stock_data['MA_3'].astype(float).iloc[-1],
+                    "MA_5days": local_stock_indicator.stock_data['MA_5'].astype(float).iloc[-1],
+                    "MA_7days": local_stock_indicator.stock_data['MA_7'].astype(float).iloc[-1],
+                    "MA_13days": local_stock_indicator.stock_data['MA_13'].astype(float).iloc[-1],
+                    "MA_28days": local_stock_indicator.stock_data['MA_28'].astype(float).iloc[-1],
+                    "MA_84days": local_stock_indicator.stock_data['MA_84'].astype(float).iloc[-1],                    
+                    "MA_10days": local_stock_indicator.stock_data['MA_10'].astype(float).iloc[-1],
+                    "MA_20days": local_stock_indicator.stock_data['MA_20'].astype(float).iloc[-1],
+                    "MA_60days": local_stock_indicator.stock_data['MA_60'].astype(float).iloc[-1],                    
+                    "ShortTerm_BBband_Middle": local_stock_indicator.stock_data['Short Term Bollinger Middle'].astype(float).iloc[-1],
+                    "ShortTerm_BBband_Upper": local_stock_indicator.stock_data['Short Term Bollinger Upper'].astype(float).iloc[-1],
+                    "ShortTerm_BBband_Lower": local_stock_indicator.stock_data['Short Term Bollinger Lower'].astype(float).iloc[-1],
+                    "MediumTerm_BBband_Middle": local_stock_indicator.stock_data['Medium Term Bollinger Middle'].astype(float).iloc[-1],
+                    "MediumTerm_BBband_Upper": local_stock_indicator.stock_data['Medium Term Bollinger Upper'].astype(float).iloc[-1],
+                    "MediumTerm_BBband_Lower": local_stock_indicator.stock_data['Medium Term Bollinger Lower'].astype(float).iloc[-1],                    
+                    "RSI": local_stock_indicator.stock_data['RSI'].astype(float).iloc[-1],
+                    "MACD": local_stock_indicator.stock_data['MACD'].astype(float).iloc[-1],
+                    "MACD_Signal": local_stock_indicator.stock_data['MACD Signal'].astype(float).iloc[-1],
+                    "MACD_Histogram": local_stock_indicator.stock_data['MACD Histogram'].astype(float).iloc[-1],        
+                    "ShortMediumTerm_trend_flag": local_stock_indicator.shortmediumTerm_trend_MA_status,
+                    "MAs_status": local_stock_indicator.stock_MA_status,
+                    
+                    "open": local_stock_indicator.open,
+                    "close": local_stock_indicator.close,
+                    "high": local_stock_indicator.high,
+                    "low": local_stock_indicator.low,
+                    "prev_day_close": local_stock_indicator.prev_day_close,
+                    "volume": local_stock_indicator.volume, 
+                    "volume_avg_weekly": local_stock_indicator.volume_avg_weekly, 
+                }
+                list_ShortMediumTerm_trend.append(dict_temp)
+        
+        self.dict_MAs_status = list_MAs_status    
+        self.dict_ShortMediumTerm_trend = list_ShortMediumTerm_trend
+        
     def count_4_star_num(self, twse_tpex_ticker_MAs_info):
         if twse_tpex_ticker_MAs_info["MAs_status"] == 'four_star' and (twse_tpex_ticker_MAs_info["close"] >= 20.0):
             logger.info(f'{twse_tpex_ticker_MAs_info["ticker"]} {twse_tpex_ticker_MAs_info["stock_name"]}:為四海遊龍型股票!! weight_ratio: {twse_tpex_ticker_MAs_info["weight"]}')
@@ -1216,8 +1344,16 @@ class TWSE_TPEX_MAs_status():
         
         for dict_ticker_MAs_momentum in dict_MAs_momentum_status:
             #logger.info(f'length of dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum.__len__()}')
-            if dict_ticker_MAs_momentum.__len__() == 27:
-                list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"],dict_ticker_MAs_momentum["stock_name"],\
+            #logger.info(f'dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum}')
+            if dict_ticker_MAs_momentum.__len__() == 25:
+                list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"].replace('\n', ''),dict_ticker_MAs_momentum["stock_name"],\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]), \
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.5f}'.format(dict_ticker_MAs_momentum["weight"]),\
+                                dict_ticker_MAs_momentum["MAs_status"]]
+                            )                
+            else:
+                list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"].replace('\n', ''),dict_ticker_MAs_momentum["stock_name"],\
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]), \
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.5f}'.format(dict_ticker_MAs_momentum["weight"]),\
@@ -1227,18 +1363,15 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_28days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_84days"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_10days"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_20days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_60days"]),\
-                                '{:.5f}'.format(dict_ticker_MAs_momentum["BBband_Middle"]),\
-                                '{:.5f}'.format(dict_ticker_MAs_momentum["BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["BBband_Lower"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Middle"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Lower"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Middle"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Lower"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MACD"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
-                                dict_ticker_MAs_momentum["ShortMediumTerm_trend_flag"]]
-                            )
-            else:
-                list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"],dict_ticker_MAs_momentum["stock_name"],\
-                                '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]), \
-                                '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
-                                '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.5f}'.format(dict_ticker_MAs_momentum["weight"]),\
-                                dict_ticker_MAs_momentum["MAs_status"]]
+                                dict_ticker_MAs_momentum["ShortMediumTerm_trend_flag"],\
+                                dict_ticker_MAs_momentum["MAs_status"]    
+                                ]
                             )
         
         list_all_tickers_ma_cnt.append([f'{self.json_data["lastest_datastr_twse_tpex"][1].upper()} 股票家數: {self.num_cpn}'])
@@ -1815,14 +1948,18 @@ class TWSE_TPEX_MAs_status():
             
             # by pstock(asyncio mode)
             self.init_count_dict_variables()
-            self.store_dict_MAs_status(start_date=startdate, end_date=enddate)    
+            ## remark by combine two function into store_dict_MAs_status_ShortMediumTerm_trend
+            ##self.store_dict_MAs_status(start_date=startdate, end_date=enddate)    
+            ##self.store_dict_ShortMediumTerm_trend(start_date=startdate, end_date=enddate)
+            
+            self.store_dict_MAs_status_ShortMediumTerm_trend(start_date=startdate, end_date=enddate)
+                
             self.check_dict_MAs_status()                                
             self.log_info_dict_MAs_status()
             # log out all tickers start-dog MA status
             path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_MA.txt')
             self.log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_MAs_status)
                         
-            self.store_dict_ShortMediumTerm_trend(start_date=startdate, end_date=enddate)
             # log out all tickers start-dog MA status
             path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_ShortMediumTerm_trend.txt')
             self.log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_ShortMediumTerm_trend)

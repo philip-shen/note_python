@@ -1039,7 +1039,12 @@ class stock_indicator_pstock:
         self.low = self.stock_data['low'].astype(float).iloc[-1]
         
         self.prev_day_close = self.stock_data['close'].astype(float).iloc[-2]
-    
+        
+    ### from Lemon Tree 學長
+    ### 短期和中期均線 (MA)
+    ### * *短期均線：* 3、5、7、13、8 日簡單移動平均線 (SMA)
+    ### * *中期均線：* 28、84、20 日簡單移動平均線 (SMA)
+    ### * *成交量均線：* 5、20 日成交量簡單移動平均線 (SMA)
     def check_ShortMediumTerm_MAs(self, weekly_window=5):
         # 必要な列を抽出
         #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
@@ -1065,18 +1070,36 @@ class stock_indicator_pstock:
         
         self.prev_day_close = self.stock_data['close'].astype(float).iloc[-2]
     
+    ### from Lemon Tree 學長
+    ### 布林通道 (Bollinger Bands)
+    ### 布林通道由中軌、上軌和下軌組成，計算參數如下：
+    ### * *短期布林通道 (Short Bollinger Bands):*
+    ### * *中軌 (Middle Band):* 5 日簡單移動平均線 (SMA)
+    ### * *標準差 (Standard Deviation):* 10 日收盤價的標準差
+    ### * *上軌 (Upper Band):* 5 日 SMA + 2 倍標準差
+    ### * *下軌 (Lower Band):* 5 日 SMA - 2 倍標準差
+    
+    ### * *中期布林通道 (Mid Bollinger Bands):*
+    ### * *中軌 (Middle Band):* 20 日簡單移動平均線 (SMA)
+    ### * *標準差 (Standard Deviation):* 20 日收盤價的標準差
+    ### * *上軌 (Upper Band):* 20 日 SMA + 2 倍標準差
+    ### * *下軌 (Lower Band):* 20 日 SMA - 2 倍標準差
     # ボリンジャーバンドを計算する関数
-    def calculate_bollinger_bands(self, window=20):
-        sma = self.stock_data['close'].rolling(window=window).mean()
-        std = self.stock_data['close'].rolling(window=window).std()
+    def calculate_bollinger_bands(self, sma_window=5, std_window=10):
+        sma = self.stock_data['close'].rolling(window=sma_window).mean()
+        std = self.stock_data['close'].rolling(window=std_window).std()
         self.stock_data['Bollinger Middle'] = sma
         self.stock_data['Bollinger Upper'] = sma + (std * 2)
         self.stock_data['Bollinger Lower'] = sma - (std * 2)
 
         if self.opt_verbose.lower() == 'on':
-            logger.info(f"calculate_bollinger_bands window={window}, BB_Middle: {self.stock_data['Bollinger Middle'].astype(float).iloc[-1]}, \
+            logger.info(f"calculate_bollinger_bands sma_window={sma_window} std_window={std_window}, BB_Middle: {self.stock_data['Bollinger Middle'].astype(float).iloc[-1]}, \
                     BB_Upper: {self.stock_data['Bollinger Upper'].astype(float).iloc[-1]},BB_Lower: {self.stock_data['Bollinger Lower'].astype(float).iloc[-1]}")
         
+    ### from Lemon Tree 學長
+    ### RSI (相對強弱指標)
+    ### RSI 的計算基於**指數加權平均**，參數如下：
+    ### * *週期 (Period):* 14 日。這是由 com=13 (equivalent to span=14) 參數決定的。
     # RSIを計算する関数
     def calculate_RSI(self, window=14):
         delta = self.stock_data['close'].diff()
@@ -1091,8 +1114,16 @@ class stock_indicator_pstock:
 
         if self.opt_verbose.lower() == 'on':
             logger.info(f"calculate_RSI window={window}, RSI: {self.stock_data['RSI'].astype(float).iloc[-1]}")
-        
-    def calculate_MACD(self, period1=12, period2=26, period3=9):
+    
+    ### from Lemon Tree 學長
+    ### MACD (平滑異同移動平均線)
+    ### MACD 是根據**指數移動平均線 (EMA)** 計算的，參數如下：
+    ### * *快線 (Fast EMA):* 5 日 EMA
+    ### * *慢線 (Slow EMA):* 10 日 EMA
+    ### * *MACD 線:* 快線 EMA - 慢線 EMA
+    ### * *訊號線 (Signal Line):* 5 日 MACD 線的 EMA
+    ### * *柱狀圖 (Histogram):* MACD 線 - 訊號線    
+    def calculate_MACD(self, period1=5, period2=10, period3=5):
         """Default is set to 12 and 26 exponential moving average for macd
         9 period units for signal"""
         # ewm = exponential weighted mean from pandas
