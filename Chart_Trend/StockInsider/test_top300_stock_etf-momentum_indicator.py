@@ -841,6 +841,7 @@ class TWSE_TPEX_MAs_status():
                 
                 #if self.opt_verbose.lower() == 'on':
                 #    logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
+                local_stock_indicator.adjust_price_StockDividend(list_ticker=[target_ticker.split('.')[0]])
                     
                 local_stock_indicator.check_ShortMediumTerm_MAs()
                 local_stock_indicator.filter_ShortMediumTerm_MAs()                
@@ -912,7 +913,6 @@ class TWSE_TPEX_MAs_status():
                 stock_name = cpn_name 
         
             if target_ticker != None:
-                
                 logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
                                                                 startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
@@ -963,18 +963,14 @@ class TWSE_TPEX_MAs_status():
                 
                 local_stock_indicator.check_ShortMediumTerm_MAs()
                 local_stock_indicator.filter_ShortMediumTerm_MAs()                
-                local_stock_indicator.calculate_bollinger_bands()
-                local_stock_indicator.stock_data['Short Term Bollinger Middle'] = local_stock_indicator.stock_data['Bollinger Middle']
-                local_stock_indicator.stock_data['Short Term Bollinger Upper'] = local_stock_indicator.stock_data['Bollinger Upper']
-                local_stock_indicator.stock_data['Short Term Bollinger Lower'] = local_stock_indicator.stock_data['Bollinger Lower']
-                
-                local_stock_indicator.calculate_bollinger_bands(sma_window=20, std_window=20)
-                local_stock_indicator.stock_data['Medium Term Bollinger Middle'] = local_stock_indicator.stock_data['Bollinger Middle']
-                local_stock_indicator.stock_data['Medium Term Bollinger Upper'] = local_stock_indicator.stock_data['Bollinger Upper']
-                local_stock_indicator.stock_data['Medium Term Bollinger Lower'] = local_stock_indicator.stock_data['Bollinger Lower']
                 local_stock_indicator.calculate_RSI()
                 local_stock_indicator.calculate_MACD()
                 
+                #local_stock_indicator.calculate_bollinger_bands()
+                #local_stock_indicator.calculate_bollinger_bands(sma_window=20, std_window=20)
+                local_stock_indicator.filter_ShortMediumTerm_Trend()
+                local_stock_indicator.goodinfo_StockDividend(stock_id=[target_ticker.replace('\n', '').split('.')[0]])
+                                
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
                 
@@ -1000,9 +996,11 @@ class TWSE_TPEX_MAs_status():
                     "RSI": local_stock_indicator.stock_data['RSI'].astype(float).iloc[-1],
                     "MACD": local_stock_indicator.stock_data['MACD'].astype(float).iloc[-1],
                     "MACD_Signal": local_stock_indicator.stock_data['MACD Signal'].astype(float).iloc[-1],
-                    "MACD_Histogram": local_stock_indicator.stock_data['MACD Histogram'].astype(float).iloc[-1],        
-                    "ShortMediumTerm_trend_flag": local_stock_indicator.shortmediumTerm_trend_MA_status,
+                    "MACD_Histogram": local_stock_indicator.stock_data['MACD Histogram'].astype(float).iloc[-1], 
+                    "ShortMediumTerm_Trend_flag": local_stock_indicator.shortTerm_trend_status,       
+                    "ShortMediumTerm_MA_flag": local_stock_indicator.shortmediumTerm_MA_status,
                     "MAs_status": local_stock_indicator.stock_MA_status,
+                    "Latest_Dividend_Cover_Days": local_stock_indicator.latest_dividend_cover_days,
                     
                     "open": local_stock_indicator.open,
                     "close": local_stock_indicator.close,
@@ -1369,8 +1367,9 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Lower"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MACD"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
-                                dict_ticker_MAs_momentum["ShortMediumTerm_trend_flag"],\
-                                dict_ticker_MAs_momentum["MAs_status"]    
+                                dict_ticker_MAs_momentum["ShortMediumTerm_Trend_flag"],\
+                                dict_ticker_MAs_momentum["ShortMediumTerm_MA_flag"],\
+                                dict_ticker_MAs_momentum["MAs_status"], dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"]    
                                 ]
                             )
         

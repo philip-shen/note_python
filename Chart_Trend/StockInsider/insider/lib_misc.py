@@ -1,12 +1,14 @@
 from .logger_setup import *
 import os,glob
+from random import randint
+from time import sleep
 
 __all__ = [
 #
     'format_time',
     'Query_all_files_in_dir',
     'Diff_List',
-
+    'random_timer',
 ]
 
 def format_time(timesec):
@@ -104,3 +106,9 @@ class Query_all_files_in_dir:
 def Diff_List(li1, li2):
     li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
     return li_dif
+
+def random_timer(start_num_sec, end_num_sec):
+    sec = randint(start_num_sec, end_num_sec)
+    logger.info(f'pause {sec} seconds.....')
+    sleep(sec)
+    return sec

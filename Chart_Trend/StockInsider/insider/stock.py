@@ -2,6 +2,10 @@ from typing import Optional
 import re
 import pickle
 from datetime import datetime, date, timedelta
+import os, sys, time
+import random
+from io import StringIO
+from fake_useragent import UserAgent
 
 import requests
 from requests.exceptions import Timeout
@@ -24,6 +28,12 @@ from insider.constants import (
     MA_COLS,
 )
 from insider.utils import set_layout
+import insider.lib_misc as lib_misc
+
+from bs4 import BeautifulSoup
+import random
+from io import StringIO
+from fake_useragent import UserAgent
 
 
 class Stock:
@@ -906,7 +916,93 @@ class stock_indicator_pstock:
         self.stock_data['MA_20'] = self.stock_data['close'].rolling(window=monthly_window).mean()
         self.stock_data['MA_60'] = self.stock_data['close'].rolling(window=quarterly_window).mean()
         #return data
+    # 從 database 取得所有所有上市櫃、興櫃、ETF 資料
+    # 採用 sqlalchemy core 方式進行資料查詢
+    # https://raw.githubusercontent.com/Hsiaowen320/Stock/refs/heads/master/Crawler/Stock_HistoryDividend_Crawler.py
+    '''
+        股票代號 股利發放期間 股利所屬期間 股東會日期      除息交易日   除息參考價      填息完成日 填息花費天數    現金股利發放日 除權交易日 除權參考價 填權完成日 填權花費天數 現金股利(盈餘) 現金股利(公積) 總現金股利 股票股利(盈餘) 股票股利(公積) 總股票股利 總股利合計
+    0   0050   2025   25H1                              '25/07/21    51.1          '25/07/31      9  '25/08/08                              0.36        0  0.36        0        0     0  0.36
+    1   0050   2025   24H2                              '25/01/17  195.35           '25/01/20      2  '25/02/20                               2.7        0   2.7        0        0     0   2.7
+    2   0050   2024   24H1                              '24/07/16   195.7           '24/07/16      1  '24/08/09                                 1        0     1        0        0     0     1
 
+    '''
+    def goodinfo_StockDividend(self, stock_id:list):
+        # while 迴圈迭代所有個股資訊
+        i = 0
+        while i < len(stock_id):
+            id = stock_id[i]
+            #delay = random.uniform(3,8)
+            lib_misc.random_timer(15, 20)
+            ua = UserAgent().random
+
+            headers = {
+            "user-agent" : ua,
+            "Cookie" : "CLIENT%5FID=20241212214728187%5F72%2E14%2E201%2E133; IS_TOUCH_DEVICE=F; SCREEN_SIZE=WIDTH=1920&HEIGHT=1080; _ga=GA1.1.1367449389.1736393641; _cc_id=c5fc3929868222a87a13c673faf061dc; panoramaId_expiry=1736998441568; panoramaId=6e6b07177af0f4760f6677b0a95b4945a70292ee25bac62b8da00b28fd8103eb; panoramaIdType=panoIndiv; TW_STOCK_BROWSE_LIST=2330%7C00770; __gads=ID=4084d141a4919d3d:T=1736393642:RT=1736954569:S=ALNI_MadFoI5w0F8d3vqvMf2UOp0fp6rqg; __gpi=UID=00000fda83130418:T=1736393642:RT=1736954569:S=ALNI_MatU6P842L1LLX7eiVO1_0fmSorPA; __eoi=ID=1d9cdcea6d66e42c:T=1736393642:RT=1736954569:S=AA-AfjZ3bnEP8dW-nxLPUzGjTWRR; cto_bundle=mWRQBF9LYVRLQzdYcmM2ZnN0QVglMkZIQjU5a3JIM0VTUWxTd2hWJTJGVWZTRXBLMldhR1lTR0dOdDF1MGlla0pCUkI2eHRSZ3FrMjBLd0FubnE0cUl6M2hPMlpvSUJaY1hQSmtHelZSbFhNRjMyV092dFBXTzFLcFc3UiUyQiUyQktTNjdvbDVVdmFEUTkzSzlxYlBvc3pjckNZUW5hVUp3bXE2RG02NDJPc0tOOFRQcHRLeUFXSDNWbkxETGtDQmpLMzM2d1BqYnUwTmxSdk5QWFBRZXclMkZ1OExWWHhUVDAlMkZoSFJQMHc2YlpiWks4SHpvcndaWXY3T2JjdE9MWVZ3ZGd0VkJNd1RTcmdk; cto_bidid=amule19lQ3dtZEJTTEpZJTJGRkMyU3JoNWZqWXJJUUV1c2hyVU1peWl2R0tYQnNMM1RNNXA0JTJCdiUyQkJDTUslMkZYQnBMN3I0WTZybXVkYm1nSlhsd0JDNU94S1FTUmRST0M1eEFia1c1S3pwZWc1eE9LSWFJJTNE; FCNEC=%5B%5B%22AKsRol92MXc6jTch09yv2SJjljOaLPtI0kgy1aPcjtarp0q9MTWsoe99L0rb-uERZfVRuhfhfziq3Dd4EakY5kjeVCuNYTMab4l15Youa-U6G2Q22rG4yOSxjvA-NY4KsnCtD1JXVgZTgQdgO3LjqLCWRczIJ7k6hw%3D%3D%22%5D%5D; _ga_0LP5MLQS7E=GS1.1.1736953554.2.1.1736954748.58.0.0; cto_bundle=tWW4xV9LYVRLQzdYcmM2ZnN0QVglMkZIQjU5a2htS1hmdm5mM29YelJNS1ROQ0NHSjFJcGlYSjZ6N3NLaTF0eHZXYlllYWIlMkZSdiUyRldCSFljTzUyUlhFUkxVJTJGYkRIOUwlMkZSJTJCcmg2dEYlMkZqYTBZWWwzOUhEak9uMElvRVRMQ1NoWEdoSE4zNGJKTXM5a1NqdDhiQTVRTmk5ZlhuR0tjaG12SGJiWjBPTWQyJTJGY2xNZ0ZlVVVDQlpVS0dVd3Zld1d1YWpvUmdGbHBESVBpMzdMSFpBZXFwVGFhaEpJd2hMNzVqY25xTGZuTDclMkZqJTJCeHVvbld2cW1sQWpPNUtBR3NCc3QxdXNsYWklMkYlMkJR"
+            }
+
+            # 取得除權息日程
+            response = requests.get(f"https://goodinfo.tw/tw/StockDividendSchedule.asp?STOCK_ID={id}", headers = headers)
+            response.encoding = "utf-8"
+            soup = BeautifulSoup(response.text, "lxml")
+            data = soup.select_one("#tblDetail")
+            check = soup.select_one(".disable_select")
+            if not check:
+                logger.info("瀏覽次數過快，被伺服器封鎖 !")
+                #time.sleep(600)
+                lib_misc.random_timer(20, 25)
+                continue
+                
+            if not data:
+                if check:            
+                    logger.info(f"第{i}筆的資料: {id} 無找到表格資訊 !!!")
+                    i += 1
+                    #continue            
+                    total_StockDividend= 0
+                    self.total_StockDividend = total_StockDividend
+                    self.latest_dividend_cover_days= 0
+                    return
+                    
+            # 將 HTML 字串包裝在 StringIO 物件
+            df2 = data.prettify()  
+            df2 = StringIO(df2)
+            df2 = pd.read_html(df2)
+            df2 = df2[0]
+    
+            # 更改 column 名稱 (變單層)
+            df2.columns = ['股利發放期間','股利所屬期間','股東會日期',
+                       '除息交易日','除息參考價','填息完成日','填息花費天數','現金股利發放日',
+                       '除權交易日','除權參考價','填權完成日','填權花費天數',
+                       '現金股利(盈餘)','現金股利(公積)','總現金股利','股票股利(盈餘)','股票股利(公積)','總股票股利','總股利合計']
+            # 去除含欄位名稱的列
+            df2 = df2.drop(df2[df2["股利發放期間"] == "股利  發放  期間"].index)
+            # 建立股票代號的 column 並填入每列，將其順位移到第一
+            df2["股票代號"] = id
+            df2.insert(0, "股票代號", df2.pop("股票代號"))
+            # 更改 NaN 的資料值
+            df2 = df2.fillna("")
+        
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'df2:\n{df2}')
+            
+            self.latest_dividend_cover_days= df2['填息花費天數'].astype(str).iloc[0]
+            total_StockDividend=df2['總股利合計'].astype(float).sum()
+            logger.info(f'填息花費天數: {self.latest_dividend_cover_days}, total 總股利合計: {total_StockDividend}')
+            #logger.info(f'total 總股利合計: {total_StockDividend}')
+            # 儲存至 SQL
+            #df2.to_sql('HistoryDividend', engine, if_exists='append', index=False)
+            #print(f"第{i}筆的資料: {id} 儲存到資料庫")        
+            #time.sleep(delay)
+            i += 1
+        #print("所有資料皆已存入資料庫")
+
+        self.total_StockDividend = total_StockDividend
+
+    def adjust_price_StockDividend(self, list_ticker):
+        self.goodinfo_StockDividend(self, stock_id= list_ticker)
+        self.stock_data['adjust_price'] = self.stock_data['close']+self.total_StockDividend
+        if self.opt_verbose.lower() == 'on':
+            logger.info(f'stock_data:\n{self.stock_data}')
+    
     def calculate_ShortMediumTerm_moving_averages(self, three_window=3, weekly_window=5, seven_window=7, thirteen_window=13, \
                                     twentyeight_window=28, eightyfour_window=84, \
                                     Dweekly_window=10, monthly_window=20, quarterly_window=60):
@@ -978,7 +1074,7 @@ class stock_indicator_pstock:
         self.two_E_dog = True if not self.two_dog and two_Expon_MAs and min(stock_price, EMA5, EMA10) == stock_price else False
         self.one_E_dog = True if not self.one_dog and one_Expon_MAs and min(stock_price, EMA5) == stock_price else False 
     
-    def stand_Up_ShortMediumTerm_trend(self):
+    def stand_Up_ShortMediumTerm_ma(self):
         # 抓出所需data
         stock_price = self.stock_data['close'].astype(float).iloc[-1]
         MA3 = self.stock_data['MA_3'].iloc[-1] if not self.stock_data['MA_3'].isnull().values.all() else 0
@@ -988,14 +1084,14 @@ class stock_indicator_pstock:
         MA28 = self.stock_data['MA_28'].iloc[-1] if not self.stock_data['MA_28'].isnull().values.all() else 0
         MA84 = self.stock_data['MA_84'].iloc[-1] if not self.stock_data['MA_84'].isnull().values.all() else 0
         
-        shortTerm_trend = MA3 and MA5 and MA7 and MA13
-        mediumTerm_trend = MA7 and MA28 and MA84
+        shortTerm_ma = MA3 and MA5 and MA7 and MA13
+        mediumTerm_ma = MA7 and MA28 and MA84
         
-        self.shortTerm_trend_flag = True if shortTerm_trend and max(stock_price, MA3, MA5, MA7, MA13) == stock_price else False
-        self.mediumTerm_trend_flag = True if mediumTerm_trend and max(stock_price, MA7, MA28, MA84) == stock_price else False
+        self.shortTerm_ma_flag = True if shortTerm_ma and max(stock_price, MA3, MA5, MA7, MA13) == stock_price else False
+        self.mediumTerm_ma_flag = True if mediumTerm_ma and max(stock_price, MA7, MA28, MA84) == stock_price else False
 
         #if self.opt_verbose.lower() == 'on':
-        logger.info(f'shortTerm_trend_flag: {self.shortTerm_trend_flag}; mediumTerm_trend_flag: {self.mediumTerm_trend_flag}')
+        logger.info(f'shortTerm_ma_flag: {self.shortTerm_ma_flag}; mediumTerm_ma_flag: {self.mediumTerm_ma_flag}')
             
     def check_MAs_status(self):
         # 必要な列を抽出
@@ -1052,13 +1148,13 @@ class stock_indicator_pstock:
         # 移動平均線を計算
         self.calculate_ShortMediumTerm_moving_averages()
         
-        self.stand_Up_ShortMediumTerm_trend() 
+        self.stand_Up_ShortMediumTerm_ma() 
         
         if self.opt_verbose.lower() == 'on':
             # 判斷data值
-            if self.mediumTerm_trend_flag:
+            if self.mediumTerm_ma_flag:
                 logger.info("股價已站上7日、28日、84日均線，為中期趨勢股票!!")
-            elif self.shortTerm_trend_flag:
+            elif self.shortTerm_ma_flag:
                 logger.info("股價已站上3日、5日、7日、13日均線，為短期趨勢股票!!")
         
         self.close = self.stock_data['close'].astype(float).iloc[-1]
@@ -1198,11 +1294,45 @@ class stock_indicator_pstock:
             self.stock_MA_status = 'NA'        
             
     def filter_ShortMediumTerm_MAs(self):
-        if self.shortTerm_trend_flag:
-            self.shortmediumTerm_trend_MA_status = 'ShortTerm_trend'
+        
+        if self.mediumTerm_ma_flag:
+            self.shortmediumTerm_MA_status = 'medium term MA bullish'
             return
-        elif self.mediumTerm_trend_flag:
-            self.shortmediumTerm_trend_MA_status = 'MediumTerm_trend'
+        elif self.shortTerm_ma_flag:
+            self.shortmediumTerm_MA_status = 'short term MA bullish'
             return
         else:
-            self.shortmediumTerm_trend_MA_status = 'NA' 
+            self.shortmediumTerm_MA_status = 'NA' 
+    
+    def filter_ShortMediumTerm_Trend(self):
+        self.shortTerm_trend_status = "short term candidate"
+        self.calculate_bollinger_bands()
+        self.stock_data['Short Term Bollinger Middle'] = self.stock_data['Bollinger Middle']
+        self.stock_data['Short Term Bollinger Upper'] = self.stock_data['Bollinger Upper']
+        self.stock_data['Short Term Bollinger Lower'] = self.stock_data['Bollinger Lower']
+        
+        self.calculate_bollinger_bands(sma_window=20, std_window=20)
+        self.stock_data['Medium Term Bollinger Middle'] = self.stock_data['Bollinger Middle']
+        self.stock_data['Medium Term Bollinger Upper'] = self.stock_data['Bollinger Upper']
+        self.stock_data['Medium Term Bollinger Lower'] = self.stock_data['Bollinger Lower']
+                
+        self.short_buy_flag = (
+            #self.close > self.stock_data['Short Term Bollinger Upper'].astype(float).iloc[-1] and\
+            self.stock_data['RSI'].astype(float).iloc[-1] > 60 and\
+            #self.stock_data['MACD'].astype(float).iloc[-1] > self.stock_data['MACD Signal'].astype(float).iloc[-1] and\
+            #self.stock_data['MACD Histogram'].astype(float).iloc[-1] > 0 and\
+            self.volume > self.volume_avg_weekly
+            )
+        self.short_sell_flag = (
+            #self.close < self.stock_data['Short Term Bollinger Lower'].astype(float).iloc[-1] and\
+            self.stock_data['RSI'].astype(float).iloc[-1] < 40\
+            #and self.stock_data['MACD'].astype(float).iloc[-1] < self.stock_data['MACD Signal'].astype(float).iloc[-1]\
+            #and self.stock_data['MACD Histogram'].astype(float).iloc[-1] < 0
+            )
+
+        if self.short_buy_flag:
+            self.shortTerm_trend_status = "short term strong buy"
+        elif self.short_sell_flag:
+            self.shortTerm_trend_status = "short term sell out"   
+        else:
+            self.shortTerm_trend_status = 'NA' 

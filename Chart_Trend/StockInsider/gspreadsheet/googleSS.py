@@ -492,8 +492,10 @@ class GoogleSS:
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Upper"]),'{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Lower"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MACD"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
-                                dict_ticker_MAs_momentum["ShortMediumTerm_trend_flag"],\
-                                dict_ticker_MAs_momentum["MAs_status"]    
+                                dict_ticker_MAs_momentum["ShortMediumTerm_Trend_flag"],\
+                                dict_ticker_MAs_momentum["ShortMediumTerm_MA_flag"],\
+                                dict_ticker_MAs_momentum["MAs_status"],\
+                                dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"]
                                 ]
                 
                 if self.opt_verbose.lower() == 'on':
@@ -505,7 +507,7 @@ class GoogleSS:
         
         # update by Cell Range
         str_gspread_range = 'A' + str(inital_row_num) + ":" + \
-                            'AE' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
+                            'AG' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
         
         if self.opt_verbose.lower() == 'on':
             logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')
