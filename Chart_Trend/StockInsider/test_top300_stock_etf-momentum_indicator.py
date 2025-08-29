@@ -891,6 +891,7 @@ class TWSE_TPEX_MAs_status():
         list_MAs_status = []
         list_ShortMediumTerm_trend = []
         target_ticker = None 
+        ith = 0
         
         for ticker, cpn_name in self.dict_ticker_cpn_name.items():
             #logger.info('\n ticker: {}; cpn_name: {}'.format(key, value) )    
@@ -911,9 +912,10 @@ class TWSE_TPEX_MAs_status():
             else:
                 target_ticker = ticker    
                 stock_name = cpn_name 
-        
+            
             if target_ticker != None:
-                logger.info(f"ticker: {target_ticker}; stock name: {cpn_name}")    
+                ith += 1
+                logger.info(f"{ith}th ticker: {target_ticker}; stock name: {cpn_name}")    
                 local_stock_indicator = stock_indicator_pstock(ticker=target_ticker,  period="3mo", interval="1d", \
                                                                 startdate= start_date, enddate= end_date, opt_verbose=self.opt_verbose)
                 
@@ -1001,6 +1003,7 @@ class TWSE_TPEX_MAs_status():
                     "ShortMediumTerm_MA_flag": local_stock_indicator.shortmediumTerm_MA_status,
                     "MAs_status": local_stock_indicator.stock_MA_status,
                     "Latest_Dividend_Cover_Days": local_stock_indicator.latest_dividend_cover_days,
+                    "Total_Stock_Dividend": local_stock_indicator.total_StockDividend,
                     
                     "open": local_stock_indicator.open,
                     "close": local_stock_indicator.close,
@@ -1369,7 +1372,8 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
                                 dict_ticker_MAs_momentum["ShortMediumTerm_Trend_flag"],\
                                 dict_ticker_MAs_momentum["ShortMediumTerm_MA_flag"],\
-                                dict_ticker_MAs_momentum["MAs_status"], dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"]    
+                                dict_ticker_MAs_momentum["MAs_status"], \
+                                dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"], dict_ticker_MAs_momentum["Total_Stock_Dividend"]                                
                                 ]
                             )
         

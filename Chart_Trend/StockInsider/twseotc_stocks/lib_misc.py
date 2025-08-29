@@ -9,7 +9,7 @@ __all__ = [
     'Query_all_files_in_dir',
     'Diff_List',
     'list_out_file',
-    'list_out_ML_file',   
+    'list_out_ML_file',
     'random_timer',      
 ]
 
@@ -138,15 +138,4 @@ def list_out_ML_file(path_filename: str, content: list, opt_verbose='OFF'):
         for line in content:
             f.write(f"{line},")            
 
-def list_out_all_tickers_MA_cnts_file(path_filename: str, content: list, opt_verbose='OFF'):
-    path_csv_fname = path_filename.with_suffix('.csv') 
-    
-    if opt_verbose.lower() == 'on':
-        logger.info(f'output csv file name: {path_csv_fname}')
-    
-    with open(path_csv_fname, 'w', encoding='utf-8') as f:
-        f.write(f"ticker,stock_name,open,close,high,low,prev_day_close,weight,MAs_status/volume,volume_avg_weekly,MA_3days,MA_5days,MA_7days,MA_13days,MA_28days,MA_84days,MA_10days,MA_20days,MA_60days,ShortTerm_BBband_Middle,ShortTerm_BBband_Upper,ShortTerm_BBband_Lower,MediumTerm_BBband_Middle,MediumTerm_BBband_Upper,MediumTerm_BBband_Lower,RSI,MACD,MACD_Signal,MACD_Histogram,ShortMediumTerm_Trend_flag,ShortMediumTerm_MA_flag,MAs_status,Latest_Dividend_Cover_Days\n")
-        for line in content:
-            #logger.info(f"line: {','.join(str(num) for num in line)}")
-            f.write(f"{','.join(str(num) for num in line)}\n")            
             

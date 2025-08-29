@@ -926,13 +926,20 @@ class stock_indicator_pstock:
     2   0050   2024   24H1                              '24/07/16   195.7           '24/07/16      1  '24/08/09                                 1        0     1        0        0     0     1
 
     '''
-    def goodinfo_StockDividend(self, stock_id:list):
+    def goodinfo_StockDividend(self, stock_id:list):        
+        
         # while 迴圈迭代所有個股資訊
         i = 0
         while i < len(stock_id):
             id = stock_id[i]
-            #delay = random.uniform(3,8)
-            lib_misc.random_timer(15, 20)
+            
+            # K, L, R, U ETF not inculde stock divided
+            if bool(re.match('[0-9]+[K|L|R|U]$', id)):
+                self.latest_dividend_cover_days= 'NA'
+                self.total_StockDividend = 0.0
+                logger.info(f'填息花費天數: {self.latest_dividend_cover_days}, total 總股利合計: {self.total_StockDividend}')
+                return
+            
             ua = UserAgent().random
 
             headers = {
@@ -949,7 +956,7 @@ class stock_indicator_pstock:
             if not check:
                 logger.info("瀏覽次數過快，被伺服器封鎖 !")
                 #time.sleep(600)
-                lib_misc.random_timer(20, 25)
+                lib_misc.random_timer(10, 15)
                 continue
                 
             if not data:
@@ -957,9 +964,8 @@ class stock_indicator_pstock:
                     logger.info(f"第{i}筆的資料: {id} 無找到表格資訊 !!!")
                     i += 1
                     #continue            
-                    total_StockDividend= 0
-                    self.total_StockDividend = total_StockDividend
-                    self.latest_dividend_cover_days= 0
+                    self.total_StockDividend = 0.0
+                    self.latest_dividend_cover_days= 'NA'
                     return
                     
             # 將 HTML 字串包裝在 StringIO 物件
@@ -984,17 +990,25 @@ class stock_indicator_pstock:
             if self.opt_verbose.lower() == 'on':
                 logger.info(f'df2:\n{df2}')
             
-            self.latest_dividend_cover_days= df2['填息花費天數'].astype(str).iloc[0]
+            # 不發放股利
+            if df2['股利所屬期間'].astype(str).iloc[0] == '不發放':
+                self.latest_dividend_cover_days= '不發放'
+                self.total_StockDividend = 0.0
+                logger.info(f'填息花費天數: {self.latest_dividend_cover_days}, total 總股利合計: {self.total_StockDividend}')
+                return
+            
+            self.latest_dividend_cover_days= df2['填息花費天數'].astype(str).iloc[0] if \
+                                                df2['填息花費天數'].astype(str).iloc[0] != '' else 'NA'
             total_StockDividend=df2['總股利合計'].astype(float).sum()
-            logger.info(f'填息花費天數: {self.latest_dividend_cover_days}, total 總股利合計: {total_StockDividend}')
-            #logger.info(f'total 總股利合計: {total_StockDividend}')
+            logger.info(f'填息花費天數: {self.latest_dividend_cover_days}, total 總股利合計: {total_StockDividend}')            
             # 儲存至 SQL
             #df2.to_sql('HistoryDividend', engine, if_exists='append', index=False)
             #print(f"第{i}筆的資料: {id} 儲存到資料庫")        
             #time.sleep(delay)
             i += 1
-        #print("所有資料皆已存入資料庫")
-
+            
+            lib_misc.random_timer(9, 11)
+ 
         self.total_StockDividend = total_StockDividend
 
     def adjust_price_StockDividend(self, list_ticker):
