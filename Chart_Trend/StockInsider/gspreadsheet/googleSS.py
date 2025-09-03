@@ -492,8 +492,11 @@ class GoogleSS:
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Upper"]),'{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Lower"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MACD"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.3f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
+                                '{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Weekly"]),'{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_BiWeekly"]),\
+                                '{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Monthly"]),'{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Quarterly"]),\
                                 dict_ticker_MAs_momentum["ShortMediumTerm_Trend_flag"],\
                                 dict_ticker_MAs_momentum["ShortMediumTerm_MA_flag"],\
+                                dict_ticker_MAs_momentum["ShortMediumTerm_Trade_Volume_flag"],\
                                 dict_ticker_MAs_momentum["MAs_status"],\
                                 dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"],
                                 dict_ticker_MAs_momentum["Total_Stock_Dividend"]
@@ -508,7 +511,7 @@ class GoogleSS:
         
         # update by Cell Range
         str_gspread_range = 'A' + str(inital_row_num) + ":" + \
-                            'AH' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
+                            'AM' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
         
         if self.opt_verbose.lower() == 'on':
             logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')

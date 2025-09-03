@@ -964,14 +964,21 @@ class TWSE_TPEX_MAs_status():
                 #logger.info(f'dict_temp: {dict_temp}')
                 
                 local_stock_indicator.check_ShortMediumTerm_MAs()
-                local_stock_indicator.filter_ShortMediumTerm_MAs()                
+                local_stock_indicator.filter_ShortMediumTerm_MAs()
                 local_stock_indicator.calculate_RSI()
                 local_stock_indicator.calculate_MACD()
+                local_stock_indicator.check_ShortMediumTerm_Volume()
+                local_stock_indicator.filter_ShortMediumTerm_Volume()
                 
                 #local_stock_indicator.calculate_bollinger_bands()
                 #local_stock_indicator.calculate_bollinger_bands(sma_window=20, std_window=20)
                 local_stock_indicator.filter_ShortMediumTerm_Trend()
-                local_stock_indicator.goodinfo_StockDividend(stock_id=[target_ticker.replace('\n', '').split('.')[0]])
+                
+                local_stock_indicator.latest_dividend_cover_days = None
+                local_stock_indicator.total_StockDividend = None
+                # for ETF dividend purpose
+                if bool(re.match('^twse_etf', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    local_stock_indicator.goodinfo_StockDividend(stock_id=[target_ticker.replace('\n', '').split('.')[0]])
                                 
                 if self.opt_verbose.lower() == 'on':
                     logger.info(f'local_stock_indicator.stock_data: \n{local_stock_indicator.stock_data}')
@@ -998,9 +1005,16 @@ class TWSE_TPEX_MAs_status():
                     "RSI": local_stock_indicator.stock_data['RSI'].astype(float).iloc[-1],
                     "MACD": local_stock_indicator.stock_data['MACD'].astype(float).iloc[-1],
                     "MACD_Signal": local_stock_indicator.stock_data['MACD Signal'].astype(float).iloc[-1],
-                    "MACD_Histogram": local_stock_indicator.stock_data['MACD Histogram'].astype(float).iloc[-1], 
+                    "MACD_Histogram": local_stock_indicator.stock_data['MACD Histogram'].astype(float).iloc[-1],                     
+                    "Volume_avg_Weekly": local_stock_indicator.stock_data['volume_avg_weekly'].astype(float).iloc[-1],
+                    "Volume_avg_BiWeekly": local_stock_indicator.stock_data['volume_avg_biweekly'].astype(float).iloc[-1],
+                    "Volume_avg_Monthly": local_stock_indicator.stock_data['volume_avg_monthly'].astype(float).iloc[-1],
+                    "Volume_avg_Quarterly": local_stock_indicator.stock_data['volume_avg_quarterly'].astype(float).iloc[-1],
+        
                     "ShortMediumTerm_Trend_flag": local_stock_indicator.shortTerm_trend_status,       
                     "ShortMediumTerm_MA_flag": local_stock_indicator.shortmediumTerm_MA_status,
+                    "ShortMediumTerm_Trade_Volume_flag": local_stock_indicator.shortmediumTerm_trade_volume_status,
+                    
                     "MAs_status": local_stock_indicator.stock_MA_status,
                     "Latest_Dividend_Cover_Days": local_stock_indicator.latest_dividend_cover_days,
                     "Total_Stock_Dividend": local_stock_indicator.total_StockDividend,
@@ -1370,8 +1384,13 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Lower"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MACD"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
+                                '{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Weekly"]),'{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_BiWeekly"]), \
+                                '{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Monthly"]),'{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Quarterly"]),\
+                                
                                 dict_ticker_MAs_momentum["ShortMediumTerm_Trend_flag"],\
                                 dict_ticker_MAs_momentum["ShortMediumTerm_MA_flag"],\
+                                dict_ticker_MAs_momentum["ShortMediumTerm_Trade_Volume_flag"],\
+                                        
                                 dict_ticker_MAs_momentum["MAs_status"], \
                                 dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"], dict_ticker_MAs_momentum["Total_Stock_Dividend"]                                
                                 ]
@@ -1688,6 +1707,11 @@ class TWSE_TPEX_MAs_status():
             elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
                 worksheet_spread = dict_worksheet_spread["nasdaq100"]
             
+            elif bool(re.match('^twse_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                worksheet_spread = dict_worksheet_spread["twse_volatility"]
+            elif bool(re.match('^tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                worksheet_spread = dict_worksheet_spread["tpex_volatility"]    
+                
             t1 = time.time()
             try:
                 localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
@@ -1709,12 +1733,18 @@ class TWSE_TPEX_MAs_status():
     def update_dict_etf_momentum_on_gspreadsheet(self):
         dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]        
         dict_worksheet_spread = self.json_data["dict_worksheet_gSpredSheet"]
-        if bool(re.match('^twse_etf', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        if bool(re.match('^twse_etf', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
                     worksheet_spread = dict_worksheet_spread["twse_etf"]
-                    
+        elif bool(re.match('^twse_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["twse_volatility"]
+        elif bool(re.match('^tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["tpex_volatility"]
+        elif bool(re.match('^twse_tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["twse_tpex_volatility"]
+                                                                
         for gspreadsheet, cert_json in dict_gspreadsheet.items():
             
-            if bool(re.match('^200ma$', gspreadsheet.lower())  ):
+            if bool(re.match('^200ma', gspreadsheet.lower())  ):
                 # Declare GoogleSS() from googleSS.py
                 localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
             
@@ -1848,22 +1878,35 @@ class TWSE_TPEX_MAs_status():
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
         
     def calculate_dict_MAs_status(self):
-        if bool(re.match('^twse', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        if bool(re.match('^twse', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             str_ticker = '^TWII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse"][1]
-        elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        
+        elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             str_ticker = '^TWOII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex"][1]
+            
         elif bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
             str_ticker = '^GSPC'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["sp500"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["sp500"][1]
+        
         elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
             str_ticker = '^NDX'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["nasdaq100"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["nasdaq100"][1]
+        
+        elif bool(re.match('^twse_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '^TWII'
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_volatility"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_volatility"][1]
+        
+        elif bool(re.match('^tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '^TWOII'
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex_volatility"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex_volatility"][1]
         
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
@@ -1924,11 +1967,20 @@ class TWSE_TPEX_MAs_status():
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
     
     def calculate_dict_momentum(self):
-        if bool(re.match('^twse_etf', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        if bool(re.match('^twse_etf', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             str_ticker = '^TWII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_etf"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_etf"][1]
-        
+        elif bool(re.match('^twse_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_volatility"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_volatility"][1]
+        elif bool(re.match('^tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex_volatility"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex_volatility"][1]    
+        elif bool(re.match('^twse_tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_tpex_volatility"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_tpex_volatility"][1]
+                
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
         self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
@@ -2099,14 +2151,26 @@ if __name__ == '__main__':
         if json_data["lastest_datastr_twse_tpex"][1].lower() == "all":
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse":
+        elif bool(re.match('twse$', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
+            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
             #local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
             local_twse_tpex_ma_status.calculate_dict_MAs_status()
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "tpex":
+        
+        elif bool(re.match('tpex$', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()        
+        
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse_etf":
             local_twse_tpex_ma_status.calculate_dict_momentum()
+        
+        elif bool(re.match('t[w|p][s|e][e|x]_volatility', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
+            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
+            local_twse_tpex_ma_status.calculate_dict_momentum()    
+        
+        elif bool(re.match('twse_tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
+            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
+            local_twse_tpex_ma_status.calculate_dict_momentum()    
         else:
+            #logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
             local_twse_tpex_ma_status.calculate_dict_MAs_status()
                 
     est_timer(t0)    

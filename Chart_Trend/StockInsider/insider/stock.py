@@ -1007,7 +1007,7 @@ class stock_indicator_pstock:
             #time.sleep(delay)
             i += 1
             
-            lib_misc.random_timer(9, 11)
+            lib_misc.random_timer(45, 55)
  
         self.total_StockDividend = total_StockDividend
 
@@ -1030,6 +1030,15 @@ class stock_indicator_pstock:
         self.stock_data['MA_10'] = self.stock_data['close'].rolling(window=Dweekly_window).mean()
         self.stock_data['MA_20'] = self.stock_data['close'].rolling(window=monthly_window).mean()
         self.stock_data['MA_60'] = self.stock_data['close'].rolling(window=quarterly_window).mean()
+    
+    def calculate_ShortMediumTerm_volume(self, three_window=3, weekly_window=5, seven_window=7, thirteen_window=13, \
+                                    twentyeight_window=28, eightyfour_window=84, \
+                                    Dweekly_window=10, monthly_window=20, quarterly_window=60):
+        
+        self.stock_data['volume_avg_weekly'] = self.stock_data['volume'].rolling(window=weekly_window).mean().astype(float).iloc[-1]
+        self.stock_data['volume_avg_biweekly'] = self.stock_data['volume'].rolling(window=Dweekly_window).mean().astype(float).iloc[-1]
+        self.stock_data['volume_avg_monthly'] = self.stock_data['volume'].rolling(window=monthly_window).mean().astype(float).iloc[-1]
+        self.stock_data['volume_avg_quarterly'] = self.stock_data['volume'].rolling(window=quarterly_window).mean().astype(float).iloc[-1]
         
     def calculate_exponential_moving_averages(self, weekly_window=5, Dweekly_window=10, \
                                     monthly_window=20, quarterly_window=60):
@@ -1106,7 +1115,25 @@ class stock_indicator_pstock:
 
         #if self.opt_verbose.lower() == 'on':
         logger.info(f'shortTerm_ma_flag: {self.shortTerm_ma_flag}; mediumTerm_ma_flag: {self.mediumTerm_ma_flag}')
-            
+    
+    def stand_Up_ShortMediumTerm_volume(self):
+        # 抓出所需data
+        stock_trade_volume = self.stock_data['volume'].astype(float).iloc[-1]
+        trade_volume_avg_weekly = self.stock_data['volume_avg_weekly'].iloc[-1] if not self.stock_data['volume_avg_weekly'].isnull().values.all() else 0
+        trade_volume_avg_biweekly = self.stock_data['volume_avg_biweekly'].iloc[-1] if not self.stock_data['volume_avg_biweekly'].isnull().values.all() else 0
+        trade_volume_avg_monthly = self.stock_data['volume_avg_monthly'].iloc[-1] if not self.stock_data['volume_avg_monthly'].isnull().values.all() else 0
+        trade_volume_avg_quarterly = self.stock_data['volume_avg_quarterly'].iloc[-1] if not self.stock_data['volume_avg_monthly'].isnull().values.all() else 0
+        
+        shortTerm_trade_volume = trade_volume_avg_weekly and trade_volume_avg_biweekly
+        mediumTerm_trade_volume = trade_volume_avg_monthly and trade_volume_avg_quarterly
+        
+        self.shortTerm_trade_volume_flag = True if shortTerm_trade_volume and \
+                                            max(stock_trade_volume, trade_volume_avg_weekly, trade_volume_avg_biweekly) == stock_trade_volume else False
+        self.mediumTerm_trade_volume_flag = True if mediumTerm_trade_volume and \
+                                            max(stock_trade_volume, trade_volume_avg_monthly, trade_volume_avg_quarterly) == stock_trade_volume else False
+        
+        logger.info(f'shortTerm_trade_volume_flag: {self.shortTerm_trade_volume_flag}; mediumTerm_trade_volume_flag: {self.mediumTerm_trade_volume_flag}')
+                
     def check_MAs_status(self):
         # 必要な列を抽出
         #data = self.stock_data[['Close', 'Volume', 'High', 'Low']].copy()
@@ -1179,6 +1206,11 @@ class stock_indicator_pstock:
         self.volume_avg_weekly = self.stock_data['volume'].rolling(window=weekly_window).mean().astype(float).iloc[-1]
         
         self.prev_day_close = self.stock_data['close'].astype(float).iloc[-2]
+    
+    def check_ShortMediumTerm_Volume(self, weekly_window=5):
+        
+        self.calculate_ShortMediumTerm_volume()
+        self.stand_Up_ShortMediumTerm_volume() 
     
     ### from Lemon Tree 學長
     ### 布林通道 (Bollinger Bands)
@@ -1318,6 +1350,17 @@ class stock_indicator_pstock:
         else:
             self.shortmediumTerm_MA_status = 'NA' 
     
+    def filter_ShortMediumTerm_Volume(self):
+        
+        if self.mediumTerm_trade_volume_flag:
+            self.shortmediumTerm_trade_volume_status = 'medium term trade_volume bullish'
+            return
+        elif self.shortTerm_trade_volume_flag:
+            self.shortmediumTerm_trade_volume_status = 'short term trade_volume bullish'
+            return
+        else:
+            self.shortmediumTerm_trade_volume_status = 'NA' 
+    
     def filter_ShortMediumTerm_Trend(self):
         self.shortTerm_trend_status = "short term candidate"
         self.calculate_bollinger_bands()
@@ -1335,7 +1378,8 @@ class stock_indicator_pstock:
             self.stock_data['RSI'].astype(float).iloc[-1] > 60 and\
             #self.stock_data['MACD'].astype(float).iloc[-1] > self.stock_data['MACD Signal'].astype(float).iloc[-1] and\
             #self.stock_data['MACD Histogram'].astype(float).iloc[-1] > 0 and\
-            self.volume > self.volume_avg_weekly
+            #self.volume > self.volume_avg_weekly
+            self.shortTerm_trade_volume_flag
             )
         self.short_sell_flag = (
             #self.close < self.stock_data['Short Term Bollinger Lower'].astype(float).iloc[-1] and\
