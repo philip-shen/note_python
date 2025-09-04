@@ -7,7 +7,7 @@
     "int_delay_sec": [20, 25],        
     "lastest_datastr_twse_tpex": ["start_end_date", "twse_etf", "20250801", "twse_etf_202508.csv"],
     "start_end_date":[                       
-                    ["20240901","20250903"]],
+                    ["20240901","20250904"]],
     "temp_twse_otc_id_pickle":["twse_ticker_20240701.pickle", "tpex_ticker_20240701.pickle", "twse_tpex_ticker_20240701.pickle"],
     "twse_otc_id_pickle":["twse_ticker_top300.pickle", "tpex_ticker_top300.pickle", "twse_tpex_ticker_top300.pickle"],
 

@@ -498,6 +498,7 @@ class GoogleSS:
                                 dict_ticker_MAs_momentum["ShortMediumTerm_MA_flag"],\
                                 dict_ticker_MAs_momentum["ShortMediumTerm_Trade_Volume_flag"],\
                                 dict_ticker_MAs_momentum["MAs_status"],\
+                                dict_ticker_MAs_momentum["End_Date"],\
                                 dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"],
                                 dict_ticker_MAs_momentum["Total_Stock_Dividend"]
                                 ]
@@ -511,7 +512,7 @@ class GoogleSS:
         
         # update by Cell Range
         str_gspread_range = 'A' + str(inital_row_num) + ":" + \
-                            'AM' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
+                            'AN' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
         
         if self.opt_verbose.lower() == 'on':
             logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')

@@ -718,7 +718,7 @@ class TWSE_TPEX_MAs_status():
                 #logger.info(f'dict_temp: {dict_temp}')
         self.TWSE_TPEX_MAs_status = list_MAs_status
 
-    def store_dict_MAs_status(self, start_date, end_date):
+    def store_dict_MAs_status(self, start_date, end_date, stock_end_date):
         list_MAs_status = []
         target_ticker = None 
         
@@ -796,6 +796,7 @@ class TWSE_TPEX_MAs_status():
                     "low": local_stock_indicator.low,
                     "prev_day_close": local_stock_indicator.prev_day_close,
                     "MAs_status": local_stock_indicator.stock_MA_status,
+                    "End_Date": str(stock_end_date)
                 }
                 list_MAs_status.append(dict_temp)
                 
@@ -887,7 +888,7 @@ class TWSE_TPEX_MAs_status():
         
         self.dict_ShortMediumTerm_trend = list_ShortMediumTerm_trend
     
-    def store_dict_MAs_status_ShortMediumTerm_trend(self, start_date, end_date):
+    def store_dict_MAs_status_ShortMediumTerm_trend(self, start_date, end_date, stock_end_date):
         list_MAs_status = []
         list_ShortMediumTerm_trend = []
         target_ticker = None 
@@ -959,6 +960,7 @@ class TWSE_TPEX_MAs_status():
                     "low": local_stock_indicator.low,
                     "prev_day_close": local_stock_indicator.prev_day_close,
                     "MAs_status": local_stock_indicator.stock_MA_status,
+                    "End_Date": str(stock_end_date),
                 }
                 list_MAs_status.append(dict_temp)                
                 #logger.info(f'dict_temp: {dict_temp}')
@@ -1016,6 +1018,7 @@ class TWSE_TPEX_MAs_status():
                     "ShortMediumTerm_Trade_Volume_flag": local_stock_indicator.shortmediumTerm_trade_volume_status,
                     
                     "MAs_status": local_stock_indicator.stock_MA_status,
+                    "End_Date": str(stock_end_date),
                     "Latest_Dividend_Cover_Days": local_stock_indicator.latest_dividend_cover_days,
                     "Total_Stock_Dividend": local_stock_indicator.total_StockDividend,
                     
@@ -1360,12 +1363,12 @@ class TWSE_TPEX_MAs_status():
         for dict_ticker_MAs_momentum in dict_MAs_momentum_status:
             #logger.info(f'length of dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum.__len__()}')
             #logger.info(f'dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum}')
-            if dict_ticker_MAs_momentum.__len__() == 25:
+            if dict_ticker_MAs_momentum.__len__() == 26:
                 list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"].replace('\n', ''),dict_ticker_MAs_momentum["stock_name"],\
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]), \
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
                                 '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.5f}'.format(dict_ticker_MAs_momentum["weight"]),\
-                                dict_ticker_MAs_momentum["MAs_status"]]
+                                dict_ticker_MAs_momentum["MAs_status"],dict_ticker_MAs_momentum["End_Date"]]
                             )                
             else:
                 list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"].replace('\n', ''),dict_ticker_MAs_momentum["stock_name"],\
@@ -1392,6 +1395,7 @@ class TWSE_TPEX_MAs_status():
                                 dict_ticker_MAs_momentum["ShortMediumTerm_Trade_Volume_flag"],\
                                         
                                 dict_ticker_MAs_momentum["MAs_status"], \
+                                dict_ticker_MAs_momentum["End_Date"], \
                                 dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"], dict_ticker_MAs_momentum["Total_Stock_Dividend"]                                
                                 ]
                             )
@@ -1933,7 +1937,8 @@ class TWSE_TPEX_MAs_status():
             
             # by pstock(asyncio mode)
             self.init_count_dict_variables()
-            self.store_dict_MAs_status(start_date=startdate, end_date=enddate)    
+            self.store_dict_MAs_status(start_date=startdate, end_date=enddate, \
+                                        stock_end_date=date_changer_twse(list_start_end_date[-1]))    
             self.check_dict_MAs_status()                                
             self.log_info_dict_MAs_status()
             
@@ -2007,7 +2012,8 @@ class TWSE_TPEX_MAs_status():
             ##self.store_dict_MAs_status(start_date=startdate, end_date=enddate)    
             ##self.store_dict_ShortMediumTerm_trend(start_date=startdate, end_date=enddate)
             
-            self.store_dict_MAs_status_ShortMediumTerm_trend(start_date=startdate, end_date=enddate)
+            self.store_dict_MAs_status_ShortMediumTerm_trend(start_date=startdate, end_date=enddate, \
+                                                                stock_end_date=date_changer_twse(list_start_end_date[-1]))
                 
             self.check_dict_MAs_status()                                
             self.log_info_dict_MAs_status()
@@ -2163,10 +2169,6 @@ if __name__ == '__main__':
             local_twse_tpex_ma_status.calculate_dict_momentum()
         
         elif bool(re.match('t[w|p][s|e][e|x]_volatility', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
-            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
-            local_twse_tpex_ma_status.calculate_dict_momentum()    
-        
-        elif bool(re.match('twse_tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
             logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
             local_twse_tpex_ma_status.calculate_dict_momentum()    
         else:
