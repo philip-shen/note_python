@@ -170,7 +170,7 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
     #if opt_verbose.lower() == 'on':
     #        logger.info(f'df_twse_tpex_stock_idx:\n {df_twse_tpex_us_stock_idx}' )    
         
-    if bool(re.match('^twse', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+    if bool(re.match('^twse', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
         pickle_fname_ticker_weight_ration = path_pickle_stock_id["twse"][1]#'twse_ticker_weight_ration.pickle'
         df_twse_stock_idx = df_twse_tpex_us_stock_idx
             
@@ -197,7 +197,7 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
         with open(pickle_fname_ticker_weight_ration, 'wb') as file:
             pickle.dump(dict_data_twse_ticker_weight_ration, file, protocol=pickle.HIGHEST_PROTOCOL)
                     
-    elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+    elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
         pickle_fname_ticker_weight_ration = path_pickle_stock_id["tpex"][1]#'tpex_ticker_weight_ration.pickle'        
         df_tpex_stock_idx = df_twse_tpex_us_stock_idx
 
@@ -235,11 +235,11 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
                 num+=1
                 logger.info('{}th key: {}; value: {} weight_ration_value: {}'.format(num, key, value, dict_data_us_ticker_weight_ration[key]) )
                 
-        if bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        if bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             pickle_fname_ticker = path_pickle_stock_id["sp500"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["sp500"][1]
                 
-        elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
+        elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             pickle_fname_ticker = path_pickle_stock_id["nasdaq100"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["nasdaq100"][1]
             
@@ -1745,7 +1745,9 @@ class TWSE_TPEX_MAs_status():
                     worksheet_spread = dict_worksheet_spread["tpex_volatility"]
         elif bool(re.match('^twse_tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
                     worksheet_spread = dict_worksheet_spread["twse_tpex_volatility"]
-                                                                
+        elif bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["sp500"]
+                                                                            
         for gspreadsheet, cert_json in dict_gspreadsheet.items():
             
             if bool(re.match('^200ma', gspreadsheet.lower())  ):
@@ -1985,7 +1987,10 @@ class TWSE_TPEX_MAs_status():
         elif bool(re.match('^twse_tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_tpex_volatility"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_tpex_volatility"][1]
-                
+        elif bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["sp500"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["sp500"][1]
+                    
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
         self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
@@ -2137,16 +2142,18 @@ if __name__ == '__main__':
         
     opt_verbose= 'OFF'
     
-    path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
+    #path_xlsx_stock_id=  'twse_tpex_ticker.xlsx'
     list_path_pickle_ticker= json_data["twse_otc_id_pickle"]#['twse_ticker.pickle', 'tpex_ticker.pickle', 'twse_tpex_ticker.pickle']
     dict_path_pickle_ticker= json_data["dict_twse_otc_us_id_pickle"]
     
     # for accelerate get twse tpex idx purpose   
     local_stock= yahooFinance.Stock(json_data)        
     
+    #logger.info(f'json_data["lastest_datastr_twse_tpex"][0].lower(): {json_data["lastest_datastr_twse_tpex"][0].lower()}' )    
+    
     if json_data["lastest_datastr_twse_tpex"][0].lower() == "request":
         store_twse_tpex_ticker(json_data, list_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
-    elif json_data["lastest_datastr_twse_tpex"][0].lower() == "csv":
+    elif json_data["lastest_datastr_twse_tpex"][0].lower() == "csv":        
         pickle_ticker_weight_ration = store_twse_tpex_ticker_weight_ration_fromCSV(json_data, dict_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
         
     else:        
@@ -2166,11 +2173,17 @@ if __name__ == '__main__':
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()        
         
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse_etf":
+            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
             local_twse_tpex_ma_status.calculate_dict_momentum()
         
         elif bool(re.match('t[w|p][s|e][e|x]_volatility', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
             logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
-            local_twse_tpex_ma_status.calculate_dict_momentum()    
+            local_twse_tpex_ma_status.calculate_dict_momentum()
+        
+        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "sp500":
+            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
+            local_twse_tpex_ma_status.calculate_dict_momentum()
+                    
         else:
             #logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
             local_twse_tpex_ma_status.calculate_dict_MAs_status()
