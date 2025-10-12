@@ -484,8 +484,8 @@ class GoogleSS:
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_3days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_5days"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_7days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_13days"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MA_28days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_84days"]),\
-                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_10days"]),\
-                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_20days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_60days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_10days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_20days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_60days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_200days"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Middle"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Upper"]),'{:.3f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Lower"]),\
                                 '{:.3f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Middle"]),\

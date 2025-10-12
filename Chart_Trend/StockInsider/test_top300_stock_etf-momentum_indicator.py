@@ -242,6 +242,14 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
         elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             pickle_fname_ticker = path_pickle_stock_id["nasdaq100"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["nasdaq100"][1]
+        
+        elif bool(re.match('^etf00909', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00909"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00909"][1]
+                
+        elif bool(re.match('^200ma', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["200ma"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["200ma"][1]
             
         with open(pickle_fname_ticker, 'wb') as file:
             pickle.dump(dict_data_us_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)    
@@ -997,7 +1005,8 @@ class TWSE_TPEX_MAs_status():
                     "MA_84days": local_stock_indicator.stock_data['MA_84'].astype(float).iloc[-1],                    
                     "MA_10days": local_stock_indicator.stock_data['MA_10'].astype(float).iloc[-1],
                     "MA_20days": local_stock_indicator.stock_data['MA_20'].astype(float).iloc[-1],
-                    "MA_60days": local_stock_indicator.stock_data['MA_60'].astype(float).iloc[-1],                    
+                    "MA_60days": local_stock_indicator.stock_data['MA_60'].astype(float).iloc[-1],
+                    "MA_200days": local_stock_indicator.stock_data['MA_200'].astype(float).iloc[-1],                    
                     "ShortTerm_BBband_Middle": local_stock_indicator.stock_data['Short Term Bollinger Middle'].astype(float).iloc[-1],
                     "ShortTerm_BBband_Upper": local_stock_indicator.stock_data['Short Term Bollinger Upper'].astype(float).iloc[-1],
                     "ShortTerm_BBband_Lower": local_stock_indicator.stock_data['Short Term Bollinger Lower'].astype(float).iloc[-1],
@@ -1379,8 +1388,8 @@ class TWSE_TPEX_MAs_status():
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_3days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_5days"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_7days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_13days"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MA_28days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_84days"]),\
-                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_10days"]),\
-                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_20days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_60days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_10days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_20days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_60days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_200days"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Middle"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Lower"]),\
                                 '{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Middle"]),\
@@ -1747,7 +1756,11 @@ class TWSE_TPEX_MAs_status():
                     worksheet_spread = dict_worksheet_spread["twse_tpex_volatility"]
         elif bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
                     worksheet_spread = dict_worksheet_spread["sp500"]
-                                                                            
+        elif bool(re.match('^etf00909', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00909"]
+        elif bool(re.match('^200ma', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["200ma"]
+                                                                                                    
         for gspreadsheet, cert_json in dict_gspreadsheet.items():
             
             if bool(re.match('^200ma', gspreadsheet.lower())  ):
@@ -1913,7 +1926,7 @@ class TWSE_TPEX_MAs_status():
             str_ticker = '^TWOII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex_volatility"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex_volatility"][1]
-        
+            
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
         self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
@@ -1979,18 +1992,29 @@ class TWSE_TPEX_MAs_status():
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_etf"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_etf"][1]
         elif bool(re.match('^twse_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '^TWII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_volatility"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_volatility"][1]
         elif bool(re.match('^tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '^TWOII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex_volatility"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex_volatility"][1]    
         elif bool(re.match('^twse_tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_tpex_volatility"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_tpex_volatility"][1]
         elif bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '^GSPC'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["sp500"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["sp500"][1]
-                    
+        elif bool(re.match('^etf00909', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00909.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00909"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00909"][1]
+        elif bool(re.match('^200ma', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '^TWII'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["200ma"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["200ma"][1]
+                            
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
         self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
@@ -2029,6 +2053,26 @@ class TWSE_TPEX_MAs_status():
             # log out all tickers start-dog MA status
             path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_ShortMediumTerm_trend.txt')
             self.log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_ShortMediumTerm_trend)
+            
+            # by yfinance or pstock(asyncio mode)
+            self.calculate_dict_index_info(str_ticker= str_ticker, start_date=startdate, end_date=enddate)    
+            
+            #self.num_twse_cpn = 'nn'
+            path_ma_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_{target_market}_{self.num_cpn}_MA.txt')
+            path_ml_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_ML_{target_market}_{self.num_cpn}_MA.txt')
+            
+            list_cnt = [date_changer_twse(list_start_end_date[-1]), self.num_cpn,
+                        self.four_star_cpn, self.three_star_cpn, self.two_star_cpn, self.one_star_cpn,\
+                        self.four_dog_cpn, self.three_dog_cpn, self.two_dog_cpn, self.one_dog_cpn,\
+                        '{:.5f}'.format(self.four_star_weight_ratio), '{:.5f}'.format(self.three_star_weight_ratio) , 
+                        '{:.5f}'.format(self.two_star_weight_ratio) , '{:.5f}'.format(self.one_star_weight_ratio),
+                        '{:.5f}'.format(self.four_dog_weight_ratio), '{:.5f}'.format(self.three_dog_weight_ratio), 
+                        '{:.5f}'.format(self.two_dog_weight_ratio), '{:.5f}'.format(self.one_dog_weight_ratio),
+                        '{:.5f}'.format(self.volatility_weighted_indicator),\
+                        self.open, self.high, self.low, self.close, self.volume]
+        
+            lib_misc.list_out_file(path_ma_fname, list_cnt, opt_verbose='on')
+            lib_misc.list_out_ML_file(path_ml_fname, list_cnt, opt_verbose='on')
             
             # Update etf momentum
             self.update_dict_etf_momentum_on_gspreadsheet()
@@ -2161,11 +2205,13 @@ if __name__ == '__main__':
         local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, json_gsheet, dict_path_pickle_ticker, list_path_pickle_ticker, \
                                                             local_stock, opt_verbose)
         
+        logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
+        
         if json_data["lastest_datastr_twse_tpex"][1].lower() == "all":
             local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
         elif bool(re.match('twse$', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
-            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
+            
             #local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
             local_twse_tpex_ma_status.calculate_dict_MAs_status()
         
@@ -2173,17 +2219,20 @@ if __name__ == '__main__':
             local_twse_tpex_ma_status.calculate_TPEX_MAs_status()        
         
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse_etf":
-            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
             local_twse_tpex_ma_status.calculate_dict_momentum()
         
         elif bool(re.match('t[w|p][s|e][e|x]_volatility', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
-            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
             local_twse_tpex_ma_status.calculate_dict_momentum()
         
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "sp500":
-            logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
             local_twse_tpex_ma_status.calculate_dict_momentum()
                     
+        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "etf00909":
+            local_twse_tpex_ma_status.calculate_dict_momentum()
+
+        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "200ma":
+            local_twse_tpex_ma_status.calculate_dict_momentum()
+            
         else:
             #logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
             local_twse_tpex_ma_status.calculate_dict_MAs_status()

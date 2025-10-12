@@ -910,11 +910,12 @@ class stock_indicator_pstock:
                             
     # 移動平均線を計算する関数
     def calculate_moving_averages(self, weekly_window=5, Dweekly_window=10, \
-                                    monthly_window=20, quarterly_window=60):
+                                    monthly_window=20, quarterly_window=60, yearly_window=200):
         self.stock_data['MA_5'] = self.stock_data['close'].rolling(window=weekly_window).mean()
         self.stock_data['MA_10'] = self.stock_data['close'].rolling(window=Dweekly_window).mean()
         self.stock_data['MA_20'] = self.stock_data['close'].rolling(window=monthly_window).mean()
         self.stock_data['MA_60'] = self.stock_data['close'].rolling(window=quarterly_window).mean()
+        self.stock_data['MA_200'] = self.stock_data['close'].rolling(window=yearly_window).mean()
         #return data
     # 從 database 取得所有所有上市櫃、興櫃、ETF 資料
     # 採用 sqlalchemy core 方式進行資料查詢
@@ -1041,12 +1042,13 @@ class stock_indicator_pstock:
         self.stock_data['volume_avg_quarterly'] = self.stock_data['volume'].rolling(window=quarterly_window).mean().astype(float).iloc[-1]
         
     def calculate_exponential_moving_averages(self, weekly_window=5, Dweekly_window=10, \
-                                    monthly_window=20, quarterly_window=60):
+                                    monthly_window=20, quarterly_window=60, yearly_window=200):
         self.stock_data['EMA_5'] = self.stock_data['close'].ewm(ignore_na=False, span=weekly_window, min_periods=0, adjust=False).mean()
         self.stock_data['EMA_10'] = self.stock_data['close'].ewm(ignore_na=False, span=Dweekly_window, min_periods=0, adjust=False).mean()
         self.stock_data['EMA_20'] = self.stock_data['close'].ewm(ignore_na=False, span=monthly_window, min_periods=0, adjust=False).mean()
         self.stock_data['EMA_60'] = self.stock_data['close'].ewm(ignore_na=False, span=quarterly_window, min_periods=0, adjust=False).mean()
-    
+        self.stock_data['EMA_200'] = self.stock_data['close'].ewm(ignore_na=False, span=yearly_window, min_periods=0, adjust=False).mean()
+        
     def stand_Up_On_fall_Down_MAs(self):
         #logger.info("{}".format("Stand_Up_On_MAs (針對你Fetch data區間的最後一天做分析):"))
 
