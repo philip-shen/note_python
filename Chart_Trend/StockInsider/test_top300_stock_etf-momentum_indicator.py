@@ -246,6 +246,10 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
         elif bool(re.match('^etf00909', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             pickle_fname_ticker = path_pickle_stock_id["etf00909"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00909"][1]
+        
+        elif bool(re.match('^etf009805', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf009805"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf009805"][1]
                 
         elif bool(re.match('^200ma', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             pickle_fname_ticker = path_pickle_stock_id["200ma"][0]
@@ -1743,7 +1747,7 @@ class TWSE_TPEX_MAs_status():
             
             est_timer(t1)
     
-    def update_dict_etf_momentum_on_gspreadsheet(self):
+    def update_dict_etf_momentum_on_gspreadsheet(self, list_MA_data=None):
         dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]        
         dict_worksheet_spread = self.json_data["dict_worksheet_gSpredSheet"]
         if bool(re.match('^twse_etf', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
@@ -1758,29 +1762,33 @@ class TWSE_TPEX_MAs_status():
                     worksheet_spread = dict_worksheet_spread["sp500"]
         elif bool(re.match('^etf00909', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
                     worksheet_spread = dict_worksheet_spread["etf00909"]
+        elif bool(re.match('^etf009805', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf009805"]            
         elif bool(re.match('^200ma', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
                     worksheet_spread = dict_worksheet_spread["200ma"]
                                                                                                     
         for gspreadsheet, cert_json in dict_gspreadsheet.items():
-            
-            if bool(re.match('^200ma', gspreadsheet.lower())  ):
-                # Declare GoogleSS() from googleSS.py
-                localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
-            
-                t1 = time.time()
-                try:
-                    localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
-                except Exception as e:
-                    logger.info(f'Error: {e}')
-                    sys.exit(0)
+            # Declare GoogleSS() from googleSS.py
+            localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
+            t1 = time.time()
+            try:
+                localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+            except Exception as e:
+                logger.info(f'Error: {e}')
+                sys.exit(0)
         
-                logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
-                inital_row_num = 2
-            
+            logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+            inital_row_num = 2
+                    
+            # for google spreadseeht "200MA" only
+            if bool(re.match('^200ma$', gspreadsheet.lower())  ):
                 localGoogleSS.update_GSpreadworksheet_etf_momentum_batch_update(self.dict_ShortMediumTerm_trend, inital_row_num)
-            
-                est_timer(t1)
+            # for google spreadseeht "200MA_MA_Statistic" only
+            elif bool(re.match('^200ma_ma_statistic$', gspreadsheet.lower())  ):
+                localGoogleSS.update_GSpreadworksheet_MA_status(inital_row_num, list_MA_data)
                 
+            est_timer(t1)
+                            
     def update_MAs_status_on_gspreadsheet(self, list_MA_data):
         dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]
         list_worksheet_spread = self.json_data["worksheet_gSpredSheet"]
@@ -2010,6 +2018,10 @@ class TWSE_TPEX_MAs_status():
             str_ticker = '00909.TW'            
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00909"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00909"][1]
+        elif bool(re.match('^etf009805', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '009805.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf009805"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf009805"][1]    
         elif bool(re.match('^200ma', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             str_ticker = '^TWII'            
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["200ma"][0]
@@ -2075,7 +2087,7 @@ class TWSE_TPEX_MAs_status():
             lib_misc.list_out_ML_file(path_ml_fname, list_cnt, opt_verbose='on')
             
             # Update etf momentum
-            self.update_dict_etf_momentum_on_gspreadsheet()
+            self.update_dict_etf_momentum_on_gspreadsheet(list_MA_data=list_cnt)
             
             if idx < len(self.json_data["start_end_date"])-1:
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
@@ -2227,7 +2239,7 @@ if __name__ == '__main__':
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "sp500":
             local_twse_tpex_ma_status.calculate_dict_momentum()
                     
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "etf00909":
+        elif bool(re.match('^etf00', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
             local_twse_tpex_ma_status.calculate_dict_momentum()
 
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "200ma":

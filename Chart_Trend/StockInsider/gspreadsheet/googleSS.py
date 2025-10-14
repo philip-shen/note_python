@@ -512,7 +512,7 @@ class GoogleSS:
         
         # update by Cell Range
         str_gspread_range = 'A' + str(inital_row_num) + ":" + \
-                            'AN' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
+                            'AO' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
         
         if self.opt_verbose.lower() == 'on':
             logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')
