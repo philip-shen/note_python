@@ -370,6 +370,7 @@ class GoogleSS:
             
             row_count += 1
             list_Gworksheet_rowvalue = self.gss_client_worksheet.row_values(row_count)    
+                  
     '''
     not from star_date to end_date
     '''
