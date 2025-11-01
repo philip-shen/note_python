@@ -275,6 +275,34 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
             pickle_fname_ticker = path_pickle_stock_id["etf0052"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf0052"][1]
             
+        elif bool(re.match('^etf00902', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00902"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00902"][1]
+        
+        elif bool(re.match('^etf00735', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00735"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00735"][1]
+
+        elif bool(re.match('^etf00875', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00875"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00875"][1]
+
+        elif bool(re.match('^etf00893', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00893"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00893"][1]
+
+        elif bool(re.match('^etf00923', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00923"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00923"][1]
+
+        elif bool(re.match('^etf00951', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00951"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00951"][1]
+
+        elif bool(re.match('^etf00954', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00954"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00954"][1]
+
         with open(pickle_fname_ticker, 'wb') as file:
             pickle.dump(dict_data_us_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)    
         with open(pickle_fname_ticker_weight_ration, 'wb') as file:
@@ -1796,7 +1824,21 @@ class TWSE_TPEX_MAs_status():
                     worksheet_spread = dict_worksheet_spread["etf00927"]
         elif bool(re.match('^etf0052', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
                     worksheet_spread = dict_worksheet_spread["etf0052"]            
-                                                                                                    
+        elif bool(re.match('^etf00902', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00902"]
+        elif bool(re.match('^etf00735', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00735"]
+        elif bool(re.match('^etf00875', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00875"]
+        elif bool(re.match('^etf00893', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00893"]                                    
+        elif bool(re.match('^etf00923', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00923"]
+        elif bool(re.match('^etf00951', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00951"]
+        elif bool(re.match('^etf00954', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00954"]
+
         for gspreadsheet, cert_json in dict_gspreadsheet.items():
             # Declare GoogleSS() from googleSS.py
             localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
@@ -2076,7 +2118,35 @@ class TWSE_TPEX_MAs_status():
             str_ticker = '0052.TW'            
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf0052"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf0052"][1]
-                                    
+        elif bool(re.match('^etf00902', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00902.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00902"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00902"][1]
+        elif bool(re.match('^etf00735', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00735.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00735"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00735"][1]    
+        elif bool(re.match('^etf00875', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00875.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00875"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00875"][1]
+        elif bool(re.match('^etf00893', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00893.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00893"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00893"][1]
+        elif bool(re.match('^etf00923', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00923.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00923"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00923"][1]
+        elif bool(re.match('^etf00951', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00951.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00951"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00951"][1]
+        elif bool(re.match('^etf00954', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00954.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00954"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00954"][1]
+
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
         self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
