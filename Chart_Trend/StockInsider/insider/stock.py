@@ -1008,7 +1008,7 @@ class stock_indicator_pstock:
             #time.sleep(delay)
             i += 1
             
-            lib_misc.random_timer(45, 55)
+            lib_misc.random_timer(25, 30)
  
         self.total_StockDividend = total_StockDividend
 

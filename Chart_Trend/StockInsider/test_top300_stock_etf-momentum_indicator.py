@@ -303,6 +303,10 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
             pickle_fname_ticker = path_pickle_stock_id["etf00954"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00954"][1]
 
+        elif bool(re.match('^etf00981a', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            pickle_fname_ticker = path_pickle_stock_id["etf00981a"][0]
+            pickle_fname_ticker_weight_ration = path_pickle_stock_id["etf00981a"][1]
+        
         with open(pickle_fname_ticker, 'wb') as file:
             pickle.dump(dict_data_us_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)    
         with open(pickle_fname_ticker_weight_ration, 'wb') as file:
@@ -1838,7 +1842,9 @@ class TWSE_TPEX_MAs_status():
                     worksheet_spread = dict_worksheet_spread["etf00951"]
         elif bool(re.match('^etf00954', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
                     worksheet_spread = dict_worksheet_spread["etf00954"]
-
+        elif bool(re.match('^etf00981a', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                    worksheet_spread = dict_worksheet_spread["etf00981a"]
+                    
         for gspreadsheet, cert_json in dict_gspreadsheet.items():
             # Declare GoogleSS() from googleSS.py
             localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
@@ -2146,7 +2152,11 @@ class TWSE_TPEX_MAs_status():
             str_ticker = '00954.TW'            
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00954"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00954"][1]
-
+        elif bool(re.match('^etf00981a', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00981A.TW'            
+            fname_ticker_cpn_name = self.dict_path_pickle_ticker["etf00981a"][0]
+            fname_ticker_weight_ration = self.dict_path_pickle_ticker["etf00981a"][1]
+            
         target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
         self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
