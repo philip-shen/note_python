@@ -1423,38 +1423,100 @@ class TWSE_TPEX_MAs_status():
                                 ]
                             )
         
-        list_all_tickers_ma_cnt.append([f'{self.json_data["lastest_datastr_twse_tpex"][1].upper()} 股票家數: {self.num_cpn}'])
+        str_ticker = self.json_data["lastest_datastr_twse_tpex"][1].upper()
+        list_all_tickers_ma_cnt.append([f'{str_ticker} 股票家數: {self.num_cpn}'])
         
         list_all_tickers_ma_cnt.append(['{} 四海遊龍型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三陽開泰型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.four_star_cpn, self.four_star_cpn/self.num_cpn, self.four_star_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.three_star_cpn, self.three_star_cpn/self.num_cpn, self.three_star_weight_ratio)])
+                str_ticker, self.four_star_cpn, self.four_star_cpn/self.num_cpn, self.four_star_weight_ratio,
+                str_ticker, self.three_star_cpn, self.three_star_cpn/self.num_cpn, self.three_star_weight_ratio)])
         
         list_all_tickers_ma_cnt.append(['{} 雙囍臨門型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一星報喜型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.two_star_cpn, self.two_star_cpn/self.num_cpn, self.two_star_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.one_star_cpn, self.one_star_cpn/self.num_cpn, self.one_star_weight_ratio)])
+                str_ticker, self.two_star_cpn, self.two_star_cpn/self.num_cpn, self.two_star_weight_ratio,
+                str_ticker, self.one_star_cpn, self.one_star_cpn/self.num_cpn, self.one_star_weight_ratio)])
         
         list_all_tickers_ma_cnt.append(['{} 四腳朝天型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三人成虎型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.four_dog_cpn, self.four_dog_cpn/self.num_cpn, self.four_dog_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.three_dog_cpn, self.three_dog_cpn/self.num_cpn, self.three_dog_weight_ratio)])
+                str_ticker, self.four_dog_cpn, self.four_dog_cpn/self.num_cpn, self.four_dog_weight_ratio,
+                str_ticker, self.three_dog_cpn, self.three_dog_cpn/self.num_cpn, self.three_dog_weight_ratio)])
         
         list_all_tickers_ma_cnt.append(['{} 二竪作惡型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一敗塗地型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.two_dog_cpn, self.two_dog_cpn/self.num_cpn, self.two_dog_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.one_dog_cpn, self.one_dog_cpn/self.num_cpn, self.one_dog_weight_ratio)])
+                str_ticker,self.two_dog_cpn, self.two_dog_cpn/self.num_cpn, self.two_dog_weight_ratio,
+                str_ticker, self.one_dog_cpn, self.one_dog_cpn/self.num_cpn, self.one_dog_weight_ratio)])
         
         t = time.localtime()
         list_all_tickers_ma_cnt.append([time.strftime(default_time_format, t)])
         
         #logger.info(f'list_all_tickers_ma_cnt: {list_all_tickers_ma_cnt}' )        
         lib_misc.list_out_all_tickers_MA_cnts_file(path_all_tikcers_ma, list_all_tickers_ma_cnt, opt_verbose='on')
-                
+    
+    def cron_log_all_ticker_dict_MAs_cnts(self, path_all_tikcers_ma, dict_MAs_momentum_status, ticker_idx):
+        list_all_tickers_ma_cnt = []
+        default_time_format = '%Y-%m-%d %H:%M:%S'
+        
+        for dict_ticker_MAs_momentum in dict_MAs_momentum_status:
+            #logger.info(f'length of dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum.__len__()}')
+            #logger.info(f'dict_ticker_MAs_momentum: {dict_ticker_MAs_momentum}')
+            if dict_ticker_MAs_momentum.__len__() == 26:
+                list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"].replace('\n', ''),dict_ticker_MAs_momentum["stock_name"],\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]), \
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.5f}'.format(dict_ticker_MAs_momentum["weight"]),\
+                                dict_ticker_MAs_momentum["MAs_status"],dict_ticker_MAs_momentum["End_Date"]]
+                            )                
+            else:
+                list_all_tickers_ma_cnt.append([dict_ticker_MAs_momentum["ticker"].replace('\n', ''),dict_ticker_MAs_momentum["stock_name"],\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["open"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close"]), \
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["high"]),'{:.2f}'.format(dict_ticker_MAs_momentum["low"]),\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["prev_day_close"]),'{:.5f}'.format(dict_ticker_MAs_momentum["weight"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["volume"]), '{:.5f}'.format(dict_ticker_MAs_momentum["volume_avg_weekly"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_3days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_5days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_7days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_13days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_28days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_84days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_10days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_20days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_60days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_200days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Middle"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["ShortTerm_BBband_Lower"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Middle"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Upper"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MediumTerm_BBband_Lower"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["RSI"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MACD"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Signal"]),'{:.5f}'.format(dict_ticker_MAs_momentum["MACD_Histogram"]),\
+                                '{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Weekly"]),'{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_BiWeekly"]), \
+                                '{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Monthly"]),'{:.1f}'.format(dict_ticker_MAs_momentum["Volume_avg_Quarterly"]),\
+                                
+                                dict_ticker_MAs_momentum["ShortMediumTerm_Trend_flag"],\
+                                dict_ticker_MAs_momentum["ShortMediumTerm_MA_flag"],\
+                                dict_ticker_MAs_momentum["ShortMediumTerm_Trade_Volume_flag"],\
+                                        
+                                dict_ticker_MAs_momentum["MAs_status"], \
+                                dict_ticker_MAs_momentum["End_Date"], \
+                                dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"], dict_ticker_MAs_momentum["Total_Stock_Dividend"]                                
+                                ]
+                            )
+        
+        str_ticker = self.json_data["lastest_datastr_twse_tpex"][1][ticker_idx].upper()
+        list_all_tickers_ma_cnt.append([f'{str_ticker} 股票家數: {self.num_cpn}'])
+        
+        list_all_tickers_ma_cnt.append(['{} 四海遊龍型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三陽開泰型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker, self.four_star_cpn, self.four_star_cpn/self.num_cpn, self.four_star_weight_ratio,
+                str_ticker, self.three_star_cpn, self.three_star_cpn/self.num_cpn, self.three_star_weight_ratio)])
+        
+        list_all_tickers_ma_cnt.append(['{} 雙囍臨門型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一星報喜型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker, self.two_star_cpn, self.two_star_cpn/self.num_cpn, self.two_star_weight_ratio,
+                str_ticker, self.one_star_cpn, self.one_star_cpn/self.num_cpn, self.one_star_weight_ratio)])
+        
+        list_all_tickers_ma_cnt.append(['{} 四腳朝天型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三人成虎型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker, self.four_dog_cpn, self.four_dog_cpn/self.num_cpn, self.four_dog_weight_ratio,
+                str_ticker, self.three_dog_cpn, self.three_dog_cpn/self.num_cpn, self.three_dog_weight_ratio)])
+        
+        list_all_tickers_ma_cnt.append(['{} 二竪作惡型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一敗塗地型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker,self.two_dog_cpn, self.two_dog_cpn/self.num_cpn, self.two_dog_weight_ratio,
+                str_ticker, self.one_dog_cpn, self.one_dog_cpn/self.num_cpn, self.one_dog_weight_ratio)])
+        
+        t = time.localtime()
+        list_all_tickers_ma_cnt.append([time.strftime(default_time_format, t)])
+        
+        #logger.info(f'list_all_tickers_ma_cnt: {list_all_tickers_ma_cnt}' )        
+        lib_misc.list_out_all_tickers_MA_cnts_file(path_all_tikcers_ma, list_all_tickers_ma_cnt, opt_verbose='on')
+                        
     def log_info_TWSE_MAs_status(self):
         logger.info(f'TWSE 股票家數: {self.num_twse_cpn}' )    
         logger.info('TWSE 四海遊龍型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; TWSE 三陽開泰型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
@@ -1490,32 +1552,45 @@ class TWSE_TPEX_MAs_status():
                 self.expo_one_star_twse_cpn, self.expo_one_star_twse_cpn/self.num_twse_cpn, self.expo_one_star_twse_weight_ratio) )
     
     def log_info_dict_MAs_status(self):
-        logger.info(f'{self.json_data["lastest_datastr_twse_tpex"][1].upper()} 股票家數: {self.num_cpn}' )    
+        str_ticker = self.json_data["lastest_datastr_twse_tpex"][1].upper()
+        logger.info(f'{str_ticker} 股票家數: {self.num_cpn}' )    
         
         logger.info('{} 四海遊龍型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三陽開泰型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.four_star_cpn, self.four_star_cpn/self.num_cpn, self.four_star_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.three_star_cpn, self.three_star_cpn/self.num_cpn, self.three_star_weight_ratio) )
+                str_ticker, self.four_star_cpn, self.four_star_cpn/self.num_cpn, self.four_star_weight_ratio,
+                str_ticker, self.three_star_cpn, self.three_star_cpn/self.num_cpn, self.three_star_weight_ratio) )
         
         logger.info('{} 雙囍臨門型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一星報喜型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.two_star_cpn, self.two_star_cpn/self.num_cpn, self.two_star_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.one_star_cpn, self.one_star_cpn/self.num_cpn, self.one_star_weight_ratio) )
+                str_ticker, self.two_star_cpn, self.two_star_cpn/self.num_cpn, self.two_star_weight_ratio,
+                str_ticker, self.one_star_cpn, self.one_star_cpn/self.num_cpn, self.one_star_weight_ratio) )
         
         logger.info('{} 四腳朝天型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三人成虎型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.four_dog_cpn, self.four_dog_cpn/self.num_cpn, self.four_dog_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.three_dog_cpn, self.three_dog_cpn/self.num_cpn, self.three_dog_weight_ratio) )
+                str_ticker, self.four_dog_cpn, self.four_dog_cpn/self.num_cpn, self.four_dog_weight_ratio,
+                str_ticker, self.three_dog_cpn, self.three_dog_cpn/self.num_cpn, self.three_dog_weight_ratio) )
 
         logger.info('{} 二竪作惡型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一敗塗地型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.two_dog_cpn, self.two_dog_cpn/self.num_cpn, self.two_dog_weight_ratio,
-                self.json_data["lastest_datastr_twse_tpex"][1].upper(),
-                self.one_dog_cpn, self.one_dog_cpn/self.num_cpn, self.one_dog_weight_ratio) )
-                
+                str_ticker, self.two_dog_cpn, self.two_dog_cpn/self.num_cpn, self.two_dog_weight_ratio,
+                str_ticker, self.one_dog_cpn, self.one_dog_cpn/self.num_cpn, self.one_dog_weight_ratio) )
+    
+    def cron_log_info_dict_MAs_status(self, ticker_idx):
+        str_ticker = self.json_data["lastest_datastr_twse_tpex"][1][ticker_idx].upper()
+        logger.info(f'{str_ticker} 股票家數: {self.num_cpn}' )    
+        
+        logger.info('{} 四海遊龍型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三陽開泰型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker, self.four_star_cpn, self.four_star_cpn/self.num_cpn, self.four_star_weight_ratio,
+                str_ticker, self.three_star_cpn, self.three_star_cpn/self.num_cpn, self.three_star_weight_ratio) )
+        
+        logger.info('{} 雙囍臨門型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一星報喜型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker, self.two_star_cpn, self.two_star_cpn/self.num_cpn, self.two_star_weight_ratio,
+                str_ticker, self.one_star_cpn, self.one_star_cpn/self.num_cpn, self.one_star_weight_ratio) )
+        
+        logger.info('{} 四腳朝天型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 三人成虎型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker, self.four_dog_cpn, self.four_dog_cpn/self.num_cpn, self.four_dog_weight_ratio,
+                str_ticker, self.three_dog_cpn, self.three_dog_cpn/self.num_cpn, self.three_dog_weight_ratio) )
+
+        logger.info('{} 二竪作惡型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; {} 一敗塗地型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
+                str_ticker, self.two_dog_cpn, self.two_dog_cpn/self.num_cpn, self.two_dog_weight_ratio,
+                str_ticker, self.one_dog_cpn, self.one_dog_cpn/self.num_cpn, self.one_dog_weight_ratio) )
+                    
     def log_info_TPEX_MAs_status(self):
         logger.info(f'TPEX 股票家數: {self.num_tpex_cpn}' )    
         logger.info('TPEX 四海遊龍型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}; TPEX 三陽開泰型股票家數: {} %:{:.3f} weight_ratio_%:{:.3f}'.format(\
@@ -1742,9 +1817,9 @@ class TWSE_TPEX_MAs_status():
             elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
                 worksheet_spread = dict_worksheet_spread["nasdaq100"]
             
-            elif bool(re.match('^twse_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            elif bool(re.match('twse_volatility', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
                 worksheet_spread = dict_worksheet_spread["twse_volatility"]
-            elif bool(re.match('^tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            elif bool(re.match('tpex_volatility', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
                 worksheet_spread = dict_worksheet_spread["tpex_volatility"]    
                 
             t1 = time.time()
@@ -1805,7 +1880,53 @@ class TWSE_TPEX_MAs_status():
                 localGoogleSS.update_GSpreadworksheet_MA_status(inital_row_num, list_MA_data)
                 
             est_timer(t1)
-                            
+    
+    def cron_update_dict_etf_momentum_on_gspreadsheet(self, list_MA_data=None, ticker_idx=None):
+        dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]        
+        dict_worksheet_spread = self.json_data["dict_worksheet_gSpredSheet"]
+        str_ticker = json_data["lastest_datastr_twse_tpex"][1][ticker_idx]
+        
+        if bool(re.match('^twse_etf', str_ticker.lower())  ):
+                    worksheet_spread = dict_worksheet_spread["twse_etf"]
+        elif bool(re.match('^twse_volatility', str_ticker.lower())  ):
+                    worksheet_spread = dict_worksheet_spread["twse_volatility"]
+        elif bool(re.match('^tpex_volatility', str_ticker.lower())  ):
+                    worksheet_spread = dict_worksheet_spread["tpex_volatility"]
+        elif bool(re.match('^twse_tpex_volatility', str_ticker.lower())  ):
+                    worksheet_spread = dict_worksheet_spread["twse_tpex_volatility"]
+        elif bool(re.match('^sp500', str_ticker.lower())  ):
+                    worksheet_spread = dict_worksheet_spread["sp500"]
+        elif bool(re.match('^200ma', str_ticker.lower())  ):
+                    worksheet_spread = dict_worksheet_spread["200ma"]
+        else:
+            worksheet_spread = \
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker)[2]
+        
+        logger.info(f'str_ticker: {str_ticker} worksheet_spread: {worksheet_spread}')
+        
+        for gspreadsheet, cert_json in dict_gspreadsheet.items():
+            # Declare GoogleSS() from googleSS.py
+            localGoogleSS=googleSS.GoogleSS(cert_json, self.json_data, self.opt_verbose)    
+            t1 = time.time()
+            try:
+                localGoogleSS.open_GSworksheet(gspreadsheet, worksheet_spread)
+            except Exception as e:
+                logger.info(f'Error: {e}')
+                sys.exit(0)
+            
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'Read row data of WorkSheet: {worksheet_spread} from {gspreadsheet}')
+            inital_row_num = 2
+                    
+            # for google spreadseeht "200MA" only
+            if bool(re.match('200ma$', gspreadsheet.lower())  ):
+                localGoogleSS.update_GSpreadworksheet_etf_momentum_batch_update(self.dict_ShortMediumTerm_trend, inital_row_num)
+            # for google spreadseeht "200MA_MA_Statistic" only
+            elif bool(re.match('200ma_ma_statistic$', gspreadsheet.lower())  ):
+                localGoogleSS.update_GSpreadworksheet_MA_status(inital_row_num, list_MA_data)
+                
+            est_timer(t1)
+                                            
     def update_MAs_status_on_gspreadsheet(self, list_MA_data):
         dict_gspreadsheet = self.json_data["gSpredSheet_certificate"]
         list_worksheet_spread = self.json_data["worksheet_gSpredSheet"]
@@ -1921,38 +2042,38 @@ class TWSE_TPEX_MAs_status():
             if idx < len(self.json_data["start_end_date"])-1:
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
         
-    def calculate_dict_MAs_status(self):
-        if bool(re.match('^twse', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
-            str_ticker = '^TWII'
+    def calculate_dict_MAs_status(self, str_ticker):
+        if bool(re.match('^twse', str_ticker.lower())  ):
+            yfinance_ticker = '^TWII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse"][1]
         
-        elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
-            str_ticker = '^TWOII'
+        elif bool(re.match('^tpex', str_ticker.lower())  ):
+            yfinance_ticker = '^TWOII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex"][1]
             
-        elif bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
-            str_ticker = '^GSPC'
+        elif bool(re.match('^sp500', str_ticker.lower())  ):
+            yfinance_ticker = '^GSPC'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["sp500"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["sp500"][1]
         
-        elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][3].lower())  ):
-            str_ticker = '^NDX'
+        elif bool(re.match('^nasdaq100', str_ticker.lower())  ):
+            yfinance_ticker = '^NDX'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["nasdaq100"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["nasdaq100"][1]
         
-        elif bool(re.match('^twse_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
-            str_ticker = '^TWII'
+        elif bool(re.match('^twse_volatility', str_ticker.lower())  ):
+            yfinance_ticker = '^TWII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_volatility"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_volatility"][1]
         
-        elif bool(re.match('^tpex_volatility', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
-            str_ticker = '^TWOII'
+        elif bool(re.match('^tpex_volatility', str_ticker.lower())  ):
+            yfinance_ticker = '^TWOII'
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex_volatility"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex_volatility"][1]
             
-        target_market = json_data["lastest_datastr_twse_tpex"][1].upper()                    
+        target_market = str_ticker.upper()                    
         self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
         self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
         
@@ -1980,14 +2101,14 @@ class TWSE_TPEX_MAs_status():
             self.store_dict_MAs_status(start_date=startdate, end_date=enddate, \
                                         stock_end_date=date_changer_twse(list_start_end_date[-1]))    
             self.check_dict_MAs_status()                                
-            self.log_info_dict_MAs_status()
+            self.cron_log_info_dict_MAs_status(ticker_idx=0)#for twse
             
             # log out all tickers start-dog MA status
             path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_MA.txt')
-            self.log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_MAs_status)
+            self.cron_log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_MAs_status, ticker_idx=0)#for twse
             
             # by yfinance or pstock(asyncio mode)
-            self.calculate_dict_index_info(str_ticker= str_ticker, start_date=startdate, end_date=enddate)    
+            self.calculate_dict_index_info(str_ticker= yfinance_ticker, start_date=startdate, end_date=enddate)    
             
             #self.num_twse_cpn = 'nn'
             path_ma_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_{target_market}_{self.num_cpn}_MA.txt')
@@ -2050,7 +2171,7 @@ class TWSE_TPEX_MAs_status():
             fname_ticker_cpn_name = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
             fname_ticker_weight_ration = \
-                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]        
         elif bool(re.match('^etf00955', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             str_ticker = '00955.TWO'            
             fname_ticker_cpn_name = \
@@ -2129,7 +2250,140 @@ class TWSE_TPEX_MAs_status():
             
             if idx < len(self.json_data["start_end_date"])-1:
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
-                                                                            
+    
+    def cron_calculate_dict_momentum(self):
+        
+        for ticker_idx, str_ticker in enumerate(json_data["lastest_datastr_twse_tpex"][1]):
+            target_market = str_ticker#json_data["lastest_datastr_twse_tpex"][1].upper()                    
+            #if self.opt_verbose.lower() == 'on':
+            logger.info(f'{ticker_idx+1}th target_market: {target_market}')
+                
+            if bool(re.match('twse$', str_ticker.lower())  ):
+                fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse"][0]
+                fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse"][1]                
+                str_ticker = '^TWII'                
+            elif bool(re.match('twse_etf$', str_ticker.lower())  ):
+                fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_etf"][0]
+                fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_etf"][1]                
+                str_ticker = '^TWII'                
+            elif bool(re.match('^twse_volatility', str_ticker.lower())  ):
+                fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_volatility"][0]
+                fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_volatility"][1]
+                str_ticker = '^TWII'                                
+            elif bool(re.match('^tpex_volatility', str_ticker.lower())  ):
+                fname_ticker_cpn_name = self.dict_path_pickle_ticker["tpex_volatility"][0]
+                fname_ticker_weight_ration = self.dict_path_pickle_ticker["tpex_volatility"][1]                    
+                str_ticker = '^TWOII'                
+            elif bool(re.match('^twse_tpex_volatility', str_ticker.lower())  ):
+                fname_ticker_cpn_name = self.dict_path_pickle_ticker["twse_tpex_volatility"][0]
+                fname_ticker_weight_ration = self.dict_path_pickle_ticker["twse_tpex_volatility"][1]
+            elif bool(re.match('^sp500', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = '^GSPC'                
+            elif bool(re.match('^nasdaq100', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]  
+                str_ticker = '^NDX'                
+            elif bool(re.match('^200ma', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = '^TWII'
+            elif bool(re.match('^etf00888', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = '00888.TWO'
+            elif bool(re.match('^etf006201', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = '006201.TWO'
+            elif bool(re.match('^etf00955', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = '00955.TWO'                
+            else:
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[3]
+                    
+            self.dict_ticker_cpn_name = query_dic_from_pickle(fname_ticker_cpn_name)
+            self.dict_ticker_weight_ration = query_dic_from_pickle(fname_ticker_weight_ration)
+                    
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'pickle fname of ticker_weight_ration: \n{fname_ticker_weight_ration}')
+        
+            list_delay_sec = self.json_data["int_delay_sec"]
+            
+            for start_end_date_idx, list_start_end_date in enumerate(self.json_data["start_end_date"]):
+                str_temp = date_changer_twse(list_start_end_date[0])
+                list_str_temp =str_temp.split('-')
+                startdate = datetime(int(list_str_temp[0]), int(list_str_temp[1]), int(list_str_temp[2]))
+                #for yfinance purpose
+                str_temp = date_changer_twse_yfinance_end_date(list_start_end_date[-1])
+                list_str_temp =str_temp.split('-')
+                enddate = datetime(int(list_str_temp[0]), int(list_str_temp[1]), int(list_str_temp[2]))
+
+                logger.info(f'start_date: {startdate}; end_date: {date_changer_twse(list_start_end_date[-1])}')                 
+                # by pstock(asyncio mode)
+                self.init_count_dict_variables()
+                ## remark by combine two function into store_dict_MAs_status_ShortMediumTerm_trend
+                ##self.store_dict_MAs_status(start_date=startdate, end_date=enddate)    
+                ##self.store_dict_ShortMediumTerm_trend(start_date=startdate, end_date=enddate)
+            
+                self.store_dict_MAs_status_ShortMediumTerm_trend(start_date=startdate, end_date=enddate, \
+                                                                stock_end_date=date_changer_twse(list_start_end_date[-1]))
+                
+                self.check_dict_MAs_status()                                
+                self.cron_log_info_dict_MAs_status(ticker_idx)
+                # log out all tickers start-dog MA status
+                path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_MA.txt')
+                self.cron_log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_MAs_status, ticker_idx)
+                        
+                # log out all tickers start-dog MA status
+                path_all_tickers_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_All_Tickers_{target_market}_{self.num_cpn}_ShortMediumTerm_trend.txt')
+                self.cron_log_all_ticker_dict_MAs_cnts(path_all_tickers_fname, self.dict_ShortMediumTerm_trend, ticker_idx)
+            
+                # by yfinance or pstock(asyncio mode)
+                self.calculate_dict_index_info(str_ticker= str_ticker, start_date=startdate, end_date=enddate)    
+            
+                #self.num_twse_cpn = 'nn'
+                path_ma_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_{target_market}_{self.num_cpn}_MA.txt')
+                path_ml_fname = pathlib.Path(dirnamelog)/(date_changer_twse(list_start_end_date[-1])+f'_ML_{target_market}_{self.num_cpn}_MA.txt')
+                
+                list_cnt = [date_changer_twse(list_start_end_date[-1]), self.num_cpn,
+                        self.four_star_cpn, self.three_star_cpn, self.two_star_cpn, self.one_star_cpn,\
+                        self.four_dog_cpn, self.three_dog_cpn, self.two_dog_cpn, self.one_dog_cpn,\
+                        '{:.5f}'.format(self.four_star_weight_ratio), '{:.5f}'.format(self.three_star_weight_ratio) , 
+                        '{:.5f}'.format(self.two_star_weight_ratio) , '{:.5f}'.format(self.one_star_weight_ratio),
+                        '{:.5f}'.format(self.four_dog_weight_ratio), '{:.5f}'.format(self.three_dog_weight_ratio), 
+                        '{:.5f}'.format(self.two_dog_weight_ratio), '{:.5f}'.format(self.one_dog_weight_ratio),
+                        '{:.5f}'.format(self.volatility_weighted_indicator),\
+                        self.open, self.high, self.low, self.close, self.volume]
+                
+                lib_misc.list_out_file(path_ma_fname, list_cnt, opt_verbose='on')
+                lib_misc.list_out_ML_file(path_ml_fname, list_cnt, opt_verbose='on')
+                
+                # Update etf momentum
+                self.cron_update_dict_etf_momentum_on_gspreadsheet(list_MA_data=list_cnt, ticker_idx=ticker_idx)
+                
+                # delay timer number by len -1
+                if ticker_idx < len(self.json_data["lastest_datastr_twse_tpex"][1])-1:
+                    lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
+                    
     def init_count_TPEX_variables(self):
         self.num_tpex_cpn = 0
         self.volatility_TPEX_weighted_indicator = 0
@@ -2255,39 +2509,18 @@ if __name__ == '__main__':
         local_twse_tpex_ma_status = TWSE_TPEX_MAs_status(json_data, json_gsheet, dict_path_pickle_ticker, list_path_pickle_ticker, \
                                                             local_stock, opt_verbose)
         
-        logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )
+        logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: \n{json_data["lastest_datastr_twse_tpex"][1]}' )
         
-        if json_data["lastest_datastr_twse_tpex"][1].lower() == "all":
-            local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
-            local_twse_tpex_ma_status.calculate_TPEX_MAs_status()
-        elif bool(re.match('twse$', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
-            
-            #local_twse_tpex_ma_status.calculate_TWSE_MAs_status()
-            local_twse_tpex_ma_status.calculate_dict_MAs_status()
-        
-        elif bool(re.match('tpex$', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
-            local_twse_tpex_ma_status.calculate_TPEX_MAs_status()        
-        
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "twse_etf":
-            local_twse_tpex_ma_status.calculate_dict_momentum()
-        
-        elif bool(re.match('t[w|p][s|e][e|x]_volatility', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
-            local_twse_tpex_ma_status.calculate_dict_momentum()
-        
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "sp500":
-            local_twse_tpex_ma_status.calculate_dict_momentum()
-        
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "nasdaq100":
-            local_twse_tpex_ma_status.calculate_dict_momentum()
-                        
-        elif bool(re.match('^etf00', json_data["lastest_datastr_twse_tpex"][1].lower()) ):
-            local_twse_tpex_ma_status.calculate_dict_momentum()
-
-        elif json_data["lastest_datastr_twse_tpex"][1].lower() == "200ma":
-            local_twse_tpex_ma_status.calculate_dict_momentum()
-            
+        if json_data["lastest_datastr_twse_tpex"][1].__len__() > 1:
+            local_twse_tpex_ma_status.cron_calculate_dict_momentum()
         else:
-            #logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
-            local_twse_tpex_ma_status.calculate_dict_MAs_status()
+            if json_data["lastest_datastr_twse_tpex"][1][0].lower() == "200ma":
+                local_twse_tpex_ma_status.cron_calculate_dict_momentum()
+            elif json_data["lastest_datastr_twse_tpex"][1][0].lower() == "sp500":
+                local_twse_tpex_ma_status.cron_calculate_dict_momentum()    
+            elif json_data["lastest_datastr_twse_tpex"][1][0].lower() == "twse_etf":
+                local_twse_tpex_ma_status.cron_calculate_dict_momentum()        
+            else:
+                local_twse_tpex_ma_status.calculate_dict_MAs_status(json_data["lastest_datastr_twse_tpex"][1][0])#twse
                 
     est_timer(t0)    

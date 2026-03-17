@@ -9,6 +9,9 @@ import argparse
 import json
 import pathlib
 import ijson
+from datetime import datetime
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 
 import twseotc_stocks.lib_misc as lib_misc
 from insider.logger_setup import *
@@ -78,6 +81,131 @@ def update_json_specific_values(file_path, argument):
     with open(file_path, "w") as f:
         json.dump(json_data, f)
 '''
+Python 日期與時間的處理 
+https://laitaiyu.blogspot.com/2021/02/python.html
+'''
+def update_start_date_byduration(argument, now_datetime = datetime.now()):
+    list_star_end_date = []    
+    if argument.conf_duration.lower() == 'daily':
+        start_datetime = now_datetime - relativedelta(days=1)
+    elif argument.conf_duration.lower() == 'weekly':
+        start_datetime = now_datetime - relativedelta(weeks=1)
+    elif argument.conf_duration.lower() == 'bi-weekly':
+        start_datetime = now_datetime - relativedelta(weeks=2)
+    elif argument.conf_duration.lower() == 'monthly':
+        start_datetime = now_datetime - relativedelta(months=1)
+    elif argument.conf_duration.lower() == 'quarterly':
+        start_datetime = now_datetime - relativedelta(months=3)
+    elif argument.conf_duration.lower() == 'four-months':
+        start_datetime = now_datetime - relativedelta(months=4)
+    elif argument.conf_duration.lower() == 'five-months':
+        start_datetime = now_datetime - relativedelta(months=5)
+    elif argument.conf_duration.lower() == 'half-year':
+        start_datetime = now_datetime - relativedelta(months=6)
+    elif argument.conf_duration.lower() == 'yearly':
+        start_datetime = now_datetime - relativedelta(years=1)
+
+    start_date = datetime.strftime(start_datetime, '%Y%m%d')    
+    end_date = datetime.strftime(now_datetime, '%Y%m%d')
+        
+    dict_temp = {f"{start_date}" : start_datetime}
+    list_star_end_date.append(dict_temp)
+    dict_temp = {f"{end_date}" : now_datetime}
+    list_star_end_date.append(dict_temp)
+    #logger.info('list_star_end_date: {}'.format(list_star_end_date) )
+            
+    return list_star_end_date
+
+def update_end_date_byduration(argument, now_datetime = datetime.now()):
+    list_star_end_date = []    
+    if argument.conf_duration.lower() == 'daily':
+        end_datetime = now_datetime + relativedelta(days=1)
+    elif argument.conf_duration.lower() == 'weekly':
+        end_datetime = now_datetime + relativedelta(weeks=1)
+    elif argument.conf_duration.lower() == 'bi-weekly':
+        end_datetime = now_datetime + relativedelta(weeks=2)
+    elif argument.conf_duration.lower() == 'monthly':
+        end_datetime = now_datetime + relativedelta(months=1)
+    elif argument.conf_duration.lower() == 'quarterly':
+        end_datetime = now_datetime + relativedelta(months=3)
+    elif argument.conf_duration.lower() == 'four-months':
+        end_datetime = now_datetime + relativedelta(months=4)
+    elif argument.conf_duration.lower() == 'five-months':
+        end_datetime = now_datetime + relativedelta(months=5)
+    elif argument.conf_duration.lower() == 'half-year':
+        end_datetime = now_datetime + relativedelta(months=6)
+    elif argument.conf_duration.lower() == 'yearly':
+        end_datetime = now_datetime + relativedelta(years=1)
+    
+    start_date = datetime.strftime(now_datetime, '%Y%m%d')    
+    end_date = datetime.strftime(end_datetime, '%Y%m%d')        
+    
+    dict_temp = {f"{start_date}" : now_datetime}
+    list_star_end_date.append(dict_temp)
+    dict_temp = {f"{end_date}" : end_datetime}
+    list_star_end_date.append(dict_temp)
+            
+    return list_star_end_date
+
+'''
+( Day 19.1 ) Python 日期和時間 datetime 
+https://ithelp.ithome.com.tw/articles/10322201
+
+[Python教學] 日期時間 
+https://ithelp.ithome.com.tw/articles/10340709
+'''
+# 獲取日期的星期
+def get_weekday(date):
+    weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    return weekdays[date.weekday()]
+
+def pickup_start_date_byduration(argument, end_day_idx, now_datetime = datetime.now()):
+    list_star_date = []    
+    # Prints numbers from 0 to 5 (6 is exclusive)
+    for i in range(end_day_idx+1):
+        tomorrow = now_datetime + timedelta(days=i)
+        list_start_end_date = update_start_date_byduration(argument, now_datetime = tomorrow)
+        for key, value in list_start_end_date[0].items():
+            start_date = key
+                
+            if get_weekday(value).lower() == 'sat' or \
+                get_weekday(value).lower() == 'sun':
+                #pass
+                logger.info(f'date: {start_date}; weekday: {get_weekday(value)}')
+            else:
+                list_star_date.append(start_date)
+                #logger.info(f'list_star_date: {list_star_date}')
+                
+    return list_star_date
+
+def collect_start_end_date_byduration(argument, now_datetime = datetime.now()):
+    list_star_end_date = []    
+    yesterday = now_datetime - timedelta(days=1)
+    tomorrow = now_datetime + timedelta(days=1)
+    nextweek = now_datetime + timedelta(weeks=1)
+
+    if argument.conf_duration.lower() == 'weekly':
+        end_dayth = 7
+    elif argument.conf_duration.lower() == 'bi-weekly':
+        end_dayth = 14
+    elif argument.conf_duration.lower() == 'monthly':
+        end_dayth = 30+1
+    elif argument.conf_duration.lower() == 'quarterly':
+        end_dayth = 30*3+1*2
+    elif argument.conf_duration.lower() == 'four-months':
+        end_dayth = 30*4+1*3
+    elif argument.conf_duration.lower() == 'five-months':
+        end_dayth = 30*5+1*4
+    elif argument.conf_duration.lower() == 'half-year':
+        end_dayth = 30*6+1*5
+    elif argument.conf_duration.lower() == 'yearly':
+        end_dayth = 30*12+1*6
+            
+    list_star_end_date = pickup_start_date_byduration(argument, end_dayth)
+    logger.info(f'len_list_star_end_date: {list_star_end_date.__len__()}')
+    logger.info(f'list_star_end_date: {list_star_end_date}')
+        
+'''
 number of self.ret_listOfFileNames:25 in walk_in_dir
 
 ['d:\\projects\\note_python\\Chart_Trend\\StockInsider\\test_update_json\\config_200ma.json','d:\\projects\\note_python\\Chart_Trend\\StockInsider\\test_update_json\\config_etf0052.json', 
@@ -111,6 +239,17 @@ def update_json_path_specific_values(argument, json_path, arg_file_type='config_
         ith +=1
         logger.info(f'Update {ith}th path_json_file: \n                                                                             {local_path_json}' )
         process_json_specific_values(local_path_json, argument)
+        if argument.conf_duration.lower() == 'fixed':
+            pass
+        else:
+            list_start_end_date = update_start_date_byduration(argument)
+            for key, _ in list_start_end_date[0].items():
+                argument.conf_item_start_date = key
+            for key, _ in list_start_end_date[-1].items():
+                argument.conf_item_end_date = key
+            logger.info('conf_duration: {}; conf_item_start_date: {}; conf_item_end_date: {}'.format(f"{argument.conf_duration.lower()}", \
+                                                                                                argument.conf_item_start_date, argument.conf_item_end_date) )
+            
         update_json_specific_values(local_path_json, argument)   
         
 if __name__ == '__main__':
@@ -120,6 +259,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='change json start end date')
     parser.add_argument('--conf_json_fully_path', type=str, default="", help='Config file path of json')
     parser.add_argument('--conf_key_item', type=str, default="start_end_date", help='Config Key item')
+    parser.add_argument('--conf_duration', type=str, default="fixed", help='Config duration ex. daily, weekly, bi-weekly, monthly, quarterly, \
+                                                                                four-months, five-months, half-year, yearly')
     parser.add_argument("--conf_item_start_date", type=str, default='20241101', help='search start date ex. \'20241101\'')
     parser.add_argument("--conf_item_end_date", type=str, default='20251124', help='search end date ex. \'20241124\'')
     
@@ -139,12 +280,9 @@ if __name__ == '__main__':
     msg = 'Start Time is {}/{}/{} {}:{}:{}'
     logger.info(msg.format( local_time.tm_year,local_time.tm_mon,local_time.tm_mday,\
                             local_time.tm_hour,local_time.tm_min,local_time.tm_sec))
-    
-    # Replace with the path to your large JSON file
-    #process_large_json(file_path)    
-    #process_json_specific_values(json_path_file, args)
-    #update_json_specific_values(json_path_file, args)
+       
     
     update_json_path_specific_values(args, json_path)
+    #collect_start_end_date_byduration(args)
     
     est_timer(t0)

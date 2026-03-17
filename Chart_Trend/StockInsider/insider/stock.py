@@ -957,7 +957,7 @@ class stock_indicator_pstock:
             if not check:
                 logger.info("瀏覽次數過快，被伺服器封鎖 !")
                 #time.sleep(600)
-                lib_misc.random_timer(10, 15)
+                lib_misc.random_timer(20, 30)
                 continue
                 
             if not data:
