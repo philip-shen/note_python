@@ -1018,8 +1018,66 @@ class stock_indicator_pstock:
         if self.opt_verbose.lower() == 'on':
             logger.info(f'stock_data:\n{self.stock_data}')
     
+    def init_close_specific_day(self):
+        self.stock_data['Close_day_5'] = None
+        self.stock_data['Close_day_10'] = None
+        self.stock_data['Close_day_20'] = None
+        self.stock_data['Close_day_60'] = None
+        self.stock_data['Close_day_50'] = None
+        self.stock_data['Close_day_100'] = None
+        self.stock_data['Close_day_84'] = None
+        self.len_of_stock_data = self.stock_data.__len__()
+        
+    def get_close_specific_day(self):
+        self.init_close_specific_day()        
+        #logger.info(f'len of self.stock_data: {self.len_of_stock_data}')
+        
+        if self.len_of_stock_data > 5:
+            self.stock_data['Close_day_5'] = self.stock_data.iloc[-5-1]['close']
+        else:
+            return        
+        if self.len_of_stock_data > 10:
+            self.stock_data['Close_day_10'] = self.stock_data.iloc[-10-1]['close']
+        else:
+            return        
+        if self.len_of_stock_data > 20:
+            self.stock_data['Close_day_20'] = self.stock_data.iloc[-20-1]['close']
+        else:
+            return        
+        if self.len_of_stock_data > 50:
+            self.stock_data['Close_day_50'] = self.stock_data.iloc[-50-1]['close']
+        else:
+            return
+        if self.len_of_stock_data > 60:
+            self.stock_data['Close_day_60'] = self.stock_data.iloc[-60-1]['close']
+        else:
+            return
+        if self.len_of_stock_data > 84:
+            self.stock_data['Close_day_84'] = self.stock_data.iloc[-84-1]['close']
+        else:
+            return
+        if self.len_of_stock_data > 100:
+            self.stock_data['Close_day_100'] = self.stock_data.iloc[-100-1]['close']
+        else:
+            return
+        
+    # 成交量加权移动平均线 VWMA (data, 20)，参数有2个，1个是数据源，另一个是日期，通过为20
+    def calculate_volume_weighted_moving_average(self, period=20):
+        # 1. 計算 Price * Volume
+        self.stock_data['pv'] = self.stock_data['close'] * self.stock_data['volume']
+    
+        # 2. 計算 pv 的滾動總和 與 volume 的滾動總和
+        self.stock_data['sum_pv'] = self.stock_data['pv'].rolling(window=period).sum()
+        self.stock_data['sum_vol'] = self.stock_data['volume'].rolling(window=period).sum()
+    
+        # 3. 相除得到 VWMA
+        self.stock_data['VWMA'] = self.stock_data['sum_pv'] / self.stock_data['sum_vol']
+    
+        # 刪除中間計算欄位
+        self.stock_data.drop(['pv', 'sum_pv', 'sum_vol'], axis=1, inplace=True)
+        
     def calculate_ShortMediumTerm_moving_averages(self, three_window=3, weekly_window=5, seven_window=7, thirteen_window=13, \
-                                    twentyeight_window=28, eightyfour_window=84, \
+                                    twentyeight_window=28, eightyfour_window=84, fifty_window=50, hundred_window=100,\
                                     Dweekly_window=10, monthly_window=20, quarterly_window=60):
         self.stock_data['MA_3'] = self.stock_data['close'].rolling(window=three_window).mean()
         self.stock_data['MA_5'] = self.stock_data['close'].rolling(window=weekly_window).mean()
@@ -1027,6 +1085,8 @@ class stock_indicator_pstock:
         self.stock_data['MA_13'] = self.stock_data['close'].rolling(window=thirteen_window).mean()
         self.stock_data['MA_28'] = self.stock_data['close'].rolling(window=twentyeight_window).mean()
         self.stock_data['MA_84'] = self.stock_data['close'].rolling(window=eightyfour_window).mean()
+        self.stock_data['MA_50'] = self.stock_data['close'].rolling(window=fifty_window).mean()
+        self.stock_data['MA_100'] = self.stock_data['close'].rolling(window=hundred_window).mean()
         
         self.stock_data['MA_10'] = self.stock_data['close'].rolling(window=Dweekly_window).mean()
         self.stock_data['MA_20'] = self.stock_data['close'].rolling(window=monthly_window).mean()

@@ -251,6 +251,12 @@ class Stock:
                 #logger.info(f"ticker: {self.ticker}")
                 return
             
+        # 00955.TWO	中信日本商社 00888.TWO	永豐台灣ESG
+        if bool(re.match('^00[955|888]', self.stock_idx)):
+                self.ticker=  self.stock_idx+'.TWO'
+                #logger.info(f"ticker: {self.ticker}")
+                return
+                
         raise ValueError(
             f"{self.stock_idx} cannot map yfinance ticker index ."
         )

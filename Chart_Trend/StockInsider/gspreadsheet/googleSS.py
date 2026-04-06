@@ -501,7 +501,12 @@ class GoogleSS:
                                 dict_ticker_MAs_momentum["MAs_status"],\
                                 dict_ticker_MAs_momentum["End_Date"],\
                                 dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"],
-                                dict_ticker_MAs_momentum["Total_Stock_Dividend"]
+                                dict_ticker_MAs_momentum["Total_Stock_Dividend"],\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["close_day_5"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close_day_10"]), \
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["close_day_20"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close_day_60"]), \
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["close_day_84"]), \
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["MA_50days"]), '{:.3f}'.format(dict_ticker_MAs_momentum["MA_100days"]),\
+                                '{:.3f}'.format(dict_ticker_MAs_momentum["VWMA"])    
                                 ]
                 
                 if self.opt_verbose.lower() == 'on':
@@ -513,7 +518,7 @@ class GoogleSS:
         
         # update by Cell Range
         str_gspread_range = 'A' + str(inital_row_num) + ":" + \
-                            'AO' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
+                            'AW' + str(inital_row_num + list_all_stkidx_row_value.__len__()-1)
         
         if self.opt_verbose.lower() == 'on':
             logger.info(f'list_all_stkidx_row_value:\n{list_all_stkidx_row_value}')

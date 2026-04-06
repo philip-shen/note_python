@@ -993,6 +993,10 @@ class TWSE_TPEX_MAs_status():
                 local_stock_indicator.check_ShortMediumTerm_Volume()
                 local_stock_indicator.filter_ShortMediumTerm_Volume()
                 
+                #VMMA calculation
+                local_stock_indicator.calculate_volume_weighted_moving_average()
+                local_stock_indicator.get_close_specific_day()
+                
                 #local_stock_indicator.calculate_bollinger_bands()
                 #local_stock_indicator.calculate_bollinger_bands(sma_window=20, std_window=20)
                 local_stock_indicator.filter_ShortMediumTerm_Trend()
@@ -1020,7 +1024,11 @@ class TWSE_TPEX_MAs_status():
                     "MA_10days": local_stock_indicator.stock_data['MA_10'].astype(float).iloc[-1],
                     "MA_20days": local_stock_indicator.stock_data['MA_20'].astype(float).iloc[-1],
                     "MA_60days": local_stock_indicator.stock_data['MA_60'].astype(float).iloc[-1],
-                    "MA_200days": local_stock_indicator.stock_data['MA_200'].astype(float).iloc[-1],                    
+                    "MA_200days": local_stock_indicator.stock_data['MA_200'].astype(float).iloc[-1],
+                    "MA_50days": local_stock_indicator.stock_data['MA_50'].astype(float).iloc[-1],
+                    "MA_100days": local_stock_indicator.stock_data['MA_100'].astype(float).iloc[-1],
+                    "VWMA": local_stock_indicator.stock_data['VWMA'].astype(float).iloc[-1],
+                                        
                     "ShortTerm_BBband_Middle": local_stock_indicator.stock_data['Short Term Bollinger Middle'].astype(float).iloc[-1],
                     "ShortTerm_BBband_Upper": local_stock_indicator.stock_data['Short Term Bollinger Upper'].astype(float).iloc[-1],
                     "ShortTerm_BBband_Lower": local_stock_indicator.stock_data['Short Term Bollinger Lower'].astype(float).iloc[-1],
@@ -1052,9 +1060,22 @@ class TWSE_TPEX_MAs_status():
                     "prev_day_close": local_stock_indicator.prev_day_close,
                     "volume": local_stock_indicator.volume, 
                     "volume_avg_weekly": local_stock_indicator.volume_avg_weekly, 
+                    
+                    "close_day_5": local_stock_indicator.stock_data['Close_day_5'].astype(float).iloc[-1],
+                    "close_day_10": local_stock_indicator.stock_data['Close_day_10'].astype(float).iloc[-1],
+                    "close_day_20": local_stock_indicator.stock_data['Close_day_20'].astype(float).iloc[-1],
+                    "close_day_60": local_stock_indicator.stock_data['Close_day_60'].astype(float).iloc[-1],
+                    "close_day_50": local_stock_indicator.stock_data['Close_day_50'].astype(float).iloc[-1],
+                    "close_day_100": local_stock_indicator.stock_data['Close_day_100'].astype(float).iloc[-1],
+                    "close_day_84": local_stock_indicator.stock_data['Close_day_84'].astype(float).iloc[-1],
                 }
                 list_ShortMediumTerm_trend.append(dict_temp)
-        
+
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f'dict_temp["VWMA"]: {dict_temp["VWMA"]} ')            
+                    logger.info(f'dict_temp["close_day_5"]: {dict_temp["close_day_5"]} dict_temp["close_day_10"]: {dict_temp["close_day_10"]}')    
+                    logger.info(f'dict_temp["close_day_50"]: {dict_temp["close_day_50"]} dict_temp["close_day_100"]: {dict_temp["close_day_100"]}')    
+                    
         self.dict_MAs_status = list_MAs_status    
         self.dict_ShortMediumTerm_trend = list_ShortMediumTerm_trend
         
@@ -1419,7 +1440,12 @@ class TWSE_TPEX_MAs_status():
                                         
                                 dict_ticker_MAs_momentum["MAs_status"], \
                                 dict_ticker_MAs_momentum["End_Date"], \
-                                dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"], dict_ticker_MAs_momentum["Total_Stock_Dividend"]                                
+                                dict_ticker_MAs_momentum["Latest_Dividend_Cover_Days"], dict_ticker_MAs_momentum["Total_Stock_Dividend"],\
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["close_day_5"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close_day_10"]), \
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["close_day_20"]),'{:.2f}'.format(dict_ticker_MAs_momentum["close_day_60"]), \
+                                '{:.2f}'.format(dict_ticker_MAs_momentum["close_day_84"]), \
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["MA_50days"]), '{:.5f}'.format(dict_ticker_MAs_momentum["MA_100days"]),\
+                                '{:.5f}'.format(dict_ticker_MAs_momentum["VWMA"])    
                                 ]
                             )
         
