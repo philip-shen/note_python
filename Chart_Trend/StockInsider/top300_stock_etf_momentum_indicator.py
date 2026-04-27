@@ -176,14 +176,14 @@ INFO: 298th key: 3013.TW; value: 3013晟銘電 weight_ration_value: 0.000312
 INFO: 299th key: 9938.TW; value: 9938百和 weight_ration_value: 0.000308
 INFO: 300th key: 8028.TW; value: 8028昇陽半導體 weight_ration_value: 0.000307
 '''
-def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id: dict, path_csv_stock_id= '', opt_verbose= 'OFF'):    
-    # Drop rows where ALL values are NaN: If you only want to remove completely empty rows, use how='all'.    
+def store_twse_tpex_ticker_weight_ration_fromCSV(ticker, json_data, path_pickle_stock_id: dict, path_csv_stock_id= '', opt_verbose= 'OFF'):    
+    # Drop rows where ALL values are NaN: If you only want to remove completely empty rows, use how='all'.
     df_twse_tpex_us_stock_idx = pd.read_csv(json_data["lastest_datastr_twse_tpex"][3], sep=',').dropna(how='all')
     df_twse_stock_idx = pd; df_tpex_stock_idx = pd; df_us_stock_idx = pd
     #if opt_verbose.lower() == 'on':
     #        logger.info(f'df_twse_tpex_stock_idx:\n {df_twse_tpex_us_stock_idx}' )    
         
-    if bool(re.match('twse$', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+    if bool(re.match('twse$', ticker)  ):
         pickle_fname_ticker_weight_ration = path_pickle_stock_id["twse"][1]#'twse_ticker_weight_ration.pickle'
         df_twse_stock_idx = df_twse_tpex_us_stock_idx
             
@@ -210,7 +210,7 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
         with open(pickle_fname_ticker_weight_ration, 'wb') as file:
             pickle.dump(dict_data_twse_ticker_weight_ration, file, protocol=pickle.HIGHEST_PROTOCOL)
                     
-    elif bool(re.match('^tpex', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+    elif bool(re.match('^tpex', ticker)  ):
         pickle_fname_ticker_weight_ration = path_pickle_stock_id["tpex"][1]#'tpex_ticker_weight_ration.pickle'        
         df_tpex_stock_idx = df_twse_tpex_us_stock_idx
 
@@ -248,22 +248,22 @@ def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id
                 num+=1
                 logger.info('{}th key: {}; value: {} weight_ration_value: {}'.format(num, key, value, dict_data_us_ticker_weight_ration[key]) )
                 
-        if bool(re.match('^sp500', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+        if bool(re.match('^sp500', ticker)  ):
             pickle_fname_ticker = path_pickle_stock_id["sp500"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["sp500"][1]
                 
-        elif bool(re.match('^nasdaq100', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+        elif bool(re.match('^nasdaq100', ticker)  ):
             pickle_fname_ticker = path_pickle_stock_id["nasdaq100"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["nasdaq100"][1]
         
-        elif bool(re.match('^200ma', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+        elif bool(re.match('^200ma', ticker)  ):
             pickle_fname_ticker = path_pickle_stock_id["200ma"][0]
             pickle_fname_ticker_weight_ration = path_pickle_stock_id["200ma"][1]
         else:
             pickle_fname_ticker = \
-                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(ticker)[0]
             pickle_fname_ticker_weight_ration = \
-                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(ticker)[1]
         
         with open(pickle_fname_ticker, 'wb') as file:
             pickle.dump(dict_data_us_ticker_cpn_name, file, protocol=pickle.HIGHEST_PROTOCOL)    
@@ -2078,8 +2078,8 @@ class TWSE_TPEX_MAs_status():
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
             fname_ticker_weight_ration = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]
-        elif bool(re.match('^etf00955', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
-            str_ticker = '00955.TWO'            
+        elif bool(re.match('^etf00996', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            str_ticker = '00992A.TW'            
             fname_ticker_cpn_name = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
             fname_ticker_weight_ration = \

@@ -176,8 +176,9 @@ INFO: 298th key: 3013.TW; value: 3013晟銘電 weight_ration_value: 0.000312
 INFO: 299th key: 9938.TW; value: 9938百和 weight_ration_value: 0.000308
 INFO: 300th key: 8028.TW; value: 8028昇陽半導體 weight_ration_value: 0.000307
 '''
-def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id: dict, path_csv_stock_id= '', opt_verbose= 'OFF'):    
-    df_twse_tpex_us_stock_idx = pd.read_csv(json_data["lastest_datastr_twse_tpex"][3], sep=',', lineterminator='\r')
+def store_twse_tpex_ticker_weight_ration_fromCSV(json_data, path_pickle_stock_id: dict, path_csv_stock_id= '', opt_verbose= 'OFF'):   
+    # Drop rows where ALL values are NaN: If you only want to remove completely empty rows, use how='all'.         
+    df_twse_tpex_us_stock_idx = pd.read_csv(json_data["lastest_datastr_twse_tpex"][3], sep=',').dropna(how='all')
     df_twse_stock_idx = pd; df_tpex_stock_idx = pd; df_us_stock_idx = pd
     #if opt_verbose.lower() == 'on':
     #        logger.info(f'df_twse_tpex_stock_idx:\n {df_twse_tpex_us_stock_idx}' )    

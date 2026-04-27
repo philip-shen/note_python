@@ -1019,6 +1019,7 @@ class stock_indicator_pstock:
             logger.info(f'stock_data:\n{self.stock_data}')
     
     def init_close_specific_day(self):
+        self.stock_data['Close_day_1'] = None
         self.stock_data['Close_day_5'] = None
         self.stock_data['Close_day_10'] = None
         self.stock_data['Close_day_20'] = None
@@ -1032,6 +1033,10 @@ class stock_indicator_pstock:
         self.init_close_specific_day()        
         #logger.info(f'len of self.stock_data: {self.len_of_stock_data}')
         
+        if self.len_of_stock_data > 1:
+            self.stock_data['Close_day_1'] = self.stock_data.iloc[-1-1]['close']
+        else:
+            return        
         if self.len_of_stock_data > 5:
             self.stock_data['Close_day_5'] = self.stock_data.iloc[-5-1]['close']
         else:
