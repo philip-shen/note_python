@@ -69,11 +69,14 @@ def get_etf_holds_MoneyDJ(ticker):
     return df, update_str
 
 def csv_fromMoneyDJ_pickle(ticker, json_data, opt_verbose= 'OFF'):
+           
     # 建立爬蟲器實例 (Create scraper instance)
     scraper = ETFScraper(opt_verbose)
     
     # 獲取所有數據 (Get all data)
-    data = scraper.get_all_data(ticker)
+    #"etf00981A" #'00981A.TW'
+    ticker_for_MoneyDJ = ticker.lower().replace('etf', '').upper()+'.TW' 
+    data = scraper.get_all_data(etf_code= ticker_for_MoneyDJ)
 
     # 顯示基本資訊 (Display basic information)
     logger.info("\n基本資訊 (Basic Information):")
@@ -92,7 +95,7 @@ def csv_fromMoneyDJ_pickle(ticker, json_data, opt_verbose= 'OFF'):
     
     df_all_holdings = holdings.get('all_holdings')
     now_datetime = datetime.strftime(datetime.now(), '%Y%m%d')
-    pickle_csvfname = f'etf{ticker[:6]}Components_{now_datetime}.csv'
+    pickle_csvfname = f'{ticker}Components_{now_datetime}.csv'
     # 去除所有字符串类型列里的换行符和前后空格
     df = df_all_holdings.apply(lambda col: col.str.replace('\r\n', '').str.strip() if col.dtype == 'object' else col)
     df.to_csv(pickle_csvfname, sep=',', na_rep='NULL', index=False)
@@ -141,8 +144,6 @@ if __name__ == '__main__':
     
     if json_data["lastest_datastr_twse_tpex"][1].__len__() > 1:
         for ticker in json_data["lastest_datastr_twse_tpex"][1]:
-            #"etf00981A" #'00981A.TW'
-            ticker = ticker.lower().replace('etf', '').upper()+'.TW'
             csv_fromMoneyDJ_pickle(ticker, json_data, opt_verbose)
     
     est_timer(t0)    
