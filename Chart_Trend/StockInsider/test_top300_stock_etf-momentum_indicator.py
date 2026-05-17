@@ -2066,12 +2066,12 @@ class TWSE_TPEX_MAs_status():
             str_ticker = '^TWII'            
             fname_ticker_cpn_name = self.dict_path_pickle_ticker["200ma"][0]
             fname_ticker_weight_ration = self.dict_path_pickle_ticker["200ma"][1]
-        elif bool(re.match('^etf00888', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
-            str_ticker = '00888.TWO'            
+        elif bool(re.match('^etf0088[7|8]', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             fname_ticker_cpn_name = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
             fname_ticker_weight_ration = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]
+            str_ticker = f'{json_data["lastest_datastr_twse_tpex"][1][3::]}.TWO'
         elif bool(re.match('^etf006201', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
             str_ticker = '006201.TWO'            
             fname_ticker_cpn_name = \
@@ -2083,7 +2083,19 @@ class TWSE_TPEX_MAs_status():
             fname_ticker_cpn_name = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
             fname_ticker_weight_ration = \
-                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]                
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]
+        elif bool(re.match('^etf[passiveactive|commodity]', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]
+                str_ticker = '^TWII'
+        elif bool(re.match('^etf00998', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            fname_ticker_cpn_name = \
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
+            fname_ticker_weight_ration = \
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]        
+            str_ticker = '00998A.TWO'                            
         else:
             str_ticker = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[3]
@@ -2313,6 +2325,9 @@ if __name__ == '__main__':
         elif json_data["lastest_datastr_twse_tpex"][1].lower() == "200ma":
             local_twse_tpex_ma_status.calculate_dict_momentum()
             
+        #elif json_data["lastest_datastr_twse_tpex"][1].lower() == "etfcommodity":
+        elif bool(re.match('etf[passiveactive|commodity]', json_data["lastest_datastr_twse_tpex"][1].lower()) ):    
+            local_twse_tpex_ma_status.calculate_dict_momentum()    
         else:
             #logger.info(f'json_data["lastest_datastr_twse_tpex"][1]: {json_data["lastest_datastr_twse_tpex"][1]}' )    
             local_twse_tpex_ma_status.calculate_dict_MAs_status()

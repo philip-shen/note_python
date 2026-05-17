@@ -68,7 +68,12 @@ def get_etf_holds_MoneyDJ(ticker):
     
     return df, update_str
 
-def csv_fromMoneyDJ_pickle(ticker, json_data, opt_verbose= 'OFF'):
+def get_csvfanme(ticker):
+    now_datetime = datetime.strftime(datetime.now(), '%Y%m%d')
+    csvfname = f'{ticker}Components_{now_datetime}.csv'
+    return csvfname
+
+def csv_fromMoneyDJ(ticker, json_data, opt_verbose= 'OFF'):
            
     # 建立爬蟲器實例 (Create scraper instance)
     scraper = ETFScraper(opt_verbose)
@@ -94,22 +99,25 @@ def csv_fromMoneyDJ_pickle(ticker, json_data, opt_verbose= 'OFF'):
             logger.info(f"\n{holding_type}: 無資料 (No data)")
     
     df_all_holdings = holdings.get('all_holdings')
-    now_datetime = datetime.strftime(datetime.now(), '%Y%m%d')
-    pickle_csvfname = f'{ticker}Components_{now_datetime}.csv'
+    
+    csvfname = get_csvfanme(ticker)
     # 去除所有字符串类型列里的换行符和前后空格
     df = df_all_holdings.apply(lambda col: col.str.replace('\r\n', '').str.strip() if col.dtype == 'object' else col)
-    df.to_csv(pickle_csvfname, sep=',', na_rep='NULL', index=False)
+    df.to_csv(csvfname, sep=',', na_rep='NULL', index=False)
     
+    return csvfname    
+
+def csv_to_pickle(ticker, csvfname_for_pickle, json_data, opt_verbose= 'OFF'):
     dict_path_pickle_ticker= json_data["dict_twse_otc_us_id_pickle"]
     json_data["lastest_datastr_twse_tpex"][0] = "csv"
-    json_data["lastest_datastr_twse_tpex"][-1] = pickle_csvfname
-    if json_data["lastest_datastr_twse_tpex"][0].lower() == "csv":        
-        store_twse_tpex_ticker_weight_ration_fromCSV(ticker, json_data, dict_path_pickle_ticker, path_csv_stock_id= '', opt_verbose= 'On')
+    json_data["lastest_datastr_twse_tpex"][-1] = csvfname_for_pickle
     
+    store_twse_tpex_ticker_weight_ration_fromCSV(ticker, json_data, dict_path_pickle_ticker, path_csv_stock_id= '', opt_verbose=opt_verbose)
+        
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='stock indicator')
     parser.add_argument('--conf_json', type=str, default='config.json', help='Config json')
-    #parser.add_argument('--gspred_json', type=str, default='xxxx.json', help='Google Sheet Certi json')
+    parser.add_argument('--op_mode', type=str, default='csv', help='csv or pickle')
     
     args = parser.parse_args()
     
@@ -124,10 +132,11 @@ if __name__ == '__main__':
     
     json_file= args.conf_json
     json_gsheet= None#args.gspred_json
+    op_option = args.op_mode
     
     json_path_file = pathlib.Path(strdirname)/json_file
     
-    if (not os.path.isfile(json_file))  :
+    if (not os.path.isfile(json_file)):
         msg = 'Please check json file:{}  if exist!!! '
         logger.info(msg.format(json_file) )    
         est_timer(t0)
@@ -143,7 +152,20 @@ if __name__ == '__main__':
     #csv_fromMoneyDJ_pickle(ticker,json_data)
     
     if json_data["lastest_datastr_twse_tpex"][1].__len__() > 1:
-        for ticker in json_data["lastest_datastr_twse_tpex"][1]:
-            csv_fromMoneyDJ_pickle(ticker, json_data, opt_verbose)
+        list_delay_sec = json_data["int_delay_sec"]
+        
+        for idx, ticker in enumerate(json_data["lastest_datastr_twse_tpex"][1]):
+            if op_option.lower() == "csv":        
+                csv_fromMoneyDJ(ticker, json_data, opt_verbose)
+            elif op_option.lower() == "pickle":
+                csvfname = get_csvfanme(ticker)
+                if (not os.path.isfile(csvfname)):
+                    csv_fromMoneyDJ(ticker, json_data, opt_verbose)
     
+                csv_to_pickle(ticker, csvfname, json_data, opt_verbose='on')
+            
+            #pause timer
+            if idx < len(json_data["lastest_datastr_twse_tpex"][1])-1:
+                lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
+                    
     est_timer(t0)    

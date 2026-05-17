@@ -434,15 +434,22 @@ class ETFScraper:
             try:
                 response = requests.get(url)
                 response.raise_for_status()  # 如果請求失敗，則引發異常
+                if self.opt_verbose.lower() == 'on':
+                    res = response.json()['stat']
+                    logger.info(f'response.json()[\'stat\']:{res}')
+                    
                 # stat	"很抱歉，沒有符合條件的資料!"
-                if '很抱歉' in response.json()['stat']:                    
+                #if '很抱歉' in response.json()['stat']:
+                if response.json()['stat'].lower() != 'ok':                    
                     if '.tw' in ticker.lower():
                         ticker = ticker.replace(".TW", ".TWO")
                     elif '.us' in ticker.lower():
                         ticker = ticker.replace(".US", "")
                     elif '.jp' in ticker.lower():
                         ticker = ticker.replace(".JP", ".T")
-                    
+                    elif '.sh' in ticker.lower():
+                        ticker = ticker.replace(".SH", ".SS")
+                        
                     if self.opt_verbose.lower() == 'on':
                         logger.info(f'ticker:{ticker}')
                         

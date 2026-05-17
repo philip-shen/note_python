@@ -2322,12 +2322,12 @@ class TWSE_TPEX_MAs_status():
                 fname_ticker_weight_ration = \
                     pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
                 str_ticker = '^TWII'
-            elif bool(re.match('^etf00888', str_ticker.lower())  ):
+            elif bool(re.match('^etf0088[7|8]', str_ticker.lower())  ):
                 fname_ticker_cpn_name = \
                     pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
                 fname_ticker_weight_ration = \
                     pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
-                str_ticker = '00888.TWO'
+                str_ticker = f'{str_ticker[3::]}.TWO'
             elif bool(re.match('^etf006201', str_ticker.lower())  ):
                 fname_ticker_cpn_name = \
                     pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
@@ -2339,7 +2339,19 @@ class TWSE_TPEX_MAs_status():
                     pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
                 fname_ticker_weight_ration = \
                     pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
-                str_ticker = '00955.TWO'                
+                str_ticker = '00955.TWO'
+            elif bool(re.match('^etf[passiveactive|commodity]', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = '^TWII'
+            elif bool(re.match('^etf00998', str_ticker.lower())  ):
+                fname_ticker_cpn_name = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
+                fname_ticker_weight_ration = \
+                    pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[1]
+                str_ticker = '00998A.TWO'
             else:
                 fname_ticker_cpn_name = \
                     pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(str_ticker.lower())[0]
