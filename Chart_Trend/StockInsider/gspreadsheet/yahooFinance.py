@@ -227,7 +227,10 @@ class Stock:
         # 整理資料，變成表格
         #self.df_tpex_website_info = pd.read_csv(StringIO(r.text), header=2).dropna(how='all', axis=1).dropna(how='any')
         
-        self.otc_stock_list()
+        #HTTP 404, 2026/06/03 23:19:11
+        #您所執行的查詢發生異常狀況
+        #請確認您的查詢網址是否正確
+        #self.otc_stock_list()
         
         logger.info("Request TWSE and TPEX Stock index..")
                 
