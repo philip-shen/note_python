@@ -81,7 +81,7 @@ def csv_fromMoneyDJ(ticker, json_data, opt_verbose= 'OFF'):
     # 獲取所有數據 (Get all data)
     #"etf00981A" #'00981A.TW'
     ticker_for_MoneyDJ = ticker.lower().replace('etf', '').upper()+'.TW' 
-    data = scraper.get_all_data(etf_code= ticker_for_MoneyDJ)
+    data = scraper.get_all_data(json_conf= json_data, etf_code= ticker_for_MoneyDJ)
 
     # 顯示基本資訊 (Display basic information)
     logger.info("\n基本資訊 (Basic Information):")
@@ -167,5 +167,5 @@ if __name__ == '__main__':
             #pause timer
             if idx < len(json_data["lastest_datastr_twse_tpex"][1])-1:
                 lib_misc.random_timer(list_delay_sec[0], list_delay_sec[-1])
-                    
+                
     est_timer(t0)    

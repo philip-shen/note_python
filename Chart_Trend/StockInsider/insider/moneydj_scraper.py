@@ -66,6 +66,7 @@ import re,time
 from typing import Dict, List, Tuple, Union, Optional
 from datetime import datetime
 from io import StringIO
+from random import randint
 
 from insider.logger_setup import *
 
@@ -87,6 +88,7 @@ class ETFScraper:
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
+        self.csv_MI_INDEX_ALL = 'MI_INDEX_ALL_20250806.csv'
         self.opt_verbose = opt_verbose
         
     def _get_soup(self, url: str) -> BeautifulSoup:
@@ -251,7 +253,7 @@ class ETFScraper:
 
         return result
 
-    def get_holdings(self, etf_code: str) -> Dict[str, Optional[pd.DataFrame]]:
+    def get_holdings(self, json_data, etf_code: str) -> Dict[str, Optional[pd.DataFrame]]:
         """
         獲取ETF的全部持股資訊
         Get all holdings information of the ETF
@@ -301,7 +303,7 @@ class ETFScraper:
         
         url = f"https://www.moneydj.com/ETF/X/Basic/Basic0007B.xdjhtm?etfid={etf_code}"
         soup = self._get_soup(url)
-        df = self._get_all_holdings(soup)
+        df = self._get_all_holdings(json_data, soup)
         if df is not None and not df.empty:
             result['all_holdings'] = df
             
@@ -418,22 +420,37 @@ class ETFScraper:
     def _get_percent_holdings(self, percent: str):
         return float(percent)/100
     
+    def random_timer(self, start_num_sec, end_num_sec):
+        sec = randint(start_num_sec, end_num_sec)
+        logger.info(f'pause {sec} seconds.....')
+        time.sleep(sec)
+        return sec
     '''
      2024 iThome 鐵人賽
     python繪製股票K線圖第二彈! 上櫃與上市公司的股價爬蟲 
 
     https://ithelp.ithome.com.tw/m/articles/10343841    
     '''    
+    '''
+    Handling 428 Status Code in Python Requests Module: Fixing POST Request Errors
+    
+    add random_timer() to solve
+    '''    
     # 定義下載資料的函數
-    def _fetch_TWSE_data(self, ticker, date= datetime.strftime(datetime.now(), '%Y%m%d')):
-        max_retries = 5
+    # 20260610 waset much time to crawl website info
+    def _fetch_TWSE_data(self, json_data, ticker, date= datetime.strftime(datetime.now(), '%Y%m%d')):
+        max_retries = 1
+        list_delay_sec = json_data["int_delay_sec"]
+        #logger.info(f'list_delay_sec: {list_delay_sec}')
         stock_no = ticker.lower().replace(".tw", "")
         url = f'http://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date={date}&stockNo={stock_no}'
-                
+        
         for i in range(max_retries):
             try:
                 response = requests.get(url)
-                response.raise_for_status()  # 如果請求失敗，則引發異常
+                #response.raise_for_status()  # 如果請求失敗，則引發異常
+                self.random_timer(list_delay_sec[0], list_delay_sec[-1])
+                
                 if self.opt_verbose.lower() == 'on':
                     res = response.json()['stat']
                     logger.info(f'response.json()[\'stat\']:{res}')
@@ -458,10 +475,64 @@ class ETFScraper:
                     return ticker
             except requests.exceptions.RequestException as e:
                 logger.info(f'Error fetching data for {date}: {e}. Retry {i + 1}/{max_retries}')
-                time.sleep(3)
+                self.random_timer(list_delay_sec[0], list_delay_sec[-1])
+                    
         raise Exception(f'Failed to fetch data for {date} after {max_retries} retries')
-                      
-    def _get_all_holdings(self, soup: BeautifulSoup) -> Optional[pd.DataFrame]:
+    
+    def check_stocks(self, df, check_name, check_num):
+        
+        if df[df[check_name]==self.stock_name].empty and df[df[check_num]==self.stock_num].empty:
+            '''
+            INFO: 7769: 鴻勁.. Empty
+            '''
+            if self.stock_num == '7769':
+                if self.opt_verbose.lower() == 'on':
+                    logger.info(f"{self.stock_num}: {self.stock_name}..")
+                return True    
+            
+            logger.info(f"{self.stock_num}: {self.stock_name}.. Empty")
+            return False
+        else:
+            if self.stock_name != "" and self.stock_num != '':
+            #if  self.stock_num != '':
+                # assert df[df[check_name] == self.stock_name][check_num].values[0] == self.stock_num, "股票名稱與股票代號不符!! 請重新輸入!!"
+                assert df[df[check_num] == self.stock_num][check_num].values[0] == self.stock_num, "The stock name is inconsistent with the stock number!! Please enter again!!"
+                
+            if not self.stock_name:
+                self.stock_name = df[df[check_num] == self.stock_num][check_name].values[0]
+            if not self.stock_num:
+                self.stock_num = df[df[check_name] == self.stock_name][check_num].values[0]
+            
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f"{self.stock_num}: {self.stock_name}..")
+
+            return True
+        
+    def _fetch_TWSE_data_from_csv(self, ticker: str, cpn_name: str):
+        usecols = ["證券代號", "證券名稱"]
+        self.df_twse_website_info = pd.read_csv(self.csv_MI_INDEX_ALL,usecols=usecols).dropna(how='all', axis=1).dropna(how='any')
+        
+        self.stock_num = ticker.lower().replace(".tw", "")
+        self.stock_name = cpn_name
+        ##### 上市公司
+        self.Flag_twse_stocks = self.check_stocks(self.df_twse_website_info, check_name=usecols[1], check_num=usecols[0])
+        
+        if not self.Flag_twse_stocks:
+            if '.tw' in ticker.lower():
+                ticker = ticker.replace(".TW", ".TWO")
+            elif '.us' in ticker.lower():
+                ticker = ticker.replace(".US", "")
+            elif '.jp' in ticker.lower():
+                ticker = ticker.replace(".JP", ".T")
+            elif '.sh' in ticker.lower():
+                ticker = ticker.replace(".SH", ".SS")
+                        
+            if self.opt_verbose.lower() == 'on':
+                logger.info(f'ticker:{ticker}')
+        
+        return ticker
+                       
+    def _get_all_holdings(self, json_data, soup: BeautifulSoup) -> Optional[pd.DataFrame]:
         
         try:
             holdings_table = soup.find(
@@ -486,7 +557,9 @@ class ETFScraper:
                         
                     init_acc_percent_twse += self._get_percent_holdings(cols[1].text.strip())
                     data.append({
-                        'stk_idx':	self._fetch_TWSE_data(cols[0].text.strip().replace(")", "").split("(")[-1]), #cols[0].text.strip().replace(")", "").split("(")[-1],
+                        #'stk_idx':	self._fetch_TWSE_data(json_data= json_data, ticker= cols[0].text.strip().replace(")", "").split("(")[-1]), #cols[0].text.strip().replace(")", "").split("(")[-1],
+                        'stk_idx':	self._fetch_TWSE_data_from_csv(ticker= cols[0].text.strip().replace(")", "").split("(")[-1], \
+                                                                    cpn_name= cols[0].text.strip().replace(")", "").split("(")[0]),
                         'cpn_name':	cols[0].text.strip().replace(")", "").split("(")[0],
                         'market_share(share)': cols[2].text.strip().replace(',', ''),
                         'percent_us': '{:.4f}'.format(self._get_percent_holdings(cols[1].text.strip())),
@@ -674,7 +747,7 @@ class ETFScraper:
 
         return result
 
-    def get_all_data(self, etf_code: str) -> Dict:
+    def get_all_data(self, json_conf, etf_code: str) -> Dict:
         """
         獲取ETF的所有數據
         Get all data for the ETF
@@ -695,7 +768,7 @@ class ETFScraper:
         """
         return {
             'basic_info': self.get_basic_info(etf_code),
-            'holdings': self.get_holdings(etf_code),
+            'holdings': self.get_holdings(json_data=json_conf, etf_code= etf_code),
         #    'risk_analysis': self.get_risk_analysis(etf_code),
             'return_comparison': self.get_return_comparison(etf_code),
             'return_trends': self.get_return_trends(etf_code)
