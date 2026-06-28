@@ -79,7 +79,11 @@ class ETFScraper:
     A class for scraping and processing ETF-related information, providing multiple methods
     to retrieve different types of ETF data.
     """
-
+    """
+     上市公司
+     datestr = self.str_datastr_twse_tpex#'20240801'
+     r = requests.post('https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=' + datestr + '&type=ALL')
+    """
     def __init__(self, opt_verbose):
         """
         初始化爬蟲器，設置請求標頭
@@ -88,7 +92,7 @@ class ETFScraper:
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
-        self.csv_MI_INDEX_ALL = 'MI_INDEX_ALL_20250806.csv'
+        self.csv_MI_INDEX_ALL = 'MI_INDEX_ALL_20260610.csv'
         self.opt_verbose = opt_verbose
         
     def _get_soup(self, url: str) -> BeautifulSoup:
@@ -482,14 +486,7 @@ class ETFScraper:
     def check_stocks(self, df, check_name, check_num):
         
         if df[df[check_name]==self.stock_name].empty and df[df[check_num]==self.stock_num].empty:
-            '''
-            INFO: 7769: 鴻勁.. Empty
-            '''
-            if self.stock_num == '7769':
-                if self.opt_verbose.lower() == 'on':
-                    logger.info(f"{self.stock_num}: {self.stock_name}..")
-                return True    
-            
+                
             logger.info(f"{self.stock_num}: {self.stock_name}.. Empty")
             return False
         else:

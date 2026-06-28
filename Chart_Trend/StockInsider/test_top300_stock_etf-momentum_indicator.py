@@ -2096,6 +2096,12 @@ class TWSE_TPEX_MAs_status():
             fname_ticker_weight_ration = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]        
             str_ticker = '00998A.TWO'                            
+        elif bool(re.match('^etf009822', json_data["lastest_datastr_twse_tpex"][1].lower())  ):
+            fname_ticker_cpn_name = \
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[0]
+            fname_ticker_weight_ration = \
+                pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[1]        
+            str_ticker = f'{json_data["lastest_datastr_twse_tpex"][1][3::]}.TWO'                         
         else:
             str_ticker = \
                 pickle_fname_ticker_weight_ration_worksheet_gSpredSheet(json_data["lastest_datastr_twse_tpex"][1])[3]

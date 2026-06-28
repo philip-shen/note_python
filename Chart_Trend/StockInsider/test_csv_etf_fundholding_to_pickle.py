@@ -146,6 +146,7 @@ if __name__ == '__main__':
         json_data = json.load(f)  
         
     opt_verbose= 'OFF'
+    
     # 指定要查詢的ETF代碼 (Specify ETF code to query)
     #"etf00981A" #'00981A.TW'
     #ticker = json_data["lastest_datastr_twse_tpex"][1].lower().replace('etf', '').upper()+'.TW'
