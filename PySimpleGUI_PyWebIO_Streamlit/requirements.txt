@@ -165,7 +165,7 @@ traitlets==5.1.0
 traits==6.3.2
 typing_extensions==4.0.1
 uritemplate==3.0.1
-urllib3==1.25.3
+urllib3==1.26.5
 wcwidth==0.1.7
 websockets==10.1
 Werkzeug==2.2.1
